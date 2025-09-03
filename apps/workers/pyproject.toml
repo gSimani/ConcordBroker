@@ -1,0 +1,62 @@
+[tool.poetry]
+name = "concordbroker-workers"
+version = "0.1.0"
+description = "ConcordBroker ETL workers and data pipelines"
+authors = ["Guy Simani"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+polars = "^0.20.0"
+duckdb = "^0.9.0"
+asyncpg = "^0.29.0"
+aioftp = "^0.22.0"
+paramiko = "^3.4.0"
+rapidfuzz = "^3.6.0"
+pydantic = "^2.5.0"
+pydantic-settings = "^2.1.0"
+sentry-sdk = "^1.40.0"
+click = "^8.1.7"
+playwright = "^1.41.0"
+aiofiles = "^23.2.1"
+pyarrow = "^15.0.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.4"
+pytest-asyncio = "^0.23.0"
+pytest-cov = "^4.1.0"
+black = "^24.1.0"
+ruff = "^0.1.14"
+mypy = "^1.8.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+
+[tool.ruff]
+line-length = 100
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+addopts = "-ra -q --cov=. --cov-report=html --cov-report=term"
+testpaths = ["tests"]
+asyncio_mode = "auto"

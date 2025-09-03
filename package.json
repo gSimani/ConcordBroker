@@ -1,0 +1,18 @@
+{
+  "name": "concordbroker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Automated real estate investment property acquisition system",
+  "scripts": {
+    "dev": "pnpm -r run dev",
+    "build": "pnpm -r run build",
+    "test": "pnpm -r run test",
+    "lint": "pnpm -r run lint",
+    "format": "pnpm -r run format"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.15.1"
+}

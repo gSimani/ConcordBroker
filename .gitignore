@@ -1,0 +1,123 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.venv
+*.egg-info/
+dist/
+build/
+*.egg
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.ruff_cache/
+*.log
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+.npm
+.yarn
+*.tsbuildinfo
+.next/
+out/
+.nuxt
+dist/
+.cache/
+.parcel-cache
+.turbo
+
+# Docker
+*.pid
+*.seed
+*.pid.lock
+.dockerignore
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+.env.*.local
+*.env
+!.template.env
+
+# Testing
+coverage/
+*.lcov
+.nyc_output
+
+# Production
+build/
+*.production
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Data
+/data/
+*.db
+*.sqlite
+*.parquet
+*.csv
+!tests/data/**
+
+# Cache
+.cache/
+*.cache
+/cache/
+
+# Temporary
+*.tmp
+*.temp
+/tmp/
+/temp/
+
+# Secrets
+*.key
+*.pem
+*.crt
+secrets/
+!secrets/.template.env
+
+# Railway/Vercel
+.railway/
+.vercel/
+
+# Documentation build
+docs/_build/
+docs/.doctrees/
