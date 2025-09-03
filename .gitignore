@@ -111,8 +111,9 @@ Desktop.ini
 *.key
 *.pem
 *.crt
-secrets/
-!secrets/.template.env
+infra/secrets/*
+!infra/secrets/.template.env
+!infra/secrets/README.md
 
 # Railway/Vercel
 .railway/
