@@ -153,7 +153,7 @@ This PDR is the single source of truth. All agents (Claude Code, etc.) must save
 - **Performance:** <5 min for daily updates
 - **Completeness:** Enrich with third-party data
 
-## 2) Architecture (matches WBES stack)
+## 2) Architecture (Modern Full-Stack)
 
 - **Frontend:** Vercel (Vite/React + Tailwind + shadcn)
 - **Backend API:** FastAPI on Railway

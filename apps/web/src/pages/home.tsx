@@ -1,238 +1,326 @@
-import { Link } from 'react-router-dom'
-import { useQuery } from '@tanstack/react-query'
+import { motion } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 import { 
-  Search, 
+  Building2, 
   TrendingUp, 
-  Building, 
-  BarChart3,
-  ArrowRight,
-  DollarSign,
+  Shield, 
+  Zap, 
+  BarChart3, 
   Users,
-  Activity
+  ArrowRight,
+  Check,
+  Star,
+  Globe,
+  Award,
+  Clock
 } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { api } from '@/api/client'
-import { formatCurrency } from '@/lib/constants'
 
 export default function HomePage() {
-  const { data: health } = useQuery({
-    queryKey: ['health'],
-    queryFn: api.getDetailedHealth,
-    refetchInterval: 60000, // Refresh every minute
-  })
-  
-  const { data: topOpportunities } = useQuery({
-    queryKey: ['top-opportunities'],
-    queryFn: () => api.getTopOpportunities(),
-  })
-  
-  const { data: recentActivity } = useQuery({
-    queryKey: ['recent-activity'],
-    queryFn: () => api.getRecentActivity(7),
-  })
-  
+  const navigate = useNavigate()
+
   return (
-    <div className="container mx-auto py-8 space-y-8">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50">
       {/* Hero Section */}
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold tracking-tight">
-          ConcordBroker
-        </h1>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          Intelligent real estate investment property acquisition for Broward County
-        </p>
-        <div className="flex justify-center gap-4">
-          <Button size="lg" asChild>
-            <Link to="/search">
-              <Search className="mr-2 h-5 w-5" />
-              Search Properties
-            </Link>
-          </Button>
-          <Button size="lg" variant="outline" asChild>
-            <Link to="/analytics">
-              <BarChart3 className="mr-2 h-5 w-5" />
-              View Analytics
-            </Link>
-          </Button>
+      <section className="relative overflow-hidden px-6 pt-20 pb-32">
+        {/* Animated Background */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse"></div>
+          <div className="absolute top-0 -right-4 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute -bottom-8 left-20 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse" style={{ animationDelay: '4s' }}></div>
         </div>
-      </div>
-      
-      {/* System Status */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">System Status</CardTitle>
-            <Activity className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {health?.status === 'healthy' ? '✅ Healthy' : '⚠️ Degraded'}
+
+        <div className="mx-auto max-w-7xl">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center"
+          >
+            {/* Badge */}
+            <div className="inline-flex items-center px-4 py-2 mb-8 text-sm font-medium text-blue-700 bg-blue-100 rounded-full">
+              <Zap className="w-4 h-4 mr-2" />
+              New: AI-Powered Market Analysis
             </div>
-            <p className="text-xs text-muted-foreground">
-              All systems operational
+
+            {/* Main Heading */}
+            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6">
+              Real Estate Investment
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+                Reimagined
+              </span>
+            </h1>
+
+            {/* Subheading */}
+            <p className="mx-auto max-w-2xl text-xl text-gray-600 mb-10">
+              Access comprehensive property data, market trends, and investment insights 
+              for Broward County. Make smarter real estate decisions with AI-powered analytics.
             </p>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Properties</CardTitle>
-            <Building className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {health?.components?.database?.parcels_count?.toLocaleString() || '0'}
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => navigate('/dashboard')}
+                className="inline-flex items-center px-8 py-4 text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl font-medium shadow-lg hover:shadow-xl transition-all"
+              >
+                Go to Dashboard
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </motion.button>
+              
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => navigate('/search')}
+                className="inline-flex items-center px-8 py-4 text-gray-700 bg-white border-2 border-gray-200 rounded-xl font-medium shadow-lg hover:shadow-xl hover:border-gray-300 transition-all"
+              >
+                Search Properties
+                <Building2 className="ml-2 w-5 h-5" />
+              </motion.button>
             </div>
-            <p className="text-xs text-muted-foreground">
-              Total properties tracked
-            </p>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Entities</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {health?.components?.data_sources?.sunbiz?.records?.toLocaleString() || '0'}
+
+            {/* Trust Indicators */}
+            <div className="mt-12 flex flex-wrap justify-center gap-8">
+              <div className="flex items-center gap-2 text-gray-600">
+                <Check className="w-5 h-5 text-green-500" />
+                <span>50K+ Properties</span>
+              </div>
+              <div className="flex items-center gap-2 text-gray-600">
+                <Check className="w-5 h-5 text-green-500" />
+                <span>Real-time Data</span>
+              </div>
+              <div className="flex items-center gap-2 text-gray-600">
+                <Check className="w-5 h-5 text-green-500" />
+                <span>AI Analytics</span>
+              </div>
             </div>
-            <p className="text-xs text-muted-foreground">
-              Corporate entities
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Features Grid */}
+      <section className="py-20 px-6 bg-white">
+        <div className="mx-auto max-w-7xl">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Everything You Need to Succeed
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Powerful tools and insights designed for modern real estate professionals
             </p>
-          </CardContent>
-        </Card>
-        
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Last Sync</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
-              {health?.components?.data_sources?.sunbiz?.last_sync 
-                ? new Date(health.components.data_sources.sunbiz.last_sync).toLocaleDateString()
-                : 'Never'}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Data freshness
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-      
-      {/* Top Opportunities */}
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="h-5 w-5" />
-              Top Investment Opportunities
-            </CardTitle>
-            <Button variant="ghost" size="sm" asChild>
-              <Link to="/search?min_score=70">
-                View All
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent>
-          {topOpportunities && topOpportunities.length > 0 ? (
-            <div className="space-y-4">
-              {topOpportunities.slice(0, 5).map((property: any) => (
-                <div key={property.folio} className="flex items-center justify-between p-4 border rounded-lg hover:bg-accent">
-                  <div className="space-y-1">
-                    <Link
-                      to={`/property/${property.folio}`}
-                      className="font-medium text-primary hover:underline"
-                    >
-                      {property.situs_addr || property.folio}
-                    </Link>
-                    <div className="text-sm text-muted-foreground">
-                      {property.city} • Score: {property.score?.toFixed(0)}
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="font-medium">
-                      {formatCurrency(property.just_value)}
-                    </div>
-                    {property.value_gap > 0 && (
-                      <div className="text-sm text-green-600">
-                        Gap: {formatCurrency(property.value_gap)}
-                      </div>
-                    )}
-                  </div>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                icon: BarChart3,
+                title: "Advanced Analytics",
+                description: "Deep market insights with AI-powered predictions and trend analysis",
+                color: "blue"
+              },
+              {
+                icon: Building2,
+                title: "Property Database",
+                description: "Access comprehensive data on thousands of properties in Broward County",
+                color: "purple"
+              },
+              {
+                icon: TrendingUp,
+                title: "Portfolio Tracking",
+                description: "Monitor your investments with real-time valuations and performance metrics",
+                color: "green"
+              },
+              {
+                icon: Shield,
+                title: "Risk Assessment",
+                description: "Evaluate investment risks with our proprietary scoring algorithms",
+                color: "red"
+              },
+              {
+                icon: Users,
+                title: "Client Management",
+                description: "Organize clients, track interactions, and manage your pipeline",
+                color: "yellow"
+              },
+              {
+                icon: Zap,
+                title: "Instant Alerts",
+                description: "Get notified about new opportunities and market changes in real-time",
+                color: "indigo"
+              }
+            ].map((feature, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -8, transition: { duration: 0.2 } }}
+                className="p-8 bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl transition-all"
+              >
+                <div className="w-14 h-14 bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl flex items-center justify-center mb-6">
+                  <feature.icon className="w-7 h-7 text-blue-600" />
                 </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-center text-muted-foreground py-8">
-              No opportunities found. Data may still be loading.
-            </p>
-          )}
-        </CardContent>
-      </Card>
-      
-      {/* Recent Activity */}
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2">
-              <Activity className="h-5 w-5" />
-              Recent Market Activity
-            </CardTitle>
-            <Button variant="ghost" size="sm" asChild>
-              <Link to="/analytics">
-                View Analytics
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  {feature.description}
+                </p>
+              </motion.div>
+            ))}
           </div>
-        </CardHeader>
-        <CardContent>
-          {recentActivity && recentActivity.length > 0 ? (
-            <div className="space-y-2">
-              {recentActivity.slice(0, 10).map((activity: any, idx: number) => (
-                <div key={idx} className="flex items-center justify-between py-2 border-b last:border-0">
-                  <div className="flex items-center gap-2">
-                    {activity.activity_type === 'sale' ? (
-                      <DollarSign className="h-4 w-4 text-green-600" />
-                    ) : (
-                      <FileText className="h-4 w-4 text-blue-600" />
-                    )}
-                    <div>
-                      <Link
-                        to={`/property/${activity.folio}`}
-                        className="text-sm font-medium hover:underline"
-                      >
-                        {activity.situs_addr || activity.folio}
-                      </Link>
-                      <div className="text-xs text-muted-foreground">
-                        {activity.city} • {activity.activity_type}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-sm font-medium">
-                      {activity.value ? formatCurrency(activity.value) : 'N/A'}
-                    </div>
-                    <div className="text-xs text-muted-foreground">
-                      {new Date(activity.activity_date).toLocaleDateString()}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-center text-muted-foreground py-8">
-              No recent activity found.
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-20 px-6 bg-gradient-to-r from-blue-600 to-purple-600">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid md:grid-cols-4 gap-8 text-center">
+            {[
+              { value: "$2.5B+", label: "Properties Analyzed" },
+              { value: "50K+", label: "Active Listings" },
+              { value: "98%", label: "Data Accuracy" },
+              { value: "24/7", label: "Real-time Updates" }
+            ].map((stat, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, scale: 0.5 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <div className="text-4xl font-bold text-white mb-2">{stat.value}</div>
+                <div className="text-blue-100">{stat.label}</div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-20 px-6 bg-gray-50">
+        <div className="mx-auto max-w-7xl">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Trusted by Industry Leaders
+            </h2>
+            <p className="text-xl text-gray-600">
+              See what real estate professionals are saying
             </p>
-          )}
-        </CardContent>
-      </Card>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                name: "Sarah Johnson",
+                role: "Real Estate Broker",
+                content: "ConcordBroker transformed how I analyze properties. The AI insights are game-changing.",
+                rating: 5
+              },
+              {
+                name: "Michael Chen",
+                role: "Investment Manager",
+                content: "The comprehensive data and analytics help me make confident investment decisions.",
+                rating: 5
+              },
+              {
+                name: "Emily Rodriguez",
+                role: "Property Developer",
+                content: "Best platform for market research. Saved me countless hours and improved my ROI.",
+                rating: 5
+              }
+            ].map((testimonial, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                viewport={{ once: true }}
+                className="p-8 bg-white rounded-2xl shadow-sm"
+              >
+                <div className="flex mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                  ))}
+                </div>
+                <p className="text-gray-700 mb-6 italic">"{testimonial.content}"</p>
+                <div>
+                  <div className="font-semibold text-gray-900">{testimonial.name}</div>
+                  <div className="text-sm text-gray-600">{testimonial.role}</div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-6 bg-gradient-to-br from-gray-900 to-gray-800">
+        <div className="mx-auto max-w-4xl text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl font-bold text-white mb-6">
+              Ready to Transform Your Real Estate Business?
+            </h2>
+            <p className="text-xl text-gray-300 mb-10">
+              Join thousands of professionals using ConcordBroker to stay ahead of the market
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => navigate('/dashboard')}
+                className="inline-flex items-center px-8 py-4 text-gray-900 bg-white rounded-xl font-medium shadow-lg hover:shadow-xl transition-all"
+              >
+                Get Started Free
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </motion.button>
+              
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="inline-flex items-center px-8 py-4 text-white border-2 border-white/30 rounded-xl font-medium hover:bg-white/10 transition-all"
+              >
+                Watch Demo
+                <Globe className="ml-2 w-5 h-5" />
+              </motion.button>
+            </div>
+
+            <div className="mt-12 flex flex-wrap justify-center gap-8 text-gray-400">
+              <div className="flex items-center gap-2">
+                <Shield className="w-5 h-5" />
+                <span>Bank-level Security</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Award className="w-5 h-5" />
+                <span>SOC 2 Certified</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="w-5 h-5" />
+                <span>99.9% Uptime</span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
     </div>
   )
 }

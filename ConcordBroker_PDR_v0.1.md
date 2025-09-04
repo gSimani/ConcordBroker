@@ -1,7 +1,7 @@
 
 # ConcordBroker – PDR (Project Design & Runbook) v0.1
 
-**Owner:** WBES GPT BUILDER (Mike/Guy)  
+**Owner:** ConcordBroker Team  
 **Repo:** https://github.com/gSimani/ConcordBroker  
 **Local path:** `C:\Users\gsima\Documents\MyProject\ConcordBroker`  
 **Date:** 2025-09-03
@@ -33,7 +33,7 @@ Initialize a new Git repo (if not already) in C:\Users\gsima\Documents\MyProject
 
 ---
 
-## 2) Architecture (matches WBES stack)
+## 2) Architecture (Modern Full-Stack)
 
 - **Frontend**: Vercel (Vite/React + Tailwind + shadcn)
 - **Backend API**: FastAPI on Railway
@@ -179,7 +179,7 @@ Create apps/web/ (Vite + React + Tailwind + shadcn). Build a Search page with fi
 
 ### 9.1 Configure SendGrid domain
 - Add DNS records (as provided) and verify in SendGrid/Twilio Verify Email.
-- Set From: `no-reply@westbocaexecutivesuites.com` (or subdomain like `mail.`).
+- Set From: `no-reply@concordbroker.com` (or subdomain like `mail.`).
 
 **Prompt 9.1 — DNS readme**
 ```

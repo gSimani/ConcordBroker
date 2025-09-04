@@ -24,7 +24,7 @@ Initialize a new Git repo (if not already) in C:\Users\gsima\Documents\MyProject
 **Primary Filters:** City (Broward list), Main Use (00–99 family), Sub-Use (e.g., Industrial→43 Lumber Yards).  
 **Outputs:** Ranked property list with links (BCPA record, Google Maps, Building Card/Sketch, Instrument #), and contact graph (entity → officers/agents / phones/emails when available).
 
-## 2) Architecture (matches WBES stack)
+## 2) Architecture (Modern Full-Stack)
 
 - **Frontend:** Vercel (Vite/React + Tailwind + shadcn)
 - **Backend API:** FastAPI on Railway
@@ -163,7 +163,7 @@ Create apps/web/ (Vite + React + Tailwind + shadcn). Build a Search page with fi
 
 Add DNS records (as provided) and verify in SendGrid/Twilio Verify Email.
 
-Set From: no-reply@westbocaexecutivesuites.com (or subdomain like mail.).
+Set From: no-reply@concordbroker.com (or subdomain like mail.).
 
 ### Prompt 9.1 — DNS readme
 

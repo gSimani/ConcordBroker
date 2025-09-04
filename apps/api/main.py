@@ -15,10 +15,11 @@ from pydantic import BaseModel
 import sentry_sdk
 from sentry_sdk.integrations.fastapi import FastApiIntegration
 
-from .routers import parcels, entities, health, analytics, admin
-from .database import Database
-from .config import settings
-from .middleware import RateLimitMiddleware, LoggingMiddleware
+from routers import parcels, entities, health, analytics, admin, auth
+from database import Database
+from config import settings
+from middleware import RateLimitMiddleware, LoggingMiddleware
+from services.auth import AuthMiddleware
 
 # Setup logging
 logging.basicConfig(
@@ -73,9 +74,11 @@ app.add_middleware(
 # Add custom middleware
 app.add_middleware(RateLimitMiddleware, requests_per_minute=settings.RATE_LIMIT_RPM)
 app.add_middleware(LoggingMiddleware)
+app.add_middleware(AuthMiddleware)  # Add authentication middleware
 
 # Include routers
 app.include_router(health.router, tags=["health"])
+app.include_router(auth.router, prefix="/api/v1/auth", tags=["authentication"])
 app.include_router(parcels.router, prefix="/api/v1/parcels", tags=["parcels"])
 app.include_router(entities.router, prefix="/api/v1/entities", tags=["entities"])
 app.include_router(analytics.router, prefix="/api/v1/analytics", tags=["analytics"])

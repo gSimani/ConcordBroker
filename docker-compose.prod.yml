@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  # FastAPI Backend (Railway)
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: ${REDIS_URL}
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_KEY: ${SUPABASE_KEY}
+      JWT_SECRET: ${JWT_SECRET}
+      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
+      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
+      TWILIO_VERIFY_SERVICE_ID: ${TWILIO_VERIFY_SERVICE_ID}
+      ENVIRONMENT: production
+    ports:
+      - "${PORT:-8000}:8000"
+    restart: unless-stopped
+
+  # Sunbiz SFTP Loader Worker
+  sunbiz-worker:
+    build:
+      context: ./apps/workers/sunbiz_loader
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: ${REDIS_URL}
+      SFTP_HOST: sftp.floridados.gov
+      SFTP_USERNAME: Public
+      SFTP_PASSWORD: PubAccess1845!
+      ENVIRONMENT: production
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+
+  # BCPA Web Scraper Worker  
+  bcpa-worker:
+    build:
+      context: ./apps/workers/bcpa_scraper
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: ${REDIS_URL}
+      ENVIRONMENT: production
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+
+  # Official Records Scraper Worker
+  records-worker:
+    build:
+      context: ./apps/workers/official_records
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: ${REDIS_URL}
+      ENVIRONMENT: production
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+
+  # DOR NAL Processor Worker (activated when data received)
+  dor-worker:
+    build:
+      context: ./apps/workers/dor_processor
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: ${REDIS_URL}
+      ENVIRONMENT: production
+    restart: unless-stopped
+    profiles:
+      - dor  # Only starts when explicitly activated
+    deploy:
+      resources:
+        limits:
+          memory: 4G

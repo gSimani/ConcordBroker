@@ -1,0 +1,42 @@
+# Railway Configuration for ConcordBroker
+
+[build]
+builder = "dockerfile"
+dockerfilePath = "./apps/api/Dockerfile"
+buildCommand = "docker-compose -f docker-compose.prod.yml build"
+
+[deploy]
+healthcheckPath = "/health"
+healthcheckTimeout = 100
+restartPolicyType = "on-failure"
+restartPolicyMaxRetries = 10
+
+# Service configurations
+[[services]]
+name = "api"
+dockerfilePath = "./apps/api/Dockerfile"
+port = 8000
+healthcheckPath = "/health"
+
+[[services]]
+name = "sunbiz-worker"
+dockerfilePath = "./apps/workers/sunbiz_loader/Dockerfile"
+
+[[services]]
+name = "bcpa-worker"
+dockerfilePath = "./apps/workers/bcpa_scraper/Dockerfile"
+
+[[services]]
+name = "records-worker"
+dockerfilePath = "./apps/workers/official_records/Dockerfile"
+
+# Environment variables (to be set in Railway dashboard)
+[env]
+DATABASE_URL = "${{Postgres.DATABASE_URL}}"
+REDIS_URL = "${{Redis.REDIS_URL}}"
+SUPABASE_URL = "${{SUPABASE_URL}}"
+SUPABASE_KEY = "${{SUPABASE_KEY}}"
+JWT_SECRET = "${{JWT_SECRET}}"
+TWILIO_ACCOUNT_SID = "${{TWILIO_ACCOUNT_SID}}"
+TWILIO_AUTH_TOKEN = "${{TWILIO_AUTH_TOKEN}}"
+TWILIO_VERIFY_SERVICE_ID = "${{TWILIO_VERIFY_SERVICE_ID}}"

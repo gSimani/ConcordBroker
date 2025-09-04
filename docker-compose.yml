@@ -1,0 +1,156 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: concordbroker
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-localpassword}
+      POSTGRES_DB: concordbroker
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U concordbroker"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis for caching and queues
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # FastAPI Backend
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://concordbroker:${DB_PASSWORD:-localpassword}@postgres:5432/concordbroker
+      REDIS_URL: redis://redis:6379
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_KEY: ${SUPABASE_KEY}
+      JWT_SECRET: ${JWT_SECRET:-devsecret}
+      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
+      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
+      TWILIO_VERIFY_SERVICE_ID: ${TWILIO_VERIFY_SERVICE_ID}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./apps/api:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  # React Frontend
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: http://api:8000
+    depends_on:
+      - api
+    volumes:
+      - ./apps/web:/app
+      - /app/node_modules
+    command: npm run dev -- --host
+
+  # Sunbiz SFTP Loader Worker
+  sunbiz-worker:
+    build:
+      context: ./apps/workers/sunbiz_loader
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql://concordbroker:${DB_PASSWORD:-localpassword}@postgres:5432/concordbroker
+      REDIS_URL: redis://redis:6379
+      SFTP_HOST: sftp.floridados.gov
+      SFTP_USERNAME: Public
+      SFTP_PASSWORD: PubAccess1845!
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./apps/workers/sunbiz_loader:/app
+      - sunbiz_data:/data
+    command: python worker.py
+
+  # BCPA Web Scraper Worker  
+  bcpa-worker:
+    build:
+      context: ./apps/workers/bcpa_scraper
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql://concordbroker:${DB_PASSWORD:-localpassword}@postgres:5432/concordbroker
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./apps/workers/bcpa_scraper:/app
+    command: python worker.py
+
+  # Official Records Scraper Worker
+  records-worker:
+    build:
+      context: ./apps/workers/official_records
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql://concordbroker:${DB_PASSWORD:-localpassword}@postgres:5432/concordbroker
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./apps/workers/official_records:/app
+    command: python worker.py
+
+  # DOR NAL Processor Worker (activated when data received)
+  dor-worker:
+    build:
+      context: ./apps/workers/dor_processor
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql://concordbroker:${DB_PASSWORD:-localpassword}@postgres:5432/concordbroker
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./apps/workers/dor_processor:/app
+      - dor_data:/data
+    command: python worker.py
+    profiles:
+      - dor  # Only starts when explicitly activated
+
+volumes:
+  postgres_data:
+  redis_data:
+  sunbiz_data:
+  dor_data:
