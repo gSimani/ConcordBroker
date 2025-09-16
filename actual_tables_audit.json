@@ -1,0 +1,260 @@
+{
+  "latest_parcels": {
+    "exists": true,
+    "count": 789884,
+    "sample": {
+      "id": 792320,
+      "parcel_id": "064210010010",
+      "county": "BROWARD",
+      "year": 2025,
+      "geometry": null,
+      "centroid": null,
+      "area_sqft": null,
+      "perimeter_ft": null,
+      "owner_name": "SMITH JOHN & MARY",
+      "owner_addr1": "1234 SAMPLE ST",
+      "owner_addr2": null,
+      "owner_city": "FORT LAUDERDALE",
+      "owner_state": "FL",
+      "owner_zip": "33301",
+      "phy_addr1": "1234 SAMPLE ST",
+      "phy_addr2": null,
+      "phy_city": "FORT LAUDERDALE",
+      "phy_state": "FL",
+      "phy_zipcd": "33301",
+      "legal_desc": null,
+      "subdivision": null,
+      "lot": null,
+      "block": null,
+      "property_use": "001",
+      "property_use_desc": "Single Family Residential",
+      "land_use_code": null,
+      "zoning": null,
+      "just_value": 485000,
+      "assessed_value": 465000,
+      "taxable_value": 440000,
+      "land_value": 185000,
+      "building_value": 300000,
+      "year_built": 1987,
+      "total_living_area": 2450,
+      "bedrooms": 4,
+      "bathrooms": 3,
+      "stories": null,
+      "units": null,
+      "land_sqft": 7500,
+      "land_acres": 0.17,
+      "sale_date": "2024-08-15T00:00:00",
+      "sale_price": 485000,
+      "sale_qualification": null,
+      "match_status": null,
+      "discrepancy_reason": null,
+      "is_redacted": false,
+      "data_source": "Sample Data",
+      "import_date": "2025-09-07T14:15:35.310653",
+      "update_date": null,
+      "data_hash": null
+    }
+  },
+  "property_sales_history": {
+    "exists": true,
+    "count": 3,
+    "sample": {
+      "id": 1,
+      "parcel_id": "504231242720",
+      "sale_date": "2019-06-15",
+      "sale_price": 320000.0,
+      "sale_type": null,
+      "buyer_name": "RODRIGUEZ MARIA",
+      "seller_name": "SMITH JOHN",
+      "deed_type": null,
+      "sale_year": 2019,
+      "sale_month": null,
+      "data_source": null,
+      "created_at": "2025-09-07T21:22:06.162569"
+    }
+  },
+  "fl_sdf_sales": {
+    "exists": true,
+    "count": 0,
+    "sample": null
+  },
+  "nav_assessments": {
+    "exists": true,
+    "count": 1,
+    "sample": {
+      "id": 1,
+      "parcel_id": "504231242720",
+      "tax_year": 2024,
+      "just_value": null,
+      "assessed_value": 285000.0,
+      "taxable_value": 260000.0,
+      "land_value": null,
+      "building_value": null,
+      "created_at": "2025-09-07T21:22:32.056307"
+    }
+  },
+  "florida_permits": {
+    "exists": true,
+    "count": 1,
+    "sample": {
+      "id": 1,
+      "permit_number": "B24-001234",
+      "parcel_id": "504231242720",
+      "property_address": "3920 SW 53 CT",
+      "permit_type": "Building",
+      "description": "Roof Replacement",
+      "status": "Active",
+      "created_at": "2025-09-07T21:22:32.056307"
+    }
+  },
+  "sunbiz_corporate": {
+    "exists": true,
+    "count": 0,
+    "sample": null
+  },
+  "sunbiz_partnerships": {
+    "exists": true,
+    "count": 0,
+    "sample": null
+  },
+  "all_entities": {
+    "exists": true,
+    "count": 0,
+    "sample": null
+  },
+  "property_ownership_history": {
+    "exists": true,
+    "count": 0,
+    "sample": null
+  },
+  "property_entity_matches": {
+    "exists": true,
+    "count": 0,
+    "sample": null
+  },
+  "florida_parcels": {
+    "exists": true,
+    "count": 789884,
+    "sample": {
+      "id": 18576,
+      "parcel_id": "514125130720",
+      "county": "BROWARD",
+      "year": 2025,
+      "geometry": null,
+      "centroid": null,
+      "area_sqft": null,
+      "perimeter_ft": null,
+      "owner_name": "PROPER MANAGEMENT SERVICES INC",
+      "owner_addr1": "6188 MIRAMAR PKWY",
+      "owner_addr2": null,
+      "owner_city": "MIRAMAR",
+      "owner_state": "FL",
+      "owner_zip": "33023",
+      "phy_addr1": "6128 SW 40 ST",
+      "phy_addr2": null,
+      "phy_city": "MIRAMAR",
+      "phy_state": "FL",
+      "phy_zipcd": "33023",
+      "legal_desc": null,
+      "subdivision": null,
+      "lot": null,
+      "block": null,
+      "property_use": "008",
+      "property_use_desc": null,
+      "land_use_code": null,
+      "zoning": null,
+      "just_value": 546,
+      "assessed_value": 546,
+      "taxable_value": 0,
+      "land_value": null,
+      "building_value": null,
+      "year_built": null,
+      "total_living_area": null,
+      "bedrooms": null,
+      "bathrooms": null,
+      "stories": null,
+      "units": null,
+      "land_sqft": null,
+      "land_acres": null,
+      "sale_date": null,
+      "sale_price": null,
+      "sale_qualification": null,
+      "match_status": null,
+      "discrepancy_reason": null,
+      "is_redacted": false,
+      "data_source": "NAP2025_FULL",
+      "import_date": "2025-09-07T01:09:06.738429",
+      "update_date": null,
+      "data_hash": null
+    }
+  },
+  "properties": {
+    "exists": true,
+    "count": 3,
+    "sample": {
+      "id": 1,
+      "parcel_id": "504231242720",
+      "owner_name": "RODRIGUEZ MARIA",
+      "property_address": "3920 SW 53 CT",
+      "city": "Hollywood",
+      "state": "FL",
+      "zip_code": "33021",
+      "property_type": "Single Family",
+      "year_built": 1978,
+      "total_sqft": 2150,
+      "lot_size_sqft": 8500,
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "assessed_value": 285000.0,
+      "market_value": 425000.0,
+      "last_sale_date": "2019-06-15",
+      "last_sale_price": 320000.0,
+      "created_at": "2025-09-07T15:33:35.551767",
+      "updated_at": "2025-09-07T15:33:35.551767"
+    }
+  },
+  "entity_relationships": {
+    "exists": true,
+    "count": 0,
+    "sample": null
+  },
+  "agent_notifications": {
+    "exists": true,
+    "count": 0,
+    "sample": null
+  },
+  "fl_agent_status": {
+    "exists": true,
+    "count": 7,
+    "sample": {
+      "id": 5,
+      "agent_name": "bcpa_agent",
+      "agent_type": "property",
+      "is_enabled": true,
+      "is_running": false,
+      "current_status": null,
+      "schedule_type": "daily",
+      "schedule_time": "03:00:00",
+      "schedule_day": null,
+      "last_run_start": null,
+      "last_run_end": null,
+      "last_run_status": null,
+      "last_run_records": null,
+      "last_error": null,
+      "next_scheduled_run": null,
+      "config": null,
+      "created_at": "2025-09-05T13:44:48.629674",
+      "updated_at": null
+    }
+  },
+  "data_source_monitor": {
+    "exists": true,
+    "count": 0,
+    "sample": null
+  },
+  "monitoring_agents": {
+    "exists": true,
+    "count": 0,
+    "sample": null
+  }
+}

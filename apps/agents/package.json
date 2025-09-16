@@ -1,0 +1,17 @@
+{
+  "name": "concordbroker-agents",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Intelligent agents for data validation, performance optimization, and completion",
+  "scripts": {
+    "test:validation": "node DataValidationAgent.js",
+    "test:performance": "node PerformanceAgent.js",
+    "test:completion": "node DataCompletionAgent.js",
+    "test:orchestrator": "node MasterOrchestrator.js",
+    "test:all": "npm run test:validation && npm run test:performance && npm run test:completion && npm run test:orchestrator"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "dotenv": "^17.2.2"
+  }
+}

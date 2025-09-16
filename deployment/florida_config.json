@@ -1,0 +1,380 @@
+{
+  "orchestrator": {
+    "name": "Florida Property Data Orchestrator",
+    "version": "1.0.0",
+    "timezone": "US/Eastern",
+    "log_level": "INFO"
+  },
+  "components": {
+    "comprehensive_monitor": {
+      "enabled": true,
+      "priority": 1,
+      "config": {
+        "batch_size": 1000,
+        "timeout_seconds": 300,
+        "rate_limit_delay": 1.0
+      }
+    },
+    "monitoring_system": {
+      "enabled": true,
+      "priority": 2,
+      "config": {
+        "check_intervals": {
+          "florida_revenue": 3600,
+          "sunbiz": 86400,
+          "broward_daily": 1800,
+          "arcgis": 43200
+        }
+      }
+    },
+    "error_handler": {
+      "enabled": true,
+      "priority": 3,
+      "config": {
+        "circuit_breaker": {
+          "failure_threshold": 5,
+          "recovery_timeout": 300,
+          "success_threshold": 3
+        }
+      }
+    },
+    "scheduler": {
+      "enabled": true,
+      "priority": 4,
+      "config": {
+        "max_concurrent_tasks": 5,
+        "adaptive_scheduling": true
+      }
+    },
+    "url_resolver": {
+      "enabled": true,
+      "priority": 5,
+      "config": {
+        "cache_duration_hours": 24,
+        "validation_enabled": true
+      }
+    },
+    "data_processor": {
+      "enabled": true,
+      "priority": 6,
+      "config": {
+        "batch_size": 1000,
+        "validation_strict": true,
+        "auto_schema_detection": true
+      }
+    }
+  },
+  "data_sources": {
+    "florida_revenue": {
+      "priority": 1,
+      "enabled": true,
+      "base_url": "https://floridarevenue.com/property/dataportal/Documents/PTO%20Data%20Portal/Tax%20Roll%20Data%20Files/",
+      "check_interval_hours": 1,
+      "counties": ["06", "13", "50"],
+      "datasets": ["NAL", "NAP", "NAV", "SDF", "TPP", "RER", "CDF"],
+      "years": ["2024", "2025"],
+      "timeout_seconds": 300,
+      "retry_attempts": 3,
+      "rate_limit": {
+        "requests_per_minute": 30,
+        "delay_between_requests": 2.0
+      }
+    },
+    "sunbiz": {
+      "priority": 2,
+      "enabled": true,
+      "host": "sftp.floridados.gov",
+      "username": "Public",
+      "password": "PubAccess1845!",
+      "port": 22,
+      "check_interval_hours": 24,
+      "target_files": ["weekly", "corp", "llc", "lp", "fictitious", "officers"],
+      "timeout_seconds": 600,
+      "retry_attempts": 3
+    },
+    "broward_daily": {
+      "priority": 3,
+      "enabled": true,
+      "base_url": "https://www.broward.org/RecordsTaxesTreasury/Records/Pages/DailyIndexExtractFiles.aspx",
+      "check_interval_minutes": 30,
+      "timeout_seconds": 300,
+      "retry_attempts": 3
+    },
+    "arcgis": {
+      "priority": 4,
+      "enabled": true,
+      "base_url": "https://services9.arcgis.com/Gh9awoU677aKree0/arcgis/rest/services/Florida_Statewide_Cadastral/FeatureServer",
+      "check_interval_hours": 12,
+      "batch_size": 1000,
+      "counties": ["06", "13", "50"],
+      "timeout_seconds": 300
+    },
+    "florida_geospatial": {
+      "priority": 5,
+      "enabled": false,
+      "base_url": "https://geodata.floridagio.gov/api/v1/",
+      "check_interval_hours": 24,
+      "datasets": ["parcels", "floods", "zoning"],
+      "timeout_seconds": 300
+    }
+  },
+  "scheduling": {
+    "timezone": "US/Eastern",
+    "max_concurrent_tasks": 5,
+    "default_timeout_minutes": 60,
+    "adaptive_scheduling": {
+      "enabled": true,
+      "analysis_days": 30,
+      "min_interval_minutes": 5,
+      "max_interval_hours": 24
+    },
+    "default_schedules": {
+      "florida_revenue_daily": {
+        "schedule_type": "daily",
+        "time": "06:00",
+        "priority": "high",
+        "timeout_minutes": 120
+      },
+      "sunbiz_weekly": {
+        "schedule_type": "weekly",
+        "day": "sunday",
+        "time": "02:00",
+        "priority": "normal",
+        "timeout_minutes": 180
+      },
+      "broward_frequent": {
+        "schedule_type": "interval",
+        "minutes": 30,
+        "priority": "high",
+        "timeout_minutes": 30
+      },
+      "system_health": {
+        "schedule_type": "interval",
+        "minutes": 15,
+        "priority": "critical",
+        "timeout_minutes": 10
+      }
+    }
+  },
+  "error_handling": {
+    "retry_configs": {
+      "network_error": {
+        "max_attempts": 5,
+        "base_delay": 2.0,
+        "max_delay": 120.0,
+        "exponential_base": 2.0,
+        "jitter": true
+      },
+      "http_error": {
+        "max_attempts": 3,
+        "base_delay": 1.0,
+        "max_delay": 60.0,
+        "exponential_base": 2.0,
+        "jitter": true
+      },
+      "sftp_error": {
+        "max_attempts": 4,
+        "base_delay": 5.0,
+        "max_delay": 300.0,
+        "exponential_base": 2.0,
+        "jitter": true
+      },
+      "database_error": {
+        "max_attempts": 3,
+        "base_delay": 1.0,
+        "max_delay": 30.0,
+        "exponential_base": 2.0,
+        "jitter": false
+      },
+      "timeout_error": {
+        "max_attempts": 3,
+        "base_delay": 10.0,
+        "max_delay": 180.0,
+        "exponential_base": 2.0,
+        "jitter": true
+      }
+    },
+    "circuit_breaker": {
+      "failure_threshold": 5,
+      "recovery_timeout": 300,
+      "success_threshold": 3
+    },
+    "recovery_strategies": {
+      "network_error": ["retry", "fallback"],
+      "http_error": ["retry", "skip"],
+      "database_error": ["retry", "abort"],
+      "parsing_error": ["skip", "manual_intervention"],
+      "authentication_error": ["manual_intervention"]
+    }
+  },
+  "monitoring": {
+    "health_checks": {
+      "interval_minutes": 5,
+      "enabled": true,
+      "alert_thresholds": {
+        "error_rate": 0.1,
+        "response_time_seconds": 30,
+        "cpu_usage_percent": 80,
+        "memory_usage_percent": 80,
+        "disk_usage_percent": 90,
+        "active_alerts": 10
+      }
+    },
+    "anomaly_detection": {
+      "enabled": true,
+      "sensitivity": "medium",
+      "lookback_days": 30,
+      "sigma_threshold": 2.0
+    },
+    "data_quality": {
+      "min_records_per_file": 100,
+      "max_null_percentage": 30,
+      "outlier_detection": true,
+      "schema_validation": true
+    }
+  },
+  "notifications": {
+    "enabled": true,
+    "channels": {
+      "email": {
+        "enabled": true,
+        "smtp_server": "smtp.gmail.com",
+        "smtp_port": 587,
+        "use_tls": true,
+        "recipients": [],
+        "alert_levels": ["error", "critical"]
+      },
+      "slack": {
+        "enabled": false,
+        "webhook_url": "",
+        "channel": "#florida-data-alerts",
+        "alert_levels": ["warning", "error", "critical"]
+      },
+      "discord": {
+        "enabled": false,
+        "webhook_url": "",
+        "alert_levels": ["error", "critical"]
+      }
+    },
+    "alert_rules": {
+      "critical_errors": true,
+      "error_threshold": 10,
+      "time_window_hours": 1,
+      "send_daily_summary": true,
+      "daily_summary_time": "08:00"
+    }
+  },
+  "performance": {
+    "max_concurrent_operations": 10,
+    "operation_timeout_minutes": 30,
+    "batch_processing": {
+      "enabled": true,
+      "batch_size": 1000,
+      "max_batch_size": 5000
+    },
+    "resource_limits": {
+      "max_cpu_percent": 80.0,
+      "max_memory_mb": 4096,
+      "max_concurrent_tasks": 5,
+      "max_disk_io_mbps": 100.0,
+      "max_network_mbps": 50.0
+    },
+    "optimization": {
+      "enabled": true,
+      "auto_scaling": false,
+      "cache_enabled": true,
+      "compression_enabled": true
+    }
+  },
+  "storage": {
+    "data_directory": "./data/florida",
+    "temp_directory": "./temp",
+    "backup_directory": "./backups",
+    "retention": {
+      "raw_files_days": 90,
+      "processed_files_days": 30,
+      "log_files_days": 30,
+      "error_records_days": 90
+    },
+    "compression": {
+      "enabled": true,
+      "algorithm": "gzip",
+      "level": 6
+    }
+  },
+  "database": {
+    "connection_pool": {
+      "min_size": 2,
+      "max_size": 10,
+      "max_queries": 50000,
+      "max_inactive_connection_lifetime": 300.0
+    },
+    "optimization": {
+      "enable_indexes": true,
+      "enable_materialized_views": true,
+      "analyze_frequency_hours": 24,
+      "vacuum_frequency_hours": 168
+    },
+    "backup": {
+      "enabled": true,
+      "frequency_hours": 6,
+      "retention_days": 30,
+      "compression": true
+    }
+  },
+  "security": {
+    "enable_encryption": true,
+    "api_rate_limiting": {
+      "enabled": true,
+      "requests_per_minute": 60,
+      "burst_limit": 100
+    },
+    "access_logging": {
+      "enabled": true,
+      "log_level": "INFO",
+      "log_sensitive_data": false
+    },
+    "credential_rotation": {
+      "enabled": false,
+      "rotation_days": 90,
+      "notification_days_before": 7
+    }
+  },
+  "dashboard": {
+    "enabled": true,
+    "refresh_interval_seconds": 30,
+    "show_detailed_logs": false,
+    "max_log_lines": 1000,
+    "themes": {
+      "default": "dark",
+      "available": ["dark", "light", "blue", "green"]
+    }
+  },
+  "logging": {
+    "level": "INFO",
+    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    "file": {
+      "enabled": true,
+      "path": "florida_master_orchestrator.log",
+      "max_size_mb": 100,
+      "backup_count": 5,
+      "rotation": "size"
+    },
+    "console": {
+      "enabled": true,
+      "level": "INFO",
+      "colored": true
+    },
+    "structured": {
+      "enabled": false,
+      "format": "json"
+    }
+  },
+  "development": {
+    "debug_mode": false,
+    "test_mode": false,
+    "mock_external_apis": false,
+    "verbose_logging": false,
+    "profiling_enabled": false
+  }
+}

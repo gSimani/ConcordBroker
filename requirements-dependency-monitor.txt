@@ -1,0 +1,38 @@
+# ConcordBroker Dependency Monitor Requirements
+# Install with: pip install -r requirements-dependency-monitor.txt
+
+# Scheduling and async
+schedule>=1.2.0
+asyncio
+
+# HTTP requests for PyPI API
+requests>=2.31.0
+
+# System utilities
+subprocess32;sys_platform=="win32"
+
+# Data handling for reports
+packaging>=21.0
+
+# Monitoring the critical packages for ConcordBroker
+pandas>=2.3.0
+numpy>=2.3.0
+fastapi>=0.116.0
+supabase>=2.18.0
+matplotlib>=3.10.0
+seaborn>=0.13.0
+scikit-learn>=1.5.0
+SQLAlchemy>=2.0.0
+
+# Optional packages (for comprehensive monitoring)
+# tensorflow>=2.17.0
+# torch>=2.4.0
+# beautifulsoup4>=4.12.0
+# scrapy>=2.11.0
+# opencv-python>=4.10.0
+# nltk>=3.9.0
+# spacy>=3.8.0
+# pyspark>=3.5.0
+# notebook>=7.0.0
+# keras>=3.6.0
+# Pillow>=10.0.0

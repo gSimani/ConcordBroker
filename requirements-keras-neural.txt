@@ -1,0 +1,41 @@
+# Keras Neural Network Data Verification Requirements
+
+# Deep Learning Framework
+tensorflow>=2.13.0
+keras>=2.13.0
+
+# Machine Learning Libraries
+scikit-learn>=1.3.0
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Computer Vision
+opencv-python>=4.8.0
+pytesseract>=0.3.10
+Pillow>=10.0.0
+
+# Web Automation
+playwright>=1.40.0
+
+# Database and API
+supabase>=2.0.0
+python-dotenv>=1.0.0
+
+# Data Processing and Analysis
+python-Levenshtein>=0.21.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Performance and Utilities
+tqdm>=4.65.0
+asyncio>=3.4.0
+
+# Additional neural network utilities
+tensorflow-addons>=0.21.0  # Optional: Additional layers and optimizers
+
+# Installation commands:
+# pip install -r requirements-keras-neural.txt
+# python -m playwright install chromium
+
+# For GPU support (optional):
+# pip install tensorflow-gpu>=2.13.0

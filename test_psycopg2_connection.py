@@ -1,75 +1,79 @@
 """
-Test Supabase connection with psycopg2
+Test PostgreSQL connection using psycopg2 (different library)
 """
 
-import os
 import psycopg2
-from dotenv import load_dotenv
-from pathlib import Path
+from psycopg2 import sql
 
-# Load environment variables
-load_dotenv(Path(__file__).parent / '.env')
+# Connection parameters
+connections_to_test = [
+    {
+        "name": "Direct connection (IPv6)",
+        "params": {
+            "host": "db.pmispwtdngkcmsrsjwbp.supabase.co",
+            "port": 5432,
+            "database": "postgres",
+            "user": "postgres",
+            "password": "West@Boca613!",
+            "sslmode": "require"
+        }
+    },
+    {
+        "name": "Pooler connection (IPv4)",
+        "params": {
+            "host": "aws-0-us-east-1.pooler.supabase.com",
+            "port": 5432,
+            "database": "postgres",
+            "user": "postgres.pmispwtdngkcmsrsjwbp",
+            "password": "West@Boca613!",
+            "sslmode": "require"
+        }
+    },
+    {
+        "name": "Pooler connection port 6543",
+        "params": {
+            "host": "aws-0-us-east-1.pooler.supabase.com",
+            "port": 6543,
+            "database": "postgres",
+            "user": "postgres.pmispwtdngkcmsrsjwbp",
+            "password": "West@Boca613!",
+            "sslmode": "require"
+        }
+    }
+]
 
-def test_connection():
-    database_url = os.getenv('DATABASE_URL')
-    print(f"Testing Supabase connection with psycopg2...")
-    
-    # Remove the supa parameter that psycopg2 doesn't understand
-    if '&supa=' in database_url:
-        database_url = database_url.split('&supa=')[0]
-    
-    print(f"Cleaned URL: {database_url[:50]}...")
+print("Testing PostgreSQL connections with psycopg2...")
+print("=" * 60)
+
+for conn_info in connections_to_test:
+    print(f"\nTesting: {conn_info['name']}")
+    print(f"Host: {conn_info['params']['host']}")
+    print(f"Port: {conn_info['params']['port']}")
+    print(f"User: {conn_info['params']['user']}")
     
     try:
-        # Connect to database
-        conn = psycopg2.connect(database_url)
-        cur = conn.cursor()
+        # Try to connect
+        conn = psycopg2.connect(**conn_info['params'])
+        print("SUCCESS - Connected!")
         
         # Test query
-        cur.execute("SELECT version()")
-        version = cur.fetchone()
-        print(f"Connected successfully!")
-        print(f"PostgreSQL version: {version[0][:50]}...")
-        
-        # Test table creation
-        cur.execute("""
-            CREATE TABLE IF NOT EXISTS dor_properties (
-                id BIGSERIAL PRIMARY KEY,
-                folio VARCHAR(30) UNIQUE,
-                county VARCHAR(50),
-                year INTEGER,
-                owner_name TEXT,
-                situs_address_1 TEXT,
-                situs_city VARCHAR(100),
-                just_value NUMERIC(15,2),
-                created_at TIMESTAMP DEFAULT NOW()
-            )
-        """)
-        conn.commit()
-        print("Table 'dor_properties' created/verified")
-        
-        # Check if table exists
-        cur.execute("""
-            SELECT COUNT(*) FROM information_schema.tables 
-            WHERE table_name = 'dor_properties'
-        """)
+        cur = conn.cursor()
+        cur.execute("SELECT COUNT(*) FROM public.florida_parcels")
         count = cur.fetchone()[0]
-        print(f"Table exists: {count > 0}")
+        print(f"Total records in florida_parcels: {count:,}")
         
-        # Check current row count
-        cur.execute("SELECT COUNT(*) FROM dor_properties")
-        row_count = cur.fetchone()[0]
-        print(f"Current rows in dor_properties: {row_count}")
+        # Check statement timeout
+        cur.execute("SHOW statement_timeout")
+        timeout = cur.fetchone()[0]
+        print(f"Current statement_timeout: {timeout}")
         
         cur.close()
         conn.close()
         
-        print("\nConnection successful! Ready to load data.")
-        return True
+        print("\nConnection successful! This method works.")
+        break  # Stop on first successful connection
         
     except Exception as e:
-        print(f"Connection failed: {e}")
-        return False
+        print(f"FAILED: {e}")
 
-if __name__ == "__main__":
-    test_connection()
+print("\n" + "=" * 60)

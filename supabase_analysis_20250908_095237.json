@@ -1,0 +1,228 @@
+{
+  "timestamp": "2025-09-08T09:52:34.171099",
+  "project_url": "https://pmispwtdngkcmsrsjwbp.supabase.co",
+  "connection_status": "connected",
+  "capabilities": {
+    "can_do": [
+      "Query existing tables",
+      "Insert new records",
+      "Update records",
+      "Delete records",
+      "Use real-time subscriptions",
+      "Execute stored procedures",
+      "Read from views"
+    ],
+    "cannot_do": [
+      "Create new tables",
+      "Drop tables",
+      "Alter table structure",
+      "Add/remove columns",
+      "Create indexes",
+      "Create database functions",
+      "Create triggers",
+      "Modify RLS policies",
+      "Create materialized views",
+      "Execute raw SQL queries"
+    ],
+    "requires_sql_editor": [
+      "Create new tables",
+      "Drop tables",
+      "Alter table structure",
+      "Add/remove columns",
+      "Create indexes",
+      "Create database functions",
+      "Create triggers",
+      "Modify RLS policies",
+      "Create materialized views",
+      "Execute raw SQL queries"
+    ]
+  },
+  "existing_infrastructure": {
+    "tables": [
+      {
+        "name": "florida_parcels",
+        "row_count": 789884,
+        "columns": [
+          "id",
+          "parcel_id",
+          "county",
+          "year",
+          "geometry",
+          "centroid",
+          "area_sqft",
+          "perimeter_ft",
+          "owner_name",
+          "owner_addr1",
+          "owner_addr2",
+          "owner_city",
+          "owner_state",
+          "owner_zip",
+          "phy_addr1",
+          "phy_addr2",
+          "phy_city",
+          "phy_state",
+          "phy_zipcd",
+          "legal_desc",
+          "subdivision",
+          "lot",
+          "block",
+          "property_use",
+          "property_use_desc",
+          "land_use_code",
+          "zoning",
+          "just_value",
+          "assessed_value",
+          "taxable_value",
+          "land_value",
+          "building_value",
+          "year_built",
+          "total_living_area",
+          "bedrooms",
+          "bathrooms",
+          "stories",
+          "units",
+          "land_sqft",
+          "land_acres",
+          "sale_date",
+          "sale_price",
+          "sale_qualification",
+          "match_status",
+          "discrepancy_reason",
+          "is_redacted",
+          "data_source",
+          "import_date",
+          "update_date",
+          "data_hash"
+        ]
+      },
+      {
+        "name": "properties",
+        "row_count": 3,
+        "columns": [
+          "id",
+          "parcel_id",
+          "owner_name",
+          "property_address",
+          "city",
+          "state",
+          "zip_code",
+          "property_type",
+          "year_built",
+          "total_sqft",
+          "lot_size_sqft",
+          "bedrooms",
+          "bathrooms",
+          "assessed_value",
+          "market_value",
+          "last_sale_date",
+          "last_sale_price",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      {
+        "name": "property_sales_history",
+        "row_count": 3,
+        "columns": [
+          "id",
+          "parcel_id",
+          "sale_date",
+          "sale_price",
+          "sale_type",
+          "buyer_name",
+          "seller_name",
+          "deed_type",
+          "sale_year",
+          "sale_month",
+          "data_source",
+          "created_at"
+        ]
+      },
+      {
+        "name": "nav_assessments",
+        "row_count": 1,
+        "columns": [
+          "id",
+          "parcel_id",
+          "tax_year",
+          "just_value",
+          "assessed_value",
+          "taxable_value",
+          "land_value",
+          "building_value",
+          "created_at"
+        ]
+      },
+      {
+        "name": "sunbiz_corporate",
+        "row_count": 0
+      },
+      {
+        "name": "florida_permits",
+        "row_count": 1,
+        "columns": [
+          "id",
+          "permit_number",
+          "parcel_id",
+          "property_address",
+          "permit_type",
+          "description",
+          "status",
+          "created_at"
+        ]
+      },
+      {
+        "name": "fl_data_updates",
+        "row_count": 10,
+        "columns": [
+          "id",
+          "source_type",
+          "source_name",
+          "update_date",
+          "records_processed",
+          "records_added",
+          "records_updated",
+          "records_failed",
+          "source_file",
+          "file_size",
+          "file_hash",
+          "processing_time_seconds",
+          "status",
+          "error_message",
+          "agent_name",
+          "agent_version"
+        ]
+      },
+      {
+        "name": "fl_agent_status",
+        "row_count": 7,
+        "columns": [
+          "id",
+          "agent_name",
+          "agent_type",
+          "is_enabled",
+          "is_running",
+          "current_status",
+          "schedule_type",
+          "schedule_time",
+          "schedule_day",
+          "last_run_start",
+          "last_run_end",
+          "last_run_status",
+          "last_run_records",
+          "last_error",
+          "next_scheduled_run",
+          "config",
+          "created_at",
+          "updated_at"
+        ]
+      }
+    ],
+    "total_rows": 789909
+  },
+  "recommendations": [
+    "Database has 8 tables",
+    "Next step: Load more data into existing tables",
+    "I can help with data loading once tables exist"
+  ]
+}

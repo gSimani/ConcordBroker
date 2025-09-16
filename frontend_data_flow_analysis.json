@@ -1,0 +1,90 @@
+{
+  "timestamp": "2025-09-10T23:01:10.445Z",
+  "source": "tax_deed_bidding_items",
+  "total_in_db": 86,
+  "frontend_filters": {
+    "upcoming": 8,
+    "past": 78,
+    "cancelled": 18
+  },
+  "address_analysis": {
+    "upcoming_with_address": 8,
+    "upcoming_without_address": 0
+  },
+  "sample_items": [
+    {
+      "tax_deed_number": "TD-54029",
+      "address": "1148 University Drive, Weston, FL 33309",
+      "status": "Active",
+      "parcel": "8881168828",
+      "opening_bid": 37176,
+      "close_time": "2025-09-18T05:44:15.353618"
+    },
+    {
+      "tax_deed_number": "TD-54027",
+      "address": "1381 Griffin Road, Tamarac, FL 33301",
+      "status": "Active",
+      "parcel": "5926116104",
+      "opening_bid": 14650,
+      "close_time": "2025-09-18T07:24:15.353618"
+    },
+    {
+      "tax_deed_number": "TD-54026",
+      "address": "9495 Hollywood Boulevard, Tamarac, FL 33309",
+      "status": "Active",
+      "parcel": "9692137811",
+      "opening_bid": 46766,
+      "close_time": "2025-09-18T06:14:15.353618"
+    },
+    {
+      "tax_deed_number": "TD-54025",
+      "address": "8441 Broward Boulevard, Sunrise, FL 33309",
+      "status": "Active",
+      "parcel": "8768851899",
+      "opening_bid": 42809,
+      "close_time": "2025-09-18T05:04:15.353618"
+    },
+    {
+      "tax_deed_number": "TD-54023",
+      "address": "5587 Hollywood Boulevard, Sunrise, FL 33312",
+      "status": "Active",
+      "parcel": "8825935721",
+      "opening_bid": 67040,
+      "close_time": "2025-09-18T07:44:15.353618"
+    },
+    {
+      "tax_deed_number": "TD-54022",
+      "address": "5022 Flamingo Road, Weston, FL 33312",
+      "status": "Active",
+      "parcel": "6523185249",
+      "opening_bid": 28181,
+      "close_time": "2025-09-18T06:34:15.353618"
+    },
+    {
+      "tax_deed_number": "TD-54021",
+      "address": "4094 Hollywood Boulevard, Pompano Beach, FL 33308",
+      "status": "Active",
+      "parcel": "6812346767",
+      "opening_bid": 37039,
+      "close_time": "2025-09-18T05:24:15.353618"
+    },
+    {
+      "tax_deed_number": "TD-54020",
+      "address": "914 State Road 7, Weston, FL 33309",
+      "status": "Active",
+      "parcel": "1760348107",
+      "opening_bid": 135717,
+      "close_time": "2025-09-18T04:14:15.353618"
+    }
+  ],
+  "findings": {
+    "expected_on_website": 8,
+    "actual_on_website": 8,
+    "potential_issues": [
+      "Database has more valid items than website shows",
+      "All items have valid addresses",
+      "Frontend may be using different query or filters",
+      "There may be additional client-side filtering"
+    ]
+  }
+}

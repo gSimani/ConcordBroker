@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+</head>
+<body>
+    <h1>Testing API Connection</h1>
+    <div id="results"></div>
+    
+    <script>
+        async function testAPI() {
+            const resultsDiv = document.getElementById('results');
+            
+            try {
+                console.log('Testing API at http://localhost:8000/api/properties/search');
+                const response = await fetch('http://localhost:8000/api/properties/search');
+                const data = await response.json();
+                
+                resultsDiv.innerHTML = `
+                    <h2>Success!</h2>
+                    <p>Status: ${response.status}</p>
+                    <p>Total properties: ${data.total}</p>
+                    <p>First property: ${JSON.stringify(data.properties[0], null, 2)}</p>
+                `;
+                console.log('API Response:', data);
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <h2>Error!</h2>
+                    <p>${error.message}</p>
+                `;
+                console.error('API Error:', error);
+            }
+        }
+        
+        testAPI();
+    </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "date": "2025-09-16",
+  "summary": {
+    "total_records_processed": 1138046,
+    "avg_data_quality": 0.900504716884166,
+    "avg_processing_time": 121.6567520719749,
+    "max_error_rate": 0.019615879740820154,
+    "uptime_percentage": 99.8
+  },
+  "trends": {
+    "records_trend": "stable",
+    "quality_trend": "improving",
+    "performance_trend": "stable"
+  },
+  "alerts_generated": 4,
+  "counties_updated": [
+    "BROWARD",
+    "MIAMI-DADE",
+    "PALM BEACH",
+    "ORANGE"
+  ],
+  "data_sources_checked": [
+    "NAL",
+    "NAP",
+    "NAV",
+    "SDF"
+  ]
+}

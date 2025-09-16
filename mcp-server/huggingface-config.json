@@ -1,0 +1,36 @@
+{
+  "name": "huggingface-mcp",
+  "version": "1.0.0",
+  "type": "http",
+  "url": "https://huggingface.co/mcp",
+  "headers": {
+    "Authorization": "Bearer ${HUGGINGFACE_API_TOKEN}"
+  },
+  "capabilities": {
+    "models": [
+      {
+        "id": "sentence-transformers/all-MiniLM-L6-v2",
+        "type": "embedding",
+        "description": "Property feature embeddings"
+      },
+      {
+        "id": "google/flan-t5-base",
+        "type": "text-generation",
+        "description": "Property description generation"
+      },
+      {
+        "id": "facebook/bart-large-mnli",
+        "type": "zero-shot-classification",
+        "description": "Market sentiment analysis"
+      }
+    ],
+    "endpoints": {
+      "inference": "https://api-inference.huggingface.co",
+      "hub": "https://huggingface.co/api"
+    }
+  },
+  "organization": {
+    "name": "Concord Broker",
+    "website": "https://www.concordbroker.com/"
+  }
+}

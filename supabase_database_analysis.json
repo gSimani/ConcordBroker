@@ -1,0 +1,2478 @@
+{
+  "summary": {
+    "total_tables": 84,
+    "total_records": 300,
+    "categories": {
+      "Business Entity": {
+        "count": 27,
+        "records": 202,
+        "tables": [
+          {
+            "name": "active_corporations",
+            "record_count": 0,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "entity_portfolio_summary",
+            "record_count": 0,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "entity_property_network",
+            "record_count": 0,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "entity_relationships",
+            "record_count": 0,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "entity_search_cache",
+            "record_count": 0,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "florida_business_activities",
+            "record_count": 0,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "owner_entity_links",
+            "record_count": 0,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "property_entity_matches",
+            "record_count": 0,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "sunbiz_contacts",
+            "record_count": 100,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [
+              "doc_number",
+              "officer_name",
+              "officer_title",
+              "officer_email",
+              "officer_phone",
+              "officer_address",
+              "officer_city",
+              "officer_state",
+              "officer_zip",
+              "entity_name",
+              "status",
+              "filing_date",
+              "state_country",
+              "prin_city",
+              "prin_state"
+            ],
+            "column_count": 15
+          },
+          {
+            "name": "sunbiz_corporate",
+            "record_count": 0,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [
+              "id",
+              "doc_number",
+              "entity_name",
+              "status",
+              "filing_date",
+              "state_country",
+              "prin_addr1",
+              "prin_addr2",
+              "prin_city",
+              "prin_state",
+              "prin_zip",
+              "mail_addr1",
+              "mail_addr2",
+              "mail_city",
+              "mail_state",
+              "mail_zip",
+              "ein",
+              "registered_agent",
+              "file_type",
+              "subtype",
+              "source_file",
+              "import_date",
+              "update_date"
+            ],
+            "column_count": 23
+          },
+          {
+            "name": "sunbiz_corporate_events",
+            "record_count": 0,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "sunbiz_download_jobs",
+            "record_count": 0,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "sunbiz_fictitious",
+            "record_count": 0,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "sunbiz_fictitious_events",
+            "record_count": 0,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "sunbiz_import_log",
+            "record_count": 0,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "sunbiz_lien_debtors",
+            "record_count": 0,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "sunbiz_lien_secured_parties",
+            "record_count": 0,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "sunbiz_liens",
+            "record_count": 0,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "sunbiz_marks",
+            "record_count": 0,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "sunbiz_monitoring_agents",
+            "record_count": 2,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [
+              "id",
+              "agent_name",
+              "agent_type",
+              "last_check",
+              "next_check",
+              "files_found",
+              "files_processed",
+              "last_error",
+              "enabled",
+              "created_at"
+            ],
+            "column_count": 10
+          },
+          {
+            "name": "sunbiz_officer_corporation_matches",
+            "record_count": 0,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [
+              "id",
+              "doc_number",
+              "officer_name",
+              "officer_address",
+              "officer_city",
+              "officer_state",
+              "officer_zip",
+              "officer_email",
+              "officer_phone",
+              "corp_name",
+              "corp_address",
+              "corp_city",
+              "corp_state",
+              "corp_zip",
+              "created_at"
+            ],
+            "column_count": 15
+          },
+          {
+            "name": "sunbiz_officers",
+            "record_count": 100,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [
+              "id",
+              "doc_number",
+              "officer_name",
+              "officer_title",
+              "officer_address",
+              "officer_city",
+              "officer_state",
+              "officer_zip",
+              "officer_email",
+              "officer_phone",
+              "source_file",
+              "import_date"
+            ],
+            "column_count": 12
+          },
+          {
+            "name": "sunbiz_partnership_events",
+            "record_count": 0,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "sunbiz_partnerships",
+            "record_count": 0,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "sunbiz_principal_data",
+            "record_count": 0,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "sunbiz_processed_files",
+            "record_count": 0,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "sunbiz_sftp_downloads",
+            "record_count": 0,
+            "category": "Business Entity",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          }
+        ]
+      },
+      "Other": {
+        "count": 28,
+        "records": 44,
+        "tables": [
+          {
+            "name": "active_tax_certificates",
+            "record_count": 9,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [
+              "id",
+              "parcel_id",
+              "real_estate_account",
+              "certificate_number",
+              "tax_year",
+              "buyer_name",
+              "certificate_buyer",
+              "advertised_number",
+              "face_amount",
+              "tax_amount",
+              "issued_date",
+              "sale_date",
+              "expiration_date",
+              "interest_rate",
+              "bid_percentage",
+              "winning_bid_percentage",
+              "status",
+              "redemption_amount",
+              "redemption_date",
+              "buyer_entity",
+              "created_at",
+              "updated_at",
+              "interest_due",
+              "days_until_expiration"
+            ],
+            "column_count": 24
+          },
+          {
+            "name": "agent_activity_logs",
+            "record_count": 0,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "agent_config",
+            "record_count": 0,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "agent_notifications",
+            "record_count": 0,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "all_entities",
+            "record_count": 0,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [
+              "entity_type",
+              "doc_number",
+              "name",
+              "city",
+              "state",
+              "status",
+              "filing_date"
+            ],
+            "column_count": 7
+          },
+          {
+            "name": "data_source_monitor",
+            "record_count": 0,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "edge_functions",
+            "record_count": 1,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [
+              "name",
+              "code",
+              "created_at",
+              "updated_at"
+            ],
+            "column_count": 4
+          },
+          {
+            "name": "fl_agent_status",
+            "record_count": 7,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [
+              "id",
+              "agent_name",
+              "agent_type",
+              "is_enabled",
+              "is_running",
+              "current_status",
+              "schedule_type",
+              "schedule_time",
+              "schedule_day",
+              "last_run_start",
+              "last_run_end",
+              "last_run_status",
+              "last_run_records",
+              "last_error",
+              "next_scheduled_run",
+              "config",
+              "created_at",
+              "updated_at"
+            ],
+            "column_count": 18
+          },
+          {
+            "name": "fl_data_updates",
+            "record_count": 10,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [
+              "id",
+              "source_type",
+              "source_name",
+              "update_date",
+              "records_processed",
+              "records_added",
+              "records_updated",
+              "records_failed",
+              "source_file",
+              "file_size",
+              "file_hash",
+              "processing_time_seconds",
+              "status",
+              "error_message",
+              "agent_name",
+              "agent_version"
+            ],
+            "column_count": 16
+          },
+          {
+            "name": "fl_tpp_accounts",
+            "record_count": 0,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "florida_contacts",
+            "record_count": 0,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "florida_entities",
+            "record_count": 0,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "florida_entities_staging",
+            "record_count": 0,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "florida_permits",
+            "record_count": 1,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [
+              "id",
+              "permit_number",
+              "parcel_id",
+              "property_address",
+              "permit_type",
+              "description",
+              "status",
+              "created_at"
+            ],
+            "column_count": 8
+          },
+          {
+            "name": "florida_processing_log",
+            "record_count": 0,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "florida_raw_records",
+            "record_count": 0,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "florida_registered_agents",
+            "record_count": 0,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "geometry_columns",
+            "record_count": 0,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "high_confidence_matches",
+            "record_count": 0,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "import_statistics",
+            "record_count": 0,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "match_audit_log",
+            "record_count": 0,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "monitoring_agents",
+            "record_count": 0,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "monitoring_status",
+            "record_count": 3,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [
+              "agent_name",
+              "agent_type",
+              "enabled",
+              "last_run",
+              "next_run",
+              "monitored_sources",
+              "changes_detected"
+            ],
+            "column_count": 7
+          },
+          {
+            "name": "properties",
+            "record_count": 3,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [
+              "id",
+              "parcel_id",
+              "owner_name",
+              "property_address",
+              "city",
+              "state",
+              "zip_code",
+              "property_type",
+              "year_built",
+              "total_sqft",
+              "lot_size_sqft",
+              "bedrooms",
+              "bathrooms",
+              "assessed_value",
+              "market_value",
+              "last_sale_date",
+              "last_sale_price",
+              "created_at",
+              "updated_at"
+            ],
+            "column_count": 19
+          },
+          {
+            "name": "properties_master",
+            "record_count": 0,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "recent_filings",
+            "record_count": 0,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "tax_certificates",
+            "record_count": 10,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [
+              "id",
+              "parcel_id",
+              "real_estate_account",
+              "certificate_number",
+              "tax_year",
+              "buyer_name",
+              "certificate_buyer",
+              "advertised_number",
+              "face_amount",
+              "tax_amount",
+              "issued_date",
+              "sale_date",
+              "expiration_date",
+              "interest_rate",
+              "bid_percentage",
+              "winning_bid_percentage",
+              "status",
+              "redemption_amount",
+              "redemption_date",
+              "buyer_entity",
+              "created_at",
+              "updated_at"
+            ],
+            "column_count": 22
+          },
+          {
+            "name": "tpp_jobs",
+            "record_count": 0,
+            "category": "Other",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          }
+        ]
+      },
+      "County Data": {
+        "count": 5,
+        "records": 4,
+        "tables": [
+          {
+            "name": "data_quality_dashboard",
+            "record_count": 0,
+            "category": "County Data",
+            "has_county_data": true,
+            "columns": [
+              "county",
+              "year",
+              "total_parcels",
+              "matched_count",
+              "polygon_only_count",
+              "redacted_count",
+              "avg_taxable_value",
+              "last_updated"
+            ],
+            "column_count": 8
+          },
+          {
+            "name": "florida_active_entities_with_contacts",
+            "record_count": 0,
+            "category": "County Data",
+            "has_county_data": true,
+            "columns": [
+              "entity_id",
+              "business_name",
+              "dba_name",
+              "business_city",
+              "business_county",
+              "entity_type",
+              "formation_date",
+              "phone_numbers",
+              "email_addresses",
+              "contact_count"
+            ],
+            "column_count": 10
+          },
+          {
+            "name": "florida_contact_summary",
+            "record_count": 4,
+            "category": "County Data",
+            "has_county_data": true,
+            "columns": [
+              "business_county",
+              "entity_type",
+              "entity_count",
+              "unique_phones",
+              "unique_emails"
+            ],
+            "column_count": 5
+          },
+          {
+            "name": "high_value_properties",
+            "record_count": 0,
+            "category": "County Data",
+            "has_county_data": true,
+            "columns": [
+              "parcel_id",
+              "county",
+              "phy_addr1",
+              "phy_city",
+              "owner_name",
+              "taxable_value",
+              "land_value",
+              "building_value",
+              "total_living_area"
+            ],
+            "column_count": 9
+          },
+          {
+            "name": "recent_sales",
+            "record_count": 0,
+            "category": "County Data",
+            "has_county_data": true,
+            "columns": [
+              "parcel_id",
+              "county",
+              "phy_addr1",
+              "phy_city",
+              "sale_date",
+              "sale_price",
+              "owner_name",
+              "taxable_value"
+            ],
+            "column_count": 8
+          }
+        ]
+      },
+      "Property Appraiser": {
+        "count": 11,
+        "records": 1,
+        "tables": [
+          {
+            "name": "fl_nav_assessment_detail",
+            "record_count": 0,
+            "category": "Property Appraiser",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "fl_nav_parcel_summary",
+            "record_count": 0,
+            "category": "Property Appraiser",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "fl_sdf_sales",
+            "record_count": 0,
+            "category": "Property Appraiser",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "florida_parcels",
+            "record_count": 0,
+            "category": "Property Appraiser",
+            "has_county_data": true,
+            "columns": [
+              "id",
+              "parcel_id",
+              "county",
+              "year",
+              "geometry",
+              "centroid",
+              "area_sqft",
+              "perimeter_ft",
+              "owner_name",
+              "owner_addr1",
+              "owner_addr2",
+              "owner_city",
+              "owner_state",
+              "owner_zip",
+              "phy_addr1",
+              "phy_addr2",
+              "phy_city",
+              "phy_state",
+              "phy_zipcd",
+              "legal_desc",
+              "subdivision",
+              "lot",
+              "block",
+              "property_use",
+              "property_use_desc",
+              "land_use_code",
+              "zoning",
+              "just_value",
+              "assessed_value",
+              "taxable_value",
+              "land_value",
+              "building_value",
+              "year_built",
+              "total_living_area",
+              "bedrooms",
+              "bathrooms",
+              "stories",
+              "units",
+              "land_sqft",
+              "land_acres",
+              "sale_date",
+              "sale_price",
+              "sale_qualification",
+              "match_status",
+              "discrepancy_reason",
+              "is_redacted",
+              "data_source",
+              "import_date",
+              "update_date",
+              "data_hash",
+              "market_value"
+            ],
+            "column_count": 51
+          },
+          {
+            "name": "nav_assessment_details",
+            "record_count": 0,
+            "category": "Property Appraiser",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "nav_assessments",
+            "record_count": 1,
+            "category": "Property Appraiser",
+            "has_county_data": false,
+            "columns": [
+              "id",
+              "parcel_id",
+              "tax_year",
+              "just_value",
+              "assessed_value",
+              "taxable_value",
+              "land_value",
+              "building_value",
+              "created_at"
+            ],
+            "column_count": 9
+          },
+          {
+            "name": "nav_details",
+            "record_count": 0,
+            "category": "Property Appraiser",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "nav_jobs",
+            "record_count": 0,
+            "category": "Property Appraiser",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "nav_parcel_assessments",
+            "record_count": 0,
+            "category": "Property Appraiser",
+            "has_county_data": true,
+            "columns": [
+              "id",
+              "roll_type",
+              "county_number",
+              "pa_parcel_number",
+              "tc_account_number",
+              "tax_year",
+              "total_assessments",
+              "number_of_assessments",
+              "tax_roll_sequence_number",
+              "county_name",
+              "data_source",
+              "created_at",
+              "updated_at"
+            ],
+            "column_count": 13
+          },
+          {
+            "name": "nav_summaries",
+            "record_count": 0,
+            "category": "Property Appraiser",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "sdf_jobs",
+            "record_count": 0,
+            "category": "Property Appraiser",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          }
+        ]
+      },
+      "Geographic": {
+        "count": 2,
+        "records": 0,
+        "tables": [
+          {
+            "name": "geography_columns",
+            "record_count": 0,
+            "category": "Geographic",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "spatial_ref_sys",
+            "record_count": 0,
+            "category": "Geographic",
+            "has_county_data": false,
+            "columns": [
+              "srid",
+              "auth_name",
+              "auth_srid",
+              "srtext",
+              "proj4text"
+            ],
+            "column_count": 5
+          }
+        ]
+      },
+      "Property": {
+        "count": 8,
+        "records": 7,
+        "tables": [
+          {
+            "name": "latest_parcels",
+            "record_count": 0,
+            "category": "Property",
+            "has_county_data": true,
+            "columns": [
+              "id",
+              "parcel_id",
+              "county",
+              "year",
+              "geometry",
+              "centroid",
+              "area_sqft",
+              "perimeter_ft",
+              "owner_name",
+              "owner_addr1",
+              "owner_addr2",
+              "owner_city",
+              "owner_state",
+              "owner_zip",
+              "phy_addr1",
+              "phy_addr2",
+              "phy_city",
+              "phy_state",
+              "phy_zipcd",
+              "legal_desc",
+              "subdivision",
+              "lot",
+              "block",
+              "property_use",
+              "property_use_desc",
+              "land_use_code",
+              "zoning",
+              "just_value",
+              "assessed_value",
+              "taxable_value",
+              "land_value",
+              "building_value",
+              "year_built",
+              "total_living_area",
+              "bedrooms",
+              "bathrooms",
+              "stories",
+              "units",
+              "land_sqft",
+              "land_acres",
+              "sale_date",
+              "sale_price",
+              "sale_qualification",
+              "match_status",
+              "discrepancy_reason",
+              "is_redacted",
+              "data_source",
+              "import_date",
+              "update_date",
+              "data_hash"
+            ],
+            "column_count": 50
+          },
+          {
+            "name": "parcel_update_history",
+            "record_count": 0,
+            "category": "Property",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "property_assessments",
+            "record_count": 0,
+            "category": "Property",
+            "has_county_data": true,
+            "columns": [
+              "id",
+              "parcel_id",
+              "county_code",
+              "county_name",
+              "owner_name",
+              "owner_address",
+              "owner_city",
+              "owner_state",
+              "owner_zip",
+              "property_address",
+              "property_city",
+              "property_zip",
+              "property_use_code",
+              "tax_district",
+              "subdivision",
+              "just_value",
+              "assessed_value",
+              "taxable_value",
+              "land_value",
+              "building_value",
+              "total_sq_ft",
+              "living_area",
+              "year_built",
+              "bedrooms",
+              "bathrooms",
+              "pool",
+              "tax_year",
+              "created_at",
+              "updated_at"
+            ],
+            "column_count": 29
+          },
+          {
+            "name": "property_owners",
+            "record_count": 0,
+            "category": "Property",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "property_ownership_history",
+            "record_count": 0,
+            "category": "Property",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "property_sales",
+            "record_count": 0,
+            "category": "Property",
+            "has_county_data": false,
+            "columns": [],
+            "column_count": 0
+          },
+          {
+            "name": "property_sales_history",
+            "record_count": 0,
+            "category": "Property",
+            "has_county_data": true,
+            "columns": [
+              "id",
+              "county_no",
+              "parcel_id",
+              "state_parcel_id",
+              "assessment_year",
+              "atv_start",
+              "group_no",
+              "dor_use_code",
+              "neighborhood_code",
+              "market_area",
+              "census_block",
+              "sale_id_code",
+              "sale_change_code",
+              "verification_code",
+              "or_book",
+              "or_page",
+              "clerk_no",
+              "quality_code",
+              "sale_year",
+              "sale_month",
+              "sale_price",
+              "multi_parcel_sale",
+              "rs_id",
+              "mp_id",
+              "sale_date",
+              "created_at",
+              "updated_at"
+            ],
+            "column_count": 27
+          },
+          {
+            "name": "property_tax_certificate_summary",
+            "record_count": 7,
+            "category": "Property",
+            "has_county_data": false,
+            "columns": [
+              "parcel_id",
+              "certificate_count",
+              "total_active_amount",
+              "total_redemption_amount",
+              "latest_tax_year",
+              "certificate_holders"
+            ],
+            "column_count": 6
+          }
+        ]
+      },
+      "Tax Deed": {
+        "count": 3,
+        "records": 42,
+        "tables": [
+          {
+            "name": "tax_deed_auctions",
+            "record_count": 4,
+            "category": "Tax Deed",
+            "has_county_data": false,
+            "columns": [
+              "id",
+              "auction_date",
+              "auction_time",
+              "description",
+              "auction_type",
+              "status",
+              "total_items",
+              "items_sold",
+              "total_revenue",
+              "location",
+              "auctioneer",
+              "online_platform",
+              "platform_url",
+              "registration_deadline",
+              "deposit_required",
+              "bid_increment",
+              "created_at",
+              "updated_at",
+              "data_source"
+            ],
+            "column_count": 19
+          },
+          {
+            "name": "tax_deed_bidding_items",
+            "record_count": 19,
+            "category": "Tax Deed",
+            "has_county_data": false,
+            "columns": [
+              "id",
+              "auction_id",
+              "parcel_id",
+              "tax_deed_number",
+              "tax_certificate_number",
+              "legal_situs_address",
+              "homestead_exemption",
+              "assessed_value",
+              "soh_value",
+              "opening_bid",
+              "current_bid",
+              "reserve_met",
+              "close_time",
+              "item_status",
+              "total_bids",
+              "unique_bidders",
+              "applicant_name",
+              "tax_years_included",
+              "total_taxes_owed",
+              "winning_bid",
+              "winning_bidder",
+              "gis_parcel_map_url",
+              "property_appraisal_url",
+              "created_at",
+              "updated_at"
+            ],
+            "column_count": 25
+          },
+          {
+            "name": "tax_deed_items_view",
+            "record_count": 19,
+            "category": "Tax Deed",
+            "has_county_data": false,
+            "columns": [
+              "id",
+              "auction_id",
+              "parcel_id",
+              "tax_deed_number",
+              "tax_certificate_number",
+              "legal_situs_address",
+              "homestead_exemption",
+              "assessed_value",
+              "soh_value",
+              "opening_bid",
+              "current_bid",
+              "reserve_met",
+              "close_time",
+              "item_status",
+              "total_bids",
+              "unique_bidders",
+              "applicant_name",
+              "tax_years_included",
+              "total_taxes_owed",
+              "winning_bid",
+              "winning_bidder",
+              "gis_parcel_map_url",
+              "property_appraisal_url",
+              "created_at",
+              "updated_at",
+              "auction_date",
+              "auction_time",
+              "auction_description",
+              "online_platform",
+              "platform_url",
+              "seconds_remaining"
+            ],
+            "column_count": 31
+          }
+        ]
+      }
+    },
+    "county_tables": [
+      "data_quality_dashboard",
+      "florida_active_entities_with_contacts",
+      "florida_contact_summary",
+      "florida_parcels",
+      "high_value_properties",
+      "latest_parcels",
+      "nav_parcel_assessments",
+      "property_assessments",
+      "property_sales_history",
+      "recent_sales"
+    ]
+  },
+  "tables": [
+    {
+      "name": "active_corporations",
+      "record_count": 0,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "active_tax_certificates",
+      "record_count": 9,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [
+        "id",
+        "parcel_id",
+        "real_estate_account",
+        "certificate_number",
+        "tax_year",
+        "buyer_name",
+        "certificate_buyer",
+        "advertised_number",
+        "face_amount",
+        "tax_amount",
+        "issued_date",
+        "sale_date",
+        "expiration_date",
+        "interest_rate",
+        "bid_percentage",
+        "winning_bid_percentage",
+        "status",
+        "redemption_amount",
+        "redemption_date",
+        "buyer_entity",
+        "created_at",
+        "updated_at",
+        "interest_due",
+        "days_until_expiration"
+      ],
+      "column_count": 24
+    },
+    {
+      "name": "agent_activity_logs",
+      "record_count": 0,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "agent_config",
+      "record_count": 0,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "agent_notifications",
+      "record_count": 0,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "all_entities",
+      "record_count": 0,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [
+        "entity_type",
+        "doc_number",
+        "name",
+        "city",
+        "state",
+        "status",
+        "filing_date"
+      ],
+      "column_count": 7
+    },
+    {
+      "name": "data_quality_dashboard",
+      "record_count": 0,
+      "category": "County Data",
+      "has_county_data": true,
+      "columns": [
+        "county",
+        "year",
+        "total_parcels",
+        "matched_count",
+        "polygon_only_count",
+        "redacted_count",
+        "avg_taxable_value",
+        "last_updated"
+      ],
+      "column_count": 8
+    },
+    {
+      "name": "data_source_monitor",
+      "record_count": 0,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "edge_functions",
+      "record_count": 1,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [
+        "name",
+        "code",
+        "created_at",
+        "updated_at"
+      ],
+      "column_count": 4
+    },
+    {
+      "name": "entity_portfolio_summary",
+      "record_count": 0,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "entity_property_network",
+      "record_count": 0,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "entity_relationships",
+      "record_count": 0,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "entity_search_cache",
+      "record_count": 0,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "fl_agent_status",
+      "record_count": 7,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [
+        "id",
+        "agent_name",
+        "agent_type",
+        "is_enabled",
+        "is_running",
+        "current_status",
+        "schedule_type",
+        "schedule_time",
+        "schedule_day",
+        "last_run_start",
+        "last_run_end",
+        "last_run_status",
+        "last_run_records",
+        "last_error",
+        "next_scheduled_run",
+        "config",
+        "created_at",
+        "updated_at"
+      ],
+      "column_count": 18
+    },
+    {
+      "name": "fl_data_updates",
+      "record_count": 10,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [
+        "id",
+        "source_type",
+        "source_name",
+        "update_date",
+        "records_processed",
+        "records_added",
+        "records_updated",
+        "records_failed",
+        "source_file",
+        "file_size",
+        "file_hash",
+        "processing_time_seconds",
+        "status",
+        "error_message",
+        "agent_name",
+        "agent_version"
+      ],
+      "column_count": 16
+    },
+    {
+      "name": "fl_nav_assessment_detail",
+      "record_count": 0,
+      "category": "Property Appraiser",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "fl_nav_parcel_summary",
+      "record_count": 0,
+      "category": "Property Appraiser",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "fl_sdf_sales",
+      "record_count": 0,
+      "category": "Property Appraiser",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "fl_tpp_accounts",
+      "record_count": 0,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "florida_active_entities_with_contacts",
+      "record_count": 0,
+      "category": "County Data",
+      "has_county_data": true,
+      "columns": [
+        "entity_id",
+        "business_name",
+        "dba_name",
+        "business_city",
+        "business_county",
+        "entity_type",
+        "formation_date",
+        "phone_numbers",
+        "email_addresses",
+        "contact_count"
+      ],
+      "column_count": 10
+    },
+    {
+      "name": "florida_business_activities",
+      "record_count": 0,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "florida_contact_summary",
+      "record_count": 4,
+      "category": "County Data",
+      "has_county_data": true,
+      "columns": [
+        "business_county",
+        "entity_type",
+        "entity_count",
+        "unique_phones",
+        "unique_emails"
+      ],
+      "column_count": 5
+    },
+    {
+      "name": "florida_contacts",
+      "record_count": 0,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "florida_entities",
+      "record_count": 0,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "florida_entities_staging",
+      "record_count": 0,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "florida_parcels",
+      "record_count": 0,
+      "category": "Property Appraiser",
+      "has_county_data": true,
+      "columns": [
+        "id",
+        "parcel_id",
+        "county",
+        "year",
+        "geometry",
+        "centroid",
+        "area_sqft",
+        "perimeter_ft",
+        "owner_name",
+        "owner_addr1",
+        "owner_addr2",
+        "owner_city",
+        "owner_state",
+        "owner_zip",
+        "phy_addr1",
+        "phy_addr2",
+        "phy_city",
+        "phy_state",
+        "phy_zipcd",
+        "legal_desc",
+        "subdivision",
+        "lot",
+        "block",
+        "property_use",
+        "property_use_desc",
+        "land_use_code",
+        "zoning",
+        "just_value",
+        "assessed_value",
+        "taxable_value",
+        "land_value",
+        "building_value",
+        "year_built",
+        "total_living_area",
+        "bedrooms",
+        "bathrooms",
+        "stories",
+        "units",
+        "land_sqft",
+        "land_acres",
+        "sale_date",
+        "sale_price",
+        "sale_qualification",
+        "match_status",
+        "discrepancy_reason",
+        "is_redacted",
+        "data_source",
+        "import_date",
+        "update_date",
+        "data_hash",
+        "market_value"
+      ],
+      "column_count": 51
+    },
+    {
+      "name": "florida_permits",
+      "record_count": 1,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [
+        "id",
+        "permit_number",
+        "parcel_id",
+        "property_address",
+        "permit_type",
+        "description",
+        "status",
+        "created_at"
+      ],
+      "column_count": 8
+    },
+    {
+      "name": "florida_processing_log",
+      "record_count": 0,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "florida_raw_records",
+      "record_count": 0,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "florida_registered_agents",
+      "record_count": 0,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "geography_columns",
+      "record_count": 0,
+      "category": "Geographic",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "geometry_columns",
+      "record_count": 0,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "high_confidence_matches",
+      "record_count": 0,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "high_value_properties",
+      "record_count": 0,
+      "category": "County Data",
+      "has_county_data": true,
+      "columns": [
+        "parcel_id",
+        "county",
+        "phy_addr1",
+        "phy_city",
+        "owner_name",
+        "taxable_value",
+        "land_value",
+        "building_value",
+        "total_living_area"
+      ],
+      "column_count": 9
+    },
+    {
+      "name": "import_statistics",
+      "record_count": 0,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "latest_parcels",
+      "record_count": 0,
+      "category": "Property",
+      "has_county_data": true,
+      "columns": [
+        "id",
+        "parcel_id",
+        "county",
+        "year",
+        "geometry",
+        "centroid",
+        "area_sqft",
+        "perimeter_ft",
+        "owner_name",
+        "owner_addr1",
+        "owner_addr2",
+        "owner_city",
+        "owner_state",
+        "owner_zip",
+        "phy_addr1",
+        "phy_addr2",
+        "phy_city",
+        "phy_state",
+        "phy_zipcd",
+        "legal_desc",
+        "subdivision",
+        "lot",
+        "block",
+        "property_use",
+        "property_use_desc",
+        "land_use_code",
+        "zoning",
+        "just_value",
+        "assessed_value",
+        "taxable_value",
+        "land_value",
+        "building_value",
+        "year_built",
+        "total_living_area",
+        "bedrooms",
+        "bathrooms",
+        "stories",
+        "units",
+        "land_sqft",
+        "land_acres",
+        "sale_date",
+        "sale_price",
+        "sale_qualification",
+        "match_status",
+        "discrepancy_reason",
+        "is_redacted",
+        "data_source",
+        "import_date",
+        "update_date",
+        "data_hash"
+      ],
+      "column_count": 50
+    },
+    {
+      "name": "match_audit_log",
+      "record_count": 0,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "monitoring_agents",
+      "record_count": 0,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "monitoring_status",
+      "record_count": 3,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [
+        "agent_name",
+        "agent_type",
+        "enabled",
+        "last_run",
+        "next_run",
+        "monitored_sources",
+        "changes_detected"
+      ],
+      "column_count": 7
+    },
+    {
+      "name": "nav_assessment_details",
+      "record_count": 0,
+      "category": "Property Appraiser",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "nav_assessments",
+      "record_count": 1,
+      "category": "Property Appraiser",
+      "has_county_data": false,
+      "columns": [
+        "id",
+        "parcel_id",
+        "tax_year",
+        "just_value",
+        "assessed_value",
+        "taxable_value",
+        "land_value",
+        "building_value",
+        "created_at"
+      ],
+      "column_count": 9
+    },
+    {
+      "name": "nav_details",
+      "record_count": 0,
+      "category": "Property Appraiser",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "nav_jobs",
+      "record_count": 0,
+      "category": "Property Appraiser",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "nav_parcel_assessments",
+      "record_count": 0,
+      "category": "Property Appraiser",
+      "has_county_data": true,
+      "columns": [
+        "id",
+        "roll_type",
+        "county_number",
+        "pa_parcel_number",
+        "tc_account_number",
+        "tax_year",
+        "total_assessments",
+        "number_of_assessments",
+        "tax_roll_sequence_number",
+        "county_name",
+        "data_source",
+        "created_at",
+        "updated_at"
+      ],
+      "column_count": 13
+    },
+    {
+      "name": "nav_summaries",
+      "record_count": 0,
+      "category": "Property Appraiser",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "owner_entity_links",
+      "record_count": 0,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "parcel_update_history",
+      "record_count": 0,
+      "category": "Property",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "properties",
+      "record_count": 3,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [
+        "id",
+        "parcel_id",
+        "owner_name",
+        "property_address",
+        "city",
+        "state",
+        "zip_code",
+        "property_type",
+        "year_built",
+        "total_sqft",
+        "lot_size_sqft",
+        "bedrooms",
+        "bathrooms",
+        "assessed_value",
+        "market_value",
+        "last_sale_date",
+        "last_sale_price",
+        "created_at",
+        "updated_at"
+      ],
+      "column_count": 19
+    },
+    {
+      "name": "properties_master",
+      "record_count": 0,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "property_assessments",
+      "record_count": 0,
+      "category": "Property",
+      "has_county_data": true,
+      "columns": [
+        "id",
+        "parcel_id",
+        "county_code",
+        "county_name",
+        "owner_name",
+        "owner_address",
+        "owner_city",
+        "owner_state",
+        "owner_zip",
+        "property_address",
+        "property_city",
+        "property_zip",
+        "property_use_code",
+        "tax_district",
+        "subdivision",
+        "just_value",
+        "assessed_value",
+        "taxable_value",
+        "land_value",
+        "building_value",
+        "total_sq_ft",
+        "living_area",
+        "year_built",
+        "bedrooms",
+        "bathrooms",
+        "pool",
+        "tax_year",
+        "created_at",
+        "updated_at"
+      ],
+      "column_count": 29
+    },
+    {
+      "name": "property_entity_matches",
+      "record_count": 0,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "property_owners",
+      "record_count": 0,
+      "category": "Property",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "property_ownership_history",
+      "record_count": 0,
+      "category": "Property",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "property_sales",
+      "record_count": 0,
+      "category": "Property",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "property_sales_history",
+      "record_count": 0,
+      "category": "Property",
+      "has_county_data": true,
+      "columns": [
+        "id",
+        "county_no",
+        "parcel_id",
+        "state_parcel_id",
+        "assessment_year",
+        "atv_start",
+        "group_no",
+        "dor_use_code",
+        "neighborhood_code",
+        "market_area",
+        "census_block",
+        "sale_id_code",
+        "sale_change_code",
+        "verification_code",
+        "or_book",
+        "or_page",
+        "clerk_no",
+        "quality_code",
+        "sale_year",
+        "sale_month",
+        "sale_price",
+        "multi_parcel_sale",
+        "rs_id",
+        "mp_id",
+        "sale_date",
+        "created_at",
+        "updated_at"
+      ],
+      "column_count": 27
+    },
+    {
+      "name": "property_tax_certificate_summary",
+      "record_count": 7,
+      "category": "Property",
+      "has_county_data": false,
+      "columns": [
+        "parcel_id",
+        "certificate_count",
+        "total_active_amount",
+        "total_redemption_amount",
+        "latest_tax_year",
+        "certificate_holders"
+      ],
+      "column_count": 6
+    },
+    {
+      "name": "recent_filings",
+      "record_count": 0,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "recent_sales",
+      "record_count": 0,
+      "category": "County Data",
+      "has_county_data": true,
+      "columns": [
+        "parcel_id",
+        "county",
+        "phy_addr1",
+        "phy_city",
+        "sale_date",
+        "sale_price",
+        "owner_name",
+        "taxable_value"
+      ],
+      "column_count": 8
+    },
+    {
+      "name": "sdf_jobs",
+      "record_count": 0,
+      "category": "Property Appraiser",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "spatial_ref_sys",
+      "record_count": 0,
+      "category": "Geographic",
+      "has_county_data": false,
+      "columns": [
+        "srid",
+        "auth_name",
+        "auth_srid",
+        "srtext",
+        "proj4text"
+      ],
+      "column_count": 5
+    },
+    {
+      "name": "sunbiz_contacts",
+      "record_count": 100,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [
+        "doc_number",
+        "officer_name",
+        "officer_title",
+        "officer_email",
+        "officer_phone",
+        "officer_address",
+        "officer_city",
+        "officer_state",
+        "officer_zip",
+        "entity_name",
+        "status",
+        "filing_date",
+        "state_country",
+        "prin_city",
+        "prin_state"
+      ],
+      "column_count": 15
+    },
+    {
+      "name": "sunbiz_corporate",
+      "record_count": 0,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [
+        "id",
+        "doc_number",
+        "entity_name",
+        "status",
+        "filing_date",
+        "state_country",
+        "prin_addr1",
+        "prin_addr2",
+        "prin_city",
+        "prin_state",
+        "prin_zip",
+        "mail_addr1",
+        "mail_addr2",
+        "mail_city",
+        "mail_state",
+        "mail_zip",
+        "ein",
+        "registered_agent",
+        "file_type",
+        "subtype",
+        "source_file",
+        "import_date",
+        "update_date"
+      ],
+      "column_count": 23
+    },
+    {
+      "name": "sunbiz_corporate_events",
+      "record_count": 0,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "sunbiz_download_jobs",
+      "record_count": 0,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "sunbiz_fictitious",
+      "record_count": 0,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "sunbiz_fictitious_events",
+      "record_count": 0,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "sunbiz_import_log",
+      "record_count": 0,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "sunbiz_lien_debtors",
+      "record_count": 0,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "sunbiz_lien_secured_parties",
+      "record_count": 0,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "sunbiz_liens",
+      "record_count": 0,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "sunbiz_marks",
+      "record_count": 0,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "sunbiz_monitoring_agents",
+      "record_count": 2,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [
+        "id",
+        "agent_name",
+        "agent_type",
+        "last_check",
+        "next_check",
+        "files_found",
+        "files_processed",
+        "last_error",
+        "enabled",
+        "created_at"
+      ],
+      "column_count": 10
+    },
+    {
+      "name": "sunbiz_officer_corporation_matches",
+      "record_count": 0,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [
+        "id",
+        "doc_number",
+        "officer_name",
+        "officer_address",
+        "officer_city",
+        "officer_state",
+        "officer_zip",
+        "officer_email",
+        "officer_phone",
+        "corp_name",
+        "corp_address",
+        "corp_city",
+        "corp_state",
+        "corp_zip",
+        "created_at"
+      ],
+      "column_count": 15
+    },
+    {
+      "name": "sunbiz_officers",
+      "record_count": 100,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [
+        "id",
+        "doc_number",
+        "officer_name",
+        "officer_title",
+        "officer_address",
+        "officer_city",
+        "officer_state",
+        "officer_zip",
+        "officer_email",
+        "officer_phone",
+        "source_file",
+        "import_date"
+      ],
+      "column_count": 12
+    },
+    {
+      "name": "sunbiz_partnership_events",
+      "record_count": 0,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "sunbiz_partnerships",
+      "record_count": 0,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "sunbiz_principal_data",
+      "record_count": 0,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "sunbiz_processed_files",
+      "record_count": 0,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "sunbiz_sftp_downloads",
+      "record_count": 0,
+      "category": "Business Entity",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    },
+    {
+      "name": "tax_certificates",
+      "record_count": 10,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [
+        "id",
+        "parcel_id",
+        "real_estate_account",
+        "certificate_number",
+        "tax_year",
+        "buyer_name",
+        "certificate_buyer",
+        "advertised_number",
+        "face_amount",
+        "tax_amount",
+        "issued_date",
+        "sale_date",
+        "expiration_date",
+        "interest_rate",
+        "bid_percentage",
+        "winning_bid_percentage",
+        "status",
+        "redemption_amount",
+        "redemption_date",
+        "buyer_entity",
+        "created_at",
+        "updated_at"
+      ],
+      "column_count": 22
+    },
+    {
+      "name": "tax_deed_auctions",
+      "record_count": 4,
+      "category": "Tax Deed",
+      "has_county_data": false,
+      "columns": [
+        "id",
+        "auction_date",
+        "auction_time",
+        "description",
+        "auction_type",
+        "status",
+        "total_items",
+        "items_sold",
+        "total_revenue",
+        "location",
+        "auctioneer",
+        "online_platform",
+        "platform_url",
+        "registration_deadline",
+        "deposit_required",
+        "bid_increment",
+        "created_at",
+        "updated_at",
+        "data_source"
+      ],
+      "column_count": 19
+    },
+    {
+      "name": "tax_deed_bidding_items",
+      "record_count": 19,
+      "category": "Tax Deed",
+      "has_county_data": false,
+      "columns": [
+        "id",
+        "auction_id",
+        "parcel_id",
+        "tax_deed_number",
+        "tax_certificate_number",
+        "legal_situs_address",
+        "homestead_exemption",
+        "assessed_value",
+        "soh_value",
+        "opening_bid",
+        "current_bid",
+        "reserve_met",
+        "close_time",
+        "item_status",
+        "total_bids",
+        "unique_bidders",
+        "applicant_name",
+        "tax_years_included",
+        "total_taxes_owed",
+        "winning_bid",
+        "winning_bidder",
+        "gis_parcel_map_url",
+        "property_appraisal_url",
+        "created_at",
+        "updated_at"
+      ],
+      "column_count": 25
+    },
+    {
+      "name": "tax_deed_items_view",
+      "record_count": 19,
+      "category": "Tax Deed",
+      "has_county_data": false,
+      "columns": [
+        "id",
+        "auction_id",
+        "parcel_id",
+        "tax_deed_number",
+        "tax_certificate_number",
+        "legal_situs_address",
+        "homestead_exemption",
+        "assessed_value",
+        "soh_value",
+        "opening_bid",
+        "current_bid",
+        "reserve_met",
+        "close_time",
+        "item_status",
+        "total_bids",
+        "unique_bidders",
+        "applicant_name",
+        "tax_years_included",
+        "total_taxes_owed",
+        "winning_bid",
+        "winning_bidder",
+        "gis_parcel_map_url",
+        "property_appraisal_url",
+        "created_at",
+        "updated_at",
+        "auction_date",
+        "auction_time",
+        "auction_description",
+        "online_platform",
+        "platform_url",
+        "seconds_remaining"
+      ],
+      "column_count": 31
+    },
+    {
+      "name": "tpp_jobs",
+      "record_count": 0,
+      "category": "Other",
+      "has_county_data": false,
+      "columns": [],
+      "column_count": 0
+    }
+  ]
+}

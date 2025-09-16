@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Autocomplete - Direct Supabase</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        #results {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .result-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        .result-item:hover {
+            background-color: #f5f5f5;
+        }
+        .loading {
+            color: #999;
+            padding: 10px;
+        }
+        .stats {
+            color: #666;
+            font-size: 12px;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Property Autocomplete</h1>
+    <p>Type an address, parcel ID, owner name, or city. Try "3930" to test:</p>
+    
+    <input type="text" id="searchInput" placeholder="Try: 3930, DAVIE, FORT LAUDERDALE, or any parcel ID...">
+    
+    <div id="results"></div>
+    
+    <script>
+        // Supabase configuration - replace with your actual values
+        const SUPABASE_URL = 'https://pmispwtdngkcmsrsjwbp.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU4NDczMTgsImV4cCI6MjA1MTQyMzMxOH0.k6vdBvhUjqwOZiyIydQsc7xSYC_OByXVC-sVQaLlO3s';
+        
+        const searchInput = document.getElementById('searchInput');
+        const resultsDiv = document.getElementById('results');
+        let searchTimeout;
+        
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            const query = e.target.value;
+            
+            if (query.length < 2) {
+                resultsDiv.innerHTML = '';
+                return;
+            }
+            
+            resultsDiv.innerHTML = '<div class="loading">Searching...</div>';
+            
+            searchTimeout = setTimeout(() => {
+                searchProperties(query);
+            }, 300);
+        });
+        
+        async function searchProperties(query) {
+            const startTime = Date.now();
+            
+            try {
+                // Build the query URL
+                const url = new URL(`${SUPABASE_URL}/rest/v1/florida_parcels`);
+                
+                // Search across multiple fields
+                url.searchParams.append('or', `(phy_addr1.ilike.*${query}*,parcel_id.ilike.*${query}*,owner_name.ilike.*${query}*,phy_city.ilike.*${query}*)`);
+                url.searchParams.append('is_redacted', 'eq.false');
+                url.searchParams.append('limit', '10');
+                url.searchParams.append('order', 'taxable_value.desc');
+                
+                const response = await fetch(url, {
+                    headers: {
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                const queryTime = Date.now() - startTime;
+                
+                displayResults(data, query, queryTime);
+                
+            } catch (error) {
+                console.error('Search error:', error);
+                resultsDiv.innerHTML = `<div class="loading">Error: ${error.message}</div>`;
+            }
+        }
+        
+        function displayResults(data, query, queryTime) {
+            if (!data || data.length === 0) {
+                resultsDiv.innerHTML = '<div class="loading">No results found</div>';
+                return;
+            }
+            
+            let html = `<div class="stats">Found ${data.length} results for "${query}" in ${queryTime}ms</div>`;
+            
+            data.forEach(prop => {
+                const value = prop.taxable_value ? `$${prop.taxable_value.toLocaleString()}` : 'N/A';
+                html += `
+                    <div class="result-item" onclick="selectProperty('${prop.parcel_id}')">
+                        <strong>${prop.phy_addr1 || 'No Address'}</strong><br>
+                        <small>
+                            ${prop.phy_city || 'Unknown City'}, FL ${prop.phy_zipcd || ''}<br>
+                            Owner: ${prop.owner_name || 'Unknown'}<br>
+                            Parcel: ${prop.parcel_id}<br>
+                            Value: ${value}
+                        </small>
+                    </div>
+                `;
+            });
+            
+            resultsDiv.innerHTML = html;
+        }
+        
+        function selectProperty(parcelId) {
+            alert(`Selected property: ${parcelId}\nIn the actual app, this would navigate to the property detail page.`);
+        }
+        
+        // Test with "3930" on load
+        window.addEventListener('load', () => {
+            searchInput.value = '3930';
+            searchProperties('3930');
+        });
+    </script>
+</body>
+</html>

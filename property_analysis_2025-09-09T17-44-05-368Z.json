@@ -1,0 +1,420 @@
+{
+  "timestamp": "2025-09-09T17-44-05-368Z",
+  "propertyAddress": "12681 NW 78 MNR, PARKLAND, Florida 33076",
+  "url": "http://localhost:5174/properties/parkland/12681-nw-78-mnr",
+  "tabs": {
+    "overview": {
+      "displayName": "Overview",
+      "data": {
+        "overview": {
+          "Market Value": "Market Value",
+          "Assessed Value": "Assessed Value",
+          "Property Owner": "Property Owner",
+          "Property Type": "Property Type",
+          "Year Built": "Year Built",
+          "Lot Size": "Lot Size"
+        },
+        "cards": [
+          "Market Value$580,000",
+          "Last SaleN/A",
+          "Property Type001Built 2003",
+          "Living Area3,285 sqft5 bed • 3.5 bath",
+          "Property Location12681 NW 78 MNR, PARKLAND, FL 33076Fort Lauderdale, FLProperty Type001Year Built2003",
+          "Property Location",
+          "Property Location",
+          "Investment Analysis55/100Investment Score⚠️ Risk Factors⚠️ No recent sales history - difficult to establish market value",
+          "Investment Analysis",
+          "Investment Analysis",
+          "Valuation SummaryMarket Value$580,000Assessed Value$180Land Value$145,000Building Value$435,000",
+          "Valuation Summary",
+          "Valuation Summary",
+          "Property DetailsLiving Area3,285 sqftYear Built2003Lot SizeN/ABed/Bath5 / 3.5",
+          "Property Details",
+          "Property Details",
+          "Most Recent Sale$425,0002023Type:Qualifiedvs Market:73%",
+          "Most Recent Sale",
+          "Most Recent Sale",
+          "Property OwnerINVITATION HOMESP O BOX 650449, DALLAS, TX 75265Investment Property",
+          "Property Owner",
+          "Property Owner"
+        ]
+      },
+      "screenshot": "property_tab_overview_2025-09-09T17-44-05-368Z.png"
+    },
+    "core_property_info": {
+      "displayName": "Core Property Info",
+      "data": {
+        "coreProperty": {
+          "salesHistory": [
+            "Last Sale",
+            "Sales Tax Deed",
+            "Sales History",
+            "3 Sale Records",
+            "Subdivision Sales",
+            "Price",
+            "Total Sales",
+            "Avg Price",
+            "Highest Price"
+          ]
+        },
+        "tables": [
+          {
+            "headers": [
+              "Date",
+              "Type",
+              "Price",
+              "Book/Page or CIN"
+            ],
+            "rows": [
+              [
+                "Date",
+                "Type",
+                "Price",
+                "Book/Page or CIN"
+              ],
+              [
+                "Aug 14, 2021Most Recent",
+                "Warranty Deed",
+                "$425,000$129/sq ft",
+                "N/A"
+              ],
+              [
+                "Mar 19, 2018",
+                "Warranty Deed",
+                "$380,000$116/sq ft",
+                "N/A"
+              ],
+              [
+                "Jun 9, 2015",
+                "Warranty Deed",
+                "$350,000$107/sq ft",
+                "N/A"
+              ]
+            ]
+          }
+        ],
+        "cards": [
+          "Market Value$580,000",
+          "Last SaleN/A",
+          "Property Type001Built 2003",
+          "Living Area3,285 sqft5 bed • 3.5 bath",
+          "Property Assessment ValuesSite Address12681 NW 78 MNRPARKLAND, FL 33076Property OwnerINVITATION HOMESParcel ID474131031040Property Use001Single FamilyCurrent Land Value$145,000Building/Improvement$435,000Just/Market Value$580,000Assessed/SOH Value$180Annual Tax$9,500",
+          "ExemptionsHomestead ExemptionNone",
+          "Sales History3 Sale RecordsSubdivision SalesDateTypePriceBook/Page or CINAug 14, 2021Most RecentWarranty Deed$425,000$129/sq ftN/AMar 19, 2018Warranty Deed$380,000$116/sq ftN/AJun 9, 2015Warranty Deed$350,000$107/sq ftN/ATotal Sales3Avg Price$385,000Highest Price$425,000Date Range2015 -  2021",
+          "Land CalculationsTotal Land AreaN/A",
+          "Building DetailsAdj. Bldg. S.F.3,285 sq ftUnits/Beds/Baths1 / 5 / 3.5Eff./Act. Year Built2003 / 2003",
+          "Quick LinksView on Google MapsNavigate to property locationProperty AppraiserOfficial BCPA property recordStreet ViewView property from street levelTax CollectorView tax bills and payment history"
+        ]
+      },
+      "screenshot": "property_tab_core_property_info_2025-09-09T17-44-05-368Z.png"
+    },
+    "sunbiz_info": {
+      "displayName": "Sunbiz Info",
+      "data": {
+        "sunbiz": {},
+        "cards": [
+          "Market Value$580,000",
+          "Last SaleN/A",
+          "Property Type001Built 2003",
+          "Living Area3,285 sqft5 bed • 3.5 bath",
+          "No Sunbiz Information FoundNo corporate filing information found for this property ownerNo Sunbiz corporate filing information found for this property. The owner may be an individual or the entity may not be registered in Florida.Search Sunbiz ManuallyYou can search for the entity directly on Florida SunbizSearch for \"INVITATION HOMES\"",
+          "No Sunbiz Information FoundNo corporate filing information found for this property owner",
+          "No Sunbiz Information Found"
+        ]
+      },
+      "screenshot": "property_tab_sunbiz_info_2025-09-09T17-44-05-368Z.png"
+    },
+    "property_tax_info": {
+      "displayName": "Property Tax Info",
+      "data": {
+        "propertyTax": {},
+        "cards": [
+          "Market Value$580,000",
+          "Last SaleN/A",
+          "Property Type001Built 2003",
+          "Living Area3,285 sqft5 bed • 3.5 bath",
+          "Property Tax AssessmentCurrent tax obligations and payment statusTotal Amount Due$24,432DELINQUENT - Certificates outstandingAnnual Tax Amount$9,500Yearly tax obligationTax Certificates2Active liens on propertyTax Certificates DetectedProperty has 2 outstanding tax certificates totaling $24,432LIENS ACTIVE",
+          "Property Tax AssessmentCurrent tax obligations and payment status",
+          "Property Tax Assessment",
+          "Tax Certificate Details2 tax certificates creating liens on this propertyCertificate #2024-31040Real Estate Account: 474131031040Tax Year: 2024Advertised #: AD-2024-31040Face Amount$9,975Redemption: $11,771Certificate Buyer / OwnerCAPITAL ONE, NATIONAL ASSOCIATION (USA)Sunbiz Entity Matches100% MatchDirect Entity Name Matches:CAPITAL ONE, NATIONAL ASSOCIATIONActiveType: CorporationDocument: F96000004500View Sunbiz ProfileOfficer/Director Name Matches:5T WEALTH PARTNERS LPSarah T. Williams - General PartnerView Entity ProfileInterest Rate18%Winning Bid %18%Issued DateMay 31, 2024Expiration DateMay 31, 2026StatusActive LienView Full Certificate DetailsView Tax Bill HistoryCertificate #2023-31041Real Estate Account: 474131031040Tax Year: 2023Advertised #: AD-2023-31041Face Amount$9,310Redemption: $12,662Certificate Buyer / OwnerTLGFY, LLC, A FLORIDA LIMITED LIABILITY CO.Sunbiz Entity Matches100% MatchDirect Entity Name Matches:CAPITAL ONE, NATIONAL ASSOCIATIONActiveType: CorporationDocument: F96000004500View Sunbiz ProfileOfficer/Director Name Matches:TLGFY, LLCThomas L. Garcia - Managing MemberView Entity Profile5T WEALTH PARTNERS LPSarah T. Williams - General PartnerView Entity ProfileInterest Rate18%Winning Bid %18%Issued DateMay 31, 2023Expiration DateMay 31, 2025StatusActive LienView Full Certificate DetailsView Tax Bill HistoryInvestment Impact AnalysisTotal Lien Amount: $24,432 must be paid to clear all certificatesInterest Accrual: Certificates accrue interest at 18% annually (Florida statutory maximum)Title Impact: These liens must be satisfied before any property transfer or refinancingRedemption Period: Property owner has 2 years to redeem before certificate holder can apply for tax deedTax certificates represent a superior lien position, taking priority over most mortgages and other liens except federal tax liens.",
+          "Tax Certificate Details2 tax certificates creating liens on this property",
+          "Tax Certificate Details",
+          "CAPITAL ONE, NATIONAL ASSOCIATIONActiveType: CorporationDocument: F96000004500View Sunbiz Profile",
+          "5T WEALTH PARTNERS LPSarah T. Williams - General PartnerView Entity Profile",
+          "CAPITAL ONE, NATIONAL ASSOCIATIONActiveType: CorporationDocument: F96000004500View Sunbiz Profile",
+          "TLGFY, LLCThomas L. Garcia - Managing MemberView Entity Profile",
+          "5T WEALTH PARTNERS LPSarah T. Williams - General PartnerView Entity Profile",
+          "Assessment Valuation BreakdownComponent analysis of property tax assessmentLand Value$145,000Underlying real estateBuilding Value$435,000Structure & improvementsExtra Features$0Pools, garages, etc.Market Value$580,000Total assessmentTax Assessment AnalysisEffective Tax Rate1.64%Monthly Tax Cost$792Assessment StatusInvestment Property",
+          "Assessment Valuation BreakdownComponent analysis of property tax assessment",
+          "Assessment Valuation Breakdown"
+        ]
+      },
+      "screenshot": "property_tab_property_tax_info_2025-09-09T17-44-05-368Z.png"
+    },
+    "permit": {
+      "displayName": "Permit",
+      "data": {
+        "general": {
+          "naValues": [
+            "N/A",
+            "N/A"
+          ]
+        },
+        "cards": [
+          "Market Value$580,000",
+          "Last SaleN/A",
+          "Property Type001Built 2003",
+          "Living Area3,285 sqft5 bed • 3.5 bath",
+          "Building Permits SummaryComprehensive permit history and current status for this property2Total Permits1Active Permits$83,500Total Project Value$2,850Total Fees",
+          "Kitchen and Bath Renovation (Demo)DEMO-2025-BP-001CompletedSite InformationJob Value$75,000Square Footage3,285 sq ftApplication TypeBuilding AlterationPermit InformationApplication Date1/4/2024Permit Date1/14/2024CO/CC Date6/19/2024Fees & PaymentsTotal Fees$2,500Payments$2,500Balance$0Applicant InformationINVITATION HOMESP O BOX 650449, DALLAS, TX 75265(954) 555-DEMOContractor InformationDemo Contractor LLC123 Demo Street, Fort Lauderdale, FL(954) 555-CONTLicense: CGC-DEMO-123General ContractorContractor Performance100Total Permits5Active95Passed5Failed95%Pass RateSub-Permits (2)DEMO-EL-001- Electrical($300)CompletedDEMO-PL-001- Plumbing($250)CompletedInspection History (2)Foundation- 1/19/2023by Demo InspectorPassedFinal- 6/17/2023by Demo InspectorPassedDescriptionThis is demonstration data. Real permit data will appear when available from Hollywood Accela, Broward BCS, or ENVIROS systems.",
+          "AC System Replacement (Demo)DEMO-2025-HVAC-002ActiveSite InformationJob Value$8,500Square FootageN/AApplication TypeHVACPermit InformationApplication Date9/30/2025Permit Date10/4/2025CO/CC DatePendingFees & PaymentsTotal Fees$350Payments$350Balance$0Applicant InformationINVITATION HOMESContractor InformationDemo HVAC ServicesLicense: CAC-DEMO-456HVAC ContractorInspection History (1)Rough- 10/9/2024by Demo InspectorScheduledDescriptionDemo permit showing HVAC replacement"
+        ]
+      },
+      "screenshot": "property_tab_permit_2025-09-09T17-44-05-368Z.png"
+    },
+    "foreclosure": {
+      "displayName": "Foreclosure",
+      "data": {
+        "general": {
+          "naValues": [
+            "N/A"
+          ]
+        },
+        "cards": [
+          "Market Value$580,000",
+          "Last SaleN/A",
+          "Property Type001Built 2003",
+          "Living Area3,285 sqft5 bed • 3.5 bath",
+          "Foreclosure History & StatusNo foreclosure history found for this property",
+          "No Foreclosure HistoryThis property has no recorded foreclosure proceedings",
+          "Understanding Foreclosure StatusLis Pendens: Initial foreclosure filing, legal notice of pending lawsuitFinal Judgment: Court ruling in favor of lender, sets sale dateAuction Sale: Public sale to highest bidder at courthouseREO: Real Estate Owned - property owned by lender after unsuccessful auction"
+        ]
+      },
+      "screenshot": "property_tab_foreclosure_2025-09-09T17-44-05-368Z.png"
+    },
+    "sales_tax_deed": {
+      "displayName": "Sales Tax Deed",
+      "data": {
+        "general": {
+          "naValues": [
+            "N/A"
+          ]
+        },
+        "cards": [
+          "Market Value$580,000",
+          "Last SaleN/A",
+          "Property Type001Built 2003",
+          "Living Area3,285 sqft5 bed • 3.5 bath",
+          "Tax Deed Auctions OverviewComprehensive auction history and bidding activity for tax deed sales2Upcoming Auctions1Past Auctions1Active Items0Items Sold",
+          "Broward County Tax Deed Sale - January 20251/14/2025•10:00 AMUpcomingAuction DetailsDate1/14/2025Total Items245 properties available for saleTypeOnlinePlatformDeedAuction.netItemsAdvertised46Canceled30Available for Sale16Bidding starts at: 1/14/2025 9:00 AM EDTRegistration required by TBDRegistration InformationDeposit Required$5,000Days Until Auction-237View Auction Platform",
+          "Broward County Tax Deed Sale - March 20253/19/2025•10:00 AMUpcomingAuction DetailsDate3/19/2025Total Items198 properties available for saleTypeOnlinePlatformDeedAuction.netItemsAdvertised46Canceled30Available for Sale16Bidding starts at: 3/19/2025 9:00 AM EDTRegistration required by TBDRegistration InformationDeposit Required$5,000Days Until Auction-173View Auction Platform"
+        ]
+      },
+      "screenshot": "property_tab_sales_tax_deed_2025-09-09T17-44-05-368Z.png"
+    }
+  },
+  "consoleErrors": [
+    {
+      "text": "Failed to load resource: the server responded with a status of 400 ()",
+      "location": {
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&officers=ilike.%25HOMES+INVITATION%25&limit=5",
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 400 ()",
+      "location": {
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&officers=ilike.%25INVITATION+HOMES%25&limit=5",
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 400 ()",
+      "location": {
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&or=%28principal_address.ilike.%2512681+NW+78+MNR%25%2Cmailing_address.ilike.%2512681+NW+78+MNR%25%29&limit=5",
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 400 ()",
+      "location": {
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&officers=ilike.%25HOMES+INVITATION%25&limit=5",
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 400 ()",
+      "location": {
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&officers=ilike.%25INVITATION+HOMES%25&limit=5",
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 400 ()",
+      "location": {
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&or=%28principal_address.ilike.%2512681+NW+78+MNR%25%2Cmailing_address.ilike.%2512681+NW+78+MNR%25%29&limit=5",
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "location": {
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_officers?select=doc_number&officer_name=eq.INVITATION+HOMES",
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "location": {
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_officers?select=doc_number&officer_name=eq.INVITATION+HOMES",
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 400 ()",
+      "location": {
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/florida_permits?select=*&or=%28parcel_id.eq.474131031040%2Cproperty_address.ilike.%2512681+NW+78+MNR%25%29&order=issue_date.desc",
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 400 ()",
+      "location": {
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/florida_permits?select=*&or=%28parcel_id.eq.474131031040%2Cproperty_address.ilike.%2512681+NW+78+MNR%25%29&order=issue_date.desc",
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "location": {
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/broward_permits?select=*&or=%28parcel_id.eq.474131031040%2Cproperty_address.ilike.%2512681+NW+78+MNR%25%29&order=issue_date.desc",
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "location": {
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/broward_permits?select=*&or=%28parcel_id.eq.474131031040%2Cproperty_address.ilike.%2512681+NW+78+MNR%25%29&order=issue_date.desc",
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "location": {
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/foreclosure_cases?select=*&parcel_id=eq.474131031040&order=filing_date.desc",
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    },
+    {
+      "text": "Error fetching foreclosures: {code: PGRST205, details: null, hint: Perhaps you meant the table 'public.recent_sales', message: Could not find the table 'public.foreclosure_cases' in the schema cache}",
+      "location": {
+        "url": "http://localhost:5174/src/components/property/tabs/ForeclosureTab.tsx",
+        "lineNumber": 75,
+        "columnNumber": 24
+      }
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "location": {
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/foreclosure_cases?select=*&parcel_id=eq.474131031040&order=filing_date.desc",
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    },
+    {
+      "text": "Error fetching foreclosures: {code: PGRST205, details: null, hint: Perhaps you meant the table 'public.recent_sales', message: Could not find the table 'public.foreclosure_cases' in the schema cache}",
+      "location": {
+        "url": "http://localhost:5174/src/components/property/tabs/ForeclosureTab.tsx",
+        "lineNumber": 75,
+        "columnNumber": 24
+      }
+    }
+  ],
+  "networkErrors": [
+    {
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&officers=ilike.%25HOMES+INVITATION%25&limit=5",
+      "status": 400,
+      "statusText": ""
+    },
+    {
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&officers=ilike.%25INVITATION+HOMES%25&limit=5",
+      "status": 400,
+      "statusText": ""
+    },
+    {
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&or=%28principal_address.ilike.%2512681+NW+78+MNR%25%2Cmailing_address.ilike.%2512681+NW+78+MNR%25%29&limit=5",
+      "status": 400,
+      "statusText": ""
+    },
+    {
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&officers=ilike.%25HOMES+INVITATION%25&limit=5",
+      "status": 400,
+      "statusText": ""
+    },
+    {
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&officers=ilike.%25INVITATION+HOMES%25&limit=5",
+      "status": 400,
+      "statusText": ""
+    },
+    {
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&or=%28principal_address.ilike.%2512681+NW+78+MNR%25%2Cmailing_address.ilike.%2512681+NW+78+MNR%25%29&limit=5",
+      "status": 400,
+      "statusText": ""
+    },
+    {
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_officers?select=doc_number&officer_name=eq.INVITATION+HOMES",
+      "status": 404,
+      "statusText": ""
+    },
+    {
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_officers?select=doc_number&officer_name=eq.INVITATION+HOMES",
+      "status": 404,
+      "statusText": ""
+    },
+    {
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/florida_permits?select=*&or=%28parcel_id.eq.474131031040%2Cproperty_address.ilike.%2512681+NW+78+MNR%25%29&order=issue_date.desc",
+      "status": 400,
+      "statusText": ""
+    },
+    {
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/florida_permits?select=*&or=%28parcel_id.eq.474131031040%2Cproperty_address.ilike.%2512681+NW+78+MNR%25%29&order=issue_date.desc",
+      "status": 400,
+      "statusText": ""
+    },
+    {
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/broward_permits?select=*&or=%28parcel_id.eq.474131031040%2Cproperty_address.ilike.%2512681+NW+78+MNR%25%29&order=issue_date.desc",
+      "status": 404,
+      "statusText": ""
+    },
+    {
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/broward_permits?select=*&or=%28parcel_id.eq.474131031040%2Cproperty_address.ilike.%2512681+NW+78+MNR%25%29&order=issue_date.desc",
+      "status": 404,
+      "statusText": ""
+    },
+    {
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/foreclosure_cases?select=*&parcel_id=eq.474131031040&order=filing_date.desc",
+      "status": 404,
+      "statusText": ""
+    },
+    {
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/foreclosure_cases?select=*&parcel_id=eq.474131031040&order=filing_date.desc",
+      "status": 404,
+      "statusText": ""
+    }
+  ],
+  "dataComparison": {},
+  "error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[role=\"tablist\"] [role=\"tab\"]').nth(7)\u001b[22m\n\u001b[2m    - locator resolved to <button role=\"tab\" type=\"button\" tabindex=\"-1\" aria-selected=\"false\" data-state=\"inactive\" data-orientation=\"horizontal\" data-radix-collection-item=\"\" id=\"radix-:r1:-trigger-taxlien\" aria-controls=\"radix-:r1:-content-taxlien\" class=\"inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disab…>Tax Lien</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div role=\"alert\" class=\"relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground text-foreground border-blue-200 bg-blue-50\">…</div> from <div tabindex=\"0\" role=\"tabpanel\" data-state=\"active\" data-orientation=\"horizontal\" id=\"radix-:r1:-content-salestaxdeed\" aria-labelledby=\"radix-:r1:-trigger-salestaxdeed\" class=\"ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 mt-0\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m    - waiting 20ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\u001b[2m    - <div role=\"alert\" class=\"relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground text-foreground border-blue-200 bg-blue-50\">…</div> from <div tabindex=\"0\" role=\"tabpanel\" data-state=\"active\" data-orientation=\"horizontal\" id=\"radix-:r1:-content-salestaxdeed\" aria-labelledby=\"radix-:r1:-trigger-salestaxdeed\" class=\"ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 mt-0\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 100ms\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is not stable\u001b[22m\n\u001b[2m  - retrying click action\u001b[22m\n\u001b[2m    - waiting 100ms\u001b[22m\n\u001b[2m    4 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div role=\"alert\" class=\"relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground text-foreground border-blue-200 bg-blue-50\">…</div> from <div tabindex=\"0\" role=\"tabpanel\" data-state=\"active\" data-orientation=\"horizontal\" id=\"radix-:r1:-content-salestaxdeed\" aria-labelledby=\"radix-:r1:-trigger-salestaxdeed\" class=\"ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 mt-0\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n\u001b[2m    13 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <div class=\"flex items-center justify-between\">…</div> from <header class=\"sticky top-0 z-30 shadow-lg\">…</header> subtree intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <div class=\"flex items-center justify-between\">…</div> from <header class=\"sticky top-0 z-30 shadow-lg\">…</header> subtree intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <div role=\"alert\" class=\"relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground text-foreground border-blue-200 bg-blue-50\">…</div> from <div tabindex=\"0\" role=\"tabpanel\" data-state=\"active\" data-orientation=\"horizontal\" id=\"radix-:r1:-content-salestaxdeed\" aria-labelledby=\"radix-:r1:-trigger-salestaxdeed\" class=\"ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 mt-0\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m       - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m       - element is visible, enabled and stable\u001b[22m\n\u001b[2m       - scrolling into view if needed\u001b[22m\n\u001b[2m       - done scrolling\u001b[22m\n\u001b[2m       - <div role=\"alert\" class=\"relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground text-foreground border-blue-200 bg-blue-50\">…</div> from <div tabindex=\"0\" role=\"tabpanel\" data-state=\"active\" data-orientation=\"horizontal\" id=\"radix-:r1:-content-salestaxdeed\" aria-labelledby=\"radix-:r1:-trigger-salestaxdeed\" class=\"ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 mt-0\">…</div> subtree intercepts pointer events\u001b[22m\n\u001b[2m     - retrying click action\u001b[22m\n\u001b[2m       - waiting 500ms\u001b[22m\n\u001b[2m    2 × waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m      - element is visible, enabled and stable\u001b[22m\n\u001b[2m      - scrolling into view if needed\u001b[22m\n\u001b[2m      - done scrolling\u001b[22m\n\u001b[2m      - <div class=\"flex items-center justify-between\">…</div> from <header class=\"sticky top-0 z-30 shadow-lg\">…</header> subtree intercepts pointer events\u001b[22m\n\u001b[2m    - retrying click action\u001b[22m\n\u001b[2m      - waiting 500ms\u001b[22m\n"
+}

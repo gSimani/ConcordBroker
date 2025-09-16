@@ -1,0 +1,108 @@
+{
+  "name": "ConcordBroker Claude Code Configuration",
+  "version": "1.0.0",
+  "autoStart": {
+    "enabled": true,
+    "mcpServer": true,
+    "services": [
+      "vercel",
+      "railway",
+      "supabase",
+      "huggingface",
+      "openai",
+      "github"
+    ]
+  },
+  "mcpServer": {
+    "autoConnect": true,
+    "port": 3001,
+    "healthCheckInterval": 30000,
+    "startupTimeout": 30000,
+    "retryAttempts": 10,
+    "retryDelay": 2000
+  },
+  "services": {
+    "vercel": {
+      "enabled": true,
+      "projectId": "prj_l6jgk7483iwPCcaYarq7sMgt2m7L",
+      "autoConnect": true
+    },
+    "railway": {
+      "enabled": true,
+      "projectId": "05f5fbf4-f31c-4bdb-9022-3e987dd80fdb",
+      "environment": "concordbrokerproduction",
+      "autoConnect": true
+    },
+    "supabase": {
+      "enabled": true,
+      "projectId": "pmispwtdngkcmsrsjwbp",
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co",
+      "autoConnect": true
+    },
+    "huggingface": {
+      "enabled": true,
+      "organization": "Concord Broker",
+      "models": {
+        "primary": "gpt2",
+        "secondary": "google/gemma-2b"
+      },
+      "autoConnect": true
+    },
+    "openai": {
+      "enabled": true,
+      "model": "gpt-4",
+      "purpose": "Agent Lion dynamic generation",
+      "autoConnect": true
+    },
+    "github": {
+      "enabled": true,
+      "repository": "gSimani/ConcordBroker",
+      "branch": "main",
+      "autoConnect": true
+    },
+    "sentry": {
+      "enabled": false,
+      "autoConnect": false
+    },
+    "cloudflare": {
+      "enabled": false,
+      "autoConnect": false
+    },
+    "firecrawl": {
+      "enabled": false,
+      "autoConnect": false
+    },
+    "playwright": {
+      "enabled": true,
+      "autoConnect": false
+    },
+    "memvid": {
+      "enabled": false,
+      "autoConnect": false
+    }
+  },
+  "hooks": {
+    "onSessionStart": [
+      "node claude-code-init.js"
+    ],
+    "onSessionEnd": [
+      "node mcp-server/cleanup.js"
+    ],
+    "onError": [
+      "node mcp-server/error-handler.js"
+    ]
+  },
+  "environment": {
+    "default": "development",
+    "autoDetect": true
+  },
+  "logging": {
+    "enabled": true,
+    "level": "info",
+    "file": "mcp-server/claude-init.log"
+  },
+  "security": {
+    "requireApiKey": true,
+    "apiKeyHeader": "x-api-key"
+  }
+}

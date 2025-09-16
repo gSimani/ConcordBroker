@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Property Profile Data</title>
+</head>
+<body>
+    <h1>Testing Property Profile Data for 12681 NW 78 MNR</h1>
+    <div id="results"></div>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+        const supabaseUrl = 'https://jyvuomdvgqrkwncxhudg.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5dnVvbWR2Z3Fya3duY3hodWRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQ2NzgxNTIsImV4cCI6MjA1MDI1NDE1Mn0.dAaITNfqtvLobVsZwllXLKNFHKe1LgqJXmwhLzLd2WI';
+        
+        const supabase = createClient(supabaseUrl, supabaseKey);
+        const resultsDiv = document.getElementById('results');
+
+        async function testPropertyData() {
+            resultsDiv.innerHTML = '<h2>Fetching data...</h2>';
+            
+            try {
+                // Test 1: Direct parcel lookup
+                const { data: parcelData, error: parcelError } = await supabase
+                    .from('florida_parcels')
+                    .select('*')
+                    .eq('parcel_id', '474131031040')
+                    .single();
+
+                if (parcelError) {
+                    resultsDiv.innerHTML += `<p style="color: red;">Error fetching parcel: ${parcelError.message}</p>`;
+                } else {
+                    resultsDiv.innerHTML += `
+                        <h3>✅ Florida Parcels Data Found:</h3>
+                        <ul>
+                            <li><strong>Address:</strong> ${parcelData.phy_addr1}, ${parcelData.phy_city}, FL ${parcelData.phy_zipcd}</li>
+                            <li><strong>Owner:</strong> ${parcelData.owner_name}</li>
+                            <li><strong>Just Value:</strong> $${parcelData.just_value?.toLocaleString() || 'N/A'}</li>
+                            <li><strong>Taxable Value:</strong> $${parcelData.taxable_value?.toLocaleString() || 'N/A'}</li>
+                            <li><strong>Year Built:</strong> ${parcelData.year_built || 'N/A'}</li>
+                            <li><strong>Living Area:</strong> ${parcelData.total_living_area || 'N/A'} sqft</li>
+                            <li><strong>Bedrooms:</strong> ${parcelData.bedrooms || 'N/A'}</li>
+                            <li><strong>Bathrooms:</strong> ${parcelData.bathrooms || 'N/A'}</li>
+                            <li><strong>Property Use:</strong> ${parcelData.property_use || 'N/A'}</li>
+                        </ul>
+                    `;
+                }
+
+                // Test 2: Sales History
+                const { data: salesData, error: salesError } = await supabase
+                    .from('property_sales_history')
+                    .select('*')
+                    .eq('parcel_id', '474131031040')
+                    .order('sale_date', { ascending: false });
+
+                if (salesError) {
+                    resultsDiv.innerHTML += `<p style="color: red;">Error fetching sales: ${salesError.message}</p>`;
+                } else if (salesData && salesData.length > 0) {
+                    resultsDiv.innerHTML += `
+                        <h3>✅ Sales History Found (${salesData.length} records):</h3>
+                        <ul>
+                    `;
+                    salesData.forEach(sale => {
+                        resultsDiv.innerHTML += `
+                            <li>${sale.sale_date}: $${sale.sale_price?.toLocaleString() || 'N/A'}</li>
+                        `;
+                    });
+                    resultsDiv.innerHTML += '</ul>';
+                } else {
+                    resultsDiv.innerHTML += '<p>No sales history found</p>';
+                }
+
+                // Test 3: Check by address search
+                const { data: addressData, error: addressError } = await supabase
+                    .from('florida_parcels')
+                    .select('*')
+                    .ilike('phy_addr1', '%12681 NW 78%')
+                    .limit(5);
+
+                if (!addressError && addressData && addressData.length > 0) {
+                    resultsDiv.innerHTML += `
+                        <h3>✅ Found by Address Search (${addressData.length} results):</h3>
+                        <ul>
+                    `;
+                    addressData.forEach(prop => {
+                        resultsDiv.innerHTML += `
+                            <li>${prop.parcel_id}: ${prop.phy_addr1}</li>
+                        `;
+                    });
+                    resultsDiv.innerHTML += '</ul>';
+                }
+
+                // Show the URL format needed
+                resultsDiv.innerHTML += `
+                    <h3>📌 Property Profile URLs:</h3>
+                    <ul>
+                        <li><a href="http://localhost:5174/properties/parkland/12681-nw-78-mnr" target="_blank">
+                            By Address: /properties/parkland/12681-nw-78-mnr
+                        </a></li>
+                        <li><a href="http://localhost:5174/property/474131031040" target="_blank">
+                            By Parcel ID: /property/474131031040
+                        </a></li>
+                    </ul>
+                `;
+
+            } catch (error) {
+                resultsDiv.innerHTML += `<p style="color: red;">Unexpected error: ${error.message}</p>`;
+            }
+        }
+
+        testPropertyData();
+    </script>
+</body>
+</html>

@@ -1,0 +1,693 @@
+{
+  "website_structure": {
+    "pages": {
+      "home": {
+        "title": "ConcordBroker - Real Estate Investment Platform",
+        "navigation": [
+          {
+            "text": "Dashboard",
+            "href": "/dashboard"
+          },
+          {
+            "text": "Properties",
+            "href": "/properties"
+          },
+          {
+            "text": "Analytics",
+            "href": "/analytics"
+          }
+        ],
+        "components": []
+      },
+      "properties": {
+        "search_filters": {
+          "price_range": {
+            "has_min": false,
+            "has_max": false
+          },
+          "has_property_type_filter": false
+        },
+        "property_cards": {
+          "count": 0,
+          "data_fields": []
+        },
+        "pagination": false
+      },
+      "tax_deed_sales": {
+        "filters": {
+          "statuses": [],
+          "has_date_filter": false
+        },
+        "auction_data": {
+          "count": 0,
+          "has_bid_info": false,
+          "has_countdown": false
+        }
+      }
+    },
+    "components": {},
+    "data_flow": {
+      "florida_parcels": {
+        "Overview Tab": [
+          "parcel_id",
+          "phy_addr1",
+          "phy_city",
+          "phy_zipcode",
+          "owner_name",
+          "just_value",
+          "taxable_value",
+          "land_value",
+          "sale_price",
+          "sale_date",
+          "property_type"
+        ],
+        "Valuation Tab": [
+          "just_value",
+          "assessed_value",
+          "taxable_value",
+          "land_value",
+          "building_value",
+          "year_built",
+          "building_sqft"
+        ],
+        "Building Tab": [
+          "year_built",
+          "bedrooms",
+          "bathrooms",
+          "stories",
+          "building_sqft",
+          "total_sqft"
+        ],
+        "Land Tab": [
+          "land_sqft",
+          "lot_size",
+          "zoning",
+          "subdivision"
+        ],
+        "Owner Tab": [
+          "owner_name",
+          "owner_addr1",
+          "owner_city",
+          "owner_state"
+        ],
+        "Property Search": [
+          "parcel_id",
+          "phy_addr1",
+          "owner_name",
+          "just_value",
+          "property_type",
+          "year_built",
+          "building_sqft"
+        ]
+      },
+      "tax_deeds": {
+        "Tax Deed Sales Tab": [
+          "certificate_number",
+          "auction_date",
+          "auction_status",
+          "minimum_bid",
+          "winning_bid",
+          "bidder_number"
+        ],
+        "Tax Deed List Page": [
+          "auction_date",
+          "parcel_id",
+          "minimum_bid",
+          "auction_status"
+        ]
+      },
+      "sales_history": {
+        "Sales History Tab": [
+          "sale_date",
+          "sale_price",
+          "grantor",
+          "grantee",
+          "deed_type",
+          "qualified_sale"
+        ],
+        "Overview Tab": [
+          "sale_date",
+          "sale_price"
+        ]
+      },
+      "building_permits": {
+        "Permit Tab": [
+          "permit_number",
+          "permit_type",
+          "issue_date",
+          "contractor_name",
+          "estimated_value",
+          "work_description"
+        ]
+      },
+      "sunbiz_entities": {
+        "Sunbiz Info Tab": [
+          "entity_name",
+          "entity_type",
+          "filing_date",
+          "status",
+          "officers",
+          "registered_agent_name"
+        ]
+      },
+      "market_analysis": {
+        "Analysis Tab": [
+          "estimated_rent",
+          "rental_yield",
+          "cap_rate",
+          "price_per_sqft",
+          "investment_score"
+        ]
+      }
+    },
+    "api_endpoints": [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;200;300;400;500;600;700&display=swap",
+        "method": "GET",
+        "headers": {
+          "sec-ch-ua": "\"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+          "referer": "http://localhost:5173/",
+          "sec-ch-ua-mobile": "?0",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+          "sec-ch-ua-platform": "\"Windows\""
+        }
+      },
+      {
+        "url": "https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;200;300;400;500;600;700&display=swap",
+        "method": "GET",
+        "headers": {
+          "sec-ch-ua": "\"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+          "referer": "http://localhost:5173/",
+          "sec-ch-ua-mobile": "?0",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+          "sec-ch-ua-platform": "\"Windows\""
+        }
+      },
+      {
+        "url": "http://localhost:5173/src/lib/supabase.ts",
+        "method": "GET",
+        "headers": {
+          "sec-ch-ua": "\"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+          "referer": "http://localhost:5173/src/components/property/tabs/TaxDeedSalesTab.tsx",
+          "origin": "http://localhost:5173",
+          "sec-ch-ua-mobile": "?0",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+          "sec-ch-ua-platform": "\"Windows\""
+        }
+      },
+      {
+        "url": "http://localhost:5173/node_modules/.vite/deps/@supabase_supabase-js.js?v=036e6192",
+        "method": "GET",
+        "headers": {
+          "sec-ch-ua": "\"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+          "referer": "http://localhost:5173/src/lib/supabase.ts",
+          "origin": "http://localhost:5173",
+          "sec-ch-ua-mobile": "?0",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+          "sec-ch-ua-platform": "\"Windows\""
+        }
+      },
+      {
+        "url": "http://localhost:8001/api/properties/search?city=Fort+Lauderdale&limit=100&fast=true",
+        "method": "GET",
+        "headers": {
+          "sec-ch-ua": "\"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+          "sec-ch-ua-platform": "\"Windows\"",
+          "referer": "http://localhost:5173/",
+          "sec-ch-ua-mobile": "?0",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+          "content-type": "application/json"
+        }
+      },
+      {
+        "url": "http://localhost:8001/api/properties/search?city=Hollywood&limit=100&fast=true",
+        "method": "GET",
+        "headers": {
+          "sec-ch-ua": "\"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+          "sec-ch-ua-platform": "\"Windows\"",
+          "referer": "http://localhost:5173/",
+          "sec-ch-ua-mobile": "?0",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+          "content-type": "application/json"
+        }
+      },
+      {
+        "url": "http://localhost:8001/api/properties/search?city=Pompano+Beach&limit=100&fast=true",
+        "method": "GET",
+        "headers": {
+          "sec-ch-ua": "\"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+          "sec-ch-ua-platform": "\"Windows\"",
+          "referer": "http://localhost:5173/",
+          "sec-ch-ua-mobile": "?0",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+          "content-type": "application/json"
+        }
+      },
+      {
+        "url": "http://localhost:8001/api/properties/search?propertyType=Residential&limit=100&fast=true",
+        "method": "GET",
+        "headers": {
+          "sec-ch-ua": "\"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+          "sec-ch-ua-platform": "\"Windows\"",
+          "referer": "http://localhost:5173/",
+          "sec-ch-ua-mobile": "?0",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+          "content-type": "application/json"
+        }
+      },
+      {
+        "url": "http://localhost:8001/api/properties/search?propertyType=Commercial&limit=100&fast=true",
+        "method": "GET",
+        "headers": {
+          "sec-ch-ua": "\"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+          "sec-ch-ua-platform": "\"Windows\"",
+          "referer": "http://localhost:5173/",
+          "sec-ch-ua-mobile": "?0",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+          "content-type": "application/json"
+        }
+      },
+      {
+        "url": "http://localhost:8001/api/properties/search?limit=100&offset=0&fast=true",
+        "method": "GET",
+        "headers": {
+          "sec-ch-ua": "\"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+          "sec-ch-ua-platform": "\"Windows\"",
+          "referer": "http://localhost:5173/",
+          "sec-ch-ua-mobile": "?0",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+          "content-type": "application/json"
+        }
+      },
+      {
+        "url": "https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;200;300;400;500;600;700&display=swap",
+        "method": "GET",
+        "headers": {
+          "sec-ch-ua": "\"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+          "referer": "http://localhost:5173/",
+          "sec-ch-ua-mobile": "?0",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+          "sec-ch-ua-platform": "\"Windows\""
+        }
+      },
+      {
+        "url": "http://localhost:5173/src/lib/supabase.ts",
+        "method": "GET",
+        "headers": {
+          "sec-ch-ua": "\"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+          "referer": "http://localhost:5173/src/components/property/tabs/TaxDeedSalesTab.tsx",
+          "origin": "http://localhost:5173",
+          "sec-ch-ua-mobile": "?0",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+          "sec-ch-ua-platform": "\"Windows\""
+        }
+      },
+      {
+        "url": "http://localhost:5173/node_modules/.vite/deps/@supabase_supabase-js.js?v=036e6192",
+        "method": "GET",
+        "headers": {
+          "sec-ch-ua": "\"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+          "referer": "http://localhost:5173/src/lib/supabase.ts",
+          "origin": "http://localhost:5173",
+          "sec-ch-ua-mobile": "?0",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+          "sec-ch-ua-platform": "\"Windows\""
+        }
+      },
+      {
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/tax_deed_bidding_items?select=*&order=created_at.desc&limit=100",
+        "method": "GET",
+        "headers": {
+          "x-client-info": "supabase-js-web/2.57.0",
+          "sec-ch-ua": "\"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+          "sec-ch-ua-mobile": "?0",
+          "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5NTY5NTgsImV4cCI6MjA3MjUzMjk1OH0.YvWR1NkVByTY10Vzpzt4jMtMjBszD_BOCsQDBfG951A",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+          "accept-profile": "public",
+          "referer": "http://localhost:5173/",
+          "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5NTY5NTgsImV4cCI6MjA3MjUzMjk1OH0.YvWR1NkVByTY10Vzpzt4jMtMjBszD_BOCsQDBfG951A",
+          "sec-ch-ua-platform": "\"Windows\""
+        }
+      },
+      {
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/tax_deed_bidding_items?select=*&order=created_at.desc&limit=100",
+        "method": "GET",
+        "headers": {
+          "x-client-info": "supabase-js-web/2.57.0",
+          "sec-ch-ua": "\"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+          "sec-ch-ua-mobile": "?0",
+          "authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5NTY5NTgsImV4cCI6MjA3MjUzMjk1OH0.YvWR1NkVByTY10Vzpzt4jMtMjBszD_BOCsQDBfG951A",
+          "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+          "accept-profile": "public",
+          "referer": "http://localhost:5173/",
+          "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5NTY5NTgsImV4cCI6MjA3MjUzMjk1OH0.YvWR1NkVByTY10Vzpzt4jMtMjBszD_BOCsQDBfG951A",
+          "sec-ch-ua-platform": "\"Windows\""
+        }
+      }
+    ],
+    "recommendations": []
+  },
+  "data_flow_mapping": {
+    "florida_parcels": {
+      "Overview Tab": [
+        "parcel_id",
+        "phy_addr1",
+        "phy_city",
+        "phy_zipcode",
+        "owner_name",
+        "just_value",
+        "taxable_value",
+        "land_value",
+        "sale_price",
+        "sale_date",
+        "property_type"
+      ],
+      "Valuation Tab": [
+        "just_value",
+        "assessed_value",
+        "taxable_value",
+        "land_value",
+        "building_value",
+        "year_built",
+        "building_sqft"
+      ],
+      "Building Tab": [
+        "year_built",
+        "bedrooms",
+        "bathrooms",
+        "stories",
+        "building_sqft",
+        "total_sqft"
+      ],
+      "Land Tab": [
+        "land_sqft",
+        "lot_size",
+        "zoning",
+        "subdivision"
+      ],
+      "Owner Tab": [
+        "owner_name",
+        "owner_addr1",
+        "owner_city",
+        "owner_state"
+      ],
+      "Property Search": [
+        "parcel_id",
+        "phy_addr1",
+        "owner_name",
+        "just_value",
+        "property_type",
+        "year_built",
+        "building_sqft"
+      ]
+    },
+    "tax_deeds": {
+      "Tax Deed Sales Tab": [
+        "certificate_number",
+        "auction_date",
+        "auction_status",
+        "minimum_bid",
+        "winning_bid",
+        "bidder_number"
+      ],
+      "Tax Deed List Page": [
+        "auction_date",
+        "parcel_id",
+        "minimum_bid",
+        "auction_status"
+      ]
+    },
+    "sales_history": {
+      "Sales History Tab": [
+        "sale_date",
+        "sale_price",
+        "grantor",
+        "grantee",
+        "deed_type",
+        "qualified_sale"
+      ],
+      "Overview Tab": [
+        "sale_date",
+        "sale_price"
+      ]
+    },
+    "building_permits": {
+      "Permit Tab": [
+        "permit_number",
+        "permit_type",
+        "issue_date",
+        "contractor_name",
+        "estimated_value",
+        "work_description"
+      ]
+    },
+    "sunbiz_entities": {
+      "Sunbiz Info Tab": [
+        "entity_name",
+        "entity_type",
+        "filing_date",
+        "status",
+        "officers",
+        "registered_agent_name"
+      ]
+    },
+    "market_analysis": {
+      "Analysis Tab": [
+        "estimated_rent",
+        "rental_yield",
+        "cap_rate",
+        "price_per_sqft",
+        "investment_score"
+      ]
+    }
+  },
+  "agent_orchestration": {
+    "agents": {
+      "PropertyDataAgent": {
+        "purpose": "Fetch and process property data from florida_parcels",
+        "triggers": [
+          "property_search",
+          "property_detail_view"
+        ],
+        "data_sources": [
+          "florida_parcels",
+          "sales_history"
+        ],
+        "outputs": [
+          "property_cards",
+          "detail_overview"
+        ]
+      },
+      "TaxDeedAgent": {
+        "purpose": "Monitor and process tax deed auctions",
+        "triggers": [
+          "tax_deed_page_load",
+          "auction_filter_change"
+        ],
+        "data_sources": [
+          "tax_deeds",
+          "florida_parcels"
+        ],
+        "outputs": [
+          "auction_listings",
+          "bid_recommendations"
+        ]
+      },
+      "SunbizAgent": {
+        "purpose": "Fetch business entity information",
+        "triggers": [
+          "sunbiz_tab_click",
+          "owner_search"
+        ],
+        "data_sources": [
+          "sunbiz_entities",
+          "property_sunbiz_links"
+        ],
+        "outputs": [
+          "entity_details",
+          "officer_info"
+        ]
+      },
+      "PermitAgent": {
+        "purpose": "Track building permits and construction",
+        "triggers": [
+          "permit_tab_click",
+          "new_permit_check"
+        ],
+        "data_sources": [
+          "building_permits"
+        ],
+        "outputs": [
+          "permit_history",
+          "active_permits"
+        ]
+      },
+      "MarketAnalysisAgent": {
+        "purpose": "Generate investment analysis",
+        "triggers": [
+          "analysis_tab_click",
+          "investment_calculation"
+        ],
+        "data_sources": [
+          "market_analysis",
+          "sales_history",
+          "florida_parcels"
+        ],
+        "outputs": [
+          "roi_analysis",
+          "market_trends"
+        ]
+      },
+      "ImageAnalysisAgent": {
+        "purpose": "Analyze property images using OpenCV",
+        "triggers": [
+          "property_image_upload",
+          "condition_assessment"
+        ],
+        "data_sources": [
+          "property_images"
+        ],
+        "outputs": [
+          "condition_report",
+          "feature_detection"
+        ]
+      },
+      "WebScrapingAgent": {
+        "purpose": "Update data from external sources",
+        "triggers": [
+          "scheduled_update",
+          "manual_refresh"
+        ],
+        "tools": [
+          "playwright_mcp"
+        ],
+        "outputs": [
+          "updated_values",
+          "new_listings"
+        ]
+      }
+    },
+    "workflows": {
+      "property_search": {
+        "steps": [
+          "User enters search criteria",
+          "PropertyDataAgent queries florida_parcels",
+          "Apply filters (county, price, type)",
+          "Return paginated results",
+          "Display property cards"
+        ]
+      },
+      "property_detail_view": {
+        "steps": [
+          "User clicks property card",
+          "PropertyDataAgent fetches full details",
+          "Parallel agent calls:",
+          "  - TaxDeedAgent checks auction status",
+          "  - SunbizAgent matches owner to entities",
+          "  - PermitAgent fetches permits",
+          "  - MarketAnalysisAgent calculates metrics",
+          "Render all tabs with data"
+        ]
+      },
+      "tax_deed_monitoring": {
+        "steps": [
+          "TaxDeedAgent polls for updates",
+          "WebScrapingAgent scrapes auction site",
+          "Update tax_deeds table",
+          "Send notifications for matching criteria",
+          "Update dashboard widgets"
+        ]
+      },
+      "investment_analysis": {
+        "steps": [
+          "MarketAnalysisAgent gathers comparables",
+          "Calculate ROI metrics",
+          "ImageAnalysisAgent assesses property condition",
+          "Generate investment score",
+          "Create recommendation report"
+        ]
+      }
+    },
+    "coordination": {
+      "message_bus": "MCP Server WebSocket",
+      "state_management": "Redux store in frontend",
+      "caching": "Redis for frequently accessed data",
+      "priority_queues": {
+        "high": [
+          "user_interactions",
+          "real_time_updates"
+        ],
+        "medium": [
+          "background_analysis",
+          "data_enrichment"
+        ],
+        "low": [
+          "scheduled_scraping",
+          "batch_updates"
+        ]
+      }
+    }
+  },
+  "recommendations": [
+    {
+      "priority": "HIGH",
+      "title": "Implement Real-time Data Sync Agent",
+      "description": "Create an agent that maintains real-time sync between Supabase and frontend using WebSocket subscriptions",
+      "implementation": [
+        "Use Supabase Realtime for florida_parcels changes",
+        "PropertyDataAgent subscribes to relevant parcel IDs",
+        "Push updates to frontend via MCP WebSocket"
+      ]
+    },
+    {
+      "priority": "HIGH",
+      "title": "Create Intelligent Caching Layer",
+      "description": "Implement smart caching to reduce database queries",
+      "implementation": [
+        "Cache property details for 1 hour",
+        "Cache search results for 15 minutes",
+        "Use Redis with automatic invalidation"
+      ]
+    },
+    {
+      "priority": "HIGH",
+      "title": "Build Tax Deed Alert System",
+      "description": "Proactive monitoring of tax deed opportunities",
+      "implementation": [
+        "TaxDeedAgent runs every 30 minutes",
+        "Check for new auctions matching user criteria",
+        "Send email/SMS alerts for matches"
+      ]
+    },
+    {
+      "priority": "MEDIUM",
+      "title": "Implement Batch Processing for Large Queries",
+      "description": "Use PySpark for analytics on large datasets",
+      "implementation": [
+        "MarketAnalysisAgent uses PySpark for comparables",
+        "Process county-wide analytics in batches",
+        "Store results in market_analysis table"
+      ]
+    },
+    {
+      "priority": "MEDIUM",
+      "title": "Add Predictive Analytics Agent",
+      "description": "ML-based predictions for property values and auction outcomes",
+      "implementation": [
+        "Train model on historical sales_history",
+        "Predict future property values",
+        "Estimate winning bid ranges for auctions"
+      ]
+    },
+    {
+      "priority": "LOW",
+      "title": "Implement Computer Vision for Property Assessment",
+      "description": "Use OpenCV to analyze property images",
+      "implementation": [
+        "ImageAnalysisAgent detects pools, damage, etc.",
+        "Score property condition automatically",
+        "Flag properties needing inspection"
+      ]
+    }
+  ]
+}

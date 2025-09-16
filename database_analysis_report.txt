@@ -1,0 +1,116 @@
+================================================================================
+DATABASE STRUCTURE ANALYSIS REPORT
+================================================================================
+Analysis Date: 2025-09-08T09:01:42.164216
+
+CRITICAL DATA ISSUES
+----------------------------------------
+
+[HIGH] Duplicate Data
+  Description: latest_parcels and florida_parcels contain identical number of records (789,884)
+  Impact: Wasting storage, potential confusion in queries
+  Recommendation: Consolidate into single parcels table or clarify purpose
+
+[MEDIUM] Underutilized Table
+  Description: properties table only has 3 records while parcels have 789,884
+  Impact: Properties table may not be serving its intended purpose
+  Recommendation: Either migrate parcel data to properties or remove properties table
+
+[HIGH] Insufficient Sales Data
+  Description: Only 3 sales records for 789,884 properties
+  Impact: Cannot perform market analysis or show property history
+  Recommendation: Import historical sales data from Florida SDF files
+
+[HIGH] Missing Assessment Data
+  Description: Only 1 assessment record for 789,884 properties
+  Impact: Cannot show tax information or assessed values
+  Recommendation: Import NAV assessment data for all properties
+
+
+RECOMMENDATIONS
+----------------------------------------
+
+[HIGH] Consolidate Parcel Tables
+  Category: Data Consolidation
+    1. Choose either latest_parcels or florida_parcels as primary table
+    2. Create view named "parcels" pointing to chosen table
+    3. Update all application code to use "parcels" view
+    4. Drop duplicate table after verification
+
+[HIGH] Import Missing Sales Data
+  Category: Data Import
+    1. Import Florida SDF sales data into fl_sdf_sales table
+    2. Create proper indexes on parcel_id and sale_date
+    3. Link sales to parcels table
+
+[MEDIUM] Standardize Table Names
+  Category: Table Structure
+    1. Rename property_sales_history to sales_history
+    2. Rename fl_agent_status to agent_status
+    3. Create aliases for backward compatibility
+
+[MEDIUM] Load Sunbiz Business Entity Data
+  Category: Business Data
+    1. Download Sunbiz data files
+    2. Load into sunbiz_corporate and sunbiz_partnerships
+    3. Create relationships with property owners
+
+[LOW] Remove or Populate Empty Tables
+  Category: Cleanup
+    1. Review empty tables purpose
+    2. Either populate with data or remove
+    3. Document table purposes in schema
+
+
+MIGRATION PLAN
+----------------------------------------
+
+Step 1: Backup Current Data
+  Estimated Time: 30 minutes
+  Commands:
+    pg_dump your_database > backup_20250908.sql
+    Export critical tables to CSV as additional backup
+
+Step 2: Consolidate Parcel Tables
+  Estimated Time: 1 hour
+  Commands:
+    CREATE VIEW parcels AS SELECT * FROM latest_parcels;
+    UPDATE application connection strings
+    Test all queries
+
+Step 3: Import Sales History
+  Estimated Time: 2-4 hours
+  Commands:
+    python load_sdf_sales.py --year 2024
+    python load_sdf_sales.py --year 2023
+    CREATE INDEX idx_sales_parcel ON fl_sdf_sales(parcel_id);
+    CREATE INDEX idx_sales_date ON fl_sdf_sales(sale_date);
+
+Step 4: Import Assessment Data
+  Estimated Time: 2 hours
+  Commands:
+    python load_nav_assessments.py
+    CREATE INDEX idx_assess_parcel ON nav_assessments(parcel_id);
+
+Step 5: Load Business Entities
+  Estimated Time: 3-4 hours
+  Commands:
+    python download_sunbiz_data.py
+    python load_sunbiz_data.py
+    python match_entities_to_properties.py
+
+Step 6: Cleanup and Optimize
+  Estimated Time: 1 hour
+  Commands:
+    DROP TABLE florida_parcels;  -- After verification
+    VACUUM ANALYZE;
+    REINDEX DATABASE;
+
+
+TABLE STATUS SUMMARY
+----------------------------------------
+Tables with data: 7
+Empty tables: 10
+Missing tables: 16
+
+================================================================================

@@ -71,7 +71,7 @@ export default function HomePage() {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => navigate('/search')}
+                onClick={() => navigate('/properties')}
                 className="inline-flex items-center px-8 py-4 text-gray-700 bg-white border-2 border-gray-200 rounded-xl font-medium shadow-lg hover:shadow-xl hover:border-gray-300 transition-all"
               >
                 Search Properties

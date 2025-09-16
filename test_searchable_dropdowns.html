@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SearchableSelect Dropdowns Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .test-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .test-step {
+            background: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #d4af37;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .test-button {
+            background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+        .results {
+            background: #f8f9fa;
+            border: 1px solid #ecf0f1;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .success {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .error {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .info {
+            color: #3498db;
+            font-weight: bold;
+        }
+        iframe {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>🔍 SearchableSelect Dropdowns Test</h1>
+            <p>Testing City and County dropdown functionality with search/filter capabilities</p>
+        </div>
+
+        <div class="test-step">
+            <h3>📋 Test Instructions</h3>
+            <p>1. <strong>Open Properties Page</strong>: Click the button below to open the properties page in a new tab</p>
+            <p>2. <strong>Run Automated Tests</strong>: Use the browser console to run automated tests</p>
+            <p>3. <strong>Manual Testing</strong>: Test the dropdowns manually using the steps below</p>
+        </div>
+
+        <div style="text-align: center; margin: 20px 0;">
+            <button class="test-button" onclick="openPropertiesPage()">
+                🌐 Open Properties Page
+            </button>
+            <button class="test-button" onclick="runAutomatedTests()">
+                🤖 Run Automated Tests
+            </button>
+            <button class="test-button" onclick="showManualSteps()">
+                📝 Show Manual Test Steps
+            </button>
+        </div>
+
+        <div id="manual-steps" style="display: none;">
+            <div class="test-step">
+                <h3>🏘️ City Dropdown Tests</h3>
+                <ol>
+                    <li>Click on the "Select City" dropdown</li>
+                    <li>Verify the search input appears</li>
+                    <li>Type "Fort" in the search input</li>
+                    <li>Verify "Fort Lauderdale" appears in filtered results</li>
+                    <li>Click on "Fort Lauderdale" to select it</li>
+                    <li>Verify the dropdown button now shows "Fort Lauderdale"</li>
+                </ol>
+            </div>
+
+            <div class="test-step">
+                <h3>🏢 County Dropdown Tests</h3>
+                <ol>
+                    <li>Click on the "Select County" dropdown</li>
+                    <li>Verify the search input appears</li>
+                    <li>Type "Brow" in the search input</li>
+                    <li>Verify "Broward" appears in filtered results</li>
+                    <li>Click on "Broward" to select it</li>
+                    <li>Verify the dropdown button now shows "Broward"</li>
+                </ol>
+            </div>
+
+            <div class="test-step">
+                <h3>🔍 Search Integration Tests</h3>
+                <ol>
+                    <li>Select a city and county using the dropdowns</li>
+                    <li>Verify the property search results update automatically</li>
+                    <li>Check the results count changes based on filters</li>
+                    <li>Clear selections and verify results return to full dataset</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="results" id="test-results">
+            <div class="info">📝 Test Results will appear here...</div>
+            <br>
+            <div class="info">To run automated tests:</div>
+            <div>1. Open the Properties page (http://localhost:5173/properties)</div>
+            <div>2. Open browser console (F12)</div>
+            <div>3. The tests should run automatically, or run: <code>runTests()</code></div>
+        </div>
+    </div>
+
+    <script>
+        function openPropertiesPage() {
+            const url = 'http://localhost:5173/properties';
+            window.open(url, '_blank');
+
+            // Update results
+            const results = document.getElementById('test-results');
+            results.innerHTML = `
+                <div class="info">🌐 Opening Properties Page...</div>
+                <div>URL: ${url}</div>
+                <div>Status: Opening in new tab</div>
+                <br>
+                <div class="info">Next Steps:</div>
+                <div>1. Navigate to the properties page</div>
+                <div>2. Test the City and County dropdowns manually</div>
+                <div>3. Or open browser console and run automated tests</div>
+            `;
+        }
+
+        function runAutomatedTests() {
+            const results = document.getElementById('test-results');
+            results.innerHTML = `
+                <div class="info">🤖 Automated Test Instructions</div>
+                <br>
+                <div class="success">Step 1:</div>
+                <div>Open Properties page: <a href="http://localhost:5173/properties" target="_blank">http://localhost:5173/properties</a></div>
+                <br>
+                <div class="success">Step 2:</div>
+                <div>Open Browser Console (F12)</div>
+                <br>
+                <div class="success">Step 3:</div>
+                <div>Copy and paste this script into console:</div>
+                <div style="background: #2c3e50; color: white; padding: 10px; margin: 10px 0; border-radius: 4px;">
+                    <code>
+                    // Load and run test script<br>
+                    fetch('/test_searchable_dropdowns.js')<br>
+                    &nbsp;&nbsp;.then(response => response.text())<br>
+                    &nbsp;&nbsp;.then(script => eval(script))<br>
+                    &nbsp;&nbsp;.catch(err => console.error('Failed to load test script:', err));
+                    </code>
+                </div>
+                <br>
+                <div class="success">Alternative:</div>
+                <div>If the page already loaded the test script, just run: <code>runTests()</code></div>
+            `;
+        }
+
+        function showManualSteps() {
+            const manualSteps = document.getElementById('manual-steps');
+            if (manualSteps.style.display === 'none') {
+                manualSteps.style.display = 'block';
+                event.target.textContent = '📝 Hide Manual Test Steps';
+            } else {
+                manualSteps.style.display = 'none';
+                event.target.textContent = '📝 Show Manual Test Steps';
+            }
+        }
+
+        // Auto-update results with current status
+        window.addEventListener('load', function() {
+            const results = document.getElementById('test-results');
+            results.innerHTML = `
+                <div class="success">✅ Test Page Loaded Successfully</div>
+                <br>
+                <div class="info">🎯 Ready to test SearchableSelect dropdowns</div>
+                <br>
+                <div><strong>Current Status:</strong></div>
+                <div>• Test page loaded at: ${new Date().toLocaleTimeString()}</div>
+                <div>• Development server: http://localhost:5173</div>
+                <div>• Properties page: http://localhost:5173/properties</div>
+                <br>
+                <div class="info">Choose a testing method above to get started!</div>
+            `;
+        });
+    </script>
+</body>
+</html>

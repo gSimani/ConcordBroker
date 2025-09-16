@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Diagnose Properties Page Issue</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #1a1a1a; color: #0f0; }
+        .test { margin: 20px 0; padding: 15px; border: 1px solid #0f0; }
+        .pass { color: #0f0; }
+        .fail { color: #f00; }
+        .info { color: #ff0; }
+        pre { background: #000; padding: 10px; overflow-x: auto; }
+        button { background: #0f0; color: #000; padding: 10px 20px; border: none; cursor: pointer; margin: 5px; }
+        button:hover { background: #0a0; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Properties Page Diagnostic Tool</h1>
+    
+    <div id="tests"></div>
+    
+    <div style="margin-top: 30px;">
+        <button onclick="runAllTests()">Run All Tests</button>
+        <button onclick="window.open('http://localhost:5173/properties', '_blank')">Open Properties Page</button>
+        <button onclick="clearResults()">Clear Results</button>
+    </div>
+    
+    <script>
+        const testsDiv = document.getElementById('tests');
+        let testNumber = 0;
+        
+        function log(title, content, status = 'info') {
+            testNumber++;
+            const div = document.createElement('div');
+            div.className = 'test';
+            div.innerHTML = `
+                <h3 class="${status}">Test ${testNumber}: ${title}</h3>
+                <pre>${content}</pre>
+            `;
+            testsDiv.appendChild(div);
+        }
+        
+        function clearResults() {
+            testsDiv.innerHTML = '';
+            testNumber = 0;
+        }
+        
+        async function test1_APIConnection() {
+            try {
+                const response = await fetch('http://localhost:8000/api/properties/search');
+                const data = await response.json();
+                
+                if (data.properties && data.properties.length > 0) {
+                    log('API Connection', `✓ API is working
+Status: ${response.status}
+Properties returned: ${data.properties.length}
+Total in database: ${data.total}
+First property: ${data.properties[0].phy_addr1}, ${data.properties[0].phy_city}`, 'pass');
+                    return true;
+                } else {
+                    log('API Connection', `✗ API returned no properties
+Status: ${response.status}
+Response: ${JSON.stringify(data, null, 2)}`, 'fail');
+                    return false;
+                }
+            } catch (error) {
+                log('API Connection', `✗ Failed to connect to API
+Error: ${error.message}`, 'fail');
+                return false;
+            }
+        }
+        
+        async function test2_CORSHeaders() {
+            try {
+                // Test actual CORS functionality - if we can fetch, CORS is working
+                const response = await fetch('http://localhost:8000/api/properties/search?limit=1');
+                
+                if (response.ok) {
+                    // If the request succeeded, CORS is working
+                    // Note: Browser security prevents reading CORS headers via JS
+                    log('CORS Configuration', `✓ CORS is working correctly
+The browser successfully made a cross-origin request.
+Status: ${response.status}
+Note: CORS headers exist but are not exposed to JavaScript for security.`, 'pass');
+                    return true;
+                } else {
+                    log('CORS Configuration', `⚠ Request completed but returned error
+Status: ${response.status}
+This is likely an API error, not a CORS issue.`, 'info');
+                    return true;
+                }
+            } catch (error) {
+                // Network errors usually mean CORS is blocking the request
+                if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                    log('CORS Configuration', `✗ CORS is blocking requests
+Error: ${error.message}`, 'fail');
+                    return false;
+                } else {
+                    log('CORS Configuration', `⚠ Unexpected error (not CORS)
+Error: ${error.message}`, 'info');
+                    return false;
+                }
+            }
+        }
+        
+        async function test3_DataPipelineSimulation() {
+            try {
+                // Simulate the exact data pipeline pattern from the React app
+                const params = new URLSearchParams({
+                    limit: '50',
+                    fast: 'true'
+                });
+                
+                const url = `http://localhost:8000/api/properties/search?${params}`;
+                const response = await fetch(url, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.properties && Array.isArray(data.properties)) {
+                    log('Data Pipeline Simulation', `✓ Pipeline pattern works
+URL: ${url}
+Properties array: ${data.properties.length} items
+Structure looks correct for React component`, 'pass');
+                    return true;
+                } else {
+                    log('Data Pipeline Simulation', `✗ Data structure issue
+Expected: { properties: [...], total: number }
+Received: ${JSON.stringify(data, null, 2).substring(0, 500)}`, 'fail');
+                    return false;
+                }
+            } catch (error) {
+                log('Data Pipeline Simulation', `✗ Pipeline simulation failed
+Error: ${error.message}`, 'fail');
+                return false;
+            }
+        }
+        
+        async function test4_FrontendConnection() {
+            try {
+                // Check port 5173 (the correct port)
+                const response = await fetch('http://localhost:5173', { mode: 'no-cors' });
+                // no-cors mode always succeeds if server is up, even if CORS blocks it
+                log('Frontend Server', `✓ Frontend is running on port 5173
+React app available at: http://localhost:5173`, 'pass');
+                return true;
+            } catch (error) {
+                // Also try port 5174 in case it's running there
+                try {
+                    const response2 = await fetch('http://localhost:5174', { mode: 'no-cors' });
+                    log('Frontend Server', `✓ Frontend is running on port 5174
+React app available at: http://localhost:5174`, 'pass');
+                    return true;
+                } catch (error2) {
+                    log('Frontend Server', `✗ Cannot connect to frontend
+Make sure 'npm run dev' is running in apps/web/
+Tried ports: 5173 and 5174
+Error: ${error.message}`, 'fail');
+                    return false;
+                }
+            }
+        }
+        
+        async function test5_SpecificPropertyFetch() {
+            try {
+                // Test fetching with specific filter
+                const params = new URLSearchParams({
+                    city: 'HOLLYWOOD',
+                    limit: '5'
+                });
+                
+                const response = await fetch(`http://localhost:8000/api/properties/search?${params}`);
+                const data = await response.json();
+                
+                if (data.properties && data.properties.length > 0) {
+                    const hollywoodProps = data.properties.filter(p => 
+                        p.phy_city && p.phy_city.toUpperCase().includes('HOLLYWOOD')
+                    );
+                    
+                    log('Filtered Property Fetch', `✓ Filter test passed
+Requested: HOLLYWOOD properties
+Returned: ${data.properties.length} properties
+Hollywood matches: ${hollywoodProps.length}`, 'pass');
+                    return true;
+                } else {
+                    log('Filtered Property Fetch', `⚠ No properties returned for filter`, 'info');
+                    return true;
+                }
+            } catch (error) {
+                log('Filtered Property Fetch', `✗ Filter test failed
+Error: ${error.message}`, 'fail');
+                return false;
+            }
+        }
+        
+        async function runAllTests() {
+            clearResults();
+            log('Starting Diagnostics', 'Running comprehensive tests...', 'info');
+            
+            const results = [];
+            results.push(await test1_APIConnection());
+            results.push(await test2_CORSHeaders());
+            results.push(await test3_DataPipelineSimulation());
+            results.push(await test4_FrontendConnection());
+            results.push(await test5_SpecificPropertyFetch());
+            
+            const passed = results.filter(r => r).length;
+            const failed = results.length - passed;
+            
+            log('Test Summary', `Tests Passed: ${passed}/${results.length}
+Tests Failed: ${failed}
+
+${failed > 0 ? 'DIAGNOSIS: ' + getDiagnosis(results) : '✓ All systems operational!'}`, 
+                passed === results.length ? 'pass' : failed > 0 ? 'fail' : 'info');
+        }
+        
+        function getDiagnosis(results) {
+            if (!results[0]) return 'API is not responding. Check if FastAPI server is running (python apps/api/main_simple.py)';
+            if (!results[1]) return 'CORS issue detected. The API may not be allowing frontend requests.';
+            if (!results[2]) return 'Data structure issue. The API response format may not match what the frontend expects.';
+            if (!results[3]) return 'Frontend server issue. Make sure to run "npm run dev" in the apps/web directory.';
+            if (!results[4]) return 'Filtering issue. The API filters may not be working correctly.';
+            return 'Unknown issue. Check browser console on the properties page for errors.';
+        }
+        
+        // Auto-run on load
+        window.addEventListener('load', () => {
+            runAllTests();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+{
+  "watch": [
+    "apps/api/",
+    "apps/workers/",
+    "apps/web/src/",
+    ".env"
+  ],
+  "ext": "py,js,ts,tsx,json,sql",
+  "ignore": [
+    "*.test.js",
+    "*.spec.js",
+    "node_modules/",
+    ".git/",
+    "data/",
+    "*.log",
+    "__pycache__/",
+    "*.pyc",
+    "build/",
+    "dist/",
+    "*.mp4",
+    "ui_screenshots/",
+    "memvid/",
+    "zod/",
+    "nodemon/"
+  ],
+  "exec": "npm run dev",
+  "env": {
+    "NODE_ENV": "development",
+    "DEBUG": "app:*"
+  },
+  "events": {
+    "restart": "echo '🔄 Restarting due to changes...'",
+    "start": "echo '✅ ConcordBroker development server started'",
+    "crash": "echo '❌ Application crashed! Waiting for changes...'"
+  },
+  "delay": "1000",
+  "verbose": false,
+  "colours": true,
+  "signal": "SIGTERM",
+  "restartable": "rs",
+  "execMap": {
+    "py": "python",
+    "ts": "npx tsx"
+  }
+}

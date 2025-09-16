@@ -1,0 +1,25 @@
+{
+  "timestamp": "2025-09-05T12:54:33.764812",
+  "sources": {
+    "revenue_portal": {
+      "file_count": 0,
+      "total_size_mb": 0,
+      "files": []
+    },
+    "sunbiz": {
+      "file_count": 0,
+      "total_size_mb": 0,
+      "files": []
+    },
+    "arcgis": {
+      "file_count": 0,
+      "total_size_mb": 0,
+      "files": []
+    },
+    "bcpa": {
+      "file_count": 0,
+      "total_size_mb": 0,
+      "files": []
+    }
+  }
+}

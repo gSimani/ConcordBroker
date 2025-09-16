@@ -1,0 +1,24 @@
+{
+  "scraping_summary": {
+    "total_properties_scraped": 0,
+    "properties_with_complete_data": 0,
+    "properties_with_addresses": 0,
+    "properties_with_opening_bids": 0,
+    "homestead_properties": 0
+  },
+  "database_summary": {
+    "new_records_inserted": 0,
+    "existing_records_updated": 0,
+    "total_database_operations": 0
+  },
+  "errors": {
+    "total_errors": 0,
+    "error_list": []
+  },
+  "data_quality": {
+    "properties_with_parcel_ids": 0,
+    "properties_with_valid_addresses": 0,
+    "properties_with_appraisal_urls": 0
+  },
+  "timestamp": "2025-09-10T19:20:59.890897"
+}

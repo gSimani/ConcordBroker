@@ -1,0 +1,30 @@
+{
+  "florida_parcels": {
+    "exists": false,
+    "accessible": false,
+    "row_count": 0,
+    "columns": [],
+    "error": "{'message': 'relation \"public.florida_parcels\" does not exist', 'code': '42P01', 'hint': None, 'details': None}"
+  },
+  "nav_assessments": {
+    "exists": false,
+    "accessible": false,
+    "row_count": 0,
+    "columns": [],
+    "error": "{'message': 'relation \"public.nav_assessments\" does not exist', 'code': '42P01', 'hint': None, 'details': None}"
+  },
+  "nap_characteristics": {
+    "exists": false,
+    "accessible": false,
+    "row_count": 0,
+    "columns": [],
+    "error": "{'message': 'relation \"public.nap_characteristics\" does not exist', 'code': '42P01', 'hint': None, 'details': None}"
+  },
+  "sdf_sales": {
+    "exists": false,
+    "accessible": false,
+    "row_count": 0,
+    "columns": [],
+    "error": "{'message': 'relation \"public.sdf_sales\" does not exist', 'code': '42P01', 'hint': None, 'details': None}"
+  }
+}

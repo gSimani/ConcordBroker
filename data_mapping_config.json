@@ -1,0 +1,317 @@
+{
+  "database_tables": {
+    "florida_parcels": {
+      "description": "Main property appraiser data table",
+      "primary_key": "parcel_id",
+      "fields": {
+        "parcel_id": {"type": "string", "required": true},
+        "phy_addr1": {"type": "string", "required": true},
+        "phy_addr2": {"type": "string", "required": false},
+        "phy_city": {"type": "string", "required": true},
+        "phy_state": {"type": "string", "default": "FL"},
+        "phy_zipcd": {"type": "string", "required": true},
+        "owner_name": {"type": "string", "required": true},
+        "owner_addr1": {"type": "string", "required": false},
+        "owner_addr2": {"type": "string", "required": false},
+        "owner_city": {"type": "string", "required": false},
+        "owner_state": {"type": "string", "required": false},
+        "owner_zip": {"type": "string", "required": false},
+        "jv": {"type": "float", "alias": "just_value"},
+        "av_sd": {"type": "float", "alias": "assessed_value"},
+        "tv_sd": {"type": "float", "alias": "taxable_value"},
+        "lnd_val": {"type": "float", "alias": "land_value"},
+        "tot_lvg_area": {"type": "integer", "alias": "living_area"},
+        "lnd_sqfoot": {"type": "integer", "alias": "land_sqft"},
+        "bedroom_cnt": {"type": "integer", "alias": "bedrooms"},
+        "bathroom_cnt": {"type": "float", "alias": "bathrooms"},
+        "act_yr_blt": {"type": "integer", "alias": "year_built"},
+        "eff_yr_blt": {"type": "integer", "alias": "effective_year_built"},
+        "sale_prc1": {"type": "float", "alias": "last_sale_price"},
+        "sale_yr1": {"type": "integer", "alias": "last_sale_year"},
+        "sale_mo1": {"type": "integer", "alias": "last_sale_month"},
+        "qual_cd1": {"type": "string", "alias": "sale_qualification"},
+        "dor_uc": {"type": "string", "alias": "property_use_code"},
+        "no_res_unts": {"type": "integer", "alias": "units", "default": 1},
+        "subdivision": {"type": "string", "required": false},
+        "legal_desc": {"type": "string", "required": false},
+        "millage_rate": {"type": "float", "required": false},
+        "homestead_exemption": {"type": "boolean", "default": false}
+      }
+    },
+    "nav_assessments": {
+      "description": "Non-ad valorem tax assessments",
+      "primary_key": ["parcel_id", "taxing_authority"],
+      "fields": {
+        "parcel_id": {"type": "string", "required": true},
+        "taxing_authority": {"type": "string", "required": true},
+        "millage_rate": {"type": "float", "required": true},
+        "taxable_value": {"type": "float", "required": true},
+        "tax_amount": {"type": "float", "required": true},
+        "assessment_type": {"type": "string", "required": false}
+      }
+    },
+    "sdf_sales": {
+      "description": "Sales history data",
+      "primary_key": ["parcel_id", "sale_date"],
+      "fields": {
+        "parcel_id": {"type": "string", "required": true},
+        "sale_date": {"type": "date", "required": true},
+        "sale_price": {"type": "float", "required": true},
+        "grantor": {"type": "string", "alias": "seller"},
+        "grantee": {"type": "string", "alias": "buyer"},
+        "deed_type": {"type": "string", "required": false},
+        "or_book": {"type": "string", "required": false},
+        "or_page": {"type": "string", "required": false},
+        "sale_qualification": {"type": "string", "required": false}
+      }
+    },
+    "sunbiz_entities": {
+      "description": "Business entity registrations",
+      "primary_key": "document_number",
+      "fields": {
+        "document_number": {"type": "string", "required": true},
+        "entity_name": {"type": "string", "required": true},
+        "status": {"type": "string", "required": true},
+        "filing_date": {"type": "date", "required": false},
+        "entity_type": {"type": "string", "required": false},
+        "principal_address": {"type": "string", "required": false},
+        "mailing_address": {"type": "string", "required": false},
+        "registered_agent": {"type": "string", "required": false}
+      }
+    },
+    "sunbiz_officers": {
+      "description": "Business officers and directors",
+      "primary_key": ["entity_id", "officer_name"],
+      "fields": {
+        "entity_id": {"type": "string", "required": true},
+        "officer_name": {"type": "string", "required": true},
+        "officer_title": {"type": "string", "required": true},
+        "officer_address": {"type": "string", "required": false}
+      }
+    },
+    "tax_deed_sales": {
+      "description": "Tax deed auction data",
+      "primary_key": "certificate_number",
+      "fields": {
+        "parcel_id": {"type": "string", "required": true},
+        "certificate_number": {"type": "string", "required": true},
+        "auction_date": {"type": "date", "required": true},
+        "minimum_bid": {"type": "float", "required": true},
+        "winning_bid": {"type": "float", "required": false},
+        "auction_status": {"type": "string", "required": true},
+        "td_number": {"type": "string", "required": false},
+        "tax_years": {"type": "string", "required": false}
+      }
+    },
+    "tax_certificates": {
+      "description": "Tax certificate data",
+      "primary_key": ["parcel_id", "certificate_year"],
+      "fields": {
+        "parcel_id": {"type": "string", "required": true},
+        "certificate_year": {"type": "integer", "required": true},
+        "certificate_amount": {"type": "float", "required": true},
+        "interest_rate": {"type": "float", "required": false},
+        "redemption_date": {"type": "date", "required": false},
+        "certificate_status": {"type": "string", "required": false}
+      }
+    },
+    "building_permits": {
+      "description": "Building permit records",
+      "primary_key": "permit_number",
+      "fields": {
+        "parcel_id": {"type": "string", "required": true},
+        "permit_number": {"type": "string", "required": true},
+        "permit_type": {"type": "string", "required": true},
+        "issue_date": {"type": "date", "required": true},
+        "status": {"type": "string", "required": true},
+        "contractor": {"type": "string", "required": false},
+        "estimated_value": {"type": "float", "required": false},
+        "description": {"type": "string", "required": false},
+        "completion_date": {"type": "date", "required": false}
+      }
+    }
+  },
+  "ui_pages": {
+    "property_profile": {
+      "tabs": {
+        "overview": {
+          "components": {
+            "PropertyLocation": {
+              "fields": ["street_address", "city", "zip_code", "parcel_id", "property_type"],
+              "source": "florida_parcels"
+            },
+            "ValuationSummary": {
+              "fields": ["just_value", "taxable_value", "land_value", "building_value"],
+              "source": "florida_parcels"
+            },
+            "RecentSale": {
+              "fields": ["sale_price", "sale_date", "deed_type"],
+              "source": "florida_parcels,sdf_sales"
+            }
+          }
+        },
+        "core-property": {
+          "subtabs": {
+            "owner": {
+              "components": {
+                "OwnerSection": {
+                  "fields": ["owner_name", "owner_address", "owner_city", "owner_state", "owner_zip"],
+                  "source": "florida_parcels"
+                }
+              }
+            },
+            "details": {
+              "components": {
+                "PropertyDetails": {
+                  "fields": ["living_area", "land_sqft", "bedrooms", "bathrooms", "year_built", "units"],
+                  "source": "florida_parcels"
+                }
+              }
+            }
+          }
+        },
+        "valuation": {
+          "components": {
+            "CurrentAssessment": {
+              "fields": ["just_value", "assessed_value", "taxable_value", "land_value", "building_value"],
+              "source": "florida_parcels"
+            },
+            "PropertyDetails": {
+              "fields": ["living_area", "year_built", "land_sqft", "units"],
+              "source": "florida_parcels"
+            }
+          }
+        },
+        "taxes": {
+          "subtabs": {
+            "authorities": {
+              "components": {
+                "TaxingAuthorities": {
+                  "fields": ["authority_name", "millage_rate", "taxable_value", "tax_amount"],
+                  "source": "nav_assessments",
+                  "type": "list"
+                }
+              }
+            }
+          }
+        },
+        "sales": {
+          "components": {
+            "SalesHistory": {
+              "fields": ["sale_date", "sale_price", "seller_name", "buyer_name", "deed_type"],
+              "source": "sdf_sales",
+              "type": "list"
+            }
+          }
+        },
+        "sunbiz": {
+          "subtabs": {
+            "entity": {
+              "components": {
+                "EntityInfo": {
+                  "fields": ["business_name", "document_number", "status", "filing_date", "entity_type"],
+                  "source": "sunbiz_entities"
+                }
+              }
+            },
+            "officers": {
+              "components": {
+                "OfficersSection": {
+                  "fields": ["name", "title", "address"],
+                  "source": "sunbiz_officers",
+                  "type": "list"
+                }
+              }
+            }
+          }
+        },
+        "permit": {
+          "components": {
+            "PermitsList": {
+              "fields": ["permit_number", "permit_type", "issue_date", "status", "contractor_name", "estimated_value"],
+              "source": "building_permits",
+              "type": "list"
+            }
+          }
+        },
+        "tax-deed-sales": {
+          "components": {
+            "TaxDeedAuctions": {
+              "fields": ["certificate_number", "auction_date", "minimum_bid", "winning_bid", "status"],
+              "source": "tax_deed_sales",
+              "type": "list"
+            }
+          }
+        },
+        "sales-tax-deed": {
+          "components": {
+            "TaxCertificates": {
+              "fields": ["certificate_year", "certificate_amount", "interest_rate", "redemption_date", "status"],
+              "source": "tax_certificates",
+              "type": "list"
+            }
+          }
+        }
+      }
+    }
+  },
+  "transformations": {
+    "currency": {
+      "description": "Format number as currency",
+      "pattern": "${value:,.2f}"
+    },
+    "date_format": {
+      "description": "Format date consistently",
+      "pattern": "YYYY-MM-DD"
+    },
+    "uppercase": {
+      "description": "Convert to uppercase",
+      "function": "toUpperCase"
+    },
+    "state_abbr": {
+      "description": "Convert state name to abbreviation",
+      "mapping": {
+        "FLORIDA": "FL",
+        "GEORGIA": "GA",
+        "ALABAMA": "AL"
+      }
+    },
+    "property_type_desc": {
+      "description": "Convert property use code to description",
+      "mapping": {
+        "0100": "Single Family",
+        "0101": "Single Family - Pool",
+        "0200": "Multi-Family",
+        "0300": "Condominium",
+        "0400": "Townhouse",
+        "1000": "Commercial",
+        "2000": "Industrial",
+        "5000": "Agricultural",
+        "0000": "Vacant Land"
+      }
+    }
+  },
+  "validation_rules": {
+    "not_empty": {
+      "description": "Field must not be empty",
+      "rule": "value !== null && value !== '' && value !== undefined"
+    },
+    "positive": {
+      "description": "Value must be positive",
+      "rule": "value > 0"
+    },
+    "valid_date": {
+      "description": "Must be a valid date",
+      "rule": "Date.parse(value) !== NaN"
+    },
+    "regex_zip": {
+      "description": "Valid ZIP code format",
+      "pattern": "^\\d{5}(-\\d{4})?$"
+    },
+    "range_year": {
+      "description": "Valid year range",
+      "min": 1800,
+      "max": 2025
+    }
+  }
+}

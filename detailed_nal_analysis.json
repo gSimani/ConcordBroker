@@ -1,0 +1,1426 @@
+{
+  "total_fields": 165,
+  "categories": {
+    "IDENTIFICATION": [
+      "CO_NO",
+      "PARCEL_ID",
+      "FILE_T",
+      "GRP_NO",
+      "PARCEL_ID_PRV_HMSTD"
+    ],
+    "PROPERTY_LOCATION": [
+      "OWN_ADDR1",
+      "OWN_ADDR2",
+      "OWN_CITY",
+      "OWN_ZIPCD",
+      "FIDU_ADDR1",
+      "FIDU_ADDR2",
+      "FIDU_CITY",
+      "FIDU_ZIPCD",
+      "PHY_ADDR1",
+      "PHY_ADDR2",
+      "PHY_CITY",
+      "PHY_ZIPCD"
+    ],
+    "VALUATION_DATA": [
+      "ATV_STRT",
+      "JV",
+      "JV_CHNG",
+      "JV_CHNG_CD",
+      "AV_SD",
+      "AV_NSD",
+      "TV_SD",
+      "TV_NSD",
+      "JV_HMSTD",
+      "AV_HMSTD",
+      "JV_NON_HMSTD_RESD",
+      "AV_NON_HMSTD_RESD",
+      "JV_RESD_NON_RESD",
+      "AV_RESD_NON_RESD",
+      "JV_CLASS_USE",
+      "AV_CLASS_USE",
+      "JV_H2O_RECHRGE",
+      "AV_H2O_RECHRGE",
+      "JV_CONSRV_LND",
+      "AV_CONSRV_LND",
+      "JV_HIST_COM_PROP",
+      "AV_HIST_COM_PROP",
+      "JV_HIST_SIGNF",
+      "AV_HIST_SIGNF",
+      "JV_WRKNG_WTRFNT",
+      "AV_WRKNG_WTRFNT",
+      "NCONST_VAL",
+      "DEL_VAL",
+      "LND_VAL",
+      "SPEC_FEAT_VAL",
+      "YR_VAL_TRNSF"
+    ],
+    "EXEMPTIONS": [
+      "PREV_HMSTD_OWN",
+      "EXMPT_01",
+      "EXMPT_02",
+      "EXMPT_03",
+      "EXMPT_04",
+      "EXMPT_05",
+      "EXMPT_06",
+      "EXMPT_07",
+      "EXMPT_08",
+      "EXMPT_09",
+      "EXMPT_10",
+      "EXMPT_11",
+      "EXMPT_12",
+      "EXMPT_13",
+      "EXMPT_14",
+      "EXMPT_15",
+      "EXMPT_16",
+      "EXMPT_17",
+      "EXMPT_18",
+      "EXMPT_19",
+      "EXMPT_20",
+      "EXMPT_21",
+      "EXMPT_22",
+      "EXMPT_23",
+      "EXMPT_24",
+      "EXMPT_25",
+      "EXMPT_26",
+      "EXMPT_27",
+      "EXMPT_28",
+      "EXMPT_29",
+      "EXMPT_30",
+      "EXMPT_31",
+      "EXMPT_32",
+      "EXMPT_33",
+      "EXMPT_34",
+      "EXMPT_35",
+      "EXMPT_36",
+      "EXMPT_37",
+      "EXMPT_38",
+      "EXMPT_39",
+      "EXMPT_40",
+      "EXMPT_41",
+      "EXMPT_42",
+      "EXMPT_43",
+      "EXMPT_44",
+      "EXMPT_45",
+      "EXMPT_46",
+      "EXMPT_80",
+      "EXMPT_81",
+      "EXMPT_82"
+    ],
+    "OWNERSHIP_INFO": [
+      "OWN_NAME",
+      "OWN_STATE",
+      "OWN_STATE_DOM",
+      "FIDU_NAME",
+      "FIDU_STATE",
+      "FIDU_CD"
+    ],
+    "BUILDING_DETAILS": [
+      "NO_LND_UNTS",
+      "NO_BULDNG",
+      "NO_RES_UNTS",
+      "CONO_PRV_HM"
+    ],
+    "LAND_INFORMATION": [
+      "LND_SQFOOT",
+      "PUBLIC_LND"
+    ],
+    "CODES_CLASSIFICATIONS": [
+      "DOR_UC",
+      "PA_UC",
+      "SPASS_CD",
+      "DISTR_CD",
+      "LND_UNTS_CD",
+      "QUAL_CD1",
+      "VI_CD1",
+      "SAL_CHNG_CD1",
+      "QUAL_CD2",
+      "VI_CD2",
+      "SAL_CHNG_CD2",
+      "NBRHD_CD",
+      "TAX_AUTH_CD",
+      "SPC_CIR_CD"
+    ],
+    "DATES_YEARS": [
+      "ASMNT_YR",
+      "EFF_YR_BLT",
+      "ACT_YR_BLT"
+    ],
+    "GEOGRAPHIC_DATA": [
+      "DISTR_YR",
+      "CENSUS_BK"
+    ],
+    "UNKNOWN": [
+      "BAS_STRT",
+      "PAR_SPLT",
+      "DT_LAST_INSPT",
+      "IMP_QUAL",
+      "CONST_CLASS",
+      "TOT_LVG_AREA",
+      "MULTI_PAR_SAL1",
+      "SALE_PRC1",
+      "SALE_YR1",
+      "SALE_MO1",
+      "OR_BOOK1",
+      "OR_PAGE1",
+      "CLERK_NO1",
+      "MULTI_PAR_SAL2",
+      "SALE_PRC2",
+      "SALE_YR2",
+      "SALE_MO2",
+      "OR_BOOK2",
+      "OR_PAGE2",
+      "CLERK_NO2",
+      "S_LEGAL",
+      "APP_STAT",
+      "CO_APP_STAT",
+      "MKT_AR",
+      "TWN",
+      "RNG",
+      "SEC",
+      "ALT_KEY",
+      "ASS_TRNSFR_FG",
+      "ASS_DIF_TRNS",
+      "SEQ_NO",
+      "RS_ID",
+      "MP_ID",
+      "STATE_PAR_ID",
+      "SPC_CIR_YR",
+      "SPC_CIR_TXT"
+    ]
+  },
+  "field_details": {
+    "CO_NO": {
+      "sample_values": [
+        "16",
+        "16",
+        "16",
+        "16",
+        "16"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "int64"
+    },
+    "PARCEL_ID": {
+      "sample_values": [
+        "473725000000",
+        "473725000010",
+        "473825000000",
+        "473828000010",
+        "473925010010"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "int64"
+    },
+    "FILE_T": {
+      "sample_values": [
+        "R",
+        "R",
+        "R",
+        "R",
+        "R"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "object"
+    },
+    "ASMNT_YR": {
+      "sample_values": [
+        "2025",
+        "2025",
+        "2025",
+        "2025",
+        "2025"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "int64"
+    },
+    "BAS_STRT": {
+      "sample_values": [
+        "10",
+        "10",
+        "10",
+        "10",
+        "10"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "int64"
+    },
+    "ATV_STRT": {
+      "sample_values": [
+        "6.0",
+        "8.0",
+        "8.0",
+        "8.0",
+        "8.0"
+      ],
+      "non_null_percentage": 67.0,
+      "data_type": "float64"
+    },
+    "GRP_NO": {
+      "sample_values": [
+        "2.0",
+        "1.0",
+        "1.0",
+        "1.0",
+        "1.0"
+      ],
+      "non_null_percentage": 67.0,
+      "data_type": "float64"
+    },
+    "DOR_UC": {
+      "sample_values": [
+        "82",
+        "82",
+        "96",
+        "82",
+        "82"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "int64"
+    },
+    "PA_UC": {
+      "sample_values": [
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "int64"
+    },
+    "SPASS_CD": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "JV": {
+      "sample_values": [
+        "382300",
+        "1700",
+        "376470",
+        "2420",
+        "32000"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "int64"
+    },
+    "JV_CHNG": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "JV_CHNG_CD": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "AV_SD": {
+      "sample_values": [
+        "382300",
+        "1700",
+        "376470",
+        "2420",
+        "32000"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "int64"
+    },
+    "AV_NSD": {
+      "sample_values": [
+        "382300",
+        "1700",
+        "376470",
+        "2420",
+        "32000"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "int64"
+    },
+    "TV_SD": {
+      "sample_values": [
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "int64"
+    },
+    "TV_NSD": {
+      "sample_values": [
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "int64"
+    },
+    "JV_HMSTD": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "AV_HMSTD": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "JV_NON_HMSTD_RESD": {
+      "sample_values": [
+        "207690.0",
+        "190770.0",
+        "190770.0",
+        "190770.0",
+        "190770.0"
+      ],
+      "non_null_percentage": 66.0,
+      "data_type": "float64"
+    },
+    "AV_NON_HMSTD_RESD": {
+      "sample_values": [
+        "207690.0",
+        "190770.0",
+        "190770.0",
+        "190770.0",
+        "190770.0"
+      ],
+      "non_null_percentage": 66.0,
+      "data_type": "float64"
+    },
+    "JV_RESD_NON_RESD": {
+      "sample_values": [
+        "382300.0",
+        "1700.0",
+        "376470.0",
+        "2420.0",
+        "32000.0"
+      ],
+      "non_null_percentage": 34.0,
+      "data_type": "float64"
+    },
+    "AV_RESD_NON_RESD": {
+      "sample_values": [
+        "382300.0",
+        "1700.0",
+        "376470.0",
+        "2420.0",
+        "32000.0"
+      ],
+      "non_null_percentage": 34.0,
+      "data_type": "float64"
+    },
+    "JV_CLASS_USE": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "AV_CLASS_USE": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "JV_H2O_RECHRGE": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "AV_H2O_RECHRGE": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "JV_CONSRV_LND": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "AV_CONSRV_LND": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "JV_HIST_COM_PROP": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "AV_HIST_COM_PROP": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "JV_HIST_SIGNF": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "AV_HIST_SIGNF": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "JV_WRKNG_WTRFNT": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "AV_WRKNG_WTRFNT": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "NCONST_VAL": {
+      "sample_values": [
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "int64"
+    },
+    "DEL_VAL": {
+      "sample_values": [
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "int64"
+    },
+    "PAR_SPLT": {
+      "sample_values": [
+        "10425.0",
+        "20425.0",
+        "20425.0",
+        "20425.0",
+        "20425.0"
+      ],
+      "non_null_percentage": 6.0,
+      "data_type": "float64"
+    },
+    "DISTR_CD": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "DISTR_YR": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "LND_VAL": {
+      "sample_values": [
+        "382300",
+        "1700",
+        "376470",
+        "2420",
+        "32000"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "int64"
+    },
+    "LND_UNTS_CD": {
+      "sample_values": [
+        "1",
+        "1",
+        "1",
+        "1",
+        "1"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "int64"
+    },
+    "NO_LND_UNTS": {
+      "sample_values": [
+        "764605",
+        "3395",
+        "752933",
+        "4840",
+        "64000"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "int64"
+    },
+    "LND_SQFOOT": {
+      "sample_values": [
+        "317379589",
+        "1293409",
+        "319865252",
+        "2109360",
+        "27665741"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "int64"
+    },
+    "DT_LAST_INSPT": {
+      "sample_values": [
+        "1220",
+        "1220",
+        "1221",
+        "1220",
+        "819"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "int64"
+    },
+    "IMP_QUAL": {
+      "sample_values": [
+        "3.0",
+        "5.0"
+      ],
+      "non_null_percentage": 2.0,
+      "data_type": "float64"
+    },
+    "CONST_CLASS": {
+      "sample_values": [
+        "5.0",
+        "2.0"
+      ],
+      "non_null_percentage": 2.0,
+      "data_type": "float64"
+    },
+    "EFF_YR_BLT": {
+      "sample_values": [
+        "1971.0",
+        "2022.0"
+      ],
+      "non_null_percentage": 2.0,
+      "data_type": "float64"
+    },
+    "ACT_YR_BLT": {
+      "sample_values": [
+        "1970.0",
+        "2021.0"
+      ],
+      "non_null_percentage": 2.0,
+      "data_type": "float64"
+    },
+    "TOT_LVG_AREA": {
+      "sample_values": [
+        "5086.0"
+      ],
+      "non_null_percentage": 1.0,
+      "data_type": "float64"
+    },
+    "NO_BULDNG": {
+      "sample_values": [
+        "1.0"
+      ],
+      "non_null_percentage": 1.0,
+      "data_type": "float64"
+    },
+    "NO_RES_UNTS": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "SPEC_FEAT_VAL": {
+      "sample_values": [
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "int64"
+    },
+    "MULTI_PAR_SAL1": {
+      "sample_values": [
+        "C",
+        "C",
+        "C",
+        "C",
+        "C"
+      ],
+      "non_null_percentage": 66.0,
+      "data_type": "object"
+    },
+    "QUAL_CD1": {
+      "sample_values": [
+        "5.0",
+        "5.0",
+        "5.0",
+        "5.0",
+        "5.0"
+      ],
+      "non_null_percentage": 66.0,
+      "data_type": "float64"
+    },
+    "VI_CD1": {
+      "sample_values": [
+        "V",
+        "V",
+        "V",
+        "V",
+        "V"
+      ],
+      "non_null_percentage": 66.0,
+      "data_type": "object"
+    },
+    "SALE_PRC1": {
+      "sample_values": [
+        "52500000.0",
+        "52500000.0",
+        "52500000.0",
+        "52500000.0",
+        "52500000.0"
+      ],
+      "non_null_percentage": 66.0,
+      "data_type": "float64"
+    },
+    "SALE_YR1": {
+      "sample_values": [
+        "2024.0",
+        "2024.0",
+        "2024.0",
+        "2024.0",
+        "2024.0"
+      ],
+      "non_null_percentage": 66.0,
+      "data_type": "float64"
+    },
+    "SALE_MO1": {
+      "sample_values": [
+        "9.0",
+        "9.0",
+        "9.0",
+        "9.0",
+        "9.0"
+      ],
+      "non_null_percentage": 66.0,
+      "data_type": "float64"
+    },
+    "OR_BOOK1": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "OR_PAGE1": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "CLERK_NO1": {
+      "sample_values": [
+        "119795010.0",
+        "119795010.0",
+        "119795010.0",
+        "119795010.0",
+        "119795010.0"
+      ],
+      "non_null_percentage": 66.0,
+      "data_type": "float64"
+    },
+    "SAL_CHNG_CD1": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "MULTI_PAR_SAL2": {
+      "sample_values": [
+        "C",
+        "C",
+        "C",
+        "C",
+        "C"
+      ],
+      "non_null_percentage": 66.0,
+      "data_type": "object"
+    },
+    "QUAL_CD2": {
+      "sample_values": [
+        "11.0",
+        "11.0",
+        "11.0",
+        "11.0",
+        "11.0"
+      ],
+      "non_null_percentage": 66.0,
+      "data_type": "float64"
+    },
+    "VI_CD2": {
+      "sample_values": [
+        "V",
+        "V",
+        "V",
+        "V",
+        "V"
+      ],
+      "non_null_percentage": 66.0,
+      "data_type": "object"
+    },
+    "SALE_PRC2": {
+      "sample_values": [
+        "100.0",
+        "100.0",
+        "100.0",
+        "100.0",
+        "100.0"
+      ],
+      "non_null_percentage": 66.0,
+      "data_type": "float64"
+    },
+    "SALE_YR2": {
+      "sample_values": [
+        "2025.0",
+        "2025.0",
+        "2025.0",
+        "2025.0",
+        "2025.0"
+      ],
+      "non_null_percentage": 66.0,
+      "data_type": "float64"
+    },
+    "SALE_MO2": {
+      "sample_values": [
+        "2.0",
+        "2.0",
+        "2.0",
+        "2.0",
+        "2.0"
+      ],
+      "non_null_percentage": 66.0,
+      "data_type": "float64"
+    },
+    "OR_BOOK2": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "OR_PAGE2": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "CLERK_NO2": {
+      "sample_values": [
+        "120039267.0",
+        "120039267.0",
+        "120039267.0",
+        "120039267.0",
+        "120039267.0"
+      ],
+      "non_null_percentage": 66.0,
+      "data_type": "float64"
+    },
+    "SAL_CHNG_CD2": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "OWN_NAME": {
+      "sample_values": [
+        "SOUTH FLORIDA WATER MANAGEMENT",
+        "FLORIDA DEPT OF TRANSPORTATION",
+        "SOUTH FLORIDA WATER MANAGEMENT",
+        "FLORIDA DEPT OF TRANSPORTATION",
+        "SOUTH FLORIDA WATER MANAGEMENT"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "object"
+    },
+    "OWN_ADDR1": {
+      "sample_values": [
+        "PO BOX 24680",
+        "3400 W COMMERCIAL BLVD",
+        "PO BOX 24680",
+        "3400 W COMMERCIAL BLVD",
+        "PO BOX 24680"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "object"
+    },
+    "OWN_ADDR2": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "OWN_CITY": {
+      "sample_values": [
+        "WEST PALM BEACH",
+        "FORT LAUDERDALE",
+        "WEST PALM BEACH",
+        "FORT LAUDERDALE",
+        "WEST PALM BEACH"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "object"
+    },
+    "OWN_STATE": {
+      "sample_values": [
+        "FLORIDA",
+        "FLORIDA",
+        "FLORIDA",
+        "FLORIDA",
+        "FLORIDA"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "object"
+    },
+    "OWN_ZIPCD": {
+      "sample_values": [
+        "33416",
+        "33309",
+        "33416",
+        "33309",
+        "33416"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "int64"
+    },
+    "OWN_STATE_DOM": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "FIDU_NAME": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "FIDU_ADDR1": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "FIDU_ADDR2": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "FIDU_CITY": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "FIDU_STATE": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "FIDU_ZIPCD": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "FIDU_CD": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "S_LEGAL": {
+      "sample_values": [
+        "47-37",
+        "47-37",
+        "47-38",
+        "47-38",
+        "FLA FRUIT LANDS CO SUB NO 2"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "object"
+    },
+    "APP_STAT": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "CO_APP_STAT": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "MKT_AR": {
+      "sample_values": [
+        "99",
+        "99",
+        "99",
+        "99",
+        "99"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "object"
+    },
+    "NBRHD_CD": {
+      "sample_values": [
+        "665550.0",
+        "665550.0",
+        "665550.0",
+        "665550.0",
+        "665550.0"
+      ],
+      "non_null_percentage": 66.0,
+      "data_type": "float64"
+    },
+    "PUBLIC_LND": {
+      "sample_values": [
+        "W",
+        "S",
+        "W",
+        "S",
+        "W"
+      ],
+      "non_null_percentage": 33.0,
+      "data_type": "object"
+    },
+    "TAX_AUTH_CD": {
+      "sample_values": [
+        "12",
+        "12",
+        "12",
+        "12",
+        "12"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "int64"
+    },
+    "TWN": {
+      "sample_values": [
+        "47S",
+        "47S",
+        "47S",
+        "47S",
+        "47S"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "object"
+    },
+    "RNG": {
+      "sample_values": [
+        "37E",
+        "37E",
+        "38E",
+        "38E",
+        "39E"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "object"
+    },
+    "SEC": {
+      "sample_values": [
+        "25",
+        "25",
+        "25",
+        "28",
+        "25"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "int64"
+    },
+    "CENSUS_BK": {
+      "sample_values": [
+        "120119800001",
+        "120119800001",
+        "120119800001",
+        "120119800001",
+        "120119800001"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "int64"
+    },
+    "PHY_ADDR1": {
+      "sample_values": [
+        "EVERGLADES",
+        "EVERGLADES",
+        "EVERGLADES",
+        "EVERGLADES",
+        "EVERGLADES"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "object"
+    },
+    "PHY_ADDR2": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "PHY_CITY": {
+      "sample_values": [
+        "UNINCORPORATED",
+        "UNINCORPORATED",
+        "UNINCORPORATED",
+        "UNINCORPORATED",
+        "UNINCORPORATED"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "object"
+    },
+    "PHY_ZIPCD": {
+      "sample_values": [
+        "33327.0",
+        "33327.0",
+        "33076.0",
+        "33067.0",
+        "33076.0"
+      ],
+      "non_null_percentage": 74.0,
+      "data_type": "float64"
+    },
+    "ALT_KEY": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "ASS_TRNSFR_FG": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "PREV_HMSTD_OWN": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "ASS_DIF_TRNS": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "CONO_PRV_HM": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "PARCEL_ID_PRV_HMSTD": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "YR_VAL_TRNSF": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_01": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_02": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_03": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_04": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_05": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_06": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_07": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_08": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_09": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_10": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_11": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_12": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_13": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_14": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_15": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_16": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_17": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_18": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_19": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_20": {
+      "sample_values": [
+        "382300.0",
+        "1700.0",
+        "376470.0",
+        "2420.0",
+        "32000.0"
+      ],
+      "non_null_percentage": 33.0,
+      "data_type": "float64"
+    },
+    "EXMPT_21": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_22": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_23": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_24": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_25": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_26": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_27": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_28": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_29": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_30": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_31": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_32": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_33": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_34": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_35": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_36": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_37": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_38": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_39": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_40": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_41": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_42": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_43": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_44": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_45": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_46": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_80": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_81": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "EXMPT_82": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "SEQ_NO": {
+      "sample_values": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "int64"
+    },
+    "RS_ID": {
+      "sample_values": [
+        "2B6D",
+        "2B6D",
+        "2B6D",
+        "2B6D",
+        "2B6D"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "object"
+    },
+    "MP_ID": {
+      "sample_values": [
+        "00083784",
+        "00083785",
+        "00083786",
+        "00083787",
+        "00083788"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "object"
+    },
+    "STATE_PAR_ID": {
+      "sample_values": [
+        "C16-000-053-8500-0",
+        "C16-000-053-8501-8",
+        "C16-000-053-8502-6",
+        "C16-000-053-8503-4",
+        "C16-000-053-8504-2"
+      ],
+      "non_null_percentage": 100.0,
+      "data_type": "object"
+    },
+    "SPC_CIR_CD": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "SPC_CIR_YR": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    },
+    "SPC_CIR_TXT": {
+      "sample_values": [],
+      "non_null_percentage": 0.0,
+      "data_type": "float64"
+    }
+  },
+  "mapping_suggestions": {
+    "JV": "just_value",
+    "AV_SD": "assessed_value_school_district",
+    "TV_SD": "taxable_value_school_district",
+    "ACT_YR_BLT": "year_built",
+    "PHY_CITY": "physical_city",
+    "NBRHD_CD": "neighborhood_code",
+    "DOR_UC": "dor_use_code",
+    "PA_UC": "property_appraiser_use_code",
+    "EXMPT_05": "homestead_exemption",
+    "JV_HMSTD": "just_value_homestead",
+    "NO_BULDNG": "number_of_buildings"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "timestamp": "2025-09-10T15:09:36.077542",
+  "steps": {
+    "SUPABASE_URL": {
+      "status": "success",
+      "details": "https://mogulpssjdlxjvstqfee.supabase.co",
+      "timestamp": "2025-09-10T15:09:36.078791"
+    },
+    "SUPABASE_ANON_KEY": {
+      "status": "failure",
+      "details": "Not set - database operations will fail",
+      "timestamp": "2025-09-10T15:09:36.078791"
+    }
+  },
+  "errors": [
+    "SUPABASE_ANON_KEY not configured"
+  ],
+  "warnings": [],
+  "data_samples": {}
+}

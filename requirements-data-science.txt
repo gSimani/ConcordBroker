@@ -1,0 +1,46 @@
+# Essential Data Science and ML Libraries for ConcordBroker
+# Generated on 2025-09-16
+
+# Core Data Science
+pandas>=2.3.2
+numpy>=2.2.6
+matplotlib>=3.10.6
+seaborn>=0.13.2
+
+# Machine Learning
+scikit-learn>=1.7.2
+tensorflow>=2.20.0
+torch>=2.8.0
+torchvision>=0.23.0
+keras>=3.11.3
+
+# Database & ORM
+sqlalchemy>=2.0.43
+
+# Web Development
+flask>=3.1.2
+django>=5.2.6
+fastapi>=0.116.1
+
+# Web Scraping
+beautifulsoup4>=4.13.5
+scrapy>=2.13.3
+
+# Computer Vision
+opencv-python>=4.12.0
+pillow>=11.3.0
+
+# Natural Language Processing
+nltk>=3.9.1
+spacy>=3.8.7
+
+# Big Data
+pyspark>=4.0.1
+
+# Development Environment
+jupyter>=1.1.1
+notebook>=7.4.5
+
+# Additional Utilities
+requests>=2.32.5
+tqdm>=4.67.1

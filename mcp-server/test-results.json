@@ -1,0 +1,49 @@
+[
+  {
+    "name": "API Authentication",
+    "status": "PASSED"
+  },
+  {
+    "name": "Project Access",
+    "status": "PASSED",
+    "projectName": "concord-broker"
+  },
+  {
+    "name": "Environment Variables",
+    "status": "PASSED",
+    "totalVars": 22,
+    "missingVars": 0
+  },
+  {
+    "name": "Recent Deployments",
+    "status": "READY",
+    "latestDeployment": "concord-broker-pn8pks29a-admin-westbocaexecs-projects.vercel.app"
+  },
+  {
+    "name": "Domain Configuration",
+    "status": "PASSED",
+    "domains": [
+      "api.concordbroker.com",
+      "concordbroker.com",
+      "www.concordbroker.com",
+      "concord-broker.vercel.app"
+    ],
+    "verified": 4
+  },
+  {
+    "name": "Build Settings",
+    "status": "PASSED",
+    "buildCommand": null,
+    "outputDirectory": null
+  },
+  {
+    "name": "Website Accessibility",
+    "status": "PASSED",
+    "websiteAccessible": true
+  },
+  {
+    "name": "API Proxy",
+    "status": "PASSED",
+    "apiProxyConfigured": true
+  }
+]

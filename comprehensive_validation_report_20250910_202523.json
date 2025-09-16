@@ -1,0 +1,235 @@
+{
+  "timestamp": "2025-09-10T20:24:58.329637",
+  "source_properties": [
+    {
+      "taxDeedNumber": "",
+      "parcelNumber": "",
+      "address": "",
+      "openingBid": 151130.41,
+      "status": "Upcoming",
+      "applicant": ""
+    },
+    {
+      "taxDeedNumber": "",
+      "parcelNumber": "",
+      "address": "",
+      "openingBid": 4003.06,
+      "status": "Upcoming",
+      "applicant": ""
+    },
+    {
+      "taxDeedNumber": "",
+      "parcelNumber": "",
+      "address": "",
+      "openingBid": 22144.8,
+      "status": "Canceled",
+      "applicant": ""
+    },
+    {
+      "taxDeedNumber": "",
+      "parcelNumber": "",
+      "address": "",
+      "openingBid": 4874.33,
+      "status": "Canceled",
+      "applicant": ""
+    },
+    {
+      "taxDeedNumber": "",
+      "parcelNumber": "",
+      "address": "",
+      "openingBid": 43760.2,
+      "status": "Canceled",
+      "applicant": ""
+    },
+    {
+      "taxDeedNumber": "",
+      "parcelNumber": "",
+      "address": "",
+      "openingBid": 4014.09,
+      "status": "Canceled",
+      "applicant": ""
+    },
+    {
+      "taxDeedNumber": "",
+      "parcelNumber": "",
+      "address": "",
+      "openingBid": 18876.82,
+      "status": "Upcoming",
+      "applicant": ""
+    },
+    {
+      "taxDeedNumber": "",
+      "parcelNumber": "",
+      "address": "",
+      "openingBid": 7041.15,
+      "status": "Canceled",
+      "applicant": ""
+    },
+    {
+      "taxDeedNumber": "",
+      "parcelNumber": "",
+      "address": "",
+      "openingBid": 11724.77,
+      "status": "Upcoming",
+      "applicant": ""
+    },
+    {
+      "taxDeedNumber": "",
+      "parcelNumber": "",
+      "address": "",
+      "openingBid": 5515.86,
+      "status": "Canceled",
+      "applicant": ""
+    }
+  ],
+  "database_properties": [
+    {
+      "tax_deed_number": "TD-AUTO-2",
+      "opening_bid": 0.0,
+      "status": "Active",
+      "address": "Address not available"
+    },
+    {
+      "tax_deed_number": "51640",
+      "opening_bid": 151130.41,
+      "status": "Upcoming",
+      "address": "45 PM ET on the Thursday before the auct"
+    },
+    {
+      "tax_deed_number": "53487",
+      "opening_bid": 4003.06,
+      "status": "Upcoming",
+      "address": "45 PM ET on the Thursday before the auct"
+    },
+    {
+      "tax_deed_number": "53540",
+      "opening_bid": 22144.8,
+      "status": "Canceled Removed",
+      "address": "45 PM ET on the Thursday before the auct"
+    },
+    {
+      "tax_deed_number": "53541",
+      "opening_bid": 4874.33,
+      "status": "Canceled Removed",
+      "address": "45 PM ET on the Thursday before the auct"
+    },
+    {
+      "tax_deed_number": "53542",
+      "opening_bid": 43760.2,
+      "status": "Canceled Removed",
+      "address": "45 PM ET on the Thursday before the auct"
+    },
+    {
+      "tax_deed_number": "53543",
+      "opening_bid": 4014.09,
+      "status": "Canceled Removed",
+      "address": "45 PM ET on the Thursday before the auct"
+    },
+    {
+      "tax_deed_number": "53544",
+      "opening_bid": 18876.82,
+      "status": "Upcoming",
+      "address": "45 PM ET on the Thursday before the auct"
+    },
+    {
+      "tax_deed_number": "53546",
+      "opening_bid": 7041.15,
+      "status": "Canceled Removed",
+      "address": "45 PM ET on the Thursday before the auct"
+    },
+    {
+      "tax_deed_number": "53547",
+      "opening_bid": 11724.77,
+      "status": "Upcoming",
+      "address": "45 PM ET on the Thursday before the auct"
+    }
+  ],
+  "perfect_matches": [],
+  "partial_matches": [],
+  "missing_from_database": [],
+  "extra_in_database": [
+    {
+      "tax_deed_number": "53564",
+      "status": "Upcoming"
+    },
+    {
+      "tax_deed_number": "53487",
+      "status": "Upcoming"
+    },
+    {
+      "tax_deed_number": "53575",
+      "status": "Upcoming"
+    },
+    {
+      "tax_deed_number": "54020",
+      "status": "Active"
+    },
+    {
+      "tax_deed_number": "54025",
+      "status": "Active"
+    },
+    {
+      "tax_deed_number": "AUTO-2",
+      "status": "Active"
+    },
+    {
+      "tax_deed_number": "53566",
+      "status": "Upcoming"
+    },
+    {
+      "tax_deed_number": "53547",
+      "status": "Upcoming"
+    },
+    {
+      "tax_deed_number": "53552",
+      "status": "Upcoming"
+    },
+    {
+      "tax_deed_number": "54021",
+      "status": "Active"
+    },
+    {
+      "tax_deed_number": "54022",
+      "status": "Active"
+    },
+    {
+      "tax_deed_number": "53544",
+      "status": "Upcoming"
+    },
+    {
+      "tax_deed_number": "54029",
+      "status": "Active"
+    },
+    {
+      "tax_deed_number": "53593",
+      "status": "Upcoming"
+    },
+    {
+      "tax_deed_number": "54023",
+      "status": "Active"
+    },
+    {
+      "tax_deed_number": "54026",
+      "status": "Active"
+    },
+    {
+      "tax_deed_number": "54027",
+      "status": "Active"
+    },
+    {
+      "tax_deed_number": "51640",
+      "status": "Upcoming"
+    }
+  ],
+  "field_mismatches": [],
+  "accuracy_metrics": {
+    "source_count": 25,
+    "database_total": 111,
+    "database_active": 27,
+    "perfect_matches": 0,
+    "match_percentage": 0.0,
+    "missing_count": 0,
+    "extra_count": 18,
+    "mismatch_count": 0
+  }
+}

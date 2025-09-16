@@ -1,42 +1,27 @@
-# Railway Configuration for ConcordBroker
-
 [build]
-builder = "dockerfile"
-dockerfilePath = "./apps/api/Dockerfile"
-buildCommand = "docker-compose -f docker-compose.prod.yml build"
+builder = "NIXPACKS"
+buildCommand = "npm install && cd apps/api && pip install -r requirements.txt"
 
 [deploy]
-healthcheckPath = "/health"
-healthcheckTimeout = 100
-restartPolicyType = "on-failure"
+numReplicas = 1
+startCommand = "cd apps/api && python -m uvicorn main_simple:app --host 0.0.0.0 --port ${PORT:-8000}"
+restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
+healthcheckPath = "/health"
+healthcheckTimeout = 30
 
-# Service configurations
+[environments.production]
+numReplicas = 2
+startCommand = "cd apps/api && python -m uvicorn main_simple:app --host 0.0.0.0 --port ${PORT:-8000} --workers 4"
+
 [[services]]
 name = "api"
-dockerfilePath = "./apps/api/Dockerfile"
+type = "web"
 port = 8000
-healthcheckPath = "/health"
 
 [[services]]
-name = "sunbiz-worker"
-dockerfilePath = "./apps/workers/sunbiz_loader/Dockerfile"
-
-[[services]]
-name = "bcpa-worker"
-dockerfilePath = "./apps/workers/bcpa_scraper/Dockerfile"
-
-[[services]]
-name = "records-worker"
-dockerfilePath = "./apps/workers/official_records/Dockerfile"
-
-# Environment variables (to be set in Railway dashboard)
-[env]
-DATABASE_URL = "${{Postgres.DATABASE_URL}}"
-REDIS_URL = "${{Redis.REDIS_URL}}"
-SUPABASE_URL = "${{SUPABASE_URL}}"
-SUPABASE_KEY = "${{SUPABASE_KEY}}"
-JWT_SECRET = "${{JWT_SECRET}}"
-TWILIO_ACCOUNT_SID = "${{TWILIO_ACCOUNT_SID}}"
-TWILIO_AUTH_TOKEN = "${{TWILIO_AUTH_TOKEN}}"
-TWILIO_VERIFY_SERVICE_ID = "${{TWILIO_VERIFY_SERVICE_ID}}"
+name = "web"
+type = "web"
+port = 5173
+buildCommand = "cd apps/web && npm install && npm run build"
+startCommand = "cd apps/web && npm run preview --port ${PORT:-5173}"

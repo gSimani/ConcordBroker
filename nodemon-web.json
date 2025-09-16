@@ -1,0 +1,29 @@
+{
+  "watch": [
+    "apps/web/src/",
+    "apps/web/public/",
+    "apps/web/package.json"
+  ],
+  "ext": "js,jsx,ts,tsx,css,html,json",
+  "ignore": [
+    "node_modules/",
+    "build/",
+    "dist/",
+    ".next/",
+    "*.test.js",
+    "*.spec.js"
+  ],
+  "exec": "cd apps/web && npm run dev",
+  "env": {
+    "NODE_ENV": "development",
+    "BROWSER": "none"
+  },
+  "events": {
+    "restart": "echo '[NODEMON] React app restarting...'",
+    "start": "echo '[NODEMON] React dev server started on http://localhost:5173'",
+    "crash": "echo '[NODEMON] React app crashed! Check console...'"
+  },
+  "delay": "500",
+  "verbose": false,
+  "colours": true
+}

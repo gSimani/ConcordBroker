@@ -19,6 +19,7 @@ import {
   ChevronDown,
   Activity,
   Zap,
+  Gavel,
 } from 'lucide-react'
 
 interface NavItem {
@@ -37,15 +38,22 @@ const navigation: NavItem[] = [
     icon: Home,
   },
   {
+    name: 'Search Properties',
+    href: '/properties',
+    icon: Search,
+  },
+  {
+    name: 'Tax Deed Sales',
+    href: '/tax-deed-sales',
+    icon: Gavel,
+    isNew: true,
+    badge: 109,
+  },
+  {
     name: 'Analytics',
     href: '/analytics',
     icon: BarChart3,
     badge: 3,
-  },
-  {
-    name: 'Search Properties',
-    href: '/search',
-    icon: Search,
   },
   {
     name: 'Portfolio',

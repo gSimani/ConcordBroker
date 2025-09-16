@@ -1,0 +1,611 @@
+{
+  "project_name": "ConcordBroker",
+  "supabase_project_id": "pmispwtdngkcmsrsjwbp",
+  "supabase_url": "https://pmispwtdngkcmsrsjwbp.supabase.co",
+  "last_updated": "2025-01-10",
+  "overview": {
+    "description": "Complete Supabase database requirements for ConcordBroker - a comprehensive Florida real estate data platform",
+    "total_data_size": "16GB+ of Florida corporation and property data",
+    "main_features": [
+      "Tax deed auction tracking and bidding",
+      "Sunbiz corporation entity matching",
+      "Property data from multiple Florida counties",
+      "Real-time data synchronization",
+      "AI-powered property search",
+      "Owner contact management"
+    ]
+  },
+  "database_tables": {
+    "1_core_property_tables": {
+      "florida_parcels": {
+        "description": "Main property/parcel data for all Florida counties",
+        "primary_key": "parcel_number",
+        "critical_fields": [
+          "parcel_number VARCHAR(50) PRIMARY KEY",
+          "county VARCHAR(50)",
+          "owner_name TEXT",
+          "situs_address TEXT",
+          "situs_city VARCHAR(100)",
+          "situs_zip VARCHAR(10)",
+          "property_use_code VARCHAR(10)",
+          "total_value DECIMAL(15,2)",
+          "assessed_value DECIMAL(15,2)",
+          "land_value DECIMAL(15,2)",
+          "building_value DECIMAL(15,2)",
+          "year_built INTEGER",
+          "living_area INTEGER",
+          "bedrooms INTEGER",
+          "bathrooms DECIMAL(3,1)",
+          "lot_size DECIMAL(10,2)",
+          "homestead_exemption BOOLEAN",
+          "legal_description TEXT",
+          "latitude DECIMAL(10,6)",
+          "longitude DECIMAL(10,6)",
+          "last_sale_date DATE",
+          "last_sale_price DECIMAL(15,2)",
+          "created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()",
+          "updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()"
+        ],
+        "indexes_needed": [
+          "idx_parcels_county",
+          "idx_parcels_owner",
+          "idx_parcels_city",
+          "idx_parcels_zip",
+          "idx_parcels_use_code",
+          "idx_parcels_value",
+          "idx_parcels_location"
+        ],
+        "row_count_estimate": "5,000,000+",
+        "update_frequency": "Daily"
+      },
+      "property_sales_history": {
+        "description": "Historical sales transactions for properties",
+        "foreign_key": "parcel_number REFERENCES florida_parcels(parcel_number)",
+        "critical_fields": [
+          "id UUID DEFAULT gen_random_uuid() PRIMARY KEY",
+          "parcel_number VARCHAR(50)",
+          "sale_date DATE",
+          "sale_price DECIMAL(15,2)",
+          "seller_name TEXT",
+          "buyer_name TEXT",
+          "deed_type VARCHAR(50)",
+          "qualified_sale BOOLEAN",
+          "vacant_at_sale BOOLEAN",
+          "instrument_number VARCHAR(50)",
+          "book_page VARCHAR(50)",
+          "created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()"
+        ],
+        "indexes_needed": [
+          "idx_sales_parcel",
+          "idx_sales_date",
+          "idx_sales_price",
+          "idx_sales_buyer"
+        ],
+        "row_count_estimate": "10,000,000+"
+      }
+    },
+    "2_tax_deed_tables": {
+      "tax_deed_bidding_items": {
+        "description": "Active tax deed auction properties with bidding information",
+        "primary_key": "id UUID DEFAULT gen_random_uuid()",
+        "critical_fields": [
+          "id UUID DEFAULT gen_random_uuid() PRIMARY KEY",
+          "parcel_number VARCHAR(50) UNIQUE",
+          "tax_deed_number VARCHAR(50)",
+          "tax_certificate_number VARCHAR(50)",
+          "legal_description TEXT",
+          "situs_address TEXT",
+          "homestead VARCHAR(10)",
+          "assessed_value DECIMAL(15,2)",
+          "land_value DECIMAL(15,2)",
+          "building_value DECIMAL(15,2)",
+          "applicant_name VARCHAR(255)",
+          "opening_bid DECIMAL(15,2)",
+          "winning_bid DECIMAL(15,2)",
+          "winner_name VARCHAR(255)",
+          "auction_date DATE",
+          "close_time TIME",
+          "status VARCHAR(50)",
+          "property_use_code VARCHAR(10)",
+          "year_built INTEGER",
+          "bedrooms INTEGER",
+          "bathrooms DECIMAL(3,1)",
+          "square_feet INTEGER",
+          "created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()",
+          "updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()"
+        ],
+        "indexes_needed": [
+          "idx_tax_deed_parcel",
+          "idx_tax_deed_auction_date",
+          "idx_tax_deed_status",
+          "idx_tax_deed_applicant"
+        ],
+        "row_count_estimate": "1,000-5,000 active",
+        "update_frequency": "Real-time during auctions"
+      },
+      "tax_deed_contacts": {
+        "description": "Contact information for tax deed property owners",
+        "foreign_key": "parcel_number",
+        "critical_fields": [
+          "id UUID DEFAULT gen_random_uuid() PRIMARY KEY",
+          "parcel_number VARCHAR(50)",
+          "owner_name VARCHAR(255)",
+          "mailing_address TEXT",
+          "phone_numbers TEXT[]",
+          "email_addresses TEXT[]",
+          "contact_attempts INTEGER DEFAULT 0",
+          "last_contact_date DATE",
+          "contact_status VARCHAR(50)",
+          "notes TEXT",
+          "created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()",
+          "updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()"
+        ],
+        "indexes_needed": [
+          "idx_contacts_parcel",
+          "idx_contacts_status",
+          "idx_contacts_owner"
+        ]
+      },
+      "tax_deed_entity_matches": {
+        "description": "Matches between tax deed applicants and Sunbiz entities",
+        "foreign_keys": [
+          "parcel_number",
+          "entity_id REFERENCES sunbiz_corporations(entity_id)"
+        ],
+        "critical_fields": [
+          "id UUID DEFAULT gen_random_uuid() PRIMARY KEY",
+          "property_id UUID",
+          "parcel_number VARCHAR(50)",
+          "applicant_name VARCHAR(255)",
+          "entity_id VARCHAR(20)",
+          "entity_name VARCHAR(255)",
+          "match_type VARCHAR(50)",
+          "confidence DECIMAL(3,2)",
+          "created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()"
+        ],
+        "indexes_needed": [
+          "idx_entity_matches_property",
+          "idx_entity_matches_parcel",
+          "idx_entity_matches_entity"
+        ]
+      }
+    },
+    "3_sunbiz_corporation_tables": {
+      "sunbiz_corporations": {
+        "description": "Florida corporation data from Sunbiz (16GB dataset)",
+        "primary_key": "entity_id",
+        "critical_fields": [
+          "entity_id VARCHAR(20) PRIMARY KEY",
+          "entity_name VARCHAR(255) NOT NULL",
+          "status VARCHAR(20)",
+          "entity_type VARCHAR(50)",
+          "filing_date DATE",
+          "state_country VARCHAR(2)",
+          "principal_address TEXT",
+          "principal_city VARCHAR(100)",
+          "principal_state VARCHAR(2)",
+          "principal_zip VARCHAR(10)",
+          "mailing_address TEXT",
+          "mailing_city VARCHAR(100)",
+          "mailing_state VARCHAR(2)",
+          "mailing_zip VARCHAR(10)",
+          "registered_agent_name VARCHAR(255)",
+          "registered_agent_address TEXT",
+          "registered_agent_city VARCHAR(100)",
+          "registered_agent_state VARCHAR(2)",
+          "registered_agent_zip VARCHAR(10)",
+          "document_number VARCHAR(50)",
+          "fei_number VARCHAR(20)",
+          "date_filed DATE",
+          "last_event VARCHAR(50)",
+          "event_date DATE",
+          "event_file_number VARCHAR(50)",
+          "created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()",
+          "updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()"
+        ],
+        "indexes_needed": [
+          "idx_corp_name",
+          "idx_corp_status",
+          "idx_corp_zip",
+          "idx_corp_filing_date",
+          "idx_corp_agent_name"
+        ],
+        "row_count_estimate": "10,000,000+",
+        "data_source": "TEMP/DATABASE/doc/cor/ folder (16GB)",
+        "update_frequency": "Weekly"
+      },
+      "sunbiz_fictitious_names": {
+        "description": "DBA/Fictitious business names",
+        "primary_key": "registration_id",
+        "critical_fields": [
+          "registration_id VARCHAR(20) PRIMARY KEY",
+          "name VARCHAR(255) NOT NULL",
+          "owner_name VARCHAR(255)",
+          "owner_address TEXT",
+          "owner_city VARCHAR(100)",
+          "owner_state VARCHAR(2)",
+          "owner_zip VARCHAR(10)",
+          "registration_date DATE",
+          "expiration_date DATE",
+          "status VARCHAR(20)",
+          "created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()",
+          "updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()"
+        ],
+        "indexes_needed": [
+          "idx_fic_name",
+          "idx_fic_owner"
+        ],
+        "row_count_estimate": "500,000+",
+        "data_source": "TEMP/DATABASE/doc/fic/ folder (13MB)"
+      },
+      "sunbiz_registered_agents": {
+        "description": "Registered agent information",
+        "primary_key": "agent_id",
+        "critical_fields": [
+          "agent_id VARCHAR(20) PRIMARY KEY",
+          "agent_name VARCHAR(255) NOT NULL",
+          "agent_type VARCHAR(50)",
+          "address TEXT",
+          "city VARCHAR(100)",
+          "state VARCHAR(2)",
+          "zip_code VARCHAR(10)",
+          "entity_count INTEGER DEFAULT 0",
+          "created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()",
+          "updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()"
+        ],
+        "indexes_needed": [
+          "idx_agent_name",
+          "idx_agent_zip"
+        ],
+        "row_count_estimate": "1,000,000+",
+        "data_source": "TEMP/DATABASE/doc/AG/ folder (666MB)"
+      },
+      "sunbiz_entity_search": {
+        "description": "Optimized search index for fast entity lookups",
+        "primary_key": "id",
+        "critical_fields": [
+          "id UUID DEFAULT gen_random_uuid() PRIMARY KEY",
+          "entity_id VARCHAR(20)",
+          "entity_name VARCHAR(255)",
+          "normalized_name VARCHAR(255)",
+          "entity_type VARCHAR(50)",
+          "source_table VARCHAR(50)",
+          "created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()"
+        ],
+        "indexes_needed": [
+          "idx_search_normalized",
+          "idx_search_entity_id"
+        ],
+        "purpose": "Fast fuzzy matching and name normalization"
+      }
+    },
+    "4_county_specific_tables": {
+      "broward_permits": {
+        "description": "Building permits from Broward County",
+        "critical_fields": [
+          "permit_number VARCHAR(50) PRIMARY KEY",
+          "parcel_number VARCHAR(50)",
+          "permit_type VARCHAR(100)",
+          "description TEXT",
+          "issue_date DATE",
+          "finalize_date DATE",
+          "contractor_name VARCHAR(255)",
+          "estimated_value DECIMAL(15,2)",
+          "status VARCHAR(50)"
+        ],
+        "row_count_estimate": "500,000+"
+      },
+      "nav_assessments": {
+        "description": "Property assessments from NAV files",
+        "critical_fields": [
+          "parcel_number VARCHAR(50) PRIMARY KEY",
+          "tax_year INTEGER",
+          "taxable_value DECIMAL(15,2)",
+          "exemptions JSONB",
+          "millage_rate DECIMAL(6,4)",
+          "tax_amount DECIMAL(15,2)"
+        ]
+      },
+      "sdf_sales": {
+        "description": "Sales data from SDF files",
+        "critical_fields": [
+          "id SERIAL PRIMARY KEY",
+          "parcel_number VARCHAR(50)",
+          "sale_date DATE",
+          "sale_price DECIMAL(15,2)",
+          "deed_type VARCHAR(50)",
+          "qualified_sale BOOLEAN"
+        ]
+      }
+    },
+    "5_system_tables": {
+      "tracked_properties": {
+        "description": "Properties being actively monitored by users",
+        "critical_fields": [
+          "id UUID DEFAULT gen_random_uuid() PRIMARY KEY",
+          "user_id UUID",
+          "parcel_number VARCHAR(50)",
+          "tracking_reason VARCHAR(100)",
+          "alert_settings JSONB",
+          "created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()"
+        ]
+      },
+      "property_alerts": {
+        "description": "Alert notifications for tracked properties",
+        "critical_fields": [
+          "id UUID DEFAULT gen_random_uuid() PRIMARY KEY",
+          "property_id UUID",
+          "alert_type VARCHAR(50)",
+          "alert_message TEXT",
+          "is_read BOOLEAN DEFAULT false",
+          "created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()"
+        ]
+      },
+      "ai_search_cache": {
+        "description": "Cache for AI-powered property searches",
+        "critical_fields": [
+          "search_query TEXT PRIMARY KEY",
+          "result_parcels TEXT[]",
+          "confidence_scores DECIMAL[]",
+          "search_timestamp TIMESTAMP WITH TIME ZONE",
+          "ttl_hours INTEGER DEFAULT 24"
+        ]
+      }
+    }
+  },
+  "required_functions": {
+    "rpc_functions": [
+      {
+        "name": "search_properties_advanced",
+        "description": "Advanced property search with multiple filters",
+        "parameters": [
+          "county VARCHAR",
+          "min_value DECIMAL",
+          "max_value DECIMAL",
+          "property_types VARCHAR[]",
+          "homestead_only BOOLEAN",
+          "limit_count INTEGER"
+        ],
+        "returns": "TABLE (parcel_number, address, value, details JSONB)"
+      },
+      {
+        "name": "match_sunbiz_entity",
+        "description": "Match a name to Sunbiz entities with confidence scoring",
+        "parameters": [
+          "search_name VARCHAR",
+          "search_address VARCHAR"
+        ],
+        "returns": "TABLE (entity_id, entity_name, confidence, match_type)"
+      },
+      {
+        "name": "get_property_timeline",
+        "description": "Get complete timeline of property events",
+        "parameters": [
+          "parcel_id VARCHAR"
+        ],
+        "returns": "TABLE (event_date, event_type, details JSONB)"
+      },
+      {
+        "name": "calculate_investment_metrics",
+        "description": "Calculate ROI and investment metrics for properties",
+        "parameters": [
+          "parcel_id VARCHAR",
+          "purchase_price DECIMAL"
+        ],
+        "returns": "JSONB with cap_rate, cash_flow, roi"
+      }
+    ]
+  },
+  "realtime_subscriptions": {
+    "channels": [
+      {
+        "name": "tax_deed_auctions",
+        "table": "tax_deed_bidding_items",
+        "events": ["INSERT", "UPDATE"],
+        "description": "Real-time updates during tax deed auctions"
+      },
+      {
+        "name": "property_alerts",
+        "table": "property_alerts",
+        "events": ["INSERT"],
+        "description": "Real-time notifications for tracked properties"
+      },
+      {
+        "name": "data_updates",
+        "table": "fl_data_updates",
+        "events": ["INSERT", "UPDATE"],
+        "description": "Monitor data source updates"
+      }
+    ]
+  },
+  "row_level_security": {
+    "policies_needed": [
+      {
+        "table": "tracked_properties",
+        "policy": "Users can only see their own tracked properties",
+        "sql": "CREATE POLICY user_properties ON tracked_properties FOR ALL USING (auth.uid() = user_id)"
+      },
+      {
+        "table": "property_alerts",
+        "policy": "Users can only see their own alerts",
+        "sql": "CREATE POLICY user_alerts ON property_alerts FOR ALL USING (property_id IN (SELECT id FROM tracked_properties WHERE user_id = auth.uid()))"
+      }
+    ]
+  },
+  "storage_buckets": {
+    "property_images": {
+      "description": "Property photos and documents",
+      "public": false,
+      "file_types": ["jpg", "png", "pdf"],
+      "max_size_mb": 10
+    },
+    "data_imports": {
+      "description": "Temporary storage for data import files",
+      "public": false,
+      "file_types": ["csv", "txt", "zip"],
+      "max_size_mb": 1000
+    }
+  },
+  "api_endpoints_needed": {
+    "rest_endpoints": [
+      "GET /properties/{parcel_number}",
+      "GET /properties/search",
+      "GET /tax-deeds/upcoming",
+      "GET /tax-deeds/{parcel}/bidding-history",
+      "GET /sunbiz/entity/{entity_id}",
+      "POST /sunbiz/match",
+      "GET /alerts/user/{user_id}",
+      "POST /properties/{parcel}/track",
+      "DELETE /properties/{parcel}/track"
+    ]
+  },
+  "data_pipeline_requirements": {
+    "daily_updates": [
+      "Tax deed auction listings from broward.deedauction.net",
+      "New property sales from county records",
+      "Permit updates from building departments"
+    ],
+    "weekly_updates": [
+      "Sunbiz corporation data from SFTP portal",
+      "Property assessment changes",
+      "Foreclosure listings"
+    ],
+    "data_sources": [
+      {
+        "name": "Florida SFTP Portal",
+        "url": "sftp.floridados.gov",
+        "folders": ["doc/cor", "doc/AG", "doc/fic"],
+        "total_size": "16GB+",
+        "update_frequency": "Weekly"
+      },
+      {
+        "name": "Broward Tax Deed Auctions",
+        "url": "broward.deedauction.net",
+        "type": "Web scraping",
+        "update_frequency": "Daily"
+      },
+      {
+        "name": "County Property Appraisers",
+        "counties": ["Broward", "Miami-Dade", "Palm Beach"],
+        "type": "API/Download",
+        "update_frequency": "Daily"
+      }
+    ]
+  },
+  "performance_requirements": {
+    "query_performance": {
+      "property_search": "< 500ms for 1000 results",
+      "entity_matching": "< 200ms per match",
+      "bulk_inserts": "> 10,000 records/second"
+    },
+    "indexes_critical": [
+      "Parcel number lookups",
+      "Owner name searches",
+      "Geographic queries (lat/lng)",
+      "Date range filters",
+      "Value range filters"
+    ],
+    "caching_strategy": {
+      "redis_cache": "For frequent property lookups",
+      "materialized_views": "For complex aggregations",
+      "search_cache": "For AI search results"
+    }
+  },
+  "backup_and_recovery": {
+    "backup_frequency": "Daily automated backups",
+    "retention_period": "30 days",
+    "critical_tables": [
+      "florida_parcels",
+      "sunbiz_corporations",
+      "tax_deed_bidding_items",
+      "tracked_properties"
+    ]
+  },
+  "monitoring_and_alerts": {
+    "metrics_to_track": [
+      "Database size growth",
+      "Query performance",
+      "Data update success/failure",
+      "API response times",
+      "Active user sessions"
+    ],
+    "alert_conditions": [
+      "Data import failures",
+      "Query timeout > 5 seconds",
+      "Storage > 80% capacity",
+      "Failed authentication attempts"
+    ]
+  },
+  "integration_points": {
+    "frontend": {
+      "framework": "React/Next.js",
+      "connection": "Supabase JS Client",
+      "realtime": "WebSocket subscriptions"
+    },
+    "backend": {
+      "framework": "FastAPI/Python",
+      "connection": "Supabase Python Client",
+      "bulk_operations": "Direct PostgreSQL connection"
+    },
+    "ai_services": {
+      "huggingface": "Property description analysis",
+      "openai": "Natural language search",
+      "langchain": "Complex query processing"
+    }
+  },
+  "implementation_priority": {
+    "phase_1_immediate": [
+      "Create all Sunbiz tables",
+      "Load Sunbiz corporation data (16GB)",
+      "Create tax_deed_bidding_items table",
+      "Set up basic property search"
+    ],
+    "phase_2_next_week": [
+      "Implement entity matching functions",
+      "Set up realtime subscriptions",
+      "Create tracking system",
+      "Add row-level security"
+    ],
+    "phase_3_next_month": [
+      "Optimize with materialized views",
+      "Implement caching layer",
+      "Add AI search capabilities",
+      "Set up automated backups"
+    ]
+  },
+  "sql_scripts_to_run": {
+    "1_create_sunbiz_tables": "apps/workers/sunbiz_complete_schema.sql",
+    "2_create_tax_deed_tables": "create_tax_deed_tables.sql",
+    "3_create_property_tables": "create_property_tables.sql",
+    "4_create_functions": "create_rpc_functions.sql",
+    "5_create_policies": "create_rls_policies.sql"
+  },
+  "team_communication": {
+    "key_contacts": {
+      "database_admin": "Run all SQL scripts in order",
+      "backend_dev": "Use supabase-py for Python integration",
+      "frontend_dev": "Use @supabase/supabase-js for React",
+      "data_engineer": "Run sunbiz_complete_loader.py for data import"
+    },
+    "important_notes": [
+      "CRITICAL: Sunbiz data is 16GB - loading will take several hours",
+      "Use batch inserts of 500-1000 records for optimal performance",
+      "Enable connection pooling for high-volume operations",
+      "Test RLS policies thoroughly before production",
+      "Monitor storage usage during initial data load"
+    ],
+    "environment_variables": {
+      "SUPABASE_URL": "https://pmispwtdngkcmsrsjwbp.supabase.co",
+      "SUPABASE_ANON_KEY": "Use from .env file",
+      "SUPABASE_SERVICE_KEY": "Use for admin operations only",
+      "DATABASE_URL": "Direct PostgreSQL connection string"
+    }
+  },
+  "success_metrics": {
+    "data_completeness": "100% of Sunbiz entities loaded",
+    "search_performance": "< 500ms average response time",
+    "entity_matching_accuracy": "> 85% confidence on matches",
+    "system_uptime": "> 99.9%",
+    "daily_active_users": "Track growth rate"
+  }
+}

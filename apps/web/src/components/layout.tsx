@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import Sidebar from './sidebar'
 import { cn } from '@/lib/utils'
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+function Layout({ children }: { children: React.ReactNode }) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const location = useLocation()
 
@@ -13,7 +13,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                          location.pathname.startsWith('/analytics') ||
                          location.pathname.startsWith('/portfolio') ||
                          location.pathname.startsWith('/insights') ||
-                         location.pathname.startsWith('/clients')
+                         location.pathname.startsWith('/clients') ||
+                         location.pathname.startsWith('/tax-deed-sales') ||
+                         location.pathname.startsWith('/properties')
 
   if (useModernLayout) {
     return (
@@ -46,47 +48,60 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   // Fallback to original layout for other pages
   return (
     <div className="min-h-screen bg-background">
-      {/* Simple header for non-dashboard pages */}
-      <header className="border-b border-border/50 glass-card sticky top-0 z-30">
+      {/* Executive Header */}
+      <header 
+        className="sticky top-0 z-30 shadow-lg"
+        style={{
+          background: 'linear-gradient(135deg, #4a5568 0%, #2d3748 100%)',
+          borderBottom: '1px solid rgba(212, 175, 55, 0.3)'
+        }}
+      >
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <div className="flex items-center justify-center w-8 h-8 rounded-xl bg-gradient-primary shadow-lg">
-                <span className="text-white font-bold text-sm">C</span>
+              <div 
+                className="flex items-center justify-center w-10 h-10 rounded-lg shadow-lg"
+                style={{
+                  background: 'linear-gradient(135deg, #d4af37 0%, #f4e5c2 100%)'
+                }}
+              >
+                <span className="font-bold text-lg" style={{ color: '#2c3e50' }}>C</span>
               </div>
               <div>
-                <h1 className="text-xl font-bold text-foreground">ConcordBroker</h1>
-                <p className="text-xs text-muted-foreground">Real Estate Platform</p>
+                <h1 className="text-xl font-semibold text-white">ConcordBroker</h1>
+                <p className="text-xs font-light" style={{ color: '#95a5a6' }}>
+                  Executive Real Estate Platform
+                </p>
               </div>
             </div>
             
-            <nav className="hidden md:flex items-center space-x-6">
+            <nav className="hidden md:flex items-center space-x-2">
               <a 
                 href="/dashboard" 
                 className={cn(
-                  "px-4 py-2 rounded-lg text-sm font-medium transition-colors",
-                  "hover:bg-accent/50",
-                  location.pathname === '/dashboard' && "bg-brand-500/10 text-brand-600"
+                  "px-6 py-2 rounded-lg text-sm font-medium transition-all hover:scale-105",
+                  "text-white hover:bg-white/10",
+                  location.pathname === '/dashboard' && "bg-white/20 text-white font-semibold"
                 )}
               >
                 Dashboard
               </a>
               <a 
-                href="/search" 
+                href="/properties" 
                 className={cn(
-                  "px-4 py-2 rounded-lg text-sm font-medium transition-colors",
-                  "hover:bg-accent/50",
-                  location.pathname === '/search' && "bg-brand-500/10 text-brand-600"
+                  "px-6 py-2 rounded-lg text-sm font-medium transition-all hover:scale-105",
+                  "text-white hover:bg-white/10",
+                  location.pathname.startsWith('/properties') && "bg-white/20 text-white font-semibold"
                 )}
               >
-                Search
+                Properties
               </a>
               <a 
                 href="/analytics" 
                 className={cn(
-                  "px-4 py-2 rounded-lg text-sm font-medium transition-colors",
-                  "hover:bg-accent/50",
-                  location.pathname === '/analytics' && "bg-brand-500/10 text-brand-600"
+                  "px-6 py-2 rounded-lg text-sm font-medium transition-all hover:scale-105",
+                  "text-white hover:bg-white/10",
+                  location.pathname === '/analytics' && "bg-white/20 text-white font-semibold"
                 )}
               >
                 Analytics
@@ -120,3 +135,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     </div>
   )
 }
+
+export default Layout
+export { Layout }

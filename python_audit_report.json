@@ -1,0 +1,161 @@
+{
+  "installed": [
+    {
+      "package": "pandas",
+      "installed_version": "2.3.2",
+      "latest_version": "2.2.3",
+      "status": "newer"
+    },
+    {
+      "package": "numpy",
+      "installed_version": "2.2.6",
+      "latest_version": "2.2.1",
+      "status": "newer"
+    },
+    {
+      "package": "matplotlib",
+      "installed_version": "3.10.6",
+      "latest_version": "3.9.3",
+      "status": "newer"
+    },
+    {
+      "package": "seaborn",
+      "installed_version": "0.13.2",
+      "latest_version": "0.13.2",
+      "status": "up-to-date"
+    },
+    {
+      "package": "scikit-learn",
+      "installed_version": "1.6.1",
+      "latest_version": "1.5.2",
+      "status": "newer"
+    },
+    {
+      "package": "tensorflow",
+      "installed_version": "2.20.0",
+      "latest_version": "2.18.0",
+      "status": "newer"
+    },
+    {
+      "package": "torch",
+      "installed_version": "2.7.1",
+      "latest_version": "2.5.1",
+      "status": "newer"
+    },
+    {
+      "package": "keras",
+      "installed_version": "3.11.3",
+      "latest_version": "3.7.0",
+      "status": "newer"
+    },
+    {
+      "package": "sqlalchemy",
+      "installed_version": "2.0.41",
+      "latest_version": "2.0.36",
+      "status": "newer"
+    },
+    {
+      "package": "flask",
+      "installed_version": "3.1.2",
+      "latest_version": "3.1.0",
+      "status": "newer"
+    },
+    {
+      "package": "django",
+      "installed_version": "5.1.5",
+      "latest_version": "5.1.4",
+      "status": "newer"
+    },
+    {
+      "package": "fastapi",
+      "installed_version": "0.115.9",
+      "latest_version": "0.115.6",
+      "status": "newer"
+    },
+    {
+      "package": "beautifulsoup4",
+      "installed_version": "4.13.5",
+      "latest_version": "4.12.3",
+      "status": "newer"
+    },
+    {
+      "package": "scrapy",
+      "installed_version": "2.13.3",
+      "latest_version": "2.12.0",
+      "status": "newer"
+    },
+    {
+      "package": "opencv-python",
+      "installed_version": "4.11.0.86",
+      "latest_version": "4.11.0.86",
+      "status": "up-to-date"
+    },
+    {
+      "package": "nltk",
+      "installed_version": "3.9.1",
+      "latest_version": "3.9.1",
+      "status": "up-to-date"
+    },
+    {
+      "package": "spacy",
+      "installed_version": "3.8.7",
+      "latest_version": "3.8.3",
+      "status": "newer"
+    },
+    {
+      "package": "pyspark",
+      "installed_version": "4.0.1",
+      "latest_version": "3.5.4",
+      "status": "newer"
+    },
+    {
+      "package": "jupyter",
+      "installed_version": "1.1.1",
+      "latest_version": "1.1.1",
+      "status": "up-to-date"
+    },
+    {
+      "package": "notebook",
+      "installed_version": "7.4.5",
+      "latest_version": "7.3.2",
+      "status": "newer"
+    },
+    {
+      "package": "pillow",
+      "installed_version": "11.3.0",
+      "latest_version": "11.0.0",
+      "status": "newer"
+    }
+  ],
+  "not_installed": [],
+  "outdated": [],
+  "up_to_date": [
+    {
+      "package": "seaborn",
+      "installed_version": "0.13.2",
+      "latest_version": "0.13.2",
+      "status": "up-to-date"
+    },
+    {
+      "package": "opencv-python",
+      "installed_version": "4.11.0.86",
+      "latest_version": "4.11.0.86",
+      "status": "up-to-date"
+    },
+    {
+      "package": "nltk",
+      "installed_version": "3.9.1",
+      "latest_version": "3.9.1",
+      "status": "up-to-date"
+    },
+    {
+      "package": "jupyter",
+      "installed_version": "1.1.1",
+      "latest_version": "1.1.1",
+      "status": "up-to-date"
+    }
+  ],
+  "dependency_issues": [
+    "memvid 0.1.3 has requirement numpy<2.0.0,>=1.21.0, but you have numpy 2.2.6.\nsupafunc 0.3.3 has requirement httpx<0.26,>=0.24, but you have httpx 0.27.2.\nWARNING: Ignoring invalid distribution ~lask (C:\\Users\\gsima\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages)\nWARNING: Ignoring invalid distribution ~lask (C:\\Users\\gsima\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\site-packages)\n"
+  ]
+}

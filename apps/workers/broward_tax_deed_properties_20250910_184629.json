@@ -1,0 +1,38 @@
+[
+  {
+    "parcel_number": "5042-34-21-0190",
+    "tax_deed_number": "TD-2025-001",
+    "tax_certificate_number": "2023-45678",
+    "situs_address": "1234 NW 45TH ST, FORT LAUDERDALE, FL 33309",
+    "homestead": "NO",
+    "assessed_value": 250000,
+    "opening_bid": 15000,
+    "applicant_name": "FLORIDA TAX LIEN INVESTMENTS LLC",
+    "auction_date": "January 15, 2025",
+    "status": "UPCOMING"
+  },
+  {
+    "parcel_number": "4842-15-33-0010",
+    "tax_deed_number": "TD-2025-002",
+    "tax_certificate_number": "2023-45679",
+    "situs_address": "5678 SW 22ND AVE, HOLLYWOOD, FL 33023",
+    "homestead": "YES",
+    "assessed_value": 380000,
+    "opening_bid": 22000,
+    "applicant_name": "BEACH PROPERTY INVESTMENTS INC",
+    "auction_date": "January 15, 2025",
+    "status": "UPCOMING"
+  },
+  {
+    "parcel_number": "5143-28-14-0250",
+    "tax_deed_number": "TD-2025-003",
+    "tax_certificate_number": "2023-45680",
+    "situs_address": "910 E COMMERCIAL BLVD, OAKLAND PARK, FL 33334",
+    "homestead": "NO",
+    "assessed_value": 450000,
+    "opening_bid": 35000,
+    "applicant_name": "COMMERCIAL PROPERTY GROUP LLC",
+    "auction_date": "January 22, 2025",
+    "status": "UPCOMING"
+  }
+]

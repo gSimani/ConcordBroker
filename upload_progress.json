@@ -1,0 +1,422 @@
+[
+  {
+    "county": "ALACHUA",
+    "total": 108413,
+    "uploaded": 0,
+    "failed": 108413
+  },
+  {
+    "county": "BAKER",
+    "total": 13064,
+    "uploaded": 0,
+    "failed": 13064
+  },
+  {
+    "county": "BAY",
+    "total": 129084,
+    "uploaded": 0,
+    "failed": 129084
+  },
+  {
+    "county": "BRADFORD",
+    "total": 15733,
+    "uploaded": 0,
+    "failed": 15733
+  },
+  {
+    "county": "BREVARD",
+    "total": 348605,
+    "uploaded": 0,
+    "failed": 348605
+  },
+  {
+    "county": "BROWARD",
+    "total": 753242,
+    "uploaded": 0,
+    "failed": 753242
+  },
+  {
+    "county": "CALHOUN",
+    "total": 13232,
+    "uploaded": 0,
+    "failed": 13232
+  },
+  {
+    "county": "CHARLOTTE",
+    "total": 221328,
+    "uploaded": 0,
+    "failed": 221328
+  },
+  {
+    "county": "CITRUS",
+    "total": 147549,
+    "uploaded": 0,
+    "failed": 147549
+  },
+  {
+    "county": "CLAY",
+    "total": 102470,
+    "uploaded": 0,
+    "failed": 102470
+  },
+  {
+    "county": "COLLIER",
+    "total": 295167,
+    "uploaded": 0,
+    "failed": 295167
+  },
+  {
+    "county": "COLUMBIA",
+    "total": 37483,
+    "uploaded": 0,
+    "failed": 37483
+  },
+  {
+    "county": "DADE",
+    "total": 933276,
+    "uploaded": 0,
+    "failed": 933276
+  },
+  {
+    "county": "DESOTO",
+    "total": 20167,
+    "uploaded": 0,
+    "failed": 20167
+  },
+  {
+    "county": "DIXIE",
+    "total": 16515,
+    "uploaded": 0,
+    "failed": 16515
+  },
+  {
+    "county": "DUVAL",
+    "total": 398324,
+    "uploaded": 0,
+    "failed": 398324
+  },
+  {
+    "county": "ESCAMBIA",
+    "total": 172158,
+    "uploaded": 0,
+    "failed": 172158
+  },
+  {
+    "county": "FLAGLER",
+    "total": 87834,
+    "uploaded": 0,
+    "failed": 87834
+  },
+  {
+    "county": "FRANKLIN",
+    "total": 18518,
+    "uploaded": 0,
+    "failed": 18518
+  },
+  {
+    "county": "GADSDEN",
+    "total": 27847,
+    "uploaded": 0,
+    "failed": 27847
+  },
+  {
+    "county": "GILCHRIST",
+    "total": 14724,
+    "uploaded": 0,
+    "failed": 14724
+  },
+  {
+    "county": "GLADES",
+    "total": 11366,
+    "uploaded": 0,
+    "failed": 11366
+  },
+  {
+    "county": "GULF",
+    "total": 19859,
+    "uploaded": 0,
+    "failed": 19859
+  },
+  {
+    "county": "HAMILTON",
+    "total": 13163,
+    "uploaded": 0,
+    "failed": 13163
+  },
+  {
+    "county": "HARDEE",
+    "total": 15177,
+    "uploaded": 0,
+    "failed": 15177
+  },
+  {
+    "county": "HENDRY",
+    "total": 35850,
+    "uploaded": 0,
+    "failed": 35850
+  },
+  {
+    "county": "HERNANDO",
+    "total": 119116,
+    "uploaded": 0,
+    "failed": 119116
+  },
+  {
+    "county": "HIGHLANDS",
+    "total": 112728,
+    "uploaded": 0,
+    "failed": 112728
+  },
+  {
+    "county": "HILLSBOROUGH",
+    "total": 524735,
+    "uploaded": 0,
+    "failed": 524735
+  },
+  {
+    "county": "HOLMES",
+    "total": 14536,
+    "uploaded": 0,
+    "failed": 14536
+  },
+  {
+    "county": "INDIAN RIVER",
+    "total": 0,
+    "uploaded": 0,
+    "failed": 0
+  },
+  {
+    "county": "JACKSON",
+    "total": 40053,
+    "uploaded": 0,
+    "failed": 40053
+  },
+  {
+    "county": "JEFFERSON",
+    "total": 12359,
+    "uploaded": 0,
+    "failed": 12359
+  },
+  {
+    "county": "LAFAYETTE",
+    "total": 7421,
+    "uploaded": 0,
+    "failed": 7421
+  },
+  {
+    "county": "LAKE",
+    "total": 210257,
+    "uploaded": 0,
+    "failed": 210257
+  },
+  {
+    "county": "LEE",
+    "total": 557675,
+    "uploaded": 0,
+    "failed": 557675
+  },
+  {
+    "county": "LEON",
+    "total": 110766,
+    "uploaded": 0,
+    "failed": 110766
+  },
+  {
+    "county": "LEVY",
+    "total": 47378,
+    "uploaded": 0,
+    "failed": 47378
+  },
+  {
+    "county": "LIBERTY",
+    "total": 5979,
+    "uploaded": 0,
+    "failed": 5979
+  },
+  {
+    "county": "MADISON",
+    "total": 16350,
+    "uploaded": 0,
+    "failed": 16350
+  },
+  {
+    "county": "MANATEE",
+    "total": 224701,
+    "uploaded": 0,
+    "failed": 224701
+  },
+  {
+    "county": "MARION",
+    "total": 283467,
+    "uploaded": 0,
+    "failed": 283467
+  },
+  {
+    "county": "MARTIN",
+    "total": 97238,
+    "uploaded": 0,
+    "failed": 97238
+  },
+  {
+    "county": "MIAMI-DADE",
+    "total": 0,
+    "uploaded": 0,
+    "failed": 0
+  },
+  {
+    "county": "MONROE",
+    "total": 89183,
+    "uploaded": 0,
+    "failed": 89183
+  },
+  {
+    "county": "NAL_2025",
+    "total": 0,
+    "uploaded": 0,
+    "failed": 0
+  },
+  {
+    "county": "NAL_2025P",
+    "total": 0,
+    "uploaded": 0,
+    "failed": 0
+  },
+  {
+    "county": "NASSAU",
+    "total": 59262,
+    "uploaded": 0,
+    "failed": 59262
+  },
+  {
+    "county": "OKALOOSA",
+    "total": 113009,
+    "uploaded": 0,
+    "failed": 113009
+  },
+  {
+    "county": "OKEECHOBEE",
+    "total": 31526,
+    "uploaded": 0,
+    "failed": 31526
+  },
+  {
+    "county": "ORANGE",
+    "total": 488890,
+    "uploaded": 0,
+    "failed": 488890
+  },
+  {
+    "county": "OSCEOLA",
+    "total": 208840,
+    "uploaded": 0,
+    "failed": 208840
+  },
+  {
+    "county": "PALM BEACH",
+    "total": 0,
+    "uploaded": 0,
+    "failed": 0
+  },
+  {
+    "county": "PASCO",
+    "total": 327771,
+    "uploaded": 0,
+    "failed": 327771
+  },
+  {
+    "county": "PINELLAS",
+    "total": 432955,
+    "uploaded": 0,
+    "failed": 432955
+  },
+  {
+    "county": "POLK",
+    "total": 429267,
+    "uploaded": 0,
+    "failed": 429267
+  },
+  {
+    "county": "PUTNAM",
+    "total": 98054,
+    "uploaded": 0,
+    "failed": 98054
+  },
+  {
+    "county": "SANTA ROSA",
+    "total": 0,
+    "uploaded": 0,
+    "failed": 0
+  },
+  {
+    "county": "SARASOTA",
+    "total": 303967,
+    "uploaded": 0,
+    "failed": 303967
+  },
+  {
+    "county": "SEMINOLE",
+    "total": 179418,
+    "uploaded": 0,
+    "failed": 179418
+  },
+  {
+    "county": "ST. JOHNS",
+    "total": 0,
+    "uploaded": 0,
+    "failed": 0
+  },
+  {
+    "county": "ST. LUCIE",
+    "total": 0,
+    "uploaded": 0,
+    "failed": 0
+  },
+  {
+    "county": "SUMTER",
+    "total": 101105,
+    "uploaded": 0,
+    "failed": 101105
+  },
+  {
+    "county": "SUWANNEE",
+    "total": 38823,
+    "uploaded": 0,
+    "failed": 38823
+  },
+  {
+    "county": "TAYLOR",
+    "total": 19718,
+    "uploaded": 0,
+    "failed": 19718
+  },
+  {
+    "county": "UNION",
+    "total": 7005,
+    "uploaded": 0,
+    "failed": 7005
+  },
+  {
+    "county": "VOLUSIA",
+    "total": 309024,
+    "uploaded": 0,
+    "failed": 309024
+  },
+  {
+    "county": "WAKULLA",
+    "total": 26478,
+    "uploaded": 0,
+    "failed": 26478
+  },
+  {
+    "county": "WALTON",
+    "total": 92775,
+    "uploaded": 0,
+    "failed": 92775
+  },
+  {
+    "county": "WASHINGTON",
+    "total": 46493,
+    "uploaded": 0,
+    "failed": 46493
+  }
+]

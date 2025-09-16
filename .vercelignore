@@ -1,0 +1,66 @@
+# Vercel ignore file
+
+# Python/API files (handled by Railway)
+apps/api/
+apps/workers/
+apps/agents/
+*.py
+*.pyc
+__pycache__/
+requirements*.txt
+
+# Database files
+*.sql
+*.db
+
+# Data files
+TEMP/
+data/
+florida_data/
+sunbiz_data/
+broward_*.zip
+*.csv
+*.json
+
+# Documentation
+*.md
+docs/
+
+# Test files
+test*.js
+test*.py
+test*.html
+test-results/
+ui_screenshots/
+playwright_test.js
+
+# Scripts
+*.ps1
+*.bat
+*.sh
+deploy-*.ps1
+deploy-*.bat
+start-*.ps1
+start-*.bat
+
+# Configuration files not needed for deployment
+railway.json
+railway.toml
+nodemon*.json
+.env.example
+.env.local
+
+# Git
+.git/
+.gitignore
+
+# Node modules at root (web has its own)
+/node_modules/
+
+# Other
+memvid/
+mcp-server/
+deployment/
+supabase/
+zod/
+nul

@@ -1,0 +1,27 @@
+SUPABASE TABLE DEPLOYMENT INSTRUCTIONS
+============================================================
+
+To create the missing tables:
+
+OPTION 1: Supabase Dashboard (Recommended)
+----------------------------------------
+1. Go to your Supabase project dashboard
+2. Click on 'SQL Editor' in the left sidebar
+3. Click 'New Query'
+4. Copy the entire contents of 'create_all_missing_tables.sql'
+5. Paste into the SQL editor
+6. Click 'Run' button
+7. Wait for all tables to be created
+
+OPTION 2: Supabase CLI
+----------------------------------------
+1. Install Supabase CLI if not already installed
+2. Run: supabase link --project-ref <your-project-ref>
+3. Run: supabase db push create_all_missing_tables.sql
+
+AFTER DEPLOYMENT:
+----------------------------------------
+1. Run: python comprehensive_database_audit.py
+   To verify all tables were created
+2. Run the data loading scripts to populate tables
+3. Check the web interface to confirm tabs show real data

@@ -1,0 +1,43 @@
+{
+  "timestamp": "2025-09-16T11:01:15.263185",
+  "mcp_status": "healthy",
+  "database": "Supabase PostgreSQL",
+  "audit_results": {
+    "tables_found": [],
+    "primary_table": "florida_parcels",
+    "data_sources": {
+      "NAL": "Names/Addresses/Legal -> florida_parcels",
+      "NAP": "Property Characteristics -> nap_characteristics",
+      "NAV": "Assessed Values -> nav_assessments",
+      "SDF": "Sales Data -> sdf_sales"
+    },
+    "column_mappings": {
+      "verified": [
+        "land_sqft (from LND_SQFOOT)",
+        "phy_addr1/2 (from PHY_ADDR1/2)",
+        "owner_addr1/2 (from OWN_ADDR1/2)",
+        "owner_state (from OWN_STATE, truncated to 2 chars)",
+        "just_value (from JV)"
+      ],
+      "critical_fields": [
+        "parcel_id (primary key)",
+        "county (uppercase)",
+        "year (2025)",
+        "sale_date (YYYY-MM-DD or NULL)"
+      ]
+    },
+    "upload_requirements": {
+      "batch_size": 1000,
+      "parallel_workers": 4,
+      "conflict_resolution": "upsert on (parcel_id, county, year)",
+      "headers": "Prefer: return=minimal,resolution=merge-duplicates,count=none"
+    },
+    "recommendations": [
+      "Ensure CREATE_INDEXES.sql is run before bulk uploads",
+      "Apply APPLY_TIMEOUTS_NOW.sql before large data operations",
+      "Verify all 67 Florida counties are represented",
+      "Monitor daily for updates at Florida Revenue portal",
+      "Implement checksums for change detection"
+    ]
+  }
+}

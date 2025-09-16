@@ -1,0 +1,60 @@
+{
+  "name": "vercel-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP Server for ConcordBroker Vercel Integration",
+  "config": {
+    "vercel": {
+      "projectId": "prj_l6jgk7483iwPCcaYarq7sMgt2m7L",
+      "orgId": "team_OIAQ7q0bQTblRPZrnKhU4BGF",
+      "domain": "https://www.concordbroker.com",
+      "apiEndpoint": "https://api.vercel.com",
+      "deploymentUrl": "https://concordbroker.vercel.app"
+    },
+    "api": {
+      "version": "v1",
+      "endpoints": {
+        "properties": "/api/properties",
+        "search": "/api/properties/search",
+        "profile": "/api/properties/profile",
+        "analytics": "/api/analytics",
+        "notifications": "/api/notifications"
+      }
+    },
+    "services": {
+      "supabase": {
+        "enabled": true,
+        "url": "${SUPABASE_URL}",
+        "anonKey": "${SUPABASE_ANON_KEY}"
+      },
+      "railway": {
+        "enabled": true,
+        "apiUrl": "https://concordbroker-railway-production.up.railway.app"
+      },
+      "github": {
+        "enabled": true,
+        "owner": "gSimani",
+        "repo": "ConcordBroker",
+        "branch": "main",
+        "apiUrl": "https://api.github.com"
+      }
+    },
+    "github": {
+      "owner": "gSimani",
+      "repo": "ConcordBroker",
+      "branch": "main",
+      "token": "${GITHUB_TOKEN}"
+    }
+  },
+  "environment": {
+    "production": {
+      "NODE_ENV": "production",
+      "VERCEL_ENV": "production",
+      "VERCEL_URL": "https://www.concordbroker.com"
+    },
+    "development": {
+      "NODE_ENV": "development",
+      "VERCEL_ENV": "development",
+      "VERCEL_URL": "http://localhost:3000"
+    }
+  }
+}

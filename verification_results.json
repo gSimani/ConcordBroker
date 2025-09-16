@@ -1,0 +1,183 @@
+{
+  "timestamp": "2025-09-14T20:39:07.403703",
+  "queries": {
+    "total_parcels": 3566744,
+    "parcels_by_county": [
+      {
+        "county": "BROWARD",
+        "count": 798884,
+        "expected": 753242,
+        "progress": 106.05940720246613
+      },
+      {
+        "county": "DADE",
+        "count": 314276,
+        "expected": 933276,
+        "progress": 33.67449714768193
+      },
+      {
+        "county": "PALM BEACH",
+        "count": 0,
+        "expected": 616436,
+        "progress": 0.0
+      },
+      {
+        "county": "HILLSBOROUGH",
+        "count": 175735,
+        "expected": 524735,
+        "progress": 33.49023792962162
+      },
+      {
+        "county": "ORANGE",
+        "count": 0,
+        "expected": 445018,
+        "progress": 0.0
+      },
+      {
+        "county": "PINELLAS",
+        "count": 0,
+        "expected": 444821,
+        "progress": 0.0
+      },
+      {
+        "county": "LEE",
+        "count": 1675,
+        "expected": 389491,
+        "progress": 0.43004844784603496
+      },
+      {
+        "county": "POLK",
+        "count": 25000,
+        "expected": 309595,
+        "progress": 8.075065811786367
+      },
+      {
+        "county": "DUVAL",
+        "count": 393324,
+        "expected": 305928,
+        "progress": 128.56750607986194
+      },
+      {
+        "county": "BREVARD",
+        "count": 209605,
+        "expected": 283107,
+        "progress": 74.03737809379493
+      },
+      {
+        "county": "VOLUSIA",
+        "count": 5024,
+        "expected": 258456,
+        "progress": 1.9438511777633332
+      },
+      {
+        "county": "SEMINOLE",
+        "count": 42000,
+        "expected": 192525,
+        "progress": 21.8153486560187
+      },
+      {
+        "county": "PASCO",
+        "count": 82000,
+        "expected": 181865,
+        "progress": 45.08838973964204
+      },
+      {
+        "county": "COLLIER",
+        "count": 26167,
+        "expected": 167456,
+        "progress": 15.626194343588764
+      },
+      {
+        "county": "SARASOTA",
+        "count": 5000,
+        "expected": 167214,
+        "progress": 2.990180248065353
+      },
+      {
+        "county": "MANATEE",
+        "count": 14000,
+        "expected": 156303,
+        "progress": 8.956961798557929
+      },
+      {
+        "county": "MARION",
+        "count": 283467,
+        "expected": 155808,
+        "progress": 181.93353357979052
+      },
+      {
+        "county": "OSCEOLA",
+        "count": 6000,
+        "expected": 136648,
+        "progress": 4.390843627422282
+      },
+      {
+        "county": "ST. LUCIE",
+        "count": 0,
+        "expected": 134308,
+        "progress": 0.0
+      },
+      {
+        "county": "ALACHUA",
+        "count": 61413,
+        "expected": 106234,
+        "progress": 57.80917597002843
+      },
+      {
+        "county": "ESCAMBIA",
+        "count": 123158,
+        "expected": 123158,
+        "progress": 100.0
+      },
+      {
+        "county": "LEON",
+        "count": 91766,
+        "expected": 91766,
+        "progress": 100.0
+      },
+      {
+        "county": "ST. JOHNS",
+        "count": 0,
+        "expected": 108775,
+        "progress": 0.0
+      },
+      {
+        "county": "CLAY",
+        "count": 38470,
+        "expected": 84090,
+        "progress": 45.74860268759662
+      },
+      {
+        "county": "SANTA ROSA",
+        "count": 0,
+        "expected": 0,
+        "progress": 0
+      },
+      {
+        "county": "HERNANDO",
+        "count": 0,
+        "expected": 0,
+        "progress": 0
+      },
+      {
+        "county": "OKALOOSA",
+        "count": 32009,
+        "expected": 0,
+        "progress": 0
+      },
+      {
+        "county": "CHARLOTTE",
+        "count": 40000,
+        "expected": 0,
+        "progress": 0
+      },
+      {
+        "county": "INDIAN RIVER",
+        "count": 0,
+        "expected": 0,
+        "progress": 0
+      }
+    ],
+    "staging_table": null
+  }
+}

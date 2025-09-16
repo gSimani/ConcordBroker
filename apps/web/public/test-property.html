@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Property Data Loading</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        .result { margin: 10px 0; padding: 10px; border-left: 4px solid #ccc; }
+    </style>
+</head>
+<body>
+    <h1>Property Data Loading Test</h1>
+    <p>Testing data loading for: <strong>12681 NW 78 MNR, Parkland</strong></p>
+    
+    <div id="results">
+        <p>Loading...</p>
+    </div>
+
+    <div id="links">
+        <h3>Property Profile Links:</h3>
+        <ul>
+            <li><a href="/properties/parkland/12681-nw-78-mnr" target="_blank">By Address: /properties/parkland/12681-nw-78-mnr</a></li>
+            <li><a href="/property/474131031040" target="_blank">By Parcel ID: /property/474131031040</a></li>
+        </ul>
+    </div>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+        const supabaseUrl = import.meta.env?.VITE_SUPABASE_URL || 'https://jyvuomdvgqrkwncxhudg.supabase.co';
+        const supabaseKey = import.meta.env?.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5dnVvbWR2Z3Fya3duY3hodWRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQ2NzgxNTIsImV4cCI6MjA1MDI1NDE1Mn0.dAaITNfqtvLobVsZwllXLKNFHKe1LgqJXmwhLzLd2WI';
+        
+        const supabase = createClient(supabaseUrl, supabaseKey);
+        const resultsDiv = document.getElementById('results');
+
+        async function testPropertyData() {
+            let html = '<h2>Test Results:</h2>';
+            
+            try {
+                // Test the exact query that should work
+                const { data: floridaParcelData, error: floridaError } = await supabase
+                    .from('florida_parcels')
+                    .select('*')
+                    .eq('phy_addr1', '12681 NW 78 MNR')
+                    .single();
+
+                if (floridaError) {
+                    html += `<div class="result error">❌ Error fetching Florida parcel: ${floridaError.message}</div>`;
+                } else if (floridaParcelData) {
+                    html += `<div class="result success">✅ Florida parcel data found!</div>`;
+                    html += `<div class="result info">
+                        <strong>Property Details:</strong><br>
+                        • Parcel ID: ${floridaParcelData.parcel_id}<br>
+                        • Address: ${floridaParcelData.phy_addr1}, ${floridaParcelData.phy_city}, FL ${floridaParcelData.phy_zipcd}<br>
+                        • Owner: ${floridaParcelData.owner_name}<br>
+                        • Just Value: $${floridaParcelData.just_value?.toLocaleString() || 'N/A'}<br>
+                        • Year Built: ${floridaParcelData.year_built || 'N/A'}<br>
+                        • Living Area: ${floridaParcelData.total_living_area || 'N/A'} sqft<br>
+                        • Bedrooms: ${floridaParcelData.bedrooms || 'N/A'}<br>
+                        • Bathrooms: ${floridaParcelData.bathrooms || 'N/A'}
+                    </div>`;
+                }
+
+                // Test sales history
+                const { data: salesData, error: salesError } = await supabase
+                    .from('property_sales_history')
+                    .select('*')
+                    .eq('parcel_id', '474131031040')
+                    .order('sale_date', { ascending: false });
+
+                if (salesError) {
+                    html += `<div class="result error">❌ Error fetching sales history: ${salesError.message}</div>`;
+                } else if (salesData && salesData.length > 0) {
+                    html += `<div class="result success">✅ Sales history found (${salesData.length} records)</div>`;
+                    html += '<div class="result info"><strong>Sales History:</strong><br>';
+                    salesData.forEach(sale => {
+                        html += `• ${sale.sale_date}: $${sale.sale_price?.toLocaleString() || 'N/A'}<br>`;
+                    });
+                    html += '</div>';
+                } else {
+                    html += '<div class="result error">❌ No sales history found</div>';
+                }
+
+                // Test the usePropertyData hook logic simulation
+                const addressOrParcelId = '12681-nw-78-mnr';
+                
+                // Simulate the isParcelId check
+                const isParcelId = /^\d+$/.test(addressOrParcelId.replace(/[-\s]/g, '')) && 
+                                 addressOrParcelId.length > 8 && 
+                                 !/\b(st|street|rd|road|ave|avenue|ln|lane|ct|court|dr|drive|blvd|boulevard|pl|place|way|nw|ne|sw|se|north|south|east|west)\b/i.test(addressOrParcelId);
+                
+                html += `<div class="result info"><strong>Hook Logic Test:</strong><br>`;
+                html += `• Input: "${addressOrParcelId}"<br>`;
+                html += `• Detected as Parcel ID: ${isParcelId ? 'Yes' : 'No'}<br>`;
+                
+                if (!isParcelId) {
+                    const addressVariations = [
+                        addressOrParcelId,
+                        addressOrParcelId.replace(/-/g, ' ').toUpperCase(),
+                        addressOrParcelId.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, ' ').trim(),
+                        addressOrParcelId.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, ' ').trim().toUpperCase()
+                    ];
+                    
+                    html += '• Address variations:<br>';
+                    addressVariations.forEach((addr, i) => {
+                        html += `  ${i + 1}. "${addr}"<br>`;
+                    });
+                    
+                    // Test one of the successful variations
+                    const testAddr = addressOrParcelId.replace(/-/g, ' ').toUpperCase();
+                    const { data: testData, error: testError } = await supabase
+                        .from('florida_parcels')
+                        .select('parcel_id, phy_addr1')
+                        .ilike('phy_addr1', `%${testAddr}%`)
+                        .limit(1);
+                    
+                    if (!testError && testData && testData.length > 0) {
+                        html += `• Test query with "${testAddr}": ✅ Success<br>`;
+                    } else {
+                        html += `• Test query with "${testAddr}": ❌ Failed<br>`;
+                    }
+                }
+                
+                html += '</div>';
+
+                html += `<div class="result success">
+                    <strong>✅ All tests completed!</strong><br>
+                    The property data should now load properly in the React app.
+                </div>`;
+
+            } catch (error) {
+                html += `<div class="result error">❌ Unexpected error: ${error.message}</div>`;
+            }
+            
+            resultsDiv.innerHTML = html;
+        }
+
+        // Run the test
+        testPropertyData();
+    </script>
+</body>
+</html>

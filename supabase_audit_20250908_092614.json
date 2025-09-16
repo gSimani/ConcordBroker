@@ -1,0 +1,16 @@
+{
+  "timestamp": "2025-09-08T09:26:08.332902",
+  "database_url": "https://mogulpssjdlxjvstqfee.supabase.co",
+  "tables": {},
+  "empty_tables": [],
+  "large_tables": [],
+  "table_categories": {},
+  "summary": {
+    "total_tables": 0,
+    "empty_tables": 0,
+    "populated_tables": 0,
+    "large_tables": 0,
+    "total_rows": 0,
+    "tables_by_category": {}
+  }
+}

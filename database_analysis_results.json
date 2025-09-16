@@ -1,0 +1,741 @@
+{
+  "timestamp": "2025-09-08T09:01:42.164216",
+  "tables_analyzed": {
+    "parcels": {
+      "exists": false,
+      "error": "{'message': \"Could not find the table 'public.parcels' in the schema cache\", 'code': 'PGRST205', 'hint': \"Perhaps you meant the table 'public.latest_parcels'\", 'details': None}"
+    },
+    "latest_parcels": {
+      "exists": true,
+      "row_count": 789884,
+      "columns": [
+        "id",
+        "parcel_id",
+        "county",
+        "year",
+        "geometry",
+        "centroid",
+        "area_sqft",
+        "perimeter_ft",
+        "owner_name",
+        "owner_addr1",
+        "owner_addr2",
+        "owner_city",
+        "owner_state",
+        "owner_zip",
+        "phy_addr1",
+        "phy_addr2",
+        "phy_city",
+        "phy_state",
+        "phy_zipcd",
+        "legal_desc",
+        "subdivision",
+        "lot",
+        "block",
+        "property_use",
+        "property_use_desc",
+        "land_use_code",
+        "zoning",
+        "just_value",
+        "assessed_value",
+        "taxable_value",
+        "land_value",
+        "building_value",
+        "year_built",
+        "total_living_area",
+        "bedrooms",
+        "bathrooms",
+        "stories",
+        "units",
+        "land_sqft",
+        "land_acres",
+        "sale_date",
+        "sale_price",
+        "sale_qualification",
+        "match_status",
+        "discrepancy_reason",
+        "is_redacted",
+        "data_source",
+        "import_date",
+        "update_date",
+        "data_hash"
+      ],
+      "column_count": 50,
+      "sample_data": {
+        "id": 792320,
+        "parcel_id": "064210010010",
+        "county": "BROWARD",
+        "year": 2025,
+        "geometry": null,
+        "centroid": null,
+        "area_sqft": null,
+        "perimeter_ft": null,
+        "owner_name": "SMITH JOHN & MARY",
+        "owner_addr1": "1234 SAMPLE ST",
+        "owner_addr2": null,
+        "owner_city": "FORT LAUDERDALE",
+        "owner_state": "FL",
+        "owner_zip": "33301",
+        "phy_addr1": "1234 SAMPLE ST",
+        "phy_addr2": null,
+        "phy_city": "FORT LAUDERDALE",
+        "phy_state": "FL",
+        "phy_zipcd": "33301",
+        "legal_desc": null,
+        "subdivision": null,
+        "lot": null,
+        "block": null,
+        "property_use": "001",
+        "property_use_desc": "Single Family Residential",
+        "land_use_code": null,
+        "zoning": null,
+        "just_value": 485000,
+        "assessed_value": 465000,
+        "taxable_value": 440000,
+        "land_value": 185000,
+        "building_value": 300000,
+        "year_built": 1987,
+        "total_living_area": 2450,
+        "bedrooms": 4,
+        "bathrooms": 3,
+        "stories": null,
+        "units": null,
+        "land_sqft": 7500,
+        "land_acres": 0.17,
+        "sale_date": "2024-08-15T00:00:00",
+        "sale_price": 485000,
+        "sale_qualification": null,
+        "match_status": null,
+        "discrepancy_reason": null,
+        "is_redacted": false,
+        "data_source": "Sample Data",
+        "import_date": "2025-09-07T14:15:35.310653",
+        "update_date": null,
+        "data_hash": null
+      },
+      "has_primary_key": true,
+      "has_timestamps": false,
+      "potential_foreign_keys": [
+        "parcel_id"
+      ]
+    },
+    "florida_parcels": {
+      "exists": true,
+      "row_count": 789884,
+      "columns": [
+        "id",
+        "parcel_id",
+        "county",
+        "year",
+        "geometry",
+        "centroid",
+        "area_sqft",
+        "perimeter_ft",
+        "owner_name",
+        "owner_addr1",
+        "owner_addr2",
+        "owner_city",
+        "owner_state",
+        "owner_zip",
+        "phy_addr1",
+        "phy_addr2",
+        "phy_city",
+        "phy_state",
+        "phy_zipcd",
+        "legal_desc",
+        "subdivision",
+        "lot",
+        "block",
+        "property_use",
+        "property_use_desc",
+        "land_use_code",
+        "zoning",
+        "just_value",
+        "assessed_value",
+        "taxable_value",
+        "land_value",
+        "building_value",
+        "year_built",
+        "total_living_area",
+        "bedrooms",
+        "bathrooms",
+        "stories",
+        "units",
+        "land_sqft",
+        "land_acres",
+        "sale_date",
+        "sale_price",
+        "sale_qualification",
+        "match_status",
+        "discrepancy_reason",
+        "is_redacted",
+        "data_source",
+        "import_date",
+        "update_date",
+        "data_hash"
+      ],
+      "column_count": 50,
+      "sample_data": {
+        "id": 715496,
+        "parcel_id": "514128BA0150",
+        "county": "BROWARD",
+        "year": 2025,
+        "geometry": null,
+        "centroid": null,
+        "area_sqft": null,
+        "perimeter_ft": null,
+        "owner_name": "LIAO,YAN",
+        "owner_addr1": null,
+        "owner_addr2": null,
+        "owner_city": null,
+        "owner_state": null,
+        "owner_zip": null,
+        "phy_addr1": "8236 SW 29 ST",
+        "phy_addr2": null,
+        "phy_city": "MIRAMAR",
+        "phy_state": "FL",
+        "phy_zipcd": "33025",
+        "legal_desc": null,
+        "subdivision": null,
+        "lot": null,
+        "block": null,
+        "property_use": "004",
+        "property_use_desc": null,
+        "land_use_code": null,
+        "zoning": null,
+        "just_value": null,
+        "assessed_value": null,
+        "taxable_value": null,
+        "land_value": null,
+        "building_value": null,
+        "year_built": null,
+        "total_living_area": null,
+        "bedrooms": null,
+        "bathrooms": null,
+        "stories": null,
+        "units": null,
+        "land_sqft": null,
+        "land_acres": null,
+        "sale_date": null,
+        "sale_price": null,
+        "sale_qualification": null,
+        "match_status": null,
+        "discrepancy_reason": null,
+        "is_redacted": false,
+        "data_source": "NAL_2025",
+        "import_date": "2025-09-07T02:36:24.680168",
+        "update_date": null,
+        "data_hash": null
+      },
+      "has_primary_key": true,
+      "has_timestamps": false,
+      "potential_foreign_keys": [
+        "parcel_id"
+      ]
+    },
+    "properties": {
+      "exists": true,
+      "row_count": 3,
+      "columns": [
+        "id",
+        "parcel_id",
+        "owner_name",
+        "property_address",
+        "city",
+        "state",
+        "zip_code",
+        "property_type",
+        "year_built",
+        "total_sqft",
+        "lot_size_sqft",
+        "bedrooms",
+        "bathrooms",
+        "assessed_value",
+        "market_value",
+        "last_sale_date",
+        "last_sale_price",
+        "created_at",
+        "updated_at"
+      ],
+      "column_count": 19,
+      "sample_data": {
+        "id": 1,
+        "parcel_id": "504231242720",
+        "owner_name": "RODRIGUEZ MARIA",
+        "property_address": "3920 SW 53 CT",
+        "city": "Hollywood",
+        "state": "FL",
+        "zip_code": "33021",
+        "property_type": "Single Family",
+        "year_built": 1978,
+        "total_sqft": 2150,
+        "lot_size_sqft": 8500,
+        "bedrooms": 3,
+        "bathrooms": 2,
+        "assessed_value": 285000.0,
+        "market_value": 425000.0,
+        "last_sale_date": "2019-06-15",
+        "last_sale_price": 320000.0,
+        "created_at": "2025-09-07T15:33:35.551767",
+        "updated_at": "2025-09-07T15:33:35.551767"
+      },
+      "has_primary_key": true,
+      "has_timestamps": true,
+      "potential_foreign_keys": [
+        "parcel_id"
+      ]
+    },
+    "sales_history": {
+      "exists": false,
+      "error": "{'message': \"Could not find the table 'public.sales_history' in the schema cache\", 'code': 'PGRST205', 'hint': \"Perhaps you meant the table 'public.property_sales_history'\", 'details': None}"
+    },
+    "property_sales_history": {
+      "exists": true,
+      "row_count": 3,
+      "columns": [
+        "id",
+        "parcel_id",
+        "sale_date",
+        "sale_price",
+        "sale_type",
+        "buyer_name",
+        "seller_name",
+        "deed_type",
+        "sale_year",
+        "sale_month",
+        "data_source",
+        "created_at"
+      ],
+      "column_count": 12,
+      "sample_data": {
+        "id": 1,
+        "parcel_id": "504231242720",
+        "sale_date": "2019-06-15",
+        "sale_price": 320000.0,
+        "sale_type": null,
+        "buyer_name": "RODRIGUEZ MARIA",
+        "seller_name": "SMITH JOHN",
+        "deed_type": null,
+        "sale_year": 2019,
+        "sale_month": null,
+        "data_source": null,
+        "created_at": "2025-09-07T21:22:06.162569"
+      },
+      "has_primary_key": true,
+      "has_timestamps": true,
+      "potential_foreign_keys": [
+        "parcel_id"
+      ]
+    },
+    "fl_sdf_sales": {
+      "exists": true,
+      "row_count": 0,
+      "columns": [],
+      "column_count": 0,
+      "sample_data": null,
+      "is_empty": true
+    },
+    "sdf_sales": {
+      "exists": false,
+      "error": "{'message': \"Could not find the table 'public.sdf_sales' in the schema cache\", 'code': 'PGRST205', 'hint': \"Perhaps you meant the table 'public.fl_sdf_sales'\", 'details': None}"
+    },
+    "florida_sdf_sales": {
+      "exists": false,
+      "error": "{'message': \"Could not find the table 'public.florida_sdf_sales' in the schema cache\", 'code': 'PGRST205', 'hint': \"Perhaps you meant the table 'public.fl_sdf_sales'\", 'details': None}"
+    },
+    "tax_assessments": {
+      "exists": false,
+      "error": "{'message': \"Could not find the table 'public.tax_assessments' in the schema cache\", 'code': 'PGRST205', 'hint': \"Perhaps you meant the table 'public.nav_assessments'\", 'details': None}"
+    },
+    "nav_assessments": {
+      "exists": true,
+      "row_count": 1,
+      "columns": [
+        "id",
+        "parcel_id",
+        "tax_year",
+        "just_value",
+        "assessed_value",
+        "taxable_value",
+        "land_value",
+        "building_value",
+        "created_at"
+      ],
+      "column_count": 9,
+      "sample_data": {
+        "id": 1,
+        "parcel_id": "504231242720",
+        "tax_year": 2024,
+        "just_value": null,
+        "assessed_value": 285000.0,
+        "taxable_value": 260000.0,
+        "land_value": null,
+        "building_value": null,
+        "created_at": "2025-09-07T21:22:32.056307"
+      },
+      "has_primary_key": true,
+      "has_timestamps": true,
+      "potential_foreign_keys": [
+        "parcel_id"
+      ]
+    },
+    "florida_nav_assessments": {
+      "exists": false,
+      "error": "{'message': \"Could not find the table 'public.florida_nav_assessments' in the schema cache\", 'code': 'PGRST205', 'hint': \"Perhaps you meant the table 'public.nav_assessments'\", 'details': None}"
+    },
+    "tax_certificates": {
+      "exists": false,
+      "error": "{'message': \"Could not find the table 'public.tax_certificates' in the schema cache\", 'code': 'PGRST205', 'hint': \"Perhaps you meant the table 'public.all_entities'\", 'details': None}"
+    },
+    "tax_deed_sales": {
+      "exists": false,
+      "error": "{'message': \"Could not find the table 'public.tax_deed_sales' in the schema cache\", 'code': 'PGRST205', 'hint': \"Perhaps you meant the table 'public.fl_sdf_sales'\", 'details': None}"
+    },
+    "sunbiz_corporate": {
+      "exists": true,
+      "row_count": 0,
+      "columns": [],
+      "column_count": 0,
+      "sample_data": null,
+      "is_empty": true
+    },
+    "sunbiz_partnerships": {
+      "exists": true,
+      "row_count": 0,
+      "columns": [],
+      "column_count": 0,
+      "sample_data": null,
+      "is_empty": true
+    },
+    "sunbiz_corporations": {
+      "exists": false,
+      "error": "{'message': \"Could not find the table 'public.sunbiz_corporations' in the schema cache\", 'code': 'PGRST205', 'hint': \"Perhaps you meant the table 'public.sunbiz_corporate'\", 'details': None}"
+    },
+    "sunbiz_principals": {
+      "exists": false,
+      "error": "{'message': \"Could not find the table 'public.sunbiz_principals' in the schema cache\", 'code': 'PGRST205', 'hint': \"Perhaps you meant the table 'public.sunbiz_partnerships'\", 'details': None}"
+    },
+    "business_entities": {
+      "exists": false,
+      "error": "{'message': \"Could not find the table 'public.business_entities' in the schema cache\", 'code': 'PGRST205', 'hint': \"Perhaps you meant the table 'public.all_entities'\", 'details': None}"
+    },
+    "all_entities": {
+      "exists": true,
+      "row_count": 0,
+      "columns": [],
+      "column_count": 0,
+      "sample_data": null,
+      "is_empty": true
+    },
+    "building_permits": {
+      "exists": false,
+      "error": "{'message': \"Could not find the table 'public.building_permits' in the schema cache\", 'code': 'PGRST205', 'hint': \"Perhaps you meant the table 'public.florida_permits'\", 'details': None}"
+    },
+    "florida_permits": {
+      "exists": true,
+      "row_count": 1,
+      "columns": [
+        "id",
+        "permit_number",
+        "parcel_id",
+        "property_address",
+        "permit_type",
+        "description",
+        "status",
+        "created_at"
+      ],
+      "column_count": 8,
+      "sample_data": {
+        "id": 1,
+        "permit_number": "B24-001234",
+        "parcel_id": "504231242720",
+        "property_address": "3920 SW 53 CT",
+        "permit_type": "Building",
+        "description": "Roof Replacement",
+        "status": "Active",
+        "created_at": "2025-09-07T21:22:32.056307"
+      },
+      "has_primary_key": true,
+      "has_timestamps": true,
+      "potential_foreign_keys": [
+        "parcel_id"
+      ]
+    },
+    "entity_relationships": {
+      "exists": true,
+      "row_count": 0,
+      "columns": [],
+      "column_count": 0,
+      "sample_data": null,
+      "is_empty": true
+    },
+    "property_entity_matches": {
+      "exists": true,
+      "row_count": 0,
+      "columns": [],
+      "column_count": 0,
+      "sample_data": null,
+      "is_empty": true
+    },
+    "property_ownership_history": {
+      "exists": true,
+      "row_count": 0,
+      "columns": [],
+      "column_count": 0,
+      "sample_data": null,
+      "is_empty": true
+    },
+    "ownership_history": {
+      "exists": false,
+      "error": "{'message': \"Could not find the table 'public.ownership_history' in the schema cache\", 'code': 'PGRST205', 'hint': \"Perhaps you meant the table 'public.property_ownership_history'\", 'details': None}"
+    },
+    "fl_agent_status": {
+      "exists": true,
+      "row_count": 7,
+      "columns": [
+        "id",
+        "agent_name",
+        "agent_type",
+        "is_enabled",
+        "is_running",
+        "current_status",
+        "schedule_type",
+        "schedule_time",
+        "schedule_day",
+        "last_run_start",
+        "last_run_end",
+        "last_run_status",
+        "last_run_records",
+        "last_error",
+        "next_scheduled_run",
+        "config",
+        "created_at",
+        "updated_at"
+      ],
+      "column_count": 18,
+      "sample_data": {
+        "id": 5,
+        "agent_name": "bcpa_agent",
+        "agent_type": "property",
+        "is_enabled": true,
+        "is_running": false,
+        "current_status": null,
+        "schedule_type": "daily",
+        "schedule_time": "03:00:00",
+        "schedule_day": null,
+        "last_run_start": null,
+        "last_run_end": null,
+        "last_run_status": null,
+        "last_run_records": null,
+        "last_error": null,
+        "next_scheduled_run": null,
+        "config": null,
+        "created_at": "2025-09-05T13:44:48.629674",
+        "updated_at": null
+      },
+      "has_primary_key": true,
+      "has_timestamps": true,
+      "potential_foreign_keys": []
+    },
+    "agent_notifications": {
+      "exists": true,
+      "row_count": 0,
+      "columns": [],
+      "column_count": 0,
+      "sample_data": null,
+      "is_empty": true
+    },
+    "monitoring_agents": {
+      "exists": true,
+      "row_count": 0,
+      "columns": [],
+      "column_count": 0,
+      "sample_data": null,
+      "is_empty": true
+    },
+    "data_source_monitor": {
+      "exists": true,
+      "row_count": 0,
+      "columns": [],
+      "column_count": 0,
+      "sample_data": null,
+      "is_empty": true
+    },
+    "agent_conversations": {
+      "exists": false,
+      "error": "{'message': \"Could not find the table 'public.agent_conversations' in the schema cache\", 'code': 'PGRST205', 'hint': \"Perhaps you meant the table 'public.agent_notifications'\", 'details': None}"
+    },
+    "agent_tasks": {
+      "exists": false,
+      "error": "{'message': \"Could not find the table 'public.agent_tasks' in the schema cache\", 'code': 'PGRST205', 'hint': \"Perhaps you meant the table 'public.fl_agent_status'\", 'details': None}"
+    },
+    "agent_results": {
+      "exists": false,
+      "error": "{'message': \"Could not find the table 'public.agent_results' in the schema cache\", 'code': 'PGRST205', 'hint': \"Perhaps you meant the table 'public.fl_agent_status'\", 'details': None}"
+    }
+  },
+  "data_issues": [
+    {
+      "issue": "Duplicate Data",
+      "severity": "HIGH",
+      "description": "latest_parcels and florida_parcels contain identical number of records (789,884)",
+      "impact": "Wasting storage, potential confusion in queries",
+      "recommendation": "Consolidate into single parcels table or clarify purpose"
+    },
+    {
+      "issue": "Underutilized Table",
+      "severity": "MEDIUM",
+      "description": "properties table only has 3 records while parcels have 789,884",
+      "impact": "Properties table may not be serving its intended purpose",
+      "recommendation": "Either migrate parcel data to properties or remove properties table"
+    },
+    {
+      "issue": "Insufficient Sales Data",
+      "severity": "HIGH",
+      "description": "Only 3 sales records for 789,884 properties",
+      "impact": "Cannot perform market analysis or show property history",
+      "recommendation": "Import historical sales data from Florida SDF files"
+    },
+    {
+      "issue": "Missing Assessment Data",
+      "severity": "HIGH",
+      "description": "Only 1 assessment record for 789,884 properties",
+      "impact": "Cannot show tax information or assessed values",
+      "recommendation": "Import NAV assessment data for all properties"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": "HIGH",
+      "category": "Data Consolidation",
+      "action": "Consolidate Parcel Tables",
+      "details": [
+        "1. Choose either latest_parcels or florida_parcels as primary table",
+        "2. Create view named \"parcels\" pointing to chosen table",
+        "3. Update all application code to use \"parcels\" view",
+        "4. Drop duplicate table after verification"
+      ],
+      "sql": "\n                -- Create unified parcels view\n                CREATE OR REPLACE VIEW parcels AS \n                SELECT * FROM latest_parcels;\n                \n                -- After verification, drop duplicate\n                -- DROP TABLE florida_parcels;\n            "
+    },
+    {
+      "priority": "HIGH",
+      "category": "Data Import",
+      "action": "Import Missing Sales Data",
+      "details": [
+        "1. Import Florida SDF sales data into fl_sdf_sales table",
+        "2. Create proper indexes on parcel_id and sale_date",
+        "3. Link sales to parcels table"
+      ],
+      "script": "python apps/workers/sdf_sales/load_sdf_sales.py"
+    },
+    {
+      "priority": "MEDIUM",
+      "category": "Table Structure",
+      "action": "Standardize Table Names",
+      "details": [
+        "1. Rename property_sales_history to sales_history",
+        "2. Rename fl_agent_status to agent_status",
+        "3. Create aliases for backward compatibility"
+      ],
+      "sql": "\n                -- Rename tables to standard names\n                ALTER TABLE property_sales_history RENAME TO sales_history;\n                ALTER TABLE fl_agent_status RENAME TO agent_status;\n                \n                -- Create compatibility views\n                CREATE VIEW property_sales_history AS SELECT * FROM sales_history;\n            "
+    },
+    {
+      "priority": "MEDIUM",
+      "category": "Business Data",
+      "action": "Load Sunbiz Business Entity Data",
+      "details": [
+        "1. Download Sunbiz data files",
+        "2. Load into sunbiz_corporate and sunbiz_partnerships",
+        "3. Create relationships with property owners"
+      ],
+      "script": "python apps/workers/sunbiz_sftp/load_sunbiz_data.py"
+    },
+    {
+      "priority": "LOW",
+      "category": "Cleanup",
+      "action": "Remove or Populate Empty Tables",
+      "details": [
+        "1. Review empty tables purpose",
+        "2. Either populate with data or remove",
+        "3. Document table purposes in schema"
+      ],
+      "tables_to_review": [
+        "all_entities",
+        "property_entity_matches",
+        "entity_relationships",
+        "agent_notifications",
+        "monitoring_agents",
+        "data_source_monitor"
+      ]
+    }
+  ],
+  "migration_plan": [
+    {
+      "step": 1,
+      "title": "Backup Current Data",
+      "commands": [
+        "pg_dump your_database > backup_20250908.sql",
+        "Export critical tables to CSV as additional backup"
+      ],
+      "estimated_time": "30 minutes"
+    },
+    {
+      "step": 2,
+      "title": "Consolidate Parcel Tables",
+      "commands": [
+        "CREATE VIEW parcels AS SELECT * FROM latest_parcels;",
+        "UPDATE application connection strings",
+        "Test all queries"
+      ],
+      "estimated_time": "1 hour"
+    },
+    {
+      "step": 3,
+      "title": "Import Sales History",
+      "commands": [
+        "python load_sdf_sales.py --year 2024",
+        "python load_sdf_sales.py --year 2023",
+        "CREATE INDEX idx_sales_parcel ON fl_sdf_sales(parcel_id);",
+        "CREATE INDEX idx_sales_date ON fl_sdf_sales(sale_date);"
+      ],
+      "estimated_time": "2-4 hours"
+    },
+    {
+      "step": 4,
+      "title": "Import Assessment Data",
+      "commands": [
+        "python load_nav_assessments.py",
+        "CREATE INDEX idx_assess_parcel ON nav_assessments(parcel_id);"
+      ],
+      "estimated_time": "2 hours"
+    },
+    {
+      "step": 5,
+      "title": "Load Business Entities",
+      "commands": [
+        "python download_sunbiz_data.py",
+        "python load_sunbiz_data.py",
+        "python match_entities_to_properties.py"
+      ],
+      "estimated_time": "3-4 hours"
+    },
+    {
+      "step": 6,
+      "title": "Cleanup and Optimize",
+      "commands": [
+        "DROP TABLE florida_parcels;  -- After verification",
+        "VACUUM ANALYZE;",
+        "REINDEX DATABASE;"
+      ],
+      "estimated_time": "1 hour"
+    }
+  ],
+  "duplications": [],
+  "relationship_issues": [
+    {
+      "issue": "Orphaned Record",
+      "table": "properties",
+      "missing_reference": "parcel_id 504231242721 not found in latest_parcels"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+# LangChain Core Components
+langchain==0.1.0
+langchain-community==0.0.10
+langchain-core==0.1.10
+langchain-openai==0.0.5
+langchain-experimental==0.0.47
+
+# LangSmith for monitoring and tracing
+langsmith==0.0.87
+
+# Vector Stores and Embeddings
+chromadb==0.4.22
+faiss-cpu==1.8.0
+tiktoken==0.5.2
+
+# Document Processing
+unstructured==0.11.6
+pypdf==3.17.4
+docx2txt==0.8
+beautifulsoup4==4.12.3
+markdownify==0.11.6
+
+# Agents and Tools
+wikipedia==1.4.0
+google-search-results==2.4.2
+wolframalpha==5.0.0
+duckduckgo-search==4.1.1
+
+# Memory and Caching
+redis==5.0.1
+momento==1.14.0
+
+# Database Integrations
+sqlalchemy==2.0.25
+psycopg2-binary==2.9.9
+
+# API and Web
+fastapi==0.108.0
+uvicorn==0.25.0
+httpx==0.25.2
+aiohttp==3.9.1
+
+# LLM Providers
+anthropic==0.8.1
+cohere==4.44
+huggingface-hub==0.20.2
+transformers==4.36.2
+
+# Monitoring and Observability
+opentelemetry-api==1.22.0
+opentelemetry-sdk==1.22.0
+prometheus-client==0.19.0
+
+# Additional utilities
+python-dotenv==1.0.0
+pydantic==2.5.3
+tenacity==8.2.3
+numpy==1.26.3
+pandas==2.1.4

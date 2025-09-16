@@ -1,0 +1,25 @@
+{
+  "timestamp": "2025-09-08T23:37:42.890765",
+  "status": {
+    "timestamp": "2025-09-08T23:37:42.890765",
+    "is_running": true,
+    "agents": {
+      "discovery": {
+        "status": "idle",
+        "errors": 0
+      },
+      "mapping": {
+        "status": "idle",
+        "errors": 0
+      },
+      "validation": {
+        "status": "idle",
+        "errors": 0
+      },
+      "sync": {
+        "status": "running",
+        "errors": 0
+      }
+    },
+    "workflow": {
+      

@@ -18,8 +18,7 @@ import {
   Search,
   Filter
 } from 'lucide-react';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
+import { useNavigate, Link } from 'react-router-dom';
 
 interface DashboardStats {
   totalProperties: number;
@@ -55,7 +54,7 @@ interface RecentSale {
 }
 
 export default function Dashboard() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [cityStats, setCityStats] = useState<CityStats[]>([]);
   const [typeStats, setTypeStats] = useState<PropertyTypeStats[]>([]);
@@ -106,28 +105,28 @@ export default function Dashboard() {
       title: 'Search Properties',
       description: 'Find properties by address or owner',
       icon: Search,
-      action: () => router.push('/properties'),
+      action: () => navigate('/properties'),
       color: 'bg-blue-500'
     },
     {
       title: 'High Value Properties',
       description: 'Properties over $1M',
       icon: TrendingUp,
-      action: () => router.push('/properties?min_value=1000000'),
+      action: () => navigate('/properties?min_value=1000000'),
       color: 'bg-green-500'
     },
     {
       title: 'Recent Sales',
       description: 'Properties sold in last 30 days',
       icon: Calendar,
-      action: () => router.push('/analytics?view=recent-sales'),
+      action: () => navigate('/analytics?view=recent-sales'),
       color: 'bg-purple-500'
     },
     {
       title: 'Fort Lauderdale',
       description: 'Browse Fort Lauderdale properties',
       icon: MapPin,
-      action: () => router.push('/properties?city=Fort Lauderdale'),
+      action: () => navigate('/properties?city=Fort Lauderdale'),
       color: 'bg-orange-500'
     }
   ];

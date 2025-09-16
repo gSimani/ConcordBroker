@@ -1,0 +1,954 @@
+{
+  "florida_counties": [
+    {
+      "code": "01",
+      "name": "Alachua",
+      "active": false,
+      "population": 278468,
+      "area_sq_miles": 874.4,
+      "county_seat": "Gainesville",
+      "url_patterns": ["alachua", "alachua_county"],
+      "file_patterns": {
+        "NAL": ["alachua_nal", "01_nal"],
+        "NAP": ["alachua_nap", "01_nap"],
+        "SDF": ["alachua_sdf", "01_sdf"]
+      }
+    },
+    {
+      "code": "02",
+      "name": "Baker",
+      "active": false,
+      "population": 28259,
+      "area_sq_miles": 585.4,
+      "county_seat": "Macclenny",
+      "url_patterns": ["baker", "baker_county"],
+      "file_patterns": {
+        "NAL": ["baker_nal", "02_nal"],
+        "NAP": ["baker_nap", "02_nap"],
+        "SDF": ["baker_sdf", "02_sdf"]
+      }
+    },
+    {
+      "code": "03",
+      "name": "Bay",
+      "active": false,
+      "population": 175216,
+      "area_sq_miles": 763.7,
+      "county_seat": "Panama City",
+      "url_patterns": ["bay", "bay_county"],
+      "file_patterns": {
+        "NAL": ["bay_nal", "03_nal"],
+        "NAP": ["bay_nap", "03_nap"],
+        "SDF": ["bay_sdf", "03_sdf"]
+      }
+    },
+    {
+      "code": "04",
+      "name": "Bradford",
+      "active": false,
+      "population": 28303,
+      "area_sq_miles": 293.2,
+      "county_seat": "Starke",
+      "url_patterns": ["bradford", "bradford_county"],
+      "file_patterns": {
+        "NAL": ["bradford_nal", "04_nal"],
+        "NAP": ["bradford_nap", "04_nap"],
+        "SDF": ["bradford_sdf", "04_sdf"]
+      }
+    },
+    {
+      "code": "05",
+      "name": "Brevard",
+      "active": false,
+      "population": 606612,
+      "area_sq_miles": 1017.8,
+      "county_seat": "Titusville",
+      "url_patterns": ["brevard", "brevard_county"],
+      "file_patterns": {
+        "NAL": ["brevard_nal", "05_nal"],
+        "NAP": ["brevard_nap", "05_nap"],
+        "SDF": ["brevard_sdf", "05_sdf"]
+      }
+    },
+    {
+      "code": "06",
+      "name": "Broward",
+      "active": true,
+      "population": 1944375,
+      "area_sq_miles": 1210.8,
+      "county_seat": "Fort Lauderdale",
+      "url_patterns": ["broward", "broward_county"],
+      "file_patterns": {
+        "NAL": ["broward_nal", "06_nal", "broward"],
+        "NAP": ["broward_nap", "06_nap", "broward"],
+        "SDF": ["broward_sdf", "06_sdf", "broward"]
+      },
+      "priority": 1,
+      "notes": "Primary county for initial implementation"
+    },
+    {
+      "code": "07",
+      "name": "Calhoun",
+      "active": false,
+      "population": 14937,
+      "area_sq_miles": 567.4,
+      "county_seat": "Blountstown",
+      "url_patterns": ["calhoun", "calhoun_county"],
+      "file_patterns": {
+        "NAL": ["calhoun_nal", "07_nal"],
+        "NAP": ["calhoun_nap", "07_nap"],
+        "SDF": ["calhoun_sdf", "07_sdf"]
+      }
+    },
+    {
+      "code": "08",
+      "name": "Charlotte",
+      "active": false,
+      "population": 186847,
+      "area_sq_miles": 694.2,
+      "county_seat": "Punta Gorda",
+      "url_patterns": ["charlotte", "charlotte_county"],
+      "file_patterns": {
+        "NAL": ["charlotte_nal", "08_nal"],
+        "NAP": ["charlotte_nap", "08_nap"],
+        "SDF": ["charlotte_sdf", "08_sdf"]
+      }
+    },
+    {
+      "code": "09",
+      "name": "Citrus",
+      "active": false,
+      "population": 153843,
+      "area_sq_miles": 582.5,
+      "county_seat": "Inverness",
+      "url_patterns": ["citrus", "citrus_county"],
+      "file_patterns": {
+        "NAL": ["citrus_nal", "09_nal"],
+        "NAP": ["citrus_nap", "09_nap"],
+        "SDF": ["citrus_sdf", "09_sdf"]
+      }
+    },
+    {
+      "code": "10",
+      "name": "Clay",
+      "active": false,
+      "population": 218245,
+      "area_sq_miles": 601.4,
+      "county_seat": "Green Cove Springs",
+      "url_patterns": ["clay", "clay_county"],
+      "file_patterns": {
+        "NAL": ["clay_nal", "10_nal"],
+        "NAP": ["clay_nap", "10_nap"],
+        "SDF": ["clay_sdf", "10_sdf"]
+      }
+    },
+    {
+      "code": "11",
+      "name": "Collier",
+      "active": false,
+      "population": 384902,
+      "area_sq_miles": 2025.5,
+      "county_seat": "Naples",
+      "url_patterns": ["collier", "collier_county"],
+      "file_patterns": {
+        "NAL": ["collier_nal", "11_nal"],
+        "NAP": ["collier_nap", "11_nap"],
+        "SDF": ["collier_sdf", "11_sdf"]
+      }
+    },
+    {
+      "code": "12",
+      "name": "Columbia",
+      "active": false,
+      "population": 69698,
+      "area_sq_miles": 797.1,
+      "county_seat": "Lake City",
+      "url_patterns": ["columbia", "columbia_county"],
+      "file_patterns": {
+        "NAL": ["columbia_nal", "12_nal"],
+        "NAP": ["columbia_nap", "12_nap"],
+        "SDF": ["columbia_sdf", "12_sdf"]
+      }
+    },
+    {
+      "code": "13",
+      "name": "DeSoto",
+      "active": false,
+      "population": 37748,
+      "area_sq_miles": 637.2,
+      "county_seat": "Arcadia",
+      "url_patterns": ["desoto", "desoto_county"],
+      "file_patterns": {
+        "NAL": ["desoto_nal", "13_nal"],
+        "NAP": ["desoto_nap", "13_nap"],
+        "SDF": ["desoto_sdf", "13_sdf"]
+      }
+    },
+    {
+      "code": "14",
+      "name": "Dixie",
+      "active": false,
+      "population": 16759,
+      "area_sq_miles": 704.2,
+      "county_seat": "Cross City",
+      "url_patterns": ["dixie", "dixie_county"],
+      "file_patterns": {
+        "NAL": ["dixie_nal", "14_nal"],
+        "NAP": ["dixie_nap", "14_nap"],
+        "SDF": ["dixie_sdf", "14_sdf"]
+      }
+    },
+    {
+      "code": "15",
+      "name": "Duval",
+      "active": false,
+      "population": 995567,
+      "area_sq_miles": 774.0,
+      "county_seat": "Jacksonville",
+      "url_patterns": ["duval", "duval_county", "jacksonville"],
+      "file_patterns": {
+        "NAL": ["duval_nal", "15_nal", "jacksonville_nal"],
+        "NAP": ["duval_nap", "15_nap", "jacksonville_nap"],
+        "SDF": ["duval_sdf", "15_sdf", "jacksonville_sdf"]
+      }
+    },
+    {
+      "code": "16",
+      "name": "Escambia",
+      "active": false,
+      "population": 324198,
+      "area_sq_miles": 662.2,
+      "county_seat": "Pensacola",
+      "url_patterns": ["escambia", "escambia_county"],
+      "file_patterns": {
+        "NAL": ["escambia_nal", "16_nal"],
+        "NAP": ["escambia_nap", "16_nap"],
+        "SDF": ["escambia_sdf", "16_sdf"]
+      }
+    },
+    {
+      "code": "17",
+      "name": "Flagler",
+      "active": false,
+      "population": 115378,
+      "area_sq_miles": 485.3,
+      "county_seat": "Bunnell",
+      "url_patterns": ["flagler", "flagler_county"],
+      "file_patterns": {
+        "NAL": ["flagler_nal", "17_nal"],
+        "NAP": ["flagler_nap", "17_nap"],
+        "SDF": ["flagler_sdf", "17_sdf"]
+      }
+    },
+    {
+      "code": "18",
+      "name": "Franklin",
+      "active": false,
+      "population": 12451,
+      "area_sq_miles": 534.5,
+      "county_seat": "Apalachicola",
+      "url_patterns": ["franklin", "franklin_county"],
+      "file_patterns": {
+        "NAL": ["franklin_nal", "18_nal"],
+        "NAP": ["franklin_nap", "18_nap"],
+        "SDF": ["franklin_sdf", "18_sdf"]
+      }
+    },
+    {
+      "code": "19",
+      "name": "Gadsden",
+      "active": false,
+      "population": 57930,
+      "area_sq_miles": 516.2,
+      "county_seat": "Quincy",
+      "url_patterns": ["gadsden", "gadsden_county"],
+      "file_patterns": {
+        "NAL": ["gadsden_nal", "19_nal"],
+        "NAP": ["gadsden_nap", "19_nap"],
+        "SDF": ["gadsden_sdf", "19_sdf"]
+      }
+    },
+    {
+      "code": "20",
+      "name": "Gilchrist",
+      "active": false,
+      "population": 17864,
+      "area_sq_miles": 348.7,
+      "county_seat": "Trenton",
+      "url_patterns": ["gilchrist", "gilchrist_county"],
+      "file_patterns": {
+        "NAL": ["gilchrist_nal", "20_nal"],
+        "NAP": ["gilchrist_nap", "20_nap"],
+        "SDF": ["gilchrist_sdf", "20_sdf"]
+      }
+    },
+    {
+      "code": "21",
+      "name": "Glades",
+      "active": false,
+      "population": 12232,
+      "area_sq_miles": 773.7,
+      "county_seat": "Moore Haven",
+      "url_patterns": ["glades", "glades_county"],
+      "file_patterns": {
+        "NAL": ["glades_nal", "21_nal"],
+        "NAP": ["glades_nap", "21_nap"],
+        "SDF": ["glades_sdf", "21_sdf"]
+      }
+    },
+    {
+      "code": "22",
+      "name": "Gulf",
+      "active": false,
+      "population": 15863,
+      "area_sq_miles": 564.2,
+      "county_seat": "Port St. Joe",
+      "url_patterns": ["gulf", "gulf_county"],
+      "file_patterns": {
+        "NAL": ["gulf_nal", "22_nal"],
+        "NAP": ["gulf_nap", "22_nap"],
+        "SDF": ["gulf_sdf", "22_sdf"]
+      }
+    },
+    {
+      "code": "23",
+      "name": "Hamilton",
+      "active": false,
+      "population": 14004,
+      "area_sq_miles": 515.4,
+      "county_seat": "Jasper",
+      "url_patterns": ["hamilton", "hamilton_county"],
+      "file_patterns": {
+        "NAL": ["hamilton_nal", "23_nal"],
+        "NAP": ["hamilton_nap", "23_nap"],
+        "SDF": ["hamilton_sdf", "23_sdf"]
+      }
+    },
+    {
+      "code": "24",
+      "name": "Hardee",
+      "active": false,
+      "population": 27285,
+      "area_sq_miles": 637.0,
+      "county_seat": "Wauchula",
+      "url_patterns": ["hardee", "hardee_county"],
+      "file_patterns": {
+        "NAL": ["hardee_nal", "24_nal"],
+        "NAP": ["hardee_nap", "24_nap"],
+        "SDF": ["hardee_sdf", "24_sdf"]
+      }
+    },
+    {
+      "code": "25",
+      "name": "Hendry",
+      "active": false,
+      "population": 41954,
+      "area_sq_miles": 1152.8,
+      "county_seat": "LaBelle",
+      "url_patterns": ["hendry", "hendry_county"],
+      "file_patterns": {
+        "NAL": ["hendry_nal", "25_nal"],
+        "NAP": ["hendry_nap", "25_nap"],
+        "SDF": ["hendry_sdf", "25_sdf"]
+      }
+    },
+    {
+      "code": "26",
+      "name": "Hernando",
+      "active": false,
+      "population": 194515,
+      "area_sq_miles": 477.8,
+      "county_seat": "Brooksville",
+      "url_patterns": ["hernando", "hernando_county"],
+      "file_patterns": {
+        "NAL": ["hernando_nal", "26_nal"],
+        "NAP": ["hernando_nap", "26_nap"],
+        "SDF": ["hernando_sdf", "26_sdf"]
+      }
+    },
+    {
+      "code": "27",
+      "name": "Highlands",
+      "active": false,
+      "population": 105077,
+      "area_sq_miles": 1028.2,
+      "county_seat": "Sebring",
+      "url_patterns": ["highlands", "highlands_county"],
+      "file_patterns": {
+        "NAL": ["highlands_nal", "27_nal"],
+        "NAP": ["highlands_nap", "27_nap"],
+        "SDF": ["highlands_sdf", "27_sdf"]
+      }
+    },
+    {
+      "code": "28",
+      "name": "Hillsborough",
+      "active": true,
+      "population": 1459762,
+      "area_sq_miles": 1051.0,
+      "county_seat": "Tampa",
+      "url_patterns": ["hillsborough", "hillsborough_county", "tampa"],
+      "file_patterns": {
+        "NAL": ["hillsborough_nal", "28_nal", "tampa_nal"],
+        "NAP": ["hillsborough_nap", "28_nap", "tampa_nap"],
+        "SDF": ["hillsborough_sdf", "28_sdf", "tampa_sdf"]
+      },
+      "priority": 4,
+      "notes": "Large county, Tampa metropolitan area"
+    },
+    {
+      "code": "29",
+      "name": "Holmes",
+      "active": false,
+      "population": 19653,
+      "area_sq_miles": 482.9,
+      "county_seat": "Bonifay",
+      "url_patterns": ["holmes", "holmes_county"],
+      "file_patterns": {
+        "NAL": ["holmes_nal", "29_nal"],
+        "NAP": ["holmes_nap", "29_nap"],
+        "SDF": ["holmes_sdf", "29_sdf"]
+      }
+    },
+    {
+      "code": "30",
+      "name": "Indian River",
+      "active": false,
+      "population": 159923,
+      "area_sq_miles": 503.4,
+      "county_seat": "Vero Beach",
+      "url_patterns": ["indian_river", "indianriver", "indian_river_county"],
+      "file_patterns": {
+        "NAL": ["indianriver_nal", "30_nal", "indian_river_nal"],
+        "NAP": ["indianriver_nap", "30_nap", "indian_river_nap"],
+        "SDF": ["indianriver_sdf", "30_sdf", "indian_river_sdf"]
+      }
+    },
+    {
+      "code": "31",
+      "name": "Jackson",
+      "active": false,
+      "population": 49746,
+      "area_sq_miles": 916.2,
+      "county_seat": "Marianna",
+      "url_patterns": ["jackson", "jackson_county"],
+      "file_patterns": {
+        "NAL": ["jackson_nal", "31_nal"],
+        "NAP": ["jackson_nap", "31_nap"],
+        "SDF": ["jackson_sdf", "31_sdf"]
+      }
+    },
+    {
+      "code": "32",
+      "name": "Jefferson",
+      "active": false,
+      "population": 14761,
+      "area_sq_miles": 598.4,
+      "county_seat": "Monticello",
+      "url_patterns": ["jefferson", "jefferson_county"],
+      "file_patterns": {
+        "NAL": ["jefferson_nal", "32_nal"],
+        "NAP": ["jefferson_nap", "32_nap"],
+        "SDF": ["jefferson_sdf", "32_sdf"]
+      }
+    },
+    {
+      "code": "33",
+      "name": "Lafayette",
+      "active": false,
+      "population": 8226,
+      "area_sq_miles": 543.4,
+      "county_seat": "Mayo",
+      "url_patterns": ["lafayette", "lafayette_county"],
+      "file_patterns": {
+        "NAL": ["lafayette_nal", "33_nal"],
+        "NAP": ["lafayette_nap", "33_nap"],
+        "SDF": ["lafayette_sdf", "33_sdf"]
+      }
+    },
+    {
+      "code": "34",
+      "name": "Lake",
+      "active": false,
+      "population": 383956,
+      "area_sq_miles": 953.4,
+      "county_seat": "Tavares",
+      "url_patterns": ["lake", "lake_county"],
+      "file_patterns": {
+        "NAL": ["lake_nal", "34_nal"],
+        "NAP": ["lake_nap", "34_nap"],
+        "SDF": ["lake_sdf", "34_sdf"]
+      }
+    },
+    {
+      "code": "35",
+      "name": "Lee",
+      "active": false,
+      "population": 822498,
+      "area_sq_miles": 804.1,
+      "county_seat": "Fort Myers",
+      "url_patterns": ["lee", "lee_county"],
+      "file_patterns": {
+        "NAL": ["lee_nal", "35_nal"],
+        "NAP": ["lee_nap", "35_nap"],
+        "SDF": ["lee_sdf", "35_sdf"]
+      }
+    },
+    {
+      "code": "36",
+      "name": "Leon",
+      "active": false,
+      "population": 295487,
+      "area_sq_miles": 667.2,
+      "county_seat": "Tallahassee",
+      "url_patterns": ["leon", "leon_county", "tallahassee"],
+      "file_patterns": {
+        "NAL": ["leon_nal", "36_nal", "tallahassee_nal"],
+        "NAP": ["leon_nap", "36_nap", "tallahassee_nap"],
+        "SDF": ["leon_sdf", "36_sdf", "tallahassee_sdf"]
+      }
+    },
+    {
+      "code": "37",
+      "name": "Levy",
+      "active": false,
+      "population": 42915,
+      "area_sq_miles": 1112.8,
+      "county_seat": "Bronson",
+      "url_patterns": ["levy", "levy_county"],
+      "file_patterns": {
+        "NAL": ["levy_nal", "37_nal"],
+        "NAP": ["levy_nap", "37_nap"],
+        "SDF": ["levy_sdf", "37_sdf"]
+      }
+    },
+    {
+      "code": "38",
+      "name": "Liberty",
+      "active": false,
+      "population": 8354,
+      "area_sq_miles": 835.7,
+      "county_seat": "Bristol",
+      "url_patterns": ["liberty", "liberty_county"],
+      "file_patterns": {
+        "NAL": ["liberty_nal", "38_nal"],
+        "NAP": ["liberty_nap", "38_nap"],
+        "SDF": ["liberty_sdf", "38_sdf"]
+      }
+    },
+    {
+      "code": "39",
+      "name": "Madison",
+      "active": false,
+      "population": 18971,
+      "area_sq_miles": 692.4,
+      "county_seat": "Madison",
+      "url_patterns": ["madison", "madison_county"],
+      "file_patterns": {
+        "NAL": ["madison_nal", "39_nal"],
+        "NAP": ["madison_nap", "39_nap"],
+        "SDF": ["madison_sdf", "39_sdf"]
+      }
+    },
+    {
+      "code": "40",
+      "name": "Manatee",
+      "active": false,
+      "population": 399710,
+      "area_sq_miles": 741.4,
+      "county_seat": "Bradenton",
+      "url_patterns": ["manatee", "manatee_county"],
+      "file_patterns": {
+        "NAL": ["manatee_nal", "40_nal"],
+        "NAP": ["manatee_nap", "40_nap"],
+        "SDF": ["manatee_sdf", "40_sdf"]
+      }
+    },
+    {
+      "code": "41",
+      "name": "Marion",
+      "active": false,
+      "population": 375908,
+      "area_sq_miles": 1579.4,
+      "county_seat": "Ocala",
+      "url_patterns": ["marion", "marion_county"],
+      "file_patterns": {
+        "NAL": ["marion_nal", "41_nal"],
+        "NAP": ["marion_nap", "41_nap"],
+        "SDF": ["marion_sdf", "41_sdf"]
+      }
+    },
+    {
+      "code": "42",
+      "name": "Martin",
+      "active": false,
+      "population": 159637,
+      "area_sq_miles": 543.0,
+      "county_seat": "Stuart",
+      "url_patterns": ["martin", "martin_county"],
+      "file_patterns": {
+        "NAL": ["martin_nal", "42_nal"],
+        "NAP": ["martin_nap", "42_nap"],
+        "SDF": ["martin_sdf", "42_sdf"]
+      }
+    },
+    {
+      "code": "43",
+      "name": "Miami-Dade",
+      "active": true,
+      "population": 2751796,
+      "area_sq_miles": 1946.3,
+      "county_seat": "Miami",
+      "url_patterns": ["miami_dade", "miamidade", "miami", "dade"],
+      "file_patterns": {
+        "NAL": ["miamidade_nal", "43_nal", "miami_nal", "dade_nal"],
+        "NAP": ["miamidade_nap", "43_nap", "miami_nap", "dade_nap"],
+        "SDF": ["miamidade_sdf", "43_sdf", "miami_sdf", "dade_sdf"]
+      },
+      "priority": 2,
+      "notes": "Largest county by population"
+    },
+    {
+      "code": "44",
+      "name": "Monroe",
+      "active": false,
+      "population": 82874,
+      "area_sq_miles": 997.3,
+      "county_seat": "Key West",
+      "url_patterns": ["monroe", "monroe_county"],
+      "file_patterns": {
+        "NAL": ["monroe_nal", "44_nal"],
+        "NAP": ["monroe_nap", "44_nap"],
+        "SDF": ["monroe_sdf", "44_sdf"]
+      }
+    },
+    {
+      "code": "45",
+      "name": "Nassau",
+      "active": false,
+      "population": 92073,
+      "area_sq_miles": 651.7,
+      "county_seat": "Fernandina Beach",
+      "url_patterns": ["nassau", "nassau_county"],
+      "file_patterns": {
+        "NAL": ["nassau_nal", "45_nal"],
+        "NAP": ["nassau_nap", "45_nap"],
+        "SDF": ["nassau_sdf", "45_sdf"]
+      }
+    },
+    {
+      "code": "46",
+      "name": "Okaloosa",
+      "active": false,
+      "population": 212628,
+      "area_sq_miles": 930.4,
+      "county_seat": "Crestview",
+      "url_patterns": ["okaloosa", "okaloosa_county"],
+      "file_patterns": {
+        "NAL": ["okaloosa_nal", "46_nal"],
+        "NAP": ["okaloosa_nap", "46_nap"],
+        "SDF": ["okaloosa_sdf", "46_sdf"]
+      }
+    },
+    {
+      "code": "47",
+      "name": "Okeechobee",
+      "active": false,
+      "population": 41259,
+      "area_sq_miles": 774.0,
+      "county_seat": "Okeechobee",
+      "url_patterns": ["okeechobee", "okeechobee_county"],
+      "file_patterns": {
+        "NAL": ["okeechobee_nal", "47_nal"],
+        "NAP": ["okeechobee_nap", "47_nap"],
+        "SDF": ["okeechobee_sdf", "47_sdf"]
+      }
+    },
+    {
+      "code": "48",
+      "name": "Orange",
+      "active": true,
+      "population": 1429908,
+      "area_sq_miles": 903.3,
+      "county_seat": "Orlando",
+      "url_patterns": ["orange", "orange_county", "orlando"],
+      "file_patterns": {
+        "NAL": ["orange_nal", "48_nal", "orlando_nal"],
+        "NAP": ["orange_nap", "48_nap", "orlando_nap"],
+        "SDF": ["orange_sdf", "48_sdf", "orlando_sdf"]
+      },
+      "priority": 5,
+      "notes": "Central Florida, Orlando metropolitan area"
+    },
+    {
+      "code": "49",
+      "name": "Osceola",
+      "active": false,
+      "population": 388656,
+      "area_sq_miles": 1325.5,
+      "county_seat": "Kissimmee",
+      "url_patterns": ["osceola", "osceola_county"],
+      "file_patterns": {
+        "NAL": ["osceola_nal", "49_nal"],
+        "NAP": ["osceola_nap", "49_nap"],
+        "SDF": ["osceola_sdf", "49_sdf"]
+      }
+    },
+    {
+      "code": "50",
+      "name": "Palm Beach",
+      "active": true,
+      "population": 1492191,
+      "area_sq_miles": 2383.2,
+      "county_seat": "West Palm Beach",
+      "url_patterns": ["palm_beach", "palmbeach", "palm_beach_county"],
+      "file_patterns": {
+        "NAL": ["palmbeach_nal", "50_nal", "palm_beach_nal"],
+        "NAP": ["palmbeach_nap", "50_nap", "palm_beach_nap"],
+        "SDF": ["palmbeach_sdf", "50_sdf", "palm_beach_sdf"]
+      },
+      "priority": 3,
+      "notes": "Southeast Florida, large county by area"
+    },
+    {
+      "code": "51",
+      "name": "Pasco",
+      "active": false,
+      "population": 553947,
+      "area_sq_miles": 745.4,
+      "county_seat": "Dade City",
+      "url_patterns": ["pasco", "pasco_county"],
+      "file_patterns": {
+        "NAL": ["pasco_nal", "51_nal"],
+        "NAP": ["pasco_nap", "51_nap"],
+        "SDF": ["pasco_sdf", "51_sdf"]
+      }
+    },
+    {
+      "code": "52",
+      "name": "Pinellas",
+      "active": true,
+      "population": 959107,
+      "area_sq_miles": 280.2,
+      "county_seat": "Clearwater",
+      "url_patterns": ["pinellas", "pinellas_county"],
+      "file_patterns": {
+        "NAL": ["pinellas_nal", "52_nal"],
+        "NAP": ["pinellas_nap", "52_nap"],
+        "SDF": ["pinellas_sdf", "52_sdf"]
+      },
+      "priority": 6,
+      "notes": "Tampa Bay area, high population density"
+    },
+    {
+      "code": "53",
+      "name": "Polk",
+      "active": false,
+      "population": 725046,
+      "area_sq_miles": 1874.4,
+      "county_seat": "Bartow",
+      "url_patterns": ["polk", "polk_county"],
+      "file_patterns": {
+        "NAL": ["polk_nal", "53_nal"],
+        "NAP": ["polk_nap", "53_nap"],
+        "SDF": ["polk_sdf", "53_sdf"]
+      }
+    },
+    {
+      "code": "54",
+      "name": "Putnam",
+      "active": false,
+      "population": 73321,
+      "area_sq_miles": 722.2,
+      "county_seat": "Palatka",
+      "url_patterns": ["putnam", "putnam_county"],
+      "file_patterns": {
+        "NAL": ["putnam_nal", "54_nal"],
+        "NAP": ["putnam_nap", "54_nap"],
+        "SDF": ["putnam_sdf", "54_sdf"]
+      }
+    },
+    {
+      "code": "55",
+      "name": "St. Johns",
+      "active": false,
+      "population": 273425,
+      "area_sq_miles": 601.4,
+      "county_seat": "St. Augustine",
+      "url_patterns": ["st_johns", "stjohns", "saint_johns"],
+      "file_patterns": {
+        "NAL": ["stjohns_nal", "55_nal", "st_johns_nal"],
+        "NAP": ["stjohns_nap", "55_nap", "st_johns_nap"],
+        "SDF": ["stjohns_sdf", "55_sdf", "st_johns_sdf"]
+      }
+    },
+    {
+      "code": "56",
+      "name": "St. Lucie",
+      "active": false,
+      "population": 329226,
+      "area_sq_miles": 572.4,
+      "county_seat": "Fort Pierce",
+      "url_patterns": ["st_lucie", "stlucie", "saint_lucie"],
+      "file_patterns": {
+        "NAL": ["stlucie_nal", "56_nal", "st_lucie_nal"],
+        "NAP": ["stlucie_nap", "56_nap", "st_lucie_nap"],
+        "SDF": ["stlucie_sdf", "56_sdf", "st_lucie_sdf"]
+      }
+    },
+    {
+      "code": "57",
+      "name": "Santa Rosa",
+      "active": false,
+      "population": 188000,
+      "area_sq_miles": 1011.7,
+      "county_seat": "Milton",
+      "url_patterns": ["santa_rosa", "santarosa", "santa_rosa_county"],
+      "file_patterns": {
+        "NAL": ["santarosa_nal", "57_nal", "santa_rosa_nal"],
+        "NAP": ["santarosa_nap", "57_nap", "santa_rosa_nap"],
+        "SDF": ["santarosa_sdf", "57_sdf", "santa_rosa_sdf"]
+      }
+    },
+    {
+      "code": "58",
+      "name": "Sarasota",
+      "active": false,
+      "population": 434263,
+      "area_sq_miles": 556.2,
+      "county_seat": "Sarasota",
+      "url_patterns": ["sarasota", "sarasota_county"],
+      "file_patterns": {
+        "NAL": ["sarasota_nal", "58_nal"],
+        "NAP": ["sarasota_nap", "58_nap"],
+        "SDF": ["sarasota_sdf", "58_sdf"]
+      }
+    },
+    {
+      "code": "59",
+      "name": "Seminole",
+      "active": false,
+      "population": 471826,
+      "area_sq_miles": 308.2,
+      "county_seat": "Sanford",
+      "url_patterns": ["seminole", "seminole_county"],
+      "file_patterns": {
+        "NAL": ["seminole_nal", "59_nal"],
+        "NAP": ["seminole_nap", "59_nap"],
+        "SDF": ["seminole_sdf", "59_sdf"]
+      }
+    },
+    {
+      "code": "60",
+      "name": "Sumter",
+      "active": false,
+      "population": 129752,
+      "area_sq_miles": 546.3,
+      "county_seat": "Bushnell",
+      "url_patterns": ["sumter", "sumter_county"],
+      "file_patterns": {
+        "NAL": ["sumter_nal", "60_nal"],
+        "NAP": ["sumter_nap", "60_nap"],
+        "SDF": ["sumter_sdf", "60_sdf"]
+      }
+    },
+    {
+      "code": "61",
+      "name": "Suwannee",
+      "active": false,
+      "population": 43474,
+      "area_sq_miles": 688.4,
+      "county_seat": "Live Oak",
+      "url_patterns": ["suwannee", "suwannee_county"],
+      "file_patterns": {
+        "NAL": ["suwannee_nal", "61_nal"],
+        "NAP": ["suwannee_nap", "61_nap"],
+        "SDF": ["suwannee_sdf", "61_sdf"]
+      }
+    },
+    {
+      "code": "62",
+      "name": "Taylor",
+      "active": false,
+      "population": 21796,
+      "area_sq_miles": 1042.3,
+      "county_seat": "Perry",
+      "url_patterns": ["taylor", "taylor_county"],
+      "file_patterns": {
+        "NAL": ["taylor_nal", "62_nal"],
+        "NAP": ["taylor_nap", "62_nap"],
+        "SDF": ["taylor_sdf", "62_sdf"]
+      }
+    },
+    {
+      "code": "63",
+      "name": "Union",
+      "active": false,
+      "population": 15535,
+      "area_sq_miles": 240.2,
+      "county_seat": "Lake Butler",
+      "url_patterns": ["union", "union_county"],
+      "file_patterns": {
+        "NAL": ["union_nal", "63_nal"],
+        "NAP": ["union_nap", "63_nap"],
+        "SDF": ["union_sdf", "63_sdf"]
+      }
+    },
+    {
+      "code": "64",
+      "name": "Volusia",
+      "active": false,
+      "population": 553543,
+      "area_sq_miles": 1101.3,
+      "county_seat": "DeLand",
+      "url_patterns": ["volusia", "volusia_county"],
+      "file_patterns": {
+        "NAL": ["volusia_nal", "64_nal"],
+        "NAP": ["volusia_nap", "64_nap"],
+        "SDF": ["volusia_sdf", "64_sdf"]
+      }
+    },
+    {
+      "code": "65",
+      "name": "Wakulla",
+      "active": false,
+      "population": 33764,
+      "area_sq_miles": 607.2,
+      "county_seat": "Crawfordville",
+      "url_patterns": ["wakulla", "wakulla_county"],
+      "file_patterns": {
+        "NAL": ["wakulla_nal", "65_nal"],
+        "NAP": ["wakulla_nap", "65_nap"],
+        "SDF": ["wakulla_sdf", "65_sdf"]
+      }
+    },
+    {
+      "code": "66",
+      "name": "Walton",
+      "active": false,
+      "population": 75305,
+      "area_sq_miles": 1057.6,
+      "county_seat": "DeFuniak Springs",
+      "url_patterns": ["walton", "walton_county"],
+      "file_patterns": {
+        "NAL": ["walton_nal", "66_nal"],
+        "NAP": ["walton_nap", "66_nap"],
+        "SDF": ["walton_sdf", "66_sdf"]
+      }
+    },
+    {
+      "code": "67",
+      "name": "Washington",
+      "active": false,
+      "population": 25318,
+      "area_sq_miles": 580.2,
+      "county_seat": "Chipley",
+      "url_patterns": ["washington", "washington_county"],
+      "file_patterns": {
+        "NAL": ["washington_nal", "67_nal"],
+        "NAP": ["washington_nap", "67_nap"],
+        "SDF": ["washington_sdf", "67_sdf"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,606 @@
+{
+  "report_generated": "2025-09-16T12:43:29.331339",
+  "summary": {
+    "total_counties_in_florida": 67,
+    "counties_with_data": 67,
+    "complete_counties": 57,
+    "partial_counties": 10,
+    "empty_counties": 1,
+    "total_files": 309,
+    "total_size_gb": 6.24,
+    "estimated_total_records": 12349450
+  },
+  "data_types": {
+    "NAL": {
+      "description": "Names and Addresses - Main property records",
+      "format": "CSV",
+      "counties_available": 62,
+      "total_records": 9758470,
+      "total_size_mb": 4763.92
+    },
+    "NAP": {
+      "description": "Property Characteristics - Building details, land use",
+      "format": "CSV",
+      "counties_available": 62,
+      "total_records": 1073058,
+      "total_size_mb": 219.0
+    },
+    "NAV": {
+      "description": "Property Values and Assessments",
+      "format": "Fixed-width TXT",
+      "counties_available": 62,
+      "total_records": "Unknown (fixed-width format)",
+      "total_size_mb": 1192.3600000000001
+    },
+    "SDF": {
+      "description": "Sales Data - Property transactions",
+      "format": "CSV",
+      "counties_available": 62,
+      "total_records": 1517922,
+      "total_size_mb": 210.02
+    }
+  },
+  "priority_upload_counties": [
+    {
+      "county": "DADE",
+      "records": 1155545,
+      "size_mb": 551.82,
+      "completeness": 100.0,
+      "priority": "HIGH"
+    },
+    {
+      "county": "BROWARD",
+      "records": 939082,
+      "size_mb": 485.35999999999996,
+      "completeness": 100.0,
+      "priority": "HIGH"
+    },
+    {
+      "county": "LEE",
+      "records": 744344,
+      "size_mb": 400.44,
+      "completeness": 100.0,
+      "priority": "HIGH"
+    },
+    {
+      "county": "HILLSBOROUGH",
+      "records": 639293,
+      "size_mb": 369.3,
+      "completeness": 100.0,
+      "priority": "HIGH"
+    },
+    {
+      "county": "ORANGE",
+      "records": 609738,
+      "size_mb": 324.39,
+      "completeness": 100.0,
+      "priority": "HIGH"
+    },
+    {
+      "county": "POLK",
+      "records": 600381,
+      "size_mb": 296.47999999999996,
+      "completeness": 100.0,
+      "priority": "HIGH"
+    },
+    {
+      "county": "PINELLAS",
+      "records": 551183,
+      "size_mb": 250.85999999999996,
+      "completeness": 100.0,
+      "priority": "HIGH"
+    },
+    {
+      "county": "DUVAL",
+      "records": 491610,
+      "size_mb": 244.77999999999997,
+      "completeness": 100.0,
+      "priority": "HIGH"
+    },
+    {
+      "county": "BREVARD",
+      "records": 451767,
+      "size_mb": 229.99,
+      "completeness": 100.0,
+      "priority": "HIGH"
+    },
+    {
+      "county": "PASCO",
+      "records": 411338,
+      "size_mb": 217.39999999999998,
+      "completeness": 100.0,
+      "priority": "HIGH"
+    },
+    {
+      "county": "MARION",
+      "records": 375580,
+      "size_mb": 191.60999999999999,
+      "completeness": 100.0,
+      "priority": "MEDIUM"
+    },
+    {
+      "county": "VOLUSIA",
+      "records": 408617,
+      "size_mb": 186.44999999999996,
+      "completeness": 100.0,
+      "priority": "MEDIUM"
+    },
+    {
+      "county": "SARASOTA",
+      "records": 377184,
+      "size_mb": 184.96999999999997,
+      "completeness": 100.0,
+      "priority": "MEDIUM"
+    },
+    {
+      "county": "COLLIER",
+      "records": 360231,
+      "size_mb": 166.95,
+      "completeness": 100.0,
+      "priority": "MEDIUM"
+    },
+    {
+      "county": "CHARLOTTE",
+      "records": 284973,
+      "size_mb": 152.29000000000002,
+      "completeness": 100.0,
+      "priority": "MEDIUM"
+    },
+    {
+      "county": "OSCEOLA",
+      "records": 271425,
+      "size_mb": 139.27,
+      "completeness": 100.0,
+      "priority": "MEDIUM"
+    },
+    {
+      "county": "MANATEE",
+      "records": 292236,
+      "size_mb": 136.2,
+      "completeness": 100.0,
+      "priority": "MEDIUM"
+    },
+    {
+      "county": "LAKE",
+      "records": 278527,
+      "size_mb": 135.37,
+      "completeness": 100.0,
+      "priority": "MEDIUM"
+    },
+    {
+      "county": "CITRUS",
+      "records": 183277,
+      "size_mb": 104.80000000000001,
+      "completeness": 100.0,
+      "priority": "MEDIUM"
+    },
+    {
+      "county": "ESCAMBIA",
+      "records": 214234,
+      "size_mb": 101.74000000000002,
+      "completeness": 100.0,
+      "priority": "MEDIUM"
+    },
+    {
+      "county": "SEMINOLE",
+      "records": 215021,
+      "size_mb": 101.71,
+      "completeness": 100.0,
+      "priority": "MEDIUM"
+    },
+    {
+      "county": "BAY",
+      "records": 165249,
+      "size_mb": 75.96,
+      "completeness": 100.0,
+      "priority": "MEDIUM"
+    },
+    {
+      "county": "HERNANDO",
+      "records": 145927,
+      "size_mb": 75.55999999999999,
+      "completeness": 100.0,
+      "priority": "MEDIUM"
+    },
+    {
+      "county": "ALACHUA",
+      "records": 136618,
+      "size_mb": 74.92999999999999,
+      "completeness": 100.0,
+      "priority": "MEDIUM"
+    },
+    {
+      "county": "HIGHLANDS",
+      "records": 149009,
+      "size_mb": 72.38999999999999,
+      "completeness": 100.0,
+      "priority": "MEDIUM"
+    },
+    {
+      "county": "CLAY",
+      "records": 124688,
+      "size_mb": 65.67,
+      "completeness": 100.0,
+      "priority": "MEDIUM"
+    },
+    {
+      "county": "SUMTER",
+      "records": 125565,
+      "size_mb": 64.07,
+      "completeness": 100.0,
+      "priority": "MEDIUM"
+    },
+    {
+      "county": "LEON",
+      "records": 139270,
+      "size_mb": 63.519999999999996,
+      "completeness": 100.0,
+      "priority": "MEDIUM"
+    },
+    {
+      "county": "OKALOOSA",
+      "records": 140767,
+      "size_mb": 61.41,
+      "completeness": 100.0,
+      "priority": "MEDIUM"
+    },
+    {
+      "county": "MARTIN",
+      "records": 123464,
+      "size_mb": 60.529999999999994,
+      "completeness": 100.0,
+      "priority": "MEDIUM"
+    },
+    {
+      "county": "PUTNAM",
+      "records": 117562,
+      "size_mb": 55.089999999999996,
+      "completeness": 100.0,
+      "priority": "MEDIUM"
+    },
+    {
+      "county": "MONROE",
+      "records": 110308,
+      "size_mb": 53.26,
+      "completeness": 100.0,
+      "priority": "MEDIUM"
+    },
+    {
+      "county": "WALTON",
+      "records": 122990,
+      "size_mb": 52.61,
+      "completeness": 100.0,
+      "priority": "MEDIUM"
+    },
+    {
+      "county": "FLAGLER",
+      "records": 110044,
+      "size_mb": 50.45,
+      "completeness": 100.0,
+      "priority": "MEDIUM"
+    },
+    {
+      "county": "NASSAU",
+      "records": 73150,
+      "size_mb": 31.470000000000002,
+      "completeness": 100.0,
+      "priority": "LOW"
+    },
+    {
+      "county": "HENDRY",
+      "records": 43910,
+      "size_mb": 28.19,
+      "completeness": 100.0,
+      "priority": "LOW"
+    },
+    {
+      "county": "LEVY",
+      "records": 57236,
+      "size_mb": 27.58,
+      "completeness": 100.0,
+      "priority": "LOW"
+    },
+    {
+      "county": "WASHINGTON",
+      "records": 52365,
+      "size_mb": 23.319999999999997,
+      "completeness": 100.0,
+      "priority": "LOW"
+    },
+    {
+      "county": "COLUMBIA",
+      "records": 45561,
+      "size_mb": 23.119999999999997,
+      "completeness": 100.0,
+      "priority": "LOW"
+    },
+    {
+      "county": "OKEECHOBEE",
+      "records": 41418,
+      "size_mb": 22.210000000000004,
+      "completeness": 100.0,
+      "priority": "LOW"
+    },
+    {
+      "county": "SUWANNEE",
+      "records": 44685,
+      "size_mb": 21.279999999999998,
+      "completeness": 100.0,
+      "priority": "LOW"
+    },
+    {
+      "county": "WAKULLA",
+      "records": 32439,
+      "size_mb": 16.61,
+      "completeness": 100.0,
+      "priority": "LOW"
+    },
+    {
+      "county": "DESOTO",
+      "records": 26123,
+      "size_mb": 13.53,
+      "completeness": 100.0,
+      "priority": "LOW"
+    },
+    {
+      "county": "HOLMES",
+      "records": 18031,
+      "size_mb": 13.28,
+      "completeness": 100.0,
+      "priority": "LOW"
+    },
+    {
+      "county": "FRANKLIN",
+      "records": 21477,
+      "size_mb": 10.46,
+      "completeness": 100.0,
+      "priority": "LOW"
+    },
+    {
+      "county": "TAYLOR",
+      "records": 23677,
+      "size_mb": 10.32,
+      "completeness": 100.0,
+      "priority": "LOW"
+    },
+    {
+      "county": "DIXIE",
+      "records": 19560,
+      "size_mb": 10.280000000000001,
+      "completeness": 100.0,
+      "priority": "LOW"
+    },
+    {
+      "county": "GULF",
+      "records": 23599,
+      "size_mb": 9.71,
+      "completeness": 100.0,
+      "priority": "LOW"
+    },
+    {
+      "county": "HARDEE",
+      "records": 20371,
+      "size_mb": 9.59,
+      "completeness": 100.0,
+      "priority": "LOW"
+    },
+    {
+      "county": "MADISON",
+      "records": 20196,
+      "size_mb": 9.120000000000001,
+      "completeness": 100.0,
+      "priority": "LOW"
+    },
+    {
+      "county": "GILCHRIST",
+      "records": 17686,
+      "size_mb": 8.49,
+      "completeness": 100.0,
+      "priority": "LOW"
+    },
+    {
+      "county": "BRADFORD",
+      "records": 20228,
+      "size_mb": 8.46,
+      "completeness": 100.0,
+      "priority": "LOW"
+    },
+    {
+      "county": "BAKER",
+      "records": 15636,
+      "size_mb": 7.76,
+      "completeness": 100.0,
+      "priority": "LOW"
+    },
+    {
+      "county": "JEFFERSON",
+      "records": 14837,
+      "size_mb": 7.6000000000000005,
+      "completeness": 100.0,
+      "priority": "LOW"
+    },
+    {
+      "county": "GLADES",
+      "records": 15044,
+      "size_mb": 6.169999999999999,
+      "completeness": 100.0,
+      "priority": "LOW"
+    },
+    {
+      "county": "UNION",
+      "records": 8767,
+      "size_mb": 4.17,
+      "completeness": 100.0,
+      "priority": "LOW"
+    },
+    {
+      "county": "LAFAYETTE",
+      "records": 8849,
+      "size_mb": 4.05,
+      "completeness": 100.0,
+      "priority": "LOW"
+    }
+  ],
+  "problem_counties": [
+    {
+      "county": "CALHOUN",
+      "completeness": 75.0,
+      "available_data_types": [
+        "NAL",
+        "NAP",
+        "SDF"
+      ],
+      "missing_data_types": [
+        "NAV"
+      ],
+      "size_mb": 6.45,
+      "action_required": "Download missing data"
+    },
+    {
+      "county": "GADSDEN",
+      "completeness": 75.0,
+      "available_data_types": [
+        "NAL",
+        "NAP",
+        "SDF"
+      ],
+      "missing_data_types": [
+        "NAV"
+      ],
+      "size_mb": 14.33,
+      "action_required": "Download missing data"
+    },
+    {
+      "county": "HAMILTON",
+      "completeness": 75.0,
+      "available_data_types": [
+        "NAL",
+        "NAP",
+        "SDF"
+      ],
+      "missing_data_types": [
+        "NAV"
+      ],
+      "size_mb": 6.01,
+      "action_required": "Download missing data"
+    },
+    {
+      "county": "INDIAN RIVER",
+      "completeness": 25.0,
+      "available_data_types": [
+        "NAV"
+      ],
+      "missing_data_types": [
+        "NAL",
+        "NAP",
+        "SDF"
+      ],
+      "size_mb": 12.79,
+      "action_required": "Download missing data"
+    },
+    {
+      "county": "JACKSON",
+      "completeness": 75.0,
+      "available_data_types": [
+        "NAL",
+        "NAP",
+        "SDF"
+      ],
+      "missing_data_types": [
+        "NAV"
+      ],
+      "size_mb": 19.65,
+      "action_required": "Download missing data"
+    },
+    {
+      "county": "LIBERTY",
+      "completeness": 75.0,
+      "available_data_types": [
+        "NAL",
+        "NAP",
+        "SDF"
+      ],
+      "missing_data_types": [
+        "NAV"
+      ],
+      "size_mb": 2.84,
+      "action_required": "Download missing data"
+    },
+    {
+      "county": "MIAMI-DADE",
+      "completeness": 0.0,
+      "available_data_types": [],
+      "missing_data_types": [
+        "NAL",
+        "NAP",
+        "NAV",
+        "SDF"
+      ],
+      "size_mb": 0,
+      "action_required": "Download missing data"
+    },
+    {
+      "county": "PALM BEACH",
+      "completeness": 25.0,
+      "available_data_types": [
+        "NAV"
+      ],
+      "missing_data_types": [
+        "NAL",
+        "NAP",
+        "SDF"
+      ],
+      "size_mb": 115.73,
+      "action_required": "Download missing data"
+    },
+    {
+      "county": "SANTA ROSA",
+      "completeness": 25.0,
+      "available_data_types": [
+        "NAV"
+      ],
+      "missing_data_types": [
+        "NAL",
+        "NAP",
+        "SDF"
+      ],
+      "size_mb": 20.12,
+      "action_required": "Download missing data"
+    },
+    {
+      "county": "ST. JOHNS",
+      "completeness": 25.0,
+      "available_data_types": [
+        "NAV"
+      ],
+      "missing_data_types": [
+        "NAL",
+        "NAP",
+        "SDF"
+      ],
+      "size_mb": 49.78,
+      "action_required": "Download missing data"
+    },
+    {
+      "county": "ST. LUCIE",
+      "completeness": 25.0,
+      "available_data_types": [
+        "NAV"
+      ],
+      "missing_data_types": [
+        "NAL",
+        "NAP",
+        "SDF"
+      ],
+      "size_mb": 13.2,
+      "action_required": "Download missing data"
+    }
+  ],
+  "upload_estimates": {
+    "total_records_ready": 12231892,
+    "estimated_time_hours_2k_per_sec": 1.7,
+    "estimated_time_hours_4k_per_sec": 0.8,
+    "counties_ready": 57,
+    "counties_needing_attention": 11
+  }
+}

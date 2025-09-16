@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Tax Deed Page</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        .property-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        .status-Active { border-left: 4px solid green; }
+        .status-Sold { border-left: 4px solid orange; }
+        .status-Cancelled, .status-Canceled { border-left: 4px solid red; }
+        .status-Upcoming { border-left: 4px solid blue; }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            border-bottom: 2px solid #ddd;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 16px;
+        }
+        .tab.active {
+            border-bottom: 3px solid blue;
+            font-weight: bold;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tax Deed Sales Data Test</h1>
+    <div id="status">Loading...</div>
+    <div id="summary"></div>
+    
+    <div class="tabs">
+        <button class="tab active" onclick="showTab('upcoming')">Upcoming</button>
+        <button class="tab" onclick="showTab('past')">Past</button>
+        <button class="tab" onclick="showTab('cancelled')">Cancelled</button>
+    </div>
+    
+    <div id="upcoming" class="tab-content active"></div>
+    <div id="past" class="tab-content"></div>
+    <div id="cancelled" class="tab-content"></div>
+
+    <script>
+        const SUPABASE_URL = 'https://pmispwtdngkcmsrsjwbp.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5NTY5NTgsImV4cCI6MjA3MjUzMjk1OH0.YvWR1NkVByTY10Vzpzt4jMtMjBszD_BOCsQDBfG951A';
+        
+        let allProperties = [];
+        
+        function showTab(tabName) {
+            // Update active tab
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Show correct content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+        }
+        
+        async function loadData() {
+            const statusDiv = document.getElementById('status');
+            const summaryDiv = document.getElementById('summary');
+            
+            try {
+                // Fetch from Supabase
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/tax_deed_bidding_items?select=*&order=tax_deed_number`, {
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`
+                    }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                allProperties = data;
+                
+                statusDiv.innerHTML = `<span class="success">✓ Successfully loaded ${data.length} properties from database</span>`;
+                
+                // Count by status
+                const statusCounts = {};
+                data.forEach(item => {
+                    const status = item.item_status || 'Unknown';
+                    statusCounts[status] = (statusCounts[status] || 0) + 1;
+                });
+                
+                let summaryHtml = '<h3>Properties by Status:</h3><ul>';
+                for (const [status, count] of Object.entries(statusCounts)) {
+                    summaryHtml += `<li>${status}: ${count} properties</li>`;
+                }
+                summaryHtml += '</ul>';
+                summaryDiv.innerHTML = summaryHtml;
+                
+                // Populate tabs
+                populateTabs(data);
+                
+            } catch (error) {
+                statusDiv.innerHTML = `<span class="error">✗ Error: ${error.message}</span>`;
+            }
+        }
+        
+        function populateTabs(data) {
+            const upcoming = data.filter(p => 
+                p.item_status === 'Active' || p.item_status === 'Upcoming'
+            );
+            const past = data.filter(p => 
+                p.item_status === 'Sold'
+            );
+            const cancelled = data.filter(p => 
+                p.item_status === 'Cancelled' || p.item_status === 'Canceled'
+            );
+            
+            document.getElementById('upcoming').innerHTML = renderProperties(upcoming, 'Upcoming/Active');
+            document.getElementById('past').innerHTML = renderProperties(past, 'Past/Sold');
+            document.getElementById('cancelled').innerHTML = renderProperties(cancelled, 'Cancelled');
+        }
+        
+        function renderProperties(properties, title) {
+            if (properties.length === 0) {
+                return `<p>No ${title.toLowerCase()} properties found.</p>`;
+            }
+            
+            let html = `<h3>${title} Properties (${properties.length})</h3>`;
+            
+            properties.forEach(prop => {
+                html += `
+                    <div class="property-card status-${prop.item_status}">
+                        <strong>${prop.tax_deed_number}</strong>
+                        <br>Status: ${prop.item_status}
+                        <br>Address: ${prop.legal_situs_address || 'N/A'}
+                        <br>Parcel: ${prop.parcel_id}
+                        <br>Opening Bid: $${(prop.opening_bid || 0).toLocaleString()}
+                        ${prop.winning_bid ? `<br>Winning Bid: $${prop.winning_bid.toLocaleString()}` : ''}
+                        ${prop.applicant_name ? `<br>Applicant: ${prop.applicant_name}` : ''}
+                    </div>
+                `;
+            });
+            
+            return html;
+        }
+        
+        // Load data on page load
+        loadData();
+    </script>
+</body>
+</html>

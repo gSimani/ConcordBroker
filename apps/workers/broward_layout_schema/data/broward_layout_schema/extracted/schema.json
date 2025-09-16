@@ -1,0 +1,20 @@
+{
+  "version": "extracted",
+  "extraction_date": "C:\\Users\\gsima\\Documents\\MyProject\\ConcordBroker\\apps\\workers\\broward_layout_schema",
+  "file_layouts": {
+    "ver.txt": {
+      "name": "ver.txt",
+      "description": "MM-DD-YYYYdoc- is the Document file and will contain one record per instrument number of quality assured index data for the last fully",
+      "fields": [],
+      "source_page": 1
+    }
+  },
+  "field_definitions": [],
+  "statistics": {
+    "total_files": 1,
+    "total_fields": 0,
+    "files": [
+      "ver.txt"
+    ]
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "watch": [
+    "apps/workers/",
+    "apps/api/",
+    "*.py",
+    ".env"
+  ],
+  "ext": "py",
+  "ignore": [
+    "__pycache__/",
+    "*.pyc",
+    "test_*.py",
+    "*.log",
+    "data/",
+    "*.mp4",
+    "*.db",
+    "*.sqlite"
+  ],
+  "exec": "python start_pipeline.py",
+  "env": {
+    "PYTHONUNBUFFERED": "1",
+    "DEBUG": "true"
+  },
+  "events": {
+    "restart": "echo '[NODEMON] Pipeline agents restarting...'",
+    "start": "echo '[NODEMON] Pipeline orchestrator started'",
+    "crash": "echo '[NODEMON] Pipeline crashed! Check logs...'"
+  },
+  "delay": "2000",
+  "verbose": true,
+  "colours": true,
+  "signal": "SIGTERM"
+}

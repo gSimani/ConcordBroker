@@ -1,0 +1,914 @@
+{
+  "field_mappings": {
+    "property_appraiser_to_ui": {
+      "overview_tab": {
+        "property_location_section": {
+          "phy_addr1": {
+            "ui_field": "property-address",
+            "label": "Property Address",
+            "format": "string",
+            "required": true,
+            "source_table": "florida_parcels"
+          },
+          "phy_addr2": {
+            "ui_field": "property-address2",
+            "label": "Address Line 2",
+            "format": "string",
+            "required": false,
+            "source_table": "florida_parcels"
+          },
+          "phy_city": {
+            "ui_field": "property-city",
+            "label": "City",
+            "format": "string",
+            "required": true,
+            "source_table": "florida_parcels"
+          },
+          "phy_state": {
+            "ui_field": "property-state",
+            "label": "State",
+            "format": "string",
+            "default": "FL",
+            "source_table": "florida_parcels"
+          },
+          "phy_zipcd": {
+            "ui_field": "property-zip",
+            "label": "ZIP Code",
+            "format": "zipcode",
+            "validation": "^\\d{5}(-\\d{4})?$",
+            "source_table": "florida_parcels"
+          },
+          "parcel_id": {
+            "ui_field": "parcel-number",
+            "label": "Parcel ID",
+            "format": "string",
+            "required": true,
+            "unique": true,
+            "source_table": "florida_parcels"
+          }
+        },
+        "quick_stats_section": {
+          "jv": {
+            "ui_field": "market-value",
+            "label": "Market Value",
+            "format": "currency",
+            "source_table": "florida_parcels"
+          },
+          "yr_blt": {
+            "ui_field": "year-built",
+            "label": "Year Built",
+            "format": "year",
+            "source_table": "florida_parcels"
+          },
+          "tot_lvg_area": {
+            "ui_field": "living-area",
+            "label": "Living Area",
+            "format": "sqft",
+            "source_table": "florida_parcels"
+          },
+          "bedroom_cnt": {
+            "ui_field": "bedrooms",
+            "label": "Bedrooms",
+            "format": "integer",
+            "source_table": "florida_parcels"
+          },
+          "bathroom_cnt": {
+            "ui_field": "bathrooms",
+            "label": "Bathrooms",
+            "format": "decimal",
+            "source_table": "florida_parcels"
+          }
+        }
+      },
+      "core_property_tab": {
+        "property_details_section": {
+          "dor_uc": {
+            "ui_field": "use-code",
+            "label": "Property Use Code",
+            "format": "code",
+            "transformation": "use_code_to_description",
+            "source_table": "florida_parcels"
+          },
+          "state_par_use": {
+            "ui_field": "state-use-code",
+            "label": "State Use Code",
+            "format": "code",
+            "source_table": "florida_parcels"
+          },
+          "county_par_use": {
+            "ui_field": "county-use-code",
+            "label": "County Use Code",
+            "format": "code",
+            "source_table": "florida_parcels"
+          },
+          "yr_blt": {
+            "ui_field": "year-built",
+            "label": "Year Built",
+            "format": "year",
+            "validation": "1800-current_year",
+            "source_table": "florida_parcels"
+          },
+          "act_yr_blt": {
+            "ui_field": "actual-year-built",
+            "label": "Actual Year Built",
+            "format": "year",
+            "source_table": "florida_parcels"
+          },
+          "eff_yr_blt": {
+            "ui_field": "effective-year-built",
+            "label": "Effective Year Built",
+            "format": "year",
+            "source_table": "florida_parcels"
+          }
+        },
+        "structure_details_section": {
+          "no_buldng": {
+            "ui_field": "num-buildings",
+            "label": "Number of Buildings",
+            "format": "integer",
+            "source_table": "florida_parcels"
+          },
+          "no_res_unts": {
+            "ui_field": "residential-units",
+            "label": "Residential Units",
+            "format": "integer",
+            "source_table": "florida_parcels"
+          },
+          "spec_feat_val": {
+            "ui_field": "special-features-value",
+            "label": "Special Features Value",
+            "format": "currency",
+            "source_table": "florida_parcels"
+          },
+          "multi_par_sal1": {
+            "ui_field": "multi-parcel-sale",
+            "label": "Multi-Parcel Sale Flag",
+            "format": "boolean",
+            "source_table": "florida_parcels"
+          }
+        }
+      },
+      "valuation_tab": {
+        "current_values_section": {
+          "jv": {
+            "ui_field": "just-value",
+            "label": "Just Value",
+            "format": "currency",
+            "required": true,
+            "source_table": "florida_parcels"
+          },
+          "av_sd": {
+            "ui_field": "assessed-value",
+            "label": "Assessed Value",
+            "format": "currency",
+            "required": true,
+            "source_table": "florida_parcels"
+          },
+          "tv_sd": {
+            "ui_field": "taxable-value",
+            "label": "Taxable Value",
+            "format": "currency",
+            "required": true,
+            "source_table": "florida_parcels"
+          },
+          "av_nsd": {
+            "ui_field": "non-school-assessed",
+            "label": "Non-School Assessed Value",
+            "format": "currency",
+            "source_table": "florida_parcels"
+          },
+          "tv_nsd": {
+            "ui_field": "non-school-taxable",
+            "label": "Non-School Taxable Value",
+            "format": "currency",
+            "source_table": "florida_parcels"
+          }
+        },
+        "value_breakdown_section": {
+          "lnd_val": {
+            "ui_field": "land-value",
+            "label": "Land Value",
+            "format": "currency",
+            "source_table": "florida_parcels"
+          },
+          "bldg_val": {
+            "ui_field": "building-value",
+            "label": "Building Value",
+            "format": "currency",
+            "calculation": "jv - lnd_val",
+            "source_table": "florida_parcels"
+          },
+          "xf_val": {
+            "ui_field": "extra-feature-value",
+            "label": "Extra Feature Value",
+            "format": "currency",
+            "source_table": "florida_parcels"
+          },
+          "mkv_val": {
+            "ui_field": "market-value",
+            "label": "Market Value",
+            "format": "currency",
+            "source_table": "florida_parcels"
+          }
+        }
+      },
+      "owner_tab": {
+        "owner_information_section": {
+          "owner_name": {
+            "ui_field": "owner-name",
+            "label": "Owner Name",
+            "format": "string",
+            "required": true,
+            "source_table": "florida_parcels"
+          },
+          "owner_addr1": {
+            "ui_field": "owner-address1",
+            "label": "Owner Address",
+            "format": "string",
+            "source_table": "florida_parcels"
+          },
+          "owner_addr2": {
+            "ui_field": "owner-address2",
+            "label": "Owner Address 2",
+            "format": "string",
+            "source_table": "florida_parcels"
+          },
+          "owner_city": {
+            "ui_field": "owner-city",
+            "label": "Owner City",
+            "format": "string",
+            "source_table": "florida_parcels"
+          },
+          "owner_state": {
+            "ui_field": "owner-state",
+            "label": "Owner State",
+            "format": "state_code",
+            "validation": "^[A-Z]{2}$",
+            "source_table": "florida_parcels"
+          },
+          "owner_zip": {
+            "ui_field": "owner-zip",
+            "label": "Owner ZIP",
+            "format": "zipcode",
+            "source_table": "florida_parcels"
+          }
+        },
+        "ownership_details_section": {
+          "ownership_pct": {
+            "ui_field": "ownership-percent",
+            "label": "Ownership Percentage",
+            "format": "percentage",
+            "source_table": "florida_parcels"
+          },
+          "prev_hmstd_own": {
+            "ui_field": "previous-homestead-owner",
+            "label": "Previous Homestead Owner",
+            "format": "string",
+            "source_table": "florida_parcels"
+          }
+        }
+      },
+      "building_tab": {
+        "building_details_section": {
+          "tot_lvg_area": {
+            "ui_field": "total-living-area",
+            "label": "Total Living Area",
+            "format": "sqft",
+            "source_table": "florida_parcels"
+          },
+          "grnd_ar": {
+            "ui_field": "ground-area",
+            "label": "Ground Area",
+            "format": "sqft",
+            "source_table": "florida_parcels"
+          },
+          "gross_ar": {
+            "ui_field": "gross-area",
+            "label": "Gross Area",
+            "format": "sqft",
+            "source_table": "florida_parcels"
+          },
+          "eff_ar": {
+            "ui_field": "effective-area",
+            "label": "Effective Area",
+            "format": "sqft",
+            "source_table": "florida_parcels"
+          },
+          "heat_ar": {
+            "ui_field": "heated-area",
+            "label": "Heated Area",
+            "format": "sqft",
+            "source_table": "florida_parcels"
+          }
+        },
+        "room_details_section": {
+          "bedroom_cnt": {
+            "ui_field": "bedrooms",
+            "label": "Bedrooms",
+            "format": "integer",
+            "validation": "0-20",
+            "source_table": "florida_parcels"
+          },
+          "bathroom_cnt": {
+            "ui_field": "bathrooms",
+            "label": "Bathrooms",
+            "format": "decimal",
+            "validation": "0-20",
+            "source_table": "florida_parcels"
+          },
+          "half_bath_cnt": {
+            "ui_field": "half-baths",
+            "label": "Half Bathrooms",
+            "format": "integer",
+            "source_table": "florida_parcels"
+          },
+          "full_bath_cnt": {
+            "ui_field": "full-baths",
+            "label": "Full Bathrooms",
+            "format": "integer",
+            "source_table": "florida_parcels"
+          },
+          "two_bath_cnt": {
+            "ui_field": "three-quarter-baths",
+            "label": "Three Quarter Baths",
+            "format": "integer",
+            "source_table": "florida_parcels"
+          }
+        }
+      },
+      "land_legal_tab": {
+        "land_information_section": {
+          "lnd_sqfoot": {
+            "ui_field": "land-sqft",
+            "label": "Land Square Feet",
+            "format": "sqft",
+            "source_table": "florida_parcels"
+          },
+          "dt_last_calc": {
+            "ui_field": "land-calc-date",
+            "label": "Land Calculation Date",
+            "format": "date",
+            "source_table": "florida_parcels"
+          },
+          "lnd_typ": {
+            "ui_field": "land-type",
+            "label": "Land Type",
+            "format": "code",
+            "source_table": "florida_parcels"
+          }
+        },
+        "legal_description_section": {
+          "lgl_1": {
+            "ui_field": "legal-desc1",
+            "label": "Legal Description Line 1",
+            "format": "string",
+            "source_table": "florida_parcels"
+          },
+          "lgl_2": {
+            "ui_field": "legal-desc2",
+            "label": "Legal Description Line 2",
+            "format": "string",
+            "source_table": "florida_parcels"
+          },
+          "lgl_3": {
+            "ui_field": "legal-desc3",
+            "label": "Legal Description Line 3",
+            "format": "string",
+            "source_table": "florida_parcels"
+          },
+          "subdivision": {
+            "ui_field": "subdivision",
+            "label": "Subdivision",
+            "format": "string",
+            "source_table": "florida_parcels"
+          },
+          "blk": {
+            "ui_field": "block",
+            "label": "Block",
+            "format": "string",
+            "source_table": "florida_parcels"
+          },
+          "lot": {
+            "ui_field": "lot",
+            "label": "Lot",
+            "format": "string",
+            "source_table": "florida_parcels"
+          }
+        }
+      },
+      "sales_history_tab": {
+        "most_recent_sale_section": {
+          "sale_prc1": {
+            "ui_field": "sale-price-1",
+            "label": "Last Sale Price",
+            "format": "currency",
+            "source_table": "florida_parcels"
+          },
+          "sale_yr1": {
+            "ui_field": "sale-year-1",
+            "label": "Last Sale Year",
+            "format": "year",
+            "source_table": "florida_parcels"
+          },
+          "sale_mo1": {
+            "ui_field": "sale-month-1",
+            "label": "Last Sale Month",
+            "format": "month",
+            "source_table": "florida_parcels"
+          },
+          "qual_cd1": {
+            "ui_field": "qualification-code-1",
+            "label": "Qualification Code",
+            "format": "code",
+            "transformation": "qual_code_to_description",
+            "source_table": "florida_parcels"
+          },
+          "vi_cd": {
+            "ui_field": "vacant-improved-code",
+            "label": "Vacant/Improved",
+            "format": "code",
+            "source_table": "florida_parcels"
+          },
+          "or_book": {
+            "ui_field": "or-book",
+            "label": "OR Book",
+            "format": "string",
+            "source_table": "florida_parcels"
+          },
+          "or_page": {
+            "ui_field": "or-page",
+            "label": "OR Page",
+            "format": "string",
+            "source_table": "florida_parcels"
+          }
+        },
+        "previous_sale_section": {
+          "sale_prc2": {
+            "ui_field": "sale-price-2",
+            "label": "Previous Sale Price",
+            "format": "currency",
+            "source_table": "florida_parcels"
+          },
+          "sale_yr2": {
+            "ui_field": "sale-year-2",
+            "label": "Previous Sale Year",
+            "format": "year",
+            "source_table": "florida_parcels"
+          },
+          "sale_mo2": {
+            "ui_field": "sale-month-2",
+            "label": "Previous Sale Month",
+            "format": "month",
+            "source_table": "florida_parcels"
+          },
+          "qual_cd2": {
+            "ui_field": "qualification-code-2",
+            "label": "Previous Qualification Code",
+            "format": "code",
+            "source_table": "florida_parcels"
+          }
+        }
+      },
+      "taxes_tab": {
+        "tax_amounts_section": {
+          "tax_amount": {
+            "ui_field": "annual-tax",
+            "label": "Annual Tax Amount",
+            "format": "currency",
+            "calculation": "tv_sd * millage_rate / 1000",
+            "source_table": "florida_parcels"
+          },
+          "millage_rate": {
+            "ui_field": "millage-rate",
+            "label": "Millage Rate",
+            "format": "decimal",
+            "source_table": "florida_parcels"
+          },
+          "last_tax_roll_yr": {
+            "ui_field": "tax-roll-year",
+            "label": "Tax Roll Year",
+            "format": "year",
+            "source_table": "florida_parcels"
+          }
+        },
+        "tax_certificates_section": {
+          "certificate_number": {
+            "ui_field": "cert-number",
+            "label": "Certificate Number",
+            "format": "string",
+            "source_table": "tax_certificates"
+          },
+          "certificate_year": {
+            "ui_field": "cert-year",
+            "label": "Certificate Year",
+            "format": "year",
+            "source_table": "tax_certificates"
+          },
+          "certificate_amount": {
+            "ui_field": "cert-amount",
+            "label": "Certificate Amount",
+            "format": "currency",
+            "source_table": "tax_certificates"
+          },
+          "certificate_status": {
+            "ui_field": "cert-status",
+            "label": "Certificate Status",
+            "format": "string",
+            "source_table": "tax_certificates"
+          }
+        }
+      },
+      "exemptions_tab": {
+        "exemptions_section": {
+          "exempt_val": {
+            "ui_field": "total-exemption-value",
+            "label": "Total Exemption Value",
+            "format": "currency",
+            "source_table": "florida_parcels"
+          },
+          "homestead_exemption": {
+            "ui_field": "homestead-flag",
+            "label": "Homestead Exemption",
+            "format": "boolean",
+            "transformation": "exempt_val > 0",
+            "source_table": "florida_parcels"
+          },
+          "wid_exempt": {
+            "ui_field": "widow-exemption",
+            "label": "Widow Exemption",
+            "format": "currency",
+            "source_table": "florida_parcels"
+          },
+          "dis_exempt": {
+            "ui_field": "disability-exemption",
+            "label": "Disability Exemption",
+            "format": "currency",
+            "source_table": "florida_parcels"
+          },
+          "vet_exempt": {
+            "ui_field": "veteran-exemption",
+            "label": "Veteran Exemption",
+            "format": "currency",
+            "source_table": "florida_parcels"
+          }
+        }
+      }
+    },
+    "sunbiz_to_ui": {
+      "sunbiz_tab": {
+        "business_entity_section": {
+          "corp_name": {
+            "ui_field": "corporation-name",
+            "label": "Corporation Name",
+            "format": "string",
+            "source_table": "sunbiz_corporations"
+          },
+          "corp_number": {
+            "ui_field": "corporation-number",
+            "label": "Document Number",
+            "format": "string",
+            "source_table": "sunbiz_corporations"
+          },
+          "status": {
+            "ui_field": "corp-status",
+            "label": "Status",
+            "format": "enum",
+            "values": ["ACTIVE", "INACTIVE", "DISSOLVED"],
+            "source_table": "sunbiz_corporations"
+          },
+          "filing_date": {
+            "ui_field": "filing-date",
+            "label": "Filing Date",
+            "format": "date",
+            "source_table": "sunbiz_corporations"
+          },
+          "state_country": {
+            "ui_field": "state-of-formation",
+            "label": "State/Country",
+            "format": "string",
+            "source_table": "sunbiz_corporations"
+          },
+          "entity_type": {
+            "ui_field": "entity-type",
+            "label": "Entity Type",
+            "format": "string",
+            "source_table": "sunbiz_corporations"
+          }
+        },
+        "registered_agent_section": {
+          "agent_name": {
+            "ui_field": "agent-name",
+            "label": "Registered Agent",
+            "format": "string",
+            "source_table": "sunbiz_corporations"
+          },
+          "agent_address1": {
+            "ui_field": "agent-address",
+            "label": "Agent Address",
+            "format": "string",
+            "source_table": "sunbiz_corporations"
+          },
+          "agent_city": {
+            "ui_field": "agent-city",
+            "label": "Agent City",
+            "format": "string",
+            "source_table": "sunbiz_corporations"
+          },
+          "agent_state": {
+            "ui_field": "agent-state",
+            "label": "Agent State",
+            "format": "state_code",
+            "source_table": "sunbiz_corporations"
+          },
+          "agent_zip": {
+            "ui_field": "agent-zip",
+            "label": "Agent ZIP",
+            "format": "zipcode",
+            "source_table": "sunbiz_corporations"
+          }
+        },
+        "principal_address_section": {
+          "principal_address1": {
+            "ui_field": "principal-address",
+            "label": "Principal Address",
+            "format": "string",
+            "source_table": "sunbiz_corporations"
+          },
+          "principal_city": {
+            "ui_field": "principal-city",
+            "label": "Principal City",
+            "format": "string",
+            "source_table": "sunbiz_corporations"
+          },
+          "principal_state": {
+            "ui_field": "principal-state",
+            "label": "Principal State",
+            "format": "state_code",
+            "source_table": "sunbiz_corporations"
+          },
+          "principal_zip": {
+            "ui_field": "principal-zip",
+            "label": "Principal ZIP",
+            "format": "zipcode",
+            "source_table": "sunbiz_corporations"
+          }
+        },
+        "officers_section": {
+          "officer_name": {
+            "ui_field": "officer-name",
+            "label": "Officer Name",
+            "format": "string",
+            "source_table": "sunbiz_officers"
+          },
+          "officer_title": {
+            "ui_field": "officer-title",
+            "label": "Officer Title",
+            "format": "string",
+            "source_table": "sunbiz_officers"
+          },
+          "officer_address": {
+            "ui_field": "officer-address",
+            "label": "Officer Address",
+            "format": "string",
+            "source_table": "sunbiz_officers"
+          }
+        },
+        "annual_reports_section": {
+          "last_annual_report": {
+            "ui_field": "last-annual-report",
+            "label": "Last Annual Report",
+            "format": "date",
+            "source_table": "sunbiz_annual_reports"
+          },
+          "next_report_due": {
+            "ui_field": "next-report-due",
+            "label": "Next Report Due",
+            "format": "date",
+            "source_table": "sunbiz_annual_reports"
+          }
+        }
+      }
+    },
+    "tax_deed_sales_to_ui": {
+      "tax_deed_sales_tab": {
+        "auction_information_section": {
+          "td_number": {
+            "ui_field": "td-number",
+            "label": "Tax Deed Number",
+            "format": "string",
+            "source_table": "tax_deed_sales"
+          },
+          "auction_date": {
+            "ui_field": "auction-date",
+            "label": "Auction Date",
+            "format": "date",
+            "source_table": "tax_deed_sales"
+          },
+          "auction_status": {
+            "ui_field": "auction-status",
+            "label": "Auction Status",
+            "format": "enum",
+            "values": ["UPCOMING", "COMPLETED", "CANCELLED"],
+            "source_table": "tax_deed_sales"
+          },
+          "opening_bid": {
+            "ui_field": "opening-bid",
+            "label": "Opening Bid",
+            "format": "currency",
+            "source_table": "tax_deed_sales"
+          },
+          "minimum_bid": {
+            "ui_field": "minimum-bid",
+            "label": "Minimum Bid",
+            "format": "currency",
+            "source_table": "tax_deed_sales"
+          },
+          "winning_bid": {
+            "ui_field": "winning-bid",
+            "label": "Winning Bid",
+            "format": "currency",
+            "source_table": "tax_deed_sales"
+          },
+          "winner_name": {
+            "ui_field": "winner-name",
+            "label": "Winner Name",
+            "format": "string",
+            "source_table": "tax_deed_sales"
+          }
+        },
+        "property_details_section": {
+          "property_description": {
+            "ui_field": "td-property-desc",
+            "label": "Property Description",
+            "format": "string",
+            "source_table": "tax_deed_sales"
+          },
+          "assessed_value": {
+            "ui_field": "td-assessed-value",
+            "label": "Assessed Value",
+            "format": "currency",
+            "source_table": "tax_deed_sales"
+          },
+          "tax_amount_due": {
+            "ui_field": "tax-amount-due",
+            "label": "Tax Amount Due",
+            "format": "currency",
+            "source_table": "tax_deed_sales"
+          }
+        }
+      }
+    },
+    "permit_to_ui": {
+      "permit_tab": {
+        "active_permits_section": {
+          "permit_number": {
+            "ui_field": "permit-number",
+            "label": "Permit Number",
+            "format": "string",
+            "source_table": "building_permits"
+          },
+          "permit_type": {
+            "ui_field": "permit-type",
+            "label": "Permit Type",
+            "format": "string",
+            "source_table": "building_permits"
+          },
+          "permit_status": {
+            "ui_field": "permit-status",
+            "label": "Status",
+            "format": "enum",
+            "values": ["ACTIVE", "COMPLETED", "EXPIRED", "CANCELLED"],
+            "source_table": "building_permits"
+          },
+          "issue_date": {
+            "ui_field": "issue-date",
+            "label": "Issue Date",
+            "format": "date",
+            "source_table": "building_permits"
+          },
+          "contractor_name": {
+            "ui_field": "contractor",
+            "label": "Contractor",
+            "format": "string",
+            "source_table": "building_permits"
+          },
+          "work_description": {
+            "ui_field": "work-description",
+            "label": "Work Description",
+            "format": "text",
+            "source_table": "building_permits"
+          },
+          "estimated_value": {
+            "ui_field": "estimated-value",
+            "label": "Estimated Value",
+            "format": "currency",
+            "source_table": "building_permits"
+          }
+        }
+      }
+    }
+  },
+  "transformations": {
+    "use_code_to_description": {
+      "0100": "Single Family",
+      "0101": "Single Family - Detached",
+      "0102": "Single Family - Attached",
+      "0103": "Single Family - Townhouse",
+      "0200": "Multi Family",
+      "0201": "Multi Family - Duplex",
+      "0202": "Multi Family - Triplex",
+      "0203": "Multi Family - Quadruplex",
+      "1000": "Commercial",
+      "1100": "Retail",
+      "1200": "Office",
+      "4000": "Industrial",
+      "4100": "Light Industrial",
+      "4200": "Heavy Industrial",
+      "5000": "Agricultural",
+      "5100": "Cropland",
+      "5200": "Pasture",
+      "0000": "Vacant Land",
+      "0001": "Vacant Residential"
+    },
+    "qual_code_to_description": {
+      "U": "Unqualified",
+      "Q": "Qualified",
+      "V": "Valid Sale",
+      "S": "Suspicious",
+      "F": "Financial Institution",
+      "N": "Non-Arms Length"
+    },
+    "format_functions": {
+      "currency": "value => `$${value.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`",
+      "sqft": "value => `${value.toLocaleString('en-US')} sq ft`",
+      "percentage": "value => `${value}%`",
+      "year": "value => value && value > 0 ? value.toString() : 'N/A'",
+      "month": "value => ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][value-1] || 'N/A'",
+      "date": "value => value ? new Date(value).toLocaleDateString() : 'N/A'",
+      "boolean": "value => value ? 'Yes' : 'No'",
+      "state_code": "value => value && value.length === 2 ? value.toUpperCase() : 'FL'",
+      "zipcode": "value => value && value.match(/^\\d{5}/) ? value : ''"
+    }
+  },
+  "validation_rules": {
+    "required_fields": [
+      "parcel_id",
+      "phy_addr1",
+      "phy_city",
+      "owner_name",
+      "jv",
+      "av_sd",
+      "tv_sd"
+    ],
+    "numeric_ranges": {
+      "yr_blt": {"min": 1800, "max": 2025},
+      "bedroom_cnt": {"min": 0, "max": 20},
+      "bathroom_cnt": {"min": 0, "max": 20},
+      "jv": {"min": 0},
+      "av_sd": {"min": 0},
+      "tv_sd": {"min": 0}
+    },
+    "pattern_validations": {
+      "phy_zipcd": "^\\d{5}(-\\d{4})?$",
+      "owner_state": "^[A-Z]{2}$",
+      "dor_uc": "^\\d{4}$",
+      "qual_cd1": "^[A-Z]\\d?$"
+    }
+  },
+  "data_sources": {
+    "property_appraiser": {
+      "tables": [
+        "florida_parcels",
+        "florida_condo_units",
+        "sales_history",
+        "tax_certificates"
+      ],
+      "update_frequency": "daily",
+      "source_url": "https://floridarevenue.com/property/dataportal"
+    },
+    "sunbiz": {
+      "tables": [
+        "sunbiz_corporations",
+        "sunbiz_officers",
+        "sunbiz_annual_reports"
+      ],
+      "update_frequency": "weekly",
+      "source_url": "https://dos.fl.gov/sunbiz/"
+    },
+    "tax_deed_sales": {
+      "tables": [
+        "tax_deed_sales",
+        "tax_deed_auctions"
+      ],
+      "update_frequency": "daily",
+      "source_url": "county_clerk_websites"
+    },
+    "building_permits": {
+      "tables": [
+        "building_permits"
+      ],
+      "update_frequency": "weekly",
+      "source_url": "county_building_departments"
+    }
+  }
+}

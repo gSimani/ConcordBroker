@@ -1,0 +1,77 @@
+================================================================================
+SUPABASE DATABASE AUDIT REPORT
+================================================================================
+Audit Date: 2025-09-08T08:51:39.114975
+
+OVERVIEW
+----------------------------------------
+Total Tables Checked: 33
+Tables with Data: 4
+Empty Tables: 1
+Error Tables: 28
+Total Rows (all tables): 789,889
+
+TOP 10 TABLES BY ROW COUNT
+----------------------------------------
+florida_parcels                        789,884 rows
+properties                                   3 rows
+nav_assessments                              1 rows
+florida_permits                              1 rows
+
+DETAILED TABLE INFORMATION
+----------------------------------------
+
+florida_parcels
+  Rows: 789,884
+  Columns: 50 - id, parcel_id, county, year, geometry, centroid, area_sqft, perimeter_ft, owner_name, owner_addr1
+
+properties
+  Rows: 3
+  Columns: 19 - id, parcel_id, owner_name, property_address, city, state, zip_code, property_type, year_built, total_sqft
+
+nav_assessments
+  Rows: 1
+  Columns: 9 - id, parcel_id, tax_year, just_value, assessed_value, taxable_value, land_value, building_value, created_at
+
+florida_permits
+  Rows: 1
+  Columns: 8 - id, permit_number, parcel_id, property_address, permit_type, description, status, created_at
+
+EMPTY TABLES
+----------------------------------------
+  - entity_relationships
+
+TABLES WITH ERRORS
+----------------------------------------
+  - parcels: {'message': "Could not find the table 'public.parcels' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.latest_parcels'", 'details': None}
+  - sales_history: {'message': "Could not find the table 'public.sales_history' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.property_sales_history'", 'details': None}
+  - florida_sdf_sales: {'message': "Could not find the table 'public.florida_sdf_sales' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fl_sdf_sales'", 'details': None}
+  - sdf_sales: {'message': "Could not find the table 'public.sdf_sales' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fl_sdf_sales'", 'details': None}
+  - tax_assessments: {'message': "Could not find the table 'public.tax_assessments' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.nav_assessments'", 'details': None}
+  - florida_nav_assessments: {'message': "Could not find the table 'public.florida_nav_assessments' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.nav_assessments'", 'details': None}
+  - tax_certificates: {'message': "Could not find the table 'public.tax_certificates' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.all_entities'", 'details': None}
+  - tax_deed_sales: {'message': "Could not find the table 'public.tax_deed_sales' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fl_sdf_sales'", 'details': None}
+  - building_permits: {'message': "Could not find the table 'public.building_permits' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.florida_permits'", 'details': None}
+  - sunbiz_corporations: {'message': "Could not find the table 'public.sunbiz_corporations' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.sunbiz_corporate'", 'details': None}
+  - sunbiz_principals: {'message': "Could not find the table 'public.sunbiz_principals' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.sunbiz_partnerships'", 'details': None}
+  - business_entities: {'message': "Could not find the table 'public.business_entities' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.all_entities'", 'details': None}
+  - ownership_history: {'message': "Could not find the table 'public.ownership_history' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.property_ownership_history'", 'details': None}
+  - florida_mapping_data: {'message': "Could not find the table 'public.florida_mapping_data' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.florida_permits'", 'details': None}
+  - broward_daily_index: {'message': "Could not find the table 'public.broward_daily_index' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.property_entity_matches'", 'details': None}
+  - florida_nal_counties: {'message': "Could not find the table 'public.florida_nal_counties' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.florida_parcels'", 'details': None}
+  - florida_nap_counties: {'message': "Could not find the table 'public.florida_nap_counties' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.florida_permits'", 'details': None}
+  - florida_nav_roll: {'message': "Could not find the table 'public.florida_nav_roll' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.florida_parcels'", 'details': None}
+  - florida_revenue: {'message': "Could not find the table 'public.florida_revenue' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.florida_permits'", 'details': None}
+  - property_characteristics: {'message': "Could not find the table 'public.property_characteristics' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.property_sales_history'", 'details': None}
+  - property_use_codes: {'message': "Could not find the table 'public.property_use_codes' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.property_entity_matches'", 'details': None}
+  - property_analytics: {'message': "Could not find the table 'public.property_analytics' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.property_entity_matches'", 'details': None}
+  - market_trends: {'message': "Could not find the table 'public.market_trends' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.latest_parcels'", 'details': None}
+  - pipeline_runs: {'message': "Could not find the table 'public.pipeline_runs' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.monitoring_agents'", 'details': None}
+  - data_sync_log: {'message': "Could not find the table 'public.data_sync_log' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.data_source_monitor'", 'details': None}
+  - agent_conversations: {'message': "Could not find the table 'public.agent_conversations' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.agent_notifications'", 'details': None}
+  - agent_tasks: {'message': "Could not find the table 'public.agent_tasks' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fl_agent_status'", 'details': None}
+  - agent_results: {'message': "Could not find the table 'public.agent_results' in the schema cache", 'code': 'PGRST205', 'hint': "Perhaps you meant the table 'public.fl_agent_status'", 'details': None}
+
+================================================================================
+END OF REPORT
+================================================================================

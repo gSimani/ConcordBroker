@@ -1,0 +1,13 @@
+{
+  "timestamp": "2025-09-08T09:18:31.900881",
+  "tables": {},
+  "empty_tables": [],
+  "large_tables": [],
+  "summary": {
+    "total_tables": 0,
+    "empty_tables_count": 0,
+    "populated_tables_count": 0,
+    "large_tables_count": 0,
+    "total_rows_all_tables": 0
+  }
+}

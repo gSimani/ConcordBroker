@@ -1,0 +1,74 @@
+{
+  "Property Search Page": {
+    "tables": [
+      "parcels",
+      "properties"
+    ],
+    "fields": [
+      "property_address",
+      "owner_name",
+      "property_type",
+      "total_value"
+    ],
+    "filters": [
+      "county_code",
+      "property_use_code",
+      "price_range",
+      "year_built"
+    ]
+  },
+  "Property Profile Page": {
+    "tables": [
+      "parcels",
+      "properties",
+      "property_profiles"
+    ],
+    "tabs": {
+      "Overview": [
+        "property_address",
+        "owner_name",
+        "total_value",
+        "year_built"
+      ],
+      "Sales History": [
+        "sales_history.sale_date",
+        "sales_history.sale_price"
+      ],
+      "Tax Info": [
+        "property_tax_info.tax_amount",
+        "property_tax_info.payment_status"
+      ],
+      "Permits": [
+        "building_permits.permit_type",
+        "building_permits.status"
+      ],
+      "Business Entities": [
+        "sunbiz_entities.entity_name",
+        "property_entities.relationship_type"
+      ]
+    }
+  },
+  "Dashboard": {
+    "tables": [
+      "tracked_properties",
+      "user_alerts",
+      "property_profiles"
+    ],
+    "widgets": [
+      "tracked_properties_list",
+      "recent_alerts",
+      "market_trends"
+    ]
+  },
+  "Market Analysis": {
+    "tables": [
+      "sales_history",
+      "property_valuations"
+    ],
+    "metrics": [
+      "average_sale_price",
+      "price_per_sqft",
+      "days_on_market"
+    ]
+  }
+}

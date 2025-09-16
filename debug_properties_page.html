@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Properties Page</title>
+    <style>
+        body { font-family: monospace; padding: 20px; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        pre { background: #f5f5f5; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Properties Page Debug</h1>
+    <div id="log"></div>
+    
+    <script>
+        const log = document.getElementById('log');
+        
+        function addLog(message, type = 'info') {
+            const div = document.createElement('div');
+            div.className = type;
+            div.textContent = `[${new Date().toISOString()}] ${message}`;
+            log.appendChild(div);
+        }
+        
+        async function debugAPI() {
+            addLog('Starting API debug...');
+            
+            // Test 1: Direct API call
+            try {
+                addLog('Test 1: Calling http://localhost:8000/api/properties/search');
+                const response = await fetch('http://localhost:8000/api/properties/search');
+                const data = await response.json();
+                addLog(`Success! Got ${data.properties?.length || 0} properties`, 'success');
+                
+                // Show first property
+                if (data.properties && data.properties[0]) {
+                    const pre = document.createElement('pre');
+                    pre.textContent = JSON.stringify(data.properties[0], null, 2);
+                    log.appendChild(pre);
+                }
+            } catch (error) {
+                addLog(`API Error: ${error.message}`, 'error');
+            }
+            
+            // Test 2: Check if frontend is running
+            try {
+                addLog('Test 2: Checking frontend at http://localhost:5174');
+                const frontendResponse = await fetch('http://localhost:5174');
+                if (frontendResponse.ok) {
+                    addLog('Frontend is running', 'success');
+                }
+            } catch (error) {
+                addLog(`Frontend check failed: ${error.message}`, 'error');
+            }
+            
+            // Test 3: Check CORS headers
+            try {
+                addLog('Test 3: Checking CORS headers');
+                const corsResponse = await fetch('http://localhost:8000/api/properties/search', {
+                    method: 'OPTIONS'
+                });
+                const headers = {};
+                corsResponse.headers.forEach((value, key) => {
+                    headers[key] = value;
+                });
+                addLog('CORS Headers:', 'info');
+                const pre = document.createElement('pre');
+                pre.textContent = JSON.stringify(headers, null, 2);
+                log.appendChild(pre);
+            } catch (error) {
+                addLog(`CORS check failed: ${error.message}`, 'error');
+            }
+            
+            // Test 4: Test with query parameters
+            try {
+                addLog('Test 4: Testing with query parameters');
+                const params = new URLSearchParams({
+                    city: 'FORT LAUDERDALE',
+                    limit: '5'
+                });
+                const response = await fetch(`http://localhost:8000/api/properties/search?${params}`);
+                const data = await response.json();
+                addLog(`Got ${data.properties?.length || 0} properties for FORT LAUDERDALE`, 'success');
+            } catch (error) {
+                addLog(`Query test failed: ${error.message}`, 'error');
+            }
+            
+            addLog('Debug complete!', 'success');
+        }
+        
+        // Run debug
+        debugAPI();
+    </script>
+</body>
+</html>

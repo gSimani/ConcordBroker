@@ -1,0 +1,220 @@
+{
+  "timestamp": "2025-09-05T15:54:34.464Z",
+  "organization": "Concord Broker",
+  "totalModelsAnalyzed": 25,
+  "availableModels": 8,
+  "recommendations": {
+    "propertyDescriptions": {
+      "primary": "google/flan-t5-large",
+      "alternatives": [
+        "facebook/bart-large",
+        "t5-base"
+      ],
+      "reasoning": "Flan-T5 provides excellent text generation with good context understanding for property descriptions"
+    },
+    "marketAnalysis": {
+      "primary": "ProsusAI/finbert",
+      "alternatives": [
+        "yiyanghkust/finbert-tone",
+        "mrm8488/distilroberta-finetuned-financial-news-sentiment-analysis"
+      ],
+      "reasoning": "FinBERT is specifically trained on financial text and provides accurate sentiment analysis for market trends"
+    },
+    "semanticSearch": {
+      "primary": "sentence-transformers/all-mpnet-base-v2",
+      "alternatives": [
+        "BAAI/bge-large-en-v1.5",
+        "intfloat/e5-large-v2"
+      ],
+      "reasoning": "MPNet provides superior semantic understanding with excellent performance for property feature matching"
+    },
+    "documentProcessing": {
+      "primary": "microsoft/layoutlmv3-base",
+      "alternatives": [
+        "impira/layoutlm-document-qa"
+      ],
+      "reasoning": "LayoutLM excels at understanding document structure, perfect for processing property deeds and contracts"
+    },
+    "entityExtraction": {
+      "primary": "dslim/bert-base-NER",
+      "alternatives": [
+        "Jean-Baptiste/roberta-large-ner-english"
+      ],
+      "reasoning": "Efficient NER model for extracting names, addresses, and financial entities from documents"
+    },
+    "propertyQA": {
+      "primary": "deepset/roberta-base-squad2",
+      "alternatives": [
+        "distilbert-base-cased-distilled-squad"
+      ],
+      "reasoning": "RoBERTa-SQuAD2 provides accurate answers to property-related questions"
+    },
+    "summarization": {
+      "primary": "facebook/bart-large-cnn",
+      "alternatives": [
+        "sshleifer/distilbart-cnn-12-6"
+      ],
+      "reasoning": "BART excels at summarizing long property reports and inspection documents"
+    }
+  },
+  "useCases": {
+    "Automated Property Descriptions": [
+      "google/flan-t5-large",
+      "facebook/bart-large"
+    ],
+    "Smart Property Search": [
+      "sentence-transformers/all-mpnet-base-v2",
+      "BAAI/bge-large-en-v1.5"
+    ],
+    "Market Sentiment Analysis": [
+      "ProsusAI/finbert",
+      "yiyanghkust/finbert-tone"
+    ],
+    "Document Information Extraction": [
+      "microsoft/layoutlmv3-base",
+      "dslim/bert-base-NER"
+    ],
+    "Property Valuation Insights": [
+      "google/flan-t5-xl",
+      "ProsusAI/finbert"
+    ],
+    "Customer Inquiry Classification": [
+      "facebook/bart-large-mnli",
+      "cross-encoder/nli-deberta-v3-base"
+    ],
+    "Property Image Analysis": [
+      "openai/clip-vit-large-patch14",
+      "facebook/detr-resnet-50"
+    ],
+    "Contract Summarization": [
+      "facebook/bart-large-cnn",
+      "google/pegasus-xsum"
+    ]
+  },
+  "performanceMetrics": {
+    "averageResponseTime": 3327,
+    "fastestModel": "ahmedrachid/FinancialBERT-Sentiment-Analysis",
+    "fastestTime": 95,
+    "successRate": "32%"
+  },
+  "modelsByCategory": {
+    "propertyDescription": [
+      {
+        "model": "google/flan-t5-base",
+        "status": "not_found"
+      },
+      {
+        "model": "facebook/bart-large",
+        "status": "available",
+        "responseTime": 6738
+      },
+      {
+        "model": "t5-base",
+        "status": "not_found"
+      },
+      {
+        "model": "t5-large",
+        "status": "not_found"
+      },
+      {
+        "model": "gpt2-large",
+        "status": "not_found"
+      },
+      {
+        "model": "EleutherAI/gpt-j-6B",
+        "status": "not_found"
+      }
+    ],
+    "marketAnalysis": [
+      {
+        "model": "ProsusAI/finbert",
+        "status": "error"
+      },
+      {
+        "model": "yiyanghkust/finbert-tone",
+        "status": "error"
+      },
+      {
+        "model": "mrm8488/distilroberta-finetuned-financial-news-sentiment-analysis",
+        "status": "available",
+        "responseTime": 3640
+      },
+      {
+        "model": "ahmedrachid/FinancialBERT-Sentiment-Analysis",
+        "status": "available",
+        "responseTime": 95
+      },
+      {
+        "model": "sigma/financial-sentiment-analysis",
+        "status": "not_found"
+      }
+    ],
+    "embeddings": [
+      {
+        "model": "sentence-transformers/all-mpnet-base-v2",
+        "status": "error"
+      },
+      {
+        "model": "sentence-transformers/all-MiniLM-L12-v2",
+        "status": "error"
+      },
+      {
+        "model": "BAAI/bge-large-en-v1.5",
+        "status": "available",
+        "responseTime": 169
+      },
+      {
+        "model": "thenlper/gte-large",
+        "status": "error"
+      },
+      {
+        "model": "intfloat/e5-large-v2",
+        "status": "available",
+        "responseTime": 5641
+      }
+    ],
+    "documentProcessing": [
+      {
+        "model": "microsoft/layoutlmv3-base",
+        "status": "not_found"
+      },
+      {
+        "model": "microsoft/layoutlm-base-uncased",
+        "status": "not_found"
+      },
+      {
+        "model": "impira/layoutlm-document-qa",
+        "status": "not_found"
+      },
+      {
+        "model": "microsoft/table-transformer-detection",
+        "status": "not_found"
+      },
+      {
+        "model": "nielsr/dit-base-finetuned-rvlcdip",
+        "status": "not_found"
+      }
+    ],
+    "namedEntityRecognition": [
+      {
+        "model": "dslim/bert-base-NER",
+        "status": "available",
+        "responseTime": 3735
+      },
+      {
+        "model": "dbmdz/bert-large-cased-finetuned-conll03-english",
+        "status": "available",
+        "responseTime": 6433
+      },
+      {
+        "model": "Jean-Baptiste/roberta-large-ner-english",
+        "status": "available",
+        "responseTime": 166
+      },
+      {
+        "model": "flair/ner-english-large",
+        "status": "not_found"
+      }
+    ]
+  }
+}

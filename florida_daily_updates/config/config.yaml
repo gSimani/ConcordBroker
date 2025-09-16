@@ -1,0 +1,395 @@
+# Florida Daily Updates Configuration
+# Main configuration file for the Florida property data update system
+
+# System Information
+system:
+  name: "Florida Property Data Daily Update System"
+  version: "1.0.0"
+  environment: "production"  # development, staging, production
+  timezone: "America/New_York"
+  log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+
+# Data Portal Configuration
+portal:
+  base_url: "https://floridarevenue.com/property/dataportal"
+  user_agent: "Florida Property Data Monitor 1.0"
+  timeout: 300  # seconds
+  max_retries: 3
+  retry_delay: 30  # seconds
+
+# County Configuration
+counties:
+  broward:
+    code: "16"
+    name: "Broward"
+    active: true
+    priority: 1
+  miami_dade:
+    code: "25"
+    name: "Miami-Dade"
+    active: true
+    priority: 2
+  palm_beach:
+    code: "50"
+    name: "Palm Beach"
+    active: false
+    priority: 3
+  hillsborough:
+    code: "29"
+    name: "Hillsborough"
+    active: false
+    priority: 4
+  orange:
+    code: "48"
+    name: "Orange"
+    active: false
+    priority: 5
+  pinellas:
+    code: "52"
+    name: "Pinellas"
+    active: false
+    priority: 6
+
+# File Type Configuration
+file_types:
+  NAL:
+    name: "Name and Address List"
+    description: "Property owner information and details"
+    active: true
+    priority: 1
+  NAP:
+    name: "Name and Address with Property Values"
+    description: "Property assessments and valuations"
+    active: true
+    priority: 2
+  SDF:
+    name: "Sales Data File"
+    description: "Property sales transactions"
+    active: true
+    priority: 3
+
+# Current Data Year
+data_year: "2025P"  # 2025 Preliminary
+
+# Monitor Agent Configuration
+monitor:
+  enabled: true
+  check_interval: 3600  # seconds (1 hour)
+  state_db_path: "florida_daily_updates/data/monitor_state.db"
+  max_validation_errors: 1000
+  portal_navigation:
+    tax_roll_path: "/tax-roll-data-files"
+    current_year_selector: "2025P"
+    download_links:
+      nal: "NAL Files"
+      nap: "NAP Files" 
+      sdf: "SDF Files"
+
+# Downloader Agent Configuration  
+downloader:
+  enabled: true
+  download_directory: "florida_daily_updates/data/downloads"
+  temp_directory: "florida_daily_updates/data/temp"
+  max_concurrent_downloads: 3
+  chunk_size: 1048576  # 1MB
+  max_retries: 3
+  retry_delay: 30  # seconds
+  timeout: 3600  # 1 hour
+  verify_checksums: true
+  extract_archives: true
+  resume_downloads: true
+  state_db_path: "florida_daily_updates/data/downloader_state.db"
+
+# Processor Agent Configuration
+processor:
+  enabled: true
+  output_directory: "florida_daily_updates/data/processed"
+  backup_directory: "florida_daily_updates/data/backups"
+  batch_size: 10000
+  enable_validation: true
+  create_backups: true
+  max_validation_errors: 1000
+  state_db_path: "florida_daily_updates/data/processor_state.db"
+  field_validation:
+    strict_mode: false
+    required_fields: ["parcel_id", "county_code"]
+    data_quality_threshold: 0.95  # 95% of records must be valid
+
+# Database Updater Configuration
+database:
+  enabled: true
+  batch_size: 5000
+  max_retries: 3
+  retry_delay: 30  # seconds
+  create_tables: true
+  create_indexes: true
+  enable_row_level_security: false
+  state_db_path: "florida_daily_updates/data/database_updater_state.db"
+  optimization:
+    analyze_tables: true
+    vacuum_tables: false  # Set to true for maintenance runs
+    create_materialized_views: true
+
+# Orchestrator Configuration
+orchestrator:
+  enabled: true
+  max_concurrent_files: 3
+  retry_failed_steps: true
+  max_retries: 2
+  retry_delay: 300  # 5 minutes
+  continue_on_error: true
+  state_db_path: "florida_daily_updates/data/orchestrator_state.db"
+  
+  # Workflow Configuration
+  workflow:
+    skip_monitoring: false
+    skip_download: false
+    skip_processing: false
+    skip_database_update: false
+    
+  # Performance Monitoring
+  performance:
+    track_metrics: true
+    alert_slow_operations: true
+    slow_threshold_seconds: 3600  # 1 hour
+    
+  # Error Handling
+  error_handling:
+    max_errors_per_step: 5
+    fail_fast: false
+    error_notification: true
+
+# Scheduling Configuration
+scheduler:
+  enabled: true
+  default_schedule: "0 2 * * *"  # Daily at 2 AM
+  timezone: "America/New_York"
+  max_runtime: 14400  # 4 hours maximum
+  
+  # Agent-specific schedules
+  schedules:
+    monitor: "0 */6 * * *"  # Every 6 hours
+    full_update: "0 2 * * *"  # Daily at 2 AM
+    maintenance: "0 3 * * 0"  # Weekly on Sunday at 3 AM
+
+# Notification Configuration
+notifications:
+  enabled: true
+  
+  email:
+    enabled: true
+    smtp_server: "localhost"
+    smtp_port: 587
+    use_tls: true
+    username: ""  # Set via environment variable
+    password: ""  # Set via environment variable
+    from_address: "noreply@concordbroker.com"
+    to_addresses:
+      - "admin@concordbroker.com"
+      - "alerts@concordbroker.com"
+    
+    # Notification triggers
+    triggers:
+      success: true
+      failure: true
+      warnings: true
+      long_runtime: true
+      large_changes: true
+    
+    # Thresholds
+    thresholds:
+      long_runtime_minutes: 240  # 4 hours
+      large_change_percentage: 20  # 20% change in record count
+  
+  slack:
+    enabled: false
+    webhook_url: ""  # Set via environment variable
+    channel: "#florida-data-updates"
+    username: "Florida Data Bot"
+    
+  discord:
+    enabled: false
+    webhook_url: ""  # Set via environment variable
+
+# Storage Configuration
+storage:
+  # Local file storage
+  local:
+    enabled: true
+    base_directory: "florida_daily_updates"
+    max_disk_usage_gb: 50
+    cleanup_old_files: true
+    retention_days: 90
+    
+  # Cloud storage (optional)
+  s3:
+    enabled: false
+    bucket_name: ""
+    region: "us-east-1"
+    access_key_id: ""  # Set via environment variable
+    secret_access_key: ""  # Set via environment variable
+    
+  azure:
+    enabled: false
+    account_name: ""
+    account_key: ""  # Set via environment variable
+    container_name: ""
+
+# Database Configuration (Supabase)
+supabase:
+  # Connection settings
+  url: ""  # Set via environment variable SUPABASE_URL
+  anon_key: ""  # Set via environment variable SUPABASE_ANON_KEY
+  service_key: ""  # Set via environment variable SUPABASE_SERVICE_KEY
+  db_url: ""  # Set via environment variable SUPABASE_DB_URL
+  
+  # Connection pooling
+  pool:
+    min_size: 2
+    max_size: 10
+    max_queries: 50000
+    max_inactive_connection_lifetime: 300.0
+    command_timeout: 60
+  
+  # Table configuration
+  tables:
+    prefix: "florida_"
+    create_if_missing: true
+    enable_rls: false
+    
+    # Table-specific settings
+    nal:
+      table_name: "florida_nal_property_details"
+      partition_by: "county_code"
+      indexes:
+        - "county_code, parcel_id"
+        - "owner_name"
+        - "property_address"
+    
+    nap:
+      table_name: "florida_nap_assessments"
+      partition_by: "tax_year"
+      indexes:
+        - "county_code, parcel_id, tax_year"
+        - "tax_year"
+        - "just_value"
+    
+    sdf:
+      table_name: "florida_sdf_sales"
+      partition_by: "sale_date"
+      indexes:
+        - "county_code, parcel_id"
+        - "sale_date"
+        - "sale_price"
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  
+  # File logging
+  file:
+    enabled: true
+    directory: "florida_daily_updates/logs"
+    filename: "florida_updates_{date}.log"
+    max_file_size_mb: 100
+    backup_count: 10
+    rotation: "daily"
+  
+  # Console logging
+  console:
+    enabled: true
+    colored: true
+    
+  # Remote logging
+  sentry:
+    enabled: false
+    dsn: ""  # Set via environment variable
+    environment: "production"
+    
+  elk:
+    enabled: false
+    host: "localhost"
+    port: 5044
+
+# Security Configuration
+security:
+  # API keys and secrets should be set via environment variables
+  encryption:
+    enabled: false
+    key: ""  # Set via environment variable
+    
+  # Rate limiting
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 60
+    requests_per_hour: 1000
+    
+  # Access control
+  access_control:
+    enabled: false
+    allowed_ips: []
+    api_keys: []
+
+# Monitoring and Health Checks
+monitoring:
+  enabled: true
+  
+  health_checks:
+    enabled: true
+    interval: 300  # 5 minutes
+    endpoints:
+      - name: "database"
+        type: "database"
+        timeout: 30
+      - name: "florida_portal"
+        type: "http"
+        url: "https://floridarevenue.com/property/dataportal"
+        timeout: 30
+        
+  metrics:
+    enabled: true
+    export_interval: 60  # seconds
+    
+    # Prometheus (optional)
+    prometheus:
+      enabled: false
+      port: 9090
+      
+    # CloudWatch (optional) 
+    cloudwatch:
+      enabled: false
+      namespace: "FloridaDataUpdates"
+      region: "us-east-1"
+
+# Development Configuration
+development:
+  enabled: false
+  mock_data: false
+  skip_downloads: false
+  small_batches: true
+  test_counties: ["broward"]
+  debug_sql: false
+
+# Maintenance Configuration
+maintenance:
+  # Database maintenance
+  database:
+    vacuum_schedule: "0 4 * * 0"  # Weekly on Sunday at 4 AM
+    analyze_schedule: "0 5 * * *"  # Daily at 5 AM
+    cleanup_old_data: true
+    retention_days: 365
+    
+  # File cleanup
+  files:
+    cleanup_schedule: "0 6 * * *"  # Daily at 6 AM
+    cleanup_downloads: true
+    cleanup_processed: true
+    cleanup_backups: true
+    retention_days: 30
+    
+  # Log cleanup
+  logs:
+    cleanup_schedule: "0 1 * * *"  # Daily at 1 AM
+    retention_days: 90
+    compress_old_logs: true

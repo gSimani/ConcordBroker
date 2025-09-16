@@ -1,0 +1,22 @@
+{
+  "tables_checked": [
+    "florida_parcels",
+    "properties",
+    "property_appraiser",
+    "property_data",
+    "parcels",
+    "real_estate",
+    "tax_deed",
+    "sales",
+    "owners",
+    "assessments",
+    "florida_properties",
+    "broward_properties",
+    "property_records",
+    "property_info",
+    "property_details",
+    "property_listings"
+  ],
+  "tables_found": [],
+  "database_url": "https://mogulpssjdlxjvstqfee.supabase.co"
+}

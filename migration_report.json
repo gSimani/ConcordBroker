@@ -1,0 +1,51 @@
+{
+  "timestamp": "2025-09-10T22:49:56.914567",
+  "statistics": {
+    "total_files": 0,
+    "archived": 20,
+    "kept": 0,
+    "consolidated": 3
+  },
+  "archived_agents": [
+    "apps/agents/nal_mapping_agent.py",
+    "apps/agents/nal_csv_parser_agent.py",
+    "apps/agents/nal_batch_import_agent.py",
+    "apps/agents/nal_error_recovery_agent.py",
+    "apps/agents/nal_validation_agent.py",
+    "apps/agents/nal_monitoring_agent.py",
+    "apps/agents/nal_import_orchestrator.py",
+    "apps/agents/master_orchestrator.py",
+    "apps/agents/MasterOrchestrator.js",
+    "apps/agents/ComprehensiveDataAnalyzer.js",
+    "apps/agents/DataFlowFixer.js",
+    "apps/agents/filter_validation_agent.py",
+    "apps/agents/schema_migration_agent.py",
+    "apps/api/agents/content_generation_agent.py",
+    "apps/api/agents/document_processing_agent.py",
+    "apps/api/agents/advanced_chain_optimizer.py",
+    "apps/api/agents/chain_of_thought_matcher.py",
+    "apps/api/agents/property_company_matcher.py",
+    "sunbiz_debug_agent.py",
+    "apps/workers/orchestrator.py"
+  ],
+  "consolidated_groups": [
+    "data_pipeline",
+    "property_analysis",
+    "monitoring"
+  ],
+  "new_architecture": {
+    "orchestrator": "UnifiedOrchestrator",
+    "core_agents": [
+      "DataPipelineAgent",
+      "PropertyAnalysisAgent",
+      "OptimizedAIChatbot",
+      "MonitoringAgent"
+    ],
+    "total_agents": 4
+  },
+  "reduction": {
+    "before": 73,
+    "after": 4,
+    "percentage": "94.5%"
+  }
+}

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tax Deed Frontend Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        .property-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        .property-card.active { border-left: 4px solid green; }
+        .property-card.cancelled { border-left: 4px solid red; }
+        .property-card.sold { border-left: 4px solid orange; }
+        h2 { color: #333; }
+        .detail-row { margin: 5px 0; }
+        .label { font-weight: bold; display: inline-block; width: 150px; }
+        .value { color: #555; }
+        .link { color: blue; text-decoration: underline; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Tax Deed Sales - Frontend Data Test</h1>
+    <div id="status">Fetching data...</div>
+    <div id="summary"></div>
+    <div id="properties"></div>
+
+    <script>
+        const SUPABASE_URL = 'https://pmispwtdngkcmsrsjwbp.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5NTY5NTgsImV4cCI6MjA3MjUzMjk1OH0.YvWR1NkVByTY10Vzpzt4jMtMjBszD_BOCsQDBfG951A';
+        
+        async function loadTaxDeedData() {
+            const statusDiv = document.getElementById('status');
+            const summaryDiv = document.getElementById('summary');
+            const propertiesDiv = document.getElementById('properties');
+            
+            try {
+                // Fetch from Supabase tax_deed_bidding_items table
+                const response = await fetch(
+                    `${SUPABASE_URL}/rest/v1/tax_deed_bidding_items?select=*&order=created_at.desc&limit=30`,
+                    {
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': `Bearer ${SUPABASE_KEY}`
+                        }
+                    }
+                );
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                statusDiv.innerHTML = `<span class="success">✓ Successfully loaded ${data.length} properties from tax_deed_bidding_items</span>`;
+                
+                // Group by status
+                const byStatus = {};
+                data.forEach(item => {
+                    const status = item.item_status || 'Unknown';
+                    if (!byStatus[status]) byStatus[status] = [];
+                    byStatus[status].push(item);
+                });
+                
+                // Summary
+                let summaryHtml = '<h2>Properties by Status:</h2><ul>';
+                for (const [status, items] of Object.entries(byStatus)) {
+                    summaryHtml += `<li><strong>${status}:</strong> ${items.length} properties</li>`;
+                }
+                summaryHtml += '</ul>';
+                summaryDiv.innerHTML = summaryHtml;
+                
+                // Display properties with complete details
+                let propertiesHtml = '<h2>Property Details (Showing first 10 with complete info):</h2>';
+                
+                // Filter properties with actual parcel IDs (not UNKNOWN)
+                const detailedProperties = data.filter(p => 
+                    p.parcel_id && !p.parcel_id.startsWith('UNKNOWN')
+                ).slice(0, 10);
+                
+                detailedProperties.forEach(prop => {
+                    const statusClass = prop.item_status === 'Active' ? 'active' : 
+                                      prop.item_status === 'Cancelled' || prop.item_status === 'Canceled' ? 'cancelled' :
+                                      prop.item_status === 'Sold' ? 'sold' : '';
+                    
+                    propertiesHtml += `
+                        <div class="property-card ${statusClass}">
+                            <h3>${prop.tax_deed_number} - ${prop.item_status}</h3>
+                            
+                            <div class="detail-row">
+                                <span class="label">Parcel ID:</span>
+                                <span class="value">${prop.parcel_id}</span>
+                                ${prop.property_appraisal_url ? 
+                                    `<a href="${prop.property_appraisal_url}" target="_blank" class="link"> [View Appraisal]</a>` : ''}
+                            </div>
+                            
+                            <div class="detail-row">
+                                <span class="label">Address:</span>
+                                <span class="value">${prop.legal_situs_address || 'N/A'}</span>
+                            </div>
+                            
+                            <div class="detail-row">
+                                <span class="label">Applicant:</span>
+                                <span class="value">${prop.applicant_name || 'N/A'}</span>
+                            </div>
+                            
+                            <div class="detail-row">
+                                <span class="label">Opening Bid:</span>
+                                <span class="value">$${(prop.opening_bid || 0).toLocaleString()}</span>
+                            </div>
+                            
+                            <div class="detail-row">
+                                <span class="label">Assessed Value:</span>
+                                <span class="value">$${(prop.assessed_value || 0).toLocaleString()}</span>
+                            </div>
+                            
+                            <div class="detail-row">
+                                <span class="label">Homestead:</span>
+                                <span class="value">${prop.homestead_exemption ? 'Yes' : 'No'}</span>
+                            </div>
+                            
+                            ${prop.tax_certificate_number ? `
+                            <div class="detail-row">
+                                <span class="label">Tax Certificate #:</span>
+                                <span class="value">${prop.tax_certificate_number}</span>
+                            </div>
+                            ` : ''}
+                            
+                            <div class="detail-row">
+                                <span class="label">Close Time:</span>
+                                <span class="value">${new Date(prop.close_time).toLocaleString()}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                if (detailedProperties.length === 0) {
+                    propertiesHtml += '<p>No properties with complete details found. The scraper may need to extract more detailed information.</p>';
+                }
+                
+                propertiesDiv.innerHTML = propertiesHtml;
+                
+                // Log some data for debugging
+                console.log('Sample property data:', data[0]);
+                console.log('Properties with parcel IDs:', data.filter(p => !p.parcel_id.startsWith('UNKNOWN')).length);
+                console.log('Properties with addresses:', data.filter(p => p.legal_situs_address && p.legal_situs_address !== 'Address not available').length);
+                
+            } catch (error) {
+                statusDiv.innerHTML = `<span class="error">✗ Error: ${error.message}</span>`;
+                console.error('Error:', error);
+            }
+        }
+        
+        // Load data on page load
+        loadTaxDeedData();
+    </script>
+</body>
+</html>

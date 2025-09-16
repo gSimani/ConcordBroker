@@ -1,0 +1,97 @@
+{
+  "sftp": {
+    "host": "sftp.floridados.gov",
+    "port": 22,
+    "username": "Public",
+    "password": "PubAccess1845!",
+    "protocol": "sftp",
+    "timeout": 30000,
+    "retries": 3
+  },
+  "data_types": {
+    "corporate": {
+      "daily_files": {
+        "filings": "yyyymmddc.txt",
+        "events": "yyyymmddce.txt"
+      },
+      "quarterly_files": {
+        "data": "cordata.zip",
+        "events": "corevent.zip"
+      },
+      "description": "Florida corporate entity filings and updates"
+    },
+    "federal_liens": {
+      "daily_files": {
+        "filings": "yyyymmddflrf.txt",
+        "events": "yyyymmddflre.txt",
+        "debtors": "yyyymmddflrd.txt",
+        "secured_parties": "yyyymmddflrs.txt"
+      },
+      "quarterly_files": {
+        "filings": "flrf.zip",
+        "events": "flre.zip",
+        "debtors": "flrd.zip",
+        "secured_parties": "flrs.zip"
+      },
+      "description": "Federal tax lien records"
+    },
+    "fictitious_names": {
+      "daily_files": {
+        "filings": "yyyymmddf.txt",
+        "events": "yyyymmddfe.txt"
+      },
+      "quarterly_files": {
+        "data": "ficdata.zip",
+        "events": "ficevt.zip"
+      },
+      "description": "DBA (Doing Business As) registrations"
+    },
+    "general_partnerships": {
+      "daily_files": {
+        "filings": "yyyymmddg.txt",
+        "events": "yyyymmddge.txt"
+      },
+      "quarterly_files": {
+        "data": "genfile.zip",
+        "events": "genevt.zip"
+      },
+      "description": "General partnership registrations"
+    },
+    "marks": {
+      "daily_files": {
+        "filings": "yyyymmddtm.txt"
+      },
+      "quarterly_files": {
+        "data": "TMData.zip"
+      },
+      "description": "Trademark and service mark registrations"
+    }
+  },
+  "update_schedule": {
+    "daily": {
+      "frequency": "work_days",
+      "check_time": "07:00",
+      "note": "No file generated if no filings added that day"
+    },
+    "quarterly": {
+      "months": ["01", "04", "07", "10"],
+      "check_day": 5,
+      "note": "Complete snapshot of all data"
+    }
+  },
+  "file_format": {
+    "type": "fixed_width",
+    "encoding": "UTF-8",
+    "has_headers": false,
+    "line_ending": "CRLF",
+    "id_field": "document_number",
+    "id_length": "6-12 characters"
+  },
+  "monitoring": {
+    "enabled": true,
+    "check_interval_hours": 24,
+    "download_new_files": true,
+    "archive_old_files": true,
+    "notification_email": "admin@westbocaexecutiveoffice.com"
+  }
+}

@@ -1,0 +1,288 @@
+{
+  "timestamp": "2025-09-09T12:58:02.904Z",
+  "testResults": {
+    "verificationScore": 65,
+    "maxScore": 100,
+    "verificationPercentage": 65,
+    "isUsingLiveData": false,
+    "passedVerification": true
+  },
+  "findings": [
+    "✅ Supabase response with data: https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/florida_parcels?select=*&phy_addr1=ilike.%2512681+nw+78+mnr%25&limit=5",
+    "✅ Supabase response with data: https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/florida_parcels?select=*&phy_addr1=ilike.%2512681+nw+78+mnr%25&limit=5",
+    "✅ UI Element present: Main headings (2)",
+    "✅ UI Element present: Property tabs (9)",
+    "❌ Missing UI element: Property information sections",
+    "✅ UI Element present: Interactive buttons (11)",
+    "✅ Tax Deed Sales tab successfully activated",
+    "✅ Page content free of mock data values",
+    "✅ Overview tab loaded successfully",
+    "✅ Sunbiz tab loaded successfully",
+    "✅ Supabase response with data: https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/property_sales_history?select=*&parcel_id=eq.474131031040&order=sale_date.desc",
+    "✅ Supabase response with data: https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/property_sales_history?select=*&parcel_id=eq.474131031040&order=sale_date.desc",
+    "✅ Core Property tab loaded successfully"
+  ],
+  "dataSourceAnalysis": {
+    "supabaseRequests": 30,
+    "supabaseQueries": [
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/florida_parcels?select=*&phy_addr1=ilike.%2512681+nw+78+mnr%25&limit=5",
+        "timestamp": "2025-09-09T12:57:09.554Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/properties?select=*&or=%28property_address.ilike.%2512681+nw+78+mnr%25%2Cparcel_id.eq.12681+nw+78+mnr%29&limit=1",
+        "timestamp": "2025-09-09T12:57:09.555Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/property_sales_history?select=*&parcel_id=eq.12681+nw+78+mnr&order=sale_date.desc",
+        "timestamp": "2025-09-09T12:57:09.555Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/nav_assessments?select=*&parcel_id=eq.",
+        "timestamp": "2025-09-09T12:57:09.555Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/florida_parcels?select=*&phy_addr1=ilike.%2512681+nw+78+mnr%25&limit=5",
+        "timestamp": "2025-09-09T12:57:09.556Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/properties?select=*&or=%28property_address.ilike.%2512681+nw+78+mnr%25%2Cparcel_id.eq.12681+nw+78+mnr%29&limit=1",
+        "timestamp": "2025-09-09T12:57:09.556Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/property_sales_history?select=*&parcel_id=eq.12681+nw+78+mnr&order=sale_date.desc",
+        "timestamp": "2025-09-09T12:57:09.557Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/nav_assessments?select=*&parcel_id=eq.",
+        "timestamp": "2025-09-09T12:57:09.557Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&officers=ilike.%25INVITATION+HOMES%25&limit=5",
+        "timestamp": "2025-09-09T12:57:10.858Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&officers=ilike.%25HOMES+INVITATION%25&limit=5",
+        "timestamp": "2025-09-09T12:57:10.858Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&or=%28principal_address.ilike.%2512681+NW+78+MNR%25%2Cmailing_address.ilike.%2512681+NW+78+MNR%25%29&limit=5",
+        "timestamp": "2025-09-09T12:57:10.983Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&officers=ilike.%25INVITATION+HOMES%25&limit=5",
+        "timestamp": "2025-09-09T12:57:11.934Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&officers=ilike.%25HOMES+INVITATION%25&limit=5",
+        "timestamp": "2025-09-09T12:57:11.934Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&or=%28principal_address.ilike.%2512681+NW+78+MNR%25%2Cmailing_address.ilike.%2512681+NW+78+MNR%25%29&limit=5",
+        "timestamp": "2025-09-09T12:57:12.076Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/tax_deed_auctions?select=*&status=eq.Upcoming&order=auction_date.asc",
+        "timestamp": "2025-09-09T12:57:18.670Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/tax_deed_auctions?select=*&status=eq.Upcoming&order=auction_date.asc",
+        "timestamp": "2025-09-09T12:57:18.670Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/tax_deed_auctions?select=*&status=eq.Completed&order=auction_date.desc&limit=10",
+        "timestamp": "2025-09-09T12:57:18.757Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/tax_deed_auctions?select=*&status=eq.Completed&order=auction_date.desc&limit=10",
+        "timestamp": "2025-09-09T12:57:18.821Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/tax_deed_items_view?select=*&order=auction_date.desc&parcel_id=eq.474131031040&limit=20",
+        "timestamp": "2025-09-09T12:57:18.830Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/tax_deed_items_view?select=*&order=auction_date.desc&parcel_id=eq.474131031040&limit=20",
+        "timestamp": "2025-09-09T12:57:18.932Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&or=%28prin_addr1.eq.12681+NW+78+MNR%2Cmail_addr1.eq.12681+NW+78+MNR%29&status=eq.ACTIVE&order=filing_date.desc&limit=10",
+        "timestamp": "2025-09-09T12:57:55.728Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&or=%28prin_addr1.eq.12681+NW+78+MNR%2Cmail_addr1.eq.12681+NW+78+MNR%29&status=eq.ACTIVE&order=filing_date.desc&limit=10",
+        "timestamp": "2025-09-09T12:57:55.729Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&registered_agent=eq.INVITATION+HOMES&status=eq.ACTIVE&order=filing_date.desc&limit=10",
+        "timestamp": "2025-09-09T12:57:55.941Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_officers?select=doc_number&officer_name=eq.INVITATION+HOMES",
+        "timestamp": "2025-09-09T12:57:56.042Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&registered_agent=eq.INVITATION+HOMES&status=eq.ACTIVE&order=filing_date.desc&limit=10",
+        "timestamp": "2025-09-09T12:57:56.150Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_fictitious?select=*&or=%28owner_name.ilike.%25INVITATION+HOMES%25%2Cname.ilike.%25INVITATION+HOMES%25%29&order=filed_date.desc&limit=10",
+        "timestamp": "2025-09-09T12:57:56.182Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_officers?select=doc_number&officer_name=eq.INVITATION+HOMES",
+        "timestamp": "2025-09-09T12:57:56.245Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_fictitious?select=*&or=%28owner_name.ilike.%25INVITATION+HOMES%25%2Cname.ilike.%25INVITATION+HOMES%25%29&order=filed_date.desc&limit=10",
+        "timestamp": "2025-09-09T12:57:56.368Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/property_sales_history?select=*&parcel_id=eq.474131031040&order=sale_date.desc",
+        "timestamp": "2025-09-09T12:57:58.663Z"
+      },
+      {
+        "method": "GET",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/property_sales_history?select=*&parcel_id=eq.474131031040&order=sale_date.desc",
+        "timestamp": "2025-09-09T12:57:58.663Z"
+      }
+    ],
+    "mockEndpointRequests": 0,
+    "apiRequests": 0,
+    "taxDeedTableQueried": false
+  },
+  "mockDataAnalysis": {
+    "mockDataDetected": 0,
+    "mockDataItems": [],
+    "liveDataIndicators": 0,
+    "mockDataIndicators": 0
+  },
+  "networkSummary": {
+    "totalRequests": 99,
+    "supabaseRequests": 30,
+    "errorRequests": 14
+  },
+  "consoleSummary": {
+    "totalMessages": 56,
+    "errorMessages": 14,
+    "liveDataMessages": 0,
+    "mockDataMessages": 0
+  },
+  "errors": 14,
+  "errorDetails": [
+    {
+      "type": "HTTP Error",
+      "status": 400,
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&officers=ilike.%25INVITATION+HOMES%25&limit=5",
+      "timestamp": "2025-09-09T12:57:10.950Z"
+    },
+    {
+      "type": "HTTP Error",
+      "status": 400,
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&officers=ilike.%25HOMES+INVITATION%25&limit=5",
+      "timestamp": "2025-09-09T12:57:10.982Z"
+    },
+    {
+      "type": "HTTP Error",
+      "status": 400,
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&or=%28principal_address.ilike.%2512681+NW+78+MNR%25%2Cmailing_address.ilike.%2512681+NW+78+MNR%25%29&limit=5",
+      "timestamp": "2025-09-09T12:57:11.060Z"
+    },
+    {
+      "type": "HTTP Error",
+      "status": 400,
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&officers=ilike.%25INVITATION+HOMES%25&limit=5",
+      "timestamp": "2025-09-09T12:57:11.993Z"
+    },
+    {
+      "type": "HTTP Error",
+      "status": 400,
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&officers=ilike.%25HOMES+INVITATION%25&limit=5",
+      "timestamp": "2025-09-09T12:57:12.075Z"
+    },
+    {
+      "type": "HTTP Error",
+      "status": 400,
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_corporate?select=*&or=%28principal_address.ilike.%2512681+NW+78+MNR%25%2Cmailing_address.ilike.%2512681+NW+78+MNR%25%29&limit=5",
+      "timestamp": "2025-09-09T12:57:12.134Z"
+    },
+    {
+      "type": "HTTP Error",
+      "status": 404,
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/tax_deed_auctions?select=*&status=eq.Upcoming&order=auction_date.asc",
+      "timestamp": "2025-09-09T12:57:18.756Z"
+    },
+    {
+      "type": "HTTP Error",
+      "status": 404,
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/tax_deed_auctions?select=*&status=eq.Upcoming&order=auction_date.asc",
+      "timestamp": "2025-09-09T12:57:18.819Z"
+    },
+    {
+      "type": "HTTP Error",
+      "status": 404,
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/tax_deed_auctions?select=*&status=eq.Completed&order=auction_date.desc&limit=10",
+      "timestamp": "2025-09-09T12:57:18.829Z"
+    },
+    {
+      "type": "HTTP Error",
+      "status": 404,
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/tax_deed_items_view?select=*&order=auction_date.desc&parcel_id=eq.474131031040&limit=20",
+      "timestamp": "2025-09-09T12:57:18.906Z"
+    },
+    {
+      "type": "HTTP Error",
+      "status": 404,
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/tax_deed_auctions?select=*&status=eq.Completed&order=auction_date.desc&limit=10",
+      "timestamp": "2025-09-09T12:57:18.920Z"
+    },
+    {
+      "type": "HTTP Error",
+      "status": 404,
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/tax_deed_items_view?select=*&order=auction_date.desc&parcel_id=eq.474131031040&limit=20",
+      "timestamp": "2025-09-09T12:57:18.996Z"
+    },
+    {
+      "type": "HTTP Error",
+      "status": 404,
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_officers?select=doc_number&officer_name=eq.INVITATION+HOMES",
+      "timestamp": "2025-09-09T12:57:56.181Z"
+    },
+    {
+      "type": "HTTP Error",
+      "status": 404,
+      "url": "https://pmispwtdngkcmsrsjwbp.supabase.co/rest/v1/sunbiz_officers?select=doc_number&officer_name=eq.INVITATION+HOMES",
+      "timestamp": "2025-09-09T12:57:56.367Z"
+    }
+  ],
+  "resultsDirectory": "C:\\Users\\gsima\\Documents\\MyProject\\ConcordBroker\\test-results\\live-data-verification-2025-09-09T12-57-08-771Z"
+}

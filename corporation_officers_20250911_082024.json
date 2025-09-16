@@ -1,0 +1,37 @@
+{
+  "timestamp": "2025-09-11T08:20:24.283785",
+  "source": "corporation files",
+  "statistics": {
+    "corporations_processed": 107574,
+    "officers_found": 50781,
+    "unique_emails": 8,
+    "unique_phones": 13,
+    "officers_with_contact": 34
+  },
+  "sample_officers_with_contact": [],
+  "sample_emails": [
+    "lora.donley@me.com",
+    "jdthao@hotmail.com",
+    "alcaldee10@gmail.com",
+    "ashcris123@yahoo.com",
+    "densmoresara@gmail.com",
+    "arealco@gmail.com",
+    "g.willmar@yahoo.com",
+    "clmcintoshjr@gmail.com"
+  ],
+  "sample_phones": [
+    "(197) 770-0000",
+    "(010) 201-2022",
+    "(000) 129-2022",
+    "(930) 201-2022",
+    "(010) 126-2022",
+    "(000) 202-2022",
+    "(130) 107-2022",
+    "(400) 101-2022",
+    "(000) 115-2022",
+    "(010) 207-2022",
+    "(720) 121-2022",
+    "(410) 211-2022",
+    "(000) 107-2022"
+  ]
+}

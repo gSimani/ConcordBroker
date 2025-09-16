@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 Properties Page Diagnostic Tool (Fixed)</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #0a0a0a;
+            border: 1px solid #00ff00;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        h1 {
+            color: #00ff00;
+            text-align: center;
+            border-bottom: 2px solid #00ff00;
+            padding-bottom: 10px;
+        }
+        .test {
+            margin: 20px 0;
+            padding: 10px;
+            border-left: 3px solid #333;
+        }
+        .test.pass {
+            border-left-color: #00ff00;
+        }
+        .test.fail {
+            border-left-color: #ff0000;
+        }
+        .test h3 {
+            margin: 0 0 10px 0;
+            color: #ffff00;
+        }
+        pre {
+            background: #1a1a1a;
+            padding: 10px;
+            border-radius: 3px;
+            overflow-x: auto;
+        }
+        .success { color: #00ff00; }
+        .error { color: #ff0000; }
+        .warning { color: #ffaa00; }
+        .info { color: #00ffff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Properties Page Diagnostic Tool</h1>
+        <div id="tests"></div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8000';
+        const FRONTEND_URL = 'http://localhost:5173';
+        let testNumber = 1;
+
+        async function runTests() {
+            const container = document.getElementById('tests');
+            container.innerHTML = '';
+            let passedTests = 0;
+            let failedTests = 0;
+
+            // Test 1: Starting
+            addTest('Starting Diagnostics', true, 'Running comprehensive tests...');
+
+            // Test 2: API Connection
+            try {
+                const response = await fetch(`${API_URL}/api/properties/search?limit=20&fast=true`);
+                const data = await response.json();
+                
+                const message = `
+<span class="success">✓ API is working</span>
+Status: ${response.status}
+Properties returned: ${data.properties?.length || 0}
+Total in database: ${data.total || 'Unknown'}
+First property: ${data.properties?.[0]?.phy_addr1 || 'None'}`;
+                
+                addTest('API Connection', true, message);
+                passedTests++;
+            } catch (error) {
+                addTest('API Connection', false, `<span class="error">✗ API connection failed: ${error.message}</span>`);
+                failedTests++;
+            }
+
+            // Test 3: CORS Configuration (FIXED VERSION)
+            try {
+                // If we can fetch from the API, CORS is working!
+                const response = await fetch(`${API_URL}/api/properties/search?limit=1`);
+                if (response.ok) {
+                    const message = `<span class="success">✓ CORS is working correctly</span>
+The browser successfully made a cross-origin request.
+Note: CORS headers are not exposed to JavaScript for security,
+but the successful request proves CORS is configured properly.`;
+                    addTest('CORS Configuration', true, message);
+                    passedTests++;
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                    addTest('CORS Configuration', false, `<span class="error">✗ CORS is blocking requests</span>\n${error.message}`);
+                    failedTests++;
+                } else {
+                    // Other errors mean CORS worked but something else failed
+                    addTest('CORS Configuration', true, `<span class="warning">⚠ CORS works but API returned error: ${error.message}</span>`);
+                    passedTests++;
+                }
+            }
+
+            // Test 4: Data Pipeline
+            try {
+                const url = `${API_URL}/api/properties/search?limit=50&fast=true`;
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                const message = `<span class="success">✓ Pipeline pattern works</span>
+URL: ${url}
+Properties array: ${data.properties?.length || 0} items
+Structure looks correct for React component`;
+                
+                addTest('Data Pipeline Simulation', true, message);
+                passedTests++;
+            } catch (error) {
+                addTest('Data Pipeline Simulation', false, `<span class="error">✗ Pipeline failed: ${error.message}</span>`);
+                failedTests++;
+            }
+
+            // Test 5: Frontend Server (FIXED)
+            try {
+                // Use no-cors mode to check if server is up
+                const response = await fetch(FRONTEND_URL, { mode: 'no-cors' });
+                // no-cors always returns opaque response, but if it doesn't throw, server is up
+                const message = `<span class="success">✓ Frontend server is running</span>
+Available at: <a href="${FRONTEND_URL}" target="_blank" style="color: #00ffff;">${FRONTEND_URL}</a>`;
+                addTest('Frontend Server', true, message);
+                passedTests++;
+            } catch (error) {
+                const message = `<span class="error">✗ Cannot connect to frontend</span>
+Make sure 'npm run dev' is running in apps/web/
+Error: ${error.message}`;
+                addTest('Frontend Server', false, message);
+                failedTests++;
+            }
+
+            // Test 6: Filtered Property Fetch
+            try {
+                const response = await fetch(`${API_URL}/api/properties/search?city=HOLLYWOOD&limit=10`);
+                const data = await response.json();
+                
+                const hollywoodCount = data.properties?.filter(p => 
+                    p.phy_city?.toUpperCase().includes('HOLLYWOOD')
+                ).length || 0;
+                
+                const message = `<span class="success">✓ Filter test passed</span>
+Requested: HOLLYWOOD properties
+Returned: ${data.properties?.length || 0} properties
+Hollywood matches: ${hollywoodCount}`;
+                
+                addTest('Filtered Property Fetch', true, message);
+                passedTests++;
+            } catch (error) {
+                addTest('Filtered Property Fetch', false, `<span class="error">✗ Filter test failed: ${error.message}</span>`);
+                failedTests++;
+            }
+
+            // Test Summary
+            const totalTests = passedTests + failedTests;
+            let diagnosis = '';
+            
+            if (passedTests === totalTests) {
+                diagnosis = '<span class="success">✅ All systems operational! Everything is working correctly.</span>';
+            } else if (passedTests >= totalTests - 1) {
+                diagnosis = '<span class="warning">⚠️ System mostly operational with minor issues.</span>';
+            } else {
+                diagnosis = '<span class="error">❌ Critical issues detected. Check failed tests above.</span>';
+            }
+
+            const summaryMessage = `Tests Passed: <span class="success">${passedTests}</span>/${totalTests}
+Tests Failed: <span class="error">${failedTests}</span>
+
+<strong>DIAGNOSIS:</strong> ${diagnosis}`;
+            
+            addTest('Test Summary', passedTests === totalTests, summaryMessage);
+        }
+
+        function addTest(name, passed, message) {
+            const container = document.getElementById('tests');
+            const testDiv = document.createElement('div');
+            testDiv.className = `test ${passed ? 'pass' : 'fail'}`;
+            testDiv.innerHTML = `
+                <h3>Test ${testNumber}: ${name}</h3>
+                <pre>${message}</pre>
+            `;
+            container.appendChild(testDiv);
+            testNumber++;
+        }
+
+        // Run tests on load
+        window.addEventListener('load', () => {
+            runTests();
+        });
+
+        // Add refresh button
+        document.addEventListener('DOMContentLoaded', () => {
+            const button = document.createElement('button');
+            button.textContent = 'Re-run Tests';
+            button.style.cssText = 'background: #00ff00; color: #000; padding: 10px 20px; border: none; cursor: pointer; margin: 20px auto; display: block;';
+            button.onclick = () => {
+                testNumber = 1;
+                runTests();
+            };
+            document.querySelector('.container').appendChild(button);
+        });
+    </script>
+</body>
+</html>

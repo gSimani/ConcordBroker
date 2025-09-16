@@ -1,0 +1,27 @@
+{
+  "versions": [
+    {
+      "version": "20250907_051116",
+      "filename": "ExportFilesLayout_20250907_051116.pdf",
+      "path": "data\\broward_layout_schema\\pdfs\\ExportFilesLayout_20250907_051116.pdf",
+      "url": "https://www.broward.org/RecordsTaxesTreasury/Records/Documents/ExportFilesLayout.pdf",
+      "size": 176926,
+      "last_modified": "Tue, 10 Dec 2024 18:31:00 GMT",
+      "etag": "\"{C2C0A531-96FF-4253-AC97-730241A2AEE5},5\"",
+      "checksum": "56fe0c66926d095b8d8cd973ff5885dbb2d03f3d87959ada997cb5ba6b7be8b4",
+      "downloaded_at": "2025-09-07T05:11:16.690584"
+    }
+  ],
+  "current_version": {
+    "version": "20250907_051116",
+    "filename": "ExportFilesLayout_20250907_051116.pdf",
+    "path": "data\\broward_layout_schema\\pdfs\\ExportFilesLayout_20250907_051116.pdf",
+    "url": "https://www.broward.org/RecordsTaxesTreasury/Records/Documents/ExportFilesLayout.pdf",
+    "size": 176926,
+    "last_modified": "Tue, 10 Dec 2024 18:31:00 GMT",
+    "etag": "\"{C2C0A531-96FF-4253-AC97-730241A2AEE5},5\"",
+    "checksum": "56fe0c66926d095b8d8cd973ff5885dbb2d03f3d87959ada997cb5ba6b7be8b4",
+    "downloaded_at": "2025-09-07T05:11:16.690584"
+  },
+  "last_check": "2025-09-07T05:11:16.609641"
+}

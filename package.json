@@ -3,16 +3,42 @@
   "version": "0.1.0",
   "private": true,
   "description": "Automated real estate investment property acquisition system",
+  "type": "module",
   "scripts": {
     "dev": "pnpm -r run dev",
     "build": "pnpm -r run build",
     "test": "pnpm -r run test",
     "lint": "pnpm -r run lint",
-    "format": "pnpm -r run format"
+    "format": "pnpm -r run format",
+    "test:property": "node test_property_data.js",
+    "populate:data": "python populate_sample_data.py",
+    "claude:init": "node claude-code-init.cjs",
+    "claude:start": "npm run claude:init",
+    "mcp:start": "cd mcp-server && npm start",
+    "mcp:dev": "cd mcp-server && npm run dev",
+    "mcp:cleanup": "node mcp-server/cleanup.js",
+    "mcp:health": "curl http://localhost:3001/health",
+    "smoke": "node scripts/smoke-test.cjs",
+    "smoke:rag": "node scripts/smoke-test.cjs --rag CLAUDE.md --pipeline smoke_test",
+    "verify": "node scripts/verify-completion.cjs",
+    "e2e": "node scripts/run-local-e2e.cjs",
+    "e2e:online": "E2E_ONLINE=true node scripts/run-local-e2e.cjs"
   },
   "engines": {
     "node": ">=18.0.0",
     "pnpm": ">=8.0.0"
   },
-  "packageManager": "pnpm@8.15.1"
+  "packageManager": "pnpm@8.15.1",
+  "dependencies": {
+    "@supabase/supabase-js": "2.57.2",
+    "axios": "1.11.0",
+    "dotenv": "17.2.2",
+    "puppeteer": "24.19.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.55.0",
+    "playwright": "1.55.0"
+  }
 }
+
+

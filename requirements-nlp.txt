@@ -1,0 +1,66 @@
+# NLP Intelligent Field Matching System Requirements
+# NLTK, spaCy, and advanced NLP for data mapping
+
+# Core NLP Libraries
+nltk==3.8.1
+spacy==3.7.2
+en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.7.1/en_core_web_sm-3.7.1-py3-none-any.whl
+en-core-web-lg @ https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.7.1/en_core_web_lg-3.7.1-py3-none-any.whl
+
+# Sentence Transformers for Semantic Similarity
+sentence-transformers==2.2.2
+transformers==4.35.2
+torch==2.1.1
+
+# Text Processing and Similarity
+fuzzywuzzy==0.18.0
+python-levenshtein==0.23.0
+textdistance==4.6.0
+jellyfish==0.11.2
+
+# Machine Learning for NLP
+scikit-learn==1.3.2
+numpy==1.24.4
+scipy==1.11.4
+
+# Data Processing
+pandas==2.1.3
+python-dateutil==2.8.2
+
+# Database Connections
+supabase==2.0.3
+psycopg2-binary==2.9.9
+
+# Web Automation for Verification
+playwright==1.40.0
+
+# Computer Vision for Visual Validation
+opencv-python-headless==4.8.1.78
+pytesseract==0.3.10
+Pillow==10.1.0
+
+# HTTP and Async
+aiohttp==3.9.0
+asyncio==3.4.3
+
+# Environment and Configuration
+python-dotenv==1.0.0
+
+# Logging and Monitoring
+loguru==0.7.2
+
+# Development and Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+jupyter==1.0.0
+
+# Additional NLP Tools
+wordcloud==1.9.2
+networkx==3.2.1
+matplotlib==3.8.2
+seaborn==0.13.0
+
+# Optional: Advanced NLP Models
+# Uncomment if you want more advanced models
+# spacy-transformers==1.3.4
+# spacy-experimental==0.6.4

@@ -1,0 +1,499 @@
+{
+  "timestamp": "2025-09-10T20:29:18.404713",
+  "total_records": 111,
+  "issues": {
+    "unknown_parcels": [
+      {
+        "id": 161,
+        "tax_deed_number": "TD-AUTO-2",
+        "parcel_id": "UNKNOWN-2",
+        "status": "Active"
+      },
+      {
+        "id": 182,
+        "tax_deed_number": "TD-53580",
+        "parcel_id": "UNKNOWN-21",
+        "status": "Canceled"
+      },
+      {
+        "id": 183,
+        "tax_deed_number": "TD-53584",
+        "parcel_id": "UNKNOWN-22",
+        "status": "Canceled"
+      },
+      {
+        "id": 184,
+        "tax_deed_number": "TD-53588",
+        "parcel_id": "UNKNOWN-23",
+        "status": "Canceled"
+      },
+      {
+        "id": 185,
+        "tax_deed_number": "TD-53591",
+        "parcel_id": "UNKNOWN-24",
+        "status": "Canceled"
+      },
+      {
+        "id": 160,
+        "tax_deed_number": "TD-53593",
+        "parcel_id": "UNKNOWN-25",
+        "status": "Upcoming"
+      },
+      {
+        "id": 58,
+        "tax_deed_number": "TD-53547",
+        "parcel_id": "UNKNOWN-9",
+        "status": "Upcoming"
+      },
+      {
+        "id": 50,
+        "tax_deed_number": "TD-51640",
+        "parcel_id": "UNKNOWN-1",
+        "status": "Upcoming"
+      },
+      {
+        "id": 53,
+        "tax_deed_number": "TD-53541",
+        "parcel_id": "UNKNOWN-4",
+        "status": "Canceled"
+      },
+      {
+        "id": 54,
+        "tax_deed_number": "TD-53542",
+        "parcel_id": "UNKNOWN-5",
+        "status": "Canceled"
+      },
+      {
+        "id": 55,
+        "tax_deed_number": "TD-53543",
+        "parcel_id": "UNKNOWN-6",
+        "status": "Canceled"
+      },
+      {
+        "id": 56,
+        "tax_deed_number": "TD-53544",
+        "parcel_id": "UNKNOWN-7",
+        "status": "Upcoming"
+      },
+      {
+        "id": 57,
+        "tax_deed_number": "TD-53546",
+        "parcel_id": "UNKNOWN-8",
+        "status": "Canceled"
+      },
+      {
+        "id": 67,
+        "tax_deed_number": "TD-53575",
+        "parcel_id": "UNKNOWN-18",
+        "status": "Upcoming"
+      },
+      {
+        "id": 68,
+        "tax_deed_number": "TD-53577",
+        "parcel_id": "UNKNOWN-19",
+        "status": "Canceled"
+      },
+      {
+        "id": 69,
+        "tax_deed_number": "TD-53579",
+        "parcel_id": "UNKNOWN-20",
+        "status": "Canceled"
+      },
+      {
+        "id": 59,
+        "tax_deed_number": "TD-53548",
+        "parcel_id": "UNKNOWN-10",
+        "status": "Canceled"
+      },
+      {
+        "id": 60,
+        "tax_deed_number": "TD-53549",
+        "parcel_id": "UNKNOWN-11",
+        "status": "Canceled"
+      },
+      {
+        "id": 61,
+        "tax_deed_number": "TD-53550",
+        "parcel_id": "UNKNOWN-12",
+        "status": "Canceled"
+      },
+      {
+        "id": 62,
+        "tax_deed_number": "TD-53552",
+        "parcel_id": "UNKNOWN-13",
+        "status": "Upcoming"
+      },
+      {
+        "id": 63,
+        "tax_deed_number": "TD-53559",
+        "parcel_id": "UNKNOWN-14",
+        "status": "Canceled"
+      },
+      {
+        "id": 64,
+        "tax_deed_number": "TD-53563",
+        "parcel_id": "UNKNOWN-15",
+        "status": "Canceled"
+      },
+      {
+        "id": 65,
+        "tax_deed_number": "TD-53564",
+        "parcel_id": "UNKNOWN-16",
+        "status": "Upcoming"
+      },
+      {
+        "id": 66,
+        "tax_deed_number": "TD-53566",
+        "parcel_id": "UNKNOWN-17",
+        "status": "Upcoming"
+      }
+    ],
+    "no_address": [
+      {
+        "id": 161,
+        "tax_deed_number": "TD-AUTO-2",
+        "status": "Active"
+      },
+      {
+        "id": 182,
+        "tax_deed_number": "TD-53580",
+        "status": "Canceled"
+      },
+      {
+        "id": 183,
+        "tax_deed_number": "TD-53584",
+        "status": "Canceled"
+      },
+      {
+        "id": 184,
+        "tax_deed_number": "TD-53588",
+        "status": "Canceled"
+      },
+      {
+        "id": 185,
+        "tax_deed_number": "TD-53591",
+        "status": "Canceled"
+      },
+      {
+        "id": 160,
+        "tax_deed_number": "TD-53593",
+        "status": "Upcoming"
+      },
+      {
+        "id": 58,
+        "tax_deed_number": "TD-53547",
+        "status": "Upcoming"
+      },
+      {
+        "id": 50,
+        "tax_deed_number": "TD-51640",
+        "status": "Upcoming"
+      },
+      {
+        "id": 53,
+        "tax_deed_number": "TD-53541",
+        "status": "Canceled"
+      },
+      {
+        "id": 54,
+        "tax_deed_number": "TD-53542",
+        "status": "Canceled"
+      },
+      {
+        "id": 55,
+        "tax_deed_number": "TD-53543",
+        "status": "Canceled"
+      },
+      {
+        "id": 56,
+        "tax_deed_number": "TD-53544",
+        "status": "Upcoming"
+      },
+      {
+        "id": 57,
+        "tax_deed_number": "TD-53546",
+        "status": "Canceled"
+      },
+      {
+        "id": 67,
+        "tax_deed_number": "TD-53575",
+        "status": "Upcoming"
+      },
+      {
+        "id": 68,
+        "tax_deed_number": "TD-53577",
+        "status": "Canceled"
+      },
+      {
+        "id": 69,
+        "tax_deed_number": "TD-53579",
+        "status": "Canceled"
+      },
+      {
+        "id": 59,
+        "tax_deed_number": "TD-53548",
+        "status": "Canceled"
+      },
+      {
+        "id": 60,
+        "tax_deed_number": "TD-53549",
+        "status": "Canceled"
+      },
+      {
+        "id": 61,
+        "tax_deed_number": "TD-53550",
+        "status": "Canceled"
+      },
+      {
+        "id": 62,
+        "tax_deed_number": "TD-53552",
+        "status": "Upcoming"
+      },
+      {
+        "id": 63,
+        "tax_deed_number": "TD-53559",
+        "status": "Canceled"
+      },
+      {
+        "id": 64,
+        "tax_deed_number": "TD-53563",
+        "status": "Canceled"
+      },
+      {
+        "id": 65,
+        "tax_deed_number": "TD-53564",
+        "status": "Upcoming"
+      },
+      {
+        "id": 66,
+        "tax_deed_number": "TD-53566",
+        "status": "Upcoming"
+      }
+    ],
+    "duplicate_td_numbers": {},
+    "zero_opening_bid": [
+      {
+        "id": 161,
+        "tax_deed_number": "TD-AUTO-2",
+        "status": "Active"
+      }
+    ],
+    "invalid_td_format": [
+      {
+        "id": 237,
+        "tax_deed_number": "51640",
+        "status": "Upcoming"
+      },
+      {
+        "id": 238,
+        "tax_deed_number": "53487",
+        "status": "Upcoming"
+      },
+      {
+        "id": 239,
+        "tax_deed_number": "53540",
+        "status": "Canceled Removed"
+      },
+      {
+        "id": 240,
+        "tax_deed_number": "53541",
+        "status": "Canceled Removed"
+      },
+      {
+        "id": 241,
+        "tax_deed_number": "53542",
+        "status": "Canceled Removed"
+      },
+      {
+        "id": 242,
+        "tax_deed_number": "53543",
+        "status": "Canceled Removed"
+      },
+      {
+        "id": 243,
+        "tax_deed_number": "53544",
+        "status": "Upcoming"
+      },
+      {
+        "id": 244,
+        "tax_deed_number": "53546",
+        "status": "Canceled Removed"
+      },
+      {
+        "id": 245,
+        "tax_deed_number": "53547",
+        "status": "Upcoming"
+      },
+      {
+        "id": 246,
+        "tax_deed_number": "53548",
+        "status": "Canceled Removed"
+      },
+      {
+        "id": 247,
+        "tax_deed_number": "53549",
+        "status": "Canceled Removed"
+      },
+      {
+        "id": 248,
+        "tax_deed_number": "53550",
+        "status": "Canceled Removed"
+      },
+      {
+        "id": 249,
+        "tax_deed_number": "53552",
+        "status": "Upcoming"
+      },
+      {
+        "id": 250,
+        "tax_deed_number": "53559",
+        "status": "Canceled Removed"
+      },
+      {
+        "id": 251,
+        "tax_deed_number": "53563",
+        "status": "Canceled Removed"
+      },
+      {
+        "id": 252,
+        "tax_deed_number": "53564",
+        "status": "Upcoming"
+      },
+      {
+        "id": 253,
+        "tax_deed_number": "53566",
+        "status": "Upcoming"
+      },
+      {
+        "id": 254,
+        "tax_deed_number": "53575",
+        "status": "Upcoming"
+      },
+      {
+        "id": 255,
+        "tax_deed_number": "53577",
+        "status": "Canceled Removed"
+      },
+      {
+        "id": 256,
+        "tax_deed_number": "53579",
+        "status": "Canceled Removed"
+      },
+      {
+        "id": 257,
+        "tax_deed_number": "53580",
+        "status": "Canceled Removed"
+      },
+      {
+        "id": 258,
+        "tax_deed_number": "53584",
+        "status": "Canceled Removed"
+      },
+      {
+        "id": 259,
+        "tax_deed_number": "53588",
+        "status": "Canceled Removed"
+      },
+      {
+        "id": 260,
+        "tax_deed_number": "53591",
+        "status": "Canceled Removed"
+      },
+      {
+        "id": 261,
+        "tax_deed_number": "53593",
+        "status": "Upcoming"
+      }
+    ],
+    "missing_critical_data": [
+      {
+        "id": 161,
+        "tax_deed_number": "TD-AUTO-2",
+        "missing_fields": [
+          "parcel_id",
+          "address",
+          "opening_bid"
+        ],
+        "status": "Active"
+      },
+      {
+        "id": 160,
+        "tax_deed_number": "TD-53593",
+        "missing_fields": [
+          "parcel_id",
+          "address"
+        ],
+        "status": "Upcoming"
+      },
+      {
+        "id": 58,
+        "tax_deed_number": "TD-53547",
+        "missing_fields": [
+          "parcel_id",
+          "address"
+        ],
+        "status": "Upcoming"
+      },
+      {
+        "id": 50,
+        "tax_deed_number": "TD-51640",
+        "missing_fields": [
+          "parcel_id",
+          "address"
+        ],
+        "status": "Upcoming"
+      },
+      {
+        "id": 56,
+        "tax_deed_number": "TD-53544",
+        "missing_fields": [
+          "parcel_id",
+          "address"
+        ],
+        "status": "Upcoming"
+      },
+      {
+        "id": 67,
+        "tax_deed_number": "TD-53575",
+        "missing_fields": [
+          "parcel_id",
+          "address"
+        ],
+        "status": "Upcoming"
+      },
+      {
+        "id": 62,
+        "tax_deed_number": "TD-53552",
+        "missing_fields": [
+          "parcel_id",
+          "address"
+        ],
+        "status": "Upcoming"
+      },
+      {
+        "id": 65,
+        "tax_deed_number": "TD-53564",
+        "missing_fields": [
+          "parcel_id",
+          "address"
+        ],
+        "status": "Upcoming"
+      },
+      {
+        "id": 66,
+        "tax_deed_number": "TD-53566",
+        "missing_fields": [
+          "parcel_id",
+          "address"
+        ],
+        "status": "Upcoming"
+      }
+    ]
+  },
+  "correction_priority": [
+    "Delete records with UNKNOWN parcels and no address",
+    "Fix AUTO-generated tax deed numbers",
+    "Remove duplicate tax deed numbers",
+    "Update zero opening bids for Active properties"
+  ]
+}

@@ -1,0 +1,31 @@
+# Florida Business Database Requirements
+# For uploading SFTP data to Supabase with RAG capabilities
+
+# Core dependencies
+supabase>=2.0.0
+python-dotenv>=1.0.0
+pandas>=2.0.0
+numpy>=1.24.0
+
+# OpenAI for embeddings
+openai>=1.0.0
+
+# Database and async support
+asyncio-compat>=0.1.0
+psycopg2-binary>=2.9.0
+
+# Data processing
+scikit-learn>=1.3.0
+regex>=2023.0.0
+
+# Logging and monitoring
+structlog>=23.0.0
+
+# Optional: For more advanced text processing
+nltk>=3.8.0
+spacy>=3.7.0
+
+# Development dependencies
+pytest>=7.0.0
+black>=23.0.0
+flake8>=6.0.0

@@ -1,0 +1,386 @@
+{
+  "Core Property Info": {
+    "tables": {
+      "properties": {
+        "exists": true,
+        "status": "EXISTS",
+        "count": 3,
+        "sample_data": [
+          {
+            "id": 1,
+            "parcel_id": "504231242720",
+            "owner_name": "RODRIGUEZ MARIA",
+            "property_address": "3920 SW 53 CT",
+            "city": "Hollywood",
+            "state": "FL",
+            "zip_code": "33021",
+            "property_type": "Single Family",
+            "year_built": 1978,
+            "total_sqft": 2150,
+            "lot_size_sqft": 8500,
+            "bedrooms": 3,
+            "bathrooms": 2,
+            "assessed_value": 285000.0,
+            "market_value": 425000.0,
+            "last_sale_date": "2019-06-15",
+            "last_sale_price": 320000.0,
+            "created_at": "2025-09-07T15:33:35.551767",
+            "updated_at": "2025-09-07T15:33:35.551767"
+          },
+          {
+            "id": 2,
+            "parcel_id": "504231242721",
+            "owner_name": "SMITH JOHN & JANE",
+            "property_address": "3924 SW 53 CT",
+            "city": "Hollywood",
+            "state": "FL",
+            "zip_code": "33021",
+            "property_type": "Single Family",
+            "year_built": 1979,
+            "total_sqft": 2230,
+            "lot_size_sqft": 8600,
+            "bedrooms": 3,
+            "bathrooms": 2.5,
+            "assessed_value": 295000.0,
+            "market_value": 435000.0,
+            "last_sale_date": "2024-11-15",
+            "last_sale_price": 435000.0,
+            "created_at": "2025-09-07T15:33:35.551767",
+            "updated_at": "2025-09-07T15:33:35.551767"
+          }
+        ],
+        "columns": [
+          "id",
+          "parcel_id",
+          "owner_name",
+          "property_address",
+          "city",
+          "state",
+          "zip_code",
+          "property_type",
+          "year_built",
+          "total_sqft",
+          "lot_size_sqft",
+          "bedrooms",
+          "bathrooms",
+          "assessed_value",
+          "market_value",
+          "last_sale_date",
+          "last_sale_price",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "broward_parcels": {
+        "exists": false,
+        "status": "NOT FOUND",
+        "count": 0,
+        "sample_data": null,
+        "error": "Table does not exist"
+      },
+      "nav_assessments": {
+        "exists": true,
+        "status": "EXISTS",
+        "count": 1,
+        "sample_data": [
+          {
+            "id": 1,
+            "parcel_id": "504231242720",
+            "tax_year": 2024,
+            "just_value": null,
+            "assessed_value": 285000.0,
+            "taxable_value": 260000.0,
+            "land_value": null,
+            "building_value": null,
+            "created_at": "2025-09-07T21:22:32.056307"
+          }
+        ],
+        "columns": [
+          "id",
+          "parcel_id",
+          "tax_year",
+          "just_value",
+          "assessed_value",
+          "taxable_value",
+          "land_value",
+          "building_value",
+          "created_at"
+        ]
+      },
+      "tpp_tangible": {
+        "exists": false,
+        "status": "NOT FOUND",
+        "count": 0,
+        "sample_data": null,
+        "error": "Table does not exist"
+      },
+      "property_sales_history": {
+        "exists": true,
+        "status": "EXISTS",
+        "count": 3,
+        "sample_data": [
+          {
+            "id": 1,
+            "parcel_id": "504231242720",
+            "sale_date": "2019-06-15",
+            "sale_price": 320000.0,
+            "sale_type": null,
+            "buyer_name": "RODRIGUEZ MARIA",
+            "seller_name": "SMITH JOHN",
+            "deed_type": null,
+            "sale_year": 2019,
+            "sale_month": null,
+            "data_source": null,
+            "created_at": "2025-09-07T21:22:06.162569"
+          },
+          {
+            "id": 2,
+            "parcel_id": "504231242720",
+            "sale_date": "2015-03-20",
+            "sale_price": 245000.0,
+            "sale_type": null,
+            "buyer_name": "SMITH JOHN",
+            "seller_name": "JOHNSON ROBERT",
+            "deed_type": null,
+            "sale_year": 2015,
+            "sale_month": null,
+            "data_source": null,
+            "created_at": "2025-09-07T21:22:06.162569"
+          }
+        ],
+        "columns": [
+          "id",
+          "parcel_id",
+          "sale_date",
+          "sale_price",
+          "sale_type",
+          "buyer_name",
+          "seller_name",
+          "deed_type",
+          "sale_year",
+          "sale_month",
+          "data_source",
+          "created_at"
+        ]
+      }
+    },
+    "has_data": true,
+    "summary": "DATA AVAILABLE"
+  },
+  "Sunbiz Info": {
+    "tables": {
+      "sunbiz_corporate": {
+        "exists": true,
+        "status": "EXISTS",
+        "count": 0,
+        "sample_data": null,
+        "columns": []
+      },
+      "sunbiz_fictitious": {
+        "exists": true,
+        "status": "EXISTS",
+        "count": 0,
+        "sample_data": null,
+        "columns": []
+      },
+      "sunbiz_corporate_events": {
+        "exists": true,
+        "status": "EXISTS",
+        "count": 0,
+        "sample_data": null,
+        "columns": []
+      }
+    },
+    "has_data": false,
+    "summary": "NO DATA"
+  },
+  "Property Tax Info": {
+    "tables": {
+      "property_tax_records": {
+        "exists": false,
+        "status": "NOT FOUND",
+        "count": 0,
+        "sample_data": null,
+        "error": "Table does not exist"
+      },
+      "tax_certificates": {
+        "exists": false,
+        "status": "NOT FOUND",
+        "count": 0,
+        "sample_data": null,
+        "error": "Table does not exist"
+      },
+      "tax_history": {
+        "exists": false,
+        "status": "NOT FOUND",
+        "count": 0,
+        "sample_data": null,
+        "error": "Table does not exist"
+      },
+      "assessed_values": {
+        "exists": false,
+        "status": "NOT FOUND",
+        "count": 0,
+        "sample_data": null,
+        "error": "Table does not exist"
+      }
+    },
+    "has_data": false,
+    "summary": "NO DATA"
+  },
+  "Permit": {
+    "tables": {
+      "florida_permits": {
+        "exists": true,
+        "status": "EXISTS",
+        "count": 1,
+        "sample_data": [
+          {
+            "id": 1,
+            "permit_number": "B24-001234",
+            "parcel_id": "504231242720",
+            "property_address": "3920 SW 53 CT",
+            "permit_type": "Building",
+            "description": "Roof Replacement",
+            "status": "Active",
+            "created_at": "2025-09-07T21:22:32.056307"
+          }
+        ],
+        "columns": [
+          "id",
+          "permit_number",
+          "parcel_id",
+          "property_address",
+          "permit_type",
+          "description",
+          "status",
+          "created_at"
+        ]
+      },
+      "permit_sub_permits": {
+        "exists": false,
+        "status": "NOT FOUND",
+        "count": 0,
+        "sample_data": null,
+        "error": "Table does not exist"
+      },
+      "permit_inspections": {
+        "exists": false,
+        "status": "NOT FOUND",
+        "count": 0,
+        "sample_data": null,
+        "error": "Table does not exist"
+      }
+    },
+    "has_data": true,
+    "summary": "DATA AVAILABLE"
+  },
+  "Foreclosure": {
+    "tables": {
+      "foreclosure_cases": {
+        "exists": false,
+        "status": "NOT FOUND",
+        "count": 0,
+        "sample_data": null,
+        "error": "Table does not exist"
+      },
+      "foreclosure_history": {
+        "exists": false,
+        "status": "NOT FOUND",
+        "count": 0,
+        "sample_data": null,
+        "error": "Table does not exist"
+      },
+      "lis_pendens": {
+        "exists": false,
+        "status": "NOT FOUND",
+        "count": 0,
+        "sample_data": null,
+        "error": "Table does not exist"
+      }
+    },
+    "has_data": false,
+    "summary": "NO DATA"
+  },
+  "Sales Tax Deed": {
+    "tables": {
+      "tax_deed_sales": {
+        "exists": false,
+        "status": "NOT FOUND",
+        "count": 0,
+        "sample_data": null,
+        "error": "Table does not exist"
+      },
+      "tax_deed_auctions": {
+        "exists": false,
+        "status": "NOT FOUND",
+        "count": 0,
+        "sample_data": null,
+        "error": "Table does not exist"
+      },
+      "tax_deed_history": {
+        "exists": false,
+        "status": "NOT FOUND",
+        "count": 0,
+        "sample_data": null,
+        "error": "Table does not exist"
+      }
+    },
+    "has_data": false,
+    "summary": "NO DATA"
+  },
+  "Tax Lien": {
+    "tables": {
+      "tax_liens": {
+        "exists": false,
+        "status": "NOT FOUND",
+        "count": 0,
+        "sample_data": null,
+        "error": "Table does not exist"
+      },
+      "tax_certificates": {
+        "exists": false,
+        "status": "NOT FOUND",
+        "count": 0,
+        "sample_data": null,
+        "error": "Table does not exist"
+      },
+      "tax_lien_sales": {
+        "exists": false,
+        "status": "NOT FOUND",
+        "count": 0,
+        "sample_data": null,
+        "error": "Table does not exist"
+      }
+    },
+    "has_data": false,
+    "summary": "NO DATA"
+  },
+  "Analysis": {
+    "tables": {
+      "investment_analysis": {
+        "exists": false,
+        "status": "NOT FOUND",
+        "count": 0,
+        "sample_data": null,
+        "error": "Table does not exist"
+      },
+      "market_comparables": {
+        "exists": false,
+        "status": "NOT FOUND",
+        "count": 0,
+        "sample_data": null,
+        "error": "Table does not exist"
+      },
+      "property_metrics": {
+        "exists": false,
+        "status": "NOT FOUND",
+        "count": 0,
+        "sample_data": null,
+        "error": "Table does not exist"
+      }
+    },
+    "has_data": false,
+    "summary": "NO DATA"
+  }
+}

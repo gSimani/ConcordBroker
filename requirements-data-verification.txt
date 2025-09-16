@@ -1,0 +1,42 @@
+# Data Verification System Requirements
+# Install with: pip install -r requirements-data-verification.txt
+
+# Data Analysis and Visualization
+pandas>=2.0.0
+numpy>=1.24.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Database Connection
+supabase>=2.0.0
+psycopg2-binary>=2.9.0
+python-dotenv>=1.0.0
+
+# Web Automation and Testing
+playwright>=1.40.0
+pytest-playwright>=0.4.0
+
+# Computer Vision
+opencv-python>=4.8.0
+pillow>=10.0.0
+pytesseract>=0.3.10
+
+# Async Support
+asyncio>=3.4.3
+aiohttp>=3.9.0
+
+# Utilities
+requests>=2.31.0
+colorama>=0.4.6
+tqdm>=4.65.0
+
+# Testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+
+# Logging
+loguru>=0.7.0
+
+# Data Validation
+pydantic>=2.0.0
+jsonschema>=4.19.0

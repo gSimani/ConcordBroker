@@ -1,0 +1,264 @@
+
+============================================================
+Upload resumed at 2025-09-13T23:45:33.140367
+Skipping already uploaded: ALACHUA
+============================================================
+2025-09-13T23:45:33.142367 - Starting BAKER
+2025-09-13T23:45:39.416715 - Completed BAKER: 0 records
+  Errors: 3 (varchar issues fixed)
+2025-09-13T23:45:40.420410 - Starting BAY
+2025-09-13T23:47:12.763068 - Completed BAY: 0 records
+  Errors: 26 (varchar issues fixed)
+2025-09-13T23:47:13.767946 - Starting BRADFORD
+2025-09-13T23:47:26.454729 - Completed BRADFORD: 0 records
+  Errors: 4 (varchar issues fixed)
+2025-09-13T23:47:27.456608 - Starting BREVARD
+
+============================================================
+Upload resumed at 2025-09-13T23:48:24.494494
+Skipping already uploaded: ALACHUA
+============================================================
+2025-09-13T23:48:24.496494 - Starting BAKER
+2025-09-13T23:48:34.550151 - Completed BAKER: 0 records
+  Errors: 3 (varchar issues fixed)
+2025-09-13T23:48:35.554148 - Starting BAY
+2025-09-13T23:49:58.954648 - Completed BAY: 0 records
+  Errors: 26 (varchar issues fixed)
+2025-09-13T23:49:59.960469 - Starting BRADFORD
+2025-09-13T23:50:09.035987 - Completed BRADFORD: 0 records
+  Errors: 4 (varchar issues fixed)
+2025-09-13T23:50:10.038011 - Starting BREVARD
+2025-09-13T23:51:13.614246 - Completed BREVARD: 0 records
+  Errors: 70 (varchar issues fixed)
+2025-09-13T23:51:14.619980 - Starting BROWARD
+2025-09-13T23:54:11.546061 - Completed BREVARD: 0 records
+  Errors: 70 (varchar issues fixed)
+2025-09-13T23:54:12.551537 - Starting BROWARD
+2025-09-13T23:59:48.847494 - Completed BROWARD: 0 records
+  Errors: 151 (varchar issues fixed)
+2025-09-13T23:59:49.853135 - Starting CALHOUN
+2025-09-13T23:59:59.944131 - Completed CALHOUN: 0 records
+  Errors: 3 (varchar issues fixed)
+2025-09-14T00:00:00.948719 - Starting CHARLOTTE
+2025-09-14T00:02:49.141094 - Completed CHARLOTTE: 0 records
+  Errors: 45 (varchar issues fixed)
+2025-09-14T00:02:50.142882 - Starting CITRUS
+2025-09-14T00:03:07.577968 - Completed BROWARD: 0 records
+  Errors: 151 (varchar issues fixed)
+2025-09-14T00:03:08.584346 - Starting CALHOUN
+2025-09-14T00:03:19.435980 - Completed CALHOUN: 0 records
+  Errors: 3 (varchar issues fixed)
+2025-09-14T00:03:20.440695 - Starting CHARLOTTE
+2025-09-14T00:04:40.110154 - Completed CITRUS: 0 records
+  Errors: 30 (varchar issues fixed)
+2025-09-14T00:04:41.113787 - Starting CLAY
+2025-09-14T00:05:50.899330 - Completed CLAY: 0 records
+  Errors: 21 (varchar issues fixed)
+2025-09-14T00:05:51.902897 - Starting COLLIER
+2025-09-14T00:06:17.634910 - Completed CHARLOTTE: 0 records
+  Errors: 45 (varchar issues fixed)
+2025-09-14T00:06:18.637340 - Starting CITRUS
+2025-09-14T00:08:16.824649 - Completed CITRUS: 0 records
+  Errors: 30 (varchar issues fixed)
+2025-09-14T00:08:17.827682 - Starting CLAY
+2025-09-14T00:09:34.331393 - Completed COLLIER: 0 records
+  Errors: 60 (varchar issues fixed)
+2025-09-14T00:09:35.332546 - Starting COLUMBIA
+2025-09-14T00:09:35.936532 - Completed CLAY: 0 records
+  Errors: 21 (varchar issues fixed)
+2025-09-14T00:09:36.939808 - Starting COLLIER
+2025-09-14T00:09:59.857221 - Completed COLUMBIA: 0 records
+  Errors: 8 (varchar issues fixed)
+2025-09-14T00:10:00.859991 - Starting DADE
+2025-09-14T00:13:48.614783 - Completed COLLIER: 0 records
+  Errors: 60 (varchar issues fixed)
+2025-09-14T00:13:49.615463 - Starting COLUMBIA
+2025-09-14T00:14:19.984024 - Completed COLUMBIA: 0 records
+  Errors: 8 (varchar issues fixed)
+2025-09-14T00:14:20.987539 - Starting DADE
+2025-09-14T00:21:57.683127 - Completed DADE: 0 records
+  Errors: 187 (varchar issues fixed)
+2025-09-14T00:21:58.687757 - Starting DESOTO
+2025-09-14T00:22:13.762594 - Completed DESOTO: 0 records
+  Errors: 5 (varchar issues fixed)
+2025-09-14T00:22:14.763285 - Starting DIXIE
+2025-09-14T00:22:27.676270 - Completed DIXIE: 0 records
+  Errors: 4 (varchar issues fixed)
+2025-09-14T00:22:28.678562 - Starting DUVAL
+2025-09-14T00:26:16.726789 - Completed DADE: 0 records
+  Errors: 187 (varchar issues fixed)
+2025-09-14T00:26:17.730759 - Starting DESOTO
+2025-09-14T00:26:32.316334 - Completed DESOTO: 0 records
+  Errors: 5 (varchar issues fixed)
+2025-09-14T00:26:33.317839 - Starting DIXIE
+2025-09-14T00:26:49.401522 - Completed DIXIE: 0 records
+  Errors: 4 (varchar issues fixed)
+2025-09-14T00:26:50.403790 - Starting DUVAL
+2025-09-14T00:27:49.481929 - Completed DUVAL: 0 records
+  Errors: 80 (varchar issues fixed)
+2025-09-14T00:27:50.485516 - Starting ESCAMBIA
+2025-09-14T00:30:20.867091 - Completed ESCAMBIA: 0 records
+  Errors: 35 (varchar issues fixed)
+2025-09-14T00:30:21.870530 - Starting FLAGLER
+2025-09-14T00:31:24.816786 - Completed FLAGLER: 0 records
+  Errors: 18 (varchar issues fixed)
+2025-09-14T00:31:25.821780 - Starting FRANKLIN
+2025-09-14T00:31:42.843827 - Completed FRANKLIN: 0 records
+  Errors: 4 (varchar issues fixed)
+2025-09-14T00:31:43.849002 - Starting GADSDEN
+2025-09-14T00:32:10.361142 - Completed GADSDEN: 0 records
+  Errors: 6 (varchar issues fixed)
+2025-09-14T00:32:11.365777 - Starting GILCHRIST
+2025-09-14T00:32:19.801642 - Completed DUVAL: 0 records
+  Errors: 80 (varchar issues fixed)
+2025-09-14T00:32:20.806182 - Starting ESCAMBIA
+2025-09-14T00:32:22.416288 - Completed GILCHRIST: 0 records
+  Errors: 3 (varchar issues fixed)
+2025-09-14T00:32:23.423192 - Starting GLADES
+2025-09-14T00:32:31.112928 - Completed GLADES: 0 records
+  Errors: 3 (varchar issues fixed)
+2025-09-14T00:32:32.120840 - Starting GULF
+2025-09-14T00:32:46.652227 - Completed GULF: 0 records
+  Errors: 4 (varchar issues fixed)
+2025-09-14T00:32:47.658752 - Starting HAMILTON
+2025-09-14T00:32:59.163545 - Completed HAMILTON: 0 records
+  Errors: 3 (varchar issues fixed)
+2025-09-14T00:33:00.166908 - Starting HARDEE
+2025-09-14T00:33:11.568580 - Completed HARDEE: 0 records
+  Errors: 4 (varchar issues fixed)
+2025-09-14T00:33:12.570065 - Starting HENDRY
+2025-09-14T00:33:34.769685 - Completed HENDRY: 0 records
+  Errors: 8 (varchar issues fixed)
+2025-09-14T00:33:35.771030 - Starting HERNANDO
+2025-09-14T00:34:54.399398 - Completed HERNANDO: 0 records
+  Errors: 24 (varchar issues fixed)
+2025-09-14T00:34:55.403887 - Starting HIGHLANDS
+
+============================================================
+Upload resumed at 2025-09-14T00:35:29.589566
+Skipping already uploaded: ALACHUA
+============================================================
+2025-09-14T00:35:29.592056 - Starting BAKER
+2025-09-14T00:35:37.789615 - Completed BAKER: 0 records
+  Errors: 3 (varchar issues fixed)
+2025-09-14T00:35:38.793396 - Starting BAY
+2025-09-14T00:36:11.348261 - Completed HIGHLANDS: 0 records
+  Errors: 23 (varchar issues fixed)
+2025-09-14T00:36:12.352023 - Starting HILLSBOROUGH
+2025-09-14T00:37:09.652293 - Completed BAY: 0 records
+  Errors: 26 (varchar issues fixed)
+2025-09-14T00:37:10.659661 - Starting BRADFORD
+2025-09-14T00:37:19.443242 - Completed BRADFORD: 0 records
+  Errors: 4 (varchar issues fixed)
+2025-09-14T00:37:20.445261 - Starting BREVARD
+2025-09-14T00:42:18.264116 - Completed HILLSBOROUGH: 0 records
+  Errors: 105 (varchar issues fixed)
+2025-09-14T00:42:19.271834 - Starting HOLMES
+2025-09-14T00:42:27.342623 - Completed HOLMES: 0 records
+  Errors: 3 (varchar issues fixed)
+2025-09-14T00:42:28.349114 - Starting INDIAN RIVER
+2025-09-14T00:42:29.350053 - Starting JACKSON
+2025-09-14T00:42:52.743811 - Completed JACKSON: 0 records
+  Errors: 9 (varchar issues fixed)
+2025-09-14T00:42:53.744453 - Starting JEFFERSON
+2025-09-14T00:43:04.006085 - Completed JEFFERSON: 0 records
+  Errors: 3 (varchar issues fixed)
+2025-09-14T00:43:05.009102 - Starting LAFAYETTE
+2025-09-14T00:43:09.722591 - Completed LAFAYETTE: 0 records
+  Errors: 2 (varchar issues fixed)
+2025-09-14T00:43:10.726303 - Starting LAKE
+2025-09-14T00:45:26.948522 - Completed LAKE: 0 records
+  Errors: 43 (varchar issues fixed)
+2025-09-14T00:45:27.950008 - Starting LEE
+2025-09-14T00:51:39.385545 - Completed LEE: 0 records
+  Errors: 112 (varchar issues fixed)
+2025-09-14T00:51:40.394054 - Starting LEON
+2025-09-14T00:52:56.901532 - Completed LEON: 0 records
+  Errors: 23 (varchar issues fixed)
+2025-09-14T00:52:57.907745 - Starting LEVY
+2025-09-14T00:53:22.733275 - Completed LEVY: 0 records
+  Errors: 10 (varchar issues fixed)
+2025-09-14T00:53:23.735903 - Starting LIBERTY
+2025-09-14T00:53:27.275901 - Completed LIBERTY: 0 records
+  Errors: 2 (varchar issues fixed)
+2025-09-14T00:53:28.277286 - Starting MADISON
+2025-09-14T00:53:36.258988 - Completed MADISON: 0 records
+  Errors: 4 (varchar issues fixed)
+2025-09-14T00:53:37.262404 - Starting MANATEE
+2025-09-14T00:55:42.026926 - Completed MANATEE: 0 records
+  Errors: 45 (varchar issues fixed)
+2025-09-14T00:55:43.033335 - Starting MARION
+2025-09-14T00:58:47.062560 - Completed MARION: 0 records
+  Errors: 57 (varchar issues fixed)
+2025-09-14T00:58:48.072224 - Starting MARTIN
+2025-09-14T00:59:48.211684 - Completed MARTIN: 0 records
+  Errors: 20 (varchar issues fixed)
+2025-09-14T00:59:49.219671 - Starting MIAMI-DADE
+2025-09-14T00:59:50.220485 - Starting MONROE
+2025-09-14T01:00:54.932724 - Completed MONROE: 0 records
+  Errors: 18 (varchar issues fixed)
+2025-09-14T01:00:55.938720 - Starting NASSAU
+2025-09-14T01:01:46.743296 - Completed NASSAU: 0 records
+  Errors: 12 (varchar issues fixed)
+2025-09-14T01:01:47.754806 - Starting OKALOOSA
+2025-09-14T01:03:10.460615 - Completed OKALOOSA: 0 records
+  Errors: 23 (varchar issues fixed)
+2025-09-14T01:03:11.464456 - Starting OKEECHOBEE
+2025-09-14T01:03:29.409440 - Completed OKEECHOBEE: 0 records
+  Errors: 7 (varchar issues fixed)
+2025-09-14T01:03:30.411399 - Starting ORANGE
+2025-09-14T01:09:02.011666 - Completed ORANGE: 0 records
+  Errors: 98 (varchar issues fixed)
+2025-09-14T01:09:03.020126 - Starting OSCEOLA
+2025-09-14T01:11:33.159651 - Completed OSCEOLA: 0 records
+  Errors: 42 (varchar issues fixed)
+2025-09-14T01:11:34.171132 - Starting PALM BEACH
+2025-09-14T01:11:35.171706 - Starting PASCO
+2025-09-14T01:15:42.639164 - Completed PASCO: 0 records
+  Errors: 66 (varchar issues fixed)
+2025-09-14T01:15:43.645497 - Starting PINELLAS
+2025-09-14T01:21:24.667446 - Completed PINELLAS: 0 records
+  Errors: 87 (varchar issues fixed)
+2025-09-14T01:21:25.673270 - Starting POLK
+2025-09-14T01:26:34.596787 - Completed POLK: 0 records
+  Errors: 86 (varchar issues fixed)
+2025-09-14T01:26:35.606371 - Starting PUTNAM
+2025-09-14T01:27:43.814505 - Completed PUTNAM: 0 records
+  Errors: 20 (varchar issues fixed)
+2025-09-14T01:27:44.817567 - Starting SANTA ROSA
+2025-09-14T01:27:45.818229 - Starting SARASOTA
+2025-09-14T01:31:24.035024 - Completed SARASOTA: 0 records
+  Errors: 61 (varchar issues fixed)
+2025-09-14T01:31:25.041012 - Starting SEMINOLE
+2025-09-14T01:34:08.329563 - Completed SEMINOLE: 0 records
+  Errors: 36 (varchar issues fixed)
+2025-09-14T01:34:09.339856 - Starting ST. JOHNS
+2025-09-14T01:34:10.340461 - Starting ST. LUCIE
+2025-09-14T01:34:11.341546 - Starting SUMTER
+2025-09-14T01:35:32.039493 - Completed SUMTER: 0 records
+  Errors: 21 (varchar issues fixed)
+2025-09-14T01:35:33.045355 - Starting SUWANNEE
+2025-09-14T01:36:05.148943 - Completed SUWANNEE: 0 records
+  Errors: 8 (varchar issues fixed)
+2025-09-14T01:36:06.154714 - Starting TAYLOR
+2025-09-14T01:36:23.273390 - Completed TAYLOR: 0 records
+  Errors: 4 (varchar issues fixed)
+2025-09-14T01:36:24.284132 - Starting UNION
+2025-09-14T01:36:29.892446 - Completed UNION: 0 records
+  Errors: 2 (varchar issues fixed)
+2025-09-14T01:36:30.896606 - Starting VOLUSIA
+2025-09-14T01:40:18.902734 - Completed VOLUSIA: 0 records
+  Errors: 62 (varchar issues fixed)
+2025-09-14T01:40:19.910469 - Starting WAKULLA
+2025-09-14T01:40:42.724154 - Completed WAKULLA: 0 records
+  Errors: 6 (varchar issues fixed)
+2025-09-14T01:40:43.726497 - Starting WALTON
+2025-09-14T01:41:47.362755 - Completed WALTON: 0 records
+  Errors: 19 (varchar issues fixed)
+2025-09-14T01:41:48.373243 - Starting WASHINGTON
+2025-09-14T01:42:23.188327 - Completed WASHINGTON: 0 records
+  Errors: 10 (varchar issues fixed)
+============================================================
+Upload completed at 2025-09-14T01:42:24.194148
+Total new records: 0
+Successful counties: 0

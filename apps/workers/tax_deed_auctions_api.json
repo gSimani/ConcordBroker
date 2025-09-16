@@ -1,0 +1,24 @@
+[
+  {
+    "auction_id": "110",
+    "description": "9/17/2025 Tax Deed Sale",
+    "auction_date": "2025-09-17T11:01:00",
+    "total_items": 46,
+    "available_items": 46,
+    "status": "Upcoming",
+    "auction_url": "https://broward.deedauction.net/auction/110",
+    "last_updated": "2025-09-10T18:13:48.106265+00:00",
+    "properties": []
+  },
+  {
+    "auction_id": "111",
+    "description": "10/15/2025 Tax Deed Sale",
+    "auction_date": "2025-10-15T11:01:00",
+    "total_items": 63,
+    "available_items": 63,
+    "status": "Upcoming",
+    "auction_url": "https://broward.deedauction.net/auction/111",
+    "last_updated": "2025-09-10T18:13:49.268986+00:00",
+    "properties": []
+  }
+]

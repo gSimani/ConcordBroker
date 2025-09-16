@@ -1,0 +1,58 @@
+# Ultra-Fast Property System Requirements
+# PySpark + Redis + Playwright + OpenCV Integration
+
+# Core Dependencies
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-dotenv==1.0.0
+aiohttp==3.9.0
+
+# PySpark for Big Data Processing
+pyspark==3.5.0
+pyarrow==14.0.1
+pandas==2.1.3
+numpy==1.24.3
+
+# Database Connections
+supabase==2.0.3
+psycopg2-binary==2.9.9
+asyncpg==0.29.0
+
+# Redis Caching
+redis==5.0.1
+aioredis==2.0.1
+hiredis==2.2.3
+
+# Playwright for Web Automation
+playwright==1.40.0
+
+# OpenCV for Image Processing
+opencv-python-headless==4.8.1.78
+Pillow==10.1.0
+scikit-image==0.22.0
+
+# Machine Learning (for PySpark ML)
+scikit-learn==1.3.2
+scipy==1.11.4
+
+# Performance Monitoring
+psutil==5.9.6
+memory-profiler==0.61.0
+
+# Data Serialization
+msgpack==1.0.7
+orjson==3.9.10
+
+# Async Support
+asyncio==3.4.3
+aiofiles==23.2.1
+
+# Development Tools
+ipython==8.17.2
+jupyter==1.0.0
+pytest==7.4.3
+pytest-asyncio==0.21.1
+
+# Logging and Monitoring
+loguru==0.7.2
+python-json-logger==2.0.7

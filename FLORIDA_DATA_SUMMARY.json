@@ -1,0 +1,26 @@
+{
+  "timestamp": "2025-09-05T12:57:39.671678",
+  "data_sources": {
+    "Revenue_Portal": {
+      "NAL": "NAL16P202501.csv",
+      "NAP": "NAP16P202501.csv",
+      "NAV": "Not found locally",
+      "SDF": "SDF16P202501.csv",
+      "TPP": "broward_tpp_2025.zip",
+      "RER": "Not downloaded",
+      "CDF": "Not downloaded"
+    },
+    "Map_Data": "Not downloaded",
+    "Sunbiz": "Pipeline configured",
+    "ArcGIS": "API available",
+    "BCPA": "Web scraping ready"
+  },
+  "next_steps": [
+    "1. Download NAV (Value Assessment) data",
+    "2. Download RER (Real Estate Transfer) data",
+    "3. Download CDF (Code Definition) files",
+    "4. Access Broward GIS map data",
+    "5. Setup automated Sunbiz SFTP sync",
+    "6. Connect to ArcGIS REST API for parcels"
+  ]
+}

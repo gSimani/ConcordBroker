@@ -1,0 +1,556 @@
+{
+  "timestamp": "2025-09-09T00:30:25.458173",
+  "database_url": "https://pmispwtdngkcmsrsjwbp.supabase.co",
+  "tables_audited": 9,
+  "total_records": 789902,
+  "table_details": {
+    "florida_parcels": {
+      "exists": true,
+      "record_count": 789884,
+      "sample_data": {
+        "id": 55232,
+        "parcel_id": "600008384549",
+        "county": "BROWARD",
+        "year": 2025,
+        "geometry": null,
+        "centroid": null,
+        "area_sqft": null,
+        "perimeter_ft": null,
+        "owner_name": "FLOMED INFUSION SERVICES LLC",
+        "owner_addr1": "6274 LINTON BLVD 105",
+        "owner_addr2": null,
+        "owner_city": "DELRAY BEACH",
+        "owner_state": "FL",
+        "owner_zip": "33484",
+        "phy_addr1": "2400 E COMMERCIAL BLVD 214",
+        "phy_addr2": null,
+        "phy_city": "FORT LAUDERDALE",
+        "phy_state": "FL",
+        "phy_zipcd": "33308",
+        "legal_desc": null,
+        "subdivision": null,
+        "lot": null,
+        "block": null,
+        "property_use": "011",
+        "property_use_desc": null,
+        "land_use_code": null,
+        "zoning": null,
+        "just_value": 31000,
+        "assessed_value": 31000,
+        "taxable_value": 6000,
+        "land_value": null,
+        "building_value": null,
+        "year_built": null,
+        "total_living_area": null,
+        "bedrooms": null,
+        "bathrooms": null,
+        "stories": null,
+        "units": null,
+        "land_sqft": null,
+        "land_acres": null,
+        "sale_date": null,
+        "sale_price": null,
+        "sale_qualification": null,
+        "match_status": null,
+        "discrepancy_reason": null,
+        "is_redacted": false,
+        "data_source": "NAP2025_FULL",
+        "import_date": "2025-09-07T01:09:50.342461",
+        "update_date": null,
+        "data_hash": null
+      },
+      "columns": [
+        "id",
+        "parcel_id",
+        "county",
+        "year",
+        "geometry",
+        "centroid",
+        "area_sqft",
+        "perimeter_ft",
+        "owner_name",
+        "owner_addr1",
+        "owner_addr2",
+        "owner_city",
+        "owner_state",
+        "owner_zip",
+        "phy_addr1",
+        "phy_addr2",
+        "phy_city",
+        "phy_state",
+        "phy_zipcd",
+        "legal_desc",
+        "subdivision",
+        "lot",
+        "block",
+        "property_use",
+        "property_use_desc",
+        "land_use_code",
+        "zoning",
+        "just_value",
+        "assessed_value",
+        "taxable_value",
+        "land_value",
+        "building_value",
+        "year_built",
+        "total_living_area",
+        "bedrooms",
+        "bathrooms",
+        "stories",
+        "units",
+        "land_sqft",
+        "land_acres",
+        "sale_date",
+        "sale_price",
+        "sale_qualification",
+        "match_status",
+        "discrepancy_reason",
+        "is_redacted",
+        "data_source",
+        "import_date",
+        "update_date",
+        "data_hash"
+      ],
+      "null_counts": {
+        "parcel_id": 0,
+        "phy_addr1": 0,
+        "owner_name": 0,
+        "just_value": 3
+      },
+      "has_recent_data": false,
+      "expected_min_records": 100000,
+      "description": "Main property data table",
+      "status": "OK"
+    },
+    "property_sales_history": {
+      "exists": true,
+      "record_count": 3,
+      "sample_data": {
+        "id": 1,
+        "parcel_id": "504231242720",
+        "sale_date": "2019-06-15",
+        "sale_price": 320000.0,
+        "sale_type": null,
+        "buyer_name": "RODRIGUEZ MARIA",
+        "seller_name": "SMITH JOHN",
+        "deed_type": null,
+        "sale_year": 2019,
+        "sale_month": null,
+        "data_source": null,
+        "created_at": "2025-09-07T21:22:06.162569"
+      },
+      "columns": [
+        "id",
+        "parcel_id",
+        "sale_date",
+        "sale_price",
+        "sale_type",
+        "buyer_name",
+        "seller_name",
+        "deed_type",
+        "sale_year",
+        "sale_month",
+        "data_source",
+        "created_at"
+      ],
+      "null_counts": {
+        "parcel_id": 0,
+        "sale_date": 0,
+        "sale_price": 0
+      },
+      "has_recent_data": true,
+      "expected_min_records": 50000,
+      "description": "Historical sales transactions",
+      "status": "NEEDS_DATA"
+    },
+    "nav_assessments": {
+      "exists": true,
+      "record_count": 1,
+      "sample_data": {
+        "id": 1,
+        "parcel_id": "504231242720",
+        "tax_year": 2024,
+        "just_value": null,
+        "assessed_value": 285000.0,
+        "taxable_value": 260000.0,
+        "land_value": null,
+        "building_value": null,
+        "created_at": "2025-09-07T21:22:32.056307"
+      },
+      "columns": [
+        "id",
+        "parcel_id",
+        "tax_year",
+        "just_value",
+        "assessed_value",
+        "taxable_value",
+        "land_value",
+        "building_value",
+        "created_at"
+      ],
+      "null_counts": {},
+      "has_recent_data": false,
+      "error": "{'message': 'column nav_assessments.assessment_year does not exist', 'code': '42703', 'hint': None, 'details': None}",
+      "expected_min_records": 10000,
+      "description": "Non-ad valorem assessments",
+      "status": "NEEDS_DATA"
+    },
+    "sunbiz_corporate": {
+      "exists": true,
+      "record_count": 0,
+      "sample_data": null,
+      "columns": [],
+      "null_counts": {},
+      "has_recent_data": false,
+      "expected_min_records": 100000,
+      "description": "Florida business entities",
+      "status": "NEEDS_DATA"
+    },
+    "florida_permits": {
+      "exists": true,
+      "record_count": 1,
+      "sample_data": {
+        "id": 1,
+        "permit_number": "B24-001234",
+        "parcel_id": "504231242720",
+        "property_address": "3920 SW 53 CT",
+        "permit_type": "Building",
+        "description": "Roof Replacement",
+        "status": "Active",
+        "created_at": "2025-09-07T21:22:32.056307"
+      },
+      "columns": [
+        "id",
+        "permit_number",
+        "parcel_id",
+        "property_address",
+        "permit_type",
+        "description",
+        "status",
+        "created_at"
+      ],
+      "null_counts": {
+        "permit_number": 0,
+        "parcel_id": 0,
+        "permit_type": 0
+      },
+      "has_recent_data": true,
+      "expected_min_records": 50000,
+      "description": "Building permits data",
+      "status": "NEEDS_DATA"
+    },
+    "broward_daily_index": {
+      "exists": false,
+      "record_count": 0,
+      "sample_data": null,
+      "columns": [],
+      "null_counts": {},
+      "has_recent_data": false,
+      "error": "{'message': \"Could not find the table 'public.broward_daily_index' in the schema cache\", 'code': 'PGRST205', 'hint': \"Perhaps you meant the table 'public.property_entity_matches'\", 'details': None}",
+      "expected_min_records": 10000,
+      "description": "Daily recorded documents",
+      "status": "MISSING"
+    },
+    "tax_certificates": {
+      "exists": true,
+      "record_count": 10,
+      "sample_data": {
+        "id": 1,
+        "parcel_id": "504234-08-00-20",
+        "real_estate_account": "504234-08-00-20",
+        "certificate_number": "2023-08745",
+        "tax_year": 2023,
+        "buyer_name": "CAPITAL ONE, NATIONAL ASSOCIATION (USA)",
+        "certificate_buyer": "CAPITAL ONE, NATIONAL ASSOCIATION",
+        "advertised_number": "AD-2023-08745",
+        "face_amount": 8574.32,
+        "tax_amount": 8574.32,
+        "issued_date": "2023-06-01",
+        "sale_date": "2023-06-01",
+        "expiration_date": "2025-06-01",
+        "interest_rate": 18.0,
+        "bid_percentage": 18.0,
+        "winning_bid_percentage": 18.0,
+        "status": "active",
+        "redemption_amount": 10117.7,
+        "redemption_date": null,
+        "buyer_entity": {
+          "status": "Active",
+          "entity_name": "CAPITAL ONE, NATIONAL ASSOCIATION",
+          "filing_type": "Corporation",
+          "document_number": "F96000004500",
+          "registered_agent": "Corporate Services Company",
+          "principal_address": "1680 Capital One Drive, McLean, VA 22102"
+        },
+        "created_at": "2025-09-08T22:54:48.017946",
+        "updated_at": "2025-09-08T22:54:48.017946"
+      },
+      "columns": [
+        "id",
+        "parcel_id",
+        "real_estate_account",
+        "certificate_number",
+        "tax_year",
+        "buyer_name",
+        "certificate_buyer",
+        "advertised_number",
+        "face_amount",
+        "tax_amount",
+        "issued_date",
+        "sale_date",
+        "expiration_date",
+        "interest_rate",
+        "bid_percentage",
+        "winning_bid_percentage",
+        "status",
+        "redemption_amount",
+        "redemption_date",
+        "buyer_entity",
+        "created_at",
+        "updated_at"
+      ],
+      "null_counts": {
+        "certificate_number": 0,
+        "parcel_id": 0,
+        "tax_year": 0
+      },
+      "has_recent_data": true,
+      "expected_min_records": 5000,
+      "description": "Tax certificate sales",
+      "status": "NEEDS_DATA"
+    },
+    "tax_deed_sales": {
+      "exists": false,
+      "record_count": 0,
+      "sample_data": null,
+      "columns": [],
+      "null_counts": {},
+      "has_recent_data": false,
+      "error": "{'message': \"Could not find the table 'public.tax_deed_sales' in the schema cache\", 'code': 'PGRST205', 'hint': \"Perhaps you meant the table 'public.fl_sdf_sales'\", 'details': None}",
+      "expected_min_records": 1000,
+      "description": "Tax deed sale records",
+      "status": "MISSING"
+    },
+    "properties": {
+      "exists": true,
+      "record_count": 3,
+      "sample_data": {
+        "id": 1,
+        "parcel_id": "504231242720",
+        "owner_name": "RODRIGUEZ MARIA",
+        "property_address": "3920 SW 53 CT",
+        "city": "Hollywood",
+        "state": "FL",
+        "zip_code": "33021",
+        "property_type": "Single Family",
+        "year_built": 1978,
+        "total_sqft": 2150,
+        "lot_size_sqft": 8500,
+        "bedrooms": 3,
+        "bathrooms": 2,
+        "assessed_value": 285000.0,
+        "market_value": 425000.0,
+        "last_sale_date": "2019-06-15",
+        "last_sale_price": 320000.0,
+        "created_at": "2025-09-07T15:33:35.551767",
+        "updated_at": "2025-09-07T15:33:35.551767"
+      },
+      "columns": [
+        "id",
+        "parcel_id",
+        "owner_name",
+        "property_address",
+        "city",
+        "state",
+        "zip_code",
+        "property_type",
+        "year_built",
+        "total_sqft",
+        "lot_size_sqft",
+        "bedrooms",
+        "bathrooms",
+        "assessed_value",
+        "market_value",
+        "last_sale_date",
+        "last_sale_price",
+        "created_at",
+        "updated_at"
+      ],
+      "null_counts": {},
+      "has_recent_data": false,
+      "error": "{'message': 'column properties.address does not exist', 'code': '42703', 'hint': None, 'details': None}",
+      "expected_min_records": 0,
+      "description": "Legacy properties table",
+      "status": "OK"
+    }
+  },
+  "data_source_analysis": {
+    "data_sources": {
+      "NAL (Name & Address)": {
+        "tables": [
+          "florida_parcels"
+        ],
+        "url_pattern": "https://floridarevenue.com/property/Pages/DataPortal_NAL.aspx",
+        "counties": [
+          "Broward",
+          "Miami-Dade",
+          "Palm Beach"
+        ],
+        "required_fields": [
+          "owner_name",
+          "owner_addr1",
+          "phy_addr1"
+        ]
+      },
+      "SDF (Sales Data)": {
+        "tables": [
+          "property_sales_history"
+        ],
+        "url_pattern": "https://floridarevenue.com/property/Pages/DataPortal_SDF.aspx",
+        "counties": [
+          "Broward",
+          "Miami-Dade",
+          "Palm Beach"
+        ],
+        "required_fields": [
+          "sale_price",
+          "sale_date",
+          "buyer_name"
+        ]
+      },
+      "NAP (Property Characteristics)": {
+        "tables": [
+          "florida_parcels"
+        ],
+        "url_pattern": "https://floridarevenue.com/property/Pages/DataPortal_NAP.aspx",
+        "counties": [
+          "Broward",
+          "Miami-Dade",
+          "Palm Beach"
+        ],
+        "required_fields": [
+          "total_living_area",
+          "year_built",
+          "bedrooms",
+          "bathrooms"
+        ]
+      },
+      "TPP (Tangible Personal Property)": {
+        "tables": [
+          "florida_parcels"
+        ],
+        "url_pattern": "https://floridarevenue.com/property/Pages/DataPortal_TPP.aspx",
+        "counties": [
+          "Broward",
+          "Miami-Dade",
+          "Palm Beach"
+        ],
+        "required_fields": [
+          "tpp_value",
+          "business_name"
+        ]
+      },
+      "NAV (Non-Ad Valorem)": {
+        "tables": [
+          "nav_assessments"
+        ],
+        "url_pattern": "https://floridarevenue.com/property/Pages/DataPortal_NAV.aspx",
+        "counties": [
+          "Broward",
+          "Miami-Dade",
+          "Palm Beach"
+        ],
+        "required_fields": [
+          "assessment_amount",
+          "assessment_type"
+        ]
+      },
+      "Sunbiz Corporate": {
+        "tables": [
+          "sunbiz_corporate"
+        ],
+        "url_pattern": "http://www.sunbiz.org/data-download.html",
+        "counties": [
+          "Statewide"
+        ],
+        "required_fields": [
+          "corp_number",
+          "corp_name",
+          "status"
+        ]
+      },
+      "Building Permits": {
+        "tables": [
+          "florida_permits"
+        ],
+        "url_pattern": "County-specific permit portals",
+        "counties": [
+          "Broward",
+          "Miami-Dade",
+          "Palm Beach"
+        ],
+        "required_fields": [
+          "permit_number",
+          "permit_type",
+          "issue_date"
+        ]
+      }
+    },
+    "recommendations": [
+      {
+        "source": "SDF (Sales Data)",
+        "url": "https://floridarevenue.com/property/Pages/DataPortal_SDF.aspx",
+        "counties": [
+          "Broward",
+          "Miami-Dade",
+          "Palm Beach"
+        ],
+        "priority": "HIGH"
+      },
+      {
+        "source": "TPP (Tangible Personal Property)",
+        "url": "https://floridarevenue.com/property/Pages/DataPortal_TPP.aspx",
+        "counties": [
+          "Broward",
+          "Miami-Dade",
+          "Palm Beach"
+        ],
+        "priority": "HIGH"
+      },
+      {
+        "source": "NAV (Non-Ad Valorem)",
+        "url": "https://floridarevenue.com/property/Pages/DataPortal_NAV.aspx",
+        "counties": [
+          "Broward",
+          "Miami-Dade",
+          "Palm Beach"
+        ],
+        "priority": "HIGH"
+      },
+      {
+        "source": "Sunbiz Corporate",
+        "url": "http://www.sunbiz.org/data-download.html",
+        "counties": [
+          "Statewide"
+        ],
+        "priority": "HIGH"
+      },
+      {
+        "source": "Building Permits",
+        "url": "County-specific permit portals",
+        "counties": [
+          "Broward",
+          "Miami-Dade",
+          "Palm Beach"
+        ],
+        "priority": "HIGH"
+      }
+    ]
+  },
+  "summary": {
+    "tables_ok": 2,
+    "tables_need_data": 5,
+    "tables_missing": 2,
+    "total_records": 789902
+  }
+}

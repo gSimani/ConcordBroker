@@ -61,10 +61,21 @@ Thumbs.db
 
 # Environment
 .env
+.env.*
 .env.local
 .env.*.local
 *.env
+!.env.example
+!.env.*.example
+!*.env.example
 !.template.env
+
+# Specific sensitive files
+.env.production
+.env.railway
+.env.supabase
+apps/api/.env.supabase
+apps/web/.env.production
 
 # Testing
 coverage/
@@ -96,6 +107,21 @@ Desktop.ini
 *.csv
 !tests/data/**
 
+# Vector stores and local indexes
+vector_stores/
+chroma_db/
+
+# Memvid generated artifacts
+data/memvid/*.mp4
+data/memvid/*.json
+
+# Temp datasets and backups
+TEMP/
+env_backup_*/
+
+# Logs
+mcp-server/claude-init.log
+
 # Cache
 .cache/
 *.cache
@@ -122,3 +148,4 @@ infra/secrets/*
 # Documentation build
 docs/_build/
 docs/.doctrees/
+.vercel

@@ -1,0 +1,237 @@
+{
+  "name": "@concordbroker/mcp-server",
+  "version": "1.0.0",
+  "description": "MCP Server Configuration for ConcordBroker - Complete Service Integration",
+  
+  "services": {
+    "frontend": {
+      "provider": "Vercel",
+      "config": {
+        "projectName": "concord-broker",
+        "projectId": "prj_l6jgk7483iwPCcaYarq7sMgt2m7L",
+        "apiToken": "${VERCEL_API_TOKEN}",
+        "team": "westbocaexecs-projects",
+        "domain": "https://www.concordbroker.com",
+        "dashboardUrl": "https://vercel.com/westbocaexecs-projects/concord-broker"
+      }
+    },
+    
+    "backend": {
+      "provider": "Railway",
+      "config": {
+        "projectName": "ConcordBroker-Railway",
+        "projectId": "05f5fbf4-f31c-4bdb-9022-3e987dd80fdb",
+        "environment": "concordbrokerproduction",
+        "apiToken": "${RAILWAY_API_TOKEN}",
+        "internalDomain": "concordbroker.railway.internal",
+        "publicDomain": "concordbroker.up.railway.app"
+      }
+    },
+    
+    "database": {
+      "provider": "Supabase",
+      "config": {
+        "projectName": "supabaseconcordbroker",
+        "projectId": "pmispwtdngkcmsrsjwbp",
+        "url": "https://pmispwtdngkcmsrsjwbp.supabase.co",
+        "anonKey": "${SUPABASE_ANON_KEY}",
+        "serviceRoleKey": "${SUPABASE_SERVICE_ROLE_KEY}",
+        "jwtSecret": "${SUPABASE_JWT_SECRET}",
+        "publishKey": "${SUPABASE_PUBLISH_KEY}",
+        "publishSecretKey": "${SUPABASE_PUBLISH_SECRET_KEY}",
+        "postgresUrl": "${POSTGRES_URL}",
+        "postgresUrlNonPooling": "${POSTGRES_URL_NON_POOLING}",
+        "postgresPrismaUrl": "${POSTGRES_PRISMA_URL}",
+        "postgresUser": "${POSTGRES_USER}",
+        "postgresPassword": "${POSTGRES_PASSWORD}",
+        "postgresHost": "${POSTGRES_HOST}",
+        "postgresDatabase": "${POSTGRES_DATABASE}",
+        "maxRows": 1000,
+        "accessTokenExpiry": 3600
+      }
+    },
+    
+    "ai": {
+      "huggingface": {
+        "provider": "HuggingFace",
+        "config": {
+          "organization": "Concord Broker",
+          "apiToken": "${HUGGINGFACE_API_TOKEN}",
+          "website": "https://www.concordbroker.com/",
+          "mcpEndpoint": "https://huggingface.co/mcp",
+          "secondaryModel": {
+            "name": "Gemma 3 270M",
+            "url": "https://huggingface.co/blog/gemma3"
+          }
+        }
+      },
+      "openai": {
+        "provider": "OpenAI",
+        "config": {
+          "apiKey": "${OPENAI_API_KEY}",
+          "purpose": "Agent Lion dynamic generation"
+        }
+      },
+      "langchain": {
+        "provider": "LangChain/LangSmith",
+        "config": {
+          "apiKey": "${LANGCHAIN_API_KEY}",
+          "langsmithApiKey": "${LANGSMITH_API_KEY}",
+          "purpose": "Agent orchestration and tracing",
+          "endpoint": "https://api.smith.langchain.com",
+          "tracing": {
+            "enabled": true,
+            "projectName": "concordbroker-agents"
+          },
+          "agents": {
+            "propertyAnalysis": true,
+            "marketResearch": true,
+            "investmentScoring": true,
+            "dataValidation": true
+          }
+        }
+      }
+    },
+    
+    "vcs": {
+      "provider": "GitHub",
+      "config": {
+        "repository": "https://github.com/gSimani/ConcordBroker",
+        "branch": "main",
+        "apiToken": "${GITHUB_API_TOKEN}",
+        "website": "https://www.concordbroker.com/"
+      }
+    },
+    
+    "monitoring": {
+      "errorTracking": {
+        "providers": ["Sentry", "CodeCo"],
+        "config": {
+          "sentryDsn": "${SENTRY_DSN}",
+          "codeCoApiKey": "${CODECO_API_KEY}"
+        }
+      }
+    },
+    
+    "cdn": {
+      "provider": "Cloudflare",
+      "config": {
+        "ddosProtection": true,
+        "apiToken": "${CLOUDFLARE_API_TOKEN}",
+        "zoneId": "${CLOUDFLARE_ZONE_ID}"
+      }
+    },
+    
+    "scraping": {
+      "provider": "Firecrawl",
+      "config": {
+        "apiKey": "${FIRECRAWL_API_KEY}",
+        "purpose": "Web scraping and website input"
+      }
+    },
+    
+    "memory": {
+      "provider": "Memvid",
+      "config": {
+        "purpose": "Memory management system"
+      }
+    },
+    
+    "vectorDb": {
+      "provider": "RAG/Vector Database",
+      "config": {
+        "purpose": "Document retrieval"
+      }
+    },
+    
+    "automation": {
+      "provider": "Playwright MCP",
+      "config": {
+        "purpose": "Browser automation and testing"
+      }
+    },
+    
+    "maps": {
+      "provider": "Google Maps",
+      "config": {
+        "apiKey": "${GOOGLE_MAPS_API_KEY}"
+      }
+    },
+
+    "cache": {
+      "provider": "Redis Cloud",
+      "config": {
+        "host": "${REDIS_CLOUD_HOST}",
+        "port": "${REDIS_CLOUD_PORT}",
+        "password": "${REDIS_CLOUD_PASSWORD}",
+        "apiKey": "${REDIS_CLOUD_API_KEY}",
+        "purpose": "High-performance caching for property data",
+        "cacheTTL": {
+          "property": 3600,
+          "search": 900,
+          "taxDeed": 300,
+          "sunbiz": 86400
+        },
+        "fallback": "memory",
+        "maxMemorySize": 1000
+      }
+    }
+  },
+  
+  "environment": {
+    "NODE_ENV": "${NODE_ENV}",
+    "ENVIRONMENT": "${ENVIRONMENT}",
+    "WEBSITE_URL": "https://www.concordbroker.com"
+  },
+  
+  "mcpServers": [
+    {
+      "name": "hf-mcp-server",
+      "type": "http",
+      "endpoint": "https://huggingface.co/mcp",
+      "headers": {
+        "Authorization": "Bearer ${HUGGINGFACE_API_TOKEN}"
+      }
+    },
+    {
+      "name": "playwright-mcp",
+      "type": "browser-automation",
+      "enabled": true
+    }
+  ],
+  
+  "security": {
+    "requireHttps": true,
+    "enableCors": true,
+    "corsOrigins": [
+      "https://www.concordbroker.com",
+      "https://concordbroker.vercel.app",
+      "https://concordbroker.up.railway.app"
+    ],
+    "encryptSensitiveData": true,
+    "rotateCredentials": {
+      "enabled": true,
+      "interval": "30d"
+    }
+  },
+  
+  "integrations": {
+    "enabled": [
+      "vercel",
+      "railway",
+      "supabase",
+      "huggingface",
+      "openai",
+      "langchain",
+      "github",
+      "sentry",
+      "codeco",
+      "cloudflare",
+      "firecrawl",
+      "memvid",
+      "playwright",
+      "google-maps",
+      "redis"
+    ]
+  }
+}

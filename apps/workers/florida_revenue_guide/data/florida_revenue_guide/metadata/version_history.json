@@ -1,0 +1,33 @@
+{
+  "versions": [
+    {
+      "version": "20250907_052714",
+      "year": "2025",
+      "filename": "NAL_SDF_NAP_Users_Guide_2025_20250907_052714.pdf",
+      "path": "data\\florida_revenue_guide\\pdfs\\NAL_SDF_NAP_Users_Guide_2025_20250907_052714.pdf",
+      "url": "https://floridarevenue.com/property/dataportal/Documents/PTO%20Data%20Portal/User%20Guides/2025%20Users%20guide%20and%20quick%20reference/2025_NAL_SDF_NAP_Users_Guide.pdf",
+      "size": 576140,
+      "last_modified": "Mon, 04 Aug 2025 17:03:20 GMT",
+      "etag": "\"{9B4A2E39-EE26-46E1-A506-73D780E5DBA9},1\"",
+      "checksum": "099dd08b6150e58c6d3b3c34ffd7da8ffaf75c0e5e49e49bec2cae700e58bcc4",
+      "downloaded_at": "2025-09-07T05:27:14.155985"
+    }
+  ],
+  "current_version": {
+    "version": "20250907_052714",
+    "year": "2025",
+    "filename": "NAL_SDF_NAP_Users_Guide_2025_20250907_052714.pdf",
+    "path": "data\\florida_revenue_guide\\pdfs\\NAL_SDF_NAP_Users_Guide_2025_20250907_052714.pdf",
+    "url": "https://floridarevenue.com/property/dataportal/Documents/PTO%20Data%20Portal/User%20Guides/2025%20Users%20guide%20and%20quick%20reference/2025_NAL_SDF_NAP_Users_Guide.pdf",
+    "size": 576140,
+    "last_modified": "Mon, 04 Aug 2025 17:03:20 GMT",
+    "etag": "\"{9B4A2E39-EE26-46E1-A506-73D780E5DBA9},1\"",
+    "checksum": "099dd08b6150e58c6d3b3c34ffd7da8ffaf75c0e5e49e49bec2cae700e58bcc4",
+    "downloaded_at": "2025-09-07T05:27:14.155985"
+  },
+  "last_check": "2025-09-07T05:27:13.993661",
+  "known_years": [
+    "2024",
+    "2025"
+  ]
+}

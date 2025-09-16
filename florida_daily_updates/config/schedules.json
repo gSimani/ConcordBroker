@@ -1,0 +1,475 @@
+{
+  "schedules": {
+    "production": {
+      "description": "Production environment schedules",
+      "timezone": "America/New_York",
+      "schedules": {
+        "daily_full_update": {
+          "cron": "0 2 * * *",
+          "description": "Complete daily update at 2 AM EST",
+          "enabled": true,
+          "workflow": "full_update",
+          "max_runtime_hours": 6,
+          "retry_on_failure": true,
+          "max_retries": 2,
+          "retry_delay_minutes": 60,
+          "notification": {
+            "on_success": true,
+            "on_failure": true,
+            "on_long_runtime": true
+          }
+        },
+        
+        "monitoring_check": {
+          "cron": "0 */6 * * *",
+          "description": "Check for new files every 6 hours",
+          "enabled": true,
+          "workflow": "monitor_only",
+          "max_runtime_hours": 1,
+          "retry_on_failure": true,
+          "max_retries": 3,
+          "retry_delay_minutes": 30,
+          "notification": {
+            "on_success": false,
+            "on_failure": true,
+            "on_long_runtime": true
+          }
+        },
+        
+        "weekly_maintenance": {
+          "cron": "0 3 * * 0",
+          "description": "Weekly maintenance on Sunday at 3 AM",
+          "enabled": true,
+          "workflow": "maintenance",
+          "max_runtime_hours": 4,
+          "retry_on_failure": true,
+          "max_retries": 1,
+          "retry_delay_minutes": 120,
+          "notification": {
+            "on_success": true,
+            "on_failure": true,
+            "on_long_runtime": true
+          },
+          "maintenance_tasks": [
+            "cleanup_old_files",
+            "vacuum_database",
+            "analyze_tables",
+            "refresh_materialized_views",
+            "generate_reports"
+          ]
+        },
+        
+        "monthly_full_refresh": {
+          "cron": "0 1 1 * *",
+          "description": "Monthly full data refresh on the 1st at 1 AM",
+          "enabled": true,
+          "workflow": "full_refresh",
+          "max_runtime_hours": 12,
+          "retry_on_failure": true,
+          "max_retries": 1,
+          "retry_delay_minutes": 240,
+          "notification": {
+            "on_success": true,
+            "on_failure": true,
+            "on_long_runtime": true
+          },
+          "refresh_options": {
+            "force_redownload": true,
+            "rebuild_indexes": true,
+            "full_validation": true
+          }
+        }
+      }
+    },
+    
+    "staging": {
+      "description": "Staging environment schedules",
+      "timezone": "America/New_York",
+      "schedules": {
+        "daily_test_update": {
+          "cron": "0 4 * * *",
+          "description": "Daily test update at 4 AM EST",
+          "enabled": true,
+          "workflow": "test_update",
+          "max_runtime_hours": 2,
+          "retry_on_failure": false,
+          "notification": {
+            "on_success": false,
+            "on_failure": true,
+            "on_long_runtime": false
+          },
+          "test_options": {
+            "counties": ["broward"],
+            "file_types": ["NAL"],
+            "sample_size": 1000
+          }
+        },
+        
+        "validation_check": {
+          "cron": "0 10 * * *",
+          "description": "Daily validation check at 10 AM",
+          "enabled": true,
+          "workflow": "validation_only",
+          "max_runtime_hours": 1,
+          "retry_on_failure": false,
+          "notification": {
+            "on_success": false,
+            "on_failure": true,
+            "on_long_runtime": false
+          }
+        }
+      }
+    },
+    
+    "development": {
+      "description": "Development environment schedules",
+      "timezone": "America/New_York",
+      "schedules": {
+        "test_run": {
+          "cron": "0 12 * * *",
+          "description": "Daily test run at noon",
+          "enabled": false,
+          "workflow": "dev_test",
+          "max_runtime_hours": 1,
+          "retry_on_failure": false,
+          "notification": {
+            "on_success": false,
+            "on_failure": false,
+            "on_long_runtime": false
+          },
+          "dev_options": {
+            "mock_data": true,
+            "skip_downloads": true,
+            "small_batches": true
+          }
+        }
+      }
+    }
+  },
+  
+  "workflows": {
+    "full_update": {
+      "description": "Complete daily update workflow",
+      "steps": [
+        {
+          "name": "monitor",
+          "agent": "monitor",
+          "required": true,
+          "timeout_minutes": 30,
+          "on_failure": "abort"
+        },
+        {
+          "name": "download",
+          "agent": "downloader",
+          "required": true,
+          "timeout_minutes": 180,
+          "on_failure": "continue_with_existing"
+        },
+        {
+          "name": "process",
+          "agent": "processor",
+          "required": true,
+          "timeout_minutes": 120,
+          "on_failure": "abort"
+        },
+        {
+          "name": "database_update",
+          "agent": "database_updater",
+          "required": true,
+          "timeout_minutes": 240,
+          "on_failure": "abort"
+        },
+        {
+          "name": "validation",
+          "agent": "validator",
+          "required": false,
+          "timeout_minutes": 60,
+          "on_failure": "warn"
+        }
+      ]
+    },
+    
+    "monitor_only": {
+      "description": "Monitor for new files only",
+      "steps": [
+        {
+          "name": "monitor",
+          "agent": "monitor",
+          "required": true,
+          "timeout_minutes": 30,
+          "on_failure": "abort"
+        }
+      ]
+    },
+    
+    "maintenance": {
+      "description": "Weekly maintenance workflow",
+      "steps": [
+        {
+          "name": "cleanup_files",
+          "agent": "file_cleaner",
+          "required": false,
+          "timeout_minutes": 60,
+          "on_failure": "warn"
+        },
+        {
+          "name": "database_maintenance",
+          "agent": "database_maintainer",
+          "required": true,
+          "timeout_minutes": 180,
+          "on_failure": "warn"
+        },
+        {
+          "name": "generate_reports",
+          "agent": "report_generator",
+          "required": false,
+          "timeout_minutes": 30,
+          "on_failure": "warn"
+        }
+      ]
+    },
+    
+    "full_refresh": {
+      "description": "Monthly full data refresh",
+      "steps": [
+        {
+          "name": "backup_current",
+          "agent": "backup_manager",
+          "required": true,
+          "timeout_minutes": 120,
+          "on_failure": "abort"
+        },
+        {
+          "name": "monitor",
+          "agent": "monitor",
+          "required": true,
+          "timeout_minutes": 30,
+          "on_failure": "abort",
+          "options": {
+            "force_recheck": true
+          }
+        },
+        {
+          "name": "download",
+          "agent": "downloader",
+          "required": true,
+          "timeout_minutes": 360,
+          "on_failure": "abort",
+          "options": {
+            "force_redownload": true
+          }
+        },
+        {
+          "name": "process",
+          "agent": "processor",
+          "required": true,
+          "timeout_minutes": 240,
+          "on_failure": "abort",
+          "options": {
+            "full_validation": true
+          }
+        },
+        {
+          "name": "database_update",
+          "agent": "database_updater",
+          "required": true,
+          "timeout_minutes": 480,
+          "on_failure": "restore_backup",
+          "options": {
+            "rebuild_indexes": true
+          }
+        },
+        {
+          "name": "validation",
+          "agent": "validator",
+          "required": true,
+          "timeout_minutes": 120,
+          "on_failure": "restore_backup"
+        }
+      ]
+    },
+    
+    "test_update": {
+      "description": "Test update with limited scope",
+      "steps": [
+        {
+          "name": "monitor",
+          "agent": "monitor",
+          "required": true,
+          "timeout_minutes": 15,
+          "on_failure": "abort",
+          "options": {
+            "counties": ["broward"],
+            "file_types": ["NAL"]
+          }
+        },
+        {
+          "name": "download",
+          "agent": "downloader",
+          "required": true,
+          "timeout_minutes": 30,
+          "on_failure": "abort"
+        },
+        {
+          "name": "process",
+          "agent": "processor",
+          "required": true,
+          "timeout_minutes": 15,
+          "on_failure": "abort",
+          "options": {
+            "sample_size": 1000
+          }
+        }
+      ]
+    },
+    
+    "validation_only": {
+      "description": "Validation check only",
+      "steps": [
+        {
+          "name": "validation",
+          "agent": "validator",
+          "required": true,
+          "timeout_minutes": 60,
+          "on_failure": "warn"
+        }
+      ]
+    },
+    
+    "dev_test": {
+      "description": "Development testing workflow",
+      "steps": [
+        {
+          "name": "monitor",
+          "agent": "monitor",
+          "required": true,
+          "timeout_minutes": 5,
+          "on_failure": "abort",
+          "options": {
+            "mock_data": true
+          }
+        },
+        {
+          "name": "process",
+          "agent": "processor",
+          "required": true,
+          "timeout_minutes": 10,
+          "on_failure": "abort",
+          "options": {
+            "sample_size": 100,
+            "skip_validation": true
+          }
+        }
+      ]
+    }
+  },
+  
+  "agent_configurations": {
+    "monitor": {
+      "default_timeout": 30,
+      "retry_attempts": 3,
+      "retry_delay": 10
+    },
+    "downloader": {
+      "default_timeout": 180,
+      "retry_attempts": 2,
+      "retry_delay": 30,
+      "concurrent_downloads": 3
+    },
+    "processor": {
+      "default_timeout": 120,
+      "retry_attempts": 2,
+      "retry_delay": 30,
+      "batch_size": 10000
+    },
+    "database_updater": {
+      "default_timeout": 240,
+      "retry_attempts": 2,
+      "retry_delay": 60,
+      "batch_size": 5000
+    },
+    "validator": {
+      "default_timeout": 60,
+      "retry_attempts": 1,
+      "retry_delay": 30
+    },
+    "file_cleaner": {
+      "default_timeout": 60,
+      "retry_attempts": 1,
+      "retry_delay": 10
+    },
+    "database_maintainer": {
+      "default_timeout": 180,
+      "retry_attempts": 1,
+      "retry_delay": 60
+    },
+    "report_generator": {
+      "default_timeout": 30,
+      "retry_attempts": 1,
+      "retry_delay": 10
+    },
+    "backup_manager": {
+      "default_timeout": 120,
+      "retry_attempts": 1,
+      "retry_delay": 30
+    }
+  },
+  
+  "notification_templates": {
+    "success": {
+      "email": {
+        "subject": "Florida Data Update Success - {run_id}",
+        "template": "email_success.html"
+      },
+      "slack": {
+        "template": "slack_success.json"
+      }
+    },
+    "failure": {
+      "email": {
+        "subject": "Florida Data Update Failed - {run_id}",
+        "template": "email_failure.html"
+      },
+      "slack": {
+        "template": "slack_failure.json"
+      }
+    },
+    "warning": {
+      "email": {
+        "subject": "Florida Data Update Warning - {run_id}",
+        "template": "email_warning.html"
+      },
+      "slack": {
+        "template": "slack_warning.json"
+      }
+    },
+    "long_runtime": {
+      "email": {
+        "subject": "Florida Data Update Taking Long - {run_id}",
+        "template": "email_long_runtime.html"
+      },
+      "slack": {
+        "template": "slack_long_runtime.json"
+      }
+    }
+  },
+  
+  "holidays": {
+    "us_federal": [
+      "2025-01-01",
+      "2025-01-20",
+      "2025-02-17",
+      "2025-05-26",
+      "2025-07-04",
+      "2025-09-01",
+      "2025-10-13",
+      "2025-11-11",
+      "2025-11-27",
+      "2025-12-25"
+    ],
+    "schedule_adjustments": {
+      "skip_on_holidays": false,
+      "delay_hours": 4
+    }
+  }
+}

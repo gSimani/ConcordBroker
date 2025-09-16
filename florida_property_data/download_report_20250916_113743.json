@@ -1,0 +1,78 @@
+{
+  "timestamp": "2025-09-16T11:37:43.365818",
+  "total_counties": 5,
+  "successful_counties": 5,
+  "failed_counties": 0,
+  "total_files_downloaded": 20,
+  "total_records": 16500,
+  "total_size_mb": 2.9003849029541016,
+  "county_details": {
+    "ALACHUA": {
+      "status": "success",
+      "files_downloaded": 4,
+      "total_records": 3300,
+      "total_size_mb": 0.5841922760009766,
+      "data_quality_scores": {
+        "NAL": 92.59130434782608,
+        "NAP": 100.0,
+        "NAV": 100.0,
+        "SDF": 100.0
+      }
+    },
+    "BAKER": {
+      "status": "success",
+      "files_downloaded": 4,
+      "total_records": 3300,
+      "total_size_mb": 0.5760650634765625,
+      "data_quality_scores": {
+        "NAL": 92.7,
+        "NAP": 100.0,
+        "NAV": 100.0,
+        "SDF": 100.0
+      }
+    },
+    "BAY": {
+      "status": "success",
+      "files_downloaded": 4,
+      "total_records": 3300,
+      "total_size_mb": 0.5677223205566406,
+      "data_quality_scores": {
+        "NAL": 92.61739130434783,
+        "NAP": 100.0,
+        "NAV": 100.0,
+        "SDF": 100.0
+      }
+    },
+    "BRADFORD": {
+      "status": "success",
+      "files_downloaded": 4,
+      "total_records": 3300,
+      "total_size_mb": 0.5882892608642578,
+      "data_quality_scores": {
+        "NAL": 92.64347826086956,
+        "NAP": 100.0,
+        "NAV": 100.0,
+        "SDF": 100.0
+      }
+    },
+    "BREVARD": {
+      "status": "success",
+      "files_downloaded": 4,
+      "total_records": 3300,
+      "total_size_mb": 0.5841159820556641,
+      "data_quality_scores": {
+        "NAL": 92.63913043478261,
+        "NAP": 100.0,
+        "NAV": 100.0,
+        "SDF": 100.0
+      }
+    }
+  },
+  "data_quality_summary": {
+    "avg_quality_score": 98.1595652173913,
+    "min_quality_score": 92.59130434782608,
+    "max_quality_score": 100.0,
+    "quality_std": 3.1877773721935454
+  },
+  "recommendations": []
+}

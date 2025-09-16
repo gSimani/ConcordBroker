@@ -1,0 +1,343 @@
+{
+  "timestamp": "2025-09-16T11:28:18.256098",
+  "metrics": [
+    {
+      "name": "florida_parcels_count",
+      "value": 0,
+      "county": null,
+      "status": "critical"
+    },
+    {
+      "name": "nav_assessments_count",
+      "value": 0,
+      "county": null,
+      "status": "critical"
+    },
+    {
+      "name": "sdf_sales_count",
+      "value": 0,
+      "county": null,
+      "status": "critical"
+    },
+    {
+      "name": "nap_characteristics_count",
+      "value": 0,
+      "county": null,
+      "status": "critical"
+    },
+    {
+      "name": "data_quality_score",
+      "value": 0.7726704570807421,
+      "county": "ALACHUA",
+      "status": "warning"
+    },
+    {
+      "name": "data_quality_score",
+      "value": 0.8261568524388714,
+      "county": "BAKER",
+      "status": "normal"
+    },
+    {
+      "name": "data_quality_score",
+      "value": 0.8204807967472133,
+      "county": "BAY",
+      "status": "normal"
+    },
+    {
+      "name": "data_quality_score",
+      "value": 0.7109958088832087,
+      "county": "BRADFORD",
+      "status": "warning"
+    },
+    {
+      "name": "data_quality_score",
+      "value": 0.8312420749243538,
+      "county": "BREVARD",
+      "status": "normal"
+    },
+    {
+      "name": "processing_time",
+      "value": 122.84268918728769,
+      "county": null,
+      "status": "normal"
+    },
+    {
+      "name": "error_rate",
+      "value": 0.018350257079522227,
+      "county": null,
+      "status": "normal"
+    },
+    {
+      "name": "storage_usage_gb",
+      "value": 60.92104419119679,
+      "county": null,
+      "status": "normal"
+    },
+    {
+      "name": "NAL_file_age_hours",
+      "value": 10.394317554750419,
+      "county": "BROWARD",
+      "status": "normal"
+    },
+    {
+      "name": "NAL_file_size_mb",
+      "value": 234.78874547521255,
+      "county": "BROWARD",
+      "status": "normal"
+    },
+    {
+      "name": "NAL_file_age_hours",
+      "value": 14.454693334834719,
+      "county": "MIAMI-DADE",
+      "status": "normal"
+    },
+    {
+      "name": "NAL_file_size_mb",
+      "value": 350.8284556470351,
+      "county": "MIAMI-DADE",
+      "status": "normal"
+    },
+    {
+      "name": "NAL_file_age_hours",
+      "value": 15.121523742632439,
+      "county": "PALM BEACH",
+      "status": "normal"
+    },
+    {
+      "name": "NAL_file_size_mb",
+      "value": 301.61298827640263,
+      "county": "PALM BEACH",
+      "status": "normal"
+    },
+    {
+      "name": "NAL_file_age_hours",
+      "value": 1.8767267392864055,
+      "county": "ORANGE",
+      "status": "normal"
+    },
+    {
+      "name": "NAL_file_size_mb",
+      "value": 471.8401192648306,
+      "county": "ORANGE",
+      "status": "normal"
+    },
+    {
+      "name": "NAL_file_age_hours",
+      "value": 35.50551625356767,
+      "county": "HILLSBOROUGH",
+      "status": "warning"
+    },
+    {
+      "name": "NAL_file_size_mb",
+      "value": 175.40975088645337,
+      "county": "HILLSBOROUGH",
+      "status": "normal"
+    },
+    {
+      "name": "NAP_file_age_hours",
+      "value": 21.948173544493976,
+      "county": "BROWARD",
+      "status": "normal"
+    },
+    {
+      "name": "NAP_file_size_mb",
+      "value": 116.22788218858669,
+      "county": "BROWARD",
+      "status": "normal"
+    },
+    {
+      "name": "NAP_file_age_hours",
+      "value": 12.981101147219988,
+      "county": "MIAMI-DADE",
+      "status": "normal"
+    },
+    {
+      "name": "NAP_file_size_mb",
+      "value": 440.1072590317945,
+      "county": "MIAMI-DADE",
+      "status": "normal"
+    },
+    {
+      "name": "NAP_file_age_hours",
+      "value": 15.499921345010376,
+      "county": "PALM BEACH",
+      "status": "normal"
+    },
+    {
+      "name": "NAP_file_size_mb",
+      "value": 257.63144684771487,
+      "county": "PALM BEACH",
+      "status": "normal"
+    },
+    {
+      "name": "NAP_file_age_hours",
+      "value": 30.548397533089126,
+      "county": "ORANGE",
+      "status": "warning"
+    },
+    {
+      "name": "NAP_file_size_mb",
+      "value": 389.1121733778571,
+      "county": "ORANGE",
+      "status": "normal"
+    },
+    {
+      "name": "NAP_file_age_hours",
+      "value": 3.882849370070379,
+      "county": "HILLSBOROUGH",
+      "status": "normal"
+    },
+    {
+      "name": "NAP_file_size_mb",
+      "value": 50.83247035954502,
+      "county": "HILLSBOROUGH",
+      "status": "normal"
+    },
+    {
+      "name": "NAV_file_age_hours",
+      "value": 30.438351276853624,
+      "county": "BROWARD",
+      "status": "warning"
+    },
+    {
+      "name": "NAV_file_size_mb",
+      "value": 479.19617033912493,
+      "county": "BROWARD",
+      "status": "normal"
+    },
+    {
+      "name": "NAV_file_age_hours",
+      "value": 43.62239464273301,
+      "county": "MIAMI-DADE",
+      "status": "warning"
+    },
+    {
+      "name": "NAV_file_size_mb",
+      "value": 182.70464981038992,
+      "county": "MIAMI-DADE",
+      "status": "normal"
+    },
+    {
+      "name": "NAV_file_age_hours",
+      "value": 19.389331627340763,
+      "county": "PALM BEACH",
+      "status": "normal"
+    },
+    {
+      "name": "NAV_file_size_mb",
+      "value": 128.94448849428397,
+      "county": "PALM BEACH",
+      "status": "normal"
+    },
+    {
+      "name": "NAV_file_age_hours",
+      "value": 14.113524215666377,
+      "county": "ORANGE",
+      "status": "normal"
+    },
+    {
+      "name": "NAV_file_size_mb",
+      "value": 301.2266463984196,
+      "county": "ORANGE",
+      "status": "normal"
+    },
+    {
+      "name": "NAV_file_age_hours",
+      "value": 26.055596158911865,
+      "county": "HILLSBOROUGH",
+      "status": "warning"
+    },
+    {
+      "name": "NAV_file_size_mb",
+      "value": 52.06348435787528,
+      "county": "HILLSBOROUGH",
+      "status": "normal"
+    },
+    {
+      "name": "SDF_file_age_hours",
+      "value": 3.98201082761004,
+      "county": "BROWARD",
+      "status": "normal"
+    },
+    {
+      "name": "SDF_file_size_mb",
+      "value": 67.46910641964433,
+      "county": "BROWARD",
+      "status": "normal"
+    },
+    {
+      "name": "SDF_file_age_hours",
+      "value": 6.578176694569497,
+      "county": "MIAMI-DADE",
+      "status": "normal"
+    },
+    {
+      "name": "SDF_file_size_mb",
+      "value": 464.68500757868713,
+      "county": "MIAMI-DADE",
+      "status": "normal"
+    },
+    {
+      "name": "SDF_file_age_hours",
+      "value": 5.007470387890832,
+      "county": "PALM BEACH",
+      "status": "normal"
+    },
+    {
+      "name": "SDF_file_size_mb",
+      "value": 479.041026773681,
+      "county": "PALM BEACH",
+      "status": "normal"
+    },
+    {
+      "name": "SDF_file_age_hours",
+      "value": 45.52547112711895,
+      "county": "ORANGE",
+      "status": "warning"
+    },
+    {
+      "name": "SDF_file_size_mb",
+      "value": 498.1540943367938,
+      "county": "ORANGE",
+      "status": "normal"
+    },
+    {
+      "name": "SDF_file_age_hours",
+      "value": 15.177211722123378,
+      "county": "HILLSBOROUGH",
+      "status": "normal"
+    },
+    {
+      "name": "SDF_file_size_mb",
+      "value": 166.1498719716034,
+      "county": "HILLSBOROUGH",
+      "status": "normal"
+    }
+  ],
+  "alerts": [
+    {
+      "timestamp": "2025-09-16T11:28:17.502475",
+      "metric": "data_quality_score",
+      "value": 0.7726704570807421,
+      "threshold": 0.8,
+      "severity": "warning",
+      "county": "ALACHUA",
+      "message": "data_quality_score is 0.7726704570807421 (threshold: 0.8)"
+    },
+    {
+      "timestamp": "2025-09-16T11:28:17.502475",
+      "metric": "data_quality_score",
+      "value": 0.7109958088832087,
+      "threshold": 0.8,
+      "severity": "warning",
+      "county": "BRADFORD",
+      "message": "data_quality_score is 0.7109958088832087 (threshold: 0.8)"
+    }
+  ],
+  "summary": {
+    "total_metrics": 52,
+    "alert_count": 2,
+    "critical_alerts": 0,
+    "warning_alerts": 2
+  }
+}

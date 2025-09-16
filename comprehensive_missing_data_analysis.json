@@ -1,0 +1,2762 @@
+{
+  "summary": {
+    "total_counties_with_data": 62,
+    "total_local_records": 12349450,
+    "total_database_records": 7,
+    "data_gap_percentage": 99.99994331731372,
+    "total_size_mb": 6385.2999999999965,
+    "counties_analysis": 68
+  },
+  "county_details": {
+    "ALACHUA": {
+      "county": "ALACHUA",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 108413,
+          "size_mb": 55.26,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 12021,
+          "size_mb": 2.36,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 15.100000000000001,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 16184,
+          "size_mb": 2.21,
+          "quality_score": 100
+        }
+      },
+      "total_records": 136618,
+      "total_size_mb": 74.92999999999999,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "BAKER": {
+      "county": "BAKER",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 13064,
+          "size_mb": 6.37,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 691,
+          "size_mb": 0.12,
+          "quality_score": 50
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 1.01,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 1881,
+          "size_mb": 0.26,
+          "quality_score": 75
+        }
+      },
+      "total_records": 15636,
+      "total_size_mb": 7.76,
+      "upload_priority": 60,
+      "issues": []
+    },
+    "BAY": {
+      "county": "BAY",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 129084,
+          "size_mb": 61.99,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 14068,
+          "size_mb": 2.84,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 8.239999999999998,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 22097,
+          "size_mb": 2.89,
+          "quality_score": 100
+        }
+      },
+      "total_records": 165249,
+      "total_size_mb": 75.96,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "BRADFORD": {
+      "county": "BRADFORD",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 15733,
+          "size_mb": 7.08,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 1268,
+          "size_mb": 0.23,
+          "quality_score": 75
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 0.74,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 3227,
+          "size_mb": 0.41,
+          "quality_score": 75
+        }
+      },
+      "total_records": 20228,
+      "total_size_mb": 8.46,
+      "upload_priority": 60,
+      "issues": []
+    },
+    "BREVARD": {
+      "county": "BREVARD",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 348605,
+          "size_mb": 172.87,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 47906,
+          "size_mb": 10.03,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 39.29,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 55256,
+          "size_mb": 7.8,
+          "quality_score": 100
+        }
+      },
+      "total_records": 451767,
+      "total_size_mb": 229.99,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "BROWARD": {
+      "county": "BROWARD",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 753242,
+          "size_mb": 369.07,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 90508,
+          "size_mb": 18.71,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 84.4,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 95332,
+          "size_mb": 13.18,
+          "quality_score": 100
+        }
+      },
+      "total_records": 939082,
+      "total_size_mb": 485.35999999999996,
+      "upload_priority": 100,
+      "issues": []
+    },
+    "CALHOUN": {
+      "county": "CALHOUN",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 13232,
+          "size_mb": 6.16,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 394,
+          "size_mb": 0.08,
+          "quality_score": 50
+        },
+        "NAV": {
+          "available": false,
+          "files": 0,
+          "records": 0,
+          "size_mb": 0,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 1508,
+          "size_mb": 0.21,
+          "quality_score": 75
+        }
+      },
+      "total_records": 15134,
+      "total_size_mb": 6.45,
+      "upload_priority": 50,
+      "issues": []
+    },
+    "CHARLOTTE": {
+      "county": "CHARLOTTE",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 221328,
+          "size_mb": 105.11,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 23988,
+          "size_mb": 5.07,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 36.99,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 39657,
+          "size_mb": 5.12,
+          "quality_score": 100
+        }
+      },
+      "total_records": 284973,
+      "total_size_mb": 152.29000000000002,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "CITRUS": {
+      "county": "CITRUS",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 147549,
+          "size_mb": 73.25,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 7259,
+          "size_mb": 1.43,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 26.06,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 28469,
+          "size_mb": 4.06,
+          "quality_score": 100
+        }
+      },
+      "total_records": 183277,
+      "total_size_mb": 104.80000000000001,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "CLAY": {
+      "county": "CLAY",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 102470,
+          "size_mb": 52.1,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 5545,
+          "size_mb": 1.2,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 10.0,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 16673,
+          "size_mb": 2.37,
+          "quality_score": 100
+        }
+      },
+      "total_records": 124688,
+      "total_size_mb": 65.67,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "COLLIER": {
+      "county": "COLLIER",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 295167,
+          "size_mb": 141.8,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 18385,
+          "size_mb": 3.88,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 14.350000000000001,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 46679,
+          "size_mb": 6.92,
+          "quality_score": 100
+        }
+      },
+      "total_records": 360231,
+      "total_size_mb": 166.95,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "COLUMBIA": {
+      "county": "COLUMBIA",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 37483,
+          "size_mb": 17.74,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 2774,
+          "size_mb": 0.52,
+          "quality_score": 75
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 4.15,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 5304,
+          "size_mb": 0.71,
+          "quality_score": 75
+        }
+      },
+      "total_records": 45561,
+      "total_size_mb": 23.119999999999997,
+      "upload_priority": 60,
+      "issues": []
+    },
+    "DADE": {
+      "county": "DADE",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 933276,
+          "size_mb": 441.61,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 116199,
+          "size_mb": 23.87,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 72.39,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 106070,
+          "size_mb": 13.95,
+          "quality_score": 100
+        }
+      },
+      "total_records": 1155545,
+      "total_size_mb": 551.82,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "DESOTO": {
+      "county": "DESOTO",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 20167,
+          "size_mb": 9.62,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 3411,
+          "size_mb": 0.65,
+          "quality_score": 75
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 2.9000000000000004,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 2545,
+          "size_mb": 0.36,
+          "quality_score": 75
+        }
+      },
+      "total_records": 26123,
+      "total_size_mb": 13.53,
+      "upload_priority": 60,
+      "issues": []
+    },
+    "DIXIE": {
+      "county": "DIXIE",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 16515,
+          "size_mb": 7.81,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 207,
+          "size_mb": 0.05,
+          "quality_score": 50
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 2.0300000000000002,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 2838,
+          "size_mb": 0.39,
+          "quality_score": 75
+        }
+      },
+      "total_records": 19560,
+      "total_size_mb": 10.280000000000001,
+      "upload_priority": 60,
+      "issues": []
+    },
+    "DUVAL": {
+      "county": "DUVAL",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 398324,
+          "size_mb": 192.32,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 30595,
+          "size_mb": 6.67,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 37.57,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 62691,
+          "size_mb": 8.22,
+          "quality_score": 100
+        }
+      },
+      "total_records": 491610,
+      "total_size_mb": 244.77999999999997,
+      "upload_priority": 100,
+      "issues": []
+    },
+    "ESCAMBIA": {
+      "county": "ESCAMBIA",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 172158,
+          "size_mb": 83.23,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 13761,
+          "size_mb": 2.7,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 11.940000000000001,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 28315,
+          "size_mb": 3.87,
+          "quality_score": 100
+        }
+      },
+      "total_records": 214234,
+      "total_size_mb": 101.74000000000001,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "FLAGLER": {
+      "county": "FLAGLER",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 87834,
+          "size_mb": 45.27,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 6681,
+          "size_mb": 1.37,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 1.6400000000000001,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 15529,
+          "size_mb": 2.17,
+          "quality_score": 100
+        }
+      },
+      "total_records": 110044,
+      "total_size_mb": 50.45,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "FRANKLIN": {
+      "county": "FRANKLIN",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 18518,
+          "size_mb": 8.57,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 635,
+          "size_mb": 0.11,
+          "quality_score": 50
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 1.46,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 2324,
+          "size_mb": 0.32,
+          "quality_score": 75
+        }
+      },
+      "total_records": 21477,
+      "total_size_mb": 10.46,
+      "upload_priority": 60,
+      "issues": []
+    },
+    "GADSDEN": {
+      "county": "GADSDEN",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 27847,
+          "size_mb": 13.58,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 1681,
+          "size_mb": 0.34,
+          "quality_score": 75
+        },
+        "NAV": {
+          "available": false,
+          "files": 0,
+          "records": 0,
+          "size_mb": 0,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 2794,
+          "size_mb": 0.41,
+          "quality_score": 75
+        }
+      },
+      "total_records": 32322,
+      "total_size_mb": 14.33,
+      "upload_priority": 50,
+      "issues": []
+    },
+    "GILCHRIST": {
+      "county": "GILCHRIST",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 14724,
+          "size_mb": 6.9,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 775,
+          "size_mb": 0.14,
+          "quality_score": 50
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 1.15,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 2187,
+          "size_mb": 0.3,
+          "quality_score": 75
+        }
+      },
+      "total_records": 17686,
+      "total_size_mb": 8.49,
+      "upload_priority": 60,
+      "issues": []
+    },
+    "GLADES": {
+      "county": "GLADES",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 11366,
+          "size_mb": 5.27,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 1957,
+          "size_mb": 0.38,
+          "quality_score": 75
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 0.28,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 1721,
+          "size_mb": 0.24,
+          "quality_score": 75
+        }
+      },
+      "total_records": 15044,
+      "total_size_mb": 6.17,
+      "upload_priority": 60,
+      "issues": []
+    },
+    "GULF": {
+      "county": "GULF",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 19859,
+          "size_mb": 9.22,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 475,
+          "size_mb": 0.09,
+          "quality_score": 50
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 0.0,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 3265,
+          "size_mb": 0.4,
+          "quality_score": 75
+        }
+      },
+      "total_records": 23599,
+      "total_size_mb": 9.71,
+      "upload_priority": 60,
+      "issues": []
+    },
+    "HAMILTON": {
+      "county": "HAMILTON",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 13163,
+          "size_mb": 5.6,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 1119,
+          "size_mb": 0.19,
+          "quality_score": 75
+        },
+        "NAV": {
+          "available": false,
+          "files": 0,
+          "records": 0,
+          "size_mb": 0,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 1735,
+          "size_mb": 0.22,
+          "quality_score": 75
+        }
+      },
+      "total_records": 16017,
+      "total_size_mb": 6.01,
+      "upload_priority": 50,
+      "issues": []
+    },
+    "HARDEE": {
+      "county": "HARDEE",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 15177,
+          "size_mb": 7.11,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 3138,
+          "size_mb": 0.61,
+          "quality_score": 75
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 1.58,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 2056,
+          "size_mb": 0.29,
+          "quality_score": 75
+        }
+      },
+      "total_records": 20371,
+      "total_size_mb": 9.59,
+      "upload_priority": 60,
+      "issues": []
+    },
+    "HENDRY": {
+      "county": "HENDRY",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 35850,
+          "size_mb": 18.21,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 1954,
+          "size_mb": 0.4,
+          "quality_score": 75
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 8.67,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 6106,
+          "size_mb": 0.91,
+          "quality_score": 75
+        }
+      },
+      "total_records": 43910,
+      "total_size_mb": 28.19,
+      "upload_priority": 60,
+      "issues": []
+    },
+    "HERNANDO": {
+      "county": "HERNANDO",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 119116,
+          "size_mb": 61.18,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 8506,
+          "size_mb": 1.97,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 1,
+          "records": 0,
+          "size_mb": 9.42,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 18305,
+          "size_mb": 2.99,
+          "quality_score": 100
+        }
+      },
+      "total_records": 145927,
+      "total_size_mb": 75.55999999999999,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "HIGHLANDS": {
+      "county": "HIGHLANDS",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 112728,
+          "size_mb": 52.26,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 15671,
+          "size_mb": 3.07,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 14.24,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 20610,
+          "size_mb": 2.82,
+          "quality_score": 100
+        }
+      },
+      "total_records": 149009,
+      "total_size_mb": 72.38999999999999,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "HILLSBOROUGH": {
+      "county": "HILLSBOROUGH",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 524735,
+          "size_mb": 263.14,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 41746,
+          "size_mb": 8.37,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 87.03,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 72812,
+          "size_mb": 10.76,
+          "quality_score": 100
+        }
+      },
+      "total_records": 639293,
+      "total_size_mb": 369.29999999999995,
+      "upload_priority": 100,
+      "issues": []
+    },
+    "HOLMES": {
+      "county": "HOLMES",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 14536,
+          "size_mb": 6.5,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 1549,
+          "size_mb": 0.26,
+          "quality_score": 75
+        },
+        "NAV": {
+          "available": true,
+          "files": 1,
+          "records": 0,
+          "size_mb": 6.27,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 1946,
+          "size_mb": 0.25,
+          "quality_score": 75
+        }
+      },
+      "total_records": 18031,
+      "total_size_mb": 13.28,
+      "upload_priority": 60,
+      "issues": []
+    },
+    "INDIAN RIVER": {
+      "county": "INDIAN RIVER",
+      "data_types": {
+        "NAL": {
+          "available": false,
+          "files": 0,
+          "records": 0,
+          "size_mb": 0,
+          "quality_score": 0
+        },
+        "NAP": {
+          "available": false,
+          "files": 0,
+          "records": 0,
+          "size_mb": 0,
+          "quality_score": 0
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 12.79,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": false,
+          "files": 0,
+          "records": 0,
+          "size_mb": 0,
+          "quality_score": 0
+        }
+      },
+      "total_records": 0,
+      "total_size_mb": 12.79,
+      "upload_priority": 10,
+      "issues": []
+    },
+    "JACKSON": {
+      "county": "JACKSON",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 40053,
+          "size_mb": 18.58,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 2116,
+          "size_mb": 0.39,
+          "quality_score": 75
+        },
+        "NAV": {
+          "available": false,
+          "files": 0,
+          "records": 0,
+          "size_mb": 0,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 5213,
+          "size_mb": 0.68,
+          "quality_score": 75
+        }
+      },
+      "total_records": 47382,
+      "total_size_mb": 19.65,
+      "upload_priority": 50,
+      "issues": []
+    },
+    "JEFFERSON": {
+      "county": "JEFFERSON",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 12359,
+          "size_mb": 6.17,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 1041,
+          "size_mb": 0.22,
+          "quality_score": 75
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 1.02,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 1437,
+          "size_mb": 0.19,
+          "quality_score": 75
+        }
+      },
+      "total_records": 14837,
+      "total_size_mb": 7.6000000000000005,
+      "upload_priority": 60,
+      "issues": []
+    },
+    "LAFAYETTE": {
+      "county": "LAFAYETTE",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 7421,
+          "size_mb": 3.36,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 234,
+          "size_mb": 0.04,
+          "quality_score": 50
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 0.49,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 1194,
+          "size_mb": 0.16,
+          "quality_score": 75
+        }
+      },
+      "total_records": 8849,
+      "total_size_mb": 4.05,
+      "upload_priority": 40,
+      "issues": []
+    },
+    "LAKE": {
+      "county": "LAKE",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 210257,
+          "size_mb": 106.38,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 33793,
+          "size_mb": 7.19,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 16.96,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 34477,
+          "size_mb": 4.84,
+          "quality_score": 100
+        }
+      },
+      "total_records": 278527,
+      "total_size_mb": 135.37,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "LEE": {
+      "county": "LEE",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 557675,
+          "size_mb": 270.77,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 80376,
+          "size_mb": 16.81,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 97.67,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 106293,
+          "size_mb": 15.19,
+          "quality_score": 100
+        }
+      },
+      "total_records": 744344,
+      "total_size_mb": 400.44,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "LEON": {
+      "county": "LEON",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 110766,
+          "size_mb": 53.21,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 12827,
+          "size_mb": 2.48,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 5.74,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 15677,
+          "size_mb": 2.09,
+          "quality_score": 100
+        }
+      },
+      "total_records": 139270,
+      "total_size_mb": 63.519999999999996,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "LEVY": {
+      "county": "LEVY",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 47378,
+          "size_mb": 21.78,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 1985,
+          "size_mb": 0.36,
+          "quality_score": 75
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 4.45,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 7873,
+          "size_mb": 0.99,
+          "quality_score": 75
+        }
+      },
+      "total_records": 57236,
+      "total_size_mb": 27.58,
+      "upload_priority": 70,
+      "issues": []
+    },
+    "LIBERTY": {
+      "county": "LIBERTY",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 5979,
+          "size_mb": 2.74,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 186,
+          "size_mb": 0.03,
+          "quality_score": 50
+        },
+        "NAV": {
+          "available": false,
+          "files": 0,
+          "records": 0,
+          "size_mb": 0,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 538,
+          "size_mb": 0.07,
+          "quality_score": 50
+        }
+      },
+      "total_records": 6703,
+      "total_size_mb": 2.84,
+      "upload_priority": 30,
+      "issues": []
+    },
+    "MADISON": {
+      "county": "MADISON",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 16350,
+          "size_mb": 7.59,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 1481,
+          "size_mb": 0.26,
+          "quality_score": 75
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 0.97,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 2365,
+          "size_mb": 0.3,
+          "quality_score": 75
+        }
+      },
+      "total_records": 20196,
+      "total_size_mb": 9.120000000000001,
+      "upload_priority": 60,
+      "issues": []
+    },
+    "MANATEE": {
+      "county": "MANATEE",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 224701,
+          "size_mb": 107.76,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 28007,
+          "size_mb": 5.47,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 17.78,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 39528,
+          "size_mb": 5.19,
+          "quality_score": 100
+        }
+      },
+      "total_records": 292236,
+      "total_size_mb": 136.2,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "MARION": {
+      "county": "MARION",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 283467,
+          "size_mb": 133.5,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 21475,
+          "size_mb": 4.29,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 44.260000000000005,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 70638,
+          "size_mb": 9.56,
+          "quality_score": 100
+        }
+      },
+      "total_records": 375580,
+      "total_size_mb": 191.61,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "MARTIN": {
+      "county": "MARTIN",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 97238,
+          "size_mb": 49.23,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 11977,
+          "size_mb": 2.67,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 6.550000000000001,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 14249,
+          "size_mb": 2.08,
+          "quality_score": 100
+        }
+      },
+      "total_records": 123464,
+      "total_size_mb": 60.53,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "MIAMI-DADE": {
+      "county": "MIAMI-DADE",
+      "data_types": {
+        "NAL": {
+          "available": false,
+          "files": 0,
+          "records": 0,
+          "size_mb": 0,
+          "quality_score": 0
+        },
+        "NAP": {
+          "available": false,
+          "files": 0,
+          "records": 0,
+          "size_mb": 0,
+          "quality_score": 0
+        },
+        "NAV": {
+          "available": false,
+          "files": 0,
+          "records": 0,
+          "size_mb": 0,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": false,
+          "files": 0,
+          "records": 0,
+          "size_mb": 0,
+          "quality_score": 0
+        }
+      },
+      "total_records": 0,
+      "total_size_mb": 0,
+      "upload_priority": 20,
+      "issues": []
+    },
+    "MONROE": {
+      "county": "MONROE",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 89183,
+          "size_mb": 44.04,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 12859,
+          "size_mb": 2.82,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 5.22,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 8266,
+          "size_mb": 1.18,
+          "quality_score": 100
+        }
+      },
+      "total_records": 110308,
+      "total_size_mb": 53.26,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "NASSAU": {
+      "county": "NASSAU",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 59262,
+          "size_mb": 28.5,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 4489,
+          "size_mb": 0.87,
+          "quality_score": 75
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 0.81,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 9399,
+          "size_mb": 1.29,
+          "quality_score": 100
+        }
+      },
+      "total_records": 73150,
+      "total_size_mb": 31.47,
+      "upload_priority": 70,
+      "issues": []
+    },
+    "OKALOOSA": {
+      "county": "OKALOOSA",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 113009,
+          "size_mb": 54.08,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 11503,
+          "size_mb": 2.34,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 2.76,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 16255,
+          "size_mb": 2.23,
+          "quality_score": 100
+        }
+      },
+      "total_records": 140767,
+      "total_size_mb": 61.41,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "OKEECHOBEE": {
+      "county": "OKEECHOBEE",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 31526,
+          "size_mb": 15.13,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 4524,
+          "size_mb": 0.86,
+          "quality_score": 75
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 5.46,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 5368,
+          "size_mb": 0.76,
+          "quality_score": 75
+        }
+      },
+      "total_records": 41418,
+      "total_size_mb": 22.21,
+      "upload_priority": 60,
+      "issues": []
+    },
+    "ORANGE": {
+      "county": "ORANGE",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 488890,
+          "size_mb": 251.5,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 63115,
+          "size_mb": 12.57,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 52.31,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 57733,
+          "size_mb": 8.01,
+          "quality_score": 100
+        }
+      },
+      "total_records": 609738,
+      "total_size_mb": 324.39,
+      "upload_priority": 100,
+      "issues": []
+    },
+    "OSCEOLA": {
+      "county": "OSCEOLA",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 208840,
+          "size_mb": 103.3,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 27411,
+          "size_mb": 5.51,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 25.63,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 35174,
+          "size_mb": 4.83,
+          "quality_score": 100
+        }
+      },
+      "total_records": 271425,
+      "total_size_mb": 139.27,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "PALM BEACH": {
+      "county": "PALM BEACH",
+      "data_types": {
+        "NAL": {
+          "available": false,
+          "files": 0,
+          "records": 0,
+          "size_mb": 0,
+          "quality_score": 0
+        },
+        "NAP": {
+          "available": false,
+          "files": 0,
+          "records": 0,
+          "size_mb": 0,
+          "quality_score": 0
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 115.73,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": false,
+          "files": 0,
+          "records": 0,
+          "size_mb": 0,
+          "quality_score": 0
+        }
+      },
+      "total_records": 0,
+      "total_size_mb": 115.73,
+      "upload_priority": 30,
+      "issues": []
+    },
+    "PASCO": {
+      "county": "PASCO",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 327771,
+          "size_mb": 164.67,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 18388,
+          "size_mb": 3.76,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 39.33,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 65179,
+          "size_mb": 9.64,
+          "quality_score": 100
+        }
+      },
+      "total_records": 411338,
+      "total_size_mb": 217.39999999999998,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "PINELLAS": {
+      "county": "PINELLAS",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 432955,
+          "size_mb": 211.64,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 56209,
+          "size_mb": 11.14,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 19.19,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 62019,
+          "size_mb": 8.89,
+          "quality_score": 100
+        }
+      },
+      "total_records": 551183,
+      "total_size_mb": 250.85999999999996,
+      "upload_priority": 100,
+      "issues": []
+    },
+    "POLK": {
+      "county": "POLK",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 429267,
+          "size_mb": 214.04,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 88069,
+          "size_mb": 18.02,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 52.91,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 83045,
+          "size_mb": 11.51,
+          "quality_score": 100
+        }
+      },
+      "total_records": 600381,
+      "total_size_mb": 296.48,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "PUTNAM": {
+      "county": "PUTNAM",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 98054,
+          "size_mb": 46.28,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 4023,
+          "size_mb": 0.8,
+          "quality_score": 75
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 5.84,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 15485,
+          "size_mb": 2.17,
+          "quality_score": 100
+        }
+      },
+      "total_records": 117562,
+      "total_size_mb": 55.09,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "SANTA ROSA": {
+      "county": "SANTA ROSA",
+      "data_types": {
+        "NAL": {
+          "available": false,
+          "files": 0,
+          "records": 0,
+          "size_mb": 0,
+          "quality_score": 0
+        },
+        "NAP": {
+          "available": false,
+          "files": 0,
+          "records": 0,
+          "size_mb": 0,
+          "quality_score": 0
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 20.12,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": false,
+          "files": 0,
+          "records": 0,
+          "size_mb": 0,
+          "quality_score": 0
+        }
+      },
+      "total_records": 0,
+      "total_size_mb": 20.12,
+      "upload_priority": 10,
+      "issues": []
+    },
+    "SARASOTA": {
+      "county": "SARASOTA",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 303967,
+          "size_mb": 147.57,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 22816,
+          "size_mb": 4.7,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 26.16,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 50401,
+          "size_mb": 6.54,
+          "quality_score": 100
+        }
+      },
+      "total_records": 377184,
+      "total_size_mb": 184.96999999999997,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "SEMINOLE": {
+      "county": "SEMINOLE",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 179418,
+          "size_mb": 86.68,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 13435,
+          "size_mb": 2.82,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 8.98,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 22168,
+          "size_mb": 3.23,
+          "quality_score": 100
+        }
+      },
+      "total_records": 215021,
+      "total_size_mb": 101.71000000000001,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "ST. JOHNS": {
+      "county": "ST. JOHNS",
+      "data_types": {
+        "NAL": {
+          "available": false,
+          "files": 0,
+          "records": 0,
+          "size_mb": 0,
+          "quality_score": 0
+        },
+        "NAP": {
+          "available": false,
+          "files": 0,
+          "records": 0,
+          "size_mb": 0,
+          "quality_score": 0
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 49.78,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": false,
+          "files": 0,
+          "records": 0,
+          "size_mb": 0,
+          "quality_score": 0
+        }
+      },
+      "total_records": 0,
+      "total_size_mb": 49.78,
+      "upload_priority": 10,
+      "issues": []
+    },
+    "ST. LUCIE": {
+      "county": "ST. LUCIE",
+      "data_types": {
+        "NAL": {
+          "available": false,
+          "files": 0,
+          "records": 0,
+          "size_mb": 0,
+          "quality_score": 0
+        },
+        "NAP": {
+          "available": false,
+          "files": 0,
+          "records": 0,
+          "size_mb": 0,
+          "quality_score": 0
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 13.2,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": false,
+          "files": 0,
+          "records": 0,
+          "size_mb": 0,
+          "quality_score": 0
+        }
+      },
+      "total_records": 0,
+      "total_size_mb": 13.2,
+      "upload_priority": 10,
+      "issues": []
+    },
+    "SUMTER": {
+      "county": "SUMTER",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 101105,
+          "size_mb": 50.15,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 3646,
+          "size_mb": 0.75,
+          "quality_score": 75
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 10.58,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 20814,
+          "size_mb": 2.59,
+          "quality_score": 100
+        }
+      },
+      "total_records": 125565,
+      "total_size_mb": 64.07,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "SUWANNEE": {
+      "county": "SUWANNEE",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 38823,
+          "size_mb": 17.36,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 1105,
+          "size_mb": 0.2,
+          "quality_score": 75
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 3.0700000000000003,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 4757,
+          "size_mb": 0.65,
+          "quality_score": 75
+        }
+      },
+      "total_records": 44685,
+      "total_size_mb": 21.279999999999998,
+      "upload_priority": 60,
+      "issues": []
+    },
+    "TAYLOR": {
+      "county": "TAYLOR",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 19718,
+          "size_mb": 9.15,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 1299,
+          "size_mb": 0.24,
+          "quality_score": 75
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 0.6000000000000001,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 2660,
+          "size_mb": 0.33,
+          "quality_score": 75
+        }
+      },
+      "total_records": 23677,
+      "total_size_mb": 10.32,
+      "upload_priority": 60,
+      "issues": []
+    },
+    "UNION": {
+      "county": "UNION",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 7005,
+          "size_mb": 3.29,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 572,
+          "size_mb": 0.1,
+          "quality_score": 50
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 0.63,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 1190,
+          "size_mb": 0.15,
+          "quality_score": 75
+        }
+      },
+      "total_records": 8767,
+      "total_size_mb": 4.170000000000001,
+      "upload_priority": 40,
+      "issues": []
+    },
+    "VOLUSIA": {
+      "county": "VOLUSIA",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 309024,
+          "size_mb": 151.6,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 52094,
+          "size_mb": 10.19,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 18.37,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 47499,
+          "size_mb": 6.29,
+          "quality_score": 100
+        }
+      },
+      "total_records": 408617,
+      "total_size_mb": 186.45,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "WAKULLA": {
+      "county": "WAKULLA",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 26478,
+          "size_mb": 12.31,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 1466,
+          "size_mb": 0.29,
+          "quality_score": 75
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 3.41,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 4495,
+          "size_mb": 0.6,
+          "quality_score": 75
+        }
+      },
+      "total_records": 32439,
+      "total_size_mb": 16.61,
+      "upload_priority": 60,
+      "issues": []
+    },
+    "WALTON": {
+      "county": "WALTON",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 92775,
+          "size_mb": 44.68,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 14519,
+          "size_mb": 2.9,
+          "quality_score": 100
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 2.87,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 15696,
+          "size_mb": 2.16,
+          "quality_score": 100
+        }
+      },
+      "total_records": 122990,
+      "total_size_mb": 52.61,
+      "upload_priority": 80,
+      "issues": []
+    },
+    "WASHINGTON": {
+      "county": "WASHINGTON",
+      "data_types": {
+        "NAL": {
+          "available": true,
+          "files": 1,
+          "records": 46493,
+          "size_mb": 20.68,
+          "quality_score": 100
+        },
+        "NAP": {
+          "available": true,
+          "files": 1,
+          "records": 1151,
+          "size_mb": 0.2,
+          "quality_score": 75
+        },
+        "NAV": {
+          "available": true,
+          "files": 2,
+          "records": 0,
+          "size_mb": 1.82,
+          "quality_score": 0
+        },
+        "SDF": {
+          "available": true,
+          "files": 1,
+          "records": 4721,
+          "size_mb": 0.62,
+          "quality_score": 75
+        }
+      },
+      "total_records": 52365,
+      "total_size_mb": 23.32,
+      "upload_priority": 70,
+      "issues": []
+    }
+  },
+  "upload_priorities": [
+    {
+      "county": "BROWARD",
+      "priority_score": 100,
+      "records": 939082,
+      "size_mb": 485.35999999999996,
+      "data_types_available": 4,
+      "estimated_upload_time_hours": 469.541
+    },
+    {
+      "county": "DUVAL",
+      "priority_score": 100,
+      "records": 491610,
+      "size_mb": 244.77999999999997,
+      "data_types_available": 4,
+      "estimated_upload_time_hours": 245.805
+    },
+    {
+      "county": "HILLSBOROUGH",
+      "priority_score": 100,
+      "records": 639293,
+      "size_mb": 369.29999999999995,
+      "data_types_available": 4,
+      "estimated_upload_time_hours": 319.6465
+    },
+    {
+      "county": "ORANGE",
+      "priority_score": 100,
+      "records": 609738,
+      "size_mb": 324.39,
+      "data_types_available": 4,
+      "estimated_upload_time_hours": 304.869
+    },
+    {
+      "county": "PINELLAS",
+      "priority_score": 100,
+      "records": 551183,
+      "size_mb": 250.85999999999996,
+      "data_types_available": 4,
+      "estimated_upload_time_hours": 275.5915
+    },
+    {
+      "county": "ALACHUA",
+      "priority_score": 80,
+      "records": 136618,
+      "size_mb": 74.92999999999999,
+      "data_types_available": 4,
+      "estimated_upload_time_hours": 68.309
+    },
+    {
+      "county": "BAY",
+      "priority_score": 80,
+      "records": 165249,
+      "size_mb": 75.96,
+      "data_types_available": 4,
+      "estimated_upload_time_hours": 82.6245
+    },
+    {
+      "county": "BREVARD",
+      "priority_score": 80,
+      "records": 451767,
+      "size_mb": 229.99,
+      "data_types_available": 4,
+      "estimated_upload_time_hours": 225.8835
+    },
+    {
+      "county": "CHARLOTTE",
+      "priority_score": 80,
+      "records": 284973,
+      "size_mb": 152.29000000000002,
+      "data_types_available": 4,
+      "estimated_upload_time_hours": 142.4865
+    },
+    {
+      "county": "CITRUS",
+      "priority_score": 80,
+      "records": 183277,
+      "size_mb": 104.80000000000001,
+      "data_types_available": 4,
+      "estimated_upload_time_hours": 91.6385
+    },
+    {
+      "county": "CLAY",
+      "priority_score": 80,
+      "records": 124688,
+      "size_mb": 65.67,
+      "data_types_available": 4,
+      "estimated_upload_time_hours": 62.344
+    },
+    {
+      "county": "COLLIER",
+      "priority_score": 80,
+      "records": 360231,
+      "size_mb": 166.95,
+      "data_types_available": 4,
+      "estimated_upload_time_hours": 180.1155
+    },
+    {
+      "county": "DADE",
+      "priority_score": 80,
+      "records": 1155545,
+      "size_mb": 551.82,
+      "data_types_available": 4,
+      "estimated_upload_time_hours": 577.7725
+    },
+    {
+      "county": "ESCAMBIA",
+      "priority_score": 80,
+      "records": 214234,
+      "size_mb": 101.74000000000001,
+      "data_types_available": 4,
+      "estimated_upload_time_hours": 107.117
+    },
+    {
+      "county": "FLAGLER",
+      "priority_score": 80,
+      "records": 110044,
+      "size_mb": 50.45,
+      "data_types_available": 4,
+      "estimated_upload_time_hours": 55.022
+    },
+    {
+      "county": "HERNANDO",
+      "priority_score": 80,
+      "records": 145927,
+      "size_mb": 75.55999999999999,
+      "data_types_available": 4,
+      "estimated_upload_time_hours": 72.9635
+    },
+    {
+      "county": "HIGHLANDS",
+      "priority_score": 80,
+      "records": 149009,
+      "size_mb": 72.38999999999999,
+      "data_types_available": 4,
+      "estimated_upload_time_hours": 74.5045
+    },
+    {
+      "county": "LAKE",
+      "priority_score": 80,
+      "records": 278527,
+      "size_mb": 135.37,
+      "data_types_available": 4,
+      "estimated_upload_time_hours": 139.2635
+    },
+    {
+      "county": "LEE",
+      "priority_score": 80,
+      "records": 744344,
+      "size_mb": 400.44,
+      "data_types_available": 4,
+      "estimated_upload_time_hours": 372.172
+    },
+    {
+      "county": "LEON",
+      "priority_score": 80,
+      "records": 139270,
+      "size_mb": 63.519999999999996,
+      "data_types_available": 4,
+      "estimated_upload_time_hours": 69.635
+    }
+  ],
+  "data_quality_issues": [
+    "ALACHUA NAV has quality score 0/100",
+    "BAKER NAV has quality score 0/100",
+    "BAY NAV has quality score 0/100",
+    "BRADFORD NAV has quality score 0/100",
+    "BREVARD NAV has quality score 0/100",
+    "BROWARD NAV has quality score 0/100",
+    "CHARLOTTE NAV has quality score 0/100",
+    "CITRUS NAV has quality score 0/100",
+    "CLAY NAV has quality score 0/100",
+    "COLLIER NAV has quality score 0/100",
+    "COLUMBIA NAV has quality score 0/100",
+    "DADE NAV has quality score 0/100",
+    "DESOTO NAV has quality score 0/100",
+    "DIXIE NAV has quality score 0/100",
+    "DUVAL NAV has quality score 0/100",
+    "ESCAMBIA NAV has quality score 0/100",
+    "FLAGLER NAV has quality score 0/100",
+    "FRANKLIN NAV has quality score 0/100",
+    "GILCHRIST NAV has quality score 0/100",
+    "GLADES NAV has quality score 0/100",
+    "GULF NAV has quality score 0/100",
+    "HARDEE NAV has quality score 0/100",
+    "HENDRY NAV has quality score 0/100",
+    "HERNANDO NAV has quality score 0/100",
+    "HIGHLANDS NAV has quality score 0/100",
+    "HILLSBOROUGH NAV has quality score 0/100",
+    "HOLMES NAV has quality score 0/100",
+    "INDIAN RIVER NAV has quality score 0/100",
+    "JEFFERSON NAV has quality score 0/100",
+    "LAFAYETTE NAV has quality score 0/100",
+    "LAKE NAV has quality score 0/100",
+    "LEE NAV has quality score 0/100",
+    "LEON NAV has quality score 0/100",
+    "LEVY NAV has quality score 0/100",
+    "MADISON NAV has quality score 0/100",
+    "MANATEE NAV has quality score 0/100",
+    "MARION NAV has quality score 0/100",
+    "MARTIN NAV has quality score 0/100",
+    "MONROE NAV has quality score 0/100",
+    "NASSAU NAV has quality score 0/100",
+    "OKALOOSA NAV has quality score 0/100",
+    "OKEECHOBEE NAV has quality score 0/100",
+    "ORANGE NAV has quality score 0/100",
+    "OSCEOLA NAV has quality score 0/100",
+    "PALM BEACH NAV has quality score 0/100",
+    "PASCO NAV has quality score 0/100",
+    "PINELLAS NAV has quality score 0/100",
+    "POLK NAV has quality score 0/100",
+    "PUTNAM NAV has quality score 0/100",
+    "SANTA ROSA NAV has quality score 0/100",
+    "SARASOTA NAV has quality score 0/100",
+    "SEMINOLE NAV has quality score 0/100",
+    "ST. JOHNS NAV has quality score 0/100",
+    "ST. LUCIE NAV has quality score 0/100",
+    "SUMTER NAV has quality score 0/100",
+    "SUWANNEE NAV has quality score 0/100",
+    "TAYLOR NAV has quality score 0/100",
+    "UNION NAV has quality score 0/100",
+    "VOLUSIA NAV has quality score 0/100",
+    "WAKULLA NAV has quality score 0/100",
+    "WALTON NAV has quality score 0/100",
+    "WASHINGTON NAV has quality score 0/100"
+  ],
+  "recommendations": [
+    "Start with top 10 priority counties for immediate database population",
+    "Focus on NAL (names/addresses) data first as it provides core property information",
+    "Implement batch uploads with 1000-record chunks for performance",
+    "Set up monitoring for upload progress and error handling",
+    "Consider parallel processing for multiple counties simultaneously"
+  ],
+  "generated_at": "2025-09-16T13:02:40.604734"
+}

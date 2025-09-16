@@ -1,0 +1,10 @@
+{
+  "period": "2025-01-01 00:00:00 to 2025-09-16 00:00:00",
+  "total_records": 9066813,
+  "avg_daily_records": 35007.0,
+  "avg_processing_time": 120.02941980957752,
+  "avg_error_rate": 1.09400685919505,
+  "avg_quality_score": 0.8118242250088885,
+  "storage_growth_gb": 327.3860319001305,
+  "projected_monthly_growth_gb": 37.92116199615411
+}

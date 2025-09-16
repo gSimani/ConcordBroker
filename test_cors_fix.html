@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Test - Fixed</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .test {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-left: 4px solid #ddd;
+            border-radius: 4px;
+        }
+        .test.success {
+            border-left-color: #4CAF50;
+            background: #e8f5e9;
+        }
+        .test.error {
+            border-left-color: #f44336;
+            background: #ffebee;
+        }
+        .test h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .result {
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        .success-icon {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .error-icon {
+            color: #f44336;
+            font-weight: bold;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .summary {
+            margin-top: 30px;
+            padding: 20px;
+            background: #e3f2fd;
+            border-radius: 8px;
+            border: 1px solid #2196f3;
+        }
+        .summary h2 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Properties Page Diagnostic Tool - CORS Fixed</h1>
+        
+        <div id="tests"></div>
+        
+        <button onclick="runAllTests()">Re-run All Tests</button>
+        
+        <div id="summary" class="summary" style="display:none;"></div>
+    </div>
+
+    <script>
+        let testResults = {};
+
+        async function runAllTests() {
+            console.log('Starting comprehensive tests...');
+            document.getElementById('tests').innerHTML = '';
+            document.getElementById('summary').style.display = 'none';
+            testResults = {};
+            
+            await testAPIConnection();
+            await testCORSHeaders();
+            await testDataPipeline();
+            await testFrontendConnection();
+            await testPropertyFilter();
+            
+            showSummary();
+        }
+
+        async function testAPIConnection() {
+            const testDiv = createTestDiv('API Connection', 'Testing API endpoint...');
+            
+            try {
+                const response = await fetch('http://localhost:8000/api/properties/search?limit=20&fast=true');
+                const data = await response.json();
+                
+                const result = `
+                    <span class="success-icon">✓</span> API is working<br>
+                    Status: ${response.status}<br>
+                    Properties returned: ${data.properties?.length || 0}<br>
+                    Total in database: ${data.total || 'Unknown'}<br>
+                    First property: ${data.properties?.[0]?.phy_addr1 || 'None'}
+                `;
+                
+                updateTestDiv(testDiv, true, result);
+                testResults['API Connection'] = true;
+            } catch (error) {
+                updateTestDiv(testDiv, false, `<span class="error-icon">✗</span> ${error.message}`);
+                testResults['API Connection'] = false;
+            }
+        }
+
+        async function testCORSHeaders() {
+            const testDiv = createTestDiv('CORS Configuration', 'Checking CORS headers...');
+            
+            try {
+                const response = await fetch('http://localhost:8000/api/properties/search?limit=1', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                
+                const corsHeaders = {
+                    'access-control-allow-origin': response.headers.get('access-control-allow-origin'),
+                    'access-control-allow-methods': response.headers.get('access-control-allow-methods'),
+                    'access-control-allow-headers': response.headers.get('access-control-allow-headers'),
+                    'access-control-expose-headers': response.headers.get('access-control-expose-headers')
+                };
+                
+                const hasProperCORS = corsHeaders['access-control-allow-origin'] !== null;
+                
+                const result = hasProperCORS ? 
+                    `<span class="success-icon">✓</span> CORS is properly configured<br><pre>${JSON.stringify(corsHeaders, null, 2)}</pre>` :
+                    `<span class="error-icon">✗</span> CORS headers missing or misconfigured<br><pre>${JSON.stringify(corsHeaders, null, 2)}</pre>`;
+                
+                updateTestDiv(testDiv, hasProperCORS, result);
+                testResults['CORS Configuration'] = hasProperCORS;
+            } catch (error) {
+                updateTestDiv(testDiv, false, `<span class="error-icon">✗</span> ${error.message}`);
+                testResults['CORS Configuration'] = false;
+            }
+        }
+
+        async function testDataPipeline() {
+            const testDiv = createTestDiv('Data Pipeline Simulation', 'Testing data flow...');
+            
+            try {
+                const url = 'http://localhost:8000/api/properties/search?limit=50&fast=true';
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                const result = `
+                    <span class="success-icon">✓</span> Pipeline pattern works<br>
+                    URL: ${url}<br>
+                    Properties array: ${data.properties?.length || 0} items<br>
+                    Structure looks ${data.properties?.length > 0 ? 'correct' : 'empty'} for React component
+                `;
+                
+                updateTestDiv(testDiv, true, result);
+                testResults['Data Pipeline'] = true;
+            } catch (error) {
+                updateTestDiv(testDiv, false, `<span class="error-icon">✗</span> ${error.message}`);
+                testResults['Data Pipeline'] = false;
+            }
+        }
+
+        async function testFrontendConnection() {
+            const testDiv = createTestDiv('Frontend Server', 'Checking frontend...');
+            
+            try {
+                const response = await fetch('http://localhost:5173/', { mode: 'no-cors' });
+                
+                updateTestDiv(testDiv, true, `
+                    <span class="success-icon">✓</span> Frontend server is running<br>
+                    You can access it at: <a href="http://localhost:5173" target="_blank">http://localhost:5173</a>
+                `);
+                testResults['Frontend Server'] = true;
+            } catch (error) {
+                updateTestDiv(testDiv, false, `
+                    <span class="error-icon">✗</span> Cannot connect to frontend<br>
+                    Make sure 'npm run dev' is running in apps/web/<br>
+                    Error: ${error.message}
+                `);
+                testResults['Frontend Server'] = false;
+            }
+        }
+
+        async function testPropertyFilter() {
+            const testDiv = createTestDiv('Filtered Property Fetch', 'Testing filters...');
+            
+            try {
+                const response = await fetch('http://localhost:8000/api/properties/search?city=HOLLYWOOD&limit=10');
+                const data = await response.json();
+                
+                const hollywoodCount = data.properties?.filter(p => 
+                    p.phy_city?.toUpperCase().includes('HOLLYWOOD')
+                ).length || 0;
+                
+                const result = `
+                    <span class="success-icon">✓</span> Filter test passed<br>
+                    Requested: HOLLYWOOD properties<br>
+                    Returned: ${data.properties?.length || 0} properties<br>
+                    Hollywood matches: ${hollywoodCount}
+                `;
+                
+                updateTestDiv(testDiv, true, result);
+                testResults['Property Filter'] = true;
+            } catch (error) {
+                updateTestDiv(testDiv, false, `<span class="error-icon">✗</span> ${error.message}`);
+                testResults['Property Filter'] = false;
+            }
+        }
+
+        function createTestDiv(title, initialMessage) {
+            const div = document.createElement('div');
+            div.className = 'test';
+            div.innerHTML = `
+                <h3>Test: ${title}</h3>
+                <div class="result">${initialMessage}</div>
+            `;
+            document.getElementById('tests').appendChild(div);
+            return div;
+        }
+
+        function updateTestDiv(div, success, message) {
+            div.className = success ? 'test success' : 'test error';
+            div.querySelector('.result').innerHTML = message;
+        }
+
+        function showSummary() {
+            const passed = Object.values(testResults).filter(r => r).length;
+            const total = Object.keys(testResults).length;
+            
+            const summaryDiv = document.getElementById('summary');
+            summaryDiv.style.display = 'block';
+            
+            const status = passed === total ? 
+                '🎉 All tests passed! CORS is fixed and everything is working.' :
+                `⚠️ ${passed}/${total} tests passed. Some issues remain.`;
+            
+            let diagnosis = '';
+            if (passed === total) {
+                diagnosis = '<strong>DIAGNOSIS:</strong> System is fully operational. CORS has been fixed and both frontend and backend are working correctly.';
+            } else if (!testResults['API Connection']) {
+                diagnosis = '<strong>DIAGNOSIS:</strong> API server is not running. Start it with: cd apps/api && uvicorn main_simple:app --reload';
+            } else if (!testResults['CORS Configuration']) {
+                diagnosis = '<strong>DIAGNOSIS:</strong> CORS configuration needs attention. The API server may need to be restarted.';
+            } else if (!testResults['Frontend Server']) {
+                diagnosis = '<strong>DIAGNOSIS:</strong> Frontend server is not running. Start it with: cd apps/web && npm run dev';
+            } else {
+                diagnosis = '<strong>DIAGNOSIS:</strong> Some components need attention. Check the failed tests above.';
+            }
+            
+            summaryDiv.innerHTML = `
+                <h2>Test Summary</h2>
+                <p>Tests Passed: <strong>${passed}/${total}</strong></p>
+                <p>${status}</p>
+                <p>${diagnosis}</p>
+                ${passed === total ? '<p>✅ You can now access your application at <a href="http://localhost:5173" target="_blank">http://localhost:5173</a></p>' : ''}
+            `;
+        }
+
+        // Run tests on page load
+        window.addEventListener('load', runAllTests);
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "watch": [
+    "apps/api/",
+    ".env"
+  ],
+  "ext": "py",
+  "ignore": [
+    "__pycache__/",
+    "*.pyc",
+    "test_*.py",
+    "*.log"
+  ],
+  "exec": "cd apps/api && python main_simple.py",
+  "env": {
+    "PYTHONUNBUFFERED": "1",
+    "ENVIRONMENT": "development"
+  },
+  "events": {
+    "restart": "echo '[NODEMON] API server restarting...'",
+    "start": "echo '[NODEMON] FastAPI server started on http://localhost:8000'",
+    "crash": "echo '[NODEMON] API crashed! Check logs...'"
+  },
+  "delay": "1000",
+  "verbose": false,
+  "colours": true
+}

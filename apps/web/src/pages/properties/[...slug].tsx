@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { PropertyProfile } from './PropertyProfile';
+import { useParams, useNavigate } from 'react-router-dom';
+import { PropertyProfile } from '../property/PropertyProfile';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { RefreshCw, ArrowLeft, MapPin, AlertCircle } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 
 /**
  * Dynamic property page with address-based routing
@@ -33,8 +33,8 @@ interface PropertyData {
 }
 
 export default function PropertyPage() {
-  const router = useRouter();
-  const { slug } = router.query;
+  const navigate = useNavigate();
+  const params = useParams();
   
   const [property, setProperty] = useState<PropertyData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -42,34 +42,20 @@ export default function PropertyPage() {
 
   // Fetch property data based on URL structure
   const fetchProperty = async () => {
-    if (!slug || !Array.isArray(slug)) return;
-    
+    console.log('fetchProperty called with params:', params);
+    console.log('params.city:', params.city, 'params.address:', params.address);
     setLoading(true);
     setError(null);
     
     try {
       let url = '';
       
-      if (slug.length === 1) {
-        // Single slug - could be property ID or parcel ID
-        const singleParam = slug[0];
-        
-        if (/^\d+$/.test(singleParam)) {
-          if (singleParam.length > 10) {
-            // Likely parcel ID
-            url = `/api/properties/parcel/${singleParam}`;
-          } else {
-            // Likely property ID
-            url = `/api/properties/${singleParam}`;
-          }
-        } else {
-          // Could be city name for city overview
-          router.push(`/properties?city=${singleParam}`);
-          return;
-        }
-      } else if (slug.length === 2) {
-        // Two slugs - city and address
-        const [citySlug, addressSlug] = slug;
+      // Check if we have city and address params (for /properties/:city/:address route)
+      if (params.city && params.address) {
+        // Two params - city and address - use search API
+        const citySlug = params.city;
+        const addressSlug = params.address;
+        console.log('Using city/address route:', citySlug, addressSlug);
         
         // Convert slugs back to readable format
         const city = citySlug
@@ -81,13 +67,36 @@ export default function PropertyPage() {
           .replace(/-/g, ' ')
           .replace(/\b\w/g, l => l.toUpperCase());
         
-        url = `/api/properties/address/${encodeURIComponent(addressSearch)}?city=${encodeURIComponent(city)}`;
+        // Use the working search endpoint
+        url = `http://localhost:8002/api/properties/search?address=${encodeURIComponent(addressSearch)}&city=${encodeURIComponent(city)}&limit=1`;
+        console.log('API URL:', url);
+      } else if (params.slug) {
+        // Single param - could be property ID or parcel ID
+        const singleParam = params.slug;
+        
+        if (/^\d+$/.test(singleParam)) {
+          if (singleParam.length > 10) {
+            // Likely parcel ID - search by parcel ID
+            url = `http://localhost:8002/api/properties/search?q=${singleParam}&limit=1`;
+          } else {
+            // Likely property ID - search by ID (will need to handle differently)
+            // For now, treat as a general search
+            url = `http://localhost:8002/api/properties/search?q=${singleParam}&limit=1`;
+          }
+        } else {
+          // Could be city name for city overview
+          navigate(`/properties?city=${singleParam}`);
+          return;
+        }
       } else {
         setError('Invalid property URL format');
         return;
       }
       
+      console.log('Fetching from URL:', url);
       const response = await fetch(url);
+      console.log('Response status:', response.status);
+      
       if (!response.ok) {
         if (response.status === 404) {
           setError('Property not found');
@@ -98,11 +107,51 @@ export default function PropertyPage() {
       }
       
       const data = await response.json();
-      setProperty(data);
+      console.log('Response data:', data);
       
+      // Handle different response formats based on URL type
+      let propertyData;
+      if (url.includes('/search?')) {
+        // Search endpoint returns {properties: [...], total, ...}
+        if (data.properties && data.properties.length > 0) {
+          propertyData = data.properties[0]; // Take the first (most relevant) result
+
+          // Transform data structure to match PropertyProfile expectations
+          const transformedData = {
+            id: propertyData.id,
+            parcel_id: propertyData.parcel_id,
+            phy_addr1: propertyData.property_address || propertyData.phy_addr1,
+            phy_city: propertyData.property_city || propertyData.phy_city,
+            phy_zipcd: propertyData.property_zip || propertyData.phy_zipcd,
+            phy_state: 'FL',
+            own_name: propertyData.owner_name || propertyData.own_name,
+            own_addr1: propertyData.owner_address || propertyData.own_addr1,
+            dor_uc: propertyData.property_use_code || propertyData.dor_uc,
+            jv: propertyData.just_value || propertyData.jv,
+            tv_sd: propertyData.taxable_value || propertyData.tv_sd,
+            lnd_val: propertyData.land_value || propertyData.lnd_val,
+            tot_lvg_area: propertyData.living_area || propertyData.tot_lvg_area,
+            lnd_sqfoot: propertyData.total_sq_ft || propertyData.lnd_sqfoot,
+            act_yr_blt: propertyData.year_built || propertyData.act_yr_blt,
+            bedroom_cnt: propertyData.bedrooms || propertyData.bedroom_cnt,
+            bathroom_cnt: propertyData.bathrooms || propertyData.bathroom_cnt
+          };
+
+          setProperty(transformedData);
+          propertyData = transformedData; // For browser title update
+        } else {
+          setError('Property not found');
+          return;
+        }
+      } else {
+        // Direct property endpoints return the property object directly
+        propertyData = data;
+        setProperty(data);
+      }
+
       // Update browser title with address
-      if (data.phy_addr1 && data.phy_city) {
-        document.title = `${data.phy_addr1}, ${data.phy_city} - ConcordBroker`;
+      if (propertyData.phy_addr1 && propertyData.phy_city) {
+        document.title = `${propertyData.phy_addr1}, ${propertyData.phy_city} - ConcordBroker`;
       }
       
     } catch (err) {
@@ -115,7 +164,7 @@ export default function PropertyPage() {
 
   useEffect(() => {
     fetchProperty();
-  }, [slug]);
+  }, [params.city, params.address, params.slug]);
 
   // Generate breadcrumb
   const generateBreadcrumb = () => {
@@ -123,14 +172,14 @@ export default function PropertyPage() {
     
     return (
       <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-4">
-        <Link href="/properties" className="hover:text-blue-600">
+        <Link to="/properties" className="hover:text-blue-600">
           Properties
         </Link>
         <span>/</span>
         {property.phy_city && (
           <>
             <Link 
-              href={`/properties?city=${encodeURIComponent(property.phy_city)}`}
+              to={`/properties?city=${encodeURIComponent(property.phy_city)}`}
               className="hover:text-blue-600"
             >
               {property.phy_city}
@@ -164,7 +213,7 @@ export default function PropertyPage() {
       <div className="min-h-screen bg-gray-50">
         <div className="max-w-4xl mx-auto px-4 py-8">
           <div className="mb-6">
-            <Button variant="ghost" onClick={() => router.back()}>
+            <Button variant="ghost" onClick={() => navigate(-1)}>
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Search
             </Button>
@@ -180,14 +229,14 @@ export default function PropertyPage() {
               
               <div className="space-y-3">
                 <div className="text-sm text-gray-500">
-                  <strong>Searching for:</strong> {Array.isArray(slug) ? slug.join(' / ') : slug}
+                  <strong>Searching for:</strong> {params.city && params.address ? `${params.city} / ${params.address}` : params.slug}
                 </div>
                 
                 <div className="flex justify-center space-x-3">
-                  <Button variant="outline" onClick={() => router.push('/properties')}>
+                  <Button variant="outline" onClick={() => navigate('/properties')}>
                     Browse All Properties
                   </Button>
-                  <Button variant="outline" onClick={() => router.back()}>
+                  <Button variant="outline" onClick={() => navigate(-1)}>
                     Go Back
                   </Button>
                 </div>
@@ -219,7 +268,7 @@ export default function PropertyPage() {
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                <Button variant="ghost" onClick={() => router.back()}>
+                <Button variant="ghost" onClick={() => navigate(-1)}>
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Back
                 </Button>
@@ -244,68 +293,3 @@ export default function PropertyPage() {
   );
 }
 
-// Generate static paths for popular properties (optional optimization)
-export async function getStaticPaths() {
-  return {
-    paths: [],
-    fallback: 'blocking'
-  };
-}
-
-// This could be used for static generation if needed
-export async function getStaticProps({ params }: { params: { slug: string[] } }) {
-  // For now, return props to enable dynamic rendering
-  return {
-    props: {},
-    // Revalidate every hour
-    revalidate: 3600
-  };
-}
-
-// Helper function to generate SEO-friendly slugs
-export function createPropertySlug(address: string, city: string): string {
-  const addressSlug = address
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/^-|-$/g, '');
-  
-  const citySlug = city
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, '')
-    .replace(/\s+/g, '-');
-  
-  return `${citySlug}/${addressSlug}`;
-}
-
-// Helper to parse slug back to search terms
-export function parsePropertySlug(slug: string[]): {
-  city?: string;
-  address?: string;
-  type: 'address' | 'parcel' | 'id';
-} {
-  if (slug.length === 1) {
-    const param = slug[0];
-    if (/^\d{10,}$/.test(param)) {
-      return { type: 'parcel' };
-    }
-    return { type: 'id' };
-  }
-  
-  if (slug.length === 2) {
-    const [citySlug, addressSlug] = slug;
-    
-    const city = citySlug
-      .split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-    
-    const address = addressSlug
-      .replace(/-/g, ' ')
-      .replace(/\b\w/g, l => l.toUpperCase());
-    
-    return { city, address, type: 'address' };
-  }
-  
-  return { type: 'address' };
-}

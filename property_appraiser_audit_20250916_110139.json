@@ -1,0 +1,109 @@
+{
+  "audit_timestamp": "2025-09-16T11:01:37.410657",
+  "database_url": "https://mogulpssjdlxjvstqfee.supabase.co",
+  "tables": {
+    "florida_parcels": {
+      "exists": false,
+      "error": "{'message': 'relation \"public.florida_parcels\" does not exist', 'code': '42P01', 'hint': None, 'details': None}"
+    },
+    "nal_assessments": {
+      "exists": false,
+      "error": "{'message': 'relation \"public.nal_assessments\" does not exist', 'code': '42P01', 'hint': None, 'details': None}"
+    },
+    "nap_characteristics": {
+      "exists": false,
+      "error": "{'message': 'relation \"public.nap_characteristics\" does not exist', 'code': '42P01', 'hint': None, 'details': None}"
+    },
+    "nav_values": {
+      "exists": false,
+      "error": "{'message': 'relation \"public.nav_values\" does not exist', 'code': '42P01', 'hint': None, 'details': None}"
+    },
+    "sdf_sales": {
+      "exists": false,
+      "error": "{'message': 'relation \"public.sdf_sales\" does not exist', 'code': '42P01', 'hint': None, 'details': None}"
+    },
+    "properties": {
+      "exists": false,
+      "error": "{'message': 'relation \"public.properties\" does not exist', 'code': '42P01', 'hint': None, 'details': None}"
+    },
+    "property_values": {
+      "exists": false,
+      "error": "{'message': 'relation \"public.property_values\" does not exist', 'code': '42P01', 'hint': None, 'details': None}"
+    },
+    "sales_history": {
+      "exists": false,
+      "error": "{'message': 'relation \"public.sales_history\" does not exist', 'code': '42P01', 'hint': None, 'details': None}"
+    },
+    "tax_certificates": {
+      "exists": false,
+      "error": "{'message': 'relation \"public.tax_certificates\" does not exist', 'code': '42P01', 'hint': None, 'details': None}"
+    },
+    "tax_deed_sales": {
+      "exists": false,
+      "error": "{'message': 'relation \"public.tax_deed_sales\" does not exist', 'code': '42P01', 'hint': None, 'details': None}"
+    },
+    "florida_business_entities": {
+      "exists": false,
+      "error": "{'message': 'relation \"public.florida_business_entities\" does not exist', 'code': '42P01', 'hint': None, 'details': None}"
+    },
+    "sunbiz_corporations": {
+      "exists": false,
+      "error": "{'message': 'relation \"public.sunbiz_corporations\" does not exist', 'code': '42P01', 'hint': None, 'details': None}"
+    },
+    "building_permits": {
+      "exists": false,
+      "error": "{'message': 'relation \"public.building_permits\" does not exist', 'code': '42P01', 'hint': None, 'details': None}"
+    }
+  },
+  "property_appraiser_tables": {},
+  "data_routing": {
+    "Property Appraiser to Properties": {
+      "source": "florida_parcels",
+      "target": "properties",
+      "link_field": "parcel_id",
+      "source_exists": false,
+      "target_exists": false,
+      "description": "Main property data flow",
+      "status": "broken"
+    },
+    "Sales History to Properties": {
+      "source": "sdf_sales",
+      "target": "sales_history",
+      "link_field": "parcel_id",
+      "source_exists": false,
+      "target_exists": false,
+      "description": "Sales transaction data",
+      "status": "broken"
+    },
+    "Tax Deed to Properties": {
+      "source": "tax_deed_sales",
+      "target": "properties",
+      "link_field": "parcel_id",
+      "source_exists": false,
+      "target_exists": false,
+      "description": "Tax deed auction data",
+      "status": "broken"
+    },
+    "Business Entities to Properties": {
+      "source": "florida_business_entities",
+      "target": "properties",
+      "link_field": "owner_name",
+      "source_exists": false,
+      "target_exists": false,
+      "description": "Owner entity matching",
+      "status": "broken"
+    }
+  },
+  "issues_found": [
+    "florida_parcels audit error: {'message': 'relation \"public.florida_parcels\" does not exist', 'code': '42P01', 'hint': None, 'details': None}",
+    "Broken routing: Property Appraiser to Properties",
+    "Broken routing: Sales History to Properties",
+    "Broken routing: Tax Deed to Properties",
+    "Broken routing: Business Entities to Properties"
+  ],
+  "recommendations": [
+    "Low record count (0). Expected ~9.7M properties for all Florida counties.",
+    "Critical: florida_parcels table missing. This is the main Property Appraiser table.",
+    "Address 5 issues found during audit."
+  ]
+}
