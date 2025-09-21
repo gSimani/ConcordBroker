@@ -33,7 +33,8 @@ COPY --from=builder /root/.local /home/appuser/.local
 ENV PATH=/home/appuser/.local/bin:$PATH
 
 # Copy application code
-COPY --chown=appuser:appuser scripts/ ./scripts/
+COPY --chown=appuser:appuser apps/ ./apps/
+COPY --chown=appuser:appuser cache_config.py ./
 COPY --chown=appuser:appuser *.json ./
 COPY --chown=appuser:appuser *.py ./
 
@@ -43,16 +44,17 @@ RUN mkdir -p logs && chown appuser:appuser logs
 # Switch to non-root user
 USER appuser
 
-# Health check for main API gateway
+# Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
-    CMD curl -f http://localhost:8005/api/health || exit 1
+    CMD curl -f http://localhost:$PORT/health || exit 1
 
 # Environment variables
 ENV PYTHONUNBUFFERED=1
 ENV ENVIRONMENT=production
+ENV PATH=/home/appuser/.local/bin:$PATH
 
-# Expose ports for all services
-EXPOSE 8004 8005 8006
+# Expose port
+EXPOSE 8000
 
-# Start all services via service manager
-CMD ["python", "scripts/start_all_services.py"]
+# Start the FastAPI app with uvicorn
+CMD ["python", "-m", "uvicorn", "apps.api.property_live_api:app", "--host", "0.0.0.0", "--port", "8000"]
