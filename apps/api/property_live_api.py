@@ -18,16 +18,22 @@ from functools import lru_cache
 import time
 import threading
 
+# Configure logging first
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 # Add parent directories to path for cache imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
 # Import Redis cache configuration
 try:
-    from cache_config import cache_decorator, check_cache_health, invalidate_cache, REDIS_AVAILABLE
+    from cache_config import cache_decorator, check_cache_health, invalidate_cache, REDIS_AVAILABLE, redis_client
     CACHE_ENABLED = True
     logger.info(f"Cache enabled: Redis available = {REDIS_AVAILABLE}")
 except ImportError as e:
     CACHE_ENABLED = False
+    REDIS_AVAILABLE = False
+    redis_client = None
     logger.warning(f"Cache not available: {e}")
     # Create dummy decorator if cache not available
     def cache_decorator(prefix="", ttl=0):
@@ -35,7 +41,9 @@ except ImportError as e:
             return func
         return decorator
     def check_cache_health():
-        return {"status": "disabled"}
+        return {"status": "disabled", "connected": False}
+    def invalidate_cache(pattern):
+        pass
 
 # Load environment variables from the correct .env file
 from pathlib import Path
@@ -43,10 +51,6 @@ from pathlib import Path
 # Load from project root .env file
 env_path = Path(__file__).parent.parent.parent / '.env'
 load_dotenv(env_path)
-
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -337,6 +341,46 @@ async def root():
         health_data["cache"] = check_cache_health()
 
     return health_data
+
+@app.get("/api/cache/status")
+@app.get("/cache/status")
+async def cache_status():
+    """Get detailed cache status"""
+    if not CACHE_ENABLED:
+        return {
+            "connected": False,
+            "status": "disabled",
+            "message": "Cache not configured"
+        }
+
+    try:
+        if REDIS_AVAILABLE and redis_client:
+            # Test Redis connection
+            redis_client.ping()
+
+            # Get Redis info
+            info = redis_client.info()
+
+            return {
+                "connected": True,
+                "status": "healthy",
+                "host": os.environ.get("REDIS_HOST", "unknown"),
+                "memory_usage": info.get("used_memory_human", "N/A"),
+                "total_keys": redis_client.dbsize(),
+                "hit_rate": f"{info.get('keyspace_hits', 0) / max(info.get('keyspace_hits', 0) + info.get('keyspace_misses', 1), 1) * 100:.1f}%"
+            }
+    except Exception as e:
+        logger.error(f"Redis connection error: {e}")
+        return {
+            "connected": False,
+            "status": "error",
+            "message": str(e)
+        }
+
+    return {
+        "connected": False,
+        "status": "unknown"
+    }
 
 @app.get("/test-db")
 async def test_db():
