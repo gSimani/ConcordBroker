@@ -1,6 +1,8 @@
 import React, { memo, useCallback, useMemo } from 'react';
 import { FixedSizeList as List } from 'react-window';
-import InfiniteLoader from 'react-window-infinite-loader';
+// @ts-ignore - ESM import issue
+import * as InfiniteLoaderModule from 'react-window-infinite-loader';
+const InfiniteLoader = InfiniteLoaderModule.default || InfiniteLoaderModule;
 import { OptimizedMiniPropertyCard } from './OptimizedMiniPropertyCard';
 
 interface PropertyData {

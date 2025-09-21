@@ -60,7 +60,7 @@ const AISearchPage = lazy(() => import('@/pages/AISearch'))
 
 // Property Pages - lazy loaded
 const PropertySearch = lazy(() => import('@/pages/properties/PropertySearch'))
-const OptimizedPropertySearch = lazy(() => import('@/pages/properties/OptimizedPropertySearch'))
+// const OptimizedPropertySearch = lazy(() => import('@/pages/properties/OptimizedPropertySearch'))
 const FastPropertySearch = lazy(() => import('@/components/FastPropertySearch'))
 const PropertyDetailPage = lazy(() => import('@/pages/properties/[...slug]'))
 const EnhancedPropertyProfile = lazy(() => import('@/pages/property/EnhancedPropertyProfile'))
