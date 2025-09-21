@@ -6,31 +6,59 @@ Implements caching layer to reduce database load by 70-90%
 import os
 import json
 import redis
+import time
 from functools import wraps, lru_cache
 from typing import Any, Optional
 import hashlib
 
-# Redis client initialization
+# Redis client initialization with permanent connection and optimized settings
 try:
     REDIS_URL = os.environ.get("REDIS_URL")
     if REDIS_URL:
+        # Create connection pool for permanent connections
         redis_client = redis.Redis.from_url(
             REDIS_URL,
             decode_responses=True,
             socket_keepalive=True,
-            socket_keepalive_options={1: 1, 2: 3, 3: 5}
+            socket_keepalive_options={
+                1: 1,  # TCP_KEEPIDLE
+                2: 3,  # TCP_KEEPINTVL
+                3: 5,  # TCP_KEEPCNT
+            },
+            ssl_cert_reqs=None,  # For Redis Enterprise Cloud SSL
+            max_connections=int(os.environ.get("REDIS_MAX_CONNECTIONS", "20")),
+            retry_on_timeout=True,
+            retry_on_error=[redis.ConnectionError, redis.TimeoutError],
+            health_check_interval=int(os.environ.get("REDIS_HEALTH_CHECK_INTERVAL", "30")),
+            socket_connect_timeout=10,
+            socket_timeout=5
         )
-        redis_client.ping()
-        REDIS_AVAILABLE = True
-        print("SUCCESS: Redis cache connected")
+
+        # Test connection with retry
+        for attempt in range(3):
+            try:
+                redis_client.ping()
+                REDIS_AVAILABLE = True
+                print("SUCCESS: Redis Enterprise Cloud connected with permanent memory")
+                print(f"  Host: {os.environ.get('REDIS_HOST', 'unknown')}")
+                print(f"  Port: {os.environ.get('REDIS_PORT', 'unknown')}")
+                print(f"  Max Connections: {os.environ.get('REDIS_MAX_CONNECTIONS', '20')}")
+                break
+            except Exception as e:
+                if attempt == 2:  # Last attempt
+                    raise e
+                time.sleep(1)
+
     else:
         redis_client = None
         REDIS_AVAILABLE = False
         print("INFO: Redis not configured, using in-memory cache")
+
 except Exception as e:
     redis_client = None
     REDIS_AVAILABLE = False
-    print(f"WARNING: Redis connection failed, using in-memory cache: {e}")
+    print(f"WARNING: Redis connection failed, using in-memory cache: {str(e)[:100]}")
+    print("Check REDIS_URL in environment variables")
 
 # In-memory fallback cache
 memory_cache = {}
