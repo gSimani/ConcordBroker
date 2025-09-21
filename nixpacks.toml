@@ -1,14 +1,16 @@
 [phases.setup]
-nixPkgs = ["python310", "python310Packages.pip"]
+nixPkgs = ["python311", "python311Packages.pip"]
 
 [phases.install]
 cmds = [
   "pip install --upgrade pip",
-  "pip install -r requirements.txt"
+  "pip install --no-cache-dir -r requirements.txt"
 ]
 
 [start]
-cmd = "python main.py"
+cmd = "gunicorn main:app --workers 2 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT"
 
 [variables]
-PYTHON_VERSION = "3.10"
+PYTHON_VERSION = "3.11"
+PIP_NO_CACHE_DIR = "1"
+PYTHONUNBUFFERED = "1"

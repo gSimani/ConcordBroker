@@ -1,6 +1,6 @@
 """
 Main entry point for ConcordBroker API - Railway Deployment
-This file serves as the entry point for Railway deployment
+This file serves as the entry point for Railway deployment with optimizations
 """
 
 import os
@@ -8,6 +8,15 @@ import sys
 
 # Add the apps/api directory to Python path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'apps', 'api'))
+
+# Import optimization modules if available
+try:
+    from cache_config import cache_decorator, check_cache_health
+    from security_config import setup_security, add_api_routes
+    OPTIMIZATIONS_AVAILABLE = True
+except ImportError:
+    OPTIMIZATIONS_AVAILABLE = False
+    print("INFO: Running without advanced optimizations")
 
 # Import and run the actual API
 try:
@@ -53,21 +62,40 @@ except ImportError:
 
         @app.get("/health")
         def health_check():
-            return {
+            health_status = {
                 "status": "healthy",
                 "service": "ConcordBroker API",
                 "deployment": "Railway"
             }
+
+            # Add cache health if available
+            if OPTIMIZATIONS_AVAILABLE:
+                try:
+                    health_status["cache"] = check_cache_health()
+                except:
+                    pass
+
+            return health_status
 
         @app.get("/api")
         def api_info():
             return {
                 "name": "ConcordBroker API",
                 "version": "1.0.0",
-                "description": "Property search and autocomplete API"
+                "description": "Property search and autocomplete API",
+                "optimizations": OPTIMIZATIONS_AVAILABLE
             }
 
         print("WARNING: Using minimal fallback API")
+
+# Apply security optimizations if available
+if OPTIMIZATIONS_AVAILABLE:
+    try:
+        app = setup_security(app)
+        app = add_api_routes(app)
+        print("SUCCESS: Security and monitoring configured")
+    except Exception as e:
+        print(f"WARNING: Could not apply all optimizations: {e}")
 
 # Run the server if this file is executed directly
 if __name__ == "__main__":
@@ -77,11 +105,19 @@ if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))
 
     print(f"STARTING: ConcordBroker API on port {port}")
+    print(f"OPTIMIZATIONS: {'Enabled' if OPTIMIZATIONS_AVAILABLE else 'Disabled'}")
 
-    # Run the FastAPI app
-    uvicorn.run(
-        app,
-        host="0.0.0.0",
-        port=port,
-        log_level="info"
-    )
+    # Check if we should use Gunicorn (production) or Uvicorn (development)
+    if os.environ.get("RAILWAY_ENVIRONMENT") == "production":
+        # In production, Gunicorn will handle this via railway.json
+        print("INFO: Production mode - Gunicorn will handle server startup")
+    else:
+        # Development mode - run with Uvicorn directly
+        uvicorn.run(
+            app,
+            host="0.0.0.0",
+            port=port,
+            log_level="info",
+            access_log=True,
+            reload=False  # Set to True for development
+        )

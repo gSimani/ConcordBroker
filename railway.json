@@ -2,14 +2,26 @@
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "pip install -r requirements.txt"
+    "buildCommand": "pip install --upgrade pip && pip install -r requirements.txt"
   },
   "deploy": {
     "numReplicas": 1,
-    "startCommand": "python main.py",
+    "startCommand": "gunicorn main:app --workers 2 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10,
     "healthcheckPath": "/health",
-    "healthcheckTimeout": 30
+    "healthcheckTimeout": 15,
+    "region": "us-east4",
+    "memoryGB": 0.5,
+    "cpuCores": 0.5
+  },
+  "environments": {
+    "production": {
+      "deploy": {
+        "numReplicas": 2,
+        "memoryGB": 1,
+        "cpuCores": 1
+      }
+    }
   }
 }
