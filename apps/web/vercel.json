@@ -1,8 +1,20 @@
 {
   "framework": "vite",
+  "functions": {
+    "api/*.ts": {
+      "maxDuration": 10
+    },
+    "pages/api/**/*.ts": {
+      "maxDuration": 10
+    }
+  },
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    },
+    {
+      "source": "/((?!api/).*)",
       "destination": "/index.html"
     }
   ]

@@ -1,7 +1,11 @@
 import axios from 'axios'
 import type { AuthResponse, PropertyData, PropertySearchParams } from '@/types/api'
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'  // Property API server
+const API_BASE_URL = import.meta.env.VITE_API_URL || (
+  typeof window !== 'undefined' && window.location.hostname !== 'localhost'
+    ? '' // Use relative URLs in production (same origin)
+    : 'http://localhost:8000'  // Use localhost API for development
+)
 
 console.log('API Base URL:', API_BASE_URL);
 
