@@ -1,6 +1,6 @@
 """
-Property Live Data API for Frontend
-Serves real property data from Supabase to localhost frontend
+Property Live Data API for Frontend with Redis Caching
+Serves real property data from Supabase with Redis caching for Railway deployment
 """
 
 from fastapi import FastAPI, Query, HTTPException
@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Dict, Optional, Any
 from datetime import datetime, timedelta
 import os
+import sys
 import logging
 import signal
 from dotenv import load_dotenv
@@ -16,6 +17,25 @@ import uvicorn
 from functools import lru_cache
 import time
 import threading
+
+# Add parent directories to path for cache imports
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+
+# Import Redis cache configuration
+try:
+    from cache_config import cache_decorator, check_cache_health, invalidate_cache, REDIS_AVAILABLE
+    CACHE_ENABLED = True
+    logger.info(f"Cache enabled: Redis available = {REDIS_AVAILABLE}")
+except ImportError as e:
+    CACHE_ENABLED = False
+    logger.warning(f"Cache not available: {e}")
+    # Create dummy decorator if cache not available
+    def cache_decorator(prefix="", ttl=0):
+        def decorator(func):
+            return func
+        return decorator
+    def check_cache_health():
+        return {"status": "disabled"}
 
 # Load environment variables from the correct .env file
 from pathlib import Path
@@ -302,13 +322,21 @@ preload_common_prefixes()
 
 @app.get("/")
 @app.get("/api/fast/health")  # Add health check for frontend
+@app.get("/health")  # Standard health endpoint for Railway
 async def root():
-    """Health check endpoint"""
-    return {
+    """Health check endpoint with cache status"""
+    health_data = {
         "status": "healthy",
         "service": "ConcordBroker Live Property API",
-        "timestamp": datetime.now().isoformat()
+        "timestamp": datetime.now().isoformat(),
+        "cache_enabled": CACHE_ENABLED
     }
+
+    # Add cache health if available
+    if CACHE_ENABLED:
+        health_data["cache"] = check_cache_health()
+
+    return health_data
 
 @app.get("/test-db")
 async def test_db():
@@ -330,6 +358,7 @@ async def test_db():
         }
 
 @app.get("/api/properties/search-fast")
+@cache_decorator(prefix="search_fast", ttl=1800)  # 30 min cache
 async def search_properties_fast(
     # Basic search only
     q: Optional[str] = Query(None),
@@ -487,6 +516,7 @@ async def search_properties_fast(
 
 @app.get("/api/properties/search")
 @app.get("/api/fast/search")  # Add alias for frontend compatibility
+@cache_decorator(prefix="property_search", ttl=1800)  # 30 min cache
 async def search_properties(
     # Search parameters
     q: Optional[str] = Query(None, description="Search query"),
@@ -1360,6 +1390,7 @@ async def get_property_details(property_id: str) -> Dict[str, Any]:
 
 @app.get("/api/autocomplete/addresses")
 @app.get("/api/fast/autocomplete/addresses")
+@cache_decorator(prefix="autocomplete_addr", ttl=7200)  # 2 hour cache
 async def autocomplete_addresses(
     q: str = Query(..., min_length=1, description="Address search query"),
     limit: int = Query(20, ge=1, le=50, description="Maximum number of suggestions")
@@ -1642,6 +1673,7 @@ async def autocomplete_addresses(
 
 @app.get("/api/autocomplete/owners")
 @app.get("/api/fast/autocomplete/owners")
+@cache_decorator(prefix="autocomplete_owner", ttl=7200)  # 2 hour cache
 async def autocomplete_owners(
     q: str = Query(..., min_length=2, description="Owner name search query"),
     limit: int = Query(10, ge=1, le=50, description="Maximum number of suggestions")
@@ -1772,6 +1804,7 @@ async def autocomplete_owners(
 
 @app.get("/api/autocomplete/cities")
 @app.get("/api/fast/autocomplete/cities")
+@cache_decorator(prefix="autocomplete_city", ttl=7200)  # 2 hour cache
 async def autocomplete_cities(
     q: str = Query(..., min_length=1, description="City name search query"),
     limit: int = Query(10, ge=1, le=50, description="Maximum number of city suggestions")
