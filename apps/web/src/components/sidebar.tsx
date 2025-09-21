@@ -147,7 +147,7 @@ export default function Sidebar({ collapsed: externalCollapsed, onCollapse, clas
     expanded: {
       width: 280,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         damping: 25,
         stiffness: 200,
       }
@@ -155,7 +155,7 @@ export default function Sidebar({ collapsed: externalCollapsed, onCollapse, clas
     collapsed: {
       width: 72,
       transition: {
-        type: "spring", 
+        type: "spring" as const,
         damping: 25,
         stiffness: 200,
       }

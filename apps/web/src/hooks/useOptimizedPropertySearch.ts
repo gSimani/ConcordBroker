@@ -18,11 +18,13 @@ interface PropertySearchResult {
   loading: boolean;
   error: string | null;
   cached: boolean;
+  responseTime?: number;
 }
 
-// Virtual scrolling configuration
+// Optimized configuration for fast loading
 const VIRTUAL_SCROLL_BUFFER = 5;
-const ITEMS_PER_PAGE = 500;
+const ITEMS_PER_PAGE = 20;  // Load less initially for faster response
+const AI_OPTIMIZED_API_URL = 'http://localhost:8000/api/properties/search';  // Ultra-fast optimized API with caching
 
 export function useOptimizedPropertySearch() {
   const [searchOptions, setSearchOptions] = useState<PropertySearchOptions>({
@@ -81,7 +83,7 @@ export function useOptimizedPropertySearch() {
 
       // Use correct API endpoint
       const response = await fetch(
-        `http://localhost:8002/api/properties/search?${params.toString()}`,
+        `${AI_OPTIMIZED_API_URL}?${params.toString()}`,
         {
           signal: abortControllerRef.current.signal,
           headers: {
@@ -108,16 +110,21 @@ export function useOptimizedPropertySearch() {
         cacheRef.current.delete(firstKey);
       }
 
+      // Handle original API response format
+      const properties = data.data || [];
+      const total = data.total || data.pagination?.total || 0;
+
       setResult({
-        properties: data.properties || [],
-        total: data.total || 0,
+        properties: properties,
+        total: total,
         loading: false,
         error: null,
-        cached: data.cached || false
+        cached: data.cached || false,
+        responseTime: data.response_time_ms
       });
 
       // Update visible properties for virtual scrolling
-      setVisibleProperties(data.properties.slice(0, Math.min(data.properties.length, ITEMS_PER_PAGE)));
+      setVisibleProperties(properties.slice(0, Math.min(properties.length, ITEMS_PER_PAGE)));
 
     } catch (error: any) {
       if (error.name !== 'AbortError') {

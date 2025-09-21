@@ -7,8 +7,8 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'your-anon-key
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 // MCP Server API for fallback and enhanced functionality
-const MCP_BASE_URL = 'http://localhost:3001'
-const MCP_API_KEY = 'concordbroker-mcp-key'
+const MCP_BASE_URL = import.meta.env.VITE_MCP_SERVER_URL || 'http://localhost:3005'
+const MCP_API_KEY = import.meta.env.VITE_MCP_API_KEY || 'concordbroker-mcp-key-claude'
 
 export const mcpApi = {
   async get(endpoint: string) {

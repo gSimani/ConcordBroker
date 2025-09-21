@@ -99,18 +99,22 @@ export function TaxesTab({ data }: TaxesTabProps) {
       if (!bcpaData?.parcel_id) return
       
       try {
-        // Fetch tax certificates and Sunbiz entities in parallel
+        // Fetch tax certificates and Sunbiz entities in parallel from real tax data API
         const [certsResponse, sunbizResponse] = await Promise.all([
-          fetch(`http://localhost:8000/api/properties/${bcpaData.parcel_id}/tax-certificates`),
-          fetch(`http://localhost:8000/api/properties/${bcpaData.parcel_id}/sunbiz-entities`)
+          fetch(`http://localhost:8002/api/properties/${bcpaData.parcel_id}/tax-certificates`),
+          fetch(`http://localhost:8002/api/properties/${bcpaData.parcel_id}/sunbiz-entities`)
         ])
         
         // Process tax certificates
         if (certsResponse.ok) {
           const apiData = await certsResponse.json()
-          
-          if (apiData.certificates && apiData.certificates.length > 0) {
-            const formattedCertificates = apiData.certificates.map((cert: any) => ({
+
+          // Handle both direct certificates array and data.certificates structure
+          const certificates = apiData.data?.certificates || apiData.certificates || []
+          const taxAssessment = apiData.data?.tax_assessment || null
+
+          if (certificates && certificates.length > 0) {
+            const formattedCertificates = certificates.map((cert: any) => ({
               real_estate_account: cert.real_estate_account || cert.parcel_id || bcpaData.parcel_id,
               certificate_number: cert.certificate_number || `${cert.tax_year}-${cert.parcel_id?.slice(-5) || '00001'}`,
               buyer: cert.buyer_name || cert.certificate_buyer || cert.buyer || "Unknown Buyer",
@@ -134,33 +138,40 @@ export function TaxesTab({ data }: TaxesTabProps) {
         // Process live Sunbiz entities
         if (sunbizResponse.ok) {
           const sunbizData = await sunbizResponse.json()
-          
-          if (sunbizData.entities && sunbizData.entities.length > 0) {
-            console.log(`Found ${sunbizData.entities.length} live Sunbiz entities for ${sunbizData.property_owner}`)
+
+          // Handle both direct entities array and data.entities structure
+          const entities = sunbizData.data?.entities || sunbizData.entities || []
+          const propertyOwners = sunbizData.data?.property_owners || sunbizData.property_owners || []
+
+          if (entities && entities.length > 0) {
+            console.log(`Found ${entities.length} live Sunbiz entities for property owners: ${propertyOwners.join(', ')}`)
             
             // Update certificates with live Sunbiz entity data
             setRealTaxCertificates(prevCerts => 
               prevCerts.map(cert => {
                 // Find matching Sunbiz entity for this certificate buyer
-                const matchingEntity = sunbizData.entities.find((entity: any) => 
-                  entity.match_confidence > 0.7 && 
-                  (cert.buyer.includes(entity.entity_name) || entity.entity_name.includes(cert.buyer))
+                const matchingEntity = entities.find((entity: any) =>
+                  entity.match_confidence && entity.match_confidence > 0.7 &&
+                  (cert.buyer.includes(entity.name || entity.entity_name) || (entity.name || entity.entity_name || '').includes(cert.buyer))
                 )
                 
                 if (matchingEntity) {
                   return {
                     ...cert,
                     buyer_entity: {
-                      entity_name: matchingEntity.entity_name,
-                      document_number: matchingEntity.document_number,
+                      entity_name: matchingEntity.name || matchingEntity.entity_name,
+                      document_number: matchingEntity.document_number || matchingEntity.id,
                       entity_type: matchingEntity.entity_type,
                       status: matchingEntity.status,
                       filing_date: matchingEntity.filing_date,
-                      principal_address: matchingEntity.principal_address,
-                      registered_agent: matchingEntity.registered_agent,
+                      principal_address: matchingEntity.address || matchingEntity.principal_address,
+                      registered_agent: matchingEntity.agent_name || matchingEntity.registered_agent,
+                      agent_address: matchingEntity.agent_address,
                       officers: matchingEntity.officers || [],
                       match_confidence: matchingEntity.match_confidence,
                       search_term_used: matchingEntity.search_term_used,
+                      state: matchingEntity.state,
+                      zip_code: matchingEntity.zip_code,
                       is_live_data: true
                     }
                   }
@@ -468,14 +479,23 @@ export function TaxesTab({ data }: TaxesTabProps) {
     });
   };
 
-  // Calculate tax values from available data
-  const marketValue = bcpaData?.market_value ? parseInt(bcpaData.market_value) : 0;
-  const assessedValue = bcpaData?.assessed_value ? parseInt(bcpaData.assessed_value) : marketValue;
-  const taxableValue = bcpaData?.taxable_value ? parseInt(bcpaData.taxable_value) : assessedValue;
-  
-  // Estimate annual tax (typical Florida rate is around 1-2% of taxable value)
+  // Helper function to get tax values with fallback from multiple sources
+  const getTaxValue = (fieldName: string, fallback = 0) => {
+    // Check both API format (camelCase) and database format (snake_case)
+    const apiField = fieldName.replace(/_([a-z])/g, (match, letter) => letter.toUpperCase());
+    const value = bcpaData?.[fieldName] || bcpaData?.[apiField] || fallback;
+    return typeof value === 'string' ? parseInt(value) : value;
+  };
+
+  // Calculate tax values from available data with improved field mapping
+  const marketValue = getTaxValue('market_value') || getTaxValue('just_value');
+  const assessedValue = getTaxValue('assessed_value') || marketValue;
+  const taxableValue = getTaxValue('taxable_value') || assessedValue;
+
+  // Get estimated taxes from API analysis section or calculate if not available
+  const apiEstimatedTaxes = (data as any)?.analysis?.estimatedTaxes;
   const estimatedTaxRate = 0.015; // 1.5% typical rate
-  const annualTaxAmount = bcpaData?.tax_amount ? parseFloat(bcpaData.tax_amount) : (taxableValue * estimatedTaxRate);
+  const annualTaxAmount = apiEstimatedTaxes || getTaxValue('tax_amount') || (taxableValue * estimatedTaxRate);
   
   // Calculate total amount due based on certificates
   const totalCertificateAmount = taxCertificates.reduce((sum: number, cert: TaxCertificate) => 
@@ -525,20 +545,24 @@ export function TaxesTab({ data }: TaxesTabProps) {
               </p>
             </motion.div>
             
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
               className="p-4 rounded-lg bg-gray-light border border-gray-elegant hover:shadow-lg transition-all"
             >
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs uppercase tracking-wider text-gray-elegant">Annual Tax Amount</span>
+                <span className="text-xs uppercase tracking-wider text-gray-elegant">
+                  {apiEstimatedTaxes ? 'Estimated Annual Tax' : 'Annual Tax Amount'}
+                </span>
                 <Calculator className="w-4 h-4 text-navy" />
               </div>
               <p className="text-3xl font-light text-navy">
                 {formatCurrency(annualTaxAmount)}
               </p>
-              <p className="text-xs text-gray-elegant mt-1">Yearly tax obligation</p>
+              <p className="text-xs text-gray-elegant mt-1">
+                {apiEstimatedTaxes ? 'From API analysis' : 'Estimated tax obligation'}
+              </p>
             </motion.div>
             
             <motion.div 
@@ -969,7 +993,7 @@ export function TaxesTab({ data }: TaxesTabProps) {
                   <span className="text-xs uppercase tracking-wider text-gray-elegant">Land Value</span>
                 </div>
                 <p className="text-2xl font-light text-navy group-hover:text-gold transition-colors">
-                  {formatCurrency(bcpaData.land_value ? parseInt(bcpaData.land_value) : 0)}
+                  {formatCurrency(getTaxValue('land_value'))}
                 </p>
                 <p className="text-xs text-gray-elegant mt-1">Underlying real estate</p>
               </motion.div>
@@ -985,7 +1009,7 @@ export function TaxesTab({ data }: TaxesTabProps) {
                   <span className="text-xs uppercase tracking-wider text-gray-elegant">Building Value</span>
                 </div>
                 <p className="text-2xl font-light text-navy group-hover:text-gold transition-colors">
-                  {formatCurrency(bcpaData.building_value ? parseInt(bcpaData.building_value) : 0)}
+                  {formatCurrency(getTaxValue('building_value'))}
                 </p>
                 <p className="text-xs text-gray-elegant mt-1">Structure & improvements</p>
               </motion.div>
@@ -1001,7 +1025,7 @@ export function TaxesTab({ data }: TaxesTabProps) {
                   <span className="text-xs uppercase tracking-wider text-gray-elegant">Extra Features</span>
                 </div>
                 <p className="text-2xl font-light text-navy group-hover:text-gold transition-colors">
-                  {formatCurrency(bcpaData.extra_features_value ? parseInt(bcpaData.extra_features_value) : 0)}
+                  {formatCurrency(getTaxValue('extra_features_value'))}
                 </p>
                 <p className="text-xs text-gray-elegant mt-1">Pools, garages, etc.</p>
               </motion.div>

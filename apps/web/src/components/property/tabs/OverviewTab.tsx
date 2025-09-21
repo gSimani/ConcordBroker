@@ -1,5 +1,42 @@
 import { PropertyData } from '@/hooks/usePropertyData'
-import { DollarSign, Home, Building, Calendar, TrendingUp, Clock, TreePine, Ruler } from 'lucide-react'
+import { DollarSign, Home, Building, Calendar, TrendingUp, Clock, TreePine, Ruler, Info, ExternalLink } from 'lucide-react'
+import { getUseCodeName, getUseCodeDescription } from '@/lib/useCodeMapping'
+import { PropertyDataAnalyzer } from '@/utils/property-intelligence'
+
+// Utility function to display bed/bath info based on property type (simpler version for Overview)
+function getBedBathDisplay(bcpaData: any): string {
+  const propertyUse = bcpaData?.propertyUse || bcpaData?.property_use || bcpaData?.property_use_code || bcpaData?.dor_uc;
+  const buildingSqFt = bcpaData?.buildingSqFt || bcpaData?.building_sqft || bcpaData?.tot_lvg_area || bcpaData?.living_area || 0;
+  const hasBuilding = buildingSqFt && buildingSqFt > 0;
+  const bedrooms = bcpaData?.bedrooms;
+  const bathrooms = bcpaData?.bathrooms;
+
+  // Property use codes: 0=Vacant Land, 1-3=Residential, 4-7=Commercial, 8-9=Industrial, 10-12=Agricultural
+  const propertyUseNum = parseInt(String(propertyUse || '0'));
+
+  // For Vacant Land (no building)
+  if (propertyUseNum === 0 || !hasBuilding) {
+    return 'N/A';
+  }
+
+  // For Residential properties (use codes 1, 2, 3, and 4 for condos/townhomes)
+  if (propertyUseNum >= 1 && propertyUseNum <= 4) {
+    // If we have bedroom/bathroom data, show it
+    if (bedrooms && bathrooms) {
+      return `${bedrooms} / ${bathrooms}`;
+    }
+    // If no bed/bath data but has building, estimate based on square footage
+    if (hasBuilding) {
+      const estimatedBeds = Math.max(1, Math.floor(buildingSqFt / 500)); // Rough estimate: 500 sqft per bedroom
+      const estimatedBaths = Math.max(1, Math.floor(estimatedBeds / 1.5)); // Rough ratio
+      return `${estimatedBeds}* / ${estimatedBaths}*`;
+    }
+    return '- / -';
+  }
+
+  // For Non-residential properties
+  return 'N/A (Commercial/Industrial)';
+}
 
 interface OverviewTabProps {
   data: PropertyData
@@ -17,6 +54,13 @@ export function OverviewTab({ data }: OverviewTabProps) {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     }).format(value);
+  };
+
+  // Helper function to get tax values with fallback from multiple sources
+  const getTaxValue = (fieldName: string) => {
+    // Check both API format (camelCase) and database format (snake_case)
+    const apiField = fieldName.replace(/_([a-z])/g, (match, letter) => letter.toUpperCase());
+    return bcpaData?.[fieldName] || bcpaData?.[apiField] || 0;
   };
 
   return (
@@ -42,7 +86,8 @@ export function OverviewTab({ data }: OverviewTabProps) {
               <div className="grid grid-cols-2 gap-2 pt-2 border-t border-gold">
                 <div>
                   <p className="text-xs uppercase tracking-wider text-gray-elegant">Property Type</p>
-                  <p className="text-sm font-medium text-navy">{bcpaData?.property_use_code || 'Unknown'}</p>
+                  <p className="text-sm font-medium text-navy">{getUseCodeName(bcpaData?.property_use_code || bcpaData?.dor_uc || '000')}</p>
+                  <p className="text-xs text-gray-elegant">{getUseCodeDescription(bcpaData?.property_use_code || bcpaData?.dor_uc || '000')}</p>
                 </div>
                 <div>
                   <p className="text-xs uppercase tracking-wider text-gray-elegant">Year Built</p>
@@ -116,25 +161,25 @@ export function OverviewTab({ data }: OverviewTabProps) {
                 <div>
                   <p className="text-xs uppercase tracking-wider text-gray-elegant">Market Value</p>
                   <p className="text-xl font-light text-navy">
-                    {bcpaData?.market_value ? formatCurrency(parseInt(bcpaData.market_value)) : 'N/A'}
+                    {getTaxValue('market_value') ? formatCurrency(getTaxValue('market_value')) : 'N/A'}
                   </p>
                 </div>
                 <div>
                   <p className="text-xs uppercase tracking-wider text-gray-elegant">Assessed Value</p>
                   <p className="text-xl font-light text-navy">
-                    {bcpaData?.assessed_value ? formatCurrency(parseInt(bcpaData.assessed_value)) : 'N/A'}
+                    {getTaxValue('assessed_value') ? formatCurrency(getTaxValue('assessed_value')) : 'N/A'}
                   </p>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3 pt-3 border-t border-gold">
                 <div className="p-2 rounded-lg hover:scale-105 transition-transform cursor-pointer bg-gold-light">
                   <p className="text-xs mb-1 uppercase tracking-wider text-gray-elegant">Land Value</p>
-                  <p className="font-medium text-navy">{bcpaData?.land_value ? formatCurrency(parseInt(bcpaData.land_value)) : 'N/A'}</p>
+                  <p className="font-medium text-navy">{getTaxValue('land_value') ? formatCurrency(getTaxValue('land_value')) : 'N/A'}</p>
                 </div>
                 <div className="p-2 rounded-lg hover:scale-105 transition-transform cursor-pointer bg-gray-light">
                   <p className="text-xs mb-1 uppercase tracking-wider text-gray-elegant">Building Value</p>
                   <p className="font-medium text-navy">
-                    {bcpaData?.building_value ? formatCurrency(parseInt(bcpaData.building_value)) : 'N/A'}
+                    {getTaxValue('building_value') ? formatCurrency(getTaxValue('building_value')) : 'N/A'}
                   </p>
                 </div>
               </div>
@@ -162,39 +207,103 @@ export function OverviewTab({ data }: OverviewTabProps) {
           <div className="pt-4">
             <div className="space-y-3">
               <div className="grid grid-cols-2 gap-3">
-                <div className="p-2 rounded-lg hover:bg-gray-50 transition-all group">
+                <div className="p-2 rounded-lg hover:bg-gray-50 transition-all group relative">
                   <p className="text-xs mb-1 flex items-center uppercase tracking-wider text-gray-elegant">
                     <Home className="w-3 h-3 mr-1" />
                     Living Area
                   </p>
-                  <p className="text-lg font-light text-navy">
-                    {bcpaData?.living_area ? `${parseInt(bcpaData.living_area).toLocaleString()} sqft` : 'N/A'}
-                  </p>
+                  {(() => {
+                    const analysis = PropertyDataAnalyzer.analyzeLivingArea(bcpaData);
+                    return (
+                      <>
+                        <p className="text-lg font-light text-navy">
+                          {analysis.value || 'N/A'}
+                        </p>
+                        {analysis.reason && (
+                          <div className="absolute bottom-full left-0 mb-1 hidden group-hover:block z-10">
+                            <div className="bg-gray-900 text-white text-xs p-2 rounded shadow-lg whitespace-nowrap">
+                              <Info className="w-3 h-3 inline mr-1" />
+                              {analysis.reason}
+                            </div>
+                          </div>
+                        )}
+                      </>
+                    );
+                  })()}
                 </div>
-                <div className="p-2 rounded-lg hover:bg-gray-50 transition-all group">
+                <div className="p-2 rounded-lg hover:bg-gray-50 transition-all group relative">
                   <p className="text-xs mb-1 flex items-center uppercase tracking-wider text-gray-elegant">
                     <Calendar className="w-3 h-3 mr-1" />
                     Year Built
                   </p>
-                  <p className="text-lg font-light text-navy">{bcpaData?.year_built || 'N/A'}</p>
+                  {(() => {
+                    const analysis = PropertyDataAnalyzer.analyzeYearBuilt(bcpaData);
+                    return (
+                      <>
+                        <p className="text-lg font-light text-navy">
+                          {analysis.value || 'N/A'}
+                        </p>
+                        {analysis.reason && (
+                          <div className="absolute bottom-full right-0 mb-1 hidden group-hover:block z-10">
+                            <div className="bg-gray-900 text-white text-xs p-2 rounded shadow-lg whitespace-nowrap">
+                              <Info className="w-3 h-3 inline mr-1" />
+                              {analysis.reason}
+                            </div>
+                          </div>
+                        )}
+                      </>
+                    );
+                  })()}
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
-                <div className="p-2 rounded-lg hover:bg-gray-50 transition-all group">
+                <div className="p-2 rounded-lg hover:bg-gray-50 transition-all group relative">
                   <p className="text-xs mb-1 flex items-center uppercase tracking-wider text-gray-elegant">
                     <TreePine className="w-3 h-3 mr-1" />
                     Lot Size
                   </p>
-                  <p className="text-lg font-light text-navy">
-                    {bcpaData?.lot_size ? `${parseInt(bcpaData.lot_size).toLocaleString()} sqft` : 'N/A'}
-                  </p>
+                  {(() => {
+                    const analysis = PropertyDataAnalyzer.analyzeLotSize(bcpaData);
+                    return (
+                      <>
+                        <p className="text-lg font-light text-navy">
+                          {analysis.value || 'N/A'}
+                        </p>
+                        {analysis.reason && (
+                          <div className="absolute bottom-full left-0 mb-1 hidden group-hover:block z-10">
+                            <div className="bg-gray-900 text-white text-xs p-2 rounded shadow-lg whitespace-nowrap">
+                              <Info className="w-3 h-3 inline mr-1" />
+                              {analysis.reason}
+                            </div>
+                          </div>
+                        )}
+                      </>
+                    );
+                  })()}
                 </div>
-                <div className="p-2 rounded-lg hover:bg-gray-50 transition-all group">
+                <div className="p-2 rounded-lg hover:bg-gray-50 transition-all group relative">
                   <p className="text-xs mb-1 flex items-center uppercase tracking-wider text-gray-elegant">
                     <Building className="w-3 h-3 mr-1" />
                     Bed/Bath
                   </p>
-                  <p className="text-lg font-light text-navy">{bcpaData?.bedrooms || '?'} / {bcpaData?.bathrooms || '?'}</p>
+                  {(() => {
+                    const analysis = PropertyDataAnalyzer.analyzeBedBath(bcpaData);
+                    return (
+                      <>
+                        <p className="text-lg font-light text-navy">
+                          {analysis.value || 'N/A'}
+                        </p>
+                        {analysis.reason && (
+                          <div className="absolute bottom-full right-0 mb-1 hidden group-hover:block z-10">
+                            <div className="bg-gray-900 text-white text-xs p-2 rounded shadow-lg whitespace-nowrap">
+                              <Info className="w-3 h-3 inline mr-1" />
+                              {analysis.reason}
+                            </div>
+                          </div>
+                        )}
+                      </>
+                    );
+                  })()}
                 </div>
               </div>
             </div>
@@ -214,45 +323,87 @@ export function OverviewTab({ data }: OverviewTabProps) {
             </h3>
           </div>
           <div className="pt-4">
-            {lastSale ? (
-              <div className="space-y-3">
-                <div className="text-center p-3 rounded-lg bg-gray-light">
-                  <p className="text-3xl font-light text-navy">
-                    {lastSale?.sale_price ? formatCurrency(parseInt(lastSale.sale_price)) : 'N/A'}
-                  </p>
-                  <p className="text-sm mt-1 text-gray-elegant">
-                    <Clock className="w-3 h-3 inline mr-1" />
-                    {lastSale?.sale_date ? new Date(lastSale.sale_date).toLocaleDateString() : 'N/A'}
-                  </p>
-                </div>
-                <div className="space-y-1 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-xs uppercase tracking-wider text-gray-elegant">Type:</span>
-                    <span className="text-sm font-medium badge-elegant text-navy">
-                      {lastSale?.qualified_sale ? 'Qualified' : lastSale ? 'Unqualified' : 'N/A'}
-                    </span>
+            {(() => {
+              const saleAnalysis = PropertyDataAnalyzer.analyzeSaleData(bcpaData, lastSale);
+
+              if (lastSale || saleAnalysis.saleInfo) {
+                return (
+                  <div className="space-y-3">
+                    <div className="text-center p-3 rounded-lg bg-gray-light">
+                      <p className="text-3xl font-light text-navy">
+                        {lastSale?.sale_price ? formatCurrency(parseInt(lastSale.sale_price)) :
+                         saleAnalysis.saleInfo ? saleAnalysis.saleInfo.split(' on ')[0] : 'N/A'}
+                      </p>
+                      <p className="text-sm mt-1 text-gray-elegant">
+                        <Clock className="w-3 h-3 inline mr-1" />
+                        {lastSale?.sale_date ? new Date(lastSale.sale_date).toLocaleDateString() :
+                         saleAnalysis.saleInfo ? saleAnalysis.saleInfo.split(' on ')[1] : 'N/A'}
+                      </p>
+                    </div>
+                    <div className="space-y-1 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-xs uppercase tracking-wider text-gray-elegant">Type:</span>
+                        <span className="text-sm font-medium badge-elegant text-navy">
+                          {lastSale?.qualified_sale ? 'Qualified' : lastSale ? 'Unqualified' : 'N/A'}
+                        </span>
+                      </div>
+                      {lastSale?.is_distressed && (
+                        <div className="flex justify-between">
+                          <span className="text-xs uppercase tracking-wider text-gray-elegant">Status:</span>
+                          <span className="text-sm text-red-600">Distressed</span>
+                        </div>
+                      )}
+                      {bcpaData?.market_value && (
+                        <div className="flex justify-between">
+                          <span className="text-xs uppercase tracking-wider text-gray-elegant">vs Market:</span>
+                          <span className="text-sm font-medium text-navy">
+                            {lastSale?.sale_price && bcpaData.market_value ? ((parseInt(lastSale.sale_price) / parseInt(bcpaData.market_value)) * 100).toFixed(0) + '%' : 'N/A'}
+                          </span>
+                        </div>
+                      )}
+                      {/* Add Official Record Link */}
+                      {saleAnalysis.recordLink && (
+                        <div className="pt-2 mt-2 border-t border-gold">
+                          <a
+                            href={saleAnalysis.recordLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center text-xs font-medium text-blue-600 hover:text-blue-800 transition-colors"
+                          >
+                            <ExternalLink className="w-3 h-3 mr-1" />
+                            View Official Record
+                            {lastSale?.book && lastSale?.page && (
+                              <span className="ml-1 text-gray-500">
+                                (Book {lastSale.book}/Page {lastSale.page})
+                              </span>
+                            )}
+                            {lastSale?.cin && (
+                              <span className="ml-1 text-gray-500">
+                                (CIN: {lastSale.cin})
+                              </span>
+                            )}
+                          </a>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                  {lastSale?.is_distressed && (
-                    <div className="flex justify-between">
-                      <span className="text-xs uppercase tracking-wider text-gray-elegant">Status:</span>
-                      <span className="text-sm text-red-600">Distressed</span>
-                    </div>
-                  )}
-                  {bcpaData?.market_value && (
-                    <div className="flex justify-between">
-                      <span className="text-xs uppercase tracking-wider text-gray-elegant">vs Market:</span>
-                      <span className="text-sm font-medium text-navy">
-                        {lastSale?.sale_price && bcpaData.market_value ? ((parseInt(lastSale.sale_price) / parseInt(bcpaData.market_value)) * 100).toFixed(0) + '%' : 'N/A'}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ) : (
-              <div className="text-center py-4 text-gray-elegant">
-                No recent sales recorded
-              </div>
-            )}
+                );
+              } else {
+                return (
+                  <div className="text-center py-4">
+                    <p className="text-gray-elegant">
+                      {saleAnalysis.reason || 'No recent sales recorded'}
+                    </p>
+                    {bcpaData?.owner_name && bcpaData?.owner_name !== 'UNKNOWN' && (
+                      <p className="text-xs text-gray-500 mt-2">
+                        <Info className="w-3 h-3 inline mr-1" />
+                        {saleAnalysis.reason}
+                      </p>
+                    )}
+                  </div>
+                );
+              }
+            })()}
           </div>
         </div>
 

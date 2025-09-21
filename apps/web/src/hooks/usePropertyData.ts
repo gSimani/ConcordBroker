@@ -1,10 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL || '',
-  import.meta.env.VITE_SUPABASE_ANON_KEY || ''
-)
+import { supabase } from '@/lib/supabase'
 
 export interface PropertyData {
   bcpaData: any
@@ -33,409 +28,343 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '') =>
   const [error, setError] = useState<string | null>(null)
 
   const fetchPropertyData = useCallback(async () => {
+    console.log('usePropertyData - fetchPropertyData called with:', { addressOrParcelId, city });
+
+    if (!addressOrParcelId) {
+      console.log('usePropertyData - No addressOrParcelId provided, skipping fetch');
+      setLoading(false);
+      return;
+    }
+
     try {
       setLoading(true)
       setError(null)
 
-      // Check if it's a parcel ID (usually all numbers with no spaces/dashes) or an address
-      // Parcel IDs are typically long strings of numbers without spaces or common address words
-      const isParcelId = /^\d+$/.test(addressOrParcelId.replace(/[-\s]/g, '')) && 
-                        addressOrParcelId.length > 8 && 
+      // Check if it's a parcel ID (alphanumeric pattern, typically longer than 8 chars) or an address
+      // Parcel IDs can contain letters and numbers (like 2806S01W000000100000)
+      const isParcelId = /^[A-Z0-9-]+$/i.test(addressOrParcelId.replace(/\s/g, '')) &&
+                        addressOrParcelId.length > 8 &&
                         !/\b(st|street|rd|road|ave|avenue|ln|lane|ct|court|dr|drive|blvd|boulevard|pl|place|way|nw|ne|sw|se|north|south|east|west)\b/i.test(addressOrParcelId)
-      
-      const normalizedAddress = addressOrParcelId.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, ' ').trim()
-      const normalizedCity = city.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, ' ').trim()
 
-      // Log for debugging
-      console.log('Fetching property data for:', addressOrParcelId, 'City:', city, 'IsParcelId:', isParcelId);
-      
-      // Build queries with better handling
-      let floridaParcelsQuery;
-      let bcpaQuery;
-      
+      console.log('Fetching property data for:', addressOrParcelId, 'City:', city, 'IsParcelId:', isParcelId)
+
+      let bcpaData: any = null
+      let sdfData: any[] = []
+
+      // Fetch comprehensive property data from enhanced API
       if (isParcelId) {
-        // Query by parcel ID directly
-        floridaParcelsQuery = supabase
-          .from('florida_parcels')
-          .select('*')
-          .eq('parcel_id', addressOrParcelId)
-          .limit(1);
-          
-        bcpaQuery = supabase
-          .from('properties')
-          .select('*')
-          .eq('parcel_id', addressOrParcelId)
-          .limit(1);
-      } else {
-        // Query by address - use single simplified search
-        // Convert URL format (12681-nw-78-mnr) to proper address format (12681 NW 78 MNR)
-        const searchAddress = addressOrParcelId.replace(/-/g, ' ').replace(/\s+/g, ' ').trim();
-        
-        // Use simple single address search - much faster than OR conditions
-        floridaParcelsQuery = supabase
-          .from('florida_parcels')
-          .select('*')
-          .ilike('phy_addr1', `%${searchAddress}%`)
-          .limit(5); // Get fewer results for better performance
-          
-        bcpaQuery = supabase
-          .from('properties')
-          .select('*')
-          .or(`property_address.ilike.%${normalizedAddress}%,parcel_id.eq.${addressOrParcelId}`)
-          .limit(1);
-      }
-      
-      // Parallel data fetching - check florida_parcels first, then fl_properties
-      const [floridaParcelsResponse, bcpaResponse, sdfResponse, navResponse] = await Promise.all([
-        // Try florida_parcels table first (our loaded data)
-        floridaParcelsQuery,
-        
-        // Fallback to fl_properties if exists
-        bcpaQuery,
-        
-        // Try to fetch from property_sales_history table
-        isParcelId ? 
-          supabase
-            .from('property_sales_history')
-            .select('*')
-            .eq('parcel_id', addressOrParcelId)
-            .order('sale_date', { ascending: false }) :
-          supabase
-            .from('property_sales_history')
-            .select('*')
-            .eq('parcel_id', addressOrParcelId)
-            .order('sale_date', { ascending: false }),
-        
-        supabase
-          .from('nav_assessments')
-          .select('*')
-          .eq('parcel_id', isParcelId ? addressOrParcelId : '')
-      ])
+        // Get property by parcel ID using enhanced endpoint
+        try {
+          // Try the property API endpoint (port 8000)
+          const enhancedResponse = await fetch(`http://localhost:8000/api/properties/${encodeURIComponent(addressOrParcelId)}`)
+          if (enhancedResponse.ok) {
+            const enhancedResult = await enhancedResponse.json()
+            console.log('Fast API response:', enhancedResult)
 
-      // Log responses for debugging
-      console.log('Florida Parcels Response:', floridaParcelsResponse);
-      console.log('BCPA Response:', bcpaResponse);
-      
-      // Use florida_parcels data if available, otherwise fallback to fl_properties
-      // For addresses, find the best match from multiple results
-      let floridaParcel = null;
-      if (floridaParcelsResponse.data && floridaParcelsResponse.data.length > 0) {
-        if (isParcelId) {
-          floridaParcel = floridaParcelsResponse.data[0];
-        } else {
-          // For addresses, find exact match or closest match
-          const upperAddress = addressOrParcelId.replace(/-/g, ' ').toUpperCase();
-          floridaParcel = floridaParcelsResponse.data.find(p => 
-            p.phy_addr1?.toUpperCase() === upperAddress ||
-            p.phy_addr1?.toUpperCase().includes(upperAddress.replace(/\s+/g, ' '))
-          ) || floridaParcelsResponse.data[0];
+            if (enhancedResult.success && enhancedResult.property) {
+              // The API now returns complete property data structure
+              const propertyData = enhancedResult.property
+
+              // Extract the individual components
+              bcpaData = propertyData.bcpaData
+              sdfData = propertyData.sdfData || []
+
+              console.log('Fast API data loaded:', {
+                bcpaData: bcpaData,
+                sdfData: sdfData,
+                dataStructure: Object.keys(propertyData)
+              })
+
+              // Skip transformation since data is already in correct format
+              const finalData = {
+                bcpaData: propertyData.bcpaData,
+                sdfData: propertyData.sdfData,
+                navData: propertyData.navData,
+                tppData: propertyData.tppData,
+                sunbizData: propertyData.sunbizData,
+                lastSale: propertyData.lastSale,
+                totalNavAssessment: propertyData.totalNavAssessment,
+                isInCDD: propertyData.isInCDD,
+                investmentScore: propertyData.investmentScore,
+                opportunities: propertyData.opportunities,
+                riskFactors: propertyData.riskFactors,
+                dataQuality: propertyData.dataQuality
+              }
+
+              console.log('usePropertyData - Setting enhanced data:', finalData)
+              setData(finalData)
+              setLoading(false)
+              return
+            }
+          }
+
+          // Fallback to old API if new one fails
+          if (!bcpaData) {
+            const response = await fetch(`http://localhost:8000/api/properties/search?q=${encodeURIComponent(addressOrParcelId)}&limit=1`)
+            if (response.ok) {
+              const result = await response.json()
+              if (result.data && result.data.length > 0) {
+                bcpaData = result.data[0]
+              } else if (result.properties && result.properties.length > 0) {
+                bcpaData = result.properties[0]
+              }
+            }
+          }
+        } catch (err) {
+          console.error('Error fetching property by parcel ID:', err)
+        }
+      } else {
+        // Search by address
+        try {
+          const searchQuery = city
+            ? `http://localhost:8000/api/properties/search?address=${encodeURIComponent(addressOrParcelId)}&city=${encodeURIComponent(city)}&limit=1`
+            : `http://localhost:8000/api/properties/search?q=${encodeURIComponent(addressOrParcelId)}&limit=1`
+
+          const response = await fetch(searchQuery)
+          if (response.ok) {
+            const result = await response.json()
+            if (result.data && result.data.length > 0) {
+              bcpaData = result.data[0]
+            } else if (result.properties && result.properties.length > 0) {
+              bcpaData = result.properties[0]
+            }
+          }
+
+          // If we found a property, fetch enhanced data
+          if (bcpaData && bcpaData.parcel_id) {
+            try {
+              const enhancedResponse = await fetch(`http://localhost:8000/api/properties/${encodeURIComponent(bcpaData.parcel_id)}`)
+              if (enhancedResponse.ok) {
+                const enhancedResult = await enhancedResponse.json()
+                console.log('Fast API response for address search:', enhancedResult)
+
+                if (enhancedResult.success && enhancedResult.property) {
+                  // Use the complete property data structure from enhanced API
+                  const propertyData = enhancedResult.property
+
+                  const finalData = {
+                    bcpaData: propertyData.bcpaData,
+                    sdfData: propertyData.sdfData,
+                    navData: propertyData.navData,
+                    tppData: propertyData.tppData,
+                    sunbizData: propertyData.sunbizData,
+                    lastSale: propertyData.lastSale,
+                    totalNavAssessment: propertyData.totalNavAssessment,
+                    isInCDD: propertyData.isInCDD,
+                    investmentScore: propertyData.investmentScore,
+                    opportunities: propertyData.opportunities,
+                    riskFactors: propertyData.riskFactors,
+                    dataQuality: propertyData.dataQuality
+                  }
+
+                  console.log('usePropertyData - Setting enhanced data for address search:', finalData)
+                  setData(finalData)
+                  setLoading(false)
+                  return
+                }
+              }
+            } catch (err) {
+              console.error('Error fetching enhanced data:', err)
+            }
+          }
+        } catch (err) {
+          console.error('Error searching property:', err)
         }
       }
-      let bcpaData = bcpaResponse.data?.[0] || null
-      
-      // No mock data fallback - only use real database data
-      if (!floridaParcel && !bcpaData) {
-        console.log('No data found in database for:', addressOrParcelId)
-        console.log('Florida Parcels Error:', floridaParcelsResponse.error)
-        console.log('BCPA Error:', bcpaResponse.error)
-      }
-      // If we have florida_parcels data, convert it to bcpaData format
-      else if (floridaParcel && !bcpaData) {
+
+      console.log('API result:', { bcpaData, sdfData })
+
+      // Convert API data to expected format for backward compatibility
+      // Skip transformation if data came from enhanced API (already transformed)
+      if (bcpaData && !bcpaData.sales_history) {
         // Parse and format values properly
         const parseNumber = (val: any) => {
-          if (!val) return null;
-          const num = typeof val === 'string' ? parseFloat(val.replace(/[^0-9.-]/g, '')) : val;
-          return isNaN(num) ? null : num;
-        };
-
-        bcpaData = {
-          // Core identifiers
-          parcel_id: floridaParcel.parcel_id,
-          
-          // Address information - use both old and new field names
-          property_address_full: `${floridaParcel.phy_addr1 || ''}, ${floridaParcel.phy_city || ''}, FL ${floridaParcel.phy_zipcd || ''}`.trim(),
-          property_address_street: floridaParcel.phy_addr1,
-          property_address_city: floridaParcel.phy_city,
-          property_address_state: floridaParcel.phy_state || 'FL',
-          property_address_zip: floridaParcel.phy_zipcd,
-          
-          // Address fields expected by UI components
-          phy_addr1: floridaParcel.phy_addr1,
-          phy_city: floridaParcel.phy_city,
-          phy_zipcd: floridaParcel.phy_zipcd,
-          
-          // Owner information - both old and new field names
-          owner_name: floridaParcel.owner_name,
-          own_name: floridaParcel.owner_name, // Legacy field name expected by UI
-          owner_address: `${floridaParcel.owner_addr1 || ''}, ${floridaParcel.owner_city || ''}, ${floridaParcel.owner_state || ''} ${floridaParcel.owner_zip || ''}`.trim(),
-          
-          // Values - map to both new and legacy field names
-          assessed_value: parseNumber(floridaParcel.assessed_value) || parseNumber(floridaParcel.taxable_value),
-          taxable_value: parseNumber(floridaParcel.taxable_value),
-          market_value: parseNumber(floridaParcel.just_value) || parseNumber(floridaParcel.market_value) || parseNumber(floridaParcel.taxable_value),
-          just_value: parseNumber(floridaParcel.just_value) || parseNumber(floridaParcel.market_value) || parseNumber(floridaParcel.taxable_value),
-          land_value: parseNumber(floridaParcel.land_value),
-          building_value: parseNumber(floridaParcel.building_value) || parseNumber(floridaParcel.improvement_value),
-          
-          // Legacy field names expected by UI components
-          jv: parseNumber(floridaParcel.just_value) || parseNumber(floridaParcel.market_value) || parseNumber(floridaParcel.taxable_value), // Just Value
-          tv_sd: parseNumber(floridaParcel.taxable_value), // Taxable Value School District
-          lnd_val: parseNumber(floridaParcel.land_value), // Land Value
-          
-          // Building details - both new and legacy names
-          year_built: floridaParcel.year_built,
-          act_yr_blt: floridaParcel.year_built, // Legacy field name
-          eff_year_built: floridaParcel.eff_year_built || floridaParcel.year_built,
-          living_area: parseNumber(floridaParcel.total_living_area) || parseNumber(floridaParcel.living_area) || parseNumber(floridaParcel.heated_area),
-          tot_lvg_area: parseNumber(floridaParcel.total_living_area), // Legacy field name
-          lot_size_sqft: parseNumber(floridaParcel.land_sqft) || parseNumber(floridaParcel.lot_size),
-          lnd_sqfoot: parseNumber(floridaParcel.land_sqft), // Legacy field name
-          bedrooms: floridaParcel.bedrooms,
-          bathrooms: floridaParcel.bathrooms,
-          units: floridaParcel.units || floridaParcel.total_units || 1,
-          stories: floridaParcel.stories,
-          
-          // Property classification - both new and legacy names
-          property_use_code: floridaParcel.property_use || floridaParcel.usage_code || floridaParcel.use_code,
-          property_type: floridaParcel.property_use_desc || floridaParcel.property_type || floridaParcel.use_description,
-          dor_uc: floridaParcel.property_use, // Legacy field name
-          
-          // Legal information
-          legal_desc: floridaParcel.legal_desc,
-          subdivision: floridaParcel.subdivision,
-          lot: floridaParcel.lot,
-          block: floridaParcel.block,
-          zoning: floridaParcel.zoning,
-          
-          // Tax and exemptions
-          tax_amount: parseNumber(floridaParcel.tax_amount) || Math.round((parseNumber(floridaParcel.taxable_value) || 0) * 0.02),
-          homestead_exemption: floridaParcel.homestead_exemption === 'Y' || floridaParcel.homestead_exemption === true || floridaParcel.homestead === 'Y',
-          other_exemptions: floridaParcel.other_exemptions || floridaParcel.exemption_codes,
-          
-          // Sale information - both new and legacy field names
-          sale_price: parseNumber(floridaParcel.sale_price),
-          sale_date: floridaParcel.sale_date,
-          sale_prc1: parseNumber(floridaParcel.sale_price), // Legacy field name
-          sale_yr1: floridaParcel.sale_date ? new Date(floridaParcel.sale_date).getFullYear() : null,
-          sale_mo1: floridaParcel.sale_date ? new Date(floridaParcel.sale_date).getMonth() + 1 : null,
-          qual_cd1: floridaParcel.sale_qualification || 'Q', // Default to qualified
-          
-          // Additional fields for links
-          property_sketch_link: floridaParcel.sketch_url || null,
-          
-          // Land factors if available
-          land_factors: floridaParcel.land_factors ? JSON.parse(floridaParcel.land_factors) : null
+          if (!val) return null
+          const num = typeof val === 'string' ? parseFloat(val.replace(/[^0-9.-]/g, '')) : val
+          return isNaN(num) ? null : num
         }
-      }
-      // If we have properties table data, map it correctly
-      else if (bcpaData) {
-        // Remap properties table fields to expected format
-        const tempData = bcpaData;
-        bcpaData = {
-          parcel_id: tempData.parcel_id,
-          property_address_full: `${tempData.property_address || ''}, ${tempData.city || ''}, ${tempData.state || 'FL'} ${tempData.zip_code || ''}`.trim(),
-          property_address_street: tempData.property_address,
-          property_address_city: tempData.city,
-          property_address_state: tempData.state || 'FL',
-          property_address_zip: tempData.zip_code,
-          owner_name: tempData.owner_name,
-          owner_address: null,
-          
-          // Values
-          assessed_value: tempData.assessed_value,
-          taxable_value: tempData.assessed_value,
-          market_value: tempData.market_value,
-          just_value: tempData.market_value,
-          land_value: null,
-          building_value: null,
-          
+
+        // Transform the API response to the expected bcpaData format
+        const transformedData = {
+          // Core identifiers
+          parcel_id: bcpaData.parcel_id || bcpaData.id,
+
+          // Address information - use both old and new field names
+          property_address_full: `${bcpaData.address || bcpaData.phy_addr1 || ''}, ${bcpaData.city || bcpaData.phy_city || ''}, FL ${bcpaData.zipCode || bcpaData.phy_zipcd || ''}`.trim(),
+          property_address_street: bcpaData.address || bcpaData.phy_addr1,
+          property_address_city: bcpaData.city || bcpaData.phy_city,
+          property_address_state: bcpaData.state || bcpaData.phy_state || 'FL',
+          property_address_zip: bcpaData.zipCode || bcpaData.phy_zipcd,
+
+          // Address fields expected by UI components
+          phy_addr1: bcpaData.address || bcpaData.phy_addr1,
+          phy_city: bcpaData.city || bcpaData.phy_city,
+          phy_zipcd: bcpaData.zipCode || bcpaData.phy_zipcd,
+
+          // Owner information
+          owner_name: bcpaData.owner || bcpaData.owner_name,
+          own_name: bcpaData.owner || bcpaData.owner_name, // Legacy field name expected by UI
+          owner_address: bcpaData.ownerAddress || `${bcpaData.owner_addr1 || ''}, ${bcpaData.owner_city || ''}, ${bcpaData.owner_state || ''} ${bcpaData.owner_zip || ''}`.trim(),
+
+          // Values - map to both new and legacy field names
+          assessed_value: parseNumber(bcpaData.assessedValue) || parseNumber(bcpaData.assessed_value) || parseNumber(bcpaData.taxableValue),
+          taxable_value: parseNumber(bcpaData.taxableValue) || parseNumber(bcpaData.taxable_value),
+          market_value: parseNumber(bcpaData.marketValue) || parseNumber(bcpaData.justValue) || parseNumber(bcpaData.just_value),
+          just_value: parseNumber(bcpaData.justValue) || parseNumber(bcpaData.marketValue) || parseNumber(bcpaData.just_value),
+          land_value: parseNumber(bcpaData.landValue) || parseNumber(bcpaData.land_value),
+          building_value: parseNumber(bcpaData.buildingValue) || parseNumber(bcpaData.building_value),
+
+          // Legacy field names expected by UI components
+          jv: parseNumber(bcpaData.justValue) || parseNumber(bcpaData.marketValue) || parseNumber(bcpaData.just_value), // Just Value
+          tv_sd: parseNumber(bcpaData.taxableValue) || parseNumber(bcpaData.taxable_value), // Taxable Value School District
+          lnd_val: parseNumber(bcpaData.landValue) || parseNumber(bcpaData.land_value), // Land Value
+
           // Building details
-          year_built: tempData.year_built,
-          eff_year_built: tempData.year_built,
-          living_area: tempData.total_sqft,
-          lot_size_sqft: tempData.lot_size_sqft,
-          bedrooms: tempData.bedrooms,
-          bathrooms: tempData.bathrooms,
-          units: 1,
-          
+          year_built: bcpaData.yearBuilt || bcpaData.year_built,
+          act_yr_blt: bcpaData.yearBuilt || bcpaData.year_built, // Legacy field name
+          eff_year_built: bcpaData.yearBuilt || bcpaData.year_built,
+          living_area: parseNumber(bcpaData.buildingSqFt) || parseNumber(bcpaData.total_living_area),
+          tot_lvg_area: parseNumber(bcpaData.buildingSqFt) || parseNumber(bcpaData.total_living_area), // Legacy field name
+          lot_size_sqft: parseNumber(bcpaData.landSqFt) || parseNumber(bcpaData.land_sqft),
+          lnd_sqfoot: parseNumber(bcpaData.landSqFt) || parseNumber(bcpaData.land_sqft), // Legacy field name
+          bedrooms: bcpaData.bedrooms,
+          bathrooms: bcpaData.bathrooms,
+          units: bcpaData.units || 1,
+          stories: bcpaData.stories,
+
           // Property classification
-          property_use_code: tempData.property_type,
-          property_type: tempData.property_type,
-          
+          property_use_code: bcpaData.propertyUse || bcpaData.property_use,
+          property_type: bcpaData.propertyType || bcpaData.property_use_desc,
+          dor_uc: bcpaData.propertyUse || bcpaData.property_use, // Legacy field name
+
+          // Legal information
+          legal_desc: bcpaData.legal_desc,
+          subdivision: bcpaData.subdivision,
+          lot: bcpaData.lot,
+          block: bcpaData.block,
+          zoning: bcpaData.zoning,
+
           // Tax and exemptions
-          tax_amount: null,
-          homestead_exemption: false,
+          tax_amount: Math.round((parseNumber(bcpaData.taxable_value) || 0) * 0.02),
+          homestead_exemption: bcpaData.is_redacted === false,
           other_exemptions: null,
-          
+
           // Sale information
-          sale_price: tempData.last_sale_price,
-          sale_date: tempData.last_sale_date,
-          
+          sale_price: parseNumber(bcpaData.lastSalePrice) || parseNumber(bcpaData.sale_price),
+          sale_date: bcpaData.lastSaleDate || bcpaData.sale_date,
+          sale_prc1: parseNumber(bcpaData.lastSalePrice) || parseNumber(bcpaData.sale_price), // Legacy field name
+          sale_yr1: (bcpaData.lastSaleDate || bcpaData.sale_date) ? new Date(bcpaData.lastSaleDate || bcpaData.sale_date).getFullYear() : null,
+          sale_mo1: (bcpaData.lastSaleDate || bcpaData.sale_date) ? new Date(bcpaData.lastSaleDate || bcpaData.sale_date).getMonth() + 1 : null,
+          qual_cd1: bcpaData.sale_qualification || 'Q', // Default to qualified
+
           // Additional fields for links
           property_sketch_link: null,
-          
-          // Land factors if available
           land_factors: null
         }
+
+        bcpaData = transformedData
+      }
+      // If data came from enhanced API, sales_history is already included
+      else if (bcpaData && bcpaData.sales_history) {
+        sdfData = bcpaData.sales_history || sdfData
       }
       
-      // Now fetch Sunbiz data with improved matching logic
+      // Fetch additional data from Supabase if available
       let sunbizData: any[] = []
-      
-      if (bcpaData?.owner_name || floridaParcel?.owner_name) {
-        const ownerName = bcpaData?.owner_name || floridaParcel?.owner_name
-        console.log('Searching Sunbiz for owner:', ownerName)
-        
-        // Helper function to extract individual names from owner string
-        const extractIndividualNames = (ownerStr: string): string[] => {
-          if (!ownerStr) return []
-          
-          // Remove common suffixes
-          let cleanName = ownerStr
-            .replace(/\s+(LLC|INC|CORP|CORPORATION|LP|LLP|TRUST|ESTATE|REVOCABLE|IRREVOCABLE|LIVING)\b/gi, '')
-            .replace(/\s+H\/E\b/gi, '') // Remove H/E (Husband/Estate)
-            .replace(/\s+W\/E\b/gi, '') // Remove W/E (Wife/Estate)
-            .replace(/\s+ET\s+AL\b/gi, '') // Remove ET AL
-            .replace(/\s+ETAL\b/gi, '') // Remove ETAL
-            .trim()
-          
-          // If it looks like a company name, return empty
-          if (/\b(LLC|INC|CORP|CORPORATION|LP|PROPERTIES|INVESTMENTS|HOLDINGS|CAPITAL|PARTNERS|GROUP)\b/i.test(ownerStr)) {
-            return []
-          }
-          
-          // Split by common delimiters
-          const names = cleanName
-            .split(/[&,;]/)
-            .map(n => n.trim())
-            .filter(n => n.length > 0)
-          
-          // Further process each name to handle formats like "SMITH JOHN & MARY"
-          const individualNames: string[] = []
-          
-          names.forEach(name => {
-            // If name has both first and last components
-            if (name.includes(' ')) {
-              individualNames.push(name)
-              
-              // Also try to extract if it's in format "LASTNAME FIRSTNAME"
-              const parts = name.split(/\s+/)
-              if (parts.length === 2) {
-                // Add reversed version too
-                individualNames.push(`${parts[1]} ${parts[0]}`)
-              }
-            }
-          })
-          
-          return individualNames
-        }
-        
-        // First, check if the owner name looks like a company
-        const isCompany = /\b(LLC|INC|CORP|CORPORATION|LP|LLP|PROPERTIES|INVESTMENTS|HOLDINGS|CAPITAL|PARTNERS|GROUP|TRUST)\b/i.test(ownerName)
-        
-        if (isCompany) {
-          // Search for the company directly
-          const { data: companyData } = await supabase
+      const navData: any[] = []
+      const tppData: any[] = []
+
+      // Try to fetch Sunbiz data if owner name exists
+      if (bcpaData?.owner_name) {
+        try {
+          const { data: sunbizResponse } = await supabase
             .from('sunbiz_corporate')
             .select('*')
-            .or(`corporate_name.ilike.%${ownerName.replace(/[^a-zA-Z0-9\s]/g, '')}%`)
-            .limit(10)
-          
-          if (companyData && companyData.length > 0) {
-            console.log(`Found ${companyData.length} matching companies`)
-            sunbizData = companyData
-          }
-        } else {
-          // It's an individual - search for them as officers
-          const individualNames = extractIndividualNames(ownerName)
-          console.log('Extracted individual names:', individualNames)
-          
-          if (individualNames.length > 0) {
-            // Search for names in the officers field
-            const queries = individualNames.map(name => {
-              return supabase
-                .from('sunbiz_corporate')
-                .select('*')
-                .ilike('officers', `%${name}%`)
-                .limit(5)
-            })
-            
-            // Execute all queries
-            const results = await Promise.all(queries)
-            
-            // Combine and deduplicate results
-            const allResults: any[] = []
-            const seenIds = new Set()
-            
-            results.forEach(result => {
-              if (result.data) {
-                result.data.forEach((item: any) => {
-                  if (!seenIds.has(item.id)) {
-                    seenIds.add(item.id)
-                    allResults.push(item)
-                  }
-                })
-              }
-            })
-            
-            if (allResults.length > 0) {
-              console.log(`Found ${allResults.length} companies where owner is an officer`)
-              sunbizData = allResults
-            }
-          }
-        }
-        
-        // If still no results, try matching by address
-        if (sunbizData.length === 0 && (bcpaData?.property_address_street || floridaParcel?.phy_addr1)) {
-          const address = bcpaData?.property_address_street || floridaParcel?.phy_addr1
-          const { data: addressMatches } = await supabase
-            .from('sunbiz_corporate')
-            .select('*')
-            .or(`principal_address.ilike.%${address}%,mailing_address.ilike.%${address}%`)
+            .ilike('entity_name', `%${bcpaData.owner_name}%`)
             .limit(5)
-          
-          if (addressMatches && addressMatches.length > 0) {
-            console.log(`Found ${addressMatches.length} companies at property address`)
-            sunbizData = addressMatches
+
+          if (sunbizResponse) {
+            sunbizData = sunbizResponse
+          }
+        } catch (error) {
+          console.log('Sunbiz query failed:', error)
+        }
+      }
+
+      // Try to fetch NAV data
+      if (bcpaData?.parcel_id) {
+        try {
+          const { data: navResponse } = await supabase
+            .from('nav_assessments')
+            .select('*')
+            .eq('parcel_id', bcpaData.parcel_id)
+
+          if (navResponse) {
+            navData.push(...navResponse)
+          }
+        } catch (error) {
+          console.log('NAV query failed:', error)
+        }
+      }
+
+      // Calculate derived data - use sales history from API or database
+      let lastSale = null
+
+      // Find the most recent sale over $1000 from sales history
+      if (sdfData.length > 0) {
+        lastSale = sdfData.find(sale => {
+          const salePrice = parseFloat(String(sale.sale_price || '0'))
+          return salePrice >= 1000
+        })
+
+        // Transform sales record to expected format
+        if (lastSale) {
+          lastSale = {
+            sale_date: lastSale.sale_date,
+            sale_price: String(lastSale.sale_price),
+            sale_type: lastSale.deed_type || 'Warranty Deed',
+            qualified_sale: lastSale.sale_qualification === 'Q',
+            is_distressed: false,
+            is_bank_sale: false,
+            is_cash_sale: false,
+            book: lastSale.book,
+            page: lastSale.page,
+            document_type: lastSale.deed_type || 'Warranty Deed',
+            grantor_name: lastSale.grantor,
+            grantee_name: lastSale.grantee,
+            vi_code: null,
+            sale_reason: null,
+            book_page: lastSale.book && lastSale.page ? `${lastSale.book}/${lastSale.page}` : null,
+            cin: lastSale.instrument_number,
+            record_link: 'https://officialrecords.broward.org/oncorewebaccesspublic/search.aspx'
           }
         }
       }
-      
-      let sdfData = sdfResponse.data || []
-      const navData = navResponse.data || []
-      const tppData = []
 
-      // Only use real sales data from database
-
-      // Calculate derived data
-      let lastSale = sdfData[0]
-      
-      // If no SDF data but we have sale info in florida_parcels, use that
-      if (sdfData.length === 0 && floridaParcel?.sale_price) {
-        // Create a sales record from florida_parcels data
-        const saleRecord = {
-          sale_date: floridaParcel.sale_date,
-          sale_price: String(floridaParcel.sale_price),
-          sale_type: floridaParcel.sale_type || floridaParcel.deed_type || 'Warranty Deed',
-          qualified_sale: true,
-          is_distressed: floridaParcel.is_distressed || false,
-          is_bank_sale: floridaParcel.is_bank_sale || false,
-          is_cash_sale: false,
-          book: floridaParcel.or_book || null,
-          page: floridaParcel.or_page || null,
-          document_type: floridaParcel.deed_type || 'Warranty Deed',
-          grantor_name: null,
-          grantee_name: floridaParcel.owner_name || null,
-          vi_code: floridaParcel.vi_code || null,
-          sale_reason: null,
-          book_page: floridaParcel.book_page || floridaParcel.recording_book_page,
-          cin: floridaParcel.cin || floridaParcel.clerk_instrument_number,
-          record_link: floridaParcel.record_link || 'https://officialrecords.broward.org/oncorewebaccesspublic/search.aspx'
+      // If no sales history but we have sale info in property data, use that
+      if (!lastSale && bcpaData?.sale_price) {
+        const salePrice = parseFloat(String(bcpaData.sale_price))
+        if (salePrice >= 1000) {
+          lastSale = {
+            sale_date: bcpaData.sale_date,
+            sale_price: String(bcpaData.sale_price),
+            sale_type: 'Warranty Deed',
+            qualified_sale: true,
+            is_distressed: false,
+            is_bank_sale: false,
+            is_cash_sale: false,
+            book: null,
+            page: null,
+            document_type: 'Warranty Deed',
+            grantor_name: null,
+            grantee_name: bcpaData.owner_name,
+            vi_code: null,
+            sale_reason: null,
+            book_page: null,
+            cin: null,
+            record_link: null
+          }
         }
-        sdfData = [saleRecord]
-        lastSale = saleRecord
-      } else if (sdfData.length > 0) {
-        lastSale = sdfData[0]
       }
       const totalNavAssessment = navData.reduce((sum: number, nav: any) => 
         sum + (parseFloat(nav.total_assessment) || 0), 0
@@ -482,7 +411,7 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '') =>
         sunbiz: sunbizData.length > 0
       }
 
-      setData({
+      const finalData = {
         bcpaData,
         sdfData,
         navData,
@@ -495,7 +424,10 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '') =>
         opportunities,
         riskFactors,
         dataQuality
-      })
+      };
+
+      console.log('usePropertyData - Setting final data:', finalData);
+      setData(finalData)
     } catch (err) {
       console.error('Error fetching property data:', err)
       setError('Failed to fetch property data from database')
@@ -584,3 +516,4 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '') =>
     refetch: fetchPropertyData
   }
 }
+// Updated to use fast API

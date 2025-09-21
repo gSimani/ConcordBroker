@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { getUseCodeName, getUseCodeDescription } from '@/lib/useCodeMapping';
 import { 
   MapPin, User, Hash, Building, DollarSign, Calendar, 
   FileText, Home, Calculator, Ruler, Shield, TrendingUp,
@@ -12,6 +13,64 @@ const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL || '',
   import.meta.env.VITE_SUPABASE_ANON_KEY || ''
 );
+
+// Utility function to display Units/Beds/Baths based on property type
+function getUnitsBedsRoomsDisplay(bcpaData: any): string {
+  // Map legacy BCPA data fields to expected values
+  const propertyUse = bcpaData?.propertyUse || bcpaData?.property_use || bcpaData?.property_use_code || bcpaData?.dor_uc;
+  const buildingSqFt = bcpaData?.buildingSqFt || bcpaData?.building_sqft || bcpaData?.tot_lvg_area || bcpaData?.living_area || 0;
+  const hasBuilding = buildingSqFt && buildingSqFt > 0;
+
+  // Get actual values or defaults
+  const units = bcpaData?.units || (hasBuilding ? 1 : 0);
+  const bedrooms = bcpaData?.bedrooms;
+  const bathrooms = bcpaData?.bathrooms;
+
+  // Property use codes: 0=Vacant Land, 1-3=Residential, 4-7=Commercial, 8-9=Industrial, 10-12=Agricultural
+  const propertyUseNum = parseInt(String(propertyUse || '0'));
+
+  // For Vacant Land (no building)
+  if (propertyUseNum === 0 || !hasBuilding) {
+    return 'N/A (Vacant Land)';
+  }
+
+  // For Residential properties (use codes 1, 2, 3, and 4 for condos/townhomes)
+  if (propertyUseNum >= 1 && propertyUseNum <= 4) {
+    // If we have bedroom/bathroom data, show it
+    if (bedrooms && bathrooms) {
+      return `${units} / ${bedrooms} / ${bathrooms}`;
+    }
+    // If no bed/bath data but has building, estimate based on square footage
+    if (hasBuilding) {
+      const estimatedBeds = Math.max(1, Math.floor(buildingSqFt / 500)); // Rough estimate: 500 sqft per bedroom
+      const estimatedBaths = Math.max(1, Math.floor(estimatedBeds / 1.5)); // Rough ratio
+      return `${units} / ${estimatedBeds}* / ${estimatedBaths}*`;
+    }
+    return `${units} / - / -`;
+  }
+
+  // For Commercial properties (use codes 5, 6, 7)
+  if (propertyUseNum >= 5 && propertyUseNum <= 7) {
+    return `${units} Units (Commercial)`;
+  }
+
+  // For Industrial properties (use codes 8, 9)
+  if (propertyUseNum >= 8 && propertyUseNum <= 9) {
+    return `${units} Units (Industrial)`;
+  }
+
+  // For Agricultural properties (use codes 10, 11, 12)
+  if (propertyUseNum >= 10 && propertyUseNum <= 12) {
+    return hasBuilding ? `${units} Buildings (Agricultural)` : 'N/A (Agricultural Land)';
+  }
+
+  // For other/unknown property types
+  if (hasBuilding) {
+    return `${units} Units`;
+  }
+
+  return 'N/A';
+}
 
 interface CorePropertyTabProps {
   propertyData: any;
@@ -26,6 +85,18 @@ export function CorePropertyTab({ propertyData }: CorePropertyTabProps) {
   console.log('CorePropertyTab - propertyData:', propertyData);
   console.log('CorePropertyTab - bcpaData:', bcpaData);
   console.log('CorePropertyTab - sdfData:', sdfData);
+  console.log('CorePropertyTab - salesHistory state:', salesHistory);
+  console.log('CorePropertyTab - loadingSales state:', loadingSales);
+
+  // Simple debug - just log what we have
+  console.log('Sales History Debug - Simple:', {
+    salesHistoryLength: salesHistory?.length || 0,
+    sdfDataLength: sdfData?.length || 0,
+    bcpaSalePrice: bcpaData?.sale_price,
+    propertySalePrice: propertyData?.sale_prc1,
+    bcpaData: bcpaData,
+    sdfData: sdfData
+  });
 
   // Fetch comprehensive sales history
   useEffect(() => {
@@ -55,19 +126,20 @@ export function CorePropertyTab({ propertyData }: CorePropertyTabProps) {
           // Fallback to sdfData or create from existing data
           const combinedSales = [];
           
-          // Check if propertyData has direct sales information
-          if (propertyData?.sale_prc1 || propertyData?.sale_price) {
+          // Check if propertyData has direct sales information - filter out sales under $1000
+          const propSalePrice = propertyData?.sale_prc1 || propertyData?.sale_price;
+          if (propSalePrice && parseFloat(propSalePrice) >= 1000) {
             console.log('Using propertyData sales info:', {
               sale_prc1: propertyData.sale_prc1,
               sale_yr1: propertyData.sale_yr1,
               sale_mo1: propertyData.sale_mo1
             });
-            
+
             combinedSales.push({
-              sale_date: propertyData.sale_yr1 && propertyData.sale_mo1 ? 
-                `${propertyData.sale_yr1}-${String(propertyData.sale_mo1).padStart(2, '0')}-01` : 
+              sale_date: propertyData.sale_yr1 && propertyData.sale_mo1 ?
+                `${propertyData.sale_yr1}-${String(propertyData.sale_mo1).padStart(2, '0')}-01` :
                 propertyData.sale_date || new Date().toISOString(),
-              sale_price: propertyData.sale_prc1 || propertyData.sale_price || 0,
+              sale_price: propSalePrice,
               sale_type: propertyData.qual_cd1 === 'Q' ? 'Warranty Deed' : 
                 propertyData.deed_type || propertyData.sale_type || 'Standard Sale',
               sale_qualification: propertyData.qual_cd1 === 'Q' ? 'Qualified' : 'Unqualified',
@@ -81,12 +153,14 @@ export function CorePropertyTab({ propertyData }: CorePropertyTabProps) {
             });
           }
           
-          // Use sdfData if available
+          // Use sdfData if available - filter out sales under $1000
           if (sdfData && sdfData.length > 0) {
             sdfData.forEach((sale: any) => {
-              combinedSales.push({
-                sale_date: sale.sale_date,
-                sale_price: sale.sale_price,
+              const salePrice = parseFloat(sale.sale_price || '0');
+              if (salePrice >= 1000) {
+                combinedSales.push({
+                  sale_date: sale.sale_date,
+                  sale_price: sale.sale_price,
                 sale_type: sale.sale_type || sale.deed_type || sale.sale_qualification || 'Warranty Deed',
                 sale_qualification: sale.sale_qualification || sale.qualified_sale || 'Qualified',
                 book: sale.book || sale.or_book,
@@ -103,15 +177,16 @@ export function CorePropertyTab({ propertyData }: CorePropertyTabProps) {
                 is_qualified_sale: sale.qualified_sale !== false,
                 record_link: sale.record_link || `https://officialrecords.broward.org/oncorewebaccesspublic/search.aspx`,
                 subdivision_name: sale.subdivision_name || bcpaData.subdivision,
-                price_per_sqft: sale.sale_price && bcpaData.living_area ? 
+                price_per_sqft: sale.sale_price && bcpaData.living_area ?
                   Math.round(sale.sale_price / bcpaData.living_area) : null
-              });
+                });
+              }
             });
           }
           
-          // Add current sale from bcpaData if not already included
-          if (bcpaData.sale_date && bcpaData.sale_price) {
-            const currentSaleExists = combinedSales.some((s: any) => 
+          // Add current sale from bcpaData if not already included and over $1000
+          if (bcpaData.sale_date && bcpaData.sale_price && parseFloat(bcpaData.sale_price) >= 1000) {
+            const currentSaleExists = combinedSales.some((s: any) =>
               s.sale_date === bcpaData.sale_date && s.sale_price == bcpaData.sale_price
             );
             
@@ -249,12 +324,10 @@ export function CorePropertyTab({ propertyData }: CorePropertyTabProps) {
                   Property Use
                 </span>
                 <span className="text-sm font-medium text-navy">
-                  {bcpaData?.property_use_code || 'N/A'}
-                  {bcpaData?.property_use_code && (
-                    <span className="text-xs text-gray-500 block">
-                      {getPropertyUseDescription(bcpaData.property_use_code)}
-                    </span>
-                  )}
+                  {getUseCodeName(bcpaData?.property_use_code || bcpaData?.dor_uc || '000')}
+                  <span className="text-xs text-gray-500 block">
+                    {getUseCodeDescription(bcpaData?.property_use_code || bcpaData?.dor_uc || '000')}
+                  </span>
                 </span>
               </div>
             </div>
@@ -291,44 +364,177 @@ export function CorePropertyTab({ propertyData }: CorePropertyTabProps) {
 
               <div className="flex justify-between items-start border-b border-gray-100 pb-2">
                 <span className="text-sm text-gray-600">Annual Tax</span>
-                <span className="text-sm font-semibold text-red-600">
-                  {formatCurrency(bcpaData?.tax_amount)}
-                </span>
+                <div className="text-right">
+                  <span className="text-sm font-semibold text-red-600">
+                    {formatCurrency(bcpaData?.tax_amount)}
+                  </span>
+                  {/* Tax Analysis Context */}
+                  {(() => {
+                    const taxAmount = parseFloat(bcpaData?.tax_amount || '0');
+                    const assessedValue = parseFloat(bcpaData?.assessed_value || '0');
+                    const marketValue = parseFloat(bcpaData?.market_value || bcpaData?.just_value || '0');
+
+                    // Calculate effective tax rate
+                    const taxRate = assessedValue > 0 ? (taxAmount / assessedValue) * 100 : 0;
+
+                    // Determine tax status and provide context
+                    if (taxAmount === 0 || !taxAmount) {
+                      return (
+                        <div className="mt-1">
+                          <span className="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded-full">
+                            Tax Exempt
+                          </span>
+                          <p className="text-xs text-gray-500 mt-1">Likely: Non-profit, Government, or Religious</p>
+                        </div>
+                      );
+                    } else if (taxRate < 0.5) {
+                      return (
+                        <div className="mt-1">
+                          <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
+                            Low Tax Rate: {taxRate.toFixed(2)}%
+                          </span>
+                          <p className="text-xs text-gray-500 mt-1">Likely: Homestead or Agricultural Exemption</p>
+                        </div>
+                      );
+                    } else if (taxRate > 3.0) {
+                      return (
+                        <div className="mt-1">
+                          <span className="text-xs bg-red-100 text-red-800 px-2 py-1 rounded-full">
+                            High Tax Rate: {taxRate.toFixed(2)}%
+                          </span>
+                          <p className="text-xs text-gray-500 mt-1">May include special assessments</p>
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <div className="mt-1">
+                          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                            Standard Rate: {taxRate.toFixed(2)}%
+                          </span>
+                          <p className="text-xs text-gray-500 mt-1">Typical for this area</p>
+                        </div>
+                      );
+                    }
+                  })()}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </Card>
 
-      {/* Exemptions */}
+      {/* Exemptions & Tax Context */}
       <Card className="elegant-card">
         <div className="p-6">
           <h3 className="text-lg font-semibold text-navy mb-4 flex items-center">
             <Shield className="w-5 h-5 mr-2 text-gold" />
-            Exemptions
+            Exemptions & Tax Analysis
           </h3>
-          
-          <div className="flex items-center justify-between">
+
+          {/* Homestead Exemption */}
+          <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-2">
               <Home className="w-4 h-4 text-gray-600" />
               <span className="text-sm text-gray-600">Homestead Exemption</span>
             </div>
             {bcpaData?.homestead_exemption ? (
-              <Badge className="bg-green-100 text-green-800 flex items-center">
-                <CheckCircle className="w-3 h-3 mr-1" />
-                Active
-              </Badge>
+              <div className="text-right">
+                <Badge className="bg-green-100 text-green-800 flex items-center">
+                  <CheckCircle className="w-3 h-3 mr-1" />
+                  Active
+                </Badge>
+                <p className="text-xs text-green-600 mt-1">Primary residence protection</p>
+              </div>
             ) : (
-              <Badge variant="outline" className="flex items-center">
-                <XCircle className="w-3 h-3 mr-1" />
-                None
-              </Badge>
+              <div className="text-right">
+                <Badge variant="outline" className="flex items-center">
+                  <XCircle className="w-3 h-3 mr-1" />
+                  None
+                </Badge>
+                <p className="text-xs text-gray-500 mt-1">Not primary residence</p>
+              </div>
             )}
           </div>
-          
+
+          {/* Intelligent Exemption Analysis */}
+          {(() => {
+            const ownerName = bcpaData?.owner_name?.toLowerCase() || '';
+            const taxAmount = parseFloat(bcpaData?.tax_amount || '0');
+            const assessedValue = parseFloat(bcpaData?.assessed_value || '0');
+            const taxRate = assessedValue > 0 ? (taxAmount / assessedValue) * 100 : 0;
+
+            // Detect potential exemption types from owner name
+            const detectedExemptions = [];
+            if (ownerName.includes('church') || ownerName.includes('baptist') || ownerName.includes('methodist') || ownerName.includes('catholic')) {
+              detectedExemptions.push({ type: 'Religious', reason: 'Religious organization' });
+            }
+            if (ownerName.includes('school') || ownerName.includes('education') || ownerName.includes('university') || ownerName.includes('college')) {
+              detectedExemptions.push({ type: 'Educational', reason: 'Educational institution' });
+            }
+            if (ownerName.includes('hospital') || ownerName.includes('medical') || ownerName.includes('health')) {
+              detectedExemptions.push({ type: 'Medical', reason: 'Healthcare facility' });
+            }
+            if (ownerName.includes('city of') || ownerName.includes('county') || ownerName.includes('state of') || ownerName.includes('government')) {
+              detectedExemptions.push({ type: 'Government', reason: 'Government entity' });
+            }
+            if (ownerName.includes('non profit') || ownerName.includes('nonprofit') || ownerName.includes('foundation') || ownerName.includes('charity')) {
+              detectedExemptions.push({ type: 'Non-Profit', reason: 'Non-profit organization' });
+            }
+            if (ownerName.includes('veteran') || ownerName.includes('disabled veteran')) {
+              detectedExemptions.push({ type: 'Veteran', reason: 'Veteran exemption' });
+            }
+            if (ownerName.includes('senior') || ownerName.includes('elderly')) {
+              detectedExemptions.push({ type: 'Senior', reason: 'Senior citizen exemption' });
+            }
+            if (ownerName.includes('agricultural') || ownerName.includes('farm') || ownerName.includes('ranch')) {
+              detectedExemptions.push({ type: 'Agricultural', reason: 'Agricultural use exemption' });
+            }
+
+            // Show detected exemptions
+            if (detectedExemptions.length > 0 || taxAmount === 0) {
+              return (
+                <div className="mt-4 pt-4 border-t border-gray-200">
+                  <h4 className="text-sm font-semibold text-gray-700 mb-3">Detected Tax Benefits:</h4>
+                  <div className="grid grid-cols-1 gap-2">
+                    {detectedExemptions.map((exemption, index) => (
+                      <div key={index} className="flex items-center justify-between p-2 bg-yellow-50 rounded-lg border border-yellow-200">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-yellow-600 rounded-full"></div>
+                          <span className="text-sm font-medium text-yellow-800">{exemption.type} Exemption</span>
+                        </div>
+                        <span className="text-xs text-yellow-600">{exemption.reason}</span>
+                      </div>
+                    ))}
+
+                    {taxAmount === 0 && detectedExemptions.length === 0 && (
+                      <div className="flex items-center justify-between p-2 bg-orange-50 rounded-lg border border-orange-200">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-orange-600 rounded-full"></div>
+                          <span className="text-sm font-medium text-orange-800">Tax Exempt Property</span>
+                        </div>
+                        <span className="text-xs text-orange-600">Zero tax liability</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Investment implications */}
+                  <div className="mt-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                    <p className="text-xs text-blue-700">
+                      <strong>Investment Note:</strong> Tax exemptions may indicate special use restrictions,
+                      limited transferability, or specific ownership requirements that could affect investment potential.
+                    </p>
+                  </div>
+                </div>
+              );
+            }
+
+            return null;
+          })()}
+
+          {/* Other exemptions from data */}
           {bcpaData?.other_exemptions && (
             <div className="mt-3 pt-3 border-t">
-              <span className="text-sm text-gray-600">Other Exemptions:</span>
+              <span className="text-sm text-gray-600">Additional Exemptions:</span>
               <span className="text-sm font-medium text-navy ml-2">
                 {bcpaData.other_exemptions}
               </span>
@@ -350,12 +556,15 @@ export function CorePropertyTab({ propertyData }: CorePropertyTabProps) {
               <RefreshCw className="w-6 h-6 animate-spin text-gold mr-2" />
               <span className="text-sm text-gray-500">Loading sales history...</span>
             </div>
-          ) : salesHistory && salesHistory.length > 0 ? (
+          ) : (salesHistory && salesHistory.length > 0) || (sdfData && sdfData.length > 0) ? (
             <div className="space-y-4">
               {/* Header with total sales count */}
               <div className="flex items-center justify-between pb-2 border-b border-gray-200">
                 <span className="text-sm font-medium text-navy">
-                  {salesHistory.length} Sale Record{salesHistory.length > 1 ? 's' : ''}
+                  {(salesHistory && salesHistory.length > 0) ?
+                    `${salesHistory.length} Sale Record${salesHistory.length > 1 ? 's' : ''}` :
+                    `${sdfData?.length || 0} Sale Record${(sdfData?.length || 0) > 1 ? 's' : ''}`
+                  }
                 </span>
                 <span className="text-xs text-gray-500 uppercase tracking-wider">
                   Subdivision Sales
@@ -382,8 +591,7 @@ export function CorePropertyTab({ propertyData }: CorePropertyTabProps) {
                     </tr>
                   </thead>
                   <tbody>
-                    {salesHistory
-                      .map((sale: any, index: number) => (
+                    {((salesHistory && salesHistory.length > 0) ? salesHistory : sdfData || []).map((sale: any, index: number) => (
                         <tr 
                           key={index}
                           className={`border-b border-gray-50 hover:bg-gray-25 transition-colors ${
@@ -528,48 +736,60 @@ export function CorePropertyTab({ propertyData }: CorePropertyTabProps) {
               </div>
 
               {/* Sales Summary */}
-              {salesHistory.length > 1 && (
+              {((salesHistory && salesHistory.length > 1) ||
+                (sdfData && sdfData.length > 1) ||
+                (!salesHistory || salesHistory.length === 0)) && (
                 <div className="mt-4 pt-4 border-t border-gray-200">
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
                     <div>
                       <span className="text-xs text-gray-500 block">Total Sales</span>
                       <span className="text-lg font-semibold text-navy">
-                        {salesHistory.length}
+                        {(salesHistory && salesHistory.length > 0) ? salesHistory.length : (sdfData?.length || 0)}
                       </span>
                     </div>
                     <div>
                       <span className="text-xs text-gray-500 block">Avg Price</span>
                       <span className="text-lg font-semibold text-green-600">
-                        {formatCurrency(
-                          salesHistory
-                            .filter((s: any) => s.sale_price > 0)
-                            .reduce((sum: number, s: any) => sum + (typeof s.sale_price === 'string' ? parseFloat(s.sale_price) : s.sale_price), 0) / 
-                          salesHistory.filter((s: any) => s.sale_price > 0).length || 0
-                        )}
+                        {(() => {
+                          const activeData = (salesHistory && salesHistory.length > 0) ? salesHistory : (sdfData || []);
+                          const validSales = activeData.filter((s: any) => parseFloat(s.sale_price || '0') > 0);
+                          const avgPrice = validSales.length > 0 ?
+                            validSales.reduce((sum: number, s: any) =>
+                              sum + parseFloat(s.sale_price || '0'), 0) / validSales.length : 0;
+
+                          return formatCurrency(avgPrice);
+                        })()}
                       </span>
                     </div>
                     <div>
                       <span className="text-xs text-gray-500 block">Highest Price</span>
                       <span className="text-lg font-semibold text-green-700">
-                        {formatCurrency(
-                          Math.max(...salesHistory.map((s: any) => {
-                            const price = typeof s.sale_price === 'string' ? parseFloat(s.sale_price) : s.sale_price;
-                            return price || 0;
-                          }))
-                        )}
+                        {(() => {
+                          const activeData = (salesHistory && salesHistory.length > 0) ? salesHistory : (sdfData || []);
+                          const maxPrice = activeData.length > 0 ?
+                            Math.max(...activeData.map((s: any) => parseFloat(s.sale_price || '0'))) : 0;
+
+                          return formatCurrency(maxPrice);
+                        })()}
                       </span>
                     </div>
                     <div>
                       <span className="text-xs text-gray-500 block">Date Range</span>
                       <span className="text-sm font-medium text-navy">
-                        {salesHistory.length > 1 ? (
-                          <>
-                            {new Date(Math.min(...salesHistory.map((s: any) => new Date(s.sale_date).getTime()))).getFullYear()} - {' '}
-                            {new Date(Math.max(...salesHistory.map((s: any) => new Date(s.sale_date).getTime()))).getFullYear()}
-                          </>
-                        ) : (
-                          formatDate(salesHistory[0].sale_date)
-                        )}
+                        {(() => {
+                          const activeData = (salesHistory && salesHistory.length > 0) ? salesHistory : (sdfData || []);
+                          if (activeData.length > 1) {
+                            const dates = activeData
+                              .filter((s: any) => s.sale_date)
+                              .map((s: any) => new Date(s.sale_date).getTime());
+                            if (dates.length > 1) {
+                              return `${new Date(Math.min(...dates)).getFullYear()} - ${new Date(Math.max(...dates)).getFullYear()}`;
+                            }
+                          }
+
+                          return activeData.length > 0 && activeData[0].sale_date ?
+                            formatDate(activeData[0].sale_date) : 'N/A';
+                        })()}
                       </span>
                     </div>
                   </div>
@@ -579,10 +799,55 @@ export function CorePropertyTab({ propertyData }: CorePropertyTabProps) {
           ) : (
             <div className="text-center py-8">
               <TrendingUp className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-              <p className="text-sm text-gray-500">No sales history available</p>
-              <p className="text-xs text-gray-400 mt-1">
-                Property may be newly constructed or have no recorded sales
-              </p>
+              <p className="text-lg font-medium text-gray-700 mb-4">No Sales History Available</p>
+
+              {/* Business Context for Missing Sales Data */}
+              <div className="bg-blue-50 rounded-lg p-4 max-w-lg mx-auto">
+                <p className="text-sm font-semibold text-blue-800 mb-3">Likely Reasons:</p>
+                <div className="grid grid-cols-1 gap-2 text-left">
+                  <div className="flex items-start space-x-2">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mt-1.5"></div>
+                    <div>
+                      <span className="text-sm font-medium text-blue-700">Inherited Property</span>
+                      <p className="text-xs text-blue-600">Transferred through family estate/will</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-2">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mt-1.5"></div>
+                    <div>
+                      <span className="text-sm font-medium text-blue-700">Gift Transfer</span>
+                      <p className="text-xs text-blue-600">Property gifted between family/friends</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-2">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mt-1.5"></div>
+                    <div>
+                      <span className="text-sm font-medium text-blue-700">Corporate/Trust Transfer</span>
+                      <p className="text-xs text-blue-600">Business entity or trust ownership</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-2">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mt-1.5"></div>
+                    <div>
+                      <span className="text-sm font-medium text-blue-700">Pre-Digital Records</span>
+                      <p className="text-xs text-blue-600">Sales before electronic record keeping</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-2">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mt-1.5"></div>
+                    <div>
+                      <span className="text-sm font-medium text-blue-700">Government/Municipal Property</span>
+                      <p className="text-xs text-blue-600">Public sector ownership transfer</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-3 pt-3 border-t border-blue-200">
+                  <p className="text-xs text-blue-600">
+                    <strong>Investment Note:</strong> Properties without sales history may indicate long-term family ownership,
+                    stable ownership patterns, or unique acquisition circumstances worth investigating further.
+                  </p>
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -640,7 +905,7 @@ export function CorePropertyTab({ propertyData }: CorePropertyTabProps) {
               <div className="flex justify-between items-center">
                 <span className="text-sm text-gray-600">Units/Beds/Baths</span>
                 <span className="text-sm font-medium text-navy">
-                  {bcpaData?.units || '1'} / {bcpaData?.bedrooms || '?'} / {bcpaData?.bathrooms || '?'}
+                  {getUnitsBedsRoomsDisplay(bcpaData)}
                 </span>
               </div>
               

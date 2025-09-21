@@ -1,6 +1,7 @@
 import axios from 'axios'
+import type { AuthResponse, PropertyData, PropertySearchParams } from '@/types/api'
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'  // Property API server
 
 console.log('API Base URL:', API_BASE_URL);
 
@@ -26,9 +27,37 @@ client.interceptors.request.use(
 
 // Response interceptor for error handling
 client.interceptors.response.use(
-  (response) => response.data,
+  (response) => {
+    const data = response.data;
+
+    // Handle fast API response format for search endpoint
+    if (data && data.success === true && data.data && Array.isArray(data.data)) {
+      // Fast API returns { success: true, data: [...], pagination: {...} }
+      // Transform to expected format { properties: [...], pagination: {...}, total: n }
+      return {
+        properties: data.data,
+        data: data.data,
+        pagination: data.pagination,
+        total: data.pagination?.total || data.data.length,
+        success: true
+      };
+    }
+
+    // Handle fast API response for property detail endpoint
+    if (data && data.property) {
+      return data; // Return as-is for property detail
+    }
+
+    // Return original data for other responses
+    return data;
+  },
   (error) => {
-    if (error.response?.status === 401) {
+    console.error('API Error:', error.config?.url, error.message);
+
+    // Don't redirect to login for public property endpoints
+    const isPropertyEndpoint = error.config?.url?.includes('/properties') || error.config?.url?.includes('/fast');
+
+    if (error.response?.status === 401 && !isPropertyEndpoint) {
       localStorage.removeItem('access_token')
       localStorage.removeItem('refresh_token')
       localStorage.removeItem('user')
@@ -40,21 +69,21 @@ client.interceptors.response.use(
 
 export const api = {
   // Authentication
-  signUp: (email: string, password: string, fullName?: string, company?: string) =>
-    client.post('/api/v1/auth/signup', { 
-      email, 
+  signUp: (email: string, password: string, fullName?: string, company?: string): Promise<AuthResponse> =>
+    client.post('/api/v1/auth/signup', {
+      email,
       password,
       full_name: fullName,
       company
     }),
-  
-  signIn: (email: string, password: string) =>
+
+  signIn: (email: string, password: string): Promise<AuthResponse> =>
     client.post('/api/v1/auth/signin', { email, password }),
   
   signOut: () =>
     client.post('/api/v1/auth/signout'),
   
-  refreshToken: (refreshToken: string) =>
+  refreshToken: (refreshToken: string): Promise<AuthResponse> =>
     client.post('/api/v1/auth/refresh', { refresh_token: refreshToken }),
   
   resetPassword: (email: string) =>
@@ -62,33 +91,39 @@ export const api = {
   
   updatePassword: (newPassword: string) =>
     client.post('/api/v1/auth/update-password', { new_password: newPassword }),
-  
+
   getCurrentUser: () =>
     client.get('/api/v1/auth/me'),
+
+  sendVerificationCode: (phone: string): Promise<AuthResponse> =>
+    client.post('/api/v1/auth/send-verification', { phone }),
+
+  verifyCode: (phone: string, code: string): Promise<AuthResponse> =>
+    client.post('/api/v1/auth/verify-code', { phone, code }),
   
-  // Properties - Address-based API
+  // Properties - Fast API endpoints
   searchProperties: (params: URLSearchParams) =>
     client.get(`/api/properties/search?${params.toString()}`),
-  
+
   getProperty: (id: string) =>
     client.get(`/api/properties/${id}`),
-    
+
   getPropertyByAddress: (address: string, city?: string) => {
-    const url = city 
+    const url = city
       ? `/api/properties/address/${encodeURIComponent(address)}?city=${encodeURIComponent(city)}`
       : `/api/properties/address/${encodeURIComponent(address)}`;
     return client.get(url);
   },
-  
+
   getPropertyByParcel: (parcelId: string) =>
-    client.get(`/api/properties/parcel/${parcelId}`),
+    client.get(`/api/properties/${parcelId}`),
   
   // Dashboard Statistics
   getOverviewStats: () =>
-    client.get('/api/properties/stats/overview'),
+    client.get('/api/fast/stats'),
     
   getCityStats: () =>
-    client.get('/api/properties/stats/by-city'),
+    client.get('/api/fast/cities'),
     
   getTypeStats: () =>
     client.get('/api/properties/stats/by-type'),
@@ -127,7 +162,7 @@ export const api = {
   
   // Health
   getHealth: () =>
-    client.get('/health'),
+    client.get('/api/fast/health'),
   
   getDetailedHealth: () =>
     client.get('/health/detailed'),
@@ -135,11 +170,18 @@ export const api = {
   getSystemStatus: () =>
     client.get('/status'),
   
+  // Autocomplete endpoints - Fast API
+  getAddressSuggestions: (query: string, limit: number = 10) =>
+    client.get(`/api/autocomplete/addresses?q=${encodeURIComponent(query)}&limit=${limit}`),
+
+  getOwnerSuggestions: (query: string, limit: number = 10) =>
+    client.get(`/api/autocomplete/owners?q=${encodeURIComponent(query)}&limit=${limit}`),
+
   // Helper methods for token management
   setAuthToken: (token: string) => {
     localStorage.setItem('access_token', token)
   },
-  
+
   clearAuthToken: () => {
     localStorage.removeItem('access_token')
     localStorage.removeItem('refresh_token')
@@ -148,3 +190,5 @@ export const api = {
 }
 
 export default client
+// Updated to use fast API
+// Force reload

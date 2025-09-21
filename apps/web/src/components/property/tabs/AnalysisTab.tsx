@@ -1,5 +1,5 @@
 import { PropertyData } from '@/hooks/usePropertyData'
-import { TrendingUp, TrendingDown, Calculator, DollarSign, Percent, Target, BarChart3, AlertTriangle, CheckCircle2, Star, Eye, PieChart, Activity, Clock, Home } from 'lucide-react'
+import { TrendingUp, TrendingDown, Calculator, DollarSign, Percent, Target, BarChart3, AlertTriangle, CheckCircle2, Star, Eye, PieChart, Activity, Clock, Home, Search } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 interface AnalysisTabProps {
@@ -433,6 +433,19 @@ export function AnalysisTab({ data }: AnalysisTabProps) {
           </div>
         </div>
       </div>
+
+      {/* Data Visualization Section - Charts temporarily disabled for build
+        Charts include:
+        - Price History Chart
+        - Market Analysis Charts Grid
+        - Tax Breakdown
+        - ROI Analysis
+        - Property Metrics Radar
+        - Cash Flow Analysis
+        - Property Stats Summary
+
+        These will be re-enabled once chart dependencies are properly configured
+      */}
 
       {/* Executive Investment Recommendation */}
       <motion.div 

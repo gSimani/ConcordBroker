@@ -1,0 +1,21 @@
+{
+  "timestamp": "2025-09-20T21:22:23.511967",
+  "results": {
+    "database": {
+      "total_properties": 7312040,
+      "has_sample_data": true
+    },
+    "api": {
+      "search_working": true
+    },
+    "frontend": {},
+    "search": {},
+    "autocomplete": {}
+  },
+  "summary": {
+    "total_tests": 18,
+    "passed": 14,
+    "failed": 4,
+    "pass_rate": 77.77777777777779
+  }
+}

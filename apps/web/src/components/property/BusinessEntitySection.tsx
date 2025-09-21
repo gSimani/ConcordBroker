@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { supabase } from '@/lib/supabase'
+import type { EntityMatch } from '@/types/api'
 import '@/styles/elegant-property.css'
 import {
   Building2,
@@ -30,16 +31,7 @@ interface BusinessEntitySectionProps {
   address?: string
 }
 
-interface EntityMatch {
-  entity_doc_number: string
-  entity_name: string
-  entity_type: string
-  confidence_score: number
-  match_type: string
-  status?: string
-  filing_date?: string
-  registered_agent?: string
-}
+// Use EntityMatch from types/api.ts
 
 interface EntityDetails {
   entity: any
@@ -71,7 +63,7 @@ export function BusinessEntitySection({ parcelId, ownerName, address }: Business
         .from('property_entity_matches')
         .select('*')
         .eq('parcel_id', parcelId)
-        .order('confidence_score', { ascending: false })
+        .order('match_confidence', { ascending: false })
 
       if (existingMatches && existingMatches.length > 0) {
         setMatches(existingMatches)
@@ -275,10 +267,10 @@ export function BusinessEntitySection({ parcelId, ownerName, address }: Business
 
                     <div className="text-right">
                       <div className="mb-2">
-                        {getConfidenceBadge(match.confidence_score)}
+                        {getConfidenceBadge(match.match_confidence)}
                       </div>
                       <div className="text-sm text-gray-600">
-                        {match.confidence_score.toFixed(1)}% match
+                        {match.match_confidence.toFixed(1)}% match
                       </div>
                       {!match.verified && (
                         <Button
@@ -296,7 +288,7 @@ export function BusinessEntitySection({ parcelId, ownerName, address }: Business
                     </div>
                   </div>
 
-                  <Progress value={match.confidence_score} className="mt-3 h-2" />
+                  <Progress value={match.match_confidence} className="mt-3 h-2" />
                 </div>
               ))}
             </TabsContent>

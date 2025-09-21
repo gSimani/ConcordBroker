@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { FormattedInput } from '@/components/ui/formatted-input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -12,7 +13,9 @@ import { AISearchEnhanced } from '@/components/ai/AISearchEnhanced';
 import { TaxDeedSalesTab } from '@/components/property/tabs/TaxDeedSalesTab';
 import { useDataPipeline } from '@/lib/data-pipeline';
 import { useOptimizedPropertySearch } from '@/hooks/useOptimizedPropertySearch';
+import { api } from '@/api/client';
 import { OptimizedSearchBar } from '@/components/OptimizedSearchBar';
+import { getPropertyTypeFilter, matchesPropertyTypeFilter } from '@/lib/dorUseCodes';
 import '@/styles/elegant-property.css';
 import {
   Search,
@@ -80,7 +83,9 @@ export function PropertySearch({}: PropertySearchProps) {
   const [totalResults, setTotalResults] = useState(0);
   const [searchResults, setSearchResults] = useState<any>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(100); // Increased for better performance with 789k properties
+  const [pageSize, setPageSize] = useState(50); // Optimized for 6.4M properties
+  const [totalPages, setTotalPages] = useState(0);
+  const [pagination, setPagination] = useState<any>(null);
   const [showMapView, setShowMapView] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<any>(null);
   const [selectedProperties, setSelectedProperties] = useState<Set<string>>(new Set());
@@ -223,10 +228,10 @@ export function PropertySearch({}: PropertySearchProps) {
     searchProperties();
   }, []); // Only run once on mount
 
-  // Auto-filter with optimized pipeline
+  // Comprehensive auto-filter that triggers on any meaningful filter changes
   useEffect(() => {
     if (isInitialMount.current) {
-      // Skip first render since we handle it above
+      // Skip first render since we handle it in the initial mount effect
       isInitialMount.current = false;
       return;
     }
@@ -236,19 +241,46 @@ export function PropertySearch({}: PropertySearchProps) {
       clearTimeout(searchTimeoutRef.current);
     }
 
-    // Fast debounce with pipeline caching
-    searchTimeoutRef.current = setTimeout(() => {
-      console.log('Fast auto-filter:', filters);
+    // Immediate search for category toggles (no debounce needed)
+    if (filters.propertyType !== '' || filters.hasPool || filters.hasWaterfront) {
+      console.log('Category filter changed - immediate search:', {
+        propertyType: filters.propertyType,
+        hasPool: filters.hasPool,
+        hasWaterfront: filters.hasWaterfront
+      });
       searchProperties(1);
-    }, 150); // Reduced to 150ms with caching
+      return;
+    }
 
-    // Cleanup
+    // Check if any searchable filters have values
+    const hasSearchableFilters = filters.address || filters.city || filters.owner ||
+                                 filters.usageCode || filters.subUsageCode ||
+                                 filters.minValue || filters.maxValue ||
+                                 filters.minBuildingSqFt || filters.maxBuildingSqFt ||
+                                 filters.minLandSqFt || filters.maxLandSqFt ||
+                                 filters.minBedrooms || filters.maxBedrooms ||
+                                 filters.minBathrooms || filters.maxBathrooms ||
+                                 filters.minYearBuilt || filters.maxYearBuilt;
+
+    // Only trigger debounced search if there are actual filter values
+    if (hasSearchableFilters) {
+      searchTimeoutRef.current = setTimeout(() => {
+        console.log('Debounced auto-search triggered with filters:', filters);
+        searchProperties(1);
+      }, 300); // Debounce for comprehensive search
+    } else {
+      // No filters applied - show default results
+      console.log('No filters applied - showing default results');
+      searchProperties(1);
+    }
+
+    // Cleanup function
     return () => {
       if (searchTimeoutRef.current) {
         clearTimeout(searchTimeoutRef.current);
       }
     };
-  }, [filters]); // Only depend on filters
+  }, [filters]); // Depend on entire filters object
 
   // Popular cities in Broward County
   const popularCities = [
@@ -385,6 +417,15 @@ export function PropertySearch({}: PropertySearchProps) {
               apiFilters['has_tax_certificates'] = true;
               apiFilters['certificate_years'] = 7; // Look back 7 years
             }
+          } else if (key === 'propertyType') {
+            // Convert property type to DOR use codes
+            const dorCodes = getPropertyTypeFilter(value as string);
+            if (dorCodes.length > 0) {
+              // Send the DOR codes to filter by
+              apiFilters['dor_codes'] = dorCodes.join(',');
+              // Also send the property type for backward compatibility
+              apiFilters['property_type'] = value;
+            }
           } else {
             const apiKey = keyMap[key] || key;
             apiFilters[apiKey] = value;
@@ -397,17 +438,192 @@ export function PropertySearch({}: PropertySearchProps) {
       
       console.log('Fast pipeline search:', apiFilters);
       
-      // Use cached pipeline for instant results
-      const data = await pipeline.fetchWithCache(
-        'http://localhost:8001/api/properties/search',
-        apiFilters
-      );
-      
+      // Use API client for property search
+      const params = new URLSearchParams();
+      Object.entries(apiFilters).forEach(([key, value]) => {
+        if (value && value !== '' && value !== 'all-cities' && value !== 'all-types') {
+          params.append(key, value.toString());
+        }
+      });
+
+      let data;
+      try {
+        // Direct fetch to fast API to bypass any axios issues
+        const queryString = params.toString() || 'limit=50';
+        const response = await fetch(`http://localhost:8002/api/fast/search?${queryString}`);
+
+        if (response.ok) {
+          const jsonData = await response.json();
+          console.log('Direct API response:', jsonData);
+
+          // Transform to expected format
+          data = {
+            properties: jsonData.data || [],
+            data: jsonData.data || [],
+            total: jsonData.pagination?.total || 0,
+            pagination: jsonData.pagination
+          };
+        } else {
+          throw new Error(`API returned ${response.status}`);
+        }
+      } catch (apiError) {
+        console.log('Direct fetch failed, trying axios client:', apiError);
+
+        // Try the axios client as fallback
+        try {
+          data = await api.searchProperties(params);
+          console.log('Axios API response received:', data);
+        } catch (axiosError) {
+          console.log('Axios also failed, using empty fallback:', axiosError);
+          // Return empty result as final fallback
+          data = {
+            properties: [],
+            total: 0,
+            source: 'fallback'
+          };
+        }
+      }
+
       console.log('Pipeline results:', data);
-      console.log('Setting properties:', data.properties?.length || 0, 'items');
-      console.log('First property:', data.properties?.[0]);
-      setProperties(data.properties || []);
-      setTotalResults(data.total || 0);
+      // Handle both data.properties and data.data formats
+      let propertyList = data.properties || data.data || [];
+
+      // Apply client-side filtering by DOR use code if propertyType is set
+      if (filters.propertyType && filters.propertyType !== 'all-types') {
+        console.log('Applying client-side DOR code filtering for:', filters.propertyType);
+        const filteredList = propertyList.filter((property: any) => {
+          const dorCode = property.dor_uc || property.propertyUse || property.property_use_code;
+          const ownerName = (property.owner || property.owner_name || '').toUpperCase();
+
+          // First check DOR code
+          if (dorCode && matchesPropertyTypeFilter(dorCode, filters.propertyType)) {
+            return true;
+          }
+
+          // For properties without DOR codes, check owner-based categorization
+          if (!dorCode || dorCode === '') {
+            const propertyTypeUpper = filters.propertyType.toUpperCase();
+
+            // Government properties
+            if (propertyTypeUpper === 'GOVERNMENT' || propertyTypeUpper === 'GOVERNMENTAL') {
+              if (ownerName.includes('TRUSTEE') || ownerName.includes('BRD OF') ||
+                  ownerName.includes('BOARD OF') || ownerName.includes('STATE OF') ||
+                  ownerName.includes('COUNTY') || ownerName.includes('CITY OF')) {
+                return true;
+              }
+            }
+
+            // Religious properties
+            if (propertyTypeUpper === 'RELIGIOUS') {
+              if (ownerName.includes('CHURCH') || ownerName.includes('BAPTIST') ||
+                  ownerName.includes('METHODIST') || ownerName.includes('CATHOLIC') ||
+                  ownerName.includes('SYNAGOGUE') || ownerName.includes('TEMPLE') ||
+                  ownerName.includes('MOSQUE')) {
+                return true;
+              }
+            }
+
+            // Conservation properties
+            if (propertyTypeUpper === 'CONSERVATION') {
+              if (ownerName.includes('CONSERVANCY') || ownerName.includes('NATURE') ||
+                  ownerName.includes('FORESTRY') || ownerName.includes('PARK') ||
+                  ownerName.includes('PRESERVE') || ownerName.includes('WILDLIFE') ||
+                  ownerName.includes('AG FORESTRY') || ownerName.includes('TIITF/AG')) {
+                return true;
+              }
+            }
+
+            // Residential properties - individual names (not corporations/government/institutions)
+            if (propertyTypeUpper === 'RESIDENTIAL') {
+              const isIndividual = !ownerName.includes('CORP') && !ownerName.includes('LLC') &&
+                                 !ownerName.includes('INC') && !ownerName.includes('COMPANY') &&
+                                 !ownerName.includes('TRUSTEE') && !ownerName.includes('BRD OF') &&
+                                 !ownerName.includes('CHURCH') && !ownerName.includes('BAPTIST') &&
+                                 !ownerName.includes('TIITF') && !ownerName.includes('CONSERVANCY') &&
+                                 !ownerName.includes('FORESTRY') && !ownerName.includes('STATE OF') &&
+                                 !ownerName.includes('COUNTY') && !ownerName.includes('CITY OF') &&
+                                 ownerName.includes(' ') && ownerName.length > 5 &&
+                                 // Must contain typical individual name patterns
+                                 (ownerName.includes(' & ') || ownerName.match(/[A-Z]+ [A-Z]+/));
+              console.log(`  Residential check: isIndividual=${isIndividual}, ownerName="${ownerName}"`);
+              return isIndividual;
+            }
+
+            // Commercial properties - corporations, LLCs, businesses
+            if (propertyTypeUpper === 'COMMERCIAL') {
+              const isBusiness = ownerName.includes('CORP') || ownerName.includes('LLC') ||
+                                ownerName.includes('INC') || ownerName.includes('COMPANY') ||
+                                ownerName.includes('PROPERTIES') || ownerName.includes('ENTERPRISES') ||
+                                ownerName.includes('DEVELOPMENT') || ownerName.includes('INVESTMENTS');
+              console.log(`  Commercial check: ${isBusiness}`);
+              return isBusiness;
+            }
+
+            // Industrial properties - manufacturing, warehouse terms
+            if (propertyTypeUpper === 'INDUSTRIAL') {
+              const isIndustrial = ownerName.includes('MANUFACTURING') || ownerName.includes('INDUSTRIAL') ||
+                                 ownerName.includes('WAREHOUSE') || ownerName.includes('LOGISTICS') ||
+                                 ownerName.includes('DISTRIBUTION') || ownerName.includes('FACTORY');
+              console.log(`  Industrial check: ${isIndustrial}`);
+              return isIndustrial;
+            }
+
+            // Agricultural properties - farming, agriculture
+            if (propertyTypeUpper === 'AGRICULTURAL') {
+              const isAgricultural = ownerName.includes('FARM') || ownerName.includes('RANCH') ||
+                                   ownerName.includes('AGRICULTURE') || ownerName.includes('GROVE') ||
+                                   ownerName.includes('NURSERY') || ownerName.includes('AG ');
+              console.log(`  Agricultural check: ${isAgricultural}`);
+              return isAgricultural;
+            }
+
+            // Vacant Land - no address but has value, not government/institutional
+            if (propertyTypeUpper === 'VACANT' || propertyTypeUpper === 'VACANT LAND') {
+              const address = property.address || property.phy_addr1 || '';
+              const noAddress = !address || address === '-' || address.trim() === '';
+              const marketValue = property.marketValue || property.just_value || property.jv || 0;
+              const notGovernment = !ownerName.includes('TRUSTEE') && !ownerName.includes('BRD OF') &&
+                                  !ownerName.includes('TIITF') && !ownerName.includes('CONSERVANCY');
+              const notReligious = !ownerName.includes('CHURCH') && !ownerName.includes('BAPTIST');
+              const isVacant = noAddress && marketValue > 0 && notGovernment && notReligious;
+              console.log(`  Vacant check: noAddress=${noAddress}, hasValue=${marketValue > 0}, notGov=${notGovernment}, result=${isVacant}`);
+              return isVacant;
+            }
+
+            // Vacant/Special - properties with value but no use code
+            if (propertyTypeUpper === 'VACANT/SPECIAL') {
+              if (property.just_value || property.marketValue || property.jv) {
+                return true;
+              }
+            }
+          }
+
+          return false;
+        });
+        console.log(`Filtered from ${propertyList.length} to ${filteredList.length} properties`);
+        propertyList = filteredList;
+      }
+
+      console.log('Setting properties:', propertyList.length, 'items');
+      if (propertyList.length > 0) {
+        console.log('First property sample:', {
+          parcel_id: propertyList[0]?.parcel_id,
+          owner: propertyList[0]?.owner,
+          address: propertyList[0]?.address,
+          marketValue: propertyList[0]?.marketValue
+        });
+      }
+      setProperties(propertyList);
+
+      // Handle pagination metadata from optimized API
+      if (data.pagination) {
+        setTotalResults(data.pagination.total || propertyList.length);
+        setTotalPages(data.pagination.total_pages || Math.ceil((data.pagination.total || propertyList.length) / pageSize));
+        setPagination(data.pagination);
+      } else {
+        setTotalResults(data.total || propertyList.length);
+        setTotalPages(Math.ceil((data.total || propertyList.length) / pageSize));
+      }
       setCurrentPage(page);
       
     } catch (error) {
@@ -463,33 +679,30 @@ export function PropertySearch({}: PropertySearchProps) {
     }
     
     try {
-      // Fetch from search API for all types
-      const [addressRes, cityRes, ownerRes] = await Promise.all([
-        fetch(`http://localhost:8002/api/properties/search?address=${encodeURIComponent(query)}&limit=10`),
-        fetch(`http://localhost:8002/api/properties/search?city=${encodeURIComponent(query)}&limit=10`),
-        fetch(`http://localhost:8002/api/properties/search?owner=${encodeURIComponent(query)}&limit=10`)
+      // Fetch from search API for all types using API client
+      const [addressData, cityData, ownerData] = await Promise.all([
+        api.searchProperties(new URLSearchParams({ address: query, limit: '10' })),
+        api.searchProperties(new URLSearchParams({ city: query, limit: '10' })),
+        api.searchProperties(new URLSearchParams({ owner: query, limit: '10' }))
       ]);
       
       const suggestions = [];
-      
+
       // Process address results
-      if (addressRes.ok) {
-        const data = await addressRes.json();
-        const addresses = [...new Set(data.properties?.map((p: any) => p.phy_addr1).filter(Boolean) || [])].slice(0, 5);
+      if (addressData && addressData.properties) {
+        const addresses = [...new Set(addressData.properties.map((p: any) => p.phy_addr1).filter(Boolean) || [])].slice(0, 5);
         addresses.forEach((addr: string) => suggestions.push({ type: 'address', value: addr, display: `📍 ${addr}` }));
       }
-      
+
       // Process city results
-      if (cityRes.ok) {
-        const data = await cityRes.json();
-        const cities = [...new Set(data.properties?.map((p: any) => p.phy_city).filter(Boolean) || [])].slice(0, 3);
+      if (cityData && cityData.properties) {
+        const cities = [...new Set(cityData.properties.map((p: any) => p.phy_city).filter(Boolean) || [])].slice(0, 3);
         cities.forEach((city: string) => suggestions.push({ type: 'city', value: city, display: `🏘️ ${city}` }));
       }
-      
+
       // Process owner results
-      if (ownerRes.ok) {
-        const data = await ownerRes.json();
-        const owners = [...new Set(data.properties?.map((p: any) => p.own_name).filter(Boolean) || [])].slice(0, 5);
+      if (ownerData && ownerData.properties) {
+        const owners = [...new Set(ownerData.properties.map((p: any) => p.own_name).filter(Boolean) || [])].slice(0, 5);
         owners.forEach((owner: string) => suggestions.push({ type: 'owner', value: owner, display: `👤 ${owner}` }));
       }
       
@@ -522,44 +735,75 @@ export function PropertySearch({}: PropertySearchProps) {
 
   // Transform property data for compatibility
   const transformPropertyData = (property: any) => {
+    // Clean up address - remove leading dash if present
+    const cleanAddress = (addr: string) => {
+      if (!addr) return null;
+      // Remove leading dash and trim
+      return addr.replace(/^-+/, '').trim() || null;
+    };
+
     return {
       ...property,
-      // Ensure compatibility with MiniPropertyCard expectations
-      phy_addr1: property.phy_addr1 || property.property_address,
-      phy_city: property.phy_city || property.property_city,
-      phy_zipcd: property.phy_zipcd || property.property_zip,
-      own_name: property.own_name || property.owner_name,
-      jv: property.jv || property.just_value,
-      tv_sd: property.tv_sd || property.taxable_value,
-      lnd_val: property.lnd_val || property.land_value,
-      tot_lvg_area: property.tot_lvg_area || property.living_area,
-      lnd_sqfoot: property.lnd_sqfoot || property.total_sq_ft,
-      act_yr_blt: property.act_yr_blt || property.year_built,
-      dor_uc: property.dor_uc || property.property_use_code
+      // Map API fields to MiniPropertyCard expectations
+      parcel_id: property.parcel_id || property.id || property.property_id,
+      phy_addr1: cleanAddress(property.address) || property.phy_addr1 || property.property_address,
+      phy_city: property.city || property.phy_city || property.property_city,
+      phy_zipcd: property.zipCode || property.phy_zipcd || property.property_zip,
+      own_name: property.owner || property.own_name || property.owner_name,
+      owner_name: property.owner || property.own_name || property.owner_name, // Ensure both fields are set
+      owner_addr1: property.ownerAddress || property.owner_addr1,
+      jv: property.justValue || property.marketValue || property.jv || property.just_value,
+      just_value: property.justValue || property.marketValue || property.jv,
+      tv_sd: property.taxableValue || property.tv_sd || property.taxable_value,
+      lnd_val: property.landValue || property.lnd_val || property.land_value,
+      tot_lvg_area: property.buildingSqFt || property.tot_lvg_area || property.living_area,
+      lnd_sqfoot: property.landSqFt || property.lnd_sqfoot || property.total_sq_ft || property.lot_size,
+      act_yr_blt: property.yearBuilt || property.act_yr_blt || property.year_built,
+      dor_uc: property.propertyUse || property.dor_uc || property.property_use_code || property.use_code,
+      property_type: property.propertyType || property.property_type,
+      // Sales data - only use real data from API
+      sale_prc1: property.lastSalePrice || property.sale_prc1,
+      sale_yr1: property.lastSaleDate ? new Date(property.lastSaleDate).getFullYear() : property.sale_yr1,
+      sale_date: property.lastSaleDate || property.sale_date,
+      // Additional tax information
+      tax_amount: property.taxAmount || property.tax_amount,
+      assessed_value: property.assessedValue || property.assessed_value,
+      // Property characteristics
+      bedrooms: property.bedrooms,
+      bathrooms: property.bathrooms,
+      stories: property.stories,
+      pool: property.pool
     };
   };
 
   // Navigate to property detail
   const handlePropertyClick = (property: any) => {
-    // Use address-based routing - handle both data structures
-    const address = property.phy_addr1 || property.property_address;
-    const city = property.phy_city || property.property_city;
+    // Use parcel_id for navigation as addresses may be incomplete
+    const parcelId = property.parcel_id || property.id;
 
-    const addressSlug = address
-      ?.toLowerCase()
-      .replace(/[^a-z0-9]/g, '-')
-      .replace(/-+/g, '-')
-      .replace(/^-|-$/g, '');
-
-    const citySlug = city
-      ?.toLowerCase()
-      .replace(/[^a-z0-9]/g, '-');
-
-    if (addressSlug && citySlug) {
-      navigate(`/properties/${citySlug}/${addressSlug}`);
+    if (parcelId) {
+      // Navigate to property detail page using parcel ID
+      navigate(`/property/${parcelId}`);
     } else {
-      // Fallback to property ID
-      navigate(`/properties/${property.id}`);
+      // Fallback to address-based routing if available
+      const address = property.phy_addr1 || property.property_address || property.address;
+      const city = property.phy_city || property.property_city || property.city;
+
+      const addressSlug = address
+        ?.toLowerCase()
+        .replace(/[^a-z0-9]/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+
+      const citySlug = city
+        ?.toLowerCase()
+        .replace(/[^a-z0-9]/g, '-');
+
+      if (addressSlug && citySlug) {
+        navigate(`/properties/${citySlug}/${addressSlug}`);
+      } else {
+        console.error('Cannot navigate - no valid property identifier', property);
+      }
     }
   };
 
@@ -567,6 +811,14 @@ export function PropertySearch({}: PropertySearchProps) {
   useEffect(() => {
     console.log('Filters state changed:', filters);
   }, [filters]);
+
+  // Trigger search when propertyType filter changes
+  useEffect(() => {
+    if (filters.propertyType) {
+      console.log('Property type changed to:', filters.propertyType);
+      searchProperties(1);
+    }
+  }, [filters.propertyType]);
 
   // Selection utility functions
   const togglePropertySelection = (propertyId: string | number) => {
@@ -626,12 +878,18 @@ export function PropertySearch({}: PropertySearchProps) {
         apiFilters.limit = totalResults.toString();
         apiFilters.offset = '0';
         
-        const data = await pipeline.fetchWithCache(
-          'http://localhost:8001/api/properties/search',
-          apiFilters
-        );
-        
-        const allIds = (data.properties || []).map((p: any) => String(p.parcel_id || p.id));
+        const params = new URLSearchParams();
+        Object.entries(apiFilters).forEach(([key, value]) => {
+          if (value && value !== '' && value !== 'all-cities' && value !== 'all-types') {
+            params.append(key, value.toString());
+          }
+        });
+
+        const data = await api.searchProperties(params);
+
+        // Handle both data.properties and data.data formats
+        const propertyList = data.properties || data.data || [];
+        const allIds = propertyList.map((p: any) => String(p.parcel_id || p.id));
         setSelectedProperties(new Set(allIds));
       } catch (error) {
         console.error('Error selecting all properties:', error);
@@ -795,150 +1053,187 @@ export function PropertySearch({}: PropertySearchProps) {
           <TaxDeedSalesTab />
         ) : (
           <>
-        {/* Elegant Tabs for Search Modes - Beautiful Executive Design */}
-        <div className="tabs-executive flex justify-center mb-8" style={{borderBottom: '1px solid #ecf0f1', background: 'transparent'}}>
+        {/* Property Category Filter Badges */}
+        <div className="flex flex-wrap justify-center gap-2 mb-8">
+          {/* All Properties */}
           <button
             onClick={() => {
-              setShowAdvancedFilters(false);
-              handleFilterChange('propertyType', 'Residential');
+              if (filters.propertyType === '') {
+                // Already showing all, do nothing
+                return;
+              }
+              handleFilterChange('propertyType', '');
             }}
-            className={`tab-executive ${filters.propertyType === 'Residential' && !showAdvancedFilters ? 'active' : ''}`}
+            className="inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105 cursor-pointer"
             style={{
-              background: 'transparent',
-              color: filters.propertyType === 'Residential' && !showAdvancedFilters ? '#2c3e50' : '#7f8c8d',
-              border: 'none',
-              borderBottom: filters.propertyType === 'Residential' && !showAdvancedFilters ? '2px solid #d4af37' : '2px solid transparent',
-              fontWeight: '300',
-              letterSpacing: '0.5px',
-              textTransform: 'uppercase',
-              fontSize: '0.875rem',
-              padding: '1rem 1.5rem',
-              transition: 'all 0.3s ease',
-              position: 'relative',
-              cursor: 'pointer'
+              backgroundColor: filters.propertyType === '' ? '#d4af37' : 'white',
+              color: filters.propertyType === '' ? 'white' : '#7f8c8d',
+              borderColor: filters.propertyType === '' ? '#d4af37' : '#ecf0f1'
             }}
           >
-            <Home className="w-4 h-4 inline mr-2" />
+            All Properties
+          </button>
+
+          {/* Residential */}
+          <button
+            onClick={() => {
+              handleFilterChange('propertyType', filters.propertyType === 'Residential' ? '' : 'Residential');
+            }}
+            className="inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105 cursor-pointer"
+            style={{
+              backgroundColor: filters.propertyType === 'Residential' ? '#dcfce7' : '#f0fdf4',
+              color: filters.propertyType === 'Residential' ? '#166534' : '#22c55e',
+              borderColor: filters.propertyType === 'Residential' ? '#22c55e' : '#bbf7d0'
+            }}
+          >
+            <Home className="w-4 h-4 mr-1.5" />
             Residential
           </button>
+
+          {/* Commercial */}
           <button
             onClick={() => {
-              setShowAdvancedFilters(false);
-              handleFilterChange('propertyType', 'Commercial');
+              handleFilterChange('propertyType', filters.propertyType === 'Commercial' ? '' : 'Commercial');
             }}
-            className={`tab-executive ${filters.propertyType === 'Commercial' && !showAdvancedFilters ? 'active' : ''}`}
+            className="inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105 cursor-pointer"
             style={{
-              background: 'transparent',
-              color: filters.propertyType === 'Commercial' && !showAdvancedFilters ? '#2c3e50' : '#7f8c8d',
-              border: 'none',
-              borderBottom: filters.propertyType === 'Commercial' && !showAdvancedFilters ? '2px solid #d4af37' : '2px solid transparent',
-              fontWeight: '300',
-              letterSpacing: '0.5px',
-              textTransform: 'uppercase',
-              fontSize: '0.875rem',
-              padding: '1rem 1.5rem',
-              transition: 'all 0.3s ease',
-              position: 'relative',
-              cursor: 'pointer'
+              backgroundColor: filters.propertyType === 'Commercial' ? '#dbeafe' : '#eff6ff',
+              color: filters.propertyType === 'Commercial' ? '#1e40af' : '#3b82f6',
+              borderColor: filters.propertyType === 'Commercial' ? '#3b82f6' : '#bfdbfe'
             }}
           >
-            <Building className="w-4 h-4 inline mr-2" />
+            <Building className="w-4 h-4 mr-1.5" />
             Commercial
           </button>
+
+          {/* Industrial */}
           <button
             onClick={() => {
-              setShowAdvancedFilters(false);
-              handleFilterChange('propertyType', 'Industrial');
+              handleFilterChange('propertyType', filters.propertyType === 'Industrial' ? '' : 'Industrial');
             }}
-            className={`tab-executive ${filters.propertyType === 'Industrial' && !showAdvancedFilters ? 'active' : ''}`}
+            className="inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105 cursor-pointer"
             style={{
-              background: 'transparent',
-              color: filters.propertyType === 'Industrial' && !showAdvancedFilters ? '#2c3e50' : '#7f8c8d',
-              border: 'none',
-              borderBottom: filters.propertyType === 'Industrial' && !showAdvancedFilters ? '2px solid #d4af37' : '2px solid transparent',
-              fontWeight: '300',
-              letterSpacing: '0.5px',
-              textTransform: 'uppercase',
-              fontSize: '0.875rem',
-              padding: '1rem 1.5rem',
-              transition: 'all 0.3s ease',
-              position: 'relative',
-              cursor: 'pointer'
+              backgroundColor: filters.propertyType === 'Industrial' ? '#fed7aa' : '#fff7ed',
+              color: filters.propertyType === 'Industrial' ? '#c2410c' : '#fb923c',
+              borderColor: filters.propertyType === 'Industrial' ? '#fb923c' : '#fed7aa'
             }}
           >
-            <Briefcase className="w-4 h-4 inline mr-2" />
+            <Briefcase className="w-4 h-4 mr-1.5" />
             Industrial
           </button>
+
+          {/* Agricultural */}
           <button
             onClick={() => {
-              setShowAdvancedFilters(false);
-              handleFilterChange('propertyType', 'Agricultural');
+              handleFilterChange('propertyType', filters.propertyType === 'Agricultural' ? '' : 'Agricultural');
             }}
-            className={`tab-executive ${filters.propertyType === 'Agricultural' && !showAdvancedFilters ? 'active' : ''}`}
+            className="inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105 cursor-pointer"
             style={{
-              background: 'transparent',
-              color: filters.propertyType === 'Agricultural' && !showAdvancedFilters ? '#2c3e50' : '#7f8c8d',
-              border: 'none',
-              borderBottom: filters.propertyType === 'Agricultural' && !showAdvancedFilters ? '2px solid #d4af37' : '2px solid transparent',
-              fontWeight: '300',
-              letterSpacing: '0.5px',
-              textTransform: 'uppercase',
-              fontSize: '0.875rem',
-              padding: '1rem 1.5rem',
-              transition: 'all 0.3s ease',
-              position: 'relative',
-              cursor: 'pointer'
+              backgroundColor: filters.propertyType === 'Agricultural' ? '#fef3c7' : '#fffbeb',
+              color: filters.propertyType === 'Agricultural' ? '#b45309' : '#f59e0b',
+              borderColor: filters.propertyType === 'Agricultural' ? '#f59e0b' : '#fde68a'
             }}
           >
-            <TreePine className="w-4 h-4 inline mr-2" />
+            <TreePine className="w-4 h-4 mr-1.5" />
             Agricultural
           </button>
+
+          {/* Vacant Land */}
           <button
             onClick={() => {
-              setShowAdvancedFilters(false);
-              handleFilterChange('propertyType', 'Vacant');
+              handleFilterChange('propertyType', filters.propertyType === 'Vacant' ? '' : 'Vacant');
             }}
-            className={`tab-executive ${filters.propertyType === 'Vacant' && !showAdvancedFilters ? 'active' : ''}`}
+            className="inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105 cursor-pointer"
             style={{
-              background: 'transparent',
-              color: filters.propertyType === 'Vacant' && !showAdvancedFilters ? '#2c3e50' : '#7f8c8d',
-              border: 'none',
-              borderBottom: filters.propertyType === 'Vacant' && !showAdvancedFilters ? '2px solid #d4af37' : '2px solid transparent',
-              fontWeight: '300',
-              letterSpacing: '0.5px',
-              textTransform: 'uppercase',
-              fontSize: '0.875rem',
-              padding: '1rem 1.5rem',
-              transition: 'all 0.3s ease',
-              position: 'relative',
-              cursor: 'pointer'
+              backgroundColor: filters.propertyType === 'Vacant' ? '#e5e7eb' : '#f9fafb',
+              color: filters.propertyType === 'Vacant' ? '#374151' : '#6b7280',
+              borderColor: filters.propertyType === 'Vacant' ? '#6b7280' : '#d1d5db'
             }}
           >
-            <MapPin className="w-4 h-4 inline mr-2" />
+            <MapPin className="w-4 h-4 mr-1.5" />
             Vacant Land
           </button>
+
+          {/* Government */}
+          <button
+            onClick={() => {
+              handleFilterChange('propertyType', filters.propertyType === 'Government' ? '' : 'Government');
+            }}
+            className="inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105 cursor-pointer"
+            style={{
+              backgroundColor: filters.propertyType === 'Government' ? '#fecaca' : '#fef2f2',
+              color: filters.propertyType === 'Government' ? '#991b1b' : '#ef4444',
+              borderColor: filters.propertyType === 'Government' ? '#ef4444' : '#fecaca'
+            }}
+          >
+            <Building2 className="w-4 h-4 mr-1.5" />
+            Government
+          </button>
+
+          {/* Conservation */}
+          <button
+            onClick={() => {
+              handleFilterChange('propertyType', filters.propertyType === 'Conservation' ? '' : 'Conservation');
+            }}
+            className="inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105 cursor-pointer"
+            style={{
+              backgroundColor: filters.propertyType === 'Conservation' ? '#a7f3d0' : '#ecfdf5',
+              color: filters.propertyType === 'Conservation' ? '#064e3b' : '#10b981',
+              borderColor: filters.propertyType === 'Conservation' ? '#10b981' : '#a7f3d0'
+            }}
+          >
+            <TreePine className="w-4 h-4 mr-1.5" />
+            Conservation
+          </button>
+
+          {/* Religious */}
+          <button
+            onClick={() => {
+              handleFilterChange('propertyType', filters.propertyType === 'Religious' ? '' : 'Religious');
+            }}
+            className="inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105 cursor-pointer"
+            style={{
+              backgroundColor: filters.propertyType === 'Religious' ? '#e9d5ff' : '#faf5ff',
+              color: filters.propertyType === 'Religious' ? '#6b21a8' : '#a855f7',
+              borderColor: filters.propertyType === 'Religious' ? '#a855f7' : '#e9d5ff'
+            }}
+          >
+            <Building className="w-4 h-4 mr-1.5" />
+            Religious
+          </button>
+
+          {/* Vacant/Special */}
+          <button
+            onClick={() => {
+              handleFilterChange('propertyType', filters.propertyType === 'Vacant/Special' ? '' : 'Vacant/Special');
+            }}
+            className="inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105 cursor-pointer"
+            style={{
+              backgroundColor: filters.propertyType === 'Vacant/Special' ? '#fed7aa' : '#fffbeb',
+              color: filters.propertyType === 'Vacant/Special' ? '#b45309' : '#d97706',
+              borderColor: filters.propertyType === 'Vacant/Special' ? '#d97706' : '#fde68a'
+            }}
+          >
+            Vacant/Special
+          </button>
+
+          {/* Separator */}
+          <div className="w-px h-8 bg-gray-300 mx-2 self-center" />
+
+          {/* Tax Deed Sales - Special Filter */}
           <button
             onClick={() => {
               setShowTaxDeedSales(!showTaxDeedSales);
               setShowAdvancedFilters(false);
             }}
-            className={`tab-executive ${showTaxDeedSales ? 'active' : ''}`}
+            className="inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105 cursor-pointer"
             style={{
-              background: 'transparent',
-              color: showTaxDeedSales ? '#2c3e50' : '#7f8c8d',
-              border: 'none',
-              borderBottom: showTaxDeedSales ? '2px solid #d4af37' : '2px solid transparent',
-              fontWeight: '300',
-              letterSpacing: '0.5px',
-              textTransform: 'uppercase',
-              fontSize: '0.875rem',
-              padding: '1rem 1.5rem',
-              transition: 'all 0.3s ease',
-              position: 'relative',
-              cursor: 'pointer'
+              backgroundColor: showTaxDeedSales ? '#dc2626' : '#fef2f2',
+              color: showTaxDeedSales ? 'white' : '#dc2626',
+              borderColor: '#dc2626'
             }}
           >
-            <Gavel className="w-4 h-4 inline mr-2" />
+            <Gavel className="w-4 h-4 mr-1.5" />
             Tax Deed Sales
           </button>
         </div>
@@ -1133,24 +1428,24 @@ export function PropertySearch({}: PropertySearchProps) {
                     {/* Removed redundant Address, ZIP Code, City, and Owner Name fields - use main search bar instead */}
                     <div className="space-y-2">
                       <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Min Value</label>
-                      <Input
+                      <FormattedInput
                         placeholder="100000"
-                        type="number"
+                        format="currency"
                         className="h-12 rounded-lg"
                         style={{borderColor: '#ecf0f1'}}
                         value={filters.minValue}
-                        onChange={(e) => handleFilterChange('minValue', e.target.value)}
+                        onChange={(value) => handleFilterChange('minValue', value)}
                       />
                     </div>
                     <div className="space-y-2">
                       <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Max Value</label>
-                      <Input
+                      <FormattedInput
                         placeholder="1000000"
-                        type="number"
+                        format="currency"
                         className="h-12 rounded-lg"
                         style={{borderColor: '#ecf0f1'}}
                         value={filters.maxValue}
-                        onChange={(e) => handleFilterChange('maxValue', e.target.value)}
+                        onChange={(value) => handleFilterChange('maxValue', value)}
                       />
                     </div>
                   </div>
@@ -1159,46 +1454,46 @@ export function PropertySearch({}: PropertySearchProps) {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
                     <div className="space-y-2">
                       <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Min Building SqFt</label>
-                      <Input
+                      <FormattedInput
                         placeholder="1000"
-                        type="number"
+                        format="sqft"
                         className="h-12 rounded-lg"
                         style={{borderColor: '#ecf0f1'}}
                         value={filters.minBuildingSqFt}
-                        onChange={(e) => handleFilterChange('minBuildingSqFt', e.target.value)}
+                        onChange={(value) => handleFilterChange('minBuildingSqFt', value)}
                       />
                     </div>
                     <div className="space-y-2">
                       <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Max Building SqFt</label>
-                      <Input
+                      <FormattedInput
                         placeholder="5000"
-                        type="number"
+                        format="sqft"
                         className="h-12 rounded-lg"
                         style={{borderColor: '#ecf0f1'}}
                         value={filters.maxBuildingSqFt}
-                        onChange={(e) => handleFilterChange('maxBuildingSqFt', e.target.value)}
+                        onChange={(value) => handleFilterChange('maxBuildingSqFt', value)}
                       />
                     </div>
                     <div className="space-y-2">
                       <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Min Land SqFt</label>
-                      <Input
+                      <FormattedInput
                         placeholder="5000"
-                        type="number"
+                        format="sqft"
                         className="h-12 rounded-lg"
                         style={{borderColor: '#ecf0f1'}}
                         value={filters.minLandSqFt}
-                        onChange={(e) => handleFilterChange('minLandSqFt', e.target.value)}
+                        onChange={(value) => handleFilterChange('minLandSqFt', value)}
                       />
                     </div>
                     <div className="space-y-2">
                       <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Max Land SqFt</label>
-                      <Input
+                      <FormattedInput
                         placeholder="20000"
-                        type="number"
+                        format="sqft"
                         className="h-12 rounded-lg"
                         style={{borderColor: '#ecf0f1'}}
                         value={filters.maxLandSqFt}
-                        onChange={(e) => handleFilterChange('maxLandSqFt', e.target.value)}
+                        onChange={(value) => handleFilterChange('maxLandSqFt', value)}
                       />
                     </div>
                   </div>
@@ -1207,26 +1502,26 @@ export function PropertySearch({}: PropertySearchProps) {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
                     <div className="space-y-2">
                       <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Min Year Built</label>
-                      <Input
+                      <FormattedInput
                         placeholder="1990"
-                        type="number"
+                        format="number"
                         className="h-12 rounded-lg"
                         style={{borderColor: '#ecf0f1'}}
                         value={filters.minYear}
-                        onChange={(e) => handleFilterChange('minYear', e.target.value)}
+                        onChange={(value) => handleFilterChange('minYear', value)}
                         min="1800"
                         max="2025"
                       />
                     </div>
                     <div className="space-y-2">
                       <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Max Year Built</label>
-                      <Input
+                      <FormattedInput
                         placeholder="2024"
-                        type="number"
+                        format="number"
                         className="h-12 rounded-lg"
                         style={{borderColor: '#ecf0f1'}}
                         value={filters.maxYear}
-                        onChange={(e) => handleFilterChange('maxYear', e.target.value)}
+                        onChange={(value) => handleFilterChange('maxYear', value)}
                         min="1800"
                         max="2025"
                       />
@@ -1274,46 +1569,46 @@ export function PropertySearch({}: PropertySearchProps) {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
                     <div className="space-y-2">
                       <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Min Sale Price</label>
-                      <Input
+                      <FormattedInput
                         placeholder="100000"
-                        type="number"
+                        format="currency"
                         className="h-12 rounded-lg"
                         style={{borderColor: '#ecf0f1'}}
                         value={filters.minSalePrice}
-                        onChange={(e) => handleFilterChange('minSalePrice', e.target.value)}
+                        onChange={(value) => handleFilterChange('minSalePrice', value)}
                       />
                     </div>
                     <div className="space-y-2">
                       <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Max Sale Price</label>
-                      <Input
+                      <FormattedInput
                         placeholder="500000"
-                        type="number"
+                        format="currency"
                         className="h-12 rounded-lg"
                         style={{borderColor: '#ecf0f1'}}
                         value={filters.maxSalePrice}
-                        onChange={(e) => handleFilterChange('maxSalePrice', e.target.value)}
+                        onChange={(value) => handleFilterChange('maxSalePrice', value)}
                       />
                     </div>
                     <div className="space-y-2">
                       <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Min Appraised Value</label>
-                      <Input
+                      <FormattedInput
                         placeholder="150000"
-                        type="number"
+                        format="currency"
                         className="h-12 rounded-lg"
                         style={{borderColor: '#ecf0f1'}}
                         value={filters.minAppraisedValue}
-                        onChange={(e) => handleFilterChange('minAppraisedValue', e.target.value)}
+                        onChange={(value) => handleFilterChange('minAppraisedValue', value)}
                       />
                     </div>
                     <div className="space-y-2">
                       <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Max Appraised Value</label>
-                      <Input
+                      <FormattedInput
                         placeholder="600000"
-                        type="number"
+                        format="currency"
                         className="h-12 rounded-lg"
                         style={{borderColor: '#ecf0f1'}}
                         value={filters.maxAppraisedValue}
-                        onChange={(e) => handleFilterChange('maxAppraisedValue', e.target.value)}
+                        onChange={(value) => handleFilterChange('maxAppraisedValue', value)}
                       />
                     </div>
                   </div>
@@ -1816,16 +2111,16 @@ export function PropertySearch({}: PropertySearchProps) {
                   const transformedProperty = transformPropertyData(property);
                   return (
                     <MiniPropertyCard
-                      key={property.parcel_id || property.id}
-                      parcelId={property.parcel_id}
+                      key={transformedProperty.parcel_id || transformedProperty.id}
+                      parcelId={transformedProperty.parcel_id}
                       data={transformedProperty}
                       variant={viewMode}
                       onClick={() => handlePropertyClick(property)}
                       isWatched={property.is_watched}
                       hasNotes={property.note_count > 0}
                       priority={property.note_count > 5 ? 'high' : property.note_count > 2 ? 'medium' : 'low'}
-                      isSelected={selectedProperties.has(String(property.parcel_id || property.id))}
-                      onToggleSelection={() => togglePropertySelection(property.parcel_id || property.id)}
+                      isSelected={selectedProperties.has(String(transformedProperty.parcel_id || transformedProperty.id))}
+                      onToggleSelection={() => togglePropertySelection(transformedProperty.parcel_id || transformedProperty.id)}
                     />
                   );
                 })}
@@ -1840,11 +2135,14 @@ export function PropertySearch({}: PropertySearchProps) {
                     {/* Page Size Selector */}
                     <div className="flex items-center space-x-4">
                       <span className="text-sm font-medium" style={{color: '#2c3e50'}}>Show per page:</span>
-                      <Select 
-                        value={pageSize.toString()} 
+                      <Select
+                        value={pageSize.toString()}
                         onValueChange={(value) => {
-                          setPageSize(parseInt(value));
+                          const newPageSize = parseInt(value);
+                          setPageSize(newPageSize);
                           setCurrentPage(1);
+                          // Trigger search with new page size
+                          searchPropertiesRef.current(1);
                         }}
                       >
                         <SelectTrigger className="w-20 h-9 rounded-lg" style={{borderColor: '#ecf0f1'}}>
@@ -1875,9 +2173,8 @@ export function PropertySearch({}: PropertySearchProps) {
                       </Button>
                       
                       <div className="flex items-center space-x-1">
-                        {Array.from({ length: Math.min(5, Math.ceil(totalResults / pageSize)) }, (_, i) => {
+                        {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                           const page = i + 1;
-                          const totalPages = Math.ceil(totalResults / pageSize);
                           let startPage = Math.max(1, currentPage - 2);
                           let endPage = Math.min(totalPages, startPage + 4);
                           
@@ -1907,7 +2204,7 @@ export function PropertySearch({}: PropertySearchProps) {
 
                       <Button
                         variant="outline"
-                        disabled={currentPage >= Math.ceil(totalResults / pageSize)}
+                        disabled={currentPage >= totalPages}
                         className="hover-lift h-9 px-4"
                         style={{borderColor: '#ecf0f1'}}
                         onClick={() => searchProperties(currentPage + 1)}
@@ -1928,3 +2225,5 @@ export function PropertySearch({}: PropertySearchProps) {
     </div>
   );
 }
+
+export default PropertySearch;

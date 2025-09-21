@@ -111,25 +111,27 @@ export function useSalesData(parcelId: string | null) {
         .order('sale_date', { ascending: false });
 
       if (comprehensiveData && comprehensiveData.length > 0) {
-        const records = comprehensiveData.map(sale => ({
-          parcel_id: sale.parcel_id,
-          sale_date: sale.sale_date,
-          sale_price: parseFloat(sale.sale_price) || 0,
-          sale_year: parseInt(sale.sale_year) || 0,
-          sale_month: parseInt(sale.sale_month) || 0,
-          qualified_sale: sale.sale_qualification?.toLowerCase() === 'qualified' || sale.sale_qualification?.toLowerCase() === 'q',
-          document_type: sale.document_type || '',
-          grantor_name: sale.grantor_name || '',
-          grantee_name: sale.grantee_name || '',
-          book: sale.book || '',
-          page: sale.page || '',
-          sale_reason: sale.sale_reason || '',
-          vi_code: sale.vi_code || '',
-          is_distressed: sale.is_distressed || false,
-          is_bank_sale: sale.is_bank_sale || false,
-          is_cash_sale: sale.is_cash_sale || false,
-          data_source: sale.data_source || 'comprehensive_view',
-        }));
+        const records = comprehensiveData
+          .map(sale => ({
+            parcel_id: sale.parcel_id,
+            sale_date: sale.sale_date,
+            sale_price: parseFloat(sale.sale_price) || 0,
+            sale_year: parseInt(sale.sale_year) || 0,
+            sale_month: parseInt(sale.sale_month) || 0,
+            qualified_sale: sale.sale_qualification?.toLowerCase() === 'qualified' || sale.sale_qualification?.toLowerCase() === 'q',
+            document_type: sale.document_type || '',
+            grantor_name: sale.grantor_name || '',
+            grantee_name: sale.grantee_name || '',
+            book: sale.book || '',
+            page: sale.page || '',
+            sale_reason: sale.sale_reason || '',
+            vi_code: sale.vi_code || '',
+            is_distressed: sale.is_distressed || false,
+            is_bank_sale: sale.is_bank_sale || false,
+            is_cash_sale: sale.is_cash_sale || false,
+            data_source: sale.data_source || 'comprehensive_view',
+          }))
+          .filter(record => record.sale_price >= 1000); // Filter out sales under $1000
 
         allSales.push(...records);
         return allSales; // Return early if comprehensive view works
@@ -146,25 +148,27 @@ export function useSalesData(parcelId: string | null) {
         .eq('parcel_id', parcelId);
 
       if (sdfData && sdfData.length > 0) {
-        const records = sdfData.map(sale => ({
-          parcel_id: sale.parcel_id,
-          sale_date: sale.sale_date,
-          sale_price: parseFloat(sale.sale_price) || 0,
-          sale_year: sale.sale_year || parseInt(sale.sale_date?.substring(0, 4)) || 0,
-          sale_month: sale.sale_month || parseInt(sale.sale_date?.substring(5, 7)) || 0,
-          qualified_sale: sale.qualified_sale === true || sale.qualified_sale === 'true' || sale.qualified_sale === 'Q',
-          document_type: sale.document_type || '',
-          grantor_name: sale.grantor_name || '',
-          grantee_name: sale.grantee_name || '',
-          book: sale.book || '',
-          page: sale.page || '',
-          sale_reason: sale.sale_reason || '',
-          vi_code: sale.vi_code || '',
-          is_distressed: sale.is_distressed || false,
-          is_bank_sale: sale.is_bank_sale || false,
-          is_cash_sale: sale.is_cash_sale || false,
-          data_source: 'sdf_sales',
-        }));
+        const records = sdfData
+          .map(sale => ({
+            parcel_id: sale.parcel_id,
+            sale_date: sale.sale_date,
+            sale_price: parseFloat(sale.sale_price) || 0,
+            sale_year: sale.sale_year || parseInt(sale.sale_date?.substring(0, 4)) || 0,
+            sale_month: sale.sale_month || parseInt(sale.sale_date?.substring(5, 7)) || 0,
+            qualified_sale: sale.qualified_sale === true || sale.qualified_sale === 'true' || sale.qualified_sale === 'Q',
+            document_type: sale.document_type || '',
+            grantor_name: sale.grantor_name || '',
+            grantee_name: sale.grantee_name || '',
+            book: sale.book || '',
+            page: sale.page || '',
+            sale_reason: sale.sale_reason || '',
+            vi_code: sale.vi_code || '',
+            is_distressed: sale.is_distressed || false,
+            is_bank_sale: sale.is_bank_sale || false,
+            is_cash_sale: sale.is_cash_sale || false,
+            data_source: 'sdf_sales',
+          }))
+          .filter(record => record.sale_price >= 1000); // Filter out sales under $1000
 
         allSales.push(...records);
       }
@@ -180,25 +184,27 @@ export function useSalesData(parcelId: string | null) {
         .eq('parcel_id', parcelId);
 
       if (historyData && historyData.length > 0) {
-        const records = historyData.map(sale => ({
-          parcel_id: sale.parcel_id,
-          sale_date: sale.sale_date,
-          sale_price: parseFloat(sale.sale_price) || 0,
-          sale_year: sale.sale_year || parseInt(sale.sale_date?.substring(0, 4)) || 0,
-          sale_month: sale.sale_month || parseInt(sale.sale_date?.substring(5, 7)) || 0,
-          qualified_sale: sale.sale_type?.toLowerCase() === 'qualified',
-          document_type: sale.document_type || '',
-          grantor_name: sale.grantor_name || '',
-          grantee_name: sale.grantee_name || '',
-          book: sale.book || '',
-          page: sale.page || '',
-          sale_reason: sale.sale_reason || '',
-          vi_code: sale.vi_code || '',
-          is_distressed: sale.is_distressed || false,
-          is_bank_sale: sale.is_bank_sale || false,
-          is_cash_sale: sale.is_cash_sale || false,
-          data_source: 'sales_history',
-        }));
+        const records = historyData
+          .map(sale => ({
+            parcel_id: sale.parcel_id,
+            sale_date: sale.sale_date,
+            sale_price: parseFloat(sale.sale_price) || 0,
+            sale_year: sale.sale_year || parseInt(sale.sale_date?.substring(0, 4)) || 0,
+            sale_month: sale.sale_month || parseInt(sale.sale_date?.substring(5, 7)) || 0,
+            qualified_sale: sale.sale_type?.toLowerCase() === 'qualified',
+            document_type: sale.document_type || '',
+            grantor_name: sale.grantor_name || '',
+            grantee_name: sale.grantee_name || '',
+            book: sale.book || '',
+            page: sale.page || '',
+            sale_reason: sale.sale_reason || '',
+            vi_code: sale.vi_code || '',
+            is_distressed: sale.is_distressed || false,
+            is_bank_sale: sale.is_bank_sale || false,
+            is_cash_sale: sale.is_cash_sale || false,
+            data_source: 'sales_history',
+          }))
+          .filter(record => record.sale_price >= 1000); // Filter out sales under $1000
 
         allSales.push(...records);
       }
@@ -287,18 +293,33 @@ export function formatSalesForSdfData(salesData: PropertySalesData | null): any[
 }
 
 // Helper function to get latest sale info for mini cards
+// NOTE: Filters out sales ≤ $1,000 to skip quick claim deeds and nominal transfers
 export function getLatestSaleInfo(salesData: PropertySalesData | null): {
   sale_prc1?: number;
   sale_yr1?: number;
   sale_date?: string;
 } {
-  if (!salesData || !salesData.most_recent_sale) {
+  if (!salesData) {
     return {};
   }
 
+  // Get all sales (most recent + previous) and filter for actual sales > $1,000
+  const allSales = [salesData.most_recent_sale, ...salesData.previous_sales]
+    .filter(Boolean)
+    .filter(sale => sale!.sale_price > 1000); // Skip quick claim deeds and nominal transfers
+
+  if (allSales.length === 0) {
+    return {};
+  }
+
+  // Sort by date descending to get the most recent qualifying sale
+  allSales.sort((a, b) => new Date(b!.sale_date).getTime() - new Date(a!.sale_date).getTime());
+
+  const latestQualifyingSale = allSales[0]!;
+
   return {
-    sale_prc1: salesData.most_recent_sale.sale_price,
-    sale_yr1: salesData.most_recent_sale.sale_year,
-    sale_date: salesData.most_recent_sale.sale_date,
+    sale_prc1: latestQualifyingSale.sale_price,
+    sale_yr1: latestQualifyingSale.sale_year,
+    sale_date: latestQualifyingSale.sale_date,
   };
 }

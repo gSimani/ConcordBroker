@@ -5,7 +5,7 @@
  */
 
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { useDebounce } from './useDebounce';
+import { useValueDebounce } from './useDebounce';
 
 export interface PropertySearchFilters {
   // Value filters (Min Value input field)
@@ -137,7 +137,7 @@ export const useAdvancedPropertySearch = (): UseAdvancedPropertySearchResult => 
   const [suggestions, setSuggestions] = useState<any>({});
 
   // Debounced filters for automatic search
-  const debouncedFilters = useDebounce(filters, 800);
+  const debouncedFilters = useValueDebounce(filters, 800);
 
   // Property use codes mapping
   const propertyUseCodes = useMemo(() => [

@@ -79,9 +79,13 @@ export function PhoneVerify() {
       const cleanPhone = phone.replace(/\D/g, '')
       const response = await api.verifyCode(cleanPhone, code)
       
-      if (response.success && response.token) {
+      if (response.success && response.access_token) {
         // Store token and redirect
-        login(response.token, cleanPhone)
+        const user = {
+          id: response.user_id || cleanPhone,
+          email: response.email || '',
+        }
+        login(response.access_token, response.refresh_token || '', user)
         navigate('/dashboard')
       } else {
         setError(response.message || 'Invalid verification code')

@@ -98,15 +98,8 @@ export const useOptimizedSearch = () => {
    */
   const buildSearchIndex = useCallback(async () => {
     try {
-      // Fetch popular search terms and common addresses
-      const [addressResponse, cityResponse] = await Promise.all([
-        fetch('http://localhost:8002/api/optimized/popular-addresses?limit=1000', {
-          signal: abortController.current?.signal
-        }),
-        fetch('http://localhost:8002/api/optimized/popular-cities?limit=100', {
-          signal: abortController.current?.signal
-        })
-      ]);
+      // Skip building index for now since endpoints don't exist
+      return;
 
       if (addressResponse.ok) {
         const addressData = await addressResponse.json();
@@ -202,7 +195,7 @@ export const useOptimizedSearch = () => {
         params.append('include_total', 'true');
 
         const response = await fetch(
-          `http://localhost:8002/api/optimized/search?${params.toString()}`,
+          `http://localhost:8000/api/properties/search?${params.toString()}`,
           {
             signal: abortController.current.signal,
             headers: {
@@ -226,8 +219,8 @@ export const useOptimizedSearch = () => {
           / performanceMetrics.current.totalRequests;
 
         const result: SearchResult = {
-          properties: data.properties || [],
-          total: data.total || 0,
+          properties: data.data || data.properties || [],
+          total: data.pagination?.total || data.total || 0,
           cached: false,
           responseTime
         };
@@ -321,7 +314,7 @@ export const useOptimizedSearch = () => {
       });
 
       const response = await fetch(
-        `http://localhost:8002/api/optimized/autocomplete?${params.toString()}`,
+        `http://localhost:8000/api/properties/autocomplete/addresses?${params.toString()}`,
         { signal: abortController.current?.signal }
       );
 

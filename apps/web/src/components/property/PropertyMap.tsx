@@ -228,8 +228,8 @@ export function PropertyMap({ properties, onPropertySelect, onClose, selectedPro
             infoWindowRef.current.open(mapInstanceRef.current, marker);
             
             // Store reference for property selection
-            window.selectProperty = (id: number) => {
-              const selectedProp = properties.find(p => p.id === id);
+            window.selectProperty = (id: string) => {
+              const selectedProp = properties.find(p => p.id?.toString() === id || p.parcel_id === id);
               if (selectedProp) {
                 onPropertySelect(selectedProp);
               }

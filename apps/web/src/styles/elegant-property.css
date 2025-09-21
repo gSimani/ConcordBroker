@@ -97,6 +97,7 @@
   position: relative;
   padding: 2rem;
   margin-bottom: 1.5rem;
+  z-index: 1;
 }
 
 /* Fix for dark navy backgrounds on content areas */
@@ -302,6 +303,8 @@ div[style*="background-color: rgb(44, 62, 80)"],
 .tabs-executive {
   border-bottom: 1px solid var(--gray-light);
   background: transparent;
+  position: relative;
+  z-index: 10;
 }
 
 .tab-executive {
@@ -316,6 +319,7 @@ div[style*="background-color: rgb(44, 62, 80)"],
   padding: 1rem 1.5rem;
   transition: all 0.3s ease;
   position: relative;
+  z-index: 10;
 }
 
 .tab-executive:hover {
@@ -502,4 +506,78 @@ div[style*="background-color: rgb(44, 62, 80)"],
   .property-grid {
     grid-template-columns: repeat(4, 1fr);
   }
+}
+/* Fix for tab overlap issues - Complete resolution */
+.tabs-executive {
+  min-height: auto;
+  padding-bottom: 1.5rem !important;
+  margin-bottom: 0 !important;
+  background: transparent;
+  position: relative;
+  z-index: 30;
+  clear: both;
+}
+
+.tabs-executive.flex-wrap {
+  row-gap: 0.75rem;
+  column-gap: 0.5rem;
+}
+
+/* Enhanced tab navigation container */
+.tabs-executive + div {
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-light);
+  padding-bottom: 1.5rem;
+  margin-bottom: 3rem;
+  position: relative;
+  z-index: 25;
+}
+
+/* Tab content area - ensure proper separation and no overlap */
+[role='tabpanel'] {
+  position: relative;
+  z-index: 1;
+  clear: both;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  background: var(--white);
+}
+
+/* Ensure tab content has proper background and visibility */
+[role='tabpanel'] .card-executive,
+[role='tabpanel'] .elegant-card {
+  position: relative;
+  z-index: 2;
+  background: var(--white) !important;
+  margin-bottom: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+/* Fix any floating tabs issue */
+.tab-executive {
+  position: relative;
+  z-index: 35;
+  background: transparent !important;
+  margin-bottom: 0;
+}
+
+/* Ensure clear separation between key metrics and tabs */
+.grid.grid-cols-1.md\\:grid-cols-4.gap-6.mb-8 {
+  margin-bottom: 2rem !important;
+  position: relative;
+  z-index: 5;
+}
+
+/* Prevent investment overview from interfering with tabs */
+.grid.md\\:grid-cols-1.gap-6.mb-8 {
+  margin-bottom: 2rem !important;
+  position: relative;
+  z-index: 5;
+}
+
+/* Tab content wrapper for proper spacing */
+div.relative.z-10.clear-both {
+  margin-top: 0;
+  padding-top: 0;
+  min-height: 50vh;
 }

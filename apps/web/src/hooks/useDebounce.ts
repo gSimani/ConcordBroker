@@ -3,7 +3,7 @@
  * Provides intelligent debouncing with adaptive delays based on input patterns
  */
 
-import { useCallback, useRef, useEffect } from 'react';
+import { useCallback, useRef, useEffect, useState } from 'react';
 
 interface DebounceOptions {
   leading?: boolean;  // Execute immediately on first call
@@ -237,4 +237,23 @@ export function useSearchDebounce<T extends (...args: any[]) => any>(
   }, []);
 
   return debouncedFunc;
+}
+
+/**
+ * Value-based debounce hook for debouncing state values
+ */
+export function useValueDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
 }

@@ -415,14 +415,16 @@ export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
             </div>
             
             <div className="flex gap-2">
-              <Input
-                type="text"
-                placeholder="Search nodes..."
-                value={searchTerm}
-                onChange={(e) => handleSearch(e.target.value)}
-                className="w-48 h-8"
-                prefix={<Search className="h-3 w-3" />}
-              />
+              <div className="relative">
+                <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-3 w-3 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Search nodes..."
+                  value={searchTerm}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  className="w-48 h-8 pl-7"
+                />
+              </div>
             </div>
 
             <div className="flex items-center gap-2">

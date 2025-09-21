@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { PropertyProfile } from '../property/PropertyProfile';
+import PropertyCompleteView from '@/components/property/PropertyCompleteView';
+import EnhancedPropertyProfile from '../property/EnhancedPropertyProfile';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { RefreshCw, ArrowLeft, MapPin, AlertCircle } from 'lucide-react';
@@ -35,7 +36,12 @@ interface PropertyData {
 export default function PropertyPage() {
   const navigate = useNavigate();
   const params = useParams();
-  
+
+  // Check if we have city and address params for complete view
+  if (params.city && params.address) {
+    return <PropertyCompleteView />;
+  }
+
   const [property, setProperty] = useState<PropertyData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -68,20 +74,20 @@ export default function PropertyPage() {
           .replace(/\b\w/g, l => l.toUpperCase());
         
         // Use the working search endpoint
-        url = `http://localhost:8002/api/properties/search?address=${encodeURIComponent(addressSearch)}&city=${encodeURIComponent(city)}&limit=1`;
+        url = `http://localhost:8000/api/properties/search?address=${encodeURIComponent(addressSearch)}&city=${encodeURIComponent(city)}&limit=1`;
         console.log('API URL:', url);
       } else if (params.slug) {
         // Single param - could be property ID or parcel ID
         const singleParam = params.slug;
-        
+
         if (/^\d+$/.test(singleParam)) {
           if (singleParam.length > 10) {
             // Likely parcel ID - search by parcel ID
-            url = `http://localhost:8002/api/properties/search?q=${singleParam}&limit=1`;
+            url = `http://localhost:8000/api/properties/search?q=${singleParam}&limit=1`;
           } else {
             // Likely property ID - search by ID (will need to handle differently)
             // For now, treat as a general search
-            url = `http://localhost:8002/api/properties/search?q=${singleParam}&limit=1`;
+            url = `http://localhost:8000/api/properties/search?q=${singleParam}&limit=1`;
           }
         } else {
           // Could be city name for city overview
@@ -284,7 +290,7 @@ export default function PropertyPage() {
         </div>
 
         {/* Property Profile Component */}
-        <PropertyProfile 
+        <EnhancedPropertyProfile 
           parcelId={property.parcel_id}
           data={property}
         />

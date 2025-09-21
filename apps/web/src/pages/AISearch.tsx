@@ -20,7 +20,7 @@ interface SearchResult {
   relevance_score?: number;
 }
 
-export const AISearchPage: React.FC = () => {
+const AISearchPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -232,3 +232,5 @@ export const AISearchPage: React.FC = () => {
     </div>
   );
 };
+
+export default AISearchPage;
