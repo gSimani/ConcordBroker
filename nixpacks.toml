@@ -1,0 +1,14 @@
+[phases.setup]
+nixPkgs = ["python310", "python310Packages.pip"]
+
+[phases.install]
+cmds = [
+  "pip install --upgrade pip",
+  "pip install -r requirements.txt"
+]
+
+[start]
+cmd = "python main.py"
+
+[variables]
+PYTHON_VERSION = "3.10"
