@@ -11,9 +11,8 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # Copy requirements first for better caching
-COPY requirements.txt requirements-data-science.txt ./
-RUN pip install --user --no-cache-dir -r requirements.txt && \
-    pip install --user --no-cache-dir -r requirements-data-science.txt
+COPY requirements.txt ./
+RUN pip install --user --no-cache-dir -r requirements.txt
 
 # Production stage
 FROM python:3.11-slim
