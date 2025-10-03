@@ -276,9 +276,14 @@ export const CorePropertyTabComplete: React.FC<CorePropertyTabProps> = ({ proper
               <div className="flex justify-between items-start border-b border-gray-100 pb-2">
                 <span className="text-base text-gray-600">Mailing Address</span>
                 <span className="text-base font-semibold text-navy text-right">
-                  {bcpaData?.owner_addr1 || 'N/A'}<br/>
-                  {bcpaData?.owner_city &&
-                    `${bcpaData.owner_city}, ${bcpaData.owner_state || 'FL'} ${bcpaData.owner_zip || ''}`}
+                  {(bcpaData?.owner_addr1 || bcpaData?.owner_addr2) ? (
+                    <>
+                      {bcpaData?.owner_addr1 && <>{bcpaData.owner_addr1}<br/></>}
+                      {bcpaData?.owner_addr2 && <>{bcpaData.owner_addr2}<br/></>}
+                      {bcpaData?.owner_city &&
+                        `${bcpaData.owner_city}, ${bcpaData.owner_state || 'FL'} ${bcpaData.owner_zip || ''}`}
+                    </>
+                  ) : 'N/A'}
                 </span>
               </div>
             </div>
@@ -336,27 +341,27 @@ export const CorePropertyTabComplete: React.FC<CorePropertyTabProps> = ({ proper
             <div className="text-center">
               <div className="text-sm text-gray-600">Actual Area</div>
               <div className="text-lg font-semibold text-navy">
-                {formatSqFt(bcpaData?.total_living_area || bcpaData?.tot_lvg_area)}
+                {formatSqFt(bcpaData?.living_area || bcpaData?.tot_lvg_area || bcpaData?.total_living_area)}
               </div>
             </div>
             <div className="text-center">
               <div className="text-sm text-gray-600">Living Area</div>
               <div className="text-lg font-semibold text-navy">
-                {formatSqFt(bcpaData?.total_living_area || bcpaData?.tot_lvg_area)}
+                {formatSqFt(bcpaData?.living_area || bcpaData?.tot_lvg_area || bcpaData?.total_living_area)}
               </div>
             </div>
             <div className="text-center">
               <div className="text-sm text-gray-600">Adjusted Area</div>
               <div className="text-lg font-semibold text-navy">
-                {formatSqFt(bcpaData?.adjusted_area || bcpaData?.total_living_area)}
+                {formatSqFt(bcpaData?.adjusted_area || bcpaData?.living_area || bcpaData?.tot_lvg_area)}
               </div>
             </div>
             <div className="text-center">
               <div className="text-sm text-gray-600">Lot Size</div>
               <div className="text-lg font-semibold text-navy">
-                {formatSqFt(bcpaData?.land_sqft || bcpaData?.lnd_sqfoot)}
+                {formatSqFt(bcpaData?.lot_size_sqft || bcpaData?.lnd_sqfoot || bcpaData?.land_sqft)}
                 <div className="text-xs text-gray-500">
-                  ({formatAcres(bcpaData?.land_sqft || bcpaData?.lnd_sqfoot)})
+                  ({formatAcres(bcpaData?.lot_size_sqft || bcpaData?.lnd_sqfoot || bcpaData?.land_sqft)})
                 </div>
               </div>
             </div>
@@ -393,7 +398,7 @@ export const CorePropertyTabComplete: React.FC<CorePropertyTabProps> = ({ proper
                   <td className="py-2 px-3 text-sm">{bcpaData?.pa_zone || '6300 - COMMERCIAL - RESTRICTED'}</td>
                   <td className="py-2 px-3 text-sm">Square Ft.</td>
                   <td className="py-2 px-3 text-sm text-right">
-                    {bcpaData?.land_sqft ? parseInt(bcpaData.land_sqft).toLocaleString() : '0'}
+                    {(bcpaData?.lot_size_sqft || bcpaData?.lnd_sqfoot || bcpaData?.land_sqft) ? parseInt(bcpaData.lot_size_sqft || bcpaData.lnd_sqfoot || bcpaData.land_sqft).toLocaleString() : '0'}
                   </td>
                   <td className="py-2 px-3 text-sm text-right font-semibold">
                     {formatCurrency(bcpaData?.land_value)}
@@ -436,14 +441,14 @@ export const CorePropertyTabComplete: React.FC<CorePropertyTabProps> = ({ proper
                     {bcpaData?.year_built || '-'}
                   </td>
                   <td className="py-2 px-3 text-sm text-right">
-                    {bcpaData?.total_living_area ? parseInt(bcpaData.total_living_area).toLocaleString() : '0'}
+                    {(bcpaData?.living_area || bcpaData?.tot_lvg_area) ? parseInt(bcpaData.living_area || bcpaData.tot_lvg_area).toLocaleString() : '0'}
                   </td>
                   <td className="py-2 px-3 text-sm text-right">
-                    {bcpaData?.total_living_area ? parseInt(bcpaData.total_living_area).toLocaleString() : '0'}
+                    {(bcpaData?.living_area || bcpaData?.tot_lvg_area) ? parseInt(bcpaData.living_area || bcpaData.tot_lvg_area).toLocaleString() : '0'}
                   </td>
                   <td className="py-2 px-3 text-sm text-right">
                     {bcpaData?.adjusted_area ? parseInt(bcpaData.adjusted_area).toLocaleString() :
-                     bcpaData?.total_living_area ? parseInt(bcpaData.total_living_area).toLocaleString() : '0'}
+                     (bcpaData?.living_area || bcpaData?.tot_lvg_area) ? parseInt(bcpaData.living_area || bcpaData.tot_lvg_area).toLocaleString() : '0'}
                   </td>
                   <td className="py-2 px-3 text-sm text-right font-semibold">
                     {formatCurrency(bcpaData?.building_value)}
