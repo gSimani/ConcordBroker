@@ -21,6 +21,16 @@ const {
 const apiRoutes = require('./api-routes');
 const LangChainIntegration = require('./langchain-integration');
 
+// Import Supabase MCP integration
+const {
+  registerSupabaseMcpTools,
+  checkSupabaseMcpHealth
+} = require('./supabase-mcp-integration');
+
+// Import AI System Auto-Startup
+const { spawn } = require('child_process');
+let aiSystemProcess = null;
+
 // Initialize Express app
 const app = express();
 app.use(express.json());
@@ -209,7 +219,19 @@ async function checkServiceHealth(services) {
     agents: services.langchain?.agents || {},
     timestamp: new Date().toISOString()
   };
-  
+
+  // Check Supabase MCP
+  try {
+    const supabaseMcpHealth = await checkSupabaseMcpHealth();
+    health.supabaseMcp = supabaseMcpHealth;
+  } catch (error) {
+    health.supabaseMcp = {
+      healthy: false,
+      error: error.message,
+      timestamp: new Date().toISOString()
+    };
+  }
+
   return health;
 }
 
@@ -345,6 +367,20 @@ app.get('/health', async (req, res) => {
   });
 });
 
+// Supabase MCP health endpoint (no auth required)
+app.get('/supabase-mcp/health', async (req, res) => {
+  try {
+    const health = await checkSupabaseMcpHealth();
+    res.json(health);
+  } catch (error) {
+    res.status(500).json({
+      healthy: false,
+      error: error.message,
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
 // Documentation endpoint
 app.get('/docs', (req, res) => {
   res.json({
@@ -374,6 +410,15 @@ app.get('/docs', (req, res) => {
         'POST /api/supabase/:table': 'Insert data',
         'PATCH /api/supabase/:table/:id': 'Update data',
         'DELETE /api/supabase/:table/:id': 'Delete data'
+      },
+      supabaseMcp: {
+        'GET /api/supabase/mcp/health': 'Supabase MCP health check (no auth)',
+        'POST /api/supabase/mcp/query': 'Query database with MCP',
+        'POST /api/supabase/mcp/schema': 'Get table schema',
+        'POST /api/supabase/mcp/tables': 'List all tables',
+        'POST /api/supabase/mcp/execute': 'Execute safe query',
+        'POST /api/supabase/mcp/stats': 'Get database stats',
+        'POST /api/supabase/mcp/search': 'Search properties'
       },
       huggingface: {
         'POST /api/huggingface/inference': 'Run model inference',
@@ -421,6 +466,63 @@ if (app.locals.services?.langchain) {
   app.use('/api/langchain', app.locals.services.langchain.getExpressRouter());
 }
 
+// Mount Supabase MCP tool routes (with auth)
+const { supabaseMcpTools } = require('./supabase-mcp-integration');
+
+app.post('/api/supabase/mcp/query', async (req, res) => {
+  try {
+    const result = await supabaseMcpTools.queryDatabase(req.body);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/api/supabase/mcp/schema', async (req, res) => {
+  try {
+    const result = await supabaseMcpTools.getTableSchema(req.body);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/api/supabase/mcp/tables', async (req, res) => {
+  try {
+    const result = await supabaseMcpTools.listTables();
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/api/supabase/mcp/execute', async (req, res) => {
+  try {
+    const result = await supabaseMcpTools.executeSafeQuery(req.body);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/api/supabase/mcp/stats', async (req, res) => {
+  try {
+    const result = await supabaseMcpTools.getDatabaseStats();
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/api/supabase/mcp/search', async (req, res) => {
+  try {
+    const result = await supabaseMcpTools.searchProperties(req.body);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error('Error:', err);
@@ -437,6 +539,61 @@ app.use((req, res) => {
     message: `Endpoint ${req.method} ${req.path} not found`
   });
 });
+
+// AI System Integration
+async function startAISystem() {
+  try {
+    console.log('🤖 Starting ConcordBroker AI Data Flow System...');
+
+    const aiSystemScript = path.join(__dirname, '../claude-code-ai-system-init.cjs');
+
+    // Check if AI system script exists
+    try {
+      await fs.access(aiSystemScript);
+    } catch {
+      console.log('⚠️ AI System script not found, skipping AI startup');
+      return;
+    }
+
+    // Start AI system as a child process
+    aiSystemProcess = spawn('node', [aiSystemScript], {
+      cwd: path.dirname(aiSystemScript),
+      stdio: ['ignore', 'pipe', 'pipe'],
+      detached: false
+    });
+
+    // Handle AI system output
+    aiSystemProcess.stdout.on('data', (data) => {
+      const output = data.toString().trim();
+      if (output) {
+        console.log(`🤖 AI System: ${output}`);
+      }
+    });
+
+    aiSystemProcess.stderr.on('data', (data) => {
+      const output = data.toString().trim();
+      if (output && !output.includes('WARNING')) {
+        console.log(`🤖 AI System Warning: ${output}`);
+      }
+    });
+
+    aiSystemProcess.on('exit', (code, signal) => {
+      if (code !== 0 && code !== null) {
+        console.log(`🤖 AI System exited with code ${code}`);
+      }
+    });
+
+    // Wait a moment for startup
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    console.log('✅ AI Data Flow System startup initiated');
+    console.log('📊 Dashboard will be available at: http://localhost:8004');
+    console.log('🔗 AI API available at: http://localhost:8003/ai-system/health');
+
+  } catch (error) {
+    console.error('❌ Failed to start AI System:', error.message);
+  }
+}
 
 // Start server
 async function startServer() {
@@ -455,12 +612,27 @@ async function startServer() {
     console.log('🤖 LangChain integration initialized');
   }
   
+  // Initialize Supabase MCP
+  console.log('\n🔧 Initializing Supabase MCP integration...');
+  try {
+    const supabaseMcpHealth = await checkSupabaseMcpHealth();
+    if (supabaseMcpHealth.healthy) {
+      console.log('✅ Supabase MCP integration ready');
+      console.log(`   - Read-only: ${supabaseMcpHealth.config?.readOnly}`);
+      console.log(`   - Features: ${supabaseMcpHealth.config?.features?.join(', ')}`);
+    } else {
+      console.log('⚠️  Supabase MCP health check failed:', supabaseMcpHealth.error);
+    }
+  } catch (error) {
+    console.log('⚠️  Supabase MCP initialization warning:', error.message);
+  }
+
   // Check initial health
   const health = await checkServiceHealth(services);
   console.log('\n📊 Initial Service Health:');
   Object.entries(health).forEach(([service, status]) => {
-    const icon = status.status === 'healthy' || status.status === 'configured' ? '✅' : '⚠️';
-    console.log(`${icon} ${service}: ${status.status}`);
+    const icon = status.status === 'healthy' || status.status === 'configured' || status.healthy === true ? '✅' : '⚠️';
+    console.log(`${icon} ${service}: ${status.status || (status.healthy ? 'healthy' : 'unhealthy')}`);
   });
   
   // Start HTTP server
@@ -476,11 +648,24 @@ async function startServer() {
   console.log(`🔌 WebSocket server running on ws://localhost:${PORT}`);
   
   console.log('\n✨ MCP Server ready to handle requests!\n');
+
+  // Start AI Data Flow System
+  await startAISystem();
   
   // Graceful shutdown
   process.on('SIGINT', async () => {
     console.log('\n🛑 Shutting down MCP Server...');
     
+    // Shutdown AI System
+    if (aiSystemProcess) {
+      console.log('🤖 Stopping AI Data Flow System...');
+      aiSystemProcess.kill('SIGTERM');
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      if (!aiSystemProcess.killed) {
+        aiSystemProcess.kill('SIGKILL');
+      }
+    }
+
     // Shutdown LangChain
     if (services.langchain) {
       await services.langchain.shutdown();
