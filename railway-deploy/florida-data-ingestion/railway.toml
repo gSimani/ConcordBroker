@@ -1,0 +1,12 @@
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+startCommand = "uvicorn florida_data_orchestrator:app --host 0.0.0.0 --port $PORT"
+healthcheckPath = "/health"
+healthcheckTimeout = 300
+
+[[crons]]
+# Daily at 3:00 AM ET (8:00 AM UTC)
+schedule = "0 8 * * *"
+command = "python florida_data_orchestrator.py sync"
