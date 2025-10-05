@@ -27,7 +27,9 @@ from supabase import create_client, Client
 import openai
 from dotenv import load_dotenv
 
-load_dotenv()
+# Load .env file only if it exists (for local development)
+# Railway injects environment variables directly, so this won't override them
+load_dotenv(override=False)
 
 # Initialize services
 sentry_sdk.init(dsn=os.getenv("SENTRY_DSN"))
