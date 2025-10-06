@@ -85,7 +85,12 @@ const supabase = createClient(
 )
 
 export function TaxesTab({ data }: TaxesTabProps) {
-  const { navData, totalNavAssessment, isInCDD, bcpaData } = data
+  // Handle undefined data gracefully
+  const navData = data?.navData || null
+  const totalNavAssessment = data?.totalNavAssessment || 0
+  const isInCDD = data?.isInCDD || false
+  const bcpaData = data?.bcpaData || data || {}
+
   const [certificateBuyerData, setCertificateBuyerData] = useState<Record<string, any>>({})
   const [loadingBuyers, setLoadingBuyers] = useState<Record<string, boolean>>({})
   const [enhancedBuyerMatches, setEnhancedBuyerMatches] = useState<Record<string, BuyerSunbizMatches>>({})
@@ -99,10 +104,13 @@ export function TaxesTab({ data }: TaxesTabProps) {
       if (!bcpaData?.parcel_id) return
       
       try {
+        // Get API base URL from environment or default to localhost
+        const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8002';
+
         // Fetch tax certificates and Sunbiz entities in parallel from real tax data API
         const [certsResponse, sunbizResponse] = await Promise.all([
-          fetch(`http://localhost:8002/api/properties/${bcpaData.parcel_id}/tax-certificates`),
-          fetch(`http://localhost:8002/api/properties/${bcpaData.parcel_id}/sunbiz-entities`)
+          fetch(`${API_BASE_URL}/api/properties/${bcpaData.parcel_id}/tax-certificates`),
+          fetch(`${API_BASE_URL}/api/properties/${bcpaData.parcel_id}/sunbiz-entities`)
         ])
         
         // Process tax certificates

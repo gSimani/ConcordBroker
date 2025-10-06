@@ -102,159 +102,118 @@ export function useSalesData(parcelId: string | null) {
   const fetchFromMultipleSources = async (parcelId: string): Promise<SalesRecord[]> => {
     const allSales: SalesRecord[] = [];
 
-    // Source 1: Try comprehensive_sales_data view first
+    // Source 1: property_sales_history table (MAIN SOURCE - 96,771 records)
+    // This is the correct table with or_book and or_page fields
     try {
-      const { data: comprehensiveData, error: comprehensiveError } = await supabase
-        .from('comprehensive_sales_data')
+      const { data: historyData, error: historyError } = await supabase
+        .from('property_sales_history')
         .select('*')
         .eq('parcel_id', parcelId)
         .order('sale_date', { ascending: false });
 
-      if (comprehensiveData && comprehensiveData.length > 0) {
-        const records = comprehensiveData
-          .map(sale => ({
-            parcel_id: sale.parcel_id,
-            sale_date: sale.sale_date,
-            sale_price: parseFloat(sale.sale_price) || 0,
-            sale_year: parseInt(sale.sale_year) || 0,
-            sale_month: parseInt(sale.sale_month) || 0,
-            qualified_sale: sale.sale_qualification?.toLowerCase() === 'qualified' || sale.sale_qualification?.toLowerCase() === 'q',
-            document_type: sale.document_type || '',
-            grantor_name: sale.grantor_name || '',
-            grantee_name: sale.grantee_name || '',
-            book: sale.book || '',
-            page: sale.page || '',
-            sale_reason: sale.sale_reason || '',
-            vi_code: sale.vi_code || '',
-            is_distressed: sale.is_distressed || false,
-            is_bank_sale: sale.is_bank_sale || false,
-            is_cash_sale: sale.is_cash_sale || false,
-            data_source: sale.data_source || 'comprehensive_view',
-          }))
-          .filter(record => record.sale_price >= 1000); // Filter out sales under $1000
-
-        allSales.push(...records);
-        return allSales; // Return early if comprehensive view works
+      if (historyError) {
+        console.error('Error querying property_sales_history:', historyError);
       }
-    } catch (error) {
-      console.log('Comprehensive sales view not available, trying individual tables');
-    }
-
-    // Source 2: Try SDF sales table
-    try {
-      const { data: sdfData, error: sdfError } = await supabase
-        .from('sdf_sales')
-        .select('*')
-        .eq('parcel_id', parcelId);
-
-      if (sdfData && sdfData.length > 0) {
-        const records = sdfData
-          .map(sale => ({
-            parcel_id: sale.parcel_id,
-            sale_date: sale.sale_date,
-            sale_price: parseFloat(sale.sale_price) || 0,
-            sale_year: sale.sale_year || parseInt(sale.sale_date?.substring(0, 4)) || 0,
-            sale_month: sale.sale_month || parseInt(sale.sale_date?.substring(5, 7)) || 0,
-            qualified_sale: sale.qualified_sale === true || sale.qualified_sale === 'true' || sale.qualified_sale === 'Q',
-            document_type: sale.document_type || '',
-            grantor_name: sale.grantor_name || '',
-            grantee_name: sale.grantee_name || '',
-            book: sale.book || '',
-            page: sale.page || '',
-            sale_reason: sale.sale_reason || '',
-            vi_code: sale.vi_code || '',
-            is_distressed: sale.is_distressed || false,
-            is_bank_sale: sale.is_bank_sale || false,
-            is_cash_sale: sale.is_cash_sale || false,
-            data_source: 'sdf_sales',
-          }))
-          .filter(record => record.sale_price >= 1000); // Filter out sales under $1000
-
-        allSales.push(...records);
-      }
-    } catch (error) {
-      console.log('SDF sales table not available or error:', error);
-    }
-
-    // Source 3: Try sales_history table
-    try {
-      const { data: historyData, error: historyError } = await supabase
-        .from('sales_history')
-        .select('*')
-        .eq('parcel_id', parcelId);
 
       if (historyData && historyData.length > 0) {
+        console.log(`✅ Found ${historyData.length} sales in property_sales_history for ${parcelId}`);
+
         const records = historyData
           .map(sale => ({
             parcel_id: sale.parcel_id,
             sale_date: sale.sale_date,
-            sale_price: parseFloat(sale.sale_price) || 0,
-            sale_year: sale.sale_year || parseInt(sale.sale_date?.substring(0, 4)) || 0,
-            sale_month: sale.sale_month || parseInt(sale.sale_date?.substring(5, 7)) || 0,
-            qualified_sale: sale.sale_type?.toLowerCase() === 'qualified',
-            document_type: sale.document_type || '',
-            grantor_name: sale.grantor_name || '',
-            grantee_name: sale.grantee_name || '',
-            book: sale.book || '',
-            page: sale.page || '',
-            sale_reason: sale.sale_reason || '',
-            vi_code: sale.vi_code || '',
-            is_distressed: sale.is_distressed || false,
-            is_bank_sale: sale.is_bank_sale || false,
-            is_cash_sale: sale.is_cash_sale || false,
-            data_source: 'sales_history',
+            // Convert from cents to dollars (database stores in cents)
+            sale_price: sale.sale_price ? Math.round(parseFloat(sale.sale_price) / 100) : 0,
+            sale_year: sale.sale_year || 0,
+            sale_month: sale.sale_month || 0,
+            qualified_sale: sale.quality_code === 'Q' || sale.quality_code === 'q',
+            document_type: sale.clerk_no || '',
+            grantor_name: '',
+            grantee_name: '',
+            // Use or_book and or_page fields from property_sales_history
+            book: sale.or_book || '',
+            page: sale.or_page || '',
+            sale_reason: '',
+            vi_code: sale.clerk_no || '',
+            is_distressed: false,
+            is_bank_sale: false,
+            is_cash_sale: false,
+            data_source: 'property_sales_history',
           }))
-          .filter(record => record.sale_price >= 1000); // Filter out sales under $1000
+          .filter(record => record.sale_price >= 1000); // Filter out sales under $1,000
 
         allSales.push(...records);
+        return allSales; // Return early since this is our main source
+      } else {
+        console.log(`⚠️ No sales found in property_sales_history for ${parcelId}`);
       }
     } catch (error) {
-      console.log('Sales history table not available or error:', error);
+      console.error('Error fetching from property_sales_history:', error);
     }
 
-    // Source 4: Try florida_parcels table (built-in sales data)
+    // Source 2: florida_parcels table (9.1M records - fallback with sale_date, sale_price, sale_qualification)
     try {
       const { data: parcelsData, error: parcelsError } = await supabase
         .from('florida_parcels')
         .select('parcel_id, sale_date, sale_price, sale_qualification')
         .eq('parcel_id', parcelId)
+        .not('sale_price', 'is', null)
         .not('sale_date', 'is', null)
-        .not('sale_price', 'is', null);
+        .limit(1);
+
+      if (parcelsError) {
+        console.error('Error querying florida_parcels:', parcelsError);
+      }
 
       if (parcelsData && parcelsData.length > 0) {
-        const records = parcelsData.map(sale => ({
-          parcel_id: sale.parcel_id,
-          sale_date: sale.sale_date,
-          sale_price: parseFloat(sale.sale_price) || 0,
-          sale_year: parseInt(sale.sale_date?.substring(0, 4)) || 0,
-          sale_month: parseInt(sale.sale_date?.substring(5, 7)) || 0,
-          qualified_sale: sale.sale_qualification?.toLowerCase() === 'qualified',
-          document_type: '',
-          grantor_name: '',
-          grantee_name: '',
-          book: '',
-          page: '',
-          sale_reason: '',
-          vi_code: '',
-          is_distressed: false,
-          is_bank_sale: false,
-          is_cash_sale: false,
-          data_source: 'florida_parcels',
-        }));
+        const parcel = parcelsData[0];
+        const price = parcel.sale_price;
+        const saleDate = parcel.sale_date;
+        const qualification = parcel.sale_qualification;
 
-        allSales.push(...records);
+        if (price && price > 1000 && saleDate) {
+          // Extract year and month from date
+          const date = new Date(saleDate);
+          const year = date.getFullYear();
+          const month = date.getMonth() + 1;
+
+          allSales.push({
+            parcel_id: parcel.parcel_id,
+            sale_date: saleDate,
+            sale_price: parseFloat(price) || 0,
+            sale_year: year,
+            sale_month: month,
+            qualified_sale: qualification?.toLowerCase() === 'qualified',
+            document_type: '',
+            grantor_name: '',
+            grantee_name: '',
+            book: '',
+            page: '',
+            sale_reason: '',
+            vi_code: '',
+            is_distressed: false,
+            is_bank_sale: false,
+            is_cash_sale: false,
+            data_source: 'florida_parcels',
+          });
+
+          console.log(`✅ Found 1 sale in florida_parcels for ${parcelId}`);
+        }
       }
     } catch (error) {
-      console.log('Florida parcels sales data not available or error:', error);
+      console.error('Error fetching from florida_parcels:', error);
     }
 
     // Remove duplicates based on date and price
     const uniqueSales = allSales.filter((sale, index, self) =>
       index === self.findIndex(s =>
         s.sale_date === sale.sale_date &&
-        s.sale_price === sale.sale_price
+        Math.abs(s.sale_price - sale.sale_price) < 1 // Allow for small floating point differences
       )
     );
+
+    // Sort by date descending
+    uniqueSales.sort((a, b) => new Date(b.sale_date).getTime() - new Date(a.sale_date).getTime());
 
     return uniqueSales;
   };

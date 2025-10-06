@@ -26,7 +26,7 @@ import { TaxesTab } from './tabs/TaxesTab';
 import { PermitTab } from './tabs/PermitTab';
 import { SalesTaxDeedTab } from './tabs/SalesTaxDeedTab';
 import { TaxDeedSalesTab } from './tabs/TaxDeedSalesTab';
-import { CorePropertyTabWithOwnerSelection } from './tabs/CorePropertyTabWithOwnerSelection';
+import { CorePropertyTabEnhanced } from './tabs/CorePropertyTabEnhanced';
 import '@/styles/elegant-property.css';
 
 interface ElegantPropertyTabsProps {
@@ -217,20 +217,7 @@ export function ElegantPropertyTabs({
                   }
                 }
 
-                console.log('Sale price data:', { mostRecentSale, salePrice, data });
-
-                // TEMPORARY: Add test sales data if no real data found
-                if (!salePrice || salePrice < 1000) {
-                  console.log('⚠️ No valid sales data - using test data');
-                  salePrice = 285000; // Test value
-                  mostRecentSale = {
-                    sale_price: '285000',
-                    sale_date: '2023-08-15',
-                    sale_type: 'Warranty Deed',
-                    qualified_sale: true
-                  };
-                }
-
+                // Only show real sales data - no mock/test data
                 const saleDate = mostRecentSale ?
                   (mostRecentSale.sale_date ? new Date(mostRecentSale.sale_date) : null) :
                   (propertyData.sale_mo1 && propertyData.sale_yr1 ? `${propertyData.sale_mo1}/${propertyData.sale_yr1}` : propertyData.sale_date);
@@ -455,54 +442,7 @@ export function ElegantPropertyTabs({
 
       {/* CORE PROPERTY TAB */}
       <TabsContent value="core-property" className="animate-elegant">
-        <CorePropertyTabWithOwnerSelection propertyData={{
-          bcpaData: {
-            parcel_id: propertyData.parcel_id,
-            property_address_street: propertyData.phy_addr1,
-            property_address_city: propertyData.phy_city,
-            property_address_zip: propertyData.phy_zipcd,
-            owner_name: propertyData.owner_name || propertyData.own_name,
-            property_use_code: propertyData.dor_uc,
-            land_value: propertyData.lnd_val || propertyData.land_value,
-            building_value: (propertyData.jv || propertyData.just_value || 0) - (propertyData.lnd_val || propertyData.land_value || 0),
-            market_value: propertyData.jv || propertyData.just_value,
-            just_value: propertyData.jv || propertyData.just_value,
-            assessed_value: propertyData.av_sd || propertyData.assessed_value,
-            tax_amount: propertyData.tax_amount,
-            homestead_exemption: propertyData.homestead_exemption,
-            other_exemptions: propertyData.other_exemptions,
-            lot_size_sqft: propertyData.lnd_sqfoot || propertyData.lot_size_sqft,
-            living_area: propertyData.tot_lvg_area || propertyData.living_area,
-            units: propertyData.no_res_unts || propertyData.units || '1',
-            bedrooms: propertyData.bedroom_cnt || propertyData.bedrooms,
-            bathrooms: propertyData.bathroom_cnt || propertyData.bathrooms,
-            year_built: propertyData.act_yr_blt || propertyData.year_built,
-            eff_year_built: propertyData.eff_yr_blt || propertyData.eff_year_built,
-            sale_date: propertyData.sale_yr1 && propertyData.sale_mo1 ?
-              `${propertyData.sale_yr1}-${String(propertyData.sale_mo1).padStart(2, '0')}-01` :
-              propertyData.sale_date,
-            sale_price: propertyData.sale_prc1 || propertyData.sale_price,
-            sale_type: propertyData.qual_cd1 === 'Q' ? 'Warranty Deed' :
-              propertyData.deed_type || propertyData.sale_type || 'Standard Sale',
-            book_page: propertyData.book_page || propertyData.or_book_page,
-            cin: propertyData.cin || propertyData.clerk_no,
-            subdivision: propertyData.subdivision,
-            property_sketch_link: propertyData.property_sketch_link,
-            // Pass raw data fields too for fallback
-            ...propertyData
-          },
-          sdfData: salesHistory,
-          navData: data.navData || [],
-          // Pass full raw data for property fetching within the component
-          parcel_id: propertyData.parcel_id,
-          sale_prc1: propertyData.sale_prc1,
-          sale_yr1: propertyData.sale_yr1,
-          sale_mo1: propertyData.sale_mo1,
-          qual_cd1: propertyData.qual_cd1,
-          owner_name: propertyData.owner_name || propertyData.own_name,
-          tot_lvg_area: propertyData.tot_lvg_area,
-          ...propertyData
-        }} />
+        <CorePropertyTabEnhanced propertyData={propertyData} />
       </TabsContent>
 
       {/* OTHER TABS - Placeholder for now */}
