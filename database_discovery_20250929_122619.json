@@ -1,0 +1,5768 @@
+{
+  "discovery_timestamp": "2025-09-29T12:26:19.722945",
+  "database_summary": {
+    "total_tables": 86,
+    "total_views": 21,
+    "table_names": [
+      "owner_entity_links",
+      "florida_entities_staging",
+      "property_assessments",
+      "property_owners",
+      "property_sales",
+      "nav_summaries",
+      "nav_details",
+      "properties_master",
+      "fact_property_score",
+      "property_change_log",
+      "user_preferences",
+      "watchlist",
+      "notification_history",
+      "tax_certificates",
+      "wrappers_fdw_stats",
+      "sunbiz_corporate",
+      "agent_activity_logs",
+      "agent_config",
+      "agent_notifications",
+      "florida_parcels",
+      "data_source_monitor",
+      "sunbiz_fictitious",
+      "sunbiz_partnerships",
+      "edge_functions",
+      "property_entity_matches",
+      "entity_relationships",
+      "entity_search_cache",
+      "document_categories",
+      "document_property_links",
+      "document_processing_queue",
+      "document_access_log",
+      "document_alerts",
+      "document_search_sessions",
+      "documents",
+      "fl_agent_status",
+      "fl_nav_assessment_detail",
+      "fl_data_updates",
+      "florida_contacts",
+      "ml_model_metrics",
+      "fl_sdf_sales",
+      "fl_tpp_accounts",
+      "ab_validation_results",
+      "ml_property_scores_xgb",
+      "florida_business_activities",
+      "florida_processing_log",
+      "user_watchlists",
+      "watchlist_items",
+      "florida_raw_records",
+      "florida_registered_agents",
+      "sunbiz_import_log",
+      "watchlist_alerts",
+      "match_audit_log",
+      "monitoring_agents",
+      "nav_jobs",
+      "nav_parcel_assessments",
+      "parcel_update_history",
+      "properties",
+      "dor_use_codes",
+      "property_sales_history",
+      "property_ownership_history",
+      "notification_queue",
+      "ml_property_scores",
+      "sunbiz_download_jobs",
+      "sunbiz_corporate_events",
+      "sunbiz_liens",
+      "sunbiz_marks",
+      "sunbiz_monitoring_agents",
+      "sunbiz_partnership_events",
+      "sunbiz_processed_files",
+      "sunbiz_principal_data",
+      "tpp_jobs",
+      "tax_deed_bidding_items",
+      "fl_nav_parcel_summary",
+      "florida_entities",
+      "florida_permits",
+      "nav_assessment_details",
+      "nav_assessments",
+      "sunbiz_officers",
+      "sdf_jobs",
+      "spatial_ref_sys",
+      "sunbiz_fictitious_events",
+      "sunbiz_lien_debtors",
+      "sunbiz_lien_secured_parties",
+      "sunbiz_officer_corporation_matches",
+      "sunbiz_sftp_downloads",
+      "tax_deed_auctions"
+    ],
+    "view_names": [
+      "active_corporations",
+      "pg_stat_statements",
+      "pg_stat_statements_info",
+      "data_quality_dashboard",
+      "all_entities",
+      "entity_property_network",
+      "florida_active_entities_with_contacts",
+      "florida_contact_summary",
+      "import_statistics",
+      "latest_parcels",
+      "watchlist_alert_summary",
+      "recent_filings",
+      "property_tax_certificate_summary",
+      "tax_deed_items_view",
+      "active_tax_certificates",
+      "geography_columns",
+      "geometry_columns",
+      "high_value_properties",
+      "high_confidence_matches",
+      "monitoring_status",
+      "recent_sales"
+    ]
+  },
+  "tables": {
+    "owner_entity_links": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 10,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "county",
+          "type": "TEXT"
+        },
+        {
+          "name": "owner_name",
+          "type": "TEXT"
+        },
+        {
+          "name": "norm_owner",
+          "type": "TEXT"
+        },
+        {
+          "name": "sunbiz_id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "corporate_name",
+          "type": "TEXT"
+        },
+        {
+          "name": "norm_corp",
+          "type": "TEXT"
+        },
+        {
+          "name": "match_type",
+          "type": "TEXT"
+        },
+        {
+          "name": "confidence",
+          "type": "NUMERIC"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "florida_entities_staging": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 21,
+      "columns": [
+        {
+          "name": "entity_id",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "entity_type",
+          "type": "CHAR(1)"
+        },
+        {
+          "name": "business_name",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "dba_name",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "entity_status",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "business_address_line1",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "business_address_line2",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "business_city",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "business_state",
+          "type": "CHAR(2)"
+        },
+        {
+          "name": "business_zip",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "business_county",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "mailing_address_line1",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "mailing_address_line2",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "mailing_city",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "mailing_state",
+          "type": "CHAR(2)"
+        },
+        {
+          "name": "mailing_zip",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "formation_date",
+          "type": "DATE"
+        },
+        {
+          "name": "registration_date",
+          "type": "DATE"
+        },
+        {
+          "name": "last_update_date",
+          "type": "DATE"
+        },
+        {
+          "name": "source_file",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "source_record_line",
+          "type": "INTEGER"
+        }
+      ],
+      "primary_keys": [
+        "entity_id"
+      ]
+    },
+    "property_assessments": {
+      "type": "table",
+      "row_count": 121477,
+      "column_count": 29,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "parcel_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "county_code",
+          "type": "TEXT"
+        },
+        {
+          "name": "county_name",
+          "type": "TEXT"
+        },
+        {
+          "name": "owner_name",
+          "type": "TEXT"
+        },
+        {
+          "name": "owner_address",
+          "type": "TEXT"
+        },
+        {
+          "name": "owner_city",
+          "type": "TEXT"
+        },
+        {
+          "name": "owner_state",
+          "type": "TEXT"
+        },
+        {
+          "name": "owner_zip",
+          "type": "TEXT"
+        },
+        {
+          "name": "property_address",
+          "type": "TEXT"
+        },
+        {
+          "name": "property_city",
+          "type": "TEXT"
+        },
+        {
+          "name": "property_zip",
+          "type": "TEXT"
+        },
+        {
+          "name": "property_use_code",
+          "type": "TEXT"
+        },
+        {
+          "name": "tax_district",
+          "type": "TEXT"
+        },
+        {
+          "name": "subdivision",
+          "type": "TEXT"
+        },
+        {
+          "name": "just_value",
+          "type": "NUMERIC"
+        },
+        {
+          "name": "assessed_value",
+          "type": "NUMERIC"
+        },
+        {
+          "name": "taxable_value",
+          "type": "NUMERIC"
+        },
+        {
+          "name": "land_value",
+          "type": "NUMERIC"
+        },
+        {
+          "name": "building_value",
+          "type": "NUMERIC"
+        },
+        {
+          "name": "total_sq_ft",
+          "type": "INTEGER"
+        },
+        {
+          "name": "living_area",
+          "type": "INTEGER"
+        },
+        {
+          "name": "year_built",
+          "type": "INTEGER"
+        },
+        {
+          "name": "bedrooms",
+          "type": "INTEGER"
+        },
+        {
+          "name": "bathrooms",
+          "type": "NUMERIC(3, 1)"
+        },
+        {
+          "name": "pool",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "tax_year",
+          "type": "INTEGER"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "property_owners": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 16,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "parcel_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "county_code",
+          "type": "TEXT"
+        },
+        {
+          "name": "county_name",
+          "type": "TEXT"
+        },
+        {
+          "name": "owner_sequence",
+          "type": "INTEGER"
+        },
+        {
+          "name": "owner_name",
+          "type": "TEXT"
+        },
+        {
+          "name": "owner_type",
+          "type": "TEXT"
+        },
+        {
+          "name": "mailing_address_1",
+          "type": "TEXT"
+        },
+        {
+          "name": "mailing_address_2",
+          "type": "TEXT"
+        },
+        {
+          "name": "mailing_city",
+          "type": "TEXT"
+        },
+        {
+          "name": "mailing_state",
+          "type": "TEXT"
+        },
+        {
+          "name": "mailing_zip",
+          "type": "TEXT"
+        },
+        {
+          "name": "mailing_country",
+          "type": "TEXT"
+        },
+        {
+          "name": "ownership_percentage",
+          "type": "NUMERIC(5, 2)"
+        },
+        {
+          "name": "tax_year",
+          "type": "INTEGER"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "property_sales": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 18,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "parcel_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "county_code",
+          "type": "TEXT"
+        },
+        {
+          "name": "county_name",
+          "type": "TEXT"
+        },
+        {
+          "name": "sale_date",
+          "type": "DATE"
+        },
+        {
+          "name": "sale_price",
+          "type": "NUMERIC"
+        },
+        {
+          "name": "sale_type",
+          "type": "TEXT"
+        },
+        {
+          "name": "deed_type",
+          "type": "TEXT"
+        },
+        {
+          "name": "grantor_name",
+          "type": "TEXT"
+        },
+        {
+          "name": "grantee_name",
+          "type": "TEXT"
+        },
+        {
+          "name": "qualified_sale",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "vacant_at_sale",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "multi_parcel_sale",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "book_page",
+          "type": "TEXT"
+        },
+        {
+          "name": "instrument_number",
+          "type": "TEXT"
+        },
+        {
+          "name": "verification_code",
+          "type": "TEXT"
+        },
+        {
+          "name": "tax_year",
+          "type": "INTEGER"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "nav_summaries": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 11,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "parcel_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "county_code",
+          "type": "TEXT"
+        },
+        {
+          "name": "county_name",
+          "type": "TEXT"
+        },
+        {
+          "name": "tax_account_number",
+          "type": "TEXT"
+        },
+        {
+          "name": "roll_type",
+          "type": "TEXT"
+        },
+        {
+          "name": "tax_year",
+          "type": "INTEGER"
+        },
+        {
+          "name": "total_assessments",
+          "type": "NUMERIC"
+        },
+        {
+          "name": "num_assessments",
+          "type": "INTEGER"
+        },
+        {
+          "name": "tax_roll_sequence",
+          "type": "INTEGER"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "nav_details": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 12,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "parcel_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "county_code",
+          "type": "TEXT"
+        },
+        {
+          "name": "county_name",
+          "type": "TEXT"
+        },
+        {
+          "name": "levy_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "levy_name",
+          "type": "TEXT"
+        },
+        {
+          "name": "local_gov_code",
+          "type": "TEXT"
+        },
+        {
+          "name": "function_code",
+          "type": "TEXT"
+        },
+        {
+          "name": "assessment_amount",
+          "type": "NUMERIC"
+        },
+        {
+          "name": "tax_roll_sequence",
+          "type": "INTEGER"
+        },
+        {
+          "name": "tax_year",
+          "type": "INTEGER"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "properties_master": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 46,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "parcel_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "folio_number",
+          "type": "TEXT"
+        },
+        {
+          "name": "county_code",
+          "type": "TEXT"
+        },
+        {
+          "name": "county_name",
+          "type": "TEXT"
+        },
+        {
+          "name": "property_address",
+          "type": "TEXT"
+        },
+        {
+          "name": "property_city",
+          "type": "TEXT"
+        },
+        {
+          "name": "property_state",
+          "type": "TEXT"
+        },
+        {
+          "name": "property_zip",
+          "type": "TEXT"
+        },
+        {
+          "name": "latitude",
+          "type": "NUMERIC(10, 8)"
+        },
+        {
+          "name": "longitude",
+          "type": "NUMERIC(11, 8)"
+        },
+        {
+          "name": "owner_name",
+          "type": "TEXT"
+        },
+        {
+          "name": "owner_type",
+          "type": "TEXT"
+        },
+        {
+          "name": "owner_address",
+          "type": "TEXT"
+        },
+        {
+          "name": "owner_city",
+          "type": "TEXT"
+        },
+        {
+          "name": "owner_state",
+          "type": "TEXT"
+        },
+        {
+          "name": "owner_zip",
+          "type": "TEXT"
+        },
+        {
+          "name": "just_value",
+          "type": "NUMERIC"
+        },
+        {
+          "name": "assessed_value",
+          "type": "NUMERIC"
+        },
+        {
+          "name": "taxable_value",
+          "type": "NUMERIC"
+        },
+        {
+          "name": "land_value",
+          "type": "NUMERIC"
+        },
+        {
+          "name": "building_value",
+          "type": "NUMERIC"
+        },
+        {
+          "name": "property_use_code",
+          "type": "TEXT"
+        },
+        {
+          "name": "property_type",
+          "type": "TEXT"
+        },
+        {
+          "name": "total_sq_ft",
+          "type": "INTEGER"
+        },
+        {
+          "name": "living_area",
+          "type": "INTEGER"
+        },
+        {
+          "name": "lot_size",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "year_built",
+          "type": "INTEGER"
+        },
+        {
+          "name": "bedrooms",
+          "type": "INTEGER"
+        },
+        {
+          "name": "bathrooms",
+          "type": "NUMERIC(3, 1)"
+        },
+        {
+          "name": "pool",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "tax_amount",
+          "type": "NUMERIC"
+        },
+        {
+          "name": "nav_total",
+          "type": "NUMERIC"
+        },
+        {
+          "name": "homestead_exemption",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "cap_rate",
+          "type": "NUMERIC(5, 2)"
+        },
+        {
+          "name": "price_per_sqft",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "rental_estimate",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "investment_score",
+          "type": "INTEGER"
+        },
+        {
+          "name": "last_sale_date",
+          "type": "DATE"
+        },
+        {
+          "name": "last_sale_price",
+          "type": "NUMERIC"
+        },
+        {
+          "name": "days_on_market",
+          "type": "INTEGER"
+        },
+        {
+          "name": "has_corporate_owner",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "sunbiz_entity_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "data_quality_score",
+          "type": "INTEGER"
+        },
+        {
+          "name": "last_updated",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "fact_property_score": {
+      "type": "table",
+      "row_count": 1201,
+      "column_count": 13,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "parcel_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "county",
+          "type": "TEXT"
+        },
+        {
+          "name": "year",
+          "type": "INTEGER"
+        },
+        {
+          "name": "score_v1",
+          "type": "NUMERIC(5, 2)"
+        },
+        {
+          "name": "reasons",
+          "type": "JSONB"
+        },
+        {
+          "name": "inputs_checksum",
+          "type": "TEXT"
+        },
+        {
+          "name": "ownership_score",
+          "type": "NUMERIC(5, 2)"
+        },
+        {
+          "name": "hold_period_score",
+          "type": "NUMERIC(5, 2)"
+        },
+        {
+          "name": "tax_status_score",
+          "type": "NUMERIC(5, 2)"
+        },
+        {
+          "name": "equity_proxy_score",
+          "type": "NUMERIC(5, 2)"
+        },
+        {
+          "name": "scored_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "scoring_version",
+          "type": "TEXT"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "property_change_log": {
+      "type": "table",
+      "row_count": 2,
+      "column_count": 15,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "parcel_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "county",
+          "type": "TEXT"
+        },
+        {
+          "name": "change_type",
+          "type": "TEXT"
+        },
+        {
+          "name": "field_name",
+          "type": "TEXT"
+        },
+        {
+          "name": "old_value",
+          "type": "TEXT"
+        },
+        {
+          "name": "new_value",
+          "type": "TEXT"
+        },
+        {
+          "name": "change_magnitude",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "old_score",
+          "type": "NUMERIC(5, 2)"
+        },
+        {
+          "name": "new_score",
+          "type": "NUMERIC(5, 2)"
+        },
+        {
+          "name": "score_diff",
+          "type": "NUMERIC(5, 2)"
+        },
+        {
+          "name": "detected_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "processed_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "notifications_sent",
+          "type": "INTEGER"
+        },
+        {
+          "name": "scoring_run_id",
+          "type": "TEXT"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "user_preferences": {
+      "type": "table",
+      "row_count": 3,
+      "column_count": 13,
+      "columns": [
+        {
+          "name": "user_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "email",
+          "type": "TEXT"
+        },
+        {
+          "name": "phone",
+          "type": "TEXT"
+        },
+        {
+          "name": "email_notifications",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "sms_notifications",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "notification_frequency",
+          "type": "TEXT"
+        },
+        {
+          "name": "quiet_hours_start",
+          "type": "TIME"
+        },
+        {
+          "name": "quiet_hours_end",
+          "type": "TIME"
+        },
+        {
+          "name": "timezone",
+          "type": "TEXT"
+        },
+        {
+          "name": "opted_out",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "opted_out_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "user_id"
+      ]
+    },
+    "watchlist": {
+      "type": "table",
+      "row_count": 3,
+      "column_count": 12,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "user_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "parcel_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "county",
+          "type": "TEXT"
+        },
+        {
+          "name": "notify_score_change",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "notify_ownership_change",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "notify_value_change",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "min_score_change",
+          "type": "NUMERIC(5, 2)"
+        },
+        {
+          "name": "min_value_change_percent",
+          "type": "NUMERIC(5, 2)"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "last_notified_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "notification_history": {
+      "type": "table",
+      "row_count": 2,
+      "column_count": 16,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "user_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "parcel_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "county",
+          "type": "TEXT"
+        },
+        {
+          "name": "notification_type",
+          "type": "TEXT"
+        },
+        {
+          "name": "delivery_method",
+          "type": "TEXT"
+        },
+        {
+          "name": "old_value",
+          "type": "JSONB"
+        },
+        {
+          "name": "new_value",
+          "type": "JSONB"
+        },
+        {
+          "name": "change_summary",
+          "type": "TEXT"
+        },
+        {
+          "name": "sent_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "delivered_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "status",
+          "type": "TEXT"
+        },
+        {
+          "name": "error_message",
+          "type": "TEXT"
+        },
+        {
+          "name": "subject",
+          "type": "TEXT"
+        },
+        {
+          "name": "body",
+          "type": "TEXT"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "tax_certificates": {
+      "type": "table",
+      "row_count": 10,
+      "column_count": 22,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "parcel_id",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "real_estate_account",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "certificate_number",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "tax_year",
+          "type": "INTEGER"
+        },
+        {
+          "name": "buyer_name",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "certificate_buyer",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "advertised_number",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "face_amount",
+          "type": "NUMERIC(12, 2)"
+        },
+        {
+          "name": "tax_amount",
+          "type": "NUMERIC(12, 2)"
+        },
+        {
+          "name": "issued_date",
+          "type": "DATE"
+        },
+        {
+          "name": "sale_date",
+          "type": "DATE"
+        },
+        {
+          "name": "expiration_date",
+          "type": "DATE"
+        },
+        {
+          "name": "interest_rate",
+          "type": "NUMERIC(5, 2)"
+        },
+        {
+          "name": "bid_percentage",
+          "type": "NUMERIC(5, 2)"
+        },
+        {
+          "name": "winning_bid_percentage",
+          "type": "NUMERIC(5, 2)"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "redemption_amount",
+          "type": "NUMERIC(12, 2)"
+        },
+        {
+          "name": "redemption_date",
+          "type": "DATE"
+        },
+        {
+          "name": "buyer_entity",
+          "type": "JSONB"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "wrappers_fdw_stats": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 9,
+      "columns": [
+        {
+          "name": "fdw_name",
+          "type": "TEXT"
+        },
+        {
+          "name": "create_times",
+          "type": "BIGINT"
+        },
+        {
+          "name": "rows_in",
+          "type": "BIGINT"
+        },
+        {
+          "name": "rows_out",
+          "type": "BIGINT"
+        },
+        {
+          "name": "bytes_in",
+          "type": "BIGINT"
+        },
+        {
+          "name": "bytes_out",
+          "type": "BIGINT"
+        },
+        {
+          "name": "metadata",
+          "type": "JSONB"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "fdw_name"
+      ]
+    },
+    "sunbiz_corporate": {
+      "type": "table",
+      "row_count": 2030912,
+      "column_count": 23,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "doc_number",
+          "type": "VARCHAR(12)"
+        },
+        {
+          "name": "entity_name",
+          "type": "VARCHAR(200)"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "filing_date",
+          "type": "DATE"
+        },
+        {
+          "name": "state_country",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "prin_addr1",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "prin_addr2",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "prin_city",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "prin_state",
+          "type": "VARCHAR(2)"
+        },
+        {
+          "name": "prin_zip",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "mail_addr1",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "mail_addr2",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "mail_city",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "mail_state",
+          "type": "VARCHAR(2)"
+        },
+        {
+          "name": "mail_zip",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "ein",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "registered_agent",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "file_type",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "subtype",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "source_file",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "import_date",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "update_date",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "agent_activity_logs": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 6,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "agent_name",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "activity_type",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "details",
+          "type": "JSONB"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "agent_config": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 5,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "agent_name",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "config_key",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "config_value",
+          "type": "TEXT"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "agent_notifications": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 5,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "agent_name",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "message",
+          "type": "TEXT"
+        },
+        {
+          "name": "is_error",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "timestamp",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "florida_parcels": {
+      "type": "table",
+      "row_count": 9113150,
+      "column_count": 51,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "parcel_id",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "county",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "year",
+          "type": "INTEGER"
+        },
+        {
+          "name": "geometry",
+          "type": "JSONB"
+        },
+        {
+          "name": "centroid",
+          "type": "JSONB"
+        },
+        {
+          "name": "area_sqft",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "perimeter_ft",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "owner_name",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "owner_addr1",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "owner_addr2",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "owner_city",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "owner_state",
+          "type": "VARCHAR(2)"
+        },
+        {
+          "name": "owner_zip",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "phy_addr1",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "phy_addr2",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "phy_city",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "phy_state",
+          "type": "VARCHAR(2)"
+        },
+        {
+          "name": "phy_zipcd",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "legal_desc",
+          "type": "TEXT"
+        },
+        {
+          "name": "subdivision",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "lot",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "block",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "property_use",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "property_use_desc",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "land_use_code",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "zoning",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "just_value",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "assessed_value",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "taxable_value",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "land_value",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "building_value",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "year_built",
+          "type": "INTEGER"
+        },
+        {
+          "name": "total_living_area",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "bedrooms",
+          "type": "INTEGER"
+        },
+        {
+          "name": "bathrooms",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "stories",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "units",
+          "type": "INTEGER"
+        },
+        {
+          "name": "land_sqft",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "land_acres",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "sale_date",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "sale_price",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "sale_qualification",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "match_status",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "discrepancy_reason",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "is_redacted",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "data_source",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "import_date",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "update_date",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "data_hash",
+          "type": "VARCHAR(64)"
+        },
+        {
+          "name": "market_value",
+          "type": "NUMERIC(15, 2)"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "data_source_monitor": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 14,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "source_url",
+          "type": "TEXT"
+        },
+        {
+          "name": "source_type",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "county",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "year",
+          "type": "INTEGER"
+        },
+        {
+          "name": "file_name",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "file_size",
+          "type": "BIGINT"
+        },
+        {
+          "name": "file_hash",
+          "type": "VARCHAR(64)"
+        },
+        {
+          "name": "last_modified",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "last_checked",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "last_downloaded",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "change_detected",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "notes",
+          "type": "TEXT"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "sunbiz_fictitious": {
+      "type": "table",
+      "row_count": 1,
+      "column_count": 16,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "doc_number",
+          "type": "VARCHAR(12)"
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(200)"
+        },
+        {
+          "name": "owner_name",
+          "type": "VARCHAR(200)"
+        },
+        {
+          "name": "owner_addr1",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "owner_addr2",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "owner_city",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "owner_state",
+          "type": "VARCHAR(2)"
+        },
+        {
+          "name": "owner_zip",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "filed_date",
+          "type": "DATE"
+        },
+        {
+          "name": "expires_date",
+          "type": "DATE"
+        },
+        {
+          "name": "county",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "file_type",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "subtype",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "source_file",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "import_date",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "sunbiz_partnerships": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 13,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "doc_number",
+          "type": "VARCHAR(12)"
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(200)"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "filed_date",
+          "type": "DATE"
+        },
+        {
+          "name": "prin_addr1",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "prin_city",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "prin_state",
+          "type": "VARCHAR(2)"
+        },
+        {
+          "name": "prin_zip",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "file_type",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "subtype",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "source_file",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "import_date",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "edge_functions": {
+      "type": "table",
+      "row_count": 1,
+      "column_count": 4,
+      "columns": [
+        {
+          "name": "name",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "code",
+          "type": "TEXT"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "name"
+      ]
+    },
+    "property_entity_matches": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 15,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "parcel_id",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "owner_name",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "entity_doc_number",
+          "type": "VARCHAR(12)"
+        },
+        {
+          "name": "entity_name",
+          "type": "VARCHAR(200)"
+        },
+        {
+          "name": "entity_type",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "confidence_score",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "match_type",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "match_metadata",
+          "type": "JSONB"
+        },
+        {
+          "name": "verified",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "verified_by",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "verified_date",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "verification_notes",
+          "type": "TEXT"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "entity_relationships": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 9,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "entity1_doc_number",
+          "type": "VARCHAR(12)"
+        },
+        {
+          "name": "entity1_name",
+          "type": "VARCHAR(200)"
+        },
+        {
+          "name": "entity2_doc_number",
+          "type": "VARCHAR(12)"
+        },
+        {
+          "name": "entity2_name",
+          "type": "VARCHAR(200)"
+        },
+        {
+          "name": "relationship_type",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "relationship_metadata",
+          "type": "JSONB"
+        },
+        {
+          "name": "confidence_score",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "discovered_date",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "entity_search_cache": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 7,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "normalized_name",
+          "type": "VARCHAR(500)"
+        },
+        {
+          "name": "original_name",
+          "type": "VARCHAR(500)"
+        },
+        {
+          "name": "entity_doc_number",
+          "type": "VARCHAR(12)"
+        },
+        {
+          "name": "entity_type",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "is_active",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "last_updated",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "document_categories": {
+      "type": "table",
+      "row_count": 10,
+      "column_count": 10,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "category_name",
+          "type": "TEXT"
+        },
+        {
+          "name": "category_code",
+          "type": "TEXT"
+        },
+        {
+          "name": "description",
+          "type": "TEXT"
+        },
+        {
+          "name": "parent_category_id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "requires_ocr",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "auto_classification",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "retention_years",
+          "type": "INTEGER"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "document_property_links": {
+      "type": "table",
+      "row_count": 4,
+      "column_count": 12,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "document_id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "parcel_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "county",
+          "type": "TEXT"
+        },
+        {
+          "name": "link_type",
+          "type": "TEXT"
+        },
+        {
+          "name": "confidence",
+          "type": "NUMERIC(5, 4)"
+        },
+        {
+          "name": "extraction_method",
+          "type": "TEXT"
+        },
+        {
+          "name": "verified",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "verified_by",
+          "type": "TEXT"
+        },
+        {
+          "name": "verified_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "document_processing_queue": {
+      "type": "table",
+      "row_count": 2,
+      "column_count": 14,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "document_id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "operation_type",
+          "type": "TEXT"
+        },
+        {
+          "name": "priority",
+          "type": "INTEGER"
+        },
+        {
+          "name": "status",
+          "type": "TEXT"
+        },
+        {
+          "name": "started_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "completed_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "error_message",
+          "type": "TEXT"
+        },
+        {
+          "name": "retry_count",
+          "type": "INTEGER"
+        },
+        {
+          "name": "max_retries",
+          "type": "INTEGER"
+        },
+        {
+          "name": "processing_results",
+          "type": "JSONB"
+        },
+        {
+          "name": "scheduled_for",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "document_access_log": {
+      "type": "table",
+      "row_count": 5,
+      "column_count": 12,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "document_id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "user_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "access_type",
+          "type": "TEXT"
+        },
+        {
+          "name": "ip_address",
+          "type": "INET"
+        },
+        {
+          "name": "user_agent",
+          "type": "TEXT"
+        },
+        {
+          "name": "referrer",
+          "type": "TEXT"
+        },
+        {
+          "name": "search_query",
+          "type": "TEXT"
+        },
+        {
+          "name": "access_granted",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "denial_reason",
+          "type": "TEXT"
+        },
+        {
+          "name": "accessed_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "session_id",
+          "type": "TEXT"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "document_alerts": {
+      "type": "table",
+      "row_count": 1,
+      "column_count": 17,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "user_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "alert_name",
+          "type": "TEXT"
+        },
+        {
+          "name": "document_categories",
+          "type": "ARRAY"
+        },
+        {
+          "name": "counties",
+          "type": "ARRAY"
+        },
+        {
+          "name": "keywords",
+          "type": "ARRAY"
+        },
+        {
+          "name": "parcel_ids",
+          "type": "ARRAY"
+        },
+        {
+          "name": "document_date_from",
+          "type": "DATE"
+        },
+        {
+          "name": "document_date_to",
+          "type": "DATE"
+        },
+        {
+          "name": "enabled",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "notification_method",
+          "type": "TEXT"
+        },
+        {
+          "name": "frequency",
+          "type": "TEXT"
+        },
+        {
+          "name": "last_checked_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "last_triggered_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "trigger_count",
+          "type": "INTEGER"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "document_search_sessions": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 14,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "session_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "user_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "search_query",
+          "type": "TEXT"
+        },
+        {
+          "name": "filters_applied",
+          "type": "JSONB"
+        },
+        {
+          "name": "results_count",
+          "type": "INTEGER"
+        },
+        {
+          "name": "documents_viewed",
+          "type": "ARRAY"
+        },
+        {
+          "name": "documents_downloaded",
+          "type": "ARRAY"
+        },
+        {
+          "name": "search_duration_seconds",
+          "type": "INTEGER"
+        },
+        {
+          "name": "found_relevant_documents",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "user_satisfaction",
+          "type": "INTEGER"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "ip_address",
+          "type": "INET"
+        },
+        {
+          "name": "user_agent",
+          "type": "TEXT"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "documents": {
+      "type": "table",
+      "row_count": 8,
+      "column_count": 32,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "document_hash",
+          "type": "TEXT"
+        },
+        {
+          "name": "original_filename",
+          "type": "TEXT"
+        },
+        {
+          "name": "display_name",
+          "type": "TEXT"
+        },
+        {
+          "name": "category_id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "document_type",
+          "type": "TEXT"
+        },
+        {
+          "name": "confidence_score",
+          "type": "NUMERIC(5, 4)"
+        },
+        {
+          "name": "file_size_bytes",
+          "type": "BIGINT"
+        },
+        {
+          "name": "mime_type",
+          "type": "TEXT"
+        },
+        {
+          "name": "storage_path",
+          "type": "TEXT"
+        },
+        {
+          "name": "storage_bucket",
+          "type": "TEXT"
+        },
+        {
+          "name": "ocr_text",
+          "type": "TEXT"
+        },
+        {
+          "name": "ocr_confidence",
+          "type": "NUMERIC(5, 4)"
+        },
+        {
+          "name": "processed_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "processing_status",
+          "type": "TEXT"
+        },
+        {
+          "name": "document_date",
+          "type": "DATE"
+        },
+        {
+          "name": "effective_date",
+          "type": "DATE"
+        },
+        {
+          "name": "expiration_date",
+          "type": "DATE"
+        },
+        {
+          "name": "issuing_authority",
+          "type": "TEXT"
+        },
+        {
+          "name": "document_number",
+          "type": "TEXT"
+        },
+        {
+          "name": "parcel_ids",
+          "type": "ARRAY"
+        },
+        {
+          "name": "counties",
+          "type": "ARRAY"
+        },
+        {
+          "name": "addresses",
+          "type": "ARRAY"
+        },
+        {
+          "name": "search_vector",
+          "type": "TSVECTOR"
+        },
+        {
+          "name": "tags",
+          "type": "ARRAY"
+        },
+        {
+          "name": "keywords",
+          "type": "ARRAY"
+        },
+        {
+          "name": "access_level",
+          "type": "TEXT"
+        },
+        {
+          "name": "created_by",
+          "type": "TEXT"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "last_accessed_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "access_count",
+          "type": "INTEGER"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "fl_agent_status": {
+      "type": "table",
+      "row_count": 7,
+      "column_count": 18,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "agent_name",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "agent_type",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "is_enabled",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "is_running",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "current_status",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "schedule_type",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "schedule_time",
+          "type": "TIME"
+        },
+        {
+          "name": "schedule_day",
+          "type": "INTEGER"
+        },
+        {
+          "name": "last_run_start",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "last_run_end",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "last_run_status",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "last_run_records",
+          "type": "INTEGER"
+        },
+        {
+          "name": "last_error",
+          "type": "TEXT"
+        },
+        {
+          "name": "next_scheduled_run",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "config",
+          "type": "JSONB"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "fl_nav_assessment_detail": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 14,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "parcel_id",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "county",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "tax_year",
+          "type": "INTEGER"
+        },
+        {
+          "name": "assessment_type",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "assessment_description",
+          "type": "TEXT"
+        },
+        {
+          "name": "levying_authority",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "assessment_amount",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "paid_amount",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "balance_due",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "levy_date",
+          "type": "DATE"
+        },
+        {
+          "name": "due_date",
+          "type": "DATE"
+        },
+        {
+          "name": "paid_date",
+          "type": "DATE"
+        },
+        {
+          "name": "import_date",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "fl_data_updates": {
+      "type": "table",
+      "row_count": 10,
+      "column_count": 16,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "source_type",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "source_name",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "update_date",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "records_processed",
+          "type": "INTEGER"
+        },
+        {
+          "name": "records_added",
+          "type": "INTEGER"
+        },
+        {
+          "name": "records_updated",
+          "type": "INTEGER"
+        },
+        {
+          "name": "records_failed",
+          "type": "INTEGER"
+        },
+        {
+          "name": "source_file",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "file_size",
+          "type": "BIGINT"
+        },
+        {
+          "name": "file_hash",
+          "type": "VARCHAR(64)"
+        },
+        {
+          "name": "processing_time_seconds",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "error_message",
+          "type": "TEXT"
+        },
+        {
+          "name": "agent_name",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "agent_version",
+          "type": "VARCHAR(20)"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "florida_contacts": {
+      "type": "table",
+      "row_count": 7,
+      "column_count": 21,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "entity_id",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "contact_type",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "contact_role",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "first_name",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "middle_name",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "last_name",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "title",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "organization_name",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "phone",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "email",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "address_line1",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "address_line2",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "city",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "state",
+          "type": "CHAR(2)"
+        },
+        {
+          "name": "zip_code",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "country",
+          "type": "CHAR(2)"
+        },
+        {
+          "name": "is_primary_contact",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "source_file",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "ml_model_metrics": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 6,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "model_version",
+          "type": "TEXT"
+        },
+        {
+          "name": "metric_type",
+          "type": "TEXT"
+        },
+        {
+          "name": "metric_value",
+          "type": "NUMERIC(10, 4)"
+        },
+        {
+          "name": "properties_evaluated",
+          "type": "INTEGER"
+        },
+        {
+          "name": "recorded_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "fl_sdf_sales": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 29,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "parcel_id",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "county",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "sale_date",
+          "type": "DATE"
+        },
+        {
+          "name": "sale_price",
+          "type": "NUMERIC(15, 2)"
+        },
+        {
+          "name": "sale_type",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "qualification_code",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "grantor_name",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "grantee_name",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "property_address",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "property_use_code",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "just_value_at_sale",
+          "type": "NUMERIC(15, 2)"
+        },
+        {
+          "name": "assessed_value_at_sale",
+          "type": "NUMERIC(15, 2)"
+        },
+        {
+          "name": "price_per_sqft",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "sale_ratio",
+          "type": "NUMERIC(5, 3)"
+        },
+        {
+          "name": "is_qualified_sale",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "is_arms_length",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "is_foreclosure",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "is_reo_sale",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "is_short_sale",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "is_corporate_buyer",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "is_corporate_seller",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "buyer_entity_type",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "seller_entity_type",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "or_book",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "or_page",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "instrument_number",
+          "type": "VARCHAR(30)"
+        },
+        {
+          "name": "import_date",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "update_date",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "fl_tpp_accounts": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 28,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "account_number",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "owner_name",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "business_name",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "mailing_addr1",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "mailing_addr2",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "mailing_city",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "mailing_state",
+          "type": "VARCHAR(2)"
+        },
+        {
+          "name": "mailing_zip",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "physical_addr1",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "physical_addr2",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "physical_city",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "physical_state",
+          "type": "VARCHAR(2)"
+        },
+        {
+          "name": "physical_zip",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "property_type",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "property_value",
+          "type": "NUMERIC(15, 2)"
+        },
+        {
+          "name": "assessed_value",
+          "type": "NUMERIC(15, 2)"
+        },
+        {
+          "name": "taxable_value",
+          "type": "NUMERIC(15, 2)"
+        },
+        {
+          "name": "business_type",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "naics_code",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "employee_count",
+          "type": "INTEGER"
+        },
+        {
+          "name": "tax_year",
+          "type": "INTEGER"
+        },
+        {
+          "name": "tax_amount",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "tax_status",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "county",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "data_source",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "import_date",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "update_date",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "ab_validation_results": {
+      "type": "table",
+      "row_count": 1,
+      "column_count": 7,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "validation_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "properties_tested",
+          "type": "INTEGER"
+        },
+        {
+          "name": "gate_passed",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "avg_improvement",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "results_json",
+          "type": "JSONB"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "ml_property_scores_xgb": {
+      "type": "table",
+      "row_count": 12,
+      "column_count": 10,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "parcel_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "county",
+          "type": "TEXT"
+        },
+        {
+          "name": "score_v1",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "ml_score",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "score_final",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "ml_confidence",
+          "type": "NUMERIC(10, 4)"
+        },
+        {
+          "name": "feature_importance",
+          "type": "JSONB"
+        },
+        {
+          "name": "model_version",
+          "type": "TEXT"
+        },
+        {
+          "name": "computed_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "florida_business_activities": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 7,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "entity_id",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "activity_description",
+          "type": "TEXT"
+        },
+        {
+          "name": "naics_code",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "sic_code",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "industry_category",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "florida_processing_log": {
+      "type": "table",
+      "row_count": 105,
+      "column_count": 11,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "file_path",
+          "type": "VARCHAR(500)"
+        },
+        {
+          "name": "file_size",
+          "type": "BIGINT"
+        },
+        {
+          "name": "records_processed",
+          "type": "INTEGER"
+        },
+        {
+          "name": "records_successful",
+          "type": "INTEGER"
+        },
+        {
+          "name": "records_failed",
+          "type": "INTEGER"
+        },
+        {
+          "name": "processing_status",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "error_details",
+          "type": "TEXT"
+        },
+        {
+          "name": "started_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "completed_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "user_watchlists": {
+      "type": "table",
+      "row_count": 3,
+      "column_count": 7,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "user_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "name",
+          "type": "TEXT"
+        },
+        {
+          "name": "description",
+          "type": "TEXT"
+        },
+        {
+          "name": "is_active",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "watchlist_items": {
+      "type": "table",
+      "row_count": 9,
+      "column_count": 13,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "watchlist_id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "parcel_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "alert_on_price_change",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "alert_on_status_change",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "alert_on_new_listing",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "alert_threshold_pct",
+          "type": "NUMERIC(5, 2)"
+        },
+        {
+          "name": "last_known_price",
+          "type": "NUMERIC(15, 2)"
+        },
+        {
+          "name": "last_known_score",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "last_known_status",
+          "type": "TEXT"
+        },
+        {
+          "name": "notes",
+          "type": "TEXT"
+        },
+        {
+          "name": "added_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "last_checked",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "florida_raw_records": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 7,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "entity_id",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "raw_content",
+          "type": "TEXT"
+        },
+        {
+          "name": "record_type",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "file_source",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "embedding",
+          "type": "NULL"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "florida_registered_agents": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 15,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "entity_id",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "agent_name",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "agent_type",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "address_line1",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "address_line2",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "city",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "state",
+          "type": "CHAR(2)"
+        },
+        {
+          "name": "zip_code",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "agent_phone",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "agent_email",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "effective_date",
+          "type": "DATE"
+        },
+        {
+          "name": "termination_date",
+          "type": "DATE"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "sunbiz_import_log": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 7,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "file_type",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "source_file",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "records_imported",
+          "type": "INTEGER"
+        },
+        {
+          "name": "import_date",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "success",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "error_message",
+          "type": "TEXT"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "watchlist_alerts": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 12,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "watchlist_item_id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "alert_type",
+          "type": "TEXT"
+        },
+        {
+          "name": "severity",
+          "type": "TEXT"
+        },
+        {
+          "name": "change_description",
+          "type": "TEXT"
+        },
+        {
+          "name": "old_value",
+          "type": "TEXT"
+        },
+        {
+          "name": "new_value",
+          "type": "TEXT"
+        },
+        {
+          "name": "change_percentage",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "sent_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "acknowledged_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "acknowledged_by",
+          "type": "TEXT"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "match_audit_log": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 11,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "action",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "parcel_id",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "entity_doc_number",
+          "type": "VARCHAR(12)"
+        },
+        {
+          "name": "old_confidence",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "new_confidence",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "old_match_type",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "new_match_type",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "user_id",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "notes",
+          "type": "TEXT"
+        },
+        {
+          "name": "timestamp",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "monitoring_agents": {
+      "type": "table",
+      "row_count": 3,
+      "column_count": 10,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "agent_name",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "agent_type",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "monitoring_urls",
+          "type": "JSONB"
+        },
+        {
+          "name": "check_frequency_hours",
+          "type": "INTEGER"
+        },
+        {
+          "name": "last_run",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "next_run",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "enabled",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "notification_settings",
+          "type": "JSONB"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "nav_jobs": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 14,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "job_type",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "table_type",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "county_number",
+          "type": "VARCHAR(2)"
+        },
+        {
+          "name": "tax_year",
+          "type": "VARCHAR(4)"
+        },
+        {
+          "name": "started_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "finished_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "success",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "records_processed",
+          "type": "INTEGER"
+        },
+        {
+          "name": "records_created",
+          "type": "INTEGER"
+        },
+        {
+          "name": "records_updated",
+          "type": "INTEGER"
+        },
+        {
+          "name": "errors",
+          "type": "TEXT"
+        },
+        {
+          "name": "parameters",
+          "type": "JSONB"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "nav_parcel_assessments": {
+      "type": "table",
+      "row_count": 31000,
+      "column_count": 13,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "roll_type",
+          "type": "VARCHAR(1)"
+        },
+        {
+          "name": "county_number",
+          "type": "VARCHAR(2)"
+        },
+        {
+          "name": "pa_parcel_number",
+          "type": "VARCHAR(26)"
+        },
+        {
+          "name": "tc_account_number",
+          "type": "VARCHAR(30)"
+        },
+        {
+          "name": "tax_year",
+          "type": "VARCHAR(4)"
+        },
+        {
+          "name": "total_assessments",
+          "type": "NUMERIC(12, 2)"
+        },
+        {
+          "name": "number_of_assessments",
+          "type": "INTEGER"
+        },
+        {
+          "name": "tax_roll_sequence_number",
+          "type": "INTEGER"
+        },
+        {
+          "name": "county_name",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "data_source",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "parcel_update_history": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 10,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "county",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "update_type",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "records_added",
+          "type": "INTEGER"
+        },
+        {
+          "name": "records_updated",
+          "type": "INTEGER"
+        },
+        {
+          "name": "records_deleted",
+          "type": "INTEGER"
+        },
+        {
+          "name": "processing_time_seconds",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "success",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "error_message",
+          "type": "TEXT"
+        },
+        {
+          "name": "update_date",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "properties": {
+      "type": "table",
+      "row_count": 3,
+      "column_count": 19,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "parcel_id",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "owner_name",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "property_address",
+          "type": "VARCHAR(500)"
+        },
+        {
+          "name": "city",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "state",
+          "type": "VARCHAR(2)"
+        },
+        {
+          "name": "zip_code",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "property_type",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "year_built",
+          "type": "INTEGER"
+        },
+        {
+          "name": "total_sqft",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "lot_size_sqft",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "bedrooms",
+          "type": "INTEGER"
+        },
+        {
+          "name": "bathrooms",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "assessed_value",
+          "type": "NUMERIC(15, 2)"
+        },
+        {
+          "name": "market_value",
+          "type": "NUMERIC(15, 2)"
+        },
+        {
+          "name": "last_sale_date",
+          "type": "DATE"
+        },
+        {
+          "name": "last_sale_price",
+          "type": "NUMERIC(15, 2)"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "dor_use_codes": {
+      "type": "table",
+      "row_count": 100,
+      "column_count": 18,
+      "columns": [
+        {
+          "name": "id",
+          "type": "UUID"
+        },
+        {
+          "name": "code",
+          "type": "TEXT"
+        },
+        {
+          "name": "description",
+          "type": "TEXT"
+        },
+        {
+          "name": "category",
+          "type": "TEXT"
+        },
+        {
+          "name": "subcategory",
+          "type": "TEXT"
+        },
+        {
+          "name": "is_residential",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "is_commercial",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "is_industrial",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "is_agricultural",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "is_institutional",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "is_governmental",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "is_miscellaneous",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "is_vacant",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "color_class",
+          "type": "TEXT"
+        },
+        {
+          "name": "bg_color_class",
+          "type": "TEXT"
+        },
+        {
+          "name": "border_color_class",
+          "type": "TEXT"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "property_sales_history": {
+      "type": "table",
+      "row_count": 96771,
+      "column_count": 27,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "county_no",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "parcel_id",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "state_parcel_id",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "assessment_year",
+          "type": "INTEGER"
+        },
+        {
+          "name": "atv_start",
+          "type": "INTEGER"
+        },
+        {
+          "name": "group_no",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "dor_use_code",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "neighborhood_code",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "market_area",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "census_block",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "sale_id_code",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "sale_change_code",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "verification_code",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "or_book",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "or_page",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "clerk_no",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "quality_code",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "sale_year",
+          "type": "INTEGER"
+        },
+        {
+          "name": "sale_month",
+          "type": "INTEGER"
+        },
+        {
+          "name": "sale_price",
+          "type": "BIGINT"
+        },
+        {
+          "name": "multi_parcel_sale",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "rs_id",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "mp_id",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "sale_date",
+          "type": "DATE"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "property_ownership_history": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 11,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "parcel_id",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "prev_owner_name",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "prev_entity_doc_number",
+          "type": "VARCHAR(12)"
+        },
+        {
+          "name": "new_owner_name",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "new_entity_doc_number",
+          "type": "VARCHAR(12)"
+        },
+        {
+          "name": "change_date",
+          "type": "DATE"
+        },
+        {
+          "name": "sale_price",
+          "type": "NUMERIC(15, 2)"
+        },
+        {
+          "name": "deed_type",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "data_source",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "import_date",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "notification_queue": {
+      "type": "table",
+      "row_count": 1,
+      "column_count": 14,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "user_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "parcel_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "county",
+          "type": "TEXT"
+        },
+        {
+          "name": "change_types",
+          "type": "ARRAY"
+        },
+        {
+          "name": "aggregated_changes",
+          "type": "JSONB"
+        },
+        {
+          "name": "first_change_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "last_change_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "scheduled_send_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "status",
+          "type": "TEXT"
+        },
+        {
+          "name": "attempts",
+          "type": "INTEGER"
+        },
+        {
+          "name": "max_attempts",
+          "type": "INTEGER"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "ml_property_scores": {
+      "type": "table",
+      "row_count": 10,
+      "column_count": 10,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "parcel_id",
+          "type": "TEXT"
+        },
+        {
+          "name": "score_v1",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "ml_score",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "score_final",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "feature_importance",
+          "type": "JSONB"
+        },
+        {
+          "name": "shap_values",
+          "type": "JSONB"
+        },
+        {
+          "name": "top_features",
+          "type": "JSONB"
+        },
+        {
+          "name": "model_version",
+          "type": "TEXT"
+        },
+        {
+          "name": "computed_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "sunbiz_download_jobs": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 9,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "data_type",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "file_count",
+          "type": "INTEGER"
+        },
+        {
+          "name": "total_size_bytes",
+          "type": "BIGINT"
+        },
+        {
+          "name": "started_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "completed_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "error_message",
+          "type": "TEXT"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "sunbiz_corporate_events": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 7,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "doc_number",
+          "type": "VARCHAR(12)"
+        },
+        {
+          "name": "event_date",
+          "type": "DATE"
+        },
+        {
+          "name": "event_type",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "detail",
+          "type": "VARCHAR(200)"
+        },
+        {
+          "name": "source_file",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "import_date",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "sunbiz_liens": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 10,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "doc_number",
+          "type": "VARCHAR(12)"
+        },
+        {
+          "name": "lien_type",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "filed_date",
+          "type": "DATE"
+        },
+        {
+          "name": "lapse_date",
+          "type": "DATE"
+        },
+        {
+          "name": "amount",
+          "type": "NUMERIC(15, 2)"
+        },
+        {
+          "name": "file_type",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "subtype",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "source_file",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "import_date",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "sunbiz_marks": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 13,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "doc_number",
+          "type": "VARCHAR(12)"
+        },
+        {
+          "name": "mark_text",
+          "type": "VARCHAR(200)"
+        },
+        {
+          "name": "mark_type",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "filed_date",
+          "type": "DATE"
+        },
+        {
+          "name": "registration_date",
+          "type": "DATE"
+        },
+        {
+          "name": "expiration_date",
+          "type": "DATE"
+        },
+        {
+          "name": "owner_name",
+          "type": "VARCHAR(200)"
+        },
+        {
+          "name": "owner_addr",
+          "type": "VARCHAR(200)"
+        },
+        {
+          "name": "file_type",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "source_file",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "import_date",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "sunbiz_monitoring_agents": {
+      "type": "table",
+      "row_count": 2,
+      "column_count": 10,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "agent_name",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "agent_type",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "last_check",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "next_check",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "files_found",
+          "type": "INTEGER"
+        },
+        {
+          "name": "files_processed",
+          "type": "INTEGER"
+        },
+        {
+          "name": "last_error",
+          "type": "TEXT"
+        },
+        {
+          "name": "enabled",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "sunbiz_partnership_events": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 6,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "doc_number",
+          "type": "VARCHAR(12)"
+        },
+        {
+          "name": "event_date",
+          "type": "DATE"
+        },
+        {
+          "name": "event_type",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "source_file",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "import_date",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "sunbiz_processed_files": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 7,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "filename",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "file_hash",
+          "type": "VARCHAR(64)"
+        },
+        {
+          "name": "file_size",
+          "type": "BIGINT"
+        },
+        {
+          "name": "processed_date",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "records_count",
+          "type": "INTEGER"
+        },
+        {
+          "name": "processing_time_seconds",
+          "type": "DOUBLE PRECISION"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "sunbiz_principal_data": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 10,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "doc_number",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "entity_name",
+          "type": "VARCHAR(500)"
+        },
+        {
+          "name": "principal_name",
+          "type": "VARCHAR(500)"
+        },
+        {
+          "name": "principal_title",
+          "type": "VARCHAR(200)"
+        },
+        {
+          "name": "principal_address",
+          "type": "VARCHAR(500)"
+        },
+        {
+          "name": "principal_email",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "principal_phone",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "source_file",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "import_date",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "tpp_jobs": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 11,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "job_id",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "county",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "year",
+          "type": "INTEGER"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "file_path",
+          "type": "TEXT"
+        },
+        {
+          "name": "records_processed",
+          "type": "INTEGER"
+        },
+        {
+          "name": "started_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "completed_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "error_message",
+          "type": "TEXT"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "tax_deed_bidding_items": {
+      "type": "table",
+      "row_count": 19,
+      "column_count": 25,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "auction_id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "parcel_id",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "tax_deed_number",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "tax_certificate_number",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "legal_situs_address",
+          "type": "TEXT"
+        },
+        {
+          "name": "homestead_exemption",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "assessed_value",
+          "type": "NUMERIC(12, 2)"
+        },
+        {
+          "name": "soh_value",
+          "type": "NUMERIC(12, 2)"
+        },
+        {
+          "name": "opening_bid",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "current_bid",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "reserve_met",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "close_time",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "item_status",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "total_bids",
+          "type": "INTEGER"
+        },
+        {
+          "name": "unique_bidders",
+          "type": "INTEGER"
+        },
+        {
+          "name": "applicant_name",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "tax_years_included",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "total_taxes_owed",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "winning_bid",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "winning_bidder",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "gis_parcel_map_url",
+          "type": "TEXT"
+        },
+        {
+          "name": "property_appraisal_url",
+          "type": "TEXT"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "fl_nav_parcel_summary": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 15,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "parcel_id",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "county",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "tax_year",
+          "type": "INTEGER"
+        },
+        {
+          "name": "owner_name",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "property_address",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "total_nav_amount",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "total_assessments",
+          "type": "INTEGER"
+        },
+        {
+          "name": "cdd_amount",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "hoa_amount",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "special_district_amount",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "payment_status",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "delinquent_amount",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "import_date",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "update_date",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "florida_entities": {
+      "type": "table",
+      "row_count": 15013088,
+      "column_count": 25,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "entity_id",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "entity_type",
+          "type": "CHAR(1)"
+        },
+        {
+          "name": "business_name",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "dba_name",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "entity_status",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "business_address_line1",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "business_address_line2",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "business_city",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "business_state",
+          "type": "CHAR(2)"
+        },
+        {
+          "name": "business_zip",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "business_county",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "mailing_address_line1",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "mailing_address_line2",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "mailing_city",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "mailing_state",
+          "type": "CHAR(2)"
+        },
+        {
+          "name": "mailing_zip",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "formation_date",
+          "type": "DATE"
+        },
+        {
+          "name": "registration_date",
+          "type": "DATE"
+        },
+        {
+          "name": "last_update_date",
+          "type": "DATE"
+        },
+        {
+          "name": "source_file",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "source_record_line",
+          "type": "INTEGER"
+        },
+        {
+          "name": "processed_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "florida_permits": {
+      "type": "table",
+      "row_count": 1,
+      "column_count": 8,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "permit_number",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "parcel_id",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "property_address",
+          "type": "VARCHAR(500)"
+        },
+        {
+          "name": "permit_type",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "description",
+          "type": "TEXT"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "nav_assessment_details": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 15,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "record_type",
+          "type": "VARCHAR(1)"
+        },
+        {
+          "name": "county_number",
+          "type": "VARCHAR(2)"
+        },
+        {
+          "name": "pa_parcel_number",
+          "type": "VARCHAR(26)"
+        },
+        {
+          "name": "levy_identifier",
+          "type": "VARCHAR(12)"
+        },
+        {
+          "name": "local_government_code",
+          "type": "INTEGER"
+        },
+        {
+          "name": "function_code",
+          "type": "INTEGER"
+        },
+        {
+          "name": "assessment_amount",
+          "type": "NUMERIC(9, 2)"
+        },
+        {
+          "name": "tax_roll_sequence_number",
+          "type": "INTEGER"
+        },
+        {
+          "name": "county_name",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "function_description",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "tax_year",
+          "type": "VARCHAR(4)"
+        },
+        {
+          "name": "data_source",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "nav_assessments": {
+      "type": "table",
+      "row_count": 1,
+      "column_count": 9,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "parcel_id",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "tax_year",
+          "type": "INTEGER"
+        },
+        {
+          "name": "just_value",
+          "type": "NUMERIC(15, 2)"
+        },
+        {
+          "name": "assessed_value",
+          "type": "NUMERIC(15, 2)"
+        },
+        {
+          "name": "taxable_value",
+          "type": "NUMERIC(15, 2)"
+        },
+        {
+          "name": "land_value",
+          "type": "NUMERIC(15, 2)"
+        },
+        {
+          "name": "building_value",
+          "type": "NUMERIC(15, 2)"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "sunbiz_officers": {
+      "type": "table",
+      "row_count": 110,
+      "column_count": 12,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "doc_number",
+          "type": "VARCHAR(12)"
+        },
+        {
+          "name": "officer_name",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "officer_title",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "officer_address",
+          "type": "VARCHAR(500)"
+        },
+        {
+          "name": "officer_city",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "officer_state",
+          "type": "VARCHAR(2)"
+        },
+        {
+          "name": "officer_zip",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "officer_email",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "officer_phone",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "source_file",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "import_date",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "sdf_jobs": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 11,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "job_id",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "county",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "year",
+          "type": "INTEGER"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "file_path",
+          "type": "TEXT"
+        },
+        {
+          "name": "records_processed",
+          "type": "INTEGER"
+        },
+        {
+          "name": "started_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "completed_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "error_message",
+          "type": "TEXT"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "spatial_ref_sys": {
+      "type": "table",
+      "row_count": 8500,
+      "column_count": 5,
+      "columns": [
+        {
+          "name": "srid",
+          "type": "INTEGER"
+        },
+        {
+          "name": "auth_name",
+          "type": "VARCHAR(256)"
+        },
+        {
+          "name": "auth_srid",
+          "type": "INTEGER"
+        },
+        {
+          "name": "srtext",
+          "type": "VARCHAR(2048)"
+        },
+        {
+          "name": "proj4text",
+          "type": "VARCHAR(2048)"
+        }
+      ],
+      "primary_keys": [
+        "srid"
+      ]
+    },
+    "sunbiz_fictitious_events": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 6,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "doc_number",
+          "type": "VARCHAR(12)"
+        },
+        {
+          "name": "event_date",
+          "type": "DATE"
+        },
+        {
+          "name": "event_type",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "source_file",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "import_date",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "sunbiz_lien_debtors": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 6,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "doc_number",
+          "type": "VARCHAR(12)"
+        },
+        {
+          "name": "debtor_name",
+          "type": "VARCHAR(200)"
+        },
+        {
+          "name": "debtor_addr",
+          "type": "VARCHAR(200)"
+        },
+        {
+          "name": "source_file",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "import_date",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "sunbiz_lien_secured_parties": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 6,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "doc_number",
+          "type": "VARCHAR(12)"
+        },
+        {
+          "name": "party_name",
+          "type": "VARCHAR(200)"
+        },
+        {
+          "name": "party_addr",
+          "type": "VARCHAR(200)"
+        },
+        {
+          "name": "source_file",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "import_date",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "sunbiz_officer_corporation_matches": {
+      "type": "table",
+      "row_count": 1182,
+      "column_count": 15,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "doc_number",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "officer_name",
+          "type": "VARCHAR(500)"
+        },
+        {
+          "name": "officer_address",
+          "type": "VARCHAR(500)"
+        },
+        {
+          "name": "officer_city",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "officer_state",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "officer_zip",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "officer_email",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "officer_phone",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "corp_name",
+          "type": "VARCHAR(500)"
+        },
+        {
+          "name": "corp_address",
+          "type": "VARCHAR(500)"
+        },
+        {
+          "name": "corp_city",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "corp_state",
+          "type": "VARCHAR(10)"
+        },
+        {
+          "name": "corp_zip",
+          "type": "VARCHAR(20)"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "sunbiz_sftp_downloads": {
+      "type": "table",
+      "row_count": 0,
+      "column_count": 10,
+      "columns": [
+        {
+          "name": "id",
+          "type": "BIGINT"
+        },
+        {
+          "name": "file_name",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "file_type",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "file_size",
+          "type": "BIGINT"
+        },
+        {
+          "name": "download_date",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "process_date",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "records_processed",
+          "type": "INTEGER"
+        },
+        {
+          "name": "error_message",
+          "type": "TEXT"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    },
+    "tax_deed_auctions": {
+      "type": "table",
+      "row_count": 4,
+      "column_count": 19,
+      "columns": [
+        {
+          "name": "id",
+          "type": "INTEGER"
+        },
+        {
+          "name": "auction_date",
+          "type": "DATE"
+        },
+        {
+          "name": "auction_time",
+          "type": "TIME"
+        },
+        {
+          "name": "description",
+          "type": "TEXT"
+        },
+        {
+          "name": "auction_type",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(50)"
+        },
+        {
+          "name": "total_items",
+          "type": "INTEGER"
+        },
+        {
+          "name": "items_sold",
+          "type": "INTEGER"
+        },
+        {
+          "name": "total_revenue",
+          "type": "NUMERIC(12, 2)"
+        },
+        {
+          "name": "location",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "auctioneer",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "online_platform",
+          "type": "VARCHAR(100)"
+        },
+        {
+          "name": "platform_url",
+          "type": "TEXT"
+        },
+        {
+          "name": "registration_deadline",
+          "type": "DATE"
+        },
+        {
+          "name": "deposit_required",
+          "type": "NUMERIC(10, 2)"
+        },
+        {
+          "name": "bid_increment",
+          "type": "NUMERIC(8, 2)"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "updated_at",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "data_source",
+          "type": "VARCHAR(50)"
+        }
+      ],
+      "primary_keys": [
+        "id"
+      ]
+    }
+  }
+}

@@ -26,7 +26,8 @@ import { TaxesTab } from './tabs/TaxesTab';
 import { PermitTab } from './tabs/PermitTab';
 import { SalesTaxDeedTab } from './tabs/SalesTaxDeedTab';
 import { TaxDeedSalesTab } from './tabs/TaxDeedSalesTab';
-import { CorePropertyTabEnhanced } from './tabs/CorePropertyTabEnhanced';
+import { CorePropertyTab } from './tabs/CorePropertyTab';
+import { SalesHistoryTabUpdated } from './tabs/SalesHistoryTab';
 import '@/styles/elegant-property.css';
 
 interface ElegantPropertyTabsProps {
@@ -169,17 +170,12 @@ export function ElegantPropertyTabs({
             <div className="pt-4">
               {(() => {
                 // DEBUGGING: Log all data sources for sales
-                console.log('🏠 ElegantPropertyTabs - Sales Debug:');
-                console.log('📊 salesHistory from hook:', salesHistory);
-                console.log('🔄 data.lastSale:', data.lastSale);
-                console.log('💿 Full data object:', data);
 
                 // Use sales history from data structure - prioritize sales over $1000, but fallback to any sale
                 const validSalesHistory = salesHistory.filter(sale => {
                   const price = typeof sale.sale_price === 'string' ? parseFloat(sale.sale_price) : sale.sale_price;
                   return price && price >= 1000;
                 });
-                console.log('✅ Valid sales history ($1000+):', validSalesHistory);
 
                 // If no sales over $1000, get the most recent sale regardless of price
                 const fallbackSalesHistory = validSalesHistory.length === 0 ?
@@ -442,11 +438,19 @@ export function ElegantPropertyTabs({
 
       {/* CORE PROPERTY TAB */}
       <TabsContent value="core-property" className="animate-elegant">
-        <CorePropertyTabEnhanced propertyData={propertyData} />
+        <CorePropertyTab propertyData={propertyData} />
+      </TabsContent>
+
+      {/* SALES HISTORY TAB */}
+      <TabsContent value="sales" className="animate-elegant">
+        <SalesHistoryTabUpdated
+          parcelId={propertyData.parcel_id || ''}
+          data={data}
+        />
       </TabsContent>
 
       {/* OTHER TABS - Placeholder for now */}
-      {['owner', 'sales', 'building', 'land', 'exemptions', 'notes'].map(tabId => (
+      {['owner', 'building', 'land', 'exemptions', 'notes'].map(tabId => (
         <TabsContent key={tabId} value={tabId} className="animate-elegant">
           <div className="card-executive animate-elegant text-center py-12">
             <div className="elegant-card-header">

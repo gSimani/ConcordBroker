@@ -1,0 +1,78 @@
+{
+  "timestamp": "2025-09-28T22:40:06.251Z",
+  "comparisons": [
+    {
+      "name": "PRODUCTION",
+      "url": "https://www.concordbroker.com/",
+      "title": "ConcordBroker - Real Estate Investment Platform",
+      "bodyText": "C\nConcordBroker\n\nExecutive Real Estate Platform\n\nDashboard\nProperties\nAnalytics\nNew: AI-Powered Market Analysis\nReal Estate Investment\nReimagined\n\nAccess comprehensive property data, market trends, and investment insights for Broward County. Make smarter real estate decisions with AI-powered analytics.\n\nGo to Dashboard\nSearch Properties\n50K+ Properties\nReal-time Data\nAI Analytics\nEverything You Need to Succeed\n\nPowerful tools and insights designed for modern real estate professionals\n\nAdvanced A",
+      "hasReactRoot": true,
+      "mainHeading": "ConcordBroker",
+      "navigation": [
+        {
+          "text": "Dashboard",
+          "href": "https://www.concordbroker.com/dashboard"
+        },
+        {
+          "text": "Properties",
+          "href": "https://www.concordbroker.com/properties"
+        },
+        {
+          "text": "Analytics",
+          "href": "https://www.concordbroker.com/analytics"
+        }
+      ],
+      "hasPropertySearch": false,
+      "scriptSources": [
+        "https://www.concordbroker.com/assets/index-ClMffTrI.js"
+      ]
+    },
+    {
+      "name": "LOCAL (WEBSITE 1A)",
+      "url": "http://localhost:5173/",
+      "title": "ConcordBroker - Real Estate Investment Platform",
+      "bodyText": "C\nConcordBroker\n\nExecutive Real Estate Platform\n\nDashboard\nProperties\nAnalytics\nNew: AI-Powered Market Analysis\nReal Estate Investment\nReimagined\n\nAccess comprehensive property data, market trends, and investment insights for Broward County. Make smarter real estate decisions with AI-powered analytics.\n\nGo to Dashboard\nSearch Properties\n50K+ Properties\nReal-time Data\nAI Analytics\nEverything You Need to Succeed\n\nPowerful tools and insights designed for modern real estate professionals\n\nAdvanced A",
+      "hasReactRoot": true,
+      "mainHeading": "ConcordBroker",
+      "navigation": [
+        {
+          "text": "Dashboard",
+          "href": "http://localhost:5173/dashboard"
+        },
+        {
+          "text": "Properties",
+          "href": "http://localhost:5173/properties"
+        },
+        {
+          "text": "Analytics",
+          "href": "http://localhost:5173/analytics"
+        }
+      ],
+      "hasPropertySearch": false,
+      "scriptSources": [
+        "http://localhost:5173/@vite/client",
+        "http://localhost:5173/src/main.tsx?t=1759096509412"
+      ]
+    }
+  ],
+  "distFiles": {
+    "main": {
+      "exists": true,
+      "size": 821,
+      "hasViteScript": true,
+      "title": "ConcordBroker - Real Estate Investment Platform"
+    },
+    "backup": {
+      "exists": true,
+      "size": 833,
+      "hasViteScript": true,
+      "title": "ConcordBroker - Real Estate Investment Platform"
+    }
+  },
+  "verdict": {
+    "matches": true,
+    "similarity": 100,
+    "titleMatch": true,
+    "reactMatch": true
+  }
+}

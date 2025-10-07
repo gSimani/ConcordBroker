@@ -1,0 +1,130 @@
+{
+  "total_properties_sampled": 12000,
+  "total_distinct_codes": 3,
+  "sampling_method": "Multi-offset sampling to ensure variety",
+  "offsets_used": [
+    0,
+    50000,
+    100000,
+    200000,
+    300000,
+    500000,
+    750000,
+    1000000,
+    1500000,
+    2000000,
+    3000000,
+    5000000
+  ],
+  "property_use_data": {
+    "0": {
+      "count": 7000,
+      "percentage": 58.333333333333336,
+      "description": "Vacant Residential",
+      "category": "Residential"
+    },
+    "1": {
+      "count": 4000,
+      "percentage": 33.33333333333333,
+      "description": "Single Family Residential",
+      "category": "Residential"
+    },
+    "4": {
+      "count": 1000,
+      "percentage": 8.333333333333332,
+      "description": "Condominiums",
+      "category": "Residential"
+    }
+  },
+  "category_summaries": {
+    "Residential": {
+      "codes": [
+        "0",
+        "1",
+        "4"
+      ],
+      "total_properties": 12000,
+      "percentage": 100.0
+    }
+  },
+  "frontend_mappings": {
+    "RESIDENTIAL": [
+      0,
+      1,
+      4
+    ]
+  },
+  "code_standards_reference": {
+    "0": "Vacant Residential",
+    "1": "Single Family Residential",
+    "2": "Mobile Homes",
+    "3": "Multi-Family 2-9 Units",
+    "4": "Condominiums",
+    "5": "Cooperatives",
+    "6": "Retirement Homes",
+    "7": "Miscellaneous Residential",
+    "8": "Multi-Family 10+ Units",
+    "9": "Undefined Residential",
+    "10": "Vacant Commercial",
+    "11": "Stores, One Story",
+    "12": "Mixed Use/Store & Office",
+    "13": "Department Stores",
+    "14": "Supermarkets",
+    "15": "Regional Shopping Centers",
+    "16": "Community Shopping Centers",
+    "17": "Office Buildings, One Story",
+    "18": "Office Buildings, Multi-Story",
+    "19": "Professional Services Buildings",
+    "20": "Airports, Terminals, Hangars",
+    "21": "Restaurants, Cafeterias",
+    "22": "Drive-In Restaurants",
+    "23": "Financial Institutions",
+    "24": "Insurance Company Offices",
+    "25": "Repair Service Shops",
+    "26": "Service Stations",
+    "27": "Auto Sales, Rent, Wash",
+    "28": "Parking Lots",
+    "29": "Wholesale Outlets",
+    "30": "Florist, Greenhouses",
+    "31": "Drive-In Theaters",
+    "32": "Enclosed Theaters, Auditoriums",
+    "33": "Night Clubs, Bars",
+    "34": "Bowling Alleys, Billiards",
+    "35": "Tourist Attractions",
+    "36": "Camps",
+    "37": "Race Tracks",
+    "38": "Golf Courses, Driving Ranges",
+    "39": "Miscellaneous Commercial",
+    "40": "Vacant Industrial",
+    "41": "Light Manufacturing",
+    "42": "Heavy Industrial",
+    "43": "Railroad Property",
+    "44": "Telephone Company Property",
+    "45": "Telegraph Company Property",
+    "46": "Electric Company Property",
+    "47": "Gas Company Property",
+    "48": "Water Company Property",
+    "49": "Sanitary Landfills",
+    "50": "Improved Industrial",
+    "80": "Crop & Pasture Land",
+    "81": "Timberland",
+    "82": "Agricultural Improvements",
+    "83": "Poultry, Bees, Tropical Fish",
+    "84": "Dairies",
+    "85": "Livestock",
+    "86": "Orchards, Groves, Vineyards",
+    "87": "Ornamentals, Miscellaneous Agriculture",
+    "88": "Vacant Agricultural",
+    "89": "Undefined Agricultural",
+    "90": "Vacant Government Owned",
+    "91": "Military",
+    "92": "Forest, Parks, Recreational",
+    "93": "Public County Schools",
+    "94": "State Universities, Community Colleges",
+    "95": "Hospitals",
+    "96": "Counties",
+    "97": "State Government",
+    "98": "Federal Government",
+    "99": "Municipalities"
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "analysis_timestamp": "2025-09-29T12:21:58.877329",
+  "properties_analyzed": [
+    "1078130000370",
+    "504231242730"
+  ],
+  "tables_searched": [
+    "florida_parcels",
+    "property_sales_history",
+    "property_assessments",
+    "tax_certificates",
+    "nav_parcel_assessments",
+    "property_sales",
+    "fact_property_score"
+  ],
+  "results": {
+    "1078130000370": {
+      "parcel_id": "1078130000370",
+      "found_in_tables": [
+        "florida_parcels"
+      ],
+      "data_summary": {
+        "florida_parcels": {
+          "record_count": 1,
+          "sample_record": {
+            "id": 1182127,
+            "parcel_id": "1078130000370",
+            "county": "DADE",
+            "year": 2025,
+            "geometry": null,
+            "centroid": null,
+            "area_sqft": null,
+            "perimeter_ft": null,
+            "owner_name": "CITY OF HOMESTEAD",
+            "owner_addr1": "100 CIVIC COURT",
+            "owner_addr2": null,
+            "owner_city": "HOMESTEAD",
+            "owner_state": "FL",
+            "owner_zip": "",
+            "phy_addr1": "",
+            "phy_addr2": null,
+            "phy_city": "Homestead",
+            "phy_state": "FL",
+            "phy_zipcd": "33030",
+            "legal_desc": null,
+            "subdivision": null,
+            "lot": null,
+            "block": null,
+            "property_use": "80",
+            "property_use_desc": null,
+            "land_use_code": "80",
+            "zoning": null,
+            "just_value": 41260.0,
+            "assessed_value": 68718.0,
+            "taxable_value": 0.0,
+            "land_value": 41260.0,
+            "building_value": 0.0,
+            "year_built": 0,
+            "total_living_area": 0.0,
+            "bedrooms": null,
+            "bathrooms": null,
+            "stories": null,
+            "units": null,
+            "land_sqft": 2063.0,
+            "land_acres": null,
+            "sale_date": null,
+            "sale_price": null,
+            "sale_qualification": null,
+            "match_status": null,
+            "discrepancy_reason": null,
+            "is_redacted": false,
+            "data_source": "NAL_Enhanced",
+            "import_date": "2025-09-26T16:23:46.465414",
+            "update_date": "2025-09-26T16:23:46.465414",
+            "data_hash": null,
+            "market_value": null
+          }
+        }
+      },
+      "total_records_found": 1
+    },
+    "504231242730": {
+      "parcel_id": "504231242730",
+      "found_in_tables": [
+        "florida_parcels"
+      ],
+      "data_summary": {
+        "florida_parcels": {
+          "record_count": 1,
+          "sample_record": {
+            "id": 591275,
+            "parcel_id": "504231242730",
+            "county": "BROWARD",
+            "year": 2025,
+            "geometry": null,
+            "centroid": null,
+            "area_sqft": null,
+            "perimeter_ft": null,
+            "owner_name": "SIMANI,GUY & SARAH",
+            "owner_addr1": "3930 SW 53 CT",
+            "owner_addr2": null,
+            "owner_city": "FORT LAUDERDALE",
+            "owner_state": "FL",
+            "owner_zip": "33312",
+            "phy_addr1": "3930 SW 53 CT",
+            "phy_addr2": null,
+            "phy_city": "HOLLYWOOD",
+            "phy_state": "FL",
+            "phy_zipcd": "33312",
+            "legal_desc": null,
+            "subdivision": null,
+            "lot": null,
+            "block": null,
+            "property_use": "1",
+            "property_use_desc": null,
+            "land_use_code": null,
+            "zoning": null,
+            "just_value": 974930.0,
+            "assessed_value": 1158380.0,
+            "taxable_value": 1082658.0,
+            "land_value": 69220.0,
+            "building_value": 905710.0,
+            "year_built": 2002,
+            "total_living_area": 3400.0,
+            "bedrooms": null,
+            "bathrooms": null,
+            "stories": null,
+            "units": 1,
+            "land_sqft": 12309.0,
+            "land_acres": null,
+            "sale_date": null,
+            "sale_price": null,
+            "sale_qualification": null,
+            "match_status": null,
+            "discrepancy_reason": null,
+            "is_redacted": false,
+            "data_source": "NAL_Enhanced",
+            "import_date": "2025-09-26T15:35:58.652194",
+            "update_date": "2025-09-26T15:35:58.652194",
+            "data_hash": null,
+            "market_value": null
+          }
+        }
+      },
+      "total_records_found": 1
+    }
+  }
+}

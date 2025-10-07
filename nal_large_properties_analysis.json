@@ -1,0 +1,638 @@
+{
+  "summary": {
+    "total_large_properties": 141025,
+    "size_range_counts": {
+      "20,000-30,000 sqft": 14269,
+      "15,000-20,000 sqft": 14116,
+      "50,000+ sqft": 28474,
+      "7,500-10,000 sqft": 39396,
+      "10,000-15,000 sqft": 31499,
+      "30,000-50,000 sqft": 13271
+    },
+    "total_files_analyzed": 62
+  },
+  "county_breakdown": [
+    {
+      "county": "DADE",
+      "count": 18012
+    },
+    {
+      "county": "LEE",
+      "count": 11519
+    },
+    {
+      "county": "BROWARD",
+      "count": 11488
+    },
+    {
+      "county": "COLLIER",
+      "count": 9912
+    },
+    {
+      "county": "HILLSBOROUGH",
+      "count": 9373
+    },
+    {
+      "county": "ORANGE",
+      "count": 8932
+    },
+    {
+      "county": "DUVAL",
+      "count": 7818
+    },
+    {
+      "county": "PINELLAS",
+      "count": 7434
+    },
+    {
+      "county": "POLK",
+      "count": 5048
+    },
+    {
+      "county": "BREVARD",
+      "count": 4660
+    },
+    {
+      "county": "VOLUSIA",
+      "count": 3484
+    },
+    {
+      "county": "SARASOTA",
+      "count": 3177
+    },
+    {
+      "county": "SEMINOLE",
+      "count": 2927
+    },
+    {
+      "county": "ESCAMBIA",
+      "count": 2825
+    },
+    {
+      "county": "MARION",
+      "count": 2527
+    },
+    {
+      "county": "MANATEE",
+      "count": 2453
+    },
+    {
+      "county": "LEON",
+      "count": 2364
+    },
+    {
+      "county": "ALACHUA",
+      "count": 2003
+    },
+    {
+      "county": "OSCEOLA",
+      "count": 1975
+    },
+    {
+      "county": "OKALOOSA",
+      "count": 1960
+    },
+    {
+      "county": "PASCO",
+      "count": 1800
+    },
+    {
+      "county": "BAY",
+      "count": 1799
+    },
+    {
+      "county": "LAKE",
+      "count": 1505
+    },
+    {
+      "county": "HERNANDO",
+      "count": 1409
+    },
+    {
+      "county": "MARTIN",
+      "count": 1368
+    },
+    {
+      "county": "CHARLOTTE",
+      "count": 1170
+    },
+    {
+      "county": "HIGHLANDS",
+      "count": 1056
+    },
+    {
+      "county": "WALTON",
+      "count": 954
+    },
+    {
+      "county": "CLAY",
+      "count": 894
+    },
+    {
+      "county": "MONROE",
+      "count": 799
+    },
+    {
+      "county": "CITRUS",
+      "count": 749
+    },
+    {
+      "county": "OKEECHOBEE",
+      "count": 690
+    },
+    {
+      "county": "NASSAU",
+      "count": 660
+    },
+    {
+      "county": "COLUMBIA",
+      "count": 607
+    },
+    {
+      "county": "SUMTER",
+      "count": 479
+    },
+    {
+      "county": "FLAGLER",
+      "count": 462
+    },
+    {
+      "county": "JACKSON",
+      "count": 428
+    },
+    {
+      "county": "DESOTO",
+      "count": 425
+    },
+    {
+      "county": "HENDRY",
+      "count": 367
+    },
+    {
+      "county": "GADSDEN",
+      "count": 329
+    },
+    {
+      "county": "PUTNAM",
+      "count": 321
+    },
+    {
+      "county": "SUWANNEE",
+      "count": 269
+    },
+    {
+      "county": "HARDEE",
+      "count": 222
+    },
+    {
+      "county": "LEVY",
+      "count": 206
+    },
+    {
+      "county": "WASHINGTON",
+      "count": 197
+    },
+    {
+      "county": "GLADES",
+      "count": 196
+    },
+    {
+      "county": "JEFFERSON",
+      "count": 188
+    },
+    {
+      "county": "BRADFORD",
+      "count": 171
+    },
+    {
+      "county": "MADISON",
+      "count": 155
+    },
+    {
+      "county": "HOLMES",
+      "count": 138
+    },
+    {
+      "county": "WAKULLA",
+      "count": 138
+    },
+    {
+      "county": "BAKER",
+      "count": 126
+    },
+    {
+      "county": "GULF",
+      "count": 112
+    },
+    {
+      "county": "TAYLOR",
+      "count": 112
+    },
+    {
+      "county": "FRANKLIN",
+      "count": 103
+    },
+    {
+      "county": "HAMILTON",
+      "count": 102
+    },
+    {
+      "county": "CALHOUN",
+      "count": 100
+    },
+    {
+      "county": "GILCHRIST",
+      "count": 88
+    },
+    {
+      "county": "UNION",
+      "count": 75
+    },
+    {
+      "county": "DIXIE",
+      "count": 68
+    },
+    {
+      "county": "LAFAYETTE",
+      "count": 51
+    },
+    {
+      "county": "LIBERTY",
+      "count": 46
+    }
+  ],
+  "samples": {
+    "20,000-30,000 sqft": [
+      {
+        "parcel_id": "00024-011-000",
+        "living_area": 26000.0,
+        "dor_uc": "039",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "00180-000-000",
+        "living_area": 20250.0,
+        "dor_uc": "048",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "00181-010-012",
+        "living_area": 27320.0,
+        "dor_uc": "048",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "00217-001-000",
+        "living_area": 21499.0,
+        "dor_uc": "003",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "01389-008-000",
+        "living_area": 20000.0,
+        "dor_uc": "041",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "053S22000000000012",
+        "living_area": 23400.0,
+        "dor_uc": "016",
+        "owner_name": "100"
+      },
+      {
+        "parcel_id": "113S21000000000010",
+        "living_area": 20857.0,
+        "dor_uc": "055",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "031S20000000000080",
+        "living_area": 21905.0,
+        "dor_uc": "071",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "362S21000000000345",
+        "living_area": 29512.0,
+        "dor_uc": "015",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "292S22000000000025",
+        "living_area": 24518.0,
+        "dor_uc": "003",
+        "owner_name": ""
+      }
+    ],
+    "15,000-20,000 sqft": [
+      {
+        "parcel_id": "00077-000-000",
+        "living_area": 17921.0,
+        "dor_uc": "036",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "00236-040-000",
+        "living_area": 19146.0,
+        "dor_uc": "003",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "00257-010-003",
+        "living_area": 18549.0,
+        "dor_uc": "003",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "01560-001-000",
+        "living_area": 15406.0,
+        "dor_uc": "071",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "01739-000-000",
+        "living_area": 18767.0,
+        "dor_uc": "071",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "123S20005000160030",
+        "living_area": 15089.0,
+        "dor_uc": "071",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "331S21000000000020",
+        "living_area": 18740.0,
+        "dor_uc": "060",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "362S21005100440010",
+        "living_area": 19112.0,
+        "dor_uc": "071",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "082S22000000000091",
+        "living_area": 16800.0,
+        "dor_uc": "071",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "262S22000000000031",
+        "living_area": 15088.0,
+        "dor_uc": "028",
+        "owner_name": ""
+      }
+    ],
+    "50,000+ sqft": [
+      {
+        "parcel_id": "00082-000-000",
+        "living_area": 50757.0,
+        "dor_uc": "039",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "00153-000-000",
+        "living_area": 78619.0,
+        "dor_uc": "036",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "00206-004-001",
+        "living_area": 76264.0,
+        "dor_uc": "071",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "00233-001-000",
+        "living_area": 56855.0,
+        "dor_uc": "016",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "00233-001-002",
+        "living_area": 50904.0,
+        "dor_uc": "014",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "053S22000000000171",
+        "living_area": 98740.0,
+        "dor_uc": "003",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "183S22000000000013",
+        "living_area": 132825.0,
+        "dor_uc": "083",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "123S20000000000026",
+        "living_area": 113546.0,
+        "dor_uc": "041",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "123S20000000000028",
+        "living_area": 123547.0,
+        "dor_uc": "041",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "123S20000000000032",
+        "living_area": 153022.0,
+        "dor_uc": "041",
+        "owner_name": ""
+      }
+    ],
+    "7,500-10,000 sqft": [
+      {
+        "parcel_id": "00173-001-000",
+        "living_area": 9000.0,
+        "dor_uc": "048",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "00203-001-000",
+        "living_area": 8256.0,
+        "dor_uc": "011",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "00292-012-000",
+        "living_area": 8004.0,
+        "dor_uc": "048",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "00586-002-000",
+        "living_area": 9659.0,
+        "dor_uc": "011",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "00609-000-000",
+        "living_area": 8190.0,
+        "dor_uc": "011",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "053S22000000000017",
+        "living_area": 8000.0,
+        "dor_uc": "012",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "053S22000000000133",
+        "living_area": 7500.0,
+        "dor_uc": "048",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "053S22006600000028",
+        "living_area": 9200.0,
+        "dor_uc": "048",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "031S20000000000271",
+        "living_area": 9699.0,
+        "dor_uc": "071",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "362S20000000000031",
+        "living_area": 8180.0,
+        "dor_uc": "028",
+        "owner_name": ""
+      }
+    ],
+    "10,000-15,000 sqft": [
+      {
+        "parcel_id": "00181-010-008",
+        "living_area": 10992.0,
+        "dor_uc": "041",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "00181-010-015",
+        "living_area": 13600.0,
+        "dor_uc": "048",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "00215-000-000",
+        "living_area": 12400.0,
+        "dor_uc": "011",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "00256-019-000",
+        "living_area": 14263.0,
+        "dor_uc": "071",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "00329-000-000",
+        "living_area": 10560.0,
+        "dor_uc": "027",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "013S21000000000043",
+        "living_area": 10000.0,
+        "dor_uc": "086",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "293S19000000000765",
+        "living_area": 11745.0,
+        "dor_uc": "090",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "352S21000000000810",
+        "living_area": 14172.0,
+        "dor_uc": "071",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "362S21005100030010",
+        "living_area": 13384.0,
+        "dor_uc": "041",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "362S21005100200020",
+        "living_area": 12096.0,
+        "dor_uc": "071",
+        "owner_name": ""
+      }
+    ],
+    "30,000-50,000 sqft": [
+      {
+        "parcel_id": "00560-000-000",
+        "living_area": 34579.0,
+        "dor_uc": "074",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "00672-000-000",
+        "living_area": 47116.0,
+        "dor_uc": "046",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "01391-000-000",
+        "living_area": 37292.0,
+        "dor_uc": "048",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "01392-006-000",
+        "living_area": 48466.0,
+        "dor_uc": "048",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "01902-001-000",
+        "living_area": 30209.0,
+        "dor_uc": "003",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "083S22000000000122",
+        "living_area": 49892.0,
+        "dor_uc": "039",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "243S19000000000011",
+        "living_area": 39597.0,
+        "dor_uc": "019",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "281S21000000000040",
+        "living_area": 30435.0,
+        "dor_uc": "001",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "362S21005100190010",
+        "living_area": 33512.0,
+        "dor_uc": "071",
+        "owner_name": ""
+      },
+      {
+        "parcel_id": "312S22000000000462",
+        "living_area": 40728.0,
+        "dor_uc": "048",
+        "owner_name": ""
+      }
+    ]
+  }
+}

@@ -1,0 +1,77 @@
+# RAILWAY DEPLOYMENT - COPY AND PASTE THESE COMMANDS
+# Run these commands in order from the railway-deploy directory
+
+# ============================================================================
+# STEP 1: Initialize Railway Project
+# ============================================================================
+railway init
+# When prompted:
+#   Project Name? Type: concordbroker-search
+#   Select workspace: gSimani Railway
+
+# ============================================================================
+# STEP 2: Deploy Meilisearch (takes 2-3 minutes)
+# ============================================================================
+railway up --dockerfile Dockerfile.meilisearch
+
+# ============================================================================
+# STEP 3: Set Meilisearch Environment Variables
+# ============================================================================
+railway variables set MEILI_MASTER_KEY=concordbroker-meili-railway-prod-key-2025
+railway variables set MEILI_ENV=production
+railway variables set MEILI_NO_ANALYTICS=true
+
+# ============================================================================
+# STEP 4: Generate Meilisearch Public URL
+# ============================================================================
+railway domain
+# IMPORTANT: Copy the URL shown (e.g., https://concordbroker-meilisearch-production.up.railway.app)
+
+# ============================================================================
+# STEP 5: Test Meilisearch (replace <URL> with your URL from Step 4)
+# ============================================================================
+curl https://<YOUR-MEILISEARCH-URL>/health
+# Expected: {"status":"available"}
+
+# ============================================================================
+# STEP 6: Create Search API Service
+# ============================================================================
+railway service create search-api
+
+# ============================================================================
+# STEP 7: Deploy Search API (takes 2-3 minutes)
+# ============================================================================
+railway up --dockerfile Dockerfile.search-api --service search-api
+
+# ============================================================================
+# STEP 8: Set Search API Environment Variables
+# IMPORTANT: Replace <YOUR-MEILISEARCH-URL> with URL from Step 4!
+# ============================================================================
+railway variables set MEILISEARCH_URL=https://<YOUR-MEILISEARCH-URL> --service search-api
+railway variables set MEILISEARCH_KEY=concordbroker-meili-railway-prod-key-2025 --service search-api
+railway variables set SUPABASE_URL=https://pmispwtdngkcmsrsjwbp.supabase.co --service search-api
+railway variables set SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Njk1Njk1OCwiZXhwIjoyMDcyNTMyOTU4fQ.fbCYcTFxLaMC_g4P8IrQoHWbQbPr_t9eaxYD_9yS3u0 --service search-api
+
+# ============================================================================
+# STEP 9: Generate Search API Public URL
+# ============================================================================
+railway domain --service search-api
+# IMPORTANT: Copy the URL shown (e.g., https://concordbroker-search-api-production.up.railway.app)
+
+# ============================================================================
+# STEP 10: Test Search API (replace <URL> with your URL from Step 9)
+# ============================================================================
+curl https://<YOUR-SEARCH-API-URL>/health
+# Expected: {"status":"healthy"}
+
+# ============================================================================
+# STEP 11: Check Deployment Status
+# ============================================================================
+railway status
+
+# ============================================================================
+# DEPLOYMENT COMPLETE!
+# Save your URLs:
+#   Meilisearch URL: _______________________________________
+#   Search API URL:  _______________________________________
+# ============================================================================

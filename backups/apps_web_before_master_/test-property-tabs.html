@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Property Tabs Test</title>
+    <script>
+        function checkTabs() {
+            // Test tab switching
+            const tabs = ['overview', 'core', 'sunbiz', 'taxes', 'analysis'];
+            const results = [];
+            
+            tabs.forEach(tab => {
+                const button = document.querySelector(`[value="${tab}"]`);
+                const content = document.querySelector(`[value="${tab}"]`);
+                results.push({
+                    tab: tab,
+                    buttonExists: !!button,
+                    contentExists: !!content
+                });
+            });
+            
+            console.log('Tab Check Results:', results);
+            document.getElementById('results').innerHTML = JSON.stringify(results, null, 2);
+        }
+    </script>
+</head>
+<body>
+    <h1>Property Tabs Test</h1>
+    <button onclick="checkTabs()">Check Tabs</button>
+    <pre id="results"></pre>
+    
+    <iframe src="http://localhost:5183/property/064210010010" width="100%" height="600"></iframe>
+</body>
+</html>

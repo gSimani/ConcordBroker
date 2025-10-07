@@ -1,0 +1,279 @@
+{
+  "analysis_date": "2025-09-26",
+  "total_database_records": 7312641,
+  "total_properties_sampled": 88000,
+  "sampling_points": 100,
+  "sample_size_per_point": 1000,
+  "total_distinct_codes": 18,
+  "property_use_data": {
+    "0": {
+      "count": 12000,
+      "percentage": 13.636363636363635,
+      "description": "Vacant Residential",
+      "category": "Residential"
+    },
+    "1": {
+      "count": 45000,
+      "percentage": 51.13636363636363,
+      "description": "Single Family Residential",
+      "category": "Residential"
+    },
+    "2": {
+      "count": 3000,
+      "percentage": 3.4090909090909087,
+      "description": "Mobile Homes",
+      "category": "Residential"
+    },
+    "4": {
+      "count": 14000,
+      "percentage": 15.909090909090908,
+      "description": "Condominiums",
+      "category": "Residential"
+    },
+    "8": {
+      "count": 1000,
+      "percentage": 1.1363636363636365,
+      "description": "Multi-Family 10+ Units",
+      "category": "Residential"
+    },
+    "9": {
+      "count": 1000,
+      "percentage": 1.1363636363636365,
+      "description": "Undefined Residential",
+      "category": "Residential"
+    },
+    "011": {
+      "count": 1000,
+      "percentage": 1.1363636363636365,
+      "description": "Stores, One Story",
+      "category": "Commercial"
+    },
+    "11": {
+      "count": 1000,
+      "percentage": 1.1363636363636365,
+      "description": "Stores, One Story",
+      "category": "Commercial"
+    },
+    "19": {
+      "count": 1000,
+      "percentage": 1.1363636363636365,
+      "description": "Professional Services Buildings",
+      "category": "Commercial"
+    },
+    "28": {
+      "count": 1000,
+      "percentage": 1.1363636363636365,
+      "description": "Parking Lots",
+      "category": "Commercial"
+    },
+    "48": {
+      "count": 1000,
+      "percentage": 1.1363636363636365,
+      "description": "Water Company Property",
+      "category": "Industrial"
+    },
+    "52": {
+      "count": 1000,
+      "percentage": 1.1363636363636365,
+      "description": "Unknown Code 52",
+      "category": "Industrial"
+    },
+    "60": {
+      "count": 1000,
+      "percentage": 1.1363636363636365,
+      "description": "Unknown Code 60",
+      "category": "Industrial"
+    },
+    "71": {
+      "count": 1000,
+      "percentage": 1.1363636363636365,
+      "description": "Unknown Code 71",
+      "category": "Institutional"
+    },
+    "80": {
+      "count": 1000,
+      "percentage": 1.1363636363636365,
+      "description": "Crop & Pasture Land",
+      "category": "Agricultural"
+    },
+    "87": {
+      "count": 1000,
+      "percentage": 1.1363636363636365,
+      "description": "Ornamentals, Miscellaneous Agriculture",
+      "category": "Agricultural"
+    },
+    "93": {
+      "count": 1000,
+      "percentage": 1.1363636363636365,
+      "description": "Public County Schools",
+      "category": "Government/Exempt"
+    },
+    "96": {
+      "count": 1000,
+      "percentage": 1.1363636363636365,
+      "description": "Counties",
+      "category": "Government/Exempt"
+    }
+  },
+  "category_summaries": {
+    "Residential": {
+      "codes": [
+        "0",
+        "1",
+        "2",
+        "4",
+        "8",
+        "9"
+      ],
+      "total_properties": 76000,
+      "percentage": 86.36363636363636
+    },
+    "Commercial": {
+      "codes": [
+        "011",
+        "11",
+        "19",
+        "28"
+      ],
+      "total_properties": 4000,
+      "percentage": 4.545454545454546
+    },
+    "Industrial": {
+      "codes": [
+        "48",
+        "52",
+        "60"
+      ],
+      "total_properties": 3000,
+      "percentage": 3.4090909090909087
+    },
+    "Institutional": {
+      "codes": [
+        "71"
+      ],
+      "total_properties": 1000,
+      "percentage": 1.1363636363636365
+    },
+    "Agricultural": {
+      "codes": [
+        "80",
+        "87"
+      ],
+      "total_properties": 2000,
+      "percentage": 2.272727272727273
+    },
+    "Government/Exempt": {
+      "codes": [
+        "93",
+        "96"
+      ],
+      "total_properties": 2000,
+      "percentage": 2.272727272727273
+    }
+  },
+  "frontend_mappings": {
+    "RESIDENTIAL": [
+      0,
+      1,
+      2,
+      4,
+      8,
+      9
+    ],
+    "COMMERCIAL": [
+      11,
+      11,
+      19,
+      28
+    ],
+    "INDUSTRIAL": [
+      48,
+      52,
+      60
+    ],
+    "INSTITUTIONAL": [
+      71
+    ],
+    "AGRICULTURAL": [
+      80,
+      87
+    ],
+    "GOVERNMENT_EXEMPT": [
+      93,
+      96
+    ]
+  },
+  "florida_dor_standards": {
+    "0": "Vacant Residential",
+    "1": "Single Family Residential",
+    "2": "Mobile Homes",
+    "3": "Multi-Family 2-9 Units",
+    "4": "Condominiums",
+    "5": "Cooperatives",
+    "6": "Retirement Homes",
+    "7": "Miscellaneous Residential",
+    "8": "Multi-Family 10+ Units",
+    "9": "Undefined Residential",
+    "10": "Vacant Commercial",
+    "11": "Stores, One Story",
+    "12": "Mixed Use/Store & Office",
+    "13": "Department Stores",
+    "14": "Supermarkets",
+    "15": "Regional Shopping Centers",
+    "16": "Community Shopping Centers",
+    "17": "Office Buildings, One Story",
+    "18": "Office Buildings, Multi-Story",
+    "19": "Professional Services Buildings",
+    "20": "Airports, Terminals, Hangars",
+    "21": "Restaurants, Cafeterias",
+    "22": "Drive-In Restaurants",
+    "23": "Financial Institutions",
+    "24": "Insurance Company Offices",
+    "25": "Repair Service Shops",
+    "26": "Service Stations",
+    "27": "Auto Sales, Rent, Wash",
+    "28": "Parking Lots",
+    "29": "Wholesale Outlets",
+    "30": "Florist, Greenhouses",
+    "31": "Drive-In Theaters",
+    "32": "Enclosed Theaters, Auditoriums",
+    "33": "Night Clubs, Bars",
+    "34": "Bowling Alleys, Billiards",
+    "35": "Tourist Attractions",
+    "36": "Camps",
+    "37": "Race Tracks",
+    "38": "Golf Courses, Driving Ranges",
+    "39": "Miscellaneous Commercial",
+    "40": "Vacant Industrial",
+    "41": "Light Manufacturing",
+    "42": "Heavy Industrial",
+    "43": "Railroad Property",
+    "44": "Telephone Company Property",
+    "45": "Telegraph Company Property",
+    "46": "Electric Company Property",
+    "47": "Gas Company Property",
+    "48": "Water Company Property",
+    "49": "Sanitary Landfills",
+    "50": "Improved Industrial",
+    "80": "Crop & Pasture Land",
+    "81": "Timberland",
+    "82": "Agricultural Improvements",
+    "83": "Poultry, Bees, Tropical Fish",
+    "84": "Dairies",
+    "85": "Livestock",
+    "86": "Orchards, Groves, Vineyards",
+    "87": "Ornamentals, Miscellaneous Agriculture",
+    "88": "Vacant Agricultural",
+    "89": "Undefined Agricultural",
+    "90": "Vacant Government Owned",
+    "91": "Military",
+    "92": "Forest, Parks, Recreational",
+    "93": "Public County Schools",
+    "94": "State Universities, Community Colleges",
+    "95": "Hospitals",
+    "96": "Counties",
+    "97": "State Government",
+    "98": "Federal Government",
+    "99": "Municipalities"
+  }
+}

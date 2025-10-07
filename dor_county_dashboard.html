@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOR Code Assignment - Florida Counties Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-subtext {
+            color: #999;
+            font-size: 0.85em;
+            margin-top: 5px;
+        }
+
+        .counties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .county-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .county-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .county-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .county-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .grade-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .grade-10 { background: #10b981; color: white; }
+        .grade-9 { background: #34d399; color: white; }
+        .grade-8 { background: #60a5fa; color: white; }
+        .grade-7 { background: #fbbf24; color: white; }
+        .grade-6 { background: #fb923c; color: white; }
+        .grade-5 { background: #ef4444; color: white; }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 30px;
+            background: #e5e7eb;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .county-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .status-complete { background: #10b981; }
+        .status-processing { background: #fbbf24; animation: pulse 2s infinite; }
+        .status-pending { background: #9ca3af; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .refresh-info {
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+
+        .last-update {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Florida DOR Code Assignment Dashboard</h1>
+            <p class="subtitle">Real-time monitoring of property classification across all 67 counties</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Currently Processing</div>
+                <div class="stat-value" id="currentCounty" style="font-size: 2em;">-</div>
+                <div class="stat-subtext" id="currentCountyStatus">Waiting to start...</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Properties</div>
+                <div class="stat-value" id="totalProperties">-</div>
+                <div class="stat-subtext">Across all counties</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Coded Properties</div>
+                <div class="stat-value" id="codedProperties">-</div>
+                <div class="stat-subtext">With DOR classifications</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Overall Coverage</div>
+                <div class="stat-value" id="overallCoverage">-%</div>
+                <div class="stat-subtext">Statewide progress</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Overall Grade</div>
+                <div class="stat-value" id="overallGrade">-/10</div>
+                <div class="stat-subtext" id="overallStatus">-</div>
+            </div>
+        </div>
+
+        <div class="counties-grid" id="countiesGrid">
+            <!-- Counties will be loaded here -->
+        </div>
+
+        <div class="refresh-info">
+            <div>Auto-refreshing every 10 seconds</div>
+            <div class="last-update">Last updated: <span id="lastUpdate">Loading...</span></div>
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://pmispwtdngkcmsrsjwbp.supabase.co';
+        const SUPABASE_SERVICE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Njk1Njk1OCwiZXhwIjoyMDcyNTMyOTU4fQ.fbCYcTFxLaMC_g4P8IrQoHWbQbPr_t9eaxYD_9yS3u0';
+
+        function getGrade(coverage) {
+            if (coverage >= 99.5) return { grade: '10/10', status: 'PERFECT', class: 'grade-10' };
+            if (coverage >= 95) return { grade: '9/10', status: 'EXCELLENT', class: 'grade-9' };
+            if (coverage >= 90) return { grade: '8/10', status: 'GOOD', class: 'grade-8' };
+            if (coverage >= 80) return { grade: '7/10', status: 'ACCEPTABLE', class: 'grade-7' };
+            if (coverage >= 50) return { grade: '6/10', status: 'NEEDS WORK', class: 'grade-6' };
+            return { grade: '5/10', status: 'INCOMPLETE', class: 'grade-5' };
+        }
+
+        function getStatus(coverage) {
+            if (coverage >= 99.5) return 'status-complete';
+            if (coverage >= 50) return 'status-processing';
+            return 'status-pending';
+        }
+
+        async function fetchCountyData() {
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/get_county_coverage_stats`, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_SERVICE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                return null;
+            }
+        }
+
+        async function updateDashboard() {
+            const data = await fetchCountyData();
+
+            if (!data || data.length === 0) {
+                console.log('No data available');
+                return;
+            }
+
+            // Calculate overall stats
+            let totalProperties = 0;
+            let totalCoded = 0;
+
+            data.forEach(county => {
+                totalProperties += county.total_properties;
+                totalCoded += county.coded_properties;
+            });
+
+            const overallCoverage = totalProperties > 0 ? (totalCoded / totalProperties * 100) : 0;
+            const overallGradeData = getGrade(overallCoverage);
+
+            // Update overall stats
+            document.getElementById('totalProperties').textContent = totalProperties.toLocaleString();
+            document.getElementById('codedProperties').textContent = totalCoded.toLocaleString();
+            document.getElementById('overallCoverage').textContent = overallCoverage.toFixed(2) + '%';
+            document.getElementById('overallGrade').textContent = overallGradeData.grade;
+            document.getElementById('overallStatus').textContent = overallGradeData.status;
+
+            // Determine current county (highest incomplete coverage that's > 50%)
+            const processingCounty = data.find(c => c.coverage >= 50 && c.coverage < 99.5);
+
+            if (processingCounty) {
+                document.getElementById('currentCounty').textContent = processingCounty.county;
+                document.getElementById('currentCountyStatus').textContent =
+                    `${processingCounty.coverage.toFixed(2)}% complete - ${(100 - processingCounty.coverage).toFixed(2)}% remaining`;
+            } else {
+                const nextCounty = data.find(c => c.coverage < 50);
+                if (nextCounty) {
+                    document.getElementById('currentCounty').textContent = nextCounty.county;
+                    document.getElementById('currentCountyStatus').textContent =
+                        `Next to start - ${nextCounty.coverage.toFixed(2)}% complete`;
+                } else {
+                    document.getElementById('currentCounty').textContent = 'ALL COMPLETE';
+                    document.getElementById('currentCountyStatus').textContent = '100% of all counties finished!';
+                }
+            }
+
+            // Sort counties by coverage (descending)
+            data.sort((a, b) => b.coverage - a.coverage);
+
+            // Update counties grid
+            const grid = document.getElementById('countiesGrid');
+            grid.innerHTML = data.map(county => {
+                const gradeData = getGrade(county.coverage);
+                const statusClass = getStatus(county.coverage);
+                const isProcessing = processingCounty && county.county === processingCounty.county;
+
+                return `
+                    <div class="county-card" style="${isProcessing ? 'border: 3px solid #fbbf24; box-shadow: 0 0 20px rgba(251, 191, 36, 0.5);' : ''}">
+                        <div class="county-header">
+                            <div class="county-name">
+                                <span class="status-indicator ${statusClass}"></span>
+                                ${county.county}${isProcessing ? ' <span style="color: #fbbf24;">● ACTIVE</span>' : ''}
+                            </div>
+                            <div class="grade-badge ${gradeData.class}">${gradeData.grade}</div>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: ${county.coverage}%">
+                                ${county.coverage.toFixed(2)}%
+                            </div>
+                        </div>
+                        <div class="county-stats">
+                            <span>${county.coded_properties.toLocaleString()} / ${county.total_properties.toLocaleString()}</span>
+                            <span>${gradeData.status}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Update timestamp
+            document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString();
+        }
+
+        // Initial load
+        updateDashboard();
+
+        // Refresh every 10 seconds
+        setInterval(updateDashboard, 10000);
+    </script>
+</body>
+</html>

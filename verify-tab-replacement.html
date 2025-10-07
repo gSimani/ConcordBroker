@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tab Replacement Verification</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .test-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        .property-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            margin: 5px;
+            transition: transform 0.2s;
+        }
+        .property-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .tab-list {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .tab-item {
+            display: inline-block;
+            padding: 8px 16px;
+            background: white;
+            border-radius: 4px;
+            margin: 3px;
+            font-size: 14px;
+            border: 2px solid transparent;
+        }
+        .tab-enhanced {
+            border-color: #10b981;
+            background: #d4edda;
+        }
+        pre {
+            background: #1f2937;
+            color: #10b981;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✅ Tab Replacement Verification</h1>
+
+        <div class="success">
+            <h2>Successfully Updated 4 Tabs!</h2>
+            <p>The following tabs have been replaced with enhanced versions in the property detail pages:</p>
+            <ul>
+                <li><strong>Core Property Info</strong> → Now using <code>CorePropertyTabEnhanced</code></li>
+                <li><strong>Sunbiz Info</strong> → Now using <code>EnhancedSunbizTab</code></li>
+                <li><strong>Investment Analysis</strong> → Already using the enhanced version</li>
+                <li><strong>Capital Planning</strong> → New <code>CapitalPlanningTab</code> component created and integrated</li>
+            </ul>
+        </div>
+
+        <div class="info">
+            <h3>What Changed:</h3>
+            <ul>
+                <li>Updated <code>EnhancedPropertyProfile.tsx</code> to import enhanced tab components</li>
+                <li>Created new <code>CapitalPlanningTab.tsx</code> with comprehensive capital expense planning</li>
+                <li>Fixed exports in <code>EnhancedSunbizTab.tsx</code> for proper importing</li>
+                <li>All ports (5177, 5178, 5180, 5181) now use the same enhanced components</li>
+            </ul>
+        </div>
+
+        <div class="test-grid">
+            <div class="test-card">
+                <h3>Port 5177 (Reference)</h3>
+                <p>Original enhanced version with all tabs</p>
+                <a href="http://localhost:5177/property/1078130000370" target="_blank" class="property-link">
+                    View Property on 5177
+                </a>
+            </div>
+
+            <div class="test-card">
+                <h3>Port 5178</h3>
+                <p>Updated with enhanced tabs</p>
+                <a href="http://localhost:5178/property/1078130000370" target="_blank" class="property-link">
+                    View Property on 5178
+                </a>
+            </div>
+
+            <div class="test-card">
+                <h3>Port 5181 (was 5180)</h3>
+                <p>Updated with enhanced tabs</p>
+                <a href="http://localhost:5181/property/1078130000370" target="_blank" class="property-link">
+                    View Property on 5181
+                </a>
+            </div>
+        </div>
+
+        <h2>Enhanced Tab Features</h2>
+
+        <div class="tab-list">
+            <h3>1. Core Property Info Tab (Enhanced)</h3>
+            <div class="tab-item tab-enhanced">CorePropertyTabEnhanced</div>
+            <p>Features:</p>
+            <ul>
+                <li>Comprehensive property details with better formatting</li>
+                <li>Visual icons for each section</li>
+                <li>Currency and number formatting</li>
+                <li>Export, share, and print functionality</li>
+            </ul>
+        </div>
+
+        <div class="tab-list">
+            <h3>2. Sunbiz Info Tab (Enhanced)</h3>
+            <div class="tab-item tab-enhanced">EnhancedSunbizTab</div>
+            <p>Features:</p>
+            <ul>
+                <li>Active company search and filtering</li>
+                <li>Contact information display</li>
+                <li>Business entity details</li>
+                <li>Officer information</li>
+            </ul>
+        </div>
+
+        <div class="tab-list">
+            <h3>3. Investment Analysis Tab</h3>
+            <div class="tab-item tab-enhanced">InvestmentAnalysisTab</div>
+            <p>Features:</p>
+            <ul>
+                <li>ROI calculations</li>
+                <li>Cash flow projections</li>
+                <li>Investment metrics</li>
+                <li>Comparative analysis</li>
+            </ul>
+        </div>
+
+        <div class="tab-list">
+            <h3>4. Capital Planning Tab (NEW)</h3>
+            <div class="tab-item tab-enhanced">CapitalPlanningTab</div>
+            <p>Features:</p>
+            <ul>
+                <li>Capital expense timeline for major systems</li>
+                <li>Reserve fund calculations</li>
+                <li>5-year and 10-year planning views</li>
+                <li>Monthly/annual reserve contribution recommendations</li>
+                <li>Property lifecycle analysis</li>
+                <li>Expense prioritization by urgency</li>
+            </ul>
+        </div>
+
+        <h2>Code Changes</h2>
+        <pre>
+// EnhancedPropertyProfile.tsx - Updated imports
+import { CorePropertyTabEnhanced } from '@/components/property/tabs/CorePropertyTabEnhanced';
+import { EnhancedSunbizTab as SunbizTab } from '@/components/property/tabs/EnhancedSunbizTab';
+import { InvestmentAnalysisTab } from '@/components/property/tabs/InvestmentAnalysisTab';
+import { CapitalPlanningTab } from '@/components/property/tabs/CapitalPlanningTab';
+
+// Tab implementations
+&lt;TabsContent value="core"&gt;
+  &lt;CorePropertyTabEnhanced propertyData={...} /&gt;
+&lt;/TabsContent&gt;
+
+&lt;TabsContent value="sunbiz"&gt;
+  &lt;SunbizTab propertyData={...} /&gt;
+&lt;/TabsContent&gt;
+
+&lt;TabsContent value="investment"&gt;
+  &lt;InvestmentAnalysisTab data={...} /&gt;
+&lt;/TabsContent&gt;
+
+&lt;TabsContent value="capital"&gt;
+  &lt;CapitalPlanningTab propertyData={...} /&gt;
+&lt;/TabsContent&gt;
+        </pre>
+
+        <div class="success">
+            <h3>✅ All 4 tabs have been successfully replaced!</h3>
+            <p>The property detail pages on all ports now use the enhanced tab implementations as requested.</p>
+        </div>
+    </div>
+</body>
+</html>

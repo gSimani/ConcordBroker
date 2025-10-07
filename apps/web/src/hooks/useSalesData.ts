@@ -116,7 +116,6 @@ export function useSalesData(parcelId: string | null) {
       }
 
       if (historyData && historyData.length > 0) {
-        console.log(`✅ Found ${historyData.length} sales in property_sales_history for ${parcelId}`);
 
         const records = historyData
           .map(sale => ({
@@ -145,7 +144,6 @@ export function useSalesData(parcelId: string | null) {
         allSales.push(...records);
         return allSales; // Return early since this is our main source
       } else {
-        console.log(`⚠️ No sales found in property_sales_history for ${parcelId}`);
       }
     } catch (error) {
       console.error('Error fetching from property_sales_history:', error);
@@ -197,7 +195,6 @@ export function useSalesData(parcelId: string | null) {
             data_source: 'florida_parcels',
           });
 
-          console.log(`✅ Found 1 sale in florida_parcels for ${parcelId}`);
         }
       }
     } catch (error) {

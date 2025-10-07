@@ -3,7 +3,7 @@ import { FixedSizeList as List } from 'react-window';
 // @ts-ignore - ESM import issue
 import * as InfiniteLoaderModule from 'react-window-infinite-loader';
 const InfiniteLoader = InfiniteLoaderModule.default || InfiniteLoaderModule;
-import { OptimizedMiniPropertyCard } from './OptimizedMiniPropertyCard';
+import { MiniPropertyCard } from './MiniPropertyCard';
 
 interface PropertyData {
   parcel_id: string;
@@ -48,7 +48,7 @@ const GridItem = memo<{
 
         return (
           <div key={property.parcel_id} className="flex-1">
-            <OptimizedMiniPropertyCard
+            <MiniPropertyCard
               parcelId={property.parcel_id}
               data={property}
               onClick={() => onPropertyClick(property)}

@@ -1,0 +1,565 @@
+{
+  "total_files": 62,
+  "total_properties": 9758470,
+  "with_building": 7661926,
+  "by_size": {
+    "7.5k-10k": 39396,
+    "10k-15k": 31499,
+    "15k-20k": 14116,
+    "20k-30k": 14269,
+    "30k-50k": 13271,
+    "50k+": 28191
+  },
+  "by_county": {
+    "ALACHUA": {
+      "total": 87991,
+      "large": 1998
+    },
+    "BAKER": {
+      "total": 9384,
+      "large": 126
+    },
+    "BAY": {
+      "total": 101044,
+      "large": 1799
+    },
+    "BRADFORD": {
+      "total": 10461,
+      "large": 171
+    },
+    "BREVARD": {
+      "total": 272867,
+      "large": 4657
+    },
+    "BROWARD": {
+      "total": 708255,
+      "large": 11471
+    },
+    "CALHOUN": {
+      "total": 5137,
+      "large": 100
+    },
+    "CHARLOTTE": {
+      "total": 121343,
+      "large": 1169
+    },
+    "CITRUS": {
+      "total": 82749,
+      "large": 749
+    },
+    "CLAY": {
+      "total": 83971,
+      "large": 894
+    },
+    "COLLIER": {
+      "total": 225458,
+      "large": 9865
+    },
+    "COLUMBIA": {
+      "total": 25842,
+      "large": 607
+    },
+    "DADE": {
+      "total": 863406,
+      "large": 17969
+    },
+    "DESOTO": {
+      "total": 11668,
+      "large": 424
+    },
+    "DIXIE": {
+      "total": 7962,
+      "large": 68
+    },
+    "DUVAL": {
+      "total": 354911,
+      "large": 7790
+    },
+    "ESCAMBIA": {
+      "total": 132010,
+      "large": 2819
+    },
+    "FLAGLER": {
+      "total": 62719,
+      "large": 462
+    },
+    "FRANKLIN": {
+      "total": 9306,
+      "large": 103
+    },
+    "GADSDEN": {
+      "total": 17631,
+      "large": 329
+    },
+    "GILCHRIST": {
+      "total": 7838,
+      "large": 88
+    },
+    "GLADES": {
+      "total": 5655,
+      "large": 196
+    },
+    "GULF": {
+      "total": 10127,
+      "large": 112
+    },
+    "HAMILTON": {
+      "total": 4760,
+      "large": 102
+    },
+    "HARDEE": {
+      "total": 8232,
+      "large": 222
+    },
+    "HENDRY": {
+      "total": 14970,
+      "large": 367
+    },
+    "HERNANDO": {
+      "total": 88504,
+      "large": 1408
+    },
+    "HIGHLANDS": {
+      "total": 47754,
+      "large": 1056
+    },
+    "HILLSBOROUGH": {
+      "total": 475309,
+      "large": 9345
+    },
+    "HOLMES": {
+      "total": 7739,
+      "large": 138
+    },
+    "JACKSON": {
+      "total": 17464,
+      "large": 428
+    },
+    "JEFFERSON": {
+      "total": 6375,
+      "large": 187
+    },
+    "LAFAYETTE": {
+      "total": 2978,
+      "large": 51
+    },
+    "LAKE": {
+      "total": 164573,
+      "large": 1505
+    },
+    "LEE": {
+      "total": 397914,
+      "large": 11514
+    },
+    "LEON": {
+      "total": 95167,
+      "large": 2356
+    },
+    "LEVY": {
+      "total": 21944,
+      "large": 206
+    },
+    "LIBERTY": {
+      "total": 2863,
+      "large": 46
+    },
+    "MADISON": {
+      "total": 7267,
+      "large": 155
+    },
+    "MANATEE": {
+      "total": 188187,
+      "large": 2451
+    },
+    "MARION": {
+      "total": 180401,
+      "large": 2524
+    },
+    "MARTIN": {
+      "total": 75475,
+      "large": 1368
+    },
+    "MONROE": {
+      "total": 47845,
+      "large": 799
+    },
+    "NASSAU": {
+      "total": 45843,
+      "large": 659
+    },
+    "OKALOOSA": {
+      "total": 95711,
+      "large": 1960
+    },
+    "OKEECHOBEE": {
+      "total": 16351,
+      "large": 690
+    },
+    "ORANGE": {
+      "total": 434111,
+      "large": 8879
+    },
+    "OSCEOLA": {
+      "total": 164346,
+      "large": 1967
+    },
+    "PASCO": {
+      "total": 253314,
+      "large": 1799
+    },
+    "PINELLAS": {
+      "total": 410345,
+      "large": 7432
+    },
+    "POLK": {
+      "total": 291153,
+      "large": 5035
+    },
+    "PUTNAM": {
+      "total": 35760,
+      "large": 321
+    },
+    "SARASOTA": {
+      "total": 246196,
+      "large": 3176
+    },
+    "SEMINOLE": {
+      "total": 159383,
+      "large": 2926
+    },
+    "SUMTER": {
+      "total": 84400,
+      "large": 479
+    },
+    "SUWANNEE": {
+      "total": 17277,
+      "large": 269
+    },
+    "TAYLOR": {
+      "total": 9775,
+      "large": 112
+    },
+    "UNION": {
+      "total": 4072,
+      "large": 75
+    },
+    "VOLUSIA": {
+      "total": 244815,
+      "large": 3480
+    },
+    "WAKULLA": {
+      "total": 15514,
+      "large": 138
+    },
+    "WALTON": {
+      "total": 49605,
+      "large": 954
+    },
+    "WASHINGTON": {
+      "total": 10499,
+      "large": 197
+    }
+  },
+  "samples": [
+    {
+      "parcel_id": "00024-011-000",
+      "county": "ALACHUA",
+      "sqft": 26000,
+      "owner": "HARRINGTON STEPHANIE"
+    },
+    {
+      "parcel_id": "00077-000-000",
+      "county": "ALACHUA",
+      "sqft": 17921,
+      "owner": "FLA CONFERENCE ASSOC OF 7TH-DA"
+    },
+    {
+      "parcel_id": "00082-000-000",
+      "county": "ALACHUA",
+      "sqft": 50757,
+      "owner": "FLA CONFERENCE ASSOC OF 7TH-DA"
+    },
+    {
+      "parcel_id": "00153-000-000",
+      "county": "ALACHUA",
+      "sqft": 78619,
+      "owner": "FLA CONFERENCE ASSOC OF 7TH-DA"
+    },
+    {
+      "parcel_id": "00173-001-000",
+      "county": "ALACHUA",
+      "sqft": 9000,
+      "owner": "WOODSCAPES INTERIORS INC"
+    },
+    {
+      "parcel_id": "00180-000-000",
+      "county": "ALACHUA",
+      "sqft": 20250,
+      "owner": "PEOPLES CHOICE STORAGE HIGH SP"
+    },
+    {
+      "parcel_id": "00181-010-008",
+      "county": "ALACHUA",
+      "sqft": 10992,
+      "owner": "STILL SCRAPING BY LLC"
+    },
+    {
+      "parcel_id": "00181-010-012",
+      "county": "ALACHUA",
+      "sqft": 27320,
+      "owner": "NSA PROPERTY HOLDINGS LLC"
+    },
+    {
+      "parcel_id": "00181-010-015",
+      "county": "ALACHUA",
+      "sqft": 13600,
+      "owner": "NSA PROPERTY HOLDINGS LLC"
+    },
+    {
+      "parcel_id": "00203-001-000",
+      "county": "ALACHUA",
+      "sqft": 8256,
+      "owner": "OREILLY AUTOMOTIVE STORES INC"
+    },
+    {
+      "parcel_id": "00206-004-001",
+      "county": "ALACHUA",
+      "sqft": 76264,
+      "owner": "FIRST BAPTIST CHURCH OF HIGH S"
+    },
+    {
+      "parcel_id": "00215-000-000",
+      "county": "ALACHUA",
+      "sqft": 12400,
+      "owner": "NNN REIT LP"
+    },
+    {
+      "parcel_id": "00217-001-000",
+      "county": "ALACHUA",
+      "sqft": 21499,
+      "owner": "CS FL HIGH SPRINGS LLC"
+    },
+    {
+      "parcel_id": "00233-001-000",
+      "county": "ALACHUA",
+      "sqft": 56855,
+      "owner": "HIGH SPRINGS COMMERCIAL PROPER"
+    },
+    {
+      "parcel_id": "00233-001-002",
+      "county": "ALACHUA",
+      "sqft": 50904,
+      "owner": "DANIEL G KAMIN HIGH SPRINGS LL"
+    },
+    {
+      "parcel_id": "00236-002-000",
+      "county": "ALACHUA",
+      "sqft": 122883,
+      "owner": "THE SCHOOL BOARD OF ALACHUA CO"
+    },
+    {
+      "parcel_id": "00236-040-000",
+      "county": "ALACHUA",
+      "sqft": 19146,
+      "owner": "SCRAPING BY LLC"
+    },
+    {
+      "parcel_id": "00256-019-000",
+      "county": "ALACHUA",
+      "sqft": 14263,
+      "owner": "FIRST UNITED METHODIST CHURCH"
+    },
+    {
+      "parcel_id": "00257-010-003",
+      "county": "ALACHUA",
+      "sqft": 18549,
+      "owner": "SCRAPING BY LLC"
+    },
+    {
+      "parcel_id": "00291-005-000",
+      "county": "ALACHUA",
+      "sqft": 113816,
+      "owner": "PRIME CONDUIT INC"
+    },
+    {
+      "parcel_id": "00292-012-000",
+      "county": "ALACHUA",
+      "sqft": 8004,
+      "owner": "WANG LARRY"
+    },
+    {
+      "parcel_id": "00329-000-000",
+      "county": "ALACHUA",
+      "sqft": 10560,
+      "owner": "HS FINANCE LLC"
+    },
+    {
+      "parcel_id": "00452-001-000",
+      "county": "ALACHUA",
+      "sqft": 14984,
+      "owner": "AASHI INC"
+    },
+    {
+      "parcel_id": "00461-000-000",
+      "county": "ALACHUA",
+      "sqft": 10593,
+      "owner": "HIGH SPRINGS CHURCH OF CHRIST"
+    },
+    {
+      "parcel_id": "00548-000-000",
+      "county": "ALACHUA",
+      "sqft": 13600,
+      "owner": "NASS3 LLC"
+    },
+    {
+      "parcel_id": "00560-000-000",
+      "county": "ALACHUA",
+      "sqft": 34579,
+      "owner": "HIGH SPRINGS OAKS LLC"
+    },
+    {
+      "parcel_id": "00586-002-000",
+      "county": "ALACHUA",
+      "sqft": 9659,
+      "owner": "SUMMERS FURNITURE INC"
+    },
+    {
+      "parcel_id": "00609-000-000",
+      "county": "ALACHUA",
+      "sqft": 8190,
+      "owner": "TWO FINGER PROPERTIES LLC"
+    },
+    {
+      "parcel_id": "00621-000-000",
+      "county": "ALACHUA",
+      "sqft": 9576,
+      "owner": "BRYAN'S ACE HOME CENTER INC"
+    },
+    {
+      "parcel_id": "00623-000-000",
+      "county": "ALACHUA",
+      "sqft": 8168,
+      "owner": "GRADY ESTATES LLC"
+    },
+    {
+      "parcel_id": "00637-000-000",
+      "county": "ALACHUA",
+      "sqft": 11462,
+      "owner": "HIGH SPRINGS DOWNTOWN LLC"
+    },
+    {
+      "parcel_id": "00639-000-000",
+      "county": "ALACHUA",
+      "sqft": 7576,
+      "owner": "CITY OF HIGH SPRINGS"
+    },
+    {
+      "parcel_id": "00642-000-000",
+      "county": "ALACHUA",
+      "sqft": 9369,
+      "owner": "CITY OF HIGH SPRINGS"
+    },
+    {
+      "parcel_id": "00648-001-000",
+      "county": "ALACHUA",
+      "sqft": 12076,
+      "owner": "AGREE CENTRAL LLC"
+    },
+    {
+      "parcel_id": "00672-000-000",
+      "county": "ALACHUA",
+      "sqft": 47116,
+      "owner": "MORAN PROPERTY MANAGEMENT LLC"
+    },
+    {
+      "parcel_id": "00694-001-000",
+      "county": "ALACHUA",
+      "sqft": 8906,
+      "owner": "FAMILY DOLLAR STORES OF FL INC"
+    },
+    {
+      "parcel_id": "00754-001-000",
+      "county": "ALACHUA",
+      "sqft": 12359,
+      "owner": "CADILLAC MOTEL SPRINGS LLC"
+    },
+    {
+      "parcel_id": "00759-000-000",
+      "county": "ALACHUA",
+      "sqft": 8540,
+      "owner": "S & S COUNTRY INN LLC"
+    },
+    {
+      "parcel_id": "00816-000-000",
+      "county": "ALACHUA",
+      "sqft": 7700,
+      "owner": "ALVAREZ KAITLIN"
+    },
+    {
+      "parcel_id": "00844-000-000",
+      "county": "ALACHUA",
+      "sqft": 12212,
+      "owner": "NELSON'S BATHTUB INC"
+    },
+    {
+      "parcel_id": "01237-000-000",
+      "county": "ALACHUA",
+      "sqft": 12446,
+      "owner": "INTERNATIONAL EVANGELICAL CHUR"
+    },
+    {
+      "parcel_id": "01308-000-000",
+      "county": "ALACHUA",
+      "sqft": 9758,
+      "owner": "CHURCH OF GOD TRUSTEES"
+    },
+    {
+      "parcel_id": "01360-001-000",
+      "county": "ALACHUA",
+      "sqft": 9600,
+      "owner": "WILLIAMS JARRETT"
+    },
+    {
+      "parcel_id": "01389-006-000",
+      "county": "ALACHUA",
+      "sqft": 11300,
+      "owner": "WHITFIELD WINDOW & DOOR INC"
+    },
+    {
+      "parcel_id": "01389-008-000",
+      "county": "ALACHUA",
+      "sqft": 20000,
+      "owner": "DEEP EXPLORERS INC"
+    },
+    {
+      "parcel_id": "01389-011-000",
+      "county": "ALACHUA",
+      "sqft": 10800,
+      "owner": "DOWLING SIGNS OF NORTH CENTRAL"
+    },
+    {
+      "parcel_id": "01389-012-000",
+      "county": "ALACHUA",
+      "sqft": 14000,
+      "owner": "DORMEYER'S DOOR AND WINDOWS LL"
+    },
+    {
+      "parcel_id": "01389-015-000",
+      "county": "ALACHUA",
+      "sqft": 7500,
+      "owner": "J & K PRIME LLC"
+    },
+    {
+      "parcel_id": "01391-000-000",
+      "county": "ALACHUA",
+      "sqft": 37292,
+      "owner": "PEOPLES CHOICE STORAGE HIGH SP"
+    },
+    {
+      "parcel_id": "01392-003-000",
+      "county": "ALACHUA",
+      "sqft": 51750,
+      "owner": "GILL ROBERT SCOTT"
+    }
+  ]
+}

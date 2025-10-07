@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Browser Console Test</title>
+</head>
+<body>
+    <h1>Testing React App Console Errors</h1>
+    <iframe
+        id="appFrame"
+        src="http://localhost:5178/properties"
+        width="100%"
+        height="600"
+        style="border: 1px solid #ccc;">
+    </iframe>
+
+    <div id="console-output" style="background: #000; color: #0f0; padding: 10px; margin-top: 20px; font-family: monospace; white-space: pre-wrap;"></div>
+
+    <script>
+        const output = document.getElementById('console-output');
+
+        // Try to capture iframe console errors
+        window.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'console-error') {
+                output.textContent += `Error: ${event.data.message}\n`;
+            }
+        });
+
+        // Also capture parent window errors
+        window.onerror = function(msg, url, lineNo, columnNo, error) {
+            output.textContent += `Error: ${msg} at ${url}:${lineNo}:${columnNo}\n`;
+            return false;
+        };
+
+        // Try to inject error listener into iframe
+        document.getElementById('appFrame').onload = function() {
+            try {
+                const iframeWindow = this.contentWindow;
+                if (iframeWindow) {
+                    output.textContent += "Iframe loaded. Checking for errors...\n";
+
+                    // Check if React root is empty
+                    const rootEl = iframeWindow.document.getElementById('root');
+                    if (rootEl) {
+                        output.textContent += `Root element found. Content length: ${rootEl.innerHTML.length}\n`;
+                        if (rootEl.innerHTML.length === 0) {
+                            output.textContent += "WARNING: Root element is empty - React did not mount!\n";
+                        }
+                    }
+                }
+            } catch (e) {
+                output.textContent += `Cannot access iframe (CORS): ${e.message}\n`;
+            }
+        };
+
+        output.textContent = "Monitoring console...\n";
+    </script>
+</body>
+</html>

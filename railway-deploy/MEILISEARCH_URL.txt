@@ -1,0 +1,29 @@
+# ✅ Meilisearch Railway Deployment - LIVE
+
+## Service URL
+https://meilisearch-concordbrokerproduction.up.railway.app
+
+## Master Key
+concordbroker-meili-railway-prod-key-2025
+
+## Environment Variables:
+- MEILI_MASTER_KEY=concordbroker-meili-railway-prod-key-2025
+- MEILI_ENV=production
+- MEILI_NO_ANALYTICS=true
+
+## Test Commands:
+# Health check (no auth required)
+curl https://meilisearch-concordbrokerproduction.up.railway.app/health
+
+# Get stats (requires auth)
+curl -H "Authorization: Bearer concordbroker-meili-railway-prod-key-2025" https://meilisearch-concordbrokerproduction.up.railway.app/stats
+
+## Deployment Info:
+Service: meilisearch
+Project: ConcordBroker-Railway
+Environment: concordbrokerproduction
+Region: us-east4
+
+## Status: ✅ DEPLOYED AND HEALTHY
+Last verified: 2025-09-30
+Health check response: {"status":"available"}

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Property Connection Debug</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 3px; overflow-x: auto; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Property Search Connection Debugger</h1>
+
+    <div class="test info">
+        <h3>Testing connections to:</h3>
+        <ul>
+            <li>Frontend: http://localhost:5178</li>
+            <li>API: http://localhost:8000</li>
+            <li>Supabase: pmispwtdngkcmsrsjwbp.supabase.co</li>
+        </ul>
+    </div>
+
+    <button onclick="testAPIDirectly()">Test API Directly</button>
+    <button onclick="testFrontendAPI()">Test Frontend API Call</button>
+    <button onclick="testSupabase()">Test Supabase Direct</button>
+    <button onclick="debugPropertySearch()">Debug PropertySearch Component</button>
+
+    <div id="results"></div>
+
+    <script>
+        const API_URL = 'http://localhost:8000';
+        const FRONTEND_URL = 'http://localhost:5178';
+        const SUPABASE_URL = 'https://pmispwtdngkcmsrsjwbp.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5NTY5NTgsImV4cCI6MjA3MjUzMjk1OH0.YvWR1NkVByTY10Vzpzt4jMtMjBszD_BOCsQDBfG951A';
+
+        function addResult(title, content, type = 'info') {
+            const div = document.createElement('div');
+            div.className = `test ${type}`;
+            div.innerHTML = `<h3>${title}</h3><pre>${JSON.stringify(content, null, 2)}</pre>`;
+            document.getElementById('results').appendChild(div);
+        }
+
+        async function testAPIDirectly() {
+            try {
+                // Test the exact endpoint PropertySearch uses
+                const response = await fetch(`${API_URL}/api/properties/search?limit=5`);
+                const data = await response.json();
+
+                addResult('API Direct Test - SUCCESS', {
+                    status: response.status,
+                    url: response.url,
+                    dataReceived: data.success ? `${data.data?.length || 0} properties` : 'No data',
+                    firstProperty: data.data?.[0] || null
+                }, 'success');
+
+                // Test if MiniPropertyCard fields exist
+                if (data.data?.[0]) {
+                    const prop = data.data[0];
+                    addResult('MiniPropertyCard Field Check', {
+                        hasParcelId: !!prop.parcel_id,
+                        hasPhyAddr1: !!prop.phy_addr1,
+                        hasOwnerName: !!prop.owner_name || !!prop.own_name,
+                        hasJustValue: !!prop.jv || !!prop.justValue,
+                        propertyUse: prop.propertyUse || prop.property_use,
+                        actualFields: Object.keys(prop).slice(0, 10)
+                    }, 'info');
+                }
+
+            } catch (error) {
+                addResult('API Direct Test - FAILED', {
+                    error: error.message,
+                    suggestion: 'Check if API is running on port 8000'
+                }, 'error');
+            }
+        }
+
+        async function testFrontendAPI() {
+            try {
+                // Test if frontend can reach API
+                const testCode = `
+                    fetch('${API_URL}/api/properties/search?limit=1')
+                        .then(r => r.json())
+                        .then(d => console.log('Frontend API Test:', d))
+                        .catch(e => console.error('Frontend API Error:', e));
+                `;
+
+                addResult('Frontend API Test', {
+                    instruction: 'Open browser console at http://localhost:5178 and check for results',
+                    testCode: testCode
+                }, 'info');
+
+            } catch (error) {
+                addResult('Frontend API Test Error', error.message, 'error');
+            }
+        }
+
+        async function testSupabase() {
+            try {
+                const response = await fetch(
+                    `${SUPABASE_URL}/rest/v1/florida_parcels?select=*&limit=2&phy_city=eq.Miami`,
+                    {
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': `Bearer ${SUPABASE_KEY}`
+                        }
+                    }
+                );
+                const data = await response.json();
+
+                addResult('Supabase Direct Test - SUCCESS', {
+                    status: response.status,
+                    recordsFound: data.length,
+                    firstRecord: data[0] || null
+                }, 'success');
+
+            } catch (error) {
+                addResult('Supabase Test - FAILED', error.message, 'error');
+            }
+        }
+
+        async function debugPropertySearch() {
+            try {
+                // Check what the PropertySearch component is actually doing
+                const results = {
+                    apiEndpoint: `${API_URL}/api/properties/search`,
+                    expectedFlow: [
+                        '1. PropertySearch mounts',
+                        '2. useEffect calls searchProperties()',
+                        '3. searchProperties builds params from filters',
+                        '4. Fetch to API endpoint',
+                        '5. Transform response data',
+                        '6. Pass to MiniPropertyCard'
+                    ],
+                    commonIssues: [
+                        'API returns data but in wrong format',
+                        'Response interceptor transforms incorrectly',
+                        'Mock data fallback is triggered',
+                        'Initial search params are empty'
+                    ]
+                };
+
+                // Test the actual search endpoint with various params
+                const searches = [
+                    { params: 'limit=2', description: 'Simple limit' },
+                    { params: 'city=Miami&limit=2', description: 'With city filter' },
+                    { params: 'page=1&page_size=2', description: 'With pagination' }
+                ];
+
+                for (const search of searches) {
+                    const response = await fetch(`${API_URL}/api/properties/search?${search.params}`);
+                    const data = await response.json();
+
+                    results[`search_${search.description}`] = {
+                        url: response.url,
+                        success: data.success,
+                        dataCount: data.data?.length || 0,
+                        hasProperties: !!data.properties,
+                        hasData: !!data.data
+                    };
+                }
+
+                addResult('PropertySearch Debug Info', results, 'info');
+
+            } catch (error) {
+                addResult('Debug Error', error.message, 'error');
+            }
+        }
+
+        // Run initial test on load
+        window.onload = function() {
+            testAPIDirectly();
+        };
+    </script>
+</body>
+</html>

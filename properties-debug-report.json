@@ -1,0 +1,347 @@
+{
+  "timestamp": "2025-09-28T21:42:03.647Z",
+  "summary": {
+    "totalConsoleErrors": 22,
+    "totalNetworkErrors": 18,
+    "totalApiCalls": 4
+  },
+  "consoleErrors": [
+    {
+      "type": "warning",
+      "message": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.",
+      "timestamp": "2025-09-28T21:41:45.159Z"
+    },
+    {
+      "type": "warning",
+      "message": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.",
+      "timestamp": "2025-09-28T21:41:45.160Z"
+    },
+    {
+      "type": "error",
+      "message": "The script has an unsupported MIME type ('text/html').",
+      "timestamp": "2025-09-28T21:41:45.166Z"
+    },
+    {
+      "type": "error",
+      "message": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+      "timestamp": "2025-09-28T21:41:45.192Z"
+    },
+    {
+      "type": "error",
+      "message": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+      "timestamp": "2025-09-28T21:41:45.193Z"
+    },
+    {
+      "type": "error",
+      "message": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+      "timestamp": "2025-09-28T21:41:45.194Z"
+    },
+    {
+      "type": "error",
+      "message": "[SW Manager] Service worker registration failed: SecurityError: Failed to register a ServiceWorker for scope ('http://localhost:5173/') with script ('http://localhost:5173/sw.js'): The script has an unsupported MIME type ('text/html').",
+      "timestamp": "2025-09-28T21:41:45.195Z"
+    },
+    {
+      "type": "error",
+      "message": "[SW Manager] Service worker registration failed: SecurityError: Failed to register a ServiceWorker for scope ('http://localhost:5173/') with script ('http://localhost:5173/sw.js'): The script has an unsupported MIME type ('text/html').",
+      "timestamp": "2025-09-28T21:41:45.195Z"
+    },
+    {
+      "type": "error",
+      "message": "Warning: Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.%s 1759095705195 \n    at div\n    at ServiceWorkerManager2 (http://localhost:5173/src/components/ServiceWorkerManager.tsx:26:29)\n    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=332436b2:4501:15)\n    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=332436b2:5247:5)\n    at ThemeProvider (http://localhost:5173/src/components/theme-provider.tsx:29:33)\n    at QueryClientProvider (http://localhost:5173/node_modules/.vite/deps/chunk-KGIUJSFT.js?v=332436b2:3081:3)\n    at QueryProvider (http://localhost:5173/src/providers/QueryProvider.tsx:70:33)\n    at ErrorBoundary (http://localhost:5173/src/components/ErrorBoundary.tsx:97:9)\n    at App (http://localhost:5173/src/App.tsx:147:5)",
+      "timestamp": "2025-09-28T21:41:45.205Z"
+    },
+    {
+      "type": "error",
+      "message": "Warning: validateDOMNesting(...): %s cannot appear as a descendant of <%s>.%s <button> button \n    at button\n    at div\n    at button\n    at div\n    at SearchableSelect (http://localhost:5173/src/components/ui/searchable-select.tsx:25:36)\n    at div\n    at div\n    at div\n    at div\n    at div\n    at div\n    at div\n    at PropertySearch (http://localhost:5173/src/pages/properties/PropertySearch.tsx:42:32)\n    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=332436b2:4088:5)\n    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=332436b2:4558:5)\n    at Suspense\n    at div\n    at main\n    at MotionDOMComponent (http://localhost:5173/node_modules/.vite/deps/framer-motion.js?v=332436b2:5366:40)\n    at div\n    at Layout (http://localhost:5173/src/components/layout.tsx:27:19)\n    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=332436b2:4501:15)\n    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=332436b2:5247:5)\n    at ThemeProvider (http://localhost:5173/src/components/theme-provider.tsx:29:33)\n    at QueryClientProvider (http://localhost:5173/node_modules/.vite/deps/chunk-KGIUJSFT.js?v=332436b2:3081:3)\n    at QueryProvider (http://localhost:5173/src/providers/QueryProvider.tsx:70:33)\n    at ErrorBoundary (http://localhost:5173/src/components/ErrorBoundary.tsx:97:9)\n    at App (http://localhost:5173/src/App.tsx:147:5)",
+      "timestamp": "2025-09-28T21:41:45.295Z"
+    },
+    {
+      "type": "error",
+      "message": "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+      "timestamp": "2025-09-28T21:41:47.632Z"
+    },
+    {
+      "type": "error",
+      "message": "Search error: TypeError: Failed to fetch\n    at http://localhost:5173/src/hooks/useOptimizedSearch.ts:135:40\n    at http://localhost:5173/src/hooks/useOptimizedSearch.ts:179:11\n    at http://localhost:5173/src/hooks/useOptimizedSearch.ts:274:13\n    at Array.forEach (<anonymous>)\n    at http://localhost:5173/src/hooks/useOptimizedSearch.ts:273:24\n    at http://localhost:5173/src/hooks/useOptimizedSearch.ts:283:9\n    at commitHookEffectListMount (http://localhost:5173/node_modules/.vite/deps/chunk-276SZO74.js?v=332436b2:16915:34)\n    at commitPassiveMountOnFiber (http://localhost:5173/node_modules/.vite/deps/chunk-276SZO74.js?v=332436b2:18156:19)\n    at commitPassiveMountEffects_complete (http://localhost:5173/node_modules/.vite/deps/chunk-276SZO74.js?v=332436b2:18129:17)\n    at commitPassiveMountEffects_begin (http://localhost:5173/node_modules/.vite/deps/chunk-276SZO74.js?v=332436b2:18119:15)",
+      "timestamp": "2025-09-28T21:41:47.632Z"
+    },
+    {
+      "type": "error",
+      "message": "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+      "timestamp": "2025-09-28T21:41:47.633Z"
+    },
+    {
+      "type": "error",
+      "message": "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+      "timestamp": "2025-09-28T21:41:49.973Z"
+    },
+    {
+      "type": "error",
+      "message": "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+      "timestamp": "2025-09-28T21:41:50.223Z"
+    },
+    {
+      "type": "error",
+      "message": "API Error: /api/properties/search?limit=50&offset=0 Network Error",
+      "timestamp": "2025-09-28T21:41:52.290Z"
+    },
+    {
+      "type": "error",
+      "message": "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+      "timestamp": "2025-09-28T21:41:52.291Z"
+    },
+    {
+      "type": "error",
+      "message": "API Error: /api/properties/search?limit=50&offset=0 Network Error",
+      "timestamp": "2025-09-28T21:41:52.557Z"
+    },
+    {
+      "type": "error",
+      "message": "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+      "timestamp": "2025-09-28T21:41:52.558Z"
+    },
+    {
+      "type": "error",
+      "message": "API Error: /api/properties/search?limit=50&offset=0 Network Error",
+      "timestamp": "2025-09-28T21:41:54.623Z"
+    },
+    {
+      "type": "error",
+      "message": "Failed to load resource: net::ERR_CONNECTION_REFUSED",
+      "timestamp": "2025-09-28T21:41:54.624Z"
+    },
+    {
+      "type": "warning",
+      "message": "The resource https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.",
+      "timestamp": "2025-09-28T21:41:57.631Z"
+    }
+  ],
+  "networkErrors": [
+    {
+      "url": "http://localhost:5173/api/property-types",
+      "method": "GET",
+      "failure": "net::ERR_ABORTED",
+      "timestamp": "2025-09-28T21:41:45.204Z"
+    },
+    {
+      "url": "http://localhost:5173/api/counties",
+      "method": "GET",
+      "failure": "net::ERR_ABORTED",
+      "timestamp": "2025-09-28T21:41:45.204Z"
+    },
+    {
+      "url": "http://localhost:5173/api/config",
+      "method": "GET",
+      "failure": "net::ERR_ABORTED",
+      "timestamp": "2025-09-28T21:41:45.204Z"
+    },
+    {
+      "url": "http://localhost:5173/api/property-types",
+      "method": "GET",
+      "status": 500,
+      "statusText": "Internal Server Error",
+      "timestamp": "2025-09-28T21:41:45.192Z",
+      "headers": {
+        "connection": "keep-alive",
+        "content-type": "text/plain",
+        "date": "Sun, 28 Sep 2025 21:41:45 GMT",
+        "keep-alive": "timeout=5",
+        "transfer-encoding": "chunked",
+        "vary": "Origin"
+      },
+      "body": "Could not read response body"
+    },
+    {
+      "url": "http://localhost:5173/api/counties",
+      "method": "GET",
+      "status": 500,
+      "statusText": "Internal Server Error",
+      "timestamp": "2025-09-28T21:41:45.192Z",
+      "headers": {
+        "connection": "keep-alive",
+        "content-type": "text/plain",
+        "date": "Sun, 28 Sep 2025 21:41:45 GMT",
+        "keep-alive": "timeout=5",
+        "transfer-encoding": "chunked",
+        "vary": "Origin"
+      },
+      "body": "Could not read response body"
+    },
+    {
+      "url": "http://localhost:5173/api/config",
+      "method": "GET",
+      "status": 500,
+      "statusText": "Internal Server Error",
+      "timestamp": "2025-09-28T21:41:45.194Z",
+      "headers": {
+        "connection": "keep-alive",
+        "content-type": "text/plain",
+        "date": "Sun, 28 Sep 2025 21:41:45 GMT",
+        "keep-alive": "timeout=5",
+        "transfer-encoding": "chunked",
+        "vary": "Origin"
+      },
+      "body": "Could not read response body"
+    },
+    {
+      "url": "http://localhost:8000/api/properties/search?city=Miami&use_index=true&optimize_for_speed=true&include_total=true",
+      "method": "GET",
+      "failure": "net::ERR_ABORTED",
+      "timestamp": "2025-09-28T21:41:45.312Z"
+    },
+    {
+      "url": "http://localhost:8000/api/properties/search?city=Orlando&use_index=true&optimize_for_speed=true&include_total=true",
+      "method": "GET",
+      "failure": "net::ERR_ABORTED",
+      "timestamp": "2025-09-28T21:41:45.313Z"
+    },
+    {
+      "url": "http://localhost:8000/api/properties/search?city=Tampa&use_index=true&optimize_for_speed=true&include_total=true",
+      "method": "GET",
+      "failure": "net::ERR_ABORTED",
+      "timestamp": "2025-09-28T21:41:45.313Z"
+    },
+    {
+      "url": "http://localhost:8000/api/properties/search?propertyType=Single+Family&use_index=true&optimize_for_speed=true&include_total=true",
+      "method": "GET",
+      "failure": "net::ERR_ABORTED",
+      "timestamp": "2025-09-28T21:41:45.313Z"
+    },
+    {
+      "url": "http://localhost:8000/api/properties/search?minValue=100000&maxValue=500000&use_index=true&optimize_for_speed=true&include_total=true",
+      "method": "GET",
+      "failure": "net::ERR_ABORTED",
+      "timestamp": "2025-09-28T21:41:45.313Z"
+    },
+    {
+      "url": "http://localhost:8000/api/properties/search?use_index=true&optimize_for_speed=true&include_total=true",
+      "method": "GET",
+      "failure": "net::ERR_CONNECTION_REFUSED",
+      "timestamp": "2025-09-28T21:41:47.632Z"
+    },
+    {
+      "url": "http://localhost:8000/api/properties/search?limit=50&offset=0",
+      "method": "GET",
+      "failure": "net::ERR_CONNECTION_REFUSED",
+      "timestamp": "2025-09-28T21:41:47.633Z"
+    },
+    {
+      "url": "http://localhost:8000/api/properties/search?limit=50&offset=0",
+      "method": "GET",
+      "failure": "net::ERR_CONNECTION_REFUSED",
+      "timestamp": "2025-09-28T21:41:49.973Z"
+    },
+    {
+      "url": "http://localhost:8000/api/properties/search?limit=50&offset=0",
+      "method": "GET",
+      "failure": "net::ERR_CONNECTION_REFUSED",
+      "timestamp": "2025-09-28T21:41:50.223Z"
+    },
+    {
+      "url": "http://localhost:8000/api/properties/search?limit=50&offset=0",
+      "method": "GET",
+      "failure": "net::ERR_CONNECTION_REFUSED",
+      "timestamp": "2025-09-28T21:41:52.291Z"
+    },
+    {
+      "url": "http://localhost:8000/api/properties/search?limit=50&offset=0",
+      "method": "GET",
+      "failure": "net::ERR_CONNECTION_REFUSED",
+      "timestamp": "2025-09-28T21:41:52.558Z"
+    },
+    {
+      "url": "http://localhost:8000/api/properties/search?limit=50&offset=0",
+      "method": "GET",
+      "failure": "net::ERR_CONNECTION_REFUSED",
+      "timestamp": "2025-09-28T21:41:54.624Z"
+    }
+  ],
+  "apiCalls": [
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;200;300;400;500;600;700&display=swap",
+      "method": "GET",
+      "status": 200,
+      "statusText": "",
+      "timestamp": "2025-09-28T21:41:45.210Z",
+      "headers": {
+        "access-control-allow-origin": "*",
+        "alt-svc": "h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000",
+        "cache-control": "private, max-age=86400, stale-while-revalidate=604800",
+        "content-encoding": "gzip",
+        "content-type": "text/css; charset=utf-8",
+        "cross-origin-opener-policy": "same-origin-allow-popups",
+        "cross-origin-resource-policy": "cross-origin",
+        "date": "Sun, 28 Sep 2025 21:41:45 GMT",
+        "expires": "Sun, 28 Sep 2025 21:41:45 GMT",
+        "last-modified": "Sun, 28 Sep 2025 21:41:35 GMT",
+        "link": "<https://fonts.gstatic.com>; rel=preconnect; crossorigin",
+        "server": "ESF",
+        "strict-transport-security": "max-age=31536000",
+        "timing-allow-origin": "*",
+        "vary": "Sec-Fetch-Dest, Sec-Fetch-Mode, Sec-Fetch-Site",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "SAMEORIGIN",
+        "x-xss-protection": "0"
+      }
+    },
+    {
+      "url": "http://localhost:5173/src/api/client.ts",
+      "method": "GET",
+      "status": 200,
+      "statusText": "OK",
+      "timestamp": "2025-09-28T21:41:45.219Z",
+      "headers": {
+        "access-control-allow-origin": "http://localhost:5173",
+        "cache-control": "no-cache",
+        "connection": "keep-alive",
+        "content-length": "22642",
+        "content-type": "text/javascript",
+        "date": "Sun, 28 Sep 2025 21:41:45 GMT",
+        "etag": "W/\"191b-YJZ2w2OS2SMyLls4pU1AjgikCaQ\"",
+        "keep-alive": "timeout=5",
+        "vary": "Origin"
+      }
+    },
+    {
+      "url": "http://localhost:5173/src/lib/supabase.ts",
+      "method": "GET",
+      "status": 200,
+      "statusText": "OK",
+      "timestamp": "2025-09-28T21:41:45.243Z",
+      "headers": {
+        "access-control-allow-origin": "http://localhost:5173",
+        "cache-control": "no-cache",
+        "connection": "keep-alive",
+        "content-length": "28424",
+        "content-type": "text/javascript",
+        "date": "Sun, 28 Sep 2025 21:41:45 GMT",
+        "etag": "W/\"202d-el2xRttG8nXj4uQwudRI7ObM3wk\"",
+        "keep-alive": "timeout=5",
+        "vary": "Origin"
+      }
+    },
+    {
+      "url": "http://localhost:5173/node_modules/.vite/deps/@supabase_supabase-js.js?v=332436b2",
+      "method": "GET",
+      "status": 200,
+      "statusText": "OK",
+      "timestamp": "2025-09-28T21:41:45.251Z",
+      "headers": {
+        "access-control-allow-origin": "http://localhost:5173",
+        "cache-control": "max-age=31536000,immutable",
+        "connection": "keep-alive",
+        "content-length": "291318",
+        "content-type": "text/javascript",
+        "date": "Sun, 28 Sep 2025 21:41:45 GMT",
+        "etag": "W/\"471f6-hk3jf9wWGtsfpWAqq/2yUOi7R4U\"",
+        "keep-alive": "timeout=5",
+        "vary": "Origin"
+      }
+    }
+  ],
+  "recommendations": [
+    "Check API endpoints and authentication",
+    "Review JavaScript errors for component issues"
+  ]
+}

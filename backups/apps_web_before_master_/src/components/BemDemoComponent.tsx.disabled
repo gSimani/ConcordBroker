@@ -1,0 +1,258 @@
+/**
+ * BEM Methodology Demonstration Component
+ * Shows how to use BEM classes with Tailwind in ConcordBroker
+ */
+
+import React, { useState } from 'react';
+import { ConcordBemPatterns, createBemWithTailwind } from '@/utils/bemClassNames';
+import propertyCardStyles from '@/styles/components/property-card.module.css';
+import searchFormStyles from '@/styles/components/search-form.module.css';
+import { Search, Star, MapPin, DollarSign, Filter } from 'lucide-react';
+
+// Create a custom BEM generator for this demo
+const demoBem = createBemWithTailwind('demo-component');
+
+interface BemDemoProps {
+  showAdvanced?: boolean;
+  variant?: 'compact' | 'expanded';
+}
+
+export function BemDemoComponent({ showAdvanced = false, variant = 'expanded' }: BemDemoProps) {
+  const [isExpanded, setIsExpanded] = useState(showAdvanced);
+  const [selectedProperty, setSelectedProperty] = useState<string | null>(null);
+
+  // Use pre-configured BEM patterns
+  const propertyCard = ConcordBemPatterns.propertyCard;
+  const searchForm = ConcordBemPatterns.searchForm;
+
+  const mockProperties = [
+    {
+      id: '1',
+      address: '123 Main Street',
+      city: 'Tampa',
+      price: 450000,
+      featured: true,
+      type: 'residential'
+    },
+    {
+      id: '2',
+      address: '456 Oak Avenue',
+      city: 'Miami',
+      price: 325000,
+      featured: false,
+      type: 'commercial'
+    }
+  ];
+
+  return (
+    <div className={demoBem.block(variant, 'p-6 bg-gray-50 min-h-screen')}>
+
+      {/* Demo Header */}
+      <div className={demoBem.element('header')}>
+        <h1 className={demoBem.element('title', 'large', 'text-3xl font-bold text-gray-900 mb-2')}>
+          BEM Methodology Demo
+        </h1>
+        <p className={demoBem.element('subtitle', null, 'text-gray-600 mb-6')}>
+          Demonstration of BEM classes with Tailwind integration
+        </p>
+      </div>
+
+      {/* Search Form Section */}
+      <div className={demoBem.element('section', null, 'mb-8')}>
+        <h2 className={demoBem.element('section-title', null, 'text-xl font-semibold mb-4')}>
+          Search Form Component
+        </h2>
+
+        <div className={searchForm.block(isExpanded ? 'expanded' : null, 'bg-white rounded-lg shadow-md p-6')}>
+
+          {/* Search Form Header */}
+          <div className={searchForm.element('header')}>
+            <div className={searchForm.element('header-container')}>
+              <h3 className={searchForm.element('title')}>Property Search</h3>
+              <button
+                onClick={() => setIsExpanded(!isExpanded)}
+                className={searchForm.element('toggle-button', isExpanded ? 'active' : null)}
+              >
+                <Filter className={searchForm.element('toggle-icon')} />
+                Advanced
+              </button>
+            </div>
+          </div>
+
+          {/* Main Search */}
+          <div className={searchForm.element('content')}>
+            <div className={searchForm.element('main-search')}>
+              <Search className={searchForm.element('search-icon')} />
+              <input
+                type="text"
+                placeholder="Search properties..."
+                className={searchForm.element('search-input')}
+              />
+            </div>
+
+            {/* Quick Filters */}
+            <div className={searchForm.element('quick-filters')}>
+              {['All', 'Residential', 'Commercial', 'Industrial'].map(type => (
+                <button
+                  key={type}
+                  className={searchForm.element('filter-button', type === 'All' ? 'selected' : 'unselected')}
+                  style={{
+                    backgroundColor: type === 'All' ? '#3b82f6' : 'white',
+                    color: type === 'All' ? 'white' : '#3b82f6',
+                    borderColor: '#3b82f6'
+                  }}
+                >
+                  {type}
+                </button>
+              ))}
+            </div>
+
+            {/* Advanced Filters */}
+            {isExpanded && (
+              <div className={searchForm.element('advanced-section', 'expanded')}>
+                <div className={searchForm.element('field-group')}>
+                  <label className={searchForm.element('field-label')}>Min Price</label>
+                  <input
+                    type="number"
+                    className={searchForm.element('field-input')}
+                    placeholder="$0"
+                  />
+                </div>
+                <div className={searchForm.element('field-group')}>
+                  <label className={searchForm.element('field-label')}>Max Price</label>
+                  <input
+                    type="number"
+                    className={searchForm.element('field-input')}
+                    placeholder="No limit"
+                  />
+                </div>
+                <div className={searchForm.element('field-group')}>
+                  <label className={searchForm.element('field-label')}>City</label>
+                  <select className={searchForm.element('field-select')}>
+                    <option>All Cities</option>
+                    <option>Tampa</option>
+                    <option>Miami</option>
+                  </select>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Property Cards Section */}
+      <div className={demoBem.element('section')}>
+        <h2 className={demoBem.element('section-title', null, 'text-xl font-semibold mb-4')}>
+          Property Card Components
+        </h2>
+
+        <div className={demoBem.element('property-grid', null, 'grid grid-cols-1 md:grid-cols-2 gap-6')}>
+          {mockProperties.map(property => (
+            <div
+              key={property.id}
+              className={propertyCard.block({
+                'grid': true,
+                'featured': property.featured,
+                'selected': selectedProperty === property.id
+              }, 'bg-white rounded-lg shadow-md overflow-hidden cursor-pointer transition-all hover:shadow-lg')}
+              onClick={() => setSelectedProperty(property.id)}
+            >
+
+              {/* Status Indicators */}
+              <div className={propertyCard.element('status')}>
+                {property.featured && (
+                  <div className={propertyCard.element('status-indicator', 'featured')}>
+                    <Star className="w-4 h-4 fill-current text-yellow-500" />
+                  </div>
+                )}
+              </div>
+
+              {/* Content */}
+              <div className={propertyCard.element('content', null, 'p-4')}>
+
+                {/* Type Badge */}
+                <div className={propertyCard.element('type-badges')}>
+                  <span className={propertyCard.element('type-badge', property.type)}>
+                    {property.type.charAt(0).toUpperCase() + property.type.slice(1)}
+                  </span>
+                </div>
+
+                {/* Address */}
+                <div className={propertyCard.element('address')}>
+                  <div className={propertyCard.element('address-container')}>
+                    <MapPin className={propertyCard.element('address-icon')} />
+                    <div className={propertyCard.element('address-content')}>
+                      <p className={propertyCard.element('address-text')}>
+                        {property.address}
+                      </p>
+                      <p className={propertyCard.element('address-city')}>
+                        {property.city}, FL
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Metrics */}
+                <div className={propertyCard.element('metrics')}>
+                  <div className={propertyCard.element('metric')}>
+                    <div className={propertyCard.element('metric-label')}>
+                      <DollarSign className={propertyCard.element('metric-icon')} />
+                      <span className={propertyCard.element('metric-text')}>Price</span>
+                    </div>
+                    <span className={propertyCard.element('metric-value', 'primary')}>
+                      ${property.price.toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className={propertyCard.element('actions')}>
+                  <button className={propertyCard.element('primary-action', 'no-match')}>
+                    View Details
+                  </button>
+                  <button className={propertyCard.element('secondary-action')}>
+                    ⋮
+                  </button>
+                </div>
+
+                {/* Footer */}
+                <div className={propertyCard.element('footer')}>
+                  <span className={propertyCard.element('parcel-id')}>
+                    ID: {property.id}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* BEM Class Examples */}
+      <div className={demoBem.element('section')}>
+        <h2 className={demoBem.element('section-title', null, 'text-xl font-semibold mb-4')}>
+          Generated BEM Classes
+        </h2>
+
+        <div className={demoBem.element('code-examples', null, 'bg-white rounded-lg p-6 font-mono text-sm')}>
+          <h3 className="font-bold mb-3">Example BEM Classes Generated:</h3>
+          <div className="space-y-2 text-gray-700">
+            <div><strong>Block:</strong> <code>property-card</code></div>
+            <div><strong>Block with modifier:</strong> <code>property-card--featured</code></div>
+            <div><strong>Element:</strong> <code>property-card__address</code></div>
+            <div><strong>Element with modifier:</strong> <code>property-card__status-indicator--watched</code></div>
+            <div><strong>Search form block:</strong> <code>search-form--expanded</code></div>
+            <div><strong>Search form element:</strong> <code>search-form__field-input</code></div>
+          </div>
+
+          <h3 className="font-bold mt-6 mb-3">CSS Module Classes:</h3>
+          <div className="space-y-2 text-gray-700">
+            <div><strong>Property card:</strong> <code>{propertyCardStyles['property-card']}</code></div>
+            <div><strong>Search form:</strong> <code>{searchFormStyles['search-form']}</code></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default BemDemoComponent;

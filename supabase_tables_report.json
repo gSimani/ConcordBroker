@@ -1,0 +1,140 @@
+{
+  "database_url": "https://pmispwtdngkcmsrsjwbp.supabase.co",
+  "scan_timestamp": "2025-09-28T23:34:14.397433",
+  "total_tables_found": 5,
+  "existing_tables": [
+    "florida_parcels",
+    "properties",
+    "property_assessments",
+    "tax_certificates",
+    "dor_use_codes"
+  ],
+  "table_details": {
+    "properties": {
+      "exists": true,
+      "record_count": 3,
+      "columns": [
+        "id",
+        "parcel_id",
+        "owner_name",
+        "property_address",
+        "city",
+        "state",
+        "zip_code",
+        "property_type",
+        "year_built",
+        "total_sqft",
+        "lot_size_sqft",
+        "bedrooms",
+        "bathrooms",
+        "assessed_value",
+        "market_value",
+        "last_sale_date",
+        "last_sale_price",
+        "created_at",
+        "updated_at"
+      ],
+      "sample_columns": [
+        "id",
+        "parcel_id",
+        "owner_name",
+        "property_address",
+        "city",
+        "state",
+        "zip_code",
+        "property_type",
+        "year_built",
+        "total_sqft"
+      ]
+    },
+    "property_assessments": {
+      "exists": true,
+      "record_count": 121477,
+      "columns": [
+        "id",
+        "parcel_id",
+        "county_code",
+        "county_name",
+        "owner_name",
+        "owner_address",
+        "owner_city",
+        "owner_state",
+        "owner_zip",
+        "property_address",
+        "property_city",
+        "property_zip",
+        "property_use_code",
+        "tax_district",
+        "subdivision",
+        "just_value",
+        "assessed_value",
+        "taxable_value",
+        "land_value",
+        "building_value",
+        "total_sq_ft",
+        "living_area",
+        "year_built",
+        "bedrooms",
+        "bathrooms",
+        "pool",
+        "tax_year",
+        "created_at",
+        "updated_at"
+      ],
+      "sample_columns": [
+        "id",
+        "parcel_id",
+        "county_code",
+        "county_name",
+        "owner_name",
+        "owner_address",
+        "owner_city",
+        "owner_state",
+        "owner_zip",
+        "property_address"
+      ]
+    },
+    "tax_certificates": {
+      "exists": true,
+      "record_count": 0,
+      "columns": [],
+      "sample_columns": []
+    },
+    "dor_use_codes": {
+      "exists": true,
+      "record_count": 100,
+      "columns": [
+        "id",
+        "code",
+        "description",
+        "category",
+        "subcategory",
+        "is_residential",
+        "is_commercial",
+        "is_industrial",
+        "is_agricultural",
+        "is_institutional",
+        "is_governmental",
+        "is_miscellaneous",
+        "is_vacant",
+        "color_class",
+        "bg_color_class",
+        "border_color_class",
+        "created_at",
+        "updated_at"
+      ],
+      "sample_columns": [
+        "id",
+        "code",
+        "description",
+        "category",
+        "subcategory",
+        "is_residential",
+        "is_commercial",
+        "is_industrial",
+        "is_agricultural",
+        "is_institutional"
+      ]
+    }
+  }
+}

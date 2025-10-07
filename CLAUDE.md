@@ -345,6 +345,101 @@ Workers note: any worker that needs to create tables (e.g., permits) will skip S
 
 - Only mark tasks complete when all checks above pass with 0 failures. Warnings should be triaged or documented.
 
+## Railway Deployment Rules
+
+### Service Architecture
+- **Meilisearch Service**: Uses Dockerfile with dynamic PORT variable
+- **ConcordBroker API**: Uses Nixpacks auto-detection for Python
+- Both services require Railway's `PORT` environment variable
+
+### Critical Configuration Requirements
+
+#### Meilisearch (Dockerfile-based)
+```json
+// railway.json
+{
+  "build": {
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "Dockerfile.meilisearch"
+  }
+}
+```
+
+```dockerfile
+// Dockerfile.meilisearch MUST use dynamic PORT
+RUN printf '#!/bin/sh\nexport MEILI_HTTP_ADDR="0.0.0.0:${PORT:-7700}"\nexec meilisearch\n' > /start.sh
+CMD ["/bin/sh", "/start.sh"]
+```
+
+#### ConcordBroker API (Nixpacks-based)
+```json
+// railway.json
+{
+  "build": {
+    "builder": "NIXPACKS"
+  },
+  "deploy": {
+    "startCommand": "uvicorn production_property_api:app --host 0.0.0.0 --port $PORT"
+  }
+}
+```
+
+```txt
+// requirements.txt - CRITICAL VERSION CONSTRAINTS
+httpx==0.24.1  // MUST be <0.25.0 for supabase 2.0.2 compatibility
+```
+
+### Deployment Process Rules
+1. **NEVER** use custom buildCommand in railway.json for Python apps (breaks Nixpacks auto-detection)
+2. **NEVER** create nixpacks.toml files (overrides auto-detection)
+3. **ALWAYS** use Railway's `PORT` variable, never hardcode ports
+4. **ALWAYS** verify correct railway.json before deploying each service
+5. **ALWAYS** test health endpoints after deployment
+
+### Required Environment Variables
+**Meilisearch Service**:
+- MEILI_MASTER_KEY
+- MEILI_ENV=production
+- MEILI_NO_ANALYTICS=true
+
+**ConcordBroker API**:
+- SUPABASE_URL
+- SUPABASE_ANON_KEY
+- SUPABASE_SERVICE_ROLE_KEY
+- REDIS_URL
+- MEILISEARCH_URL
+- MEILISEARCH_KEY
+
+### Railway CLI v4.10.0+ Syntax
+```bash
+# NEW SYNTAX (v4.10.0+)
+railway variables --set KEY=VALUE
+
+# OLD SYNTAX (deprecated)
+railway variables set KEY VALUE
+```
+
+### Deployment Verification Checklist
+- [ ] Service builds successfully
+- [ ] Health endpoint returns 200 OK
+- [ ] Environment variables are set
+- [ ] Logs show no critical errors
+- [ ] Domain/URL is accessible
+- [ ] Dependencies installed correctly
+
+### Common Errors and Solutions
+| Error | Cause | Solution |
+|-------|-------|----------|
+| `pip: command not found` | Custom buildCommand removes Python setup | Remove buildCommand from railway.json |
+| `uvicorn: command not found` | nixpacks.toml overrides build | Delete nixpacks.toml file |
+| `httpx conflict` | supabase requires httpx <0.25.0 | Set httpx==0.24.1 in requirements.txt |
+| `Port already in use` | Hardcoded port instead of $PORT | Use Railway's PORT variable |
+
+### Documentation References
+- Full Guide: `railway-deploy/DEPLOYMENT_GUIDE.md`
+- Current Status: `railway-deploy/DEPLOYMENT_STATUS.txt`
+- Meilisearch Info: `railway-deploy/MEILISEARCH_URL.txt`
+
 ## Property Appraiser Data System Rules
 
 ### Data Location and Structure
@@ -404,3 +499,108 @@ CRITICAL: Use exact mappings to avoid errors:
 - Store checksums for change detection
 - Alert on: new files, size changes >5%, missing expected files
 - Log all download attempts with timestamp, county, file type, status
+
+## AI Data Flow System (PERMANENT RULES)
+
+### 🤖 Automatic AI Monitoring System
+The project includes a **PERMANENT AI Data Flow Monitoring System** that ensures all components always get correct data from the database. This system is ALWAYS active and monitors data integrity 24/7.
+
+### Core AI Agents & Services:
+- **Data Flow Orchestrator** (Port 8001): Central AI monitoring and validation
+- **FastAPI Data Service** (Port 8002): High-performance data endpoints
+- **AI Integration System** (Port 8003): Agent orchestration and coordination
+- **Real-time Dashboard** (Port 8004): Live monitoring and visualization
+
+### Data Sources Monitored (ALWAYS VALIDATED):
+```yaml
+florida_parcels:
+  table: florida_parcels
+  records: 9,113,150
+  critical_fields: [parcel_id, county, year, owner_name, just_value]
+
+property_sales_history:
+  table: property_sales_history
+  records: 96,771
+  critical_fields: [parcel_id, sale_date, sale_price]
+
+florida_entities:
+  table: florida_entities
+  records: 15,013,088
+  critical_fields: [entity_id, entity_name, entity_type]
+
+sunbiz_corporate:
+  table: sunbiz_corporate
+  records: 2,030,912
+  critical_fields: [filing_number, entity_name, status]
+
+tax_certificates:
+  table: tax_certificates
+  critical_fields: [parcel_id, certificate_number, face_amount]
+```
+
+### Component Data Rules (ENFORCED BY AI):
+1. **MiniPropertyCards**: MUST query `property_sales_history` for sales data
+2. **Core Property Tab**: MUST use `florida_parcels` for property details
+3. **Sales History**: MUST prioritize `property_sales_history` table
+4. **Sunbiz Tab**: MUST query `sunbiz_corporate` and `florida_entities`
+5. **Tax Tab**: MUST use `tax_certificates` table
+6. **Filters**: MUST validate against actual database counts
+
+### AI System Commands:
+```bash
+# Check AI system health
+curl http://localhost:8003/ai-system/health
+
+# Validate all data sources
+curl http://localhost:8001/validate/all
+
+# Monitor specific tab data
+curl http://localhost:8001/monitor/tabs/core-property
+
+# View real-time dashboard
+open http://localhost:8004
+
+# Run Jupyter analysis
+jupyter notebook mcp-server/notebooks/data_flow_monitoring.ipynb
+```
+
+### Self-Healing Actions (AUTOMATIC):
+- Cache clearing when data inconsistencies detected
+- Index rebuilding for slow queries
+- Automatic reconnection on database failures
+- Query optimization for performance issues
+- Alert generation for critical problems
+
+### PySpark Processing (BACKGROUND):
+- Market trend analysis every hour
+- Investment opportunity detection daily
+- Entity deduplication weekly
+- Performance optimization continuous
+
+### SQLAlchemy Models (ENFORCED):
+All database operations MUST use the defined SQLAlchemy models in `mcp-server/ai-agents/sqlalchemy_models.py` to ensure data integrity.
+
+### Monitoring Rules:
+- Quality score must be >80% for all data sources
+- Response times must be <500ms for property queries
+- Cache hit rate must be >60%
+- Database connections must not exceed 100
+- Memory usage must stay below 80%
+
+### CRITICAL: Data Flow Requirements
+**EVERY** component in the application MUST:
+1. Query the correct database table as defined above
+2. Use the AI-validated endpoints when available
+3. Report data quality issues to the monitoring system
+4. Implement retry logic for failed queries
+5. Cache results appropriately
+
+### AI Agent Memory (PERMANENT):
+The AI system maintains permanent memory of:
+- All data source configurations
+- Query patterns and optimizations
+- Common issues and resolutions
+- Performance baselines
+- User interaction patterns
+
+This AI Data Flow System is **PERMANENT**, **ALWAYS RUNNING**, and **SELF-HEALING**. It cannot be disabled and ensures 100% data integrity across all ConcordBroker components.

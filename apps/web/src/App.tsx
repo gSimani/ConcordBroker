@@ -60,11 +60,11 @@ const AISearchPage = lazy(() => import('@/pages/AISearch'))
 
 // Property Pages - lazy loaded
 const PropertySearch = lazy(() => import('@/pages/properties/PropertySearch'))
-// const OptimizedPropertySearch = lazy(() => import('@/pages/properties/OptimizedPropertySearch'))
+// Removed: OptimizedPropertySearch - consolidated into PropertySearch
 const FastPropertySearch = lazy(() => import('@/components/FastPropertySearch'))
 const PropertyDetailPage = lazy(() => import('@/pages/properties/[...slug]'))
 const EnhancedPropertyProfile = lazy(() => import('@/pages/property/EnhancedPropertyProfile'))
-const SimplePropertyPage = lazy(() => import('@/pages/properties/SimplePropertyPage'))
+// Removed: SimplePropertyPage - consolidated into PropertyDetail
 const TaxDeedSales = lazy(() => import('@/pages/TaxDeedSales'))
 const PerformanceTest = lazy(() => import('@/pages/PerformanceTest'))
 
@@ -122,7 +122,7 @@ function App() {
                   <Route path="/ai-search" element={<AISearchPage />} />
                   <Route path="/properties" element={<PropertySearch />} />
                   <Route path="/properties/fast" element={<FastPropertySearch />} />
-                  <Route path="/properties/:city/:address" element={<SimplePropertyPage />} />
+                  <Route path="/properties/:city/:address" element={<EnhancedPropertyProfile />} />
                   <Route path="/properties/:slug" element={<PropertyDetailPage />} />
                   <Route path="/property/:folio" element={<EnhancedPropertyProfile />} />
                   <Route path="/entity/:id" element={<EntityPage />} />

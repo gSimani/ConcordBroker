@@ -1,0 +1,70 @@
+Florida NAP Processing Summary
+Generated: 2025-09-26 14:54:27.798124
+==================================================
+Counties Processed: 75
+Total Records: 1,073,058
+Total Parcels Updated: 1,073,058
+
+County Details:
+  ALACHUA: 12,021 parcels updated from 12,021 records
+  BAKER: 691 parcels updated from 691 records
+  BAY: 14,068 parcels updated from 14,068 records
+  BRADFORD: 1,268 parcels updated from 1,268 records
+  BREVARD: 47,906 parcels updated from 47,906 records
+  BROWARD: 90,508 parcels updated from 90,508 records
+  CALHOUN: 394 parcels updated from 394 records
+  CHARLOTTE: 23,988 parcels updated from 23,988 records
+  CITRUS: 7,259 parcels updated from 7,259 records
+  CLAY: 5,545 parcels updated from 5,545 records
+  COLLIER: 18,385 parcels updated from 18,385 records
+  COLUMBIA: 2,774 parcels updated from 2,774 records
+  DADE: 116,199 parcels updated from 116,199 records
+  DESOTO: 3,411 parcels updated from 3,411 records
+  DIXIE: 207 parcels updated from 207 records
+  DUVAL: 30,595 parcels updated from 30,595 records
+  ESCAMBIA: 13,761 parcels updated from 13,761 records
+  FLAGLER: 6,681 parcels updated from 6,681 records
+  FRANKLIN: 635 parcels updated from 635 records
+  GADSDEN: 1,681 parcels updated from 1,681 records
+  GILCHRIST: 775 parcels updated from 775 records
+  GLADES: 1,957 parcels updated from 1,957 records
+  GULF: 475 parcels updated from 475 records
+  HAMILTON: 1,119 parcels updated from 1,119 records
+  HARDEE: 3,138 parcels updated from 3,138 records
+  HENDRY: 1,954 parcels updated from 1,954 records
+  HERNANDO: 8,506 parcels updated from 8,506 records
+  HIGHLANDS: 15,671 parcels updated from 15,671 records
+  HILLSBOROUGH: 41,746 parcels updated from 41,746 records
+  HOLMES: 1,549 parcels updated from 1,549 records
+  JACKSON: 2,116 parcels updated from 2,116 records
+  JEFFERSON: 1,041 parcels updated from 1,041 records
+  LAFAYETTE: 234 parcels updated from 234 records
+  LAKE: 33,793 parcels updated from 33,793 records
+  LEE: 80,376 parcels updated from 80,376 records
+  LEON: 12,827 parcels updated from 12,827 records
+  LEVY: 1,985 parcels updated from 1,985 records
+  LIBERTY: 186 parcels updated from 186 records
+  MADISON: 1,481 parcels updated from 1,481 records
+  MANATEE: 28,007 parcels updated from 28,007 records
+  MARION: 21,475 parcels updated from 21,475 records
+  MARTIN: 11,977 parcels updated from 11,977 records
+  MONROE: 12,859 parcels updated from 12,859 records
+  NASSAU: 4,489 parcels updated from 4,489 records
+  OKALOOSA: 11,503 parcels updated from 11,503 records
+  OKEECHOBEE: 4,524 parcels updated from 4,524 records
+  ORANGE: 63,115 parcels updated from 63,115 records
+  OSCEOLA: 27,411 parcels updated from 27,411 records
+  PASCO: 18,388 parcels updated from 18,388 records
+  PINELLAS: 56,209 parcels updated from 56,209 records
+  POLK: 88,069 parcels updated from 88,069 records
+  PUTNAM: 4,023 parcels updated from 4,023 records
+  SARASOTA: 22,816 parcels updated from 22,816 records
+  SEMINOLE: 13,435 parcels updated from 13,435 records
+  SUMTER: 3,646 parcels updated from 3,646 records
+  SUWANNEE: 1,105 parcels updated from 1,105 records
+  TAYLOR: 1,299 parcels updated from 1,299 records
+  UNION: 572 parcels updated from 572 records
+  VOLUSIA: 52,094 parcels updated from 52,094 records
+  WAKULLA: 1,466 parcels updated from 1,466 records
+  WALTON: 14,519 parcels updated from 14,519 records
+  WASHINGTON: 1,151 parcels updated from 1,151 records

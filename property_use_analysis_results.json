@@ -1,0 +1,60 @@
+{
+  "total_distinct_values": 7,
+  "property_use_data": {
+    "0": {
+      "count": 10,
+      "description": "Property Use Code 0"
+    },
+    "1": {
+      "count": 288,
+      "description": "Property Use Code 1"
+    },
+    "4": {
+      "count": 658,
+      "description": "Property Use Code 4"
+    },
+    "35": {
+      "count": 4,
+      "description": "Property Use Code 35"
+    },
+    "94": {
+      "count": 3,
+      "description": "Property Use Code 94"
+    },
+    "95": {
+      "count": 16,
+      "description": "Property Use Code 95"
+    },
+    "97": {
+      "count": 19,
+      "description": "Property Use Code 97"
+    }
+  },
+  "categorization": {
+    "Residential": [],
+    "Commercial": [],
+    "Industrial": [],
+    "Agricultural": [],
+    "Vacant Land": [],
+    "Other": [
+      "0",
+      "1",
+      "4",
+      "35",
+      "94",
+      "95",
+      "97"
+    ]
+  },
+  "recommended_mappings": {
+    "OTHER": [
+      "0",
+      "1",
+      "4",
+      "35",
+      "94",
+      "95",
+      "97"
+    ]
+  }
+}

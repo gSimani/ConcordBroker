@@ -1,0 +1,561 @@
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { Search, TrendingUp, User, Building2, Clock, MapPin, Eye, Star } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import WatchlistButton from '@/components/property/WatchlistButton';
+
+// Feature flags for optional components
+interface FeatureFlags {
+  showMap: boolean;
+  showAISearch: boolean;
+  showAdvancedFilters: boolean;
+  showSunbizDetails: boolean;
+  enableVoiceSearch: boolean;
+  showPerformanceMetrics: boolean;
+}
+
+const DEFAULT_FEATURES: FeatureFlags = {
+  showMap: false,           // Disabled for MVP focus
+  showAISearch: false,      // Disabled for MVP focus
+  showAdvancedFilters: false, // Disabled for MVP focus
+  showSunbizDetails: true,  // Core feature for Stage 4
+  enableVoiceSearch: false, // Disabled for MVP focus
+  showPerformanceMetrics: true // Enabled for performance verification
+};
+
+interface Property {
+  parcel_id: string;
+  county: string;
+  address: string;
+  city: string;
+  owner_name: string;
+  assessed_value: number;
+  score_v1?: number;
+  reasons?: any;
+  entity_matches?: EntityMatch[];
+}
+
+interface EntityMatch {
+  entity_name: string;
+  entity_type: string;
+  status: string;
+  doc_number: string;
+  principal_name?: string;
+  prin_addr1?: string;
+  prin_city?: string;
+  prin_state?: string;
+  confidence: number;
+}
+
+interface SearchPerformance {
+  autocompleteTime: number;
+  searchTime: number;
+  lcp: number;
+  networkErrors: number;
+}
+
+export function MVPSearch() {
+  // Core state
+  const [searchTerm, setSearchTerm] = useState('');
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
+  const [autocompleteLoading, setAutocompleteLoading] = useState(false);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  // Performance tracking
+  const [performance, setPerformance] = useState<SearchPerformance>({
+    autocompleteTime: 0,
+    searchTime: 0,
+    lcp: 0,
+    networkErrors: 0
+  });
+
+  // Feature flags (could be loaded from config/API)
+  const features = useMemo(() => DEFAULT_FEATURES, []);
+
+  // Fast autocomplete with performance tracking
+  const fetchAutocomplete = useCallback(async (query: string) => {
+    if (query.length < 2) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+
+    const startTime = performance.now();
+    setAutocompleteLoading(true);
+
+    try {
+      // Mock fast autocomplete - replace with real API
+      const mockSuggestions = [
+        '123 Main St, Fort White',
+        '456 Oak Ave, Monticello',
+        'PREMIUM INVESTMENTS LLC',
+        'ADAMS STREET HOLDINGS INC',
+        '789 Pine St, Columbia County'
+      ].filter(s => s.toLowerCase().includes(query.toLowerCase()));
+
+      // Simulate API delay but ensure < 150ms
+      await new Promise(resolve => setTimeout(resolve, Math.random() * 100));
+
+      const endTime = performance.now();
+      const autocompleteTime = endTime - startTime;
+
+      setPerformance(prev => ({ ...prev, autocompleteTime }));
+      setSuggestions(mockSuggestions);
+      setShowSuggestions(mockSuggestions.length > 0);
+
+    } catch (error) {
+      console.error('Autocomplete error:', error);
+      setPerformance(prev => ({ ...prev, networkErrors: prev.networkErrors + 1 }));
+    } finally {
+      setAutocompleteLoading(false);
+    }
+  }, []);
+
+  // Fast property search with scoring
+  const searchProperties = useCallback(async (query: string) => {
+    if (!query.trim()) return;
+
+    const startTime = performance.now();
+    setLoading(true);
+
+    try {
+      // Mock search with scoring data - replace with real API
+      const mockProperties: Property[] = [
+        {
+          parcel_id: '12345678',
+          county: 'COLUMBIA',
+          address: '548 SW HAWAII TER',
+          city: 'FORT WHITE',
+          owner_name: '548 SW HAWAII TER LAND TRUST DTD',
+          assessed_value: 114605,
+          score_v1: 85.0,
+          reasons: {
+            ownership: { type: 'llc_corp', score: 25, explanation: 'Trust ownership indicates investment potential' },
+            hold_period: { category: '3-7', score: 30, explanation: 'Optimal hold period for appreciation' },
+            tax_status: { status: 'current', score: 20, explanation: 'Taxes are current' },
+            equity_proxy: { category: 'ratio_1.3-1.5', score: 20, explanation: '30-50% appreciation since purchase' }
+          },
+          entity_matches: [
+            {
+              entity_name: '548 SW HAWAII TER LAND TRUST DTD',
+              entity_type: 'Trust',
+              status: 'ACTIVE',
+              doc_number: 'T12345',
+              principal_name: 'JOHN DOE TRUSTEE',
+              prin_addr1: '123 TRUST AVE',
+              prin_city: 'FORT WHITE',
+              prin_state: 'FL',
+              confidence: 0.95
+            }
+          ]
+        },
+        {
+          parcel_id: '23456789',
+          county: 'JEFFERSON',
+          address: '810 W WASHINGTON ST',
+          city: 'MONTICELLO',
+          owner_name: 'BACHMAN LIVING TRUST',
+          assessed_value: 193603,
+          score_v1: 85.0,
+          reasons: {
+            ownership: { type: 'llc_corp', score: 25, explanation: 'Trust ownership indicates investment potential' },
+            hold_period: { category: '3-7', score: 30, explanation: 'Optimal hold period for appreciation' },
+            tax_status: { status: 'current', score: 20, explanation: 'Taxes are current' },
+            equity_proxy: { category: 'ratio_1.3-1.5', score: 20, explanation: '30-50% appreciation since purchase' }
+          },
+          entity_matches: [
+            {
+              entity_name: 'BACHMAN LIVING TRUST',
+              entity_type: 'Trust',
+              status: 'ACTIVE',
+              doc_number: 'T23456',
+              principal_name: 'MARY BACHMAN TRUSTEE',
+              prin_addr1: '456 TRUST LN',
+              prin_city: 'MONTICELLO',
+              prin_state: 'FL',
+              confidence: 0.92
+            }
+          ]
+        },
+        {
+          parcel_id: '34567890',
+          county: 'JEFFERSON',
+          address: '1095 FIRST ST',
+          city: 'MONTICELLO',
+          owner_name: 'ADAMS STREET HOLDINGS INC',
+          assessed_value: 70812,
+          score_v1: 85.0,
+          reasons: {
+            ownership: { type: 'llc_corp', score: 25, explanation: 'Corporation indicates investment entity' },
+            hold_period: { category: '3-7', score: 30, explanation: 'Optimal hold period for appreciation' },
+            tax_status: { status: 'current', score: 20, explanation: 'Taxes are current' },
+            equity_proxy: { category: 'ratio_1.3-1.5', score: 20, explanation: '30-50% appreciation since purchase' }
+          },
+          entity_matches: [
+            {
+              entity_name: 'ADAMS STREET HOLDINGS INC',
+              entity_type: 'Corporation',
+              status: 'ACTIVE',
+              doc_number: 'C34567',
+              principal_name: 'ROBERT ADAMS',
+              prin_addr1: '789 BUSINESS BLVD',
+              prin_city: 'TALLAHASSEE',
+              prin_state: 'FL',
+              confidence: 0.98
+            }
+          ]
+        }
+      ];
+
+      // Filter based on search query
+      const filtered = mockProperties.filter(prop =>
+        prop.address.toLowerCase().includes(query.toLowerCase()) ||
+        prop.city.toLowerCase().includes(query.toLowerCase()) ||
+        prop.owner_name.toLowerCase().includes(query.toLowerCase()) ||
+        prop.parcel_id.includes(query)
+      );
+
+      const endTime = performance.now();
+      const searchTime = endTime - startTime;
+
+      setPerformance(prev => ({ ...prev, searchTime }));
+      setProperties(filtered);
+
+    } catch (error) {
+      console.error('Search error:', error);
+      setPerformance(prev => ({ ...prev, networkErrors: prev.networkErrors + 1 }));
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  // Handle search input with debouncing
+  const handleSearchChange = useCallback((value: string) => {
+    setSearchTerm(value);
+
+    // Debounced autocomplete
+    const timeoutId = setTimeout(() => {
+      fetchAutocomplete(value);
+    }, 100); // Fast autocomplete
+
+    return () => clearTimeout(timeoutId);
+  }, [fetchAutocomplete]);
+
+  // Handle search submission
+  const handleSearch = useCallback(() => {
+    searchProperties(searchTerm);
+    setShowSuggestions(false);
+  }, [searchTerm, searchProperties]);
+
+  // Handle suggestion selection
+  const handleSuggestionSelect = useCallback((suggestion: string) => {
+    setSearchTerm(suggestion);
+    setShowSuggestions(false);
+    searchProperties(suggestion);
+  }, [searchProperties]);
+
+  // Measure LCP on component mount
+  useEffect(() => {
+    const observer = new PerformanceObserver((list) => {
+      const entries = list.getEntries();
+      const lastEntry = entries[entries.length - 1];
+      if (lastEntry) {
+        setPerformance(prev => ({ ...prev, lcp: lastEntry.startTime }));
+      }
+    });
+
+    try {
+      observer.observe({ entryTypes: ['largest-contentful-paint'] });
+    } catch (e) {
+      // LCP not supported in this browser
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Get score color
+  const getScoreColor = (score: number) => {
+    if (score >= 80) return 'text-green-600 bg-green-50';
+    if (score >= 60) return 'text-orange-600 bg-orange-50';
+    return 'text-red-600 bg-red-50';
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Performance Metrics (if enabled) */}
+      {features.showPerformanceMetrics && (
+        <div className="bg-white border-b px-6 py-2">
+          <div className="max-w-6xl mx-auto flex gap-4 text-xs text-gray-600">
+            <span>Autocomplete: {performance.autocompleteTime.toFixed(0)}ms</span>
+            <span>Search: {performance.searchTime.toFixed(0)}ms</span>
+            <span>LCP: {performance.lcp.toFixed(0)}ms</span>
+            <span className={performance.networkErrors > 0 ? 'text-red-600' : 'text-green-600'}>
+              Network Errors: {performance.networkErrors}
+            </span>
+          </div>
+        </div>
+      )}
+
+      <div className="max-w-6xl mx-auto p-6">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            Investment Property Search
+          </h1>
+          <p className="text-gray-600">
+            Search by parcel ID, address, or owner/entity name to find scored investment opportunities
+          </p>
+        </div>
+
+        {/* Search Bar */}
+        <div className="relative mb-6">
+          <div className="relative">
+            <Search className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+            <Input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => handleSearchChange(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+              placeholder="Search by parcel, address, owner/entity..."
+              className="pl-10 pr-4 h-12 text-lg"
+            />
+            {autocompleteLoading && (
+              <div className="absolute right-3 top-3">
+                <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+              </div>
+            )}
+          </div>
+
+          {/* Autocomplete Suggestions */}
+          {showSuggestions && suggestions.length > 0 && (
+            <Card className="absolute top-full left-0 right-0 z-50 mt-1 shadow-lg">
+              <CardContent className="p-0">
+                {suggestions.map((suggestion, index) => (
+                  <div
+                    key={index}
+                    className="p-3 hover:bg-gray-50 cursor-pointer border-b last:border-b-0"
+                    onClick={() => handleSuggestionSelect(suggestion)}
+                  >
+                    <span className="text-sm">{suggestion}</span>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          )}
+
+          <Button
+            onClick={handleSearch}
+            className="mt-2"
+            disabled={loading || !searchTerm.trim()}
+          >
+            {loading ? 'Searching...' : 'Search'}
+          </Button>
+        </div>
+
+        {/* Results */}
+        {properties.length > 0 && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Results Table */}
+            <div className="lg:col-span-2">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between">
+                    Search Results ({properties.length})
+                    <Badge variant="outline">{properties.length} properties found</Badge>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-0">
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Address</th>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Owner/Entity</th>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Score</th>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Value</th>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-200">
+                        {properties.map((property) => (
+                          <tr
+                            key={property.parcel_id}
+                            className={`hover:bg-gray-50 cursor-pointer ${
+                              selectedProperty?.parcel_id === property.parcel_id ? 'bg-blue-50' : ''
+                            }`}
+                            onClick={() => setSelectedProperty(property)}
+                          >
+                            <td className="px-4 py-3">
+                              <div>
+                                <div className="font-medium text-gray-900">{property.address}</div>
+                                <div className="text-sm text-gray-500">{property.city}, {property.county} Co.</div>
+                              </div>
+                            </td>
+                            <td className="px-4 py-3">
+                              <div className="font-medium text-gray-900">{property.owner_name}</div>
+                              {property.entity_matches && property.entity_matches.length > 0 && (
+                                <div className="text-xs text-green-600">
+                                  {property.entity_matches[0].entity_type} • {property.entity_matches[0].status}
+                                </div>
+                              )}
+                            </td>
+                            <td className="px-4 py-3">
+                              {property.score_v1 && (
+                                <Badge className={`font-bold ${getScoreColor(property.score_v1)}`}>
+                                  {property.score_v1}
+                                </Badge>
+                              )}
+                            </td>
+                            <td className="px-4 py-3">
+                              <span className="font-medium">${property.assessed_value.toLocaleString()}</span>
+                            </td>
+                            <td className="px-4 py-3">
+                              <div className="flex items-center gap-2">
+                                <WatchlistButton
+                                  parcelId={property.parcel_id}
+                                  county={property.county}
+                                  size="sm"
+                                />
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setSelectedProperty(property);
+                                  }}
+                                >
+                                  <Eye className="w-4 h-4 mr-1" />
+                                  View
+                                </Button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Detail Panel */}
+            <div className="lg:col-span-1">
+              {selectedProperty ? (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Building2 className="w-5 h-5" />
+                      Property Details
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {/* Property Info */}
+                    <div>
+                      <h4 className="font-medium text-gray-900 mb-2">Property Information</h4>
+                      <div className="space-y-1 text-sm">
+                        <div><span className="text-gray-500">Address:</span> {selectedProperty.address}</div>
+                        <div><span className="text-gray-500">City:</span> {selectedProperty.city}</div>
+                        <div><span className="text-gray-500">County:</span> {selectedProperty.county}</div>
+                        <div><span className="text-gray-500">Parcel ID:</span> {selectedProperty.parcel_id}</div>
+                        <div><span className="text-gray-500">Assessed Value:</span> ${selectedProperty.assessed_value.toLocaleString()}</div>
+                      </div>
+                    </div>
+
+                    {/* Investment Score */}
+                    {selectedProperty.score_v1 && selectedProperty.reasons && (
+                      <div>
+                        <h4 className="font-medium text-gray-900 mb-2 flex items-center gap-2">
+                          <TrendingUp className="w-4 h-4" />
+                          Investment Score: {selectedProperty.score_v1}/100
+                        </h4>
+                        <div className="space-y-2">
+                          {Object.entries(selectedProperty.reasons).map(([key, details]: [string, any]) => (
+                            key !== 'total_score' && details && (
+                              <div key={key} className="bg-gray-50 p-2 rounded">
+                                <div className="flex justify-between items-center">
+                                  <span className="text-sm font-medium capitalize">{key.replace('_', ' ')}</span>
+                                  <Badge variant="outline" className="text-xs">
+                                    {details.score}/{key === 'ownership' ? 25 : key === 'hold_period' ? 30 : 20} pts
+                                  </Badge>
+                                </div>
+                                <div className="text-xs text-gray-600 mt-1">{details.explanation}</div>
+                              </div>
+                            )
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Sunbiz Entity Information */}
+                    {features.showSunbizDetails && selectedProperty.entity_matches && selectedProperty.entity_matches.length > 0 && (
+                      <div>
+                        <h4 className="font-medium text-gray-900 mb-2 flex items-center gap-2">
+                          <User className="w-4 h-4" />
+                          Entity Information
+                        </h4>
+                        {selectedProperty.entity_matches.map((entity, index) => (
+                          <Card key={index} className="border-l-4 border-l-blue-500">
+                            <CardContent className="p-3">
+                              <div className="space-y-2 text-sm">
+                                <div><span className="text-gray-500">Entity:</span> {entity.entity_name}</div>
+                                <div><span className="text-gray-500">Type:</span> {entity.entity_type}</div>
+                                <div><span className="text-gray-500">Status:</span>
+                                  <Badge
+                                    variant={entity.status === 'ACTIVE' ? 'default' : 'secondary'}
+                                    className="ml-2"
+                                  >
+                                    {entity.status}
+                                  </Badge>
+                                </div>
+                                <div><span className="text-gray-500">Document #:</span> {entity.doc_number}</div>
+                                {entity.principal_name && (
+                                  <div><span className="text-gray-500">Principal:</span> {entity.principal_name}</div>
+                                )}
+                                {entity.prin_addr1 && (
+                                  <div>
+                                    <span className="text-gray-500">Address:</span> {entity.prin_addr1}, {entity.prin_city}, {entity.prin_state}
+                                  </div>
+                                )}
+                                <div><span className="text-gray-500">Match Confidence:</span> {(entity.confidence * 100).toFixed(1)}%</div>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              ) : (
+                <Card>
+                  <CardContent className="p-6 text-center text-gray-500">
+                    <Building2 className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+                    <p>Select a property to view details and investment scoring</p>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* No Results */}
+        {!loading && properties.length === 0 && searchTerm && (
+          <Card>
+            <CardContent className="p-6 text-center">
+              <Search className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+              <p className="text-gray-500">No properties found for "{searchTerm}"</p>
+              <p className="text-sm text-gray-400 mt-2">Try searching for a different address, owner name, or parcel ID</p>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default MVPSearch;

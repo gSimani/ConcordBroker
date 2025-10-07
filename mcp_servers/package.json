@@ -1,0 +1,33 @@
+{
+  "name": "wbes-mcp-servers",
+  "version": "1.0.0",
+  "description": "Custom MCP servers for West Boca Executive Suites",
+  "main": "wbes-mcp-server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node wbes-mcp-server.js",
+    "install-deps": "npm install",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "0.6.1",
+    "@supabase/supabase-js": "2.51.0",
+    "dotenv": "17.2.0",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "5.8.3"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "vercel",
+    "railway",
+    "v0dev",
+    "huggingface",
+    "docker"
+  ],
+  "author": "West Boca Executive Suites",
+  "license": "MIT"
+}

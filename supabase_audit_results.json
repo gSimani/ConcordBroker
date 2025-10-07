@@ -1,0 +1,16 @@
+{
+  "audit_timestamp": "2025-09-28T23:46:50.140086",
+  "florida_parcels": {
+    "total": 0,
+    "counties_count": 0,
+    "counties_list": []
+  },
+  "properties_table": {
+    "total": 0
+  },
+  "other_tables": {},
+  "summary": {
+    "primary_property_count": 0,
+    "geographic_coverage_percent": 0.0
+  }
+}

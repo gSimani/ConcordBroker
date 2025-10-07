@@ -1,0 +1,92 @@
+{
+  "timestamp": "20250929_094038",
+  "all_tables": [
+    "florida_parcels",
+    "property_sales",
+    "properties"
+  ],
+  "sales_tables": [
+    "property_sales",
+    "florida_parcels"
+  ],
+  "analysis_results": {
+    "property_sales": {
+      "error": "Could not retrieve schema"
+    },
+    "florida_parcels": {
+      "total_columns": 51,
+      "sales_columns": [
+        "just_value",
+        "assessed_value",
+        "taxable_value",
+        "land_value",
+        "building_value",
+        "sale_date",
+        "sale_price",
+        "sale_qualification",
+        "import_date",
+        "update_date",
+        "market_value"
+      ],
+      "all_columns": [
+        "id",
+        "parcel_id",
+        "county",
+        "year",
+        "geometry",
+        "centroid",
+        "area_sqft",
+        "perimeter_ft",
+        "owner_name",
+        "owner_addr1",
+        "owner_addr2",
+        "owner_city",
+        "owner_state",
+        "owner_zip",
+        "phy_addr1",
+        "phy_addr2",
+        "phy_city",
+        "phy_state",
+        "phy_zipcd",
+        "legal_desc",
+        "subdivision",
+        "lot",
+        "block",
+        "property_use",
+        "property_use_desc",
+        "land_use_code",
+        "zoning",
+        "just_value",
+        "assessed_value",
+        "taxable_value",
+        "land_value",
+        "building_value",
+        "year_built",
+        "total_living_area",
+        "bedrooms",
+        "bathrooms",
+        "stories",
+        "units",
+        "land_sqft",
+        "land_acres",
+        "sale_date",
+        "sale_price",
+        "sale_qualification",
+        "match_status",
+        "discrepancy_reason",
+        "is_redacted",
+        "data_source",
+        "import_date",
+        "update_date",
+        "data_hash",
+        "market_value"
+      ]
+    }
+  },
+  "test_parcels": [
+    "1078130000370",
+    "5032100100120",
+    "5032100200010",
+    "3218460080100"
+  ]
+}

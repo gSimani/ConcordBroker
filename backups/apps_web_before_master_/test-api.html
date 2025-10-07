@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test - ConcordBroker</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .property { border: 1px solid #ddd; padding: 10px; margin: 10px 0; }
+        .loading { color: blue; }
+        .error { color: red; }
+        .success { color: green; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>ConcordBroker API Test</h1>
+    
+    <div>
+        <button onclick="testDirectAPI()">Test Direct API (Port 8000)</button>
+        <button onclick="testProxiedAPI()">Test Proxied API (Port 5174)</button>
+        <button onclick="testSearchEndpoint()">Test Search Endpoint</button>
+    </div>
+    
+    <div id="status"></div>
+    <div id="results"></div>
+
+    <script>
+        const status = document.getElementById('status');
+        const results = document.getElementById('results');
+
+        async function testDirectAPI() {
+            status.innerHTML = '<p class="loading">Testing direct API on port 8000...</p>';
+            results.innerHTML = '';
+            
+            try {
+                const response = await fetch('http://localhost:8000/api/properties/search?address=&city=&limit=10');
+                const data = await response.json();
+                
+                if (data.properties && data.properties.length > 0) {
+                    status.innerHTML = `<p class="success">✓ Direct API working! Found ${data.properties.length} properties</p>`;
+                    displayProperties(data.properties);
+                } else {
+                    status.innerHTML = '<p class="error">✗ API returned no properties</p>';
+                }
+            } catch (error) {
+                status.innerHTML = `<p class="error">✗ Direct API failed: ${error.message}</p>`;
+            }
+        }
+
+        async function testProxiedAPI() {
+            status.innerHTML = '<p class="loading">Testing proxied API through port 5174...</p>';
+            results.innerHTML = '';
+            
+            try {
+                // When running on port 5174, this should be proxied to port 8000
+                const response = await fetch('/api/properties/search?address=&city=&limit=10');
+                const data = await response.json();
+                
+                if (data.properties && data.properties.length > 0) {
+                    status.innerHTML = `<p class="success">✓ Proxied API working! Found ${data.properties.length} properties</p>`;
+                    displayProperties(data.properties);
+                } else {
+                    status.innerHTML = '<p class="error">✗ Proxied API returned no properties</p>';
+                }
+            } catch (error) {
+                status.innerHTML = `<p class="error">✗ Proxied API failed: ${error.message}</p>`;
+            }
+        }
+
+        async function testSearchEndpoint() {
+            status.innerHTML = '<p class="loading">Testing search with parameters...</p>';
+            results.innerHTML = '';
+            
+            const params = new URLSearchParams({
+                address: '',
+                city: 'Fort Lauderdale',
+                limit: 5,
+                offset: 0
+            });
+            
+            try {
+                const response = await fetch(`http://localhost:8000/api/properties/search?${params}`);
+                const data = await response.json();
+                
+                if (data.properties && data.properties.length > 0) {
+                    status.innerHTML = `<p class="success">✓ Search working! Found ${data.properties.length} properties in Fort Lauderdale</p>`;
+                    displayProperties(data.properties);
+                } else {
+                    status.innerHTML = '<p class="error">✗ Search returned no properties</p>';
+                }
+            } catch (error) {
+                status.innerHTML = `<p class="error">✗ Search failed: ${error.message}</p>`;
+            }
+        }
+
+        function displayProperties(properties) {
+            results.innerHTML = '<h2>Properties Found:</h2>';
+            properties.forEach(prop => {
+                results.innerHTML += `
+                    <div class="property">
+                        <strong>${prop.phy_addr1}</strong><br>
+                        ${prop.phy_city}, FL ${prop.phy_zipcd}<br>
+                        Owner: ${prop.own_name || prop.owner_name || 'N/A'}<br>
+                        Value: $${(prop.jv || prop.just_value || 0).toLocaleString()}<br>
+                        Parcel: ${prop.parcel_id}
+                    </div>
+                `;
+            });
+        }
+
+        // Test on load
+        window.onload = () => {
+            testDirectAPI();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+{
+  "timestamp": "2025-09-30T12:45:04.608714",
+  "tests": [
+    {
+      "name": "Basic Query",
+      "status": "FAIL",
+      "error": "The read operation timed out"
+    },
+    {
+      "name": "Large Buildings 10k-20k",
+      "status": "PASS",
+      "count": 37726
+    },
+    {
+      "name": "Frontend Simulation",
+      "status": "PASS",
+      "scenarios": [
+        {
+          "name": "Building size only",
+          "count": 37726,
+          "full_count": 37726,
+          "status": "PASS"
+        },
+        {
+          "name": "Building size + year",
+          "count": 37726,
+          "status": "PASS"
+        },
+        {
+          "name": "Building size + county",
+          "count": 2357,
+          "status": "PASS"
+        },
+        {
+          "name": "Full params with pagination",
+          "count": 99,
+          "full_count": 37726,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "name": "Data Consistency",
+      "status": "PASS",
+      "checks": [
+        {
+          "name": "Negative values",
+          "count": 0,
+          "status": "OK"
+        }
+      ]
+    },
+    {
+      "name": "Property Retrieval",
+      "status": "PASS",
+      "samples": [
+        {
+          "parcel_id": "28 3721-00-46",
+          "county": "BREVARD",
+          "sqft": 10000,
+          "value": 922720
+        },
+        {
+          "parcel_id": "431050140030",
+          "county": "DADE",
+          "sqft": 10000,
+          "value": 1560000
+        },
+        {
+          "parcel_id": "431050140040",
+          "county": "DADE",
+          "sqft": 10000,
+          "value": 1560000
+        },
+        {
+          "parcel_id": "1079180030811",
+          "county": "DADE",
+          "sqft": 10000,
+          "value": 1052000
+        },
+        {
+          "parcel_id": "531200290020",
+          "county": "DADE",
+          "sqft": 10000,
+          "value": 2260000
+        },
+        {
+          "parcel_id": "9024-0549-03",
+          "county": "MARION",
+          "sqft": 10000,
+          "value": 798732
+        },
+        {
+          "parcel_id": "9029-0724-18",
+          "county": "MARION",
+          "sqft": 10000,
+          "value": 423975
+        },
+        {
+          "parcel_id": "1678250040030",
+          "county": "DADE",
+          "sqft": 10000,
+          "value": 1635180
+        },
+        {
+          "parcel_id": "242834264500002601",
+          "county": "POLK",
+          "sqft": 10000,
+          "value": 208240
+        },
+        {
+          "parcel_id": "242834264500002605",
+          "county": "POLK",
+          "sqft": 10000,
+          "value": 207236
+        }
+      ],
+      "count": 10
+    },
+    {
+      "name": "API Analysis",
+      "status": "PASS",
+      "findings": [
+        "minBuildingSqFt parameter exists",
+        "Correct column name used",
+        "Pagination limits found: ['20', '1', '5', '1000', '10']"
+      ]
+    }
+  ],
+  "root_cause": "COMPLEX_ISSUE",
+  "fix_recommendations": [
+    "Enable detailed logging in both frontend and backend",
+    "Use browser DevTools to inspect actual API calls",
+    "Check Supabase dashboard for query performance issues",
+    "Review PostgREST query construction in API"
+  ]
+}

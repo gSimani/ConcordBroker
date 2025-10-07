@@ -1,0 +1,491 @@
+{
+  "timestamp": "2025-09-30T11:10:46.006707",
+  "tables": {
+    "florida_parcels": {
+      "exists": false,
+      "error": "The read operation timed out"
+    },
+    "property_sales_history": {
+      "exists": true,
+      "row_count": 96771
+    },
+    "florida_entities": {
+      "exists": false,
+      "error": "The read operation timed out"
+    },
+    "sunbiz_corporate": {
+      "exists": true,
+      "row_count": 2030912
+    },
+    "tax_certificates": {
+      "exists": true,
+      "row_count": 10
+    },
+    "tax_deed_auctions": {
+      "exists": true,
+      "row_count": 4
+    },
+    "dor_use_codes": {
+      "exists": true,
+      "row_count": 100
+    },
+    "User": {
+      "exists": false,
+      "error": "{'code': 'PGRST205', 'details': None, 'hint': None, 'message': \"Could not find the table 'public.User' in the schema cache\"}"
+    },
+    "property_notes": {
+      "exists": false,
+      "error": "{'code': 'PGRST205', 'details': None, 'hint': \"Perhaps you meant the table 'public.property_sales'\", 'message': \"Could not find the table 'public.property_notes' in the schema cache\"}"
+    },
+    "property_contacts": {
+      "exists": false,
+      "error": "{'code': 'PGRST205', 'details': None, 'hint': \"Perhaps you meant the table 'public.property_sales'\", 'message': \"Could not find the table 'public.property_contacts' in the schema cache\"}"
+    }
+  },
+  "data_quality": {
+    "parcel_id": {
+      "not_null": 1000,
+      "null": 0,
+      "zero": 0,
+      "pct_complete": 100.0,
+      "unique_samples": [
+        "141110011051",
+        "141110011110",
+        "141110011100",
+        "141110011030",
+        "141110011040",
+        "141110011050",
+        "141110011091",
+        "141110011070",
+        "141110011060",
+        "141110011080"
+      ]
+    },
+    "county": {
+      "not_null": 1000,
+      "null": 0,
+      "zero": 0,
+      "pct_complete": 100.0,
+      "unique_samples": [
+        "MARION",
+        "BAY",
+        "MIAMI-DADE",
+        "SARASOTA"
+      ]
+    },
+    "year": {
+      "not_null": 1000,
+      "null": 0,
+      "zero": 0,
+      "pct_complete": 100.0,
+      "unique_samples": [
+        "2025"
+      ]
+    },
+    "owner_name": {
+      "not_null": 1000,
+      "null": 0,
+      "zero": 0,
+      "pct_complete": 100.0,
+      "unique_samples": [
+        "MARIA DOLORES CHAVEZ",
+        "BRACERAS INVEST PROP LLC",
+        "1152 DOMINION LLC",
+        "NO DRAMA MAINTENANCE AND",
+        "JOSE ENRIQUE GONZALEZ TRS",
+        "MARIA D CHAVEZ",
+        "JORGE ENCINOSA",
+        "JORGE E CHACON",
+        "1140 DOMINION LLC",
+        "PRO DEVELOPMENT USA LLC"
+      ]
+    },
+    "phy_addr1": {
+      "not_null": 988,
+      "null": 12,
+      "zero": 0,
+      "pct_complete": 98.8,
+      "unique_samples": [
+        "1140 SW 10 ST",
+        "1134 SW 10 ST",
+        "1035 SW 12 AVE",
+        "1118 SW 10 ST",
+        "1003 SW 12 AVE",
+        "1021 SW 12 AVE",
+        "1126 SW 10 ST",
+        "1152 SW 10 ST",
+        "1013 SW 12 AVE",
+        "1027 SW 12 AVE"
+      ]
+    },
+    "phy_city": {
+      "not_null": 998,
+      "null": 2,
+      "zero": 0,
+      "pct_complete": 99.8,
+      "unique_samples": [
+        "MORRISTON",
+        "SARASOTA",
+        "Miami",
+        "OCALA"
+      ]
+    },
+    "phy_zipcd": {
+      "not_null": 998,
+      "null": 2,
+      "zero": 0,
+      "pct_complete": 99.8,
+      "unique_samples": [
+        "34238",
+        "33133.0",
+        "32668.0",
+        "33130.0",
+        "34482.0",
+        "33135.0",
+        "33145.0",
+        "33129.0"
+      ]
+    },
+    "just_value": {
+      "not_null": 1000,
+      "null": 0,
+      "zero": 2,
+      "pct_complete": 100.0,
+      "unique_samples": [
+        "654176",
+        "730113",
+        "741896",
+        "737839",
+        "758043",
+        "729392",
+        "776460",
+        "824696",
+        "741303",
+        "669025"
+      ]
+    },
+    "assessed_value": {
+      "not_null": 989,
+      "null": 11,
+      "zero": 1,
+      "pct_complete": 98.9,
+      "unique_samples": [
+        "654176",
+        "730113",
+        "741896",
+        "758043",
+        "445835",
+        "729392",
+        "776460",
+        "824696",
+        "457249",
+        "669025"
+      ]
+    },
+    "taxable_value": {
+      "not_null": 1000,
+      "null": 0,
+      "zero": 18,
+      "pct_complete": 100.0,
+      "unique_samples": [
+        "654176",
+        "730113",
+        "741896",
+        "758043",
+        "729392",
+        "776460",
+        "824696",
+        "432249",
+        "669025",
+        "420835"
+      ]
+    },
+    "land_value": {
+      "not_null": 999,
+      "null": 1,
+      "zero": 25,
+      "pct_complete": 99.9,
+      "unique_samples": [
+        "1050000",
+        "410000",
+        "464120",
+        "531688",
+        "451000",
+        "615000",
+        "574000",
+        "369000",
+        "553090",
+        "680600"
+      ]
+    },
+    "building_value": {
+      "not_null": 988,
+      "null": 12,
+      "zero": 33,
+      "pct_complete": 98.8,
+      "unique_samples": [
+        "167303",
+        "167896",
+        "197704",
+        "54025",
+        "209696",
+        "161460",
+        "163839",
+        "143043",
+        "115113",
+        "190056"
+      ]
+    },
+    "total_living_area": {
+      "not_null": 939,
+      "null": 61,
+      "zero": 0,
+      "pct_complete": 93.89999999999999,
+      "unique_samples": [
+        "1771",
+        "2258",
+        "949",
+        "2340",
+        "1457",
+        "2180",
+        "2206",
+        "2942",
+        "2324",
+        "2423"
+      ]
+    },
+    "land_sqft": {
+      "not_null": 11,
+      "null": 989,
+      "zero": 0,
+      "pct_complete": 1.0999999999999999,
+      "unique_samples": [
+        "1709730",
+        "59677",
+        "83635",
+        "6762690",
+        "150282",
+        "49658",
+        "432115",
+        "2746458",
+        "853340",
+        "1742400"
+      ]
+    },
+    "bedrooms": {
+      "not_null": 0,
+      "null": 1000,
+      "zero": 0,
+      "pct_complete": 0.0,
+      "unique_samples": []
+    },
+    "bathrooms": {
+      "not_null": 0,
+      "null": 1000,
+      "zero": 0,
+      "pct_complete": 0.0,
+      "unique_samples": []
+    },
+    "stories": {
+      "not_null": 0,
+      "null": 1000,
+      "zero": 0,
+      "pct_complete": 0.0,
+      "unique_samples": []
+    },
+    "units": {
+      "not_null": 0,
+      "null": 1000,
+      "zero": 0,
+      "pct_complete": 0.0,
+      "unique_samples": []
+    },
+    "year_built": {
+      "not_null": 939,
+      "null": 61,
+      "zero": 0,
+      "pct_complete": 93.89999999999999,
+      "unique_samples": [
+        "1955",
+        "1924",
+        "1946",
+        "1935",
+        "1930",
+        "1925",
+        "1926",
+        "1929",
+        "1947",
+        "1942"
+      ]
+    },
+    "property_use": {
+      "not_null": 999,
+      "null": 1,
+      "zero": 0,
+      "pct_complete": 99.9,
+      "unique_samples": [
+        "1",
+        "26",
+        "18",
+        "71",
+        "63",
+        "28",
+        "0",
+        "14",
+        "8",
+        "10"
+      ]
+    },
+    "property_use_desc": {
+      "not_null": 0,
+      "null": 1000,
+      "zero": 0,
+      "pct_complete": 0.0,
+      "unique_samples": []
+    },
+    "land_use_code": {
+      "not_null": 11,
+      "null": 989,
+      "zero": 0,
+      "pct_complete": 1.0999999999999999,
+      "unique_samples": [
+        "86",
+        "98",
+        "91",
+        "63",
+        "56",
+        "93",
+        "53"
+      ]
+    },
+    "zoning": {
+      "not_null": 0,
+      "null": 1000,
+      "zero": 0,
+      "pct_complete": 0.0,
+      "unique_samples": []
+    },
+    "sale_date": {
+      "not_null": 120,
+      "null": 880,
+      "zero": 0,
+      "pct_complete": 12.0,
+      "unique_samples": [
+        "2024-02-01T00:00:00",
+        "2025-01-01T00:00:00",
+        "2024-05-01T00:00:00",
+        "2024-12-01T00:00:00",
+        "2024-04-01T00:00:00",
+        "2024-09-01T00:00:00",
+        "2025-03-01T00:00:00",
+        "2024-10-01T00:00:00",
+        "2024-07-01T00:00:00",
+        "2024-06-01T00:00:00"
+      ]
+    },
+    "sale_price": {
+      "not_null": 120,
+      "null": 880,
+      "zero": 2,
+      "pct_complete": 12.0,
+      "unique_samples": [
+        "900000",
+        "1400000",
+        "1050000",
+        "610000",
+        "515000",
+        "650000",
+        "100",
+        "300100",
+        "1250000",
+        "1350000"
+      ]
+    },
+    "sale_qualification": {
+      "not_null": 0,
+      "null": 1000,
+      "zero": 0,
+      "pct_complete": 0.0,
+      "unique_samples": []
+    }
+  },
+  "recommendations": [
+    {
+      "type": "LOW_DATA_QUALITY",
+      "table": "florida_parcels",
+      "field": "land_sqft",
+      "severity": "HIGH",
+      "message": "Field 'land_sqft' only 1.1% complete"
+    },
+    {
+      "type": "LOW_DATA_QUALITY",
+      "table": "florida_parcels",
+      "field": "bedrooms",
+      "severity": "HIGH",
+      "message": "Field 'bedrooms' only 0.0% complete"
+    },
+    {
+      "type": "LOW_DATA_QUALITY",
+      "table": "florida_parcels",
+      "field": "bathrooms",
+      "severity": "HIGH",
+      "message": "Field 'bathrooms' only 0.0% complete"
+    },
+    {
+      "type": "LOW_DATA_QUALITY",
+      "table": "florida_parcels",
+      "field": "stories",
+      "severity": "HIGH",
+      "message": "Field 'stories' only 0.0% complete"
+    },
+    {
+      "type": "LOW_DATA_QUALITY",
+      "table": "florida_parcels",
+      "field": "units",
+      "severity": "HIGH",
+      "message": "Field 'units' only 0.0% complete"
+    },
+    {
+      "type": "LOW_DATA_QUALITY",
+      "table": "florida_parcels",
+      "field": "property_use_desc",
+      "severity": "HIGH",
+      "message": "Field 'property_use_desc' only 0.0% complete"
+    },
+    {
+      "type": "LOW_DATA_QUALITY",
+      "table": "florida_parcels",
+      "field": "land_use_code",
+      "severity": "HIGH",
+      "message": "Field 'land_use_code' only 1.1% complete"
+    },
+    {
+      "type": "LOW_DATA_QUALITY",
+      "table": "florida_parcels",
+      "field": "zoning",
+      "severity": "HIGH",
+      "message": "Field 'zoning' only 0.0% complete"
+    },
+    {
+      "type": "LOW_DATA_QUALITY",
+      "table": "florida_parcels",
+      "field": "sale_date",
+      "severity": "HIGH",
+      "message": "Field 'sale_date' only 12.0% complete"
+    },
+    {
+      "type": "LOW_DATA_QUALITY",
+      "table": "florida_parcels",
+      "field": "sale_price",
+      "severity": "HIGH",
+      "message": "Field 'sale_price' only 12.0% complete"
+    },
+    {
+      "type": "LOW_DATA_QUALITY",
+      "table": "florida_parcels",
+      "field": "sale_qualification",
+      "severity": "HIGH",
+      "message": "Field 'sale_qualification' only 0.0% complete"
+    }
+  ]
+}

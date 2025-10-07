@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Page</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Port Test</h1>
+    <div id="results"></div>
+
+    <script>
+        const results = document.getElementById('results');
+
+        // Test if we can access the main page
+        fetch('/')
+            .then(response => response.text())
+            .then(html => {
+                if (html.includes('<div id="root">')) {
+                    results.innerHTML += '<p class="success">✅ Root element found in HTML</p>';
+
+                    // Check if React scripts are loading
+                    if (html.includes('main.tsx')) {
+                        results.innerHTML += '<p class="success">✅ main.tsx script referenced</p>';
+                    } else {
+                        results.innerHTML += '<p class="error">❌ main.tsx script NOT found</p>';
+                    }
+                } else {
+                    results.innerHTML += '<p class="error">❌ Root element NOT found</p>';
+                }
+            })
+            .catch(error => {
+                results.innerHTML += '<p class="error">❌ Error fetching page: ' + error.message + '</p>';
+            });
+
+        // Check if we can access Vite's module endpoint
+        fetch('/src/main.tsx')
+            .then(response => {
+                if (response.ok) {
+                    results.innerHTML += '<p class="success">✅ Vite can serve TypeScript files</p>';
+                } else {
+                    results.innerHTML += '<p class="error">❌ Vite cannot serve TypeScript files (status: ' + response.status + ')</p>';
+                }
+            })
+            .catch(error => {
+                results.innerHTML += '<p class="error">❌ Error accessing main.tsx: ' + error.message + '</p>';
+            });
+    </script>
+</body>
+</html>

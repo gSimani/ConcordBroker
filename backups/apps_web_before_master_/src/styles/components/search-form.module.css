@@ -1,0 +1,452 @@
+/**
+ * Search Form BEM Components
+ * Following BEM methodology: Block__Element--Modifier
+ */
+
+/* ==========================================================================
+   SEARCH FORM BLOCK
+   ========================================================================== */
+
+.search-form {
+  @apply bg-white rounded-lg shadow-sm border;
+}
+
+.search-form--compact {
+  @apply shadow-none border-0 bg-transparent;
+}
+
+.search-form--expanded {
+  @apply shadow-lg;
+}
+
+.search-form--loading {
+  @apply opacity-75 pointer-events-none;
+}
+
+.search-form--error {
+  @apply border-red-300 bg-red-50;
+}
+
+/* ==========================================================================
+   SEARCH FORM ELEMENTS
+   ========================================================================== */
+
+/* Header */
+.search-form__header {
+  @apply pb-4;
+}
+
+.search-form__header--compact {
+  @apply pb-2;
+}
+
+.search-form__header-container {
+  @apply flex items-center justify-between;
+}
+
+.search-form__title {
+  @apply text-lg font-semibold text-gray-900;
+}
+
+.search-form__title--compact {
+  @apply text-base;
+}
+
+.search-form__actions {
+  @apply flex items-center space-x-2;
+}
+
+.search-form__toggle-button {
+  @apply flex items-center gap-2 px-3 py-1.5 text-sm border border-gray-300 rounded-md hover:bg-gray-50 transition-colors;
+}
+
+.search-form__toggle-button--active {
+  @apply bg-blue-50 border-blue-300 text-blue-700;
+}
+
+.search-form__clear-button {
+  @apply px-3 py-1.5 text-sm text-gray-600 hover:text-gray-800 transition-colors;
+}
+
+.search-form__toggle-icon {
+  @apply w-4 h-4;
+}
+
+/* Content */
+.search-form__content {
+  @apply space-y-4;
+}
+
+.search-form__content--compact {
+  @apply space-y-2;
+}
+
+/* Main Search */
+.search-form__main-search {
+  @apply relative;
+}
+
+.search-form__search-icon {
+  @apply absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4;
+}
+
+.search-form__search-input {
+  @apply w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all;
+}
+
+.search-form__search-input--error {
+  @apply border-red-300 focus:ring-red-500;
+}
+
+.search-form__search-input:focus {
+  @apply shadow-sm;
+}
+
+/* Quick Filters */
+.search-form__quick-filters {
+  @apply flex flex-wrap gap-2;
+}
+
+.search-form__quick-filters--vertical {
+  @apply flex-col gap-1;
+}
+
+.search-form__filter-button {
+  @apply inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105 cursor-pointer;
+}
+
+.search-form__filter-button--selected {
+  @apply text-white shadow-sm;
+}
+
+.search-form__filter-button--unselected {
+  @apply bg-white hover:bg-gray-50;
+}
+
+.search-form__filter-icon {
+  @apply w-4 h-4 mr-1.5;
+}
+
+/* Advanced Filters */
+.search-form__advanced-section {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-gray-200;
+}
+
+.search-form__advanced-section--collapsed {
+  @apply hidden;
+}
+
+.search-form__advanced-section--expanded {
+  @apply block;
+}
+
+.search-form__field-group {
+  @apply space-y-1;
+}
+
+.search-form__field-group--full-width {
+  @apply md:col-span-3;
+}
+
+.search-form__field-group--half-width {
+  @apply md:col-span-1;
+}
+
+.search-form__field-label {
+  @apply block text-sm font-medium text-gray-700;
+}
+
+.search-form__field-label--required::after {
+  @apply content-['*'] text-red-500 ml-1;
+}
+
+.search-form__field-input {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all;
+}
+
+.search-form__field-input--error {
+  @apply border-red-300 focus:ring-red-500;
+}
+
+.search-form__field-input:focus {
+  @apply shadow-sm;
+}
+
+.search-form__field-select {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white;
+}
+
+.search-form__field-select--error {
+  @apply border-red-300 focus:ring-red-500;
+}
+
+/* Error States */
+.search-form__error-message {
+  @apply text-xs text-red-600 mt-1;
+}
+
+.search-form__field-error {
+  @apply border-red-300;
+}
+
+/* Success States */
+.search-form__success-message {
+  @apply text-xs text-green-600 mt-1;
+}
+
+.search-form__field-success {
+  @apply border-green-300;
+}
+
+/* Results Summary */
+.search-form__results {
+  @apply flex items-center justify-between;
+}
+
+.search-form__results-count {
+  @apply flex items-center space-x-4;
+}
+
+.search-form__results-title {
+  @apply text-lg font-semibold text-gray-900;
+}
+
+.search-form__results-title--loading {
+  @apply flex items-center gap-2;
+}
+
+.search-form__loading-spinner {
+  @apply w-4 h-4 animate-spin;
+}
+
+.search-form__results-meta {
+  @apply flex items-center gap-2;
+}
+
+.search-form__results-badge {
+  @apply px-2 py-1 text-xs rounded-md;
+}
+
+.search-form__results-badge--cached {
+  @apply bg-blue-100 text-blue-800;
+}
+
+.search-form__results-badge--fresh {
+  @apply bg-green-100 text-green-800;
+}
+
+/* View Toggle */
+.search-form__view-toggle {
+  @apply flex items-center space-x-2;
+}
+
+.search-form__view-button {
+  @apply p-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors;
+}
+
+.search-form__view-button--active {
+  @apply bg-blue-50 border-blue-300 text-blue-700;
+}
+
+.search-form__view-button--inactive {
+  @apply bg-white text-gray-600;
+}
+
+.search-form__view-icon {
+  @apply w-4 h-4;
+}
+
+/* ==========================================================================
+   SEARCH SUGGESTIONS
+   ========================================================================== */
+
+.search-form__suggestions {
+  @apply absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-md shadow-lg z-50 max-h-64 overflow-y-auto;
+}
+
+.search-form__suggestions--hidden {
+  @apply hidden;
+}
+
+.search-form__suggestion {
+  @apply px-4 py-2 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0;
+}
+
+.search-form__suggestion--selected {
+  @apply bg-blue-50 text-blue-900;
+}
+
+.search-form__suggestion-text {
+  @apply text-sm text-gray-900;
+}
+
+.search-form__suggestion-meta {
+  @apply text-xs text-gray-500;
+}
+
+/* ==========================================================================
+   SEARCH METRICS
+   ========================================================================== */
+
+.search-form__metrics {
+  @apply flex items-center space-x-4 text-sm text-gray-500;
+}
+
+.search-form__metric {
+  @apply flex items-center space-x-1;
+}
+
+.search-form__metric-label {
+  @apply font-medium;
+}
+
+.search-form__metric-value {
+  @apply px-2 py-1 bg-gray-100 rounded-md text-xs font-mono;
+}
+
+.search-form__metric-value--good {
+  @apply bg-green-100 text-green-800;
+}
+
+.search-form__metric-value--warning {
+  @apply bg-yellow-100 text-yellow-800;
+}
+
+.search-form__metric-value--error {
+  @apply bg-red-100 text-red-800;
+}
+
+.search-form__refresh-button {
+  @apply p-1 hover:bg-gray-100 rounded transition-colors;
+}
+
+.search-form__refresh-icon {
+  @apply w-4 h-4;
+}
+
+/* ==========================================================================
+   FILTER CHIPS
+   ========================================================================== */
+
+.search-form__active-filters {
+  @apply flex flex-wrap gap-2 pt-2 border-t border-gray-200;
+}
+
+.search-form__active-filters--empty {
+  @apply hidden;
+}
+
+.search-form__filter-chip {
+  @apply inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-md;
+}
+
+.search-form__filter-chip-label {
+  @apply font-medium;
+}
+
+.search-form__filter-chip-value {
+  @apply text-blue-600;
+}
+
+.search-form__filter-chip-remove {
+  @apply ml-1 p-0.5 hover:bg-blue-200 rounded cursor-pointer transition-colors;
+}
+
+.search-form__filter-chip-remove-icon {
+  @apply w-3 h-3;
+}
+
+/* ==========================================================================
+   MOBILE RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .search-form__advanced-section {
+    @apply grid-cols-1 gap-2;
+  }
+
+  .search-form__quick-filters {
+    @apply grid grid-cols-2 gap-2;
+  }
+
+  .search-form__filter-button {
+    @apply text-xs px-2 py-1;
+  }
+
+  .search-form__header-container {
+    @apply flex-col items-start gap-2;
+  }
+
+  .search-form__actions {
+    @apply flex-wrap;
+  }
+
+  .search-form__results {
+    @apply flex-col items-start gap-2;
+  }
+
+  .search-form__view-toggle {
+    @apply order-first;
+  }
+}
+
+/* ==========================================================================
+   ANIMATION STATES
+   ========================================================================== */
+
+.search-form--animate-expand {
+  @apply transition-all duration-300 ease-out;
+}
+
+.search-form__advanced-section--animate {
+  @apply transition-all duration-200 ease-out;
+}
+
+.search-form__filter-button--animate {
+  @apply transition-all duration-150 ease-out;
+}
+
+/* ==========================================================================
+   LOADING STATES
+   ========================================================================== */
+
+.search-form__skeleton {
+  @apply animate-pulse bg-gray-200 rounded;
+}
+
+.search-form__skeleton--input {
+  @apply h-10;
+}
+
+.search-form__skeleton--button {
+  @apply h-8 w-20;
+}
+
+.search-form__skeleton--filter {
+  @apply h-6 w-16;
+}
+
+/* ==========================================================================
+   ACCESSIBILITY
+   ========================================================================== */
+
+.search-form__field-input:focus,
+.search-form__field-select:focus,
+.search-form__search-input:focus {
+  @apply ring-2 ring-blue-500 ring-offset-2;
+}
+
+.search-form__toggle-button:focus,
+.search-form__filter-button:focus,
+.search-form__view-button:focus {
+  @apply ring-2 ring-blue-500 ring-offset-2;
+}
+
+.search-form__suggestion:focus {
+  @apply bg-blue-50 outline-none;
+}
+
+/* Screen reader only content */
+.search-form__sr-only {
+  @apply sr-only;
+}

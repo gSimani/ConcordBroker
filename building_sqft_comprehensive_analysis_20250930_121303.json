@@ -1,0 +1,99 @@
+{
+  "timestamp": "2025-09-30T12:12:45.176857",
+  "supabase_analysis": {
+    "total_columns": 51,
+    "building_columns": [
+      "area_sqft",
+      "building_value",
+      "total_living_area",
+      "land_sqft"
+    ],
+    "size_distribution": []
+  },
+  "source_files_analysis": {
+    "total_files": 315,
+    "total_size_gb": 6.233089349232614,
+    "file_types": {
+      ".json": 4,
+      ".md": 1,
+      "": 1,
+      ".csv": 186,
+      ".txt": 122,
+      ".zip": 1
+    },
+    "nap_files_count": 62,
+    "nap_files_sample": [
+      {
+        "file": "NAP11P202501.csv",
+        "path": "C:\\Users\\gsima\\Documents\\MyProject\\ConcordBroker\\TEMP\\DATABASE PROPERTY APP\\ALACHUA\\NAP\\NAP11P202501.csv",
+        "size_mb": 2.3621292114257812,
+        "county": "ALACHUA"
+      },
+      {
+        "file": "NAP12P202501.csv",
+        "path": "C:\\Users\\gsima\\Documents\\MyProject\\ConcordBroker\\TEMP\\DATABASE PROPERTY APP\\BAKER\\NAP\\NAP12P202501.csv",
+        "size_mb": 0.12368965148925781,
+        "county": "BAKER"
+      },
+      {
+        "file": "NAP13P202501.csv",
+        "path": "C:\\Users\\gsima\\Documents\\MyProject\\ConcordBroker\\TEMP\\DATABASE PROPERTY APP\\BAY\\NAP\\NAP13P202501.csv",
+        "size_mb": 2.8354454040527344,
+        "county": "BAY"
+      },
+      {
+        "file": "NAP14P202501.csv",
+        "path": "C:\\Users\\gsima\\Documents\\MyProject\\ConcordBroker\\TEMP\\DATABASE PROPERTY APP\\BRADFORD\\NAP\\NAP14P202501.csv",
+        "size_mb": 0.23245811462402344,
+        "county": "BRADFORD"
+      },
+      {
+        "file": "NAP15P202501.csv",
+        "path": "C:\\Users\\gsima\\Documents\\MyProject\\ConcordBroker\\TEMP\\DATABASE PROPERTY APP\\BREVARD\\NAP\\NAP15P202501.csv",
+        "size_mb": 10.033693313598633,
+        "county": "BREVARD"
+      },
+      {
+        "file": "NAP16P202501.csv",
+        "path": "C:\\Users\\gsima\\Documents\\MyProject\\ConcordBroker\\TEMP\\DATABASE PROPERTY APP\\BROWARD\\NAP\\NAP16P202501.csv",
+        "size_mb": 18.709135055541992,
+        "county": "BROWARD"
+      },
+      {
+        "file": "NAP17P202501.csv",
+        "path": "C:\\Users\\gsima\\Documents\\MyProject\\ConcordBroker\\TEMP\\DATABASE PROPERTY APP\\CALHOUN\\NAP\\NAP17P202501.csv",
+        "size_mb": 0.0780935287475586,
+        "county": "CALHOUN"
+      },
+      {
+        "file": "NAP18P202501.csv",
+        "path": "C:\\Users\\gsima\\Documents\\MyProject\\ConcordBroker\\TEMP\\DATABASE PROPERTY APP\\CHARLOTTE\\NAP\\NAP18P202501.csv",
+        "size_mb": 5.071890830993652,
+        "county": "CHARLOTTE"
+      },
+      {
+        "file": "NAP19P202501.csv",
+        "path": "C:\\Users\\gsima\\Documents\\MyProject\\ConcordBroker\\TEMP\\DATABASE PROPERTY APP\\CITRUS\\NAP\\NAP19P202501.csv",
+        "size_mb": 1.428624153137207,
+        "county": "CITRUS"
+      },
+      {
+        "file": "NAP20P202501.csv",
+        "path": "C:\\Users\\gsima\\Documents\\MyProject\\ConcordBroker\\TEMP\\DATABASE PROPERTY APP\\CLAY\\NAP\\NAP20P202501.csv",
+        "size_mb": 1.201207160949707,
+        "county": "CLAY"
+      }
+    ],
+    "nap_sample_file": "NAP11P202501.csv",
+    "nap_building_columns": [],
+    "nap_samples": [
+      {},
+      {},
+      {},
+      {},
+      {}
+    ]
+  },
+  "findings": [],
+  "recommendations": []
+}

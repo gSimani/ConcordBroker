@@ -1,0 +1,494 @@
+/**
+ * Layout BEM Components
+ * Following BEM methodology: Block__Element--Modifier
+ */
+
+/* ==========================================================================
+   LAYOUT BLOCK
+   ========================================================================== */
+
+.layout {
+  @apply min-h-screen bg-gray-50;
+}
+
+.layout--fullscreen {
+  @apply h-screen overflow-hidden;
+}
+
+.layout--minimal {
+  @apply bg-white;
+}
+
+.layout--dark {
+  @apply bg-gray-900 text-white;
+}
+
+/* ==========================================================================
+   HEADER COMPONENT
+   ========================================================================== */
+
+.header {
+  @apply bg-white border-b border-gray-200 sticky top-0 z-50;
+}
+
+.header--transparent {
+  @apply bg-transparent border-b-0 backdrop-blur-sm;
+}
+
+.header--elevated {
+  @apply shadow-sm;
+}
+
+.header--dark {
+  @apply bg-gray-900 border-gray-700 text-white;
+}
+
+.header__container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.header__container--fluid {
+  @apply max-w-none mx-0 px-4;
+}
+
+.header__content {
+  @apply flex items-center justify-between h-16;
+}
+
+.header__content--tall {
+  @apply h-20;
+}
+
+.header__content--compact {
+  @apply h-12;
+}
+
+/* Header Left Section */
+.header__left {
+  @apply flex items-center space-x-4;
+}
+
+.header__logo {
+  @apply flex items-center space-x-2;
+}
+
+.header__logo-image {
+  @apply h-8 w-auto;
+}
+
+.header__logo-text {
+  @apply text-xl font-bold text-gray-900;
+}
+
+.header__logo-text--dark {
+  @apply text-white;
+}
+
+.header__nav {
+  @apply hidden md:flex items-center space-x-6;
+}
+
+.header__nav-link {
+  @apply text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors;
+}
+
+.header__nav-link--active {
+  @apply text-blue-600;
+}
+
+.header__nav-link--dark {
+  @apply text-gray-300 hover:text-white;
+}
+
+/* Header Right Section */
+.header__right {
+  @apply flex items-center space-x-4;
+}
+
+.header__search {
+  @apply hidden lg:block;
+}
+
+.header__search-input {
+  @apply w-64 px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+}
+
+.header__actions {
+  @apply flex items-center space-x-2;
+}
+
+.header__notification {
+  @apply p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors;
+}
+
+.header__notification--has-alerts {
+  @apply text-red-600 hover:text-red-700;
+}
+
+.header__user-menu {
+  @apply relative;
+}
+
+.header__avatar {
+  @apply h-8 w-8 rounded-full bg-gray-300;
+}
+
+.header__mobile-menu-button {
+  @apply md:hidden p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md;
+}
+
+/* ==========================================================================
+   SIDEBAR COMPONENT
+   ========================================================================== */
+
+.sidebar {
+  @apply bg-white border-r border-gray-200 w-64 flex-shrink-0 overflow-y-auto;
+}
+
+.sidebar--collapsed {
+  @apply w-16;
+}
+
+.sidebar--dark {
+  @apply bg-gray-900 border-gray-700;
+}
+
+.sidebar--overlay {
+  @apply fixed inset-y-0 left-0 z-50 md:static md:inset-0;
+}
+
+.sidebar--hidden {
+  @apply -translate-x-full md:translate-x-0;
+}
+
+.sidebar__header {
+  @apply p-4 border-b border-gray-200;
+}
+
+.sidebar__header--dark {
+  @apply border-gray-700;
+}
+
+.sidebar__title {
+  @apply text-lg font-semibold text-gray-900;
+}
+
+.sidebar__title--dark {
+  @apply text-white;
+}
+
+.sidebar__title--collapsed {
+  @apply hidden;
+}
+
+.sidebar__content {
+  @apply flex-1 p-4;
+}
+
+.sidebar__nav {
+  @apply space-y-1;
+}
+
+.sidebar__nav-item {
+  @apply flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors;
+}
+
+.sidebar__nav-item--active {
+  @apply bg-blue-100 text-blue-900;
+}
+
+.sidebar__nav-item--inactive {
+  @apply text-gray-700 hover:bg-gray-50 hover:text-gray-900;
+}
+
+.sidebar__nav-item--dark {
+  @apply text-gray-300 hover:bg-gray-800 hover:text-white;
+}
+
+.sidebar__nav-icon {
+  @apply w-5 h-5 mr-3 flex-shrink-0;
+}
+
+.sidebar__nav-icon--collapsed {
+  @apply mr-0;
+}
+
+.sidebar__nav-text {
+  @apply truncate;
+}
+
+.sidebar__nav-text--collapsed {
+  @apply hidden;
+}
+
+.sidebar__footer {
+  @apply p-4 border-t border-gray-200;
+}
+
+.sidebar__footer--dark {
+  @apply border-gray-700;
+}
+
+/* ==========================================================================
+   MAIN CONTENT AREA
+   ========================================================================== */
+
+.main {
+  @apply flex-1 overflow-hidden;
+}
+
+.main--with-sidebar {
+  @apply flex;
+}
+
+.main__container {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6;
+}
+
+.main__container--fluid {
+  @apply max-w-none mx-0 px-4;
+}
+
+.main__container--no-padding {
+  @apply p-0;
+}
+
+.main__header {
+  @apply mb-6;
+}
+
+.main__header--compact {
+  @apply mb-4;
+}
+
+.main__title {
+  @apply text-2xl font-bold text-gray-900;
+}
+
+.main__title--large {
+  @apply text-3xl;
+}
+
+.main__title--dark {
+  @apply text-white;
+}
+
+.main__subtitle {
+  @apply mt-1 text-sm text-gray-500;
+}
+
+.main__subtitle--dark {
+  @apply text-gray-400;
+}
+
+.main__actions {
+  @apply flex items-center justify-between;
+}
+
+.main__actions--right {
+  @apply justify-end;
+}
+
+.main__content {
+  @apply space-y-6;
+}
+
+.main__content--compact {
+  @apply space-y-4;
+}
+
+/* ==========================================================================
+   BREADCRUMB COMPONENT
+   ========================================================================== */
+
+.breadcrumb {
+  @apply flex items-center space-x-2 text-sm;
+}
+
+.breadcrumb__item {
+  @apply text-gray-500 hover:text-gray-700 transition-colors;
+}
+
+.breadcrumb__item--active {
+  @apply text-gray-900 font-medium;
+}
+
+.breadcrumb__separator {
+  @apply text-gray-400;
+}
+
+.breadcrumb__link {
+  @apply hover:underline;
+}
+
+/* ==========================================================================
+   GRID LAYOUTS
+   ========================================================================== */
+
+.grid-layout {
+  @apply grid gap-6;
+}
+
+.grid-layout--1-col {
+  @apply grid-cols-1;
+}
+
+.grid-layout--2-col {
+  @apply grid-cols-1 lg:grid-cols-2;
+}
+
+.grid-layout--3-col {
+  @apply grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+}
+
+.grid-layout--4-col {
+  @apply grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+}
+
+.grid-layout--auto {
+  @apply grid-cols-[repeat(auto-fit,minmax(300px,1fr))];
+}
+
+.grid-layout--compact {
+  @apply gap-4;
+}
+
+.grid-layout--spacious {
+  @apply gap-8;
+}
+
+/* ==========================================================================
+   RESPONSIVE UTILITIES
+   ========================================================================== */
+
+.layout__mobile-only {
+  @apply block md:hidden;
+}
+
+.layout__desktop-only {
+  @apply hidden md:block;
+}
+
+.layout__tablet-up {
+  @apply hidden sm:block;
+}
+
+/* ==========================================================================
+   SCROLLABLE AREAS
+   ========================================================================== */
+
+.scrollable {
+  @apply overflow-y-auto;
+}
+
+.scrollable--smooth {
+  @apply scroll-smooth;
+}
+
+.scrollable--hidden-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollable--hidden-scrollbar::-webkit-scrollbar {
+  @apply hidden;
+}
+
+.scrollable--custom-scrollbar::-webkit-scrollbar {
+  @apply w-2;
+}
+
+.scrollable--custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+.scrollable--custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-gray-400 rounded-full hover:bg-gray-500;
+}
+
+/* ==========================================================================
+   LOADING STATES
+   ========================================================================== */
+
+.layout__loading {
+  @apply animate-pulse;
+}
+
+.layout__skeleton {
+  @apply bg-gray-200 rounded;
+}
+
+.layout__skeleton--header {
+  @apply h-8 w-48 mb-4;
+}
+
+.layout__skeleton--line {
+  @apply h-4 w-full mb-2;
+}
+
+.layout__skeleton--line--short {
+  @apply w-3/4;
+}
+
+.layout__skeleton--card {
+  @apply h-32 w-full;
+}
+
+/* ==========================================================================
+   MOBILE OVERLAY
+   ========================================================================== */
+
+.layout__overlay {
+  @apply fixed inset-0 bg-black bg-opacity-50 z-40;
+}
+
+.layout__overlay--hidden {
+  @apply hidden;
+}
+
+/* ==========================================================================
+   PRINT STYLES
+   ========================================================================== */
+
+@media print {
+  .layout__no-print {
+    @apply hidden;
+  }
+
+  .header,
+  .sidebar {
+    @apply hidden;
+  }
+
+  .main {
+    @apply w-full;
+  }
+
+  .main__container {
+    @apply max-w-none px-0;
+  }
+}
+
+/* ==========================================================================
+   ACCESSIBILITY
+   ========================================================================== */
+
+.layout__skip-link {
+  @apply sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-blue-600 text-white px-4 py-2 rounded z-50;
+}
+
+/* Focus management */
+.layout:focus-within .header__nav-link:focus,
+.layout:focus-within .sidebar__nav-item:focus {
+  @apply ring-2 ring-blue-500 ring-offset-2;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .layout,
+  .header,
+  .sidebar,
+  .main {
+    @apply transition-none;
+  }
+}

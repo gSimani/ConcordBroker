@@ -1,0 +1,648 @@
+{
+  "audit_date": "2025-10-06",
+  "total_components_found": 56,
+  "property_cards": [
+    {
+      "name": "MiniPropertyCard",
+      "path": "apps/web/src/components/property/MiniPropertyCard.tsx",
+      "data_sources": ["property_sales_history", "sunbiz_corporate", "florida_entities"],
+      "hooks_used": ["useSalesData", "useSunbizMatching"],
+      "features": ["Grid/List variants", "Tax certificates", "Auction data", "Sunbiz integration", "Google Maps links"],
+      "status": "PRIMARY - Keep",
+      "notes": "Fully integrated with real data, no mock data, uses useSalesData hook for sales history"
+    },
+    {
+      "name": "OptimizedMiniPropertyCard",
+      "path": "apps/web/src/components/property/OptimizedMiniPropertyCard.tsx",
+      "data_sources": ["florida_parcels"],
+      "hooks_used": [],
+      "features": ["React.memo optimization", "useMemo/useCallback", "No external data fetching"],
+      "status": "OPTIMIZED VERSION - Merge/Keep for performance",
+      "notes": "Performance-optimized version without external data fetching, uses memoization"
+    },
+    {
+      "name": "TrackedPropertyCard",
+      "path": "apps/web/src/components/property/TrackedPropertyCard.tsx",
+      "data_sources": ["parcels"],
+      "hooks_used": ["useTrackedData"],
+      "features": ["Granular data tracking", "Field-level source attribution"],
+      "status": "EXPERIMENTAL - Review for removal",
+      "notes": "Uses custom useTrackedData hook, appears to be for debugging/monitoring"
+    }
+  ],
+  "property_pages": [
+    {
+      "name": "EnhancedPropertyProfile",
+      "path": "apps/web/src/pages/property/EnhancedPropertyProfile.tsx",
+      "data_sources": ["florida_parcels", "property_sales_history", "sunbiz_corporate", "nav_assessments"],
+      "hooks_used": ["usePropertyData"],
+      "tabs": [
+        "OverviewTab",
+        "CorePropertyTab (CorePropertyTabComplete)",
+        "SunbizTab",
+        "TaxesTab",
+        "PermitTab",
+        "ForeclosureTab",
+        "SalesTaxDeedTab",
+        "InvestmentAnalysisTab",
+        "CapitalPlanningTab",
+        "TaxDeedSalesTab",
+        "TaxLienTab",
+        "AnalysisTab"
+      ],
+      "status": "PRIMARY - Keep",
+      "notes": "Main property detail page with 12 tabs, uses real API data, supports multiple URL formats"
+    },
+    {
+      "name": "SimplePropertyPage",
+      "path": "apps/web/src/pages/properties/SimplePropertyPage.tsx",
+      "data_sources": ["API: http://localhost:8000/api/properties/search"],
+      "hooks_used": [],
+      "tabs": ["Overview", "Details", "Financial", "Owner", "Taxes", "Analysis"],
+      "status": "DUPLICATE - Delete",
+      "notes": "Simpler version with 6 tabs, uses axios for API calls, redundant with EnhancedPropertyProfile"
+    },
+    {
+      "name": "PropertyKerasPage",
+      "path": "apps/web/src/pages/properties/PropertyKerasPage.tsx",
+      "status": "REVIEW - Check if active",
+      "notes": "Keras/ML integration - verify if currently used"
+    }
+  ],
+  "search_pages": [
+    {
+      "name": "PropertySearch",
+      "path": "apps/web/src/pages/properties/PropertySearch.tsx",
+      "data_sources": ["Railway API"],
+      "hooks_used": ["useDebounce", "Custom search logic"],
+      "features": ["Advanced filters", "Virtual scrolling", "MiniPropertyCard integration"],
+      "status": "PRIMARY - Keep",
+      "notes": "Main search page with advanced filtering and Railway API integration"
+    },
+    {
+      "name": "OptimizedPropertySearch",
+      "path": "apps/web/src/pages/properties/OptimizedPropertySearch.tsx",
+      "status": "OPTIMIZED VERSION - Review for merge",
+      "notes": "Performance-optimized search implementation"
+    }
+  ],
+  "tab_components": [
+    {
+      "name": "CorePropertyTab",
+      "path": "apps/web/src/components/property/tabs/CorePropertyTab.tsx",
+      "data_sources": ["florida_parcels", "property_sales_history"],
+      "status": "ACTIVE - Keep",
+      "notes": "Standard core property information tab"
+    },
+    {
+      "name": "CorePropertyTabComplete",
+      "path": "apps/web/src/components/property/tabs/CorePropertyTabComplete.tsx",
+      "data_sources": ["florida_parcels", "property_sales_history", "nav_assessments"],
+      "status": "ENHANCED VERSION - Primary",
+      "notes": "Complete version with all data fields, currently used in EnhancedPropertyProfile"
+    },
+    {
+      "name": "CorePropertyTabEnhanced",
+      "path": "apps/web/src/components/property/tabs/CorePropertyTabEnhanced.tsx",
+      "status": "VARIANT - Review for consolidation",
+      "notes": "Another enhanced version, check differences"
+    },
+    {
+      "name": "CorePropertyTabWithOwnerSelection",
+      "path": "apps/web/src/components/property/tabs/CorePropertyTabWithOwnerSelection.tsx",
+      "status": "FEATURE VARIANT - Review",
+      "notes": "Adds owner selection functionality"
+    },
+    {
+      "name": "EnhancedSunbizTab",
+      "path": "apps/web/src/components/property/tabs/EnhancedSunbizTab.tsx",
+      "data_sources": ["sunbiz_corporate", "florida_entities"],
+      "status": "PRIMARY - Keep",
+      "notes": "Enhanced Sunbiz integration with entity matching"
+    },
+    {
+      "name": "SunbizTab",
+      "path": "apps/web/src/components/property/tabs/SunbizTab.tsx",
+      "data_sources": ["sunbiz_corporate"],
+      "status": "BASIC VERSION - Compare with Enhanced",
+      "notes": "Standard Sunbiz tab, may be redundant with EnhancedSunbizTab"
+    },
+    {
+      "name": "TaxesTab",
+      "path": "apps/web/src/components/property/tabs/TaxesTab.tsx",
+      "data_sources": ["florida_parcels", "tax_certificates"],
+      "status": "ACTIVE - Keep",
+      "notes": "Tax information and certificates"
+    },
+    {
+      "name": "SalesHistoryTab",
+      "path": "apps/web/src/components/property/tabs/SalesHistoryTab.tsx",
+      "data_sources": ["property_sales_history"],
+      "status": "ACTIVE - Keep",
+      "notes": "Sales history display"
+    },
+    {
+      "name": "OverviewTab",
+      "path": "apps/web/src/components/property/tabs/OverviewTab.tsx",
+      "status": "ACTIVE - Keep",
+      "notes": "Property overview and summary"
+    },
+    {
+      "name": "AnalysisTab",
+      "path": "apps/web/src/components/property/tabs/AnalysisTab.tsx",
+      "status": "ACTIVE - Keep",
+      "notes": "Investment analysis"
+    },
+    {
+      "name": "EnhancedAnalysisTab",
+      "path": "apps/web/src/components/property/tabs/EnhancedAnalysisTab.tsx",
+      "status": "ENHANCED VERSION - Compare",
+      "notes": "Enhanced analysis version"
+    },
+    {
+      "name": "InvestmentAnalysisTab",
+      "path": "apps/web/src/components/property/tabs/InvestmentAnalysisTab.tsx",
+      "status": "ACTIVE - Keep",
+      "notes": "Detailed investment metrics"
+    },
+    {
+      "name": "CapitalPlanningTab",
+      "path": "apps/web/src/components/property/tabs/CapitalPlanningTab.tsx",
+      "status": "ACTIVE - Keep",
+      "notes": "Capital planning and improvements"
+    },
+    {
+      "name": "CapitalPlanningTabEnhanced",
+      "path": "apps/web/src/components/property/tabs/CapitalPlanningTabEnhanced.tsx",
+      "status": "ENHANCED VERSION - Compare",
+      "notes": "Enhanced capital planning"
+    },
+    {
+      "name": "PermitTab",
+      "path": "apps/web/src/components/property/tabs/PermitTab.tsx",
+      "status": "ACTIVE - Keep",
+      "notes": "Building permits"
+    },
+    {
+      "name": "ForeclosureTab",
+      "path": "apps/web/src/components/property/tabs/ForeclosureTab.tsx",
+      "status": "ACTIVE - Keep",
+      "notes": "Foreclosure information"
+    },
+    {
+      "name": "TaxLienTab",
+      "path": "apps/web/src/components/property/tabs/TaxLienTab.tsx",
+      "status": "ACTIVE - Keep",
+      "notes": "Tax lien information"
+    },
+    {
+      "name": "TaxDeedSalesTab",
+      "path": "apps/web/src/components/property/tabs/TaxDeedSalesTab.tsx",
+      "data_sources": ["tax_certificates"],
+      "status": "ACTIVE - Keep",
+      "notes": "Tax deed sales and auctions"
+    },
+    {
+      "name": "SalesTaxDeedTab",
+      "path": "apps/web/src/components/property/tabs/SalesTaxDeedTab.tsx",
+      "status": "SIMILAR - Review for duplication",
+      "notes": "May overlap with TaxDeedSalesTab"
+    },
+    {
+      "name": "OwnershipTab",
+      "path": "apps/web/src/components/property/tabs/OwnershipTab.tsx",
+      "status": "ACTIVE - Keep",
+      "notes": "Ownership information"
+    },
+    {
+      "name": "ActiveCompaniesSection",
+      "path": "apps/web/src/components/property/tabs/ActiveCompaniesSection.tsx",
+      "status": "SECTION COMPONENT - Keep",
+      "notes": "Used within other tabs for company data"
+    }
+  ],
+  "data_hooks": [
+    {
+      "name": "useSalesData",
+      "path": "apps/web/src/hooks/useSalesData.ts",
+      "tables": ["property_sales_history", "florida_parcels"],
+      "description": "Main sales data hook - queries property_sales_history first (96,771 records), falls back to florida_parcels",
+      "filters_applied": ["Filters sales < $1,000", "Sorts by date descending"],
+      "status": "PRIMARY - Keep",
+      "notes": "Correctly prioritizes property_sales_history table, converts cents to dollars"
+    },
+    {
+      "name": "usePropertyData",
+      "path": "apps/web/src/hooks/usePropertyData.ts",
+      "api_endpoints": ["http://localhost:8000/api/properties/{id}", "http://localhost:8000/api/properties/search"],
+      "tables": ["florida_parcels", "sunbiz_corporate", "nav_assessments"],
+      "description": "Main property data hook - fetches from enhanced API, handles both parcel ID and address search",
+      "status": "PRIMARY - Keep",
+      "notes": "Includes investment scoring, real-time subscriptions, data transformation"
+    },
+    {
+      "name": "usePropertyDataImproved",
+      "path": "apps/web/src/hooks/usePropertyDataImproved.ts",
+      "status": "IMPROVED VERSION - Review for merge",
+      "notes": "Check if improvements should be merged into main hook"
+    },
+    {
+      "name": "useComprehensivePropertyData",
+      "path": "apps/web/src/hooks/useComprehensivePropertyData.ts",
+      "status": "COMPREHENSIVE VERSION - Review",
+      "notes": "Extended version with additional data sources"
+    },
+    {
+      "name": "usePropertyDataOptimized",
+      "path": "apps/web/src/hooks/usePropertyDataOptimized.ts",
+      "status": "OPTIMIZED VERSION - Review for performance gains",
+      "notes": "Performance-optimized implementation"
+    },
+    {
+      "name": "useAdvancedPropertySearch",
+      "path": "apps/web/src/hooks/useAdvancedPropertySearch.ts",
+      "status": "SEARCH HOOK - Keep",
+      "notes": "Advanced search with filters"
+    },
+    {
+      "name": "useOptimizedSearch",
+      "path": "apps/web/src/hooks/useOptimizedSearch.ts",
+      "status": "OPTIMIZED SEARCH - Review",
+      "notes": "Performance-optimized search"
+    },
+    {
+      "name": "useOptimizedPropertySearch",
+      "path": "apps/web/src/hooks/useOptimizedPropertySearch.ts",
+      "status": "OPTIMIZED SEARCH V2 - Review",
+      "notes": "Another optimized search version"
+    },
+    {
+      "name": "useOptimizedPropertySearchV2",
+      "path": "apps/web/src/hooks/useOptimizedPropertySearchV2.ts",
+      "status": "OPTIMIZED SEARCH V2 - Review",
+      "notes": "Version 2 of optimized search"
+    },
+    {
+      "name": "useSunbizMatching",
+      "path": "apps/web/src/hooks/useSunbizMatching.ts",
+      "tables": ["sunbiz_corporate", "florida_entities"],
+      "status": "ACTIVE - Keep",
+      "notes": "Entity matching for Sunbiz data"
+    },
+    {
+      "name": "useSunbizData",
+      "path": "apps/web/src/hooks/useSunbizData.ts",
+      "status": "BASIC VERSION - Review",
+      "notes": "Basic Sunbiz data fetching"
+    },
+    {
+      "name": "useOwnerProperties",
+      "path": "apps/web/src/hooks/useOwnerProperties.ts",
+      "status": "FEATURE HOOK - Keep",
+      "notes": "Fetch all properties for a specific owner"
+    },
+    {
+      "name": "useSupabaseProperties",
+      "path": "apps/web/src/hooks/useSupabaseProperties.ts",
+      "status": "DIRECT SUPABASE - Review",
+      "notes": "Direct Supabase queries"
+    },
+    {
+      "name": "useOptimizedSupabase",
+      "path": "apps/web/src/hooks/useOptimizedSupabase.ts",
+      "status": "OPTIMIZED SUPABASE - Review",
+      "notes": "Optimized Supabase queries"
+    },
+    {
+      "name": "useCompletePropertyData",
+      "path": "apps/web/src/hooks/useCompletePropertyData.ts",
+      "status": "COMPLETE VERSION - Review",
+      "notes": "Complete data aggregation"
+    },
+    {
+      "name": "useTrackedData",
+      "path": "apps/web/src/hooks/useTrackedData.ts",
+      "status": "DEBUGGING HOOK - Review for removal",
+      "notes": "Used by TrackedPropertyCard for debugging"
+    },
+    {
+      "name": "useDebounce",
+      "path": "apps/web/src/hooks/useDebounce.ts",
+      "status": "UTILITY - Keep",
+      "notes": "Debounce utility for search"
+    },
+    {
+      "name": "useSmartDebounce",
+      "path": "apps/web/src/hooks/useSmartDebounce.ts",
+      "status": "SMART UTILITY - Keep",
+      "notes": "Smart debounce with adaptive timing"
+    },
+    {
+      "name": "usePropertyAppraiser",
+      "path": "apps/web/src/hooks/usePropertyAppraiser.ts",
+      "status": "INTEGRATION - Keep",
+      "notes": "Property appraiser data integration"
+    },
+    {
+      "name": "useJupyterPropertyData",
+      "path": "apps/web/src/hooks/useJupyterPropertyData.ts",
+      "status": "JUPYTER INTEGRATION - Review",
+      "notes": "Jupyter notebook integration"
+    },
+    {
+      "name": "usePySparkData",
+      "path": "apps/web/src/hooks/usePySparkData.ts",
+      "status": "PYSPARK INTEGRATION - Review",
+      "notes": "PySpark data processing"
+    },
+    {
+      "name": "useSQLAlchemyData",
+      "path": "apps/web/src/hooks/useSQLAlchemyData.ts",
+      "status": "SQLALCHEMY INTEGRATION - Review",
+      "notes": "SQLAlchemy ORM integration"
+    }
+  ],
+  "api_endpoints": [
+    {
+      "url": "http://localhost:8000/api/properties/{parcelId}",
+      "description": "Get single property by parcel ID",
+      "tables": ["florida_parcels", "property_sales_history", "sunbiz_corporate", "nav_assessments"],
+      "status": "PRIMARY - Keep"
+    },
+    {
+      "url": "http://localhost:8000/api/properties/search",
+      "description": "Search properties by address/city or query",
+      "status": "PRIMARY - Keep"
+    },
+    {
+      "url": "Railway API (dynamic)",
+      "description": "Railway-deployed backend API",
+      "status": "PRODUCTION - Keep"
+    }
+  ],
+  "supabase_tables_used": [
+    {
+      "table": "property_sales_history",
+      "records": 96771,
+      "description": "Main sales history table with or_book and or_page fields",
+      "components_using": ["MiniPropertyCard", "useSalesData", "CorePropertyTab", "SalesHistoryTab"],
+      "status": "PRIMARY DATA SOURCE"
+    },
+    {
+      "table": "florida_parcels",
+      "records": "9,113,150",
+      "description": "Florida property parcels with sale_date, sale_price, sale_qualification",
+      "components_using": ["All property components", "usePropertyData"],
+      "status": "PRIMARY DATA SOURCE"
+    },
+    {
+      "table": "sunbiz_corporate",
+      "records": "2,030,912",
+      "description": "Corporate entity data",
+      "components_using": ["SunbizTab", "EnhancedSunbizTab", "useSunbizMatching"],
+      "status": "ACTIVE"
+    },
+    {
+      "table": "florida_entities",
+      "records": "15,013,088",
+      "description": "Florida entity records",
+      "components_using": ["SunbizTab", "EnhancedSunbizTab"],
+      "status": "ACTIVE"
+    },
+    {
+      "table": "nav_assessments",
+      "description": "NAV assessment data",
+      "components_using": ["usePropertyData", "CorePropertyTab"],
+      "status": "ACTIVE"
+    },
+    {
+      "table": "tax_certificates",
+      "description": "Tax certificates and liens",
+      "components_using": ["TaxDeedSalesTab", "TaxLienTab", "MiniPropertyCard"],
+      "status": "ACTIVE"
+    }
+  ],
+  "mock_data_locations": [
+    {
+      "file": "apps/web/src/data/mockProperties.ts",
+      "description": "Mock Florida properties data (14 properties)",
+      "imported_by": [],
+      "status": "ISOLATED - Not imported anywhere, safe to keep for testing"
+    }
+  ],
+  "duplicate_functionality": [
+    {
+      "category": "Property Cards",
+      "duplicates": [
+        "MiniPropertyCard (primary with full features)",
+        "OptimizedMiniPropertyCard (performance version)",
+        "TrackedPropertyCard (debugging version)"
+      ],
+      "recommendation": "Keep MiniPropertyCard as primary, merge optimization techniques from OptimizedMiniPropertyCard, remove TrackedPropertyCard"
+    },
+    {
+      "category": "Property Pages",
+      "duplicates": [
+        "EnhancedPropertyProfile (12 tabs, full features)",
+        "SimplePropertyPage (6 tabs, basic)"
+      ],
+      "recommendation": "Keep EnhancedPropertyProfile, delete SimplePropertyPage"
+    },
+    {
+      "category": "Search Pages",
+      "duplicates": [
+        "PropertySearch (primary)",
+        "OptimizedPropertySearch (optimized)"
+      ],
+      "recommendation": "Merge optimizations into PropertySearch, remove OptimizedPropertySearch"
+    },
+    {
+      "category": "Core Property Tabs",
+      "duplicates": [
+        "CorePropertyTab",
+        "CorePropertyTabComplete (used in production)",
+        "CorePropertyTabEnhanced",
+        "CorePropertyTabWithOwnerSelection"
+      ],
+      "recommendation": "Keep CorePropertyTabComplete as primary, merge features from variants, remove others"
+    },
+    {
+      "category": "Sunbiz Tabs",
+      "duplicates": [
+        "SunbizTab (basic)",
+        "EnhancedSunbizTab (enhanced)"
+      ],
+      "recommendation": "Keep EnhancedSunbizTab, remove SunbizTab"
+    },
+    {
+      "category": "Analysis Tabs",
+      "duplicates": [
+        "AnalysisTab",
+        "EnhancedAnalysisTab"
+      ],
+      "recommendation": "Merge into single AnalysisTab with all features"
+    },
+    {
+      "category": "Capital Planning Tabs",
+      "duplicates": [
+        "CapitalPlanningTab",
+        "CapitalPlanningTabEnhanced"
+      ],
+      "recommendation": "Merge into single CapitalPlanningTab"
+    },
+    {
+      "category": "Tax Deed Tabs",
+      "duplicates": [
+        "TaxDeedSalesTab",
+        "SalesTaxDeedTab"
+      ],
+      "recommendation": "Verify functionality difference, keep one, remove duplicate"
+    },
+    {
+      "category": "Property Data Hooks",
+      "duplicates": [
+        "usePropertyData (primary)",
+        "usePropertyDataImproved",
+        "useComprehensivePropertyData",
+        "usePropertyDataOptimized",
+        "useCompletePropertyData"
+      ],
+      "recommendation": "Keep usePropertyData, merge improvements from variants, remove duplicates"
+    },
+    {
+      "category": "Search Hooks",
+      "duplicates": [
+        "useAdvancedPropertySearch",
+        "useOptimizedSearch",
+        "useOptimizedPropertySearch",
+        "useOptimizedPropertySearchV2"
+      ],
+      "recommendation": "Consolidate into useAdvancedPropertySearch with optimizations"
+    },
+    {
+      "category": "Sunbiz Hooks",
+      "duplicates": [
+        "useSunbizMatching (with scoring)",
+        "useSunbizData (basic)"
+      ],
+      "recommendation": "Keep useSunbizMatching, remove useSunbizData"
+    },
+    {
+      "category": "Supabase Hooks",
+      "duplicates": [
+        "useSupabaseProperties",
+        "useOptimizedSupabase"
+      ],
+      "recommendation": "Merge optimization into useSupabaseProperties"
+    }
+  ],
+  "recommended_consolidation": {
+    "keep": [
+      "MiniPropertyCard (merge optimizations)",
+      "EnhancedPropertyProfile",
+      "PropertySearch (merge optimizations)",
+      "CorePropertyTabComplete → rename to CorePropertyTab",
+      "EnhancedSunbizTab → rename to SunbizTab",
+      "TaxesTab",
+      "SalesHistoryTab",
+      "OverviewTab",
+      "InvestmentAnalysisTab",
+      "PermitTab",
+      "ForeclosureTab",
+      "TaxLienTab",
+      "TaxDeedSalesTab (verify vs SalesTaxDeedTab)",
+      "OwnershipTab",
+      "ActiveCompaniesSection",
+      "useSalesData",
+      "usePropertyData (merge improvements)",
+      "useAdvancedPropertySearch (merge optimizations)",
+      "useSunbizMatching",
+      "useOwnerProperties",
+      "useDebounce",
+      "useSmartDebounce",
+      "usePropertyAppraiser"
+    ],
+    "merge": [
+      "OptimizedMiniPropertyCard → merge memoization into MiniPropertyCard",
+      "OptimizedPropertySearch → merge into PropertySearch",
+      "CorePropertyTab variants → merge all features into CorePropertyTabComplete",
+      "AnalysisTab + EnhancedAnalysisTab → single AnalysisTab",
+      "CapitalPlanningTab + CapitalPlanningTabEnhanced → single tab",
+      "usePropertyDataImproved/Optimized/Complete → merge into usePropertyData",
+      "Search hook variants → merge into useAdvancedPropertySearch",
+      "useOptimizedSupabase → merge into useSupabaseProperties"
+    ],
+    "delete": [
+      "TrackedPropertyCard (debugging only)",
+      "SimplePropertyPage (duplicate)",
+      "OptimizedPropertySearch (after merge)",
+      "CorePropertyTab (use Complete version)",
+      "CorePropertyTabEnhanced (after merge)",
+      "CorePropertyTabWithOwnerSelection (after merge)",
+      "SunbizTab (use Enhanced)",
+      "EnhancedAnalysisTab (after merge)",
+      "CapitalPlanningTabEnhanced (after merge)",
+      "SalesTaxDeedTab (if duplicate of TaxDeedSalesTab)",
+      "usePropertyDataImproved (after merge)",
+      "useComprehensivePropertyData (after merge)",
+      "usePropertyDataOptimized (after merge)",
+      "useCompletePropertyData (after merge)",
+      "useOptimizedSearch (after merge)",
+      "useOptimizedPropertySearch (after merge)",
+      "useOptimizedPropertySearchV2 (after merge)",
+      "useSunbizData (use Matching version)",
+      "useSupabaseProperties (if not needed after merge)",
+      "useTrackedData (debugging only)",
+      "useJupyterPropertyData (if not in use)",
+      "usePySparkData (if not in use)",
+      "useSQLAlchemyData (if not in use)",
+      "PropertyKerasPage (if not in use)"
+    ],
+    "review_for_removal": [
+      "useJupyterPropertyData",
+      "usePySparkData",
+      "useSQLAlchemyData",
+      "PropertyKerasPage"
+    ]
+  },
+  "data_flow_summary": {
+    "primary_flow": "Supabase Tables → API Endpoints → Hooks → Components",
+    "main_tables": {
+      "property_sales_history": "96,771 records - PRIMARY for sales data",
+      "florida_parcels": "9.1M records - PRIMARY for property data",
+      "sunbiz_corporate": "2M records - Business entities",
+      "florida_entities": "15M records - All entities",
+      "tax_certificates": "Tax liens and deeds",
+      "nav_assessments": "NAV assessments"
+    },
+    "api_flow": {
+      "localhost_8000": "FastAPI backend for property data",
+      "railway": "Production deployment"
+    },
+    "hook_hierarchy": {
+      "useSalesData": "property_sales_history → florida_parcels fallback",
+      "usePropertyData": "API → florida_parcels + enrichment",
+      "useSunbizMatching": "sunbiz_corporate + florida_entities with scoring"
+    },
+    "no_mock_data_in_production": true,
+    "mock_data_isolated": "apps/web/src/data/mockProperties.ts (not imported)"
+  },
+  "consolidation_impact": {
+    "files_to_delete": 28,
+    "files_to_merge": 15,
+    "files_to_keep": 35,
+    "estimated_code_reduction": "~40%",
+    "performance_improvements": [
+      "Eliminate duplicate data fetching",
+      "Unified hook implementations",
+      "Consistent component patterns",
+      "Reduced bundle size"
+    ],
+    "maintainability_gains": [
+      "Single source of truth for each feature",
+      "Clearer data flow",
+      "Easier debugging",
+      "Better type safety"
+    ]
+  }
+}

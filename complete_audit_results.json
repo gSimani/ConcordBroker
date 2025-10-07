@@ -1,0 +1,86 @@
+{
+  "audit_timestamp": "2025-09-28T23:53:05.358375",
+  "database_url": "https://pmispwtdngkcmsrsjwbp.supabase.co",
+  "project_id": "pmispwtdngkcmsrsjwbp",
+  "tables_found": [
+    {
+      "name": "florida_parcels",
+      "record_count": 9113150
+    },
+    {
+      "name": "properties",
+      "record_count": 3
+    },
+    {
+      "name": "watchlist",
+      "record_count": 3
+    },
+    {
+      "name": "Properties",
+      "record_count": 0
+    },
+    {
+      "name": "Property",
+      "record_count": 0
+    },
+    {
+      "name": "property",
+      "record_count": 0
+    },
+    {
+      "name": "florida_properties",
+      "record_count": 0
+    },
+    {
+      "name": "parcels",
+      "record_count": 0
+    },
+    {
+      "name": "property_data",
+      "record_count": 0
+    },
+    {
+      "name": "real_estate",
+      "record_count": 0
+    },
+    {
+      "name": "listings",
+      "record_count": 0
+    },
+    {
+      "name": "property_sales",
+      "record_count": 0
+    },
+    {
+      "name": "sales_history",
+      "record_count": 0
+    },
+    {
+      "name": "tax_deeds",
+      "record_count": 0
+    },
+    {
+      "name": "property_tax",
+      "record_count": 0
+    },
+    {
+      "name": "User",
+      "record_count": 0
+    },
+    {
+      "name": "users",
+      "record_count": 0
+    },
+    {
+      "name": "contacts",
+      "record_count": 0
+    },
+    {
+      "name": "notes",
+      "record_count": 0
+    }
+  ],
+  "total_tables": 19,
+  "total_records": 9113156,
+  "estimated_properties": 3
+}

@@ -1,0 +1,23 @@
+# UI Field Validation Requirements
+
+# Core dependencies (compatible versions)
+supabase>=2.0.0
+pandas>=2.0.0
+openpyxl>=3.1.0  # Excel support for pandas
+# Note: pydantic versions managed by parent project
+
+# Web scraping
+firecrawl-py>=0.0.10
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+playwright>=1.41.0
+
+# Text matching
+rapidfuzz>=3.6.0
+
+# Async support
+# asyncio is built-in to Python 3
+aiofiles>=23.2.1
+
+# Utilities
+python-dotenv>=1.0.0

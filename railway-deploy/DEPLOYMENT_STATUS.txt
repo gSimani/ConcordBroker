@@ -1,0 +1,64 @@
+# Railway Deployment Status - ConcordBroker
+
+## ✅ Services Deployed:
+
+### 1. Meilisearch Service
+**Status:** ✅ LIVE AND HEALTHY
+**URL:** https://meilisearch-concordbrokerproduction.up.railway.app
+**Master Key:** concordbroker-meili-railway-prod-key-2025
+**Health:** {"status":"available"}
+
+### 2. ConcordBroker API Service
+**Status:** 🔄 DEPLOYING (3rd attempt)
+**URL:** https://concordbroker.com
+**Health Endpoint:** /api/dataset/summary
+**Current Response:** 307 Redirect (deployment in progress)
+**Latest Fix:** Removed custom buildCommand, letting Nixpacks auto-detect Python
+
+## 🔧 Fixes Applied:
+
+### Meilisearch:
+- Fixed Dockerfile to use dynamic PORT from Railway
+- Changed startup script from `echo` to `printf`
+- Changed CMD to use `/bin/sh` explicitly
+
+### ConcordBroker API:
+- Fixed dependency conflict in requirements.txt
+- Changed httpx from 0.25.2 to 0.24.1 (compatible with supabase 2.0.2)
+- Restored railway.json to use NIXPACKS builder
+
+## 📋 Files Modified:
+1. railway-deploy/Dockerfile.meilisearch - Fixed startup script
+2. railway-deploy/requirements.txt - Fixed httpx version
+3. railway-deploy/railway.json - Restored to NIXPACKS for API
+
+## 🧪 Test Commands:
+
+### Test Meilisearch:
+```bash
+# Health check (no auth)
+curl https://meilisearch-concordbrokerproduction.up.railway.app/health
+
+# Stats (with auth)
+curl -H "Authorization: Bearer concordbroker-meili-railway-prod-key-2025" \
+  https://meilisearch-concordbrokerproduction.up.railway.app/stats
+```
+
+### Test ConcordBroker API:
+```bash
+# Health check
+curl https://concordbroker.com/api/dataset/summary
+
+# Check status
+cd railway-deploy && railway service ConcordBroker && railway status
+```
+
+## 📊 Deployment Timeline:
+- Meilisearch: Deployed and verified working at 2025-09-30 23:52:03 UTC
+- ConcordBroker API: Redeployed with fixes at ~2025-10-01 00:03 UTC
+
+## ⚠️ Note:
+The ConcordBroker API may take 3-5 minutes to fully start after deployment.
+If the health endpoint returns 307 or 404, wait and retry.
+Check Railway dashboard for detailed deployment logs:
+https://railway.com/project/05f5fbf4-f31c-4bdb-9022-3e987dd80fdb

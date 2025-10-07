@@ -1,0 +1,187 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e6]:
+        - generic [ref=e7]:
+          - generic [ref=e9]: C
+          - generic [ref=e10]:
+            - heading "ConcordBroker" [level=1] [ref=e11]
+            - paragraph [ref=e12]: Executive Real Estate Platform
+        - navigation [ref=e13]:
+          - link "Dashboard" [ref=e14] [cursor=pointer]:
+            - /url: /dashboard
+          - link "Properties" [ref=e15] [cursor=pointer]:
+            - /url: /properties
+          - link "Analytics" [ref=e16] [cursor=pointer]:
+            - /url: /analytics
+    - main [ref=e17]:
+      - generic [ref=e18]:
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - heading "Property Details" [level=1] [ref=e23]
+            - paragraph [ref=e24]: Homestead, FL 33030
+          - generic [ref=e25]:
+            - generic [ref=e26]:
+              - generic [ref=e27]: Single Family
+              - generic [ref=e28]: "Investment Score: 50/100"
+            - generic [ref=e29]:
+              - button "Watch" [ref=e30] [cursor=pointer]:
+                - img [ref=e31] [cursor=pointer]
+                - generic [ref=e33] [cursor=pointer]: Watch
+              - button "Refresh" [ref=e34] [cursor=pointer]:
+                - img [ref=e35] [cursor=pointer]
+                - generic [ref=e40] [cursor=pointer]: Refresh
+        - generic [ref=e41]:
+          - generic [ref=e42]:
+            - generic [ref=e44]:
+              - generic [ref=e45]:
+                - paragraph [ref=e46]: Market Value
+                - paragraph [ref=e47]: N/A
+              - img [ref=e48]
+            - generic [ref=e52]:
+              - generic [ref=e53]:
+                - paragraph [ref=e54]: Last Sale
+                - paragraph [ref=e55]: N/A
+              - img [ref=e56]
+            - generic [ref=e59]:
+              - generic [ref=e60]:
+                - paragraph [ref=e61]: Property Type
+                - paragraph [ref=e62]: Single Family
+                - paragraph [ref=e63]: Built Unknown
+              - img [ref=e64]
+            - generic [ref=e68]:
+              - generic [ref=e69]:
+                - paragraph [ref=e70]: Living Area
+                - paragraph [ref=e71]: N/A
+                - paragraph [ref=e72]: N/A (Vacant Land)
+              - img [ref=e73]
+          - generic [ref=e80]:
+            - tablist [ref=e82]:
+              - tab "Overview" [selected] [ref=e83] [cursor=pointer]
+              - tab "Core Property Info" [ref=e84] [cursor=pointer]
+              - tab "Sunbiz Info" [ref=e85] [cursor=pointer]
+              - tab "Property Tax Info" [ref=e86] [cursor=pointer]
+              - tab "Permit" [ref=e87] [cursor=pointer]
+              - tab "Foreclosure" [ref=e88] [cursor=pointer]
+              - tab "Sales Tax Deed" [ref=e89] [cursor=pointer]
+              - tab "Investment Analysis" [ref=e90] [cursor=pointer]
+              - tab "Capital Planning" [ref=e91] [cursor=pointer]
+              - tab "Tax Deed Sales" [ref=e92] [cursor=pointer]
+              - tab "Tax Lien" [ref=e93] [cursor=pointer]
+              - tab "Analysis" [ref=e94] [cursor=pointer]
+            - tabpanel "Overview" [active] [ref=e96]:
+              - generic [ref=e97]:
+                - generic [ref=e98]:
+                  - generic [ref=e99]:
+                    - heading "Property Location" [level=3] [ref=e101]
+                    - generic [ref=e103]:
+                      - generic [ref=e104]:
+                        - paragraph [ref=e105]: No Street Address
+                        - paragraph [ref=e106]: Fort Lauderdale, FL
+                      - generic [ref=e107]:
+                        - generic [ref=e108]:
+                          - paragraph [ref=e109]: Property Type
+                          - paragraph [ref=e110]: Vacant Residential
+                          - paragraph [ref=e111]: Vacant Residential – with/without extra features
+                        - generic [ref=e112]:
+                          - paragraph [ref=e113]: Year Built
+                          - paragraph [ref=e114]: Unknown
+                  - generic [ref=e115]:
+                    - heading "Investment Analysis" [level=3] [ref=e117]:
+                      - img [ref=e119]
+                      - text: Investment Analysis
+                    - generic [ref=e121]:
+                      - generic [ref=e122]:
+                        - generic [ref=e123]: 50/100
+                        - paragraph [ref=e124]: Investment Score
+                      - generic [ref=e125]:
+                        - heading "⚠️ Risk Factors" [level=4] [ref=e126]
+                        - list [ref=e127]:
+                          - listitem [ref=e128]: ⚠️ No recent sales history - difficult to establish market value
+                - generic [ref=e129]:
+                  - generic [ref=e130]:
+                    - heading "Valuation Summary" [level=3] [ref=e132]:
+                      - img [ref=e133]
+                      - text: Valuation Summary
+                    - generic [ref=e136]:
+                      - generic [ref=e137]:
+                        - generic [ref=e138]:
+                          - paragraph [ref=e139]: Market Value
+                          - paragraph [ref=e140]: N/A
+                        - generic [ref=e141]:
+                          - paragraph [ref=e142]: Assessed Value
+                          - paragraph [ref=e143]: N/A
+                      - generic [ref=e144]:
+                        - generic [ref=e145] [cursor=pointer]:
+                          - paragraph [ref=e146] [cursor=pointer]: Land Value
+                          - paragraph [ref=e147] [cursor=pointer]: N/A
+                        - generic [ref=e148] [cursor=pointer]:
+                          - paragraph [ref=e149] [cursor=pointer]: Building Value
+                          - paragraph [ref=e150] [cursor=pointer]: N/A
+                  - generic [ref=e151]:
+                    - heading "Property Details" [level=3] [ref=e153]:
+                      - img [ref=e155]
+                      - text: Property Details
+                    - generic [ref=e159]:
+                      - generic [ref=e160]:
+                        - generic [ref=e161]:
+                          - paragraph [ref=e162]:
+                            - img [ref=e163]
+                            - text: Living Area
+                          - paragraph [ref=e166]: N/A
+                        - generic [ref=e167]:
+                          - paragraph [ref=e168]:
+                            - img [ref=e169]
+                            - text: Year Built
+                          - paragraph [ref=e171]: N/A
+                      - generic [ref=e172]:
+                        - generic [ref=e173]:
+                          - paragraph [ref=e174]:
+                            - img [ref=e175]
+                            - text: Lot Size
+                          - paragraph [ref=e177]: N/A
+                        - generic [ref=e178]:
+                          - paragraph [ref=e179]:
+                            - img [ref=e180]
+                            - text: Bed/Bath
+                          - paragraph [ref=e183]: N/A
+                - generic [ref=e184]:
+                  - generic [ref=e185]:
+                    - heading "Most Recent Sale" [level=3] [ref=e187]:
+                      - img [ref=e189]
+                      - text: Most Recent Sale
+                    - paragraph [ref=e193]: No sales history found in public records
+                  - generic [ref=e194]:
+                    - heading "Property Owner" [level=3] [ref=e196]
+                    - generic [ref=e198]:
+                      - paragraph [ref=e200]: Unknown Owner
+                      - generic [ref=e203]: Investment Property
+    - contentinfo [ref=e204]:
+      - generic [ref=e206]:
+        - generic [ref=e207]:
+          - generic [ref=e209]: C
+          - generic [ref=e210]: ConcordBroker
+        - paragraph [ref=e211]: © 2025 ConcordBroker. All rights reserved.
+  - generic [ref=e212]:
+    - heading "Service Worker Inactive" [level=3] [ref=e214]:
+      - generic [ref=e215]:
+        - img [ref=e216]
+        - text: Service Worker
+      - generic [ref=e220]: Inactive
+    - generic [ref=e221]:
+      - generic [ref=e223]: "Version:"
+      - generic [ref=e224]:
+        - button "Clear Cache" [ref=e225] [cursor=pointer]
+        - button "Prefetch" [ref=e226] [cursor=pointer]:
+          - img [ref=e227] [cursor=pointer]
+          - text: Prefetch
+  - region "Notifications (F8)":
+    - list
+  - generic [ref=e230]:
+    - img [ref=e232]
+    - button "Open Tanstack query devtools" [ref=e280] [cursor=pointer]:
+      - img [ref=e281] [cursor=pointer]
+```

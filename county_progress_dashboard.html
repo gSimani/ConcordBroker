@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DOR Standardization - County Progress Tracker</title>
+    <meta charset="UTF-8">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 1600px; margin: 0 auto; }
+
+        .header {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 25px 35px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left h1 {
+            color: #2d3748;
+            font-size: 2.2em;
+            margin-bottom: 5px;
+        }
+
+        .header-left .subtitle {
+            color: #718096;
+            font-size: 1em;
+        }
+
+        .header-right {
+            text-align: right;
+        }
+
+        .big-stat {
+            font-size: 3em;
+            font-weight: bold;
+            color: #667eea;
+            line-height: 1;
+        }
+
+        .big-stat-label {
+            color: #a0aec0;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-top: 10px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .status-running { background: #fef3c7; color: #92400e; }
+        .status-complete { background: #d1fae5; color: #065f46; animation: none; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .stats-bar {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 20px 35px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            display: flex;
+            gap: 30px;
+            justify-content: space-around;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .stat-label {
+            color: #a0aec0;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        .counties-section {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 30px 35px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .section-title {
+            color: #2d3748;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .county-item {
+            background: #f7fafc;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            border-left: 5px solid #cbd5e0;
+            transition: all 0.3s ease;
+        }
+
+        .county-item.completed {
+            border-left-color: #48bb78;
+            background: #f0fff4;
+        }
+
+        .county-item.processing {
+            border-left-color: #ed8936;
+            background: #fffaf0;
+            box-shadow: 0 5px 20px rgba(237, 137, 54, 0.2);
+        }
+
+        .county-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .county-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2d3748;
+        }
+
+        .county-stats {
+            font-size: 0.95em;
+            color: #718096;
+            font-weight: 600;
+        }
+
+        .county-stats .number {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 35px;
+            background: #e2e8f0;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.95em;
+            white-space: nowrap;
+        }
+
+        .progress-bar.completed {
+            background: linear-gradient(90deg, #48bb78 0%, #38a169 100%);
+        }
+
+        .eta-text {
+            margin-top: 8px;
+            font-size: 0.85em;
+            color: #a0aec0;
+        }
+
+        .icon {
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+
+        .update-time {
+            text-align: center;
+            color: #a0aec0;
+            font-size: 0.85em;
+            margin-top: 20px;
+        }
+
+        .refresh-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+            margin: 20px auto;
+            display: block;
+        }
+
+        .refresh-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .refresh-button:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <h1>🚀 DOR Code Standardization</h1>
+                <p class="subtitle">Live County-by-County Progress Tracking</p>
+                <div id="status-badge" class="status-badge status-running">
+                    ⚡ LOADING...
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="big-stat" id="overall-progress">0%</div>
+                <div class="big-stat-label">Overall Progress</div>
+            </div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-value" id="properties-processed">0</div>
+                <div class="stat-label">Properties Processed</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value"><span id="counties-done">0</span>/<span id="counties-total">20</span></div>
+                <div class="stat-label">Counties Complete</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="current-county-name">-</div>
+                <div class="stat-label">Currently Processing</div>
+            </div>
+        </div>
+
+        <div class="counties-section">
+            <div class="section-title">📊 County Progress</div>
+            <button class="refresh-button" onclick="loadProgress()">🔄 Refresh Progress</button>
+            <div id="counties-list">
+                <!-- Counties will be populated here -->
+            </div>
+            <div class="update-time">
+                Last update: <span id="last-update">-</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function loadProgress() {
+            try {
+                const response = await fetch('progress_tracker.json?' + Date.now());
+                const data = await response.json();
+
+                // Update header stats
+                const totalProps = data.total_properties || 9113150;
+                const processed = data.properties_processed || 0;
+                const progressPct = ((processed / totalProps) * 100).toFixed(2);
+
+                document.getElementById('overall-progress').textContent = progressPct + '%';
+                document.getElementById('properties-processed').textContent = processed.toLocaleString();
+                document.getElementById('counties-done').textContent = data.counties_completed.length;
+                document.getElementById('counties-total').textContent =
+                    data.counties_completed.length + data.counties_remaining.length;
+
+                // Update current county
+                const currentCounty = data.current_county || 'None';
+                document.getElementById('current-county-name').textContent =
+                    currentCounty === 'None' ? '-' : currentCounty;
+
+                // Update status badge
+                const statusBadge = document.getElementById('status-badge');
+                if (data.status === 'complete') {
+                    statusBadge.textContent = '✅ COMPLETE';
+                    statusBadge.className = 'status-badge status-complete';
+                } else {
+                    statusBadge.textContent = `⚡ PROCESSING: ${currentCounty}`;
+                    statusBadge.className = 'status-badge status-running';
+                }
+
+                // Update last update time
+                document.getElementById('last-update').textContent =
+                    new Date().toLocaleTimeString();
+
+                // Build counties list
+                const countiesList = document.getElementById('counties-list');
+                countiesList.innerHTML = '';
+
+                // Show completed counties
+                data.counties_completed.forEach(county => {
+                    const item = createCountyItem(county.county, county.properties, 100, true, false);
+                    countiesList.appendChild(item);
+                });
+
+                // Show current processing county
+                if (data.current_county && data.current_county_progress) {
+                    const progress = data.current_county_progress;
+                    const pct = (progress.processed / progress.total * 100).toFixed(1);
+                    const item = createCountyItem(
+                        data.current_county,
+                        progress.processed,
+                        parseFloat(pct),
+                        false,
+                        true,
+                        progress.total
+                    );
+                    countiesList.appendChild(item);
+                }
+
+                // Show remaining counties
+                data.counties_remaining.forEach(county => {
+                    if (county !== data.current_county) {
+                        const item = createCountyItem(county, 0, 0, false, false);
+                        item.style.opacity = '0.5';
+                        countiesList.appendChild(item);
+                    }
+                });
+
+            } catch (error) {
+                console.error('Error loading progress:', error);
+            }
+        }
+
+        function createCountyItem(name, processed, percentage, isCompleted, isProcessing, total = 0) {
+            const item = document.createElement('div');
+            item.className = 'county-item';
+            if (isCompleted) item.classList.add('completed');
+            if (isProcessing) item.classList.add('processing');
+
+            const icon = isCompleted ? '✅' : isProcessing ? '⚡' : '⏳';
+            const status = isCompleted ? 'Complete' : isProcessing ? 'Processing...' : 'Pending';
+
+            let statsText = '';
+            if (isCompleted) {
+                statsText = `<span class="number">${processed.toLocaleString()}</span> properties`;
+            } else if (isProcessing && total > 0) {
+                statsText = `<span class="number">${processed.toLocaleString()}</span> / ${total.toLocaleString()} properties`;
+            } else {
+                statsText = status;
+            }
+
+            item.innerHTML = `
+                <div class="county-header">
+                    <div class="county-name">
+                        <span class="icon">${icon}</span>${name}
+                    </div>
+                    <div class="county-stats">${statsText}</div>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar ${isCompleted ? 'completed' : ''}"
+                         style="width: ${percentage}%;">
+                        ${percentage.toFixed(1)}%
+                    </div>
+                </div>
+            `;
+
+            return item;
+        }
+
+        // Load immediately on page load
+        loadProgress();
+    </script>
+</body>
+</html>

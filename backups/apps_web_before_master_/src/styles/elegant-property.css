@@ -1,0 +1,583 @@
+/* Elegant Property Profile Styles - Executive Design Restored */
+
+:root {
+  --navy: #2c3e50;
+  --navy-dark: #1a252f;
+  --gold: #d4af37;
+  --gold-light: #f4e5c2;
+  --gray-elegant: #7f8c8d;
+  --gray-light: #ecf0f1;
+  --white: #ffffff;
+  --shadow-elegant: 0 10px 30px rgba(44, 62, 80, 0.1);
+  --shadow-hover: 0 15px 40px rgba(44, 62, 80, 0.15);
+}
+
+/* Elegant Typography */
+.elegant-heading {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  color: var(--navy);
+}
+
+.elegant-text {
+  font-family: 'Helvetica Neue', 'Arial', sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--navy-dark);
+}
+
+/* Executive Header Design */
+.executive-header {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.executive-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -10%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1));
+  transform: skewX(-15deg);
+}
+
+.executive-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+/* Gold Accent Line */
+.gold-accent {
+  display: inline-block;
+  position: relative;
+}
+
+.gold-accent::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: var(--gold);
+}
+
+/* Elegant Cards */
+.elegant-card {
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: var(--shadow-elegant);
+  border-left: 3px solid var(--gold);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.elegant-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+/* Executive Cards - Premium Styling */
+.card-executive {
+  background: var(--white) !important;
+  border-radius: 8px;
+  box-shadow: var(--shadow-elegant);
+  border: 1px solid var(--gray-light);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+  z-index: 1;
+}
+
+/* Fix for dark navy backgrounds on content areas */
+.card-executive * {
+  background-color: transparent !important;
+}
+
+.card-executive .p-2 {
+  background-color: var(--gray-light) !important;
+  color: var(--navy) !important;
+}
+
+/* Override any navy backgrounds in content areas */
+div[style*="background: rgb(44, 62, 80)"],
+div[style*="background-color: rgb(44, 62, 80)"],
+.bg-navy:not(.executive-header) {
+  background-color: var(--gray-light) !important;
+  color: var(--navy) !important;
+}
+
+/* Keep header text white, fix content text */
+.executive-header .text-white,
+.executive-header h1,
+.executive-header p,
+.executive-header span,
+.executive-header button {
+  color: white !important;
+}
+
+/* Fix content areas text visibility - but NOT in header */
+.card-executive .text-white {
+  color: var(--navy) !important;
+}
+
+.card-executive:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+.card-executive::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold) 0%, transparent 100%);
+}
+
+.elegant-card-header {
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-light);
+  padding: 1.5rem;
+  border-radius: 12px 12px 0 0;
+}
+
+.elegant-card-title {
+  font-family: 'Georgia', serif;
+  color: var(--navy);
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+/* Minimal Badges */
+.badge-elegant {
+  background: transparent;
+  color: var(--navy);
+  border: 1px solid var(--navy);
+  font-weight: 300;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  padding: 0.25rem 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.badge-elegant:hover {
+  background: var(--navy);
+  color: var(--white);
+}
+
+.badge-gold {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.badge-gold:hover {
+  background: var(--gold);
+  color: var(--navy);
+}
+
+.badge-gray {
+  border-color: var(--gray-elegant);
+  color: var(--gray-elegant);
+}
+
+.badge-gray:hover {
+  background: var(--gray-elegant);
+  color: var(--white);
+}
+
+/* Text Colors */
+.text-navy {
+  color: var(--navy) !important;
+}
+
+.text-navy-dark {
+  color: var(--navy-dark) !important;
+}
+
+.text-gold {
+  color: var(--gold) !important;
+}
+
+.text-gray-elegant {
+  color: var(--gray-elegant) !important;
+}
+
+.text-gray-light {
+  color: var(--gray-light) !important;
+}
+
+/* Background Colors */
+.bg-gray-light {
+  background-color: var(--gray-light) !important;
+}
+
+.bg-gold-light {
+  background-color: var(--gold-light) !important;
+}
+
+.bg-navy {
+  background-color: var(--navy) !important;
+}
+
+.bg-white {
+  background-color: var(--white) !important;
+}
+
+/* Border Colors */
+.border-gold {
+  border-color: var(--gold) !important;
+}
+
+.border-gray-elegant {
+  border-color: var(--gray-elegant) !important;
+}
+
+/* Executive Buttons */
+.btn-executive {
+  background: var(--navy);
+  color: var(--white);
+  border: none;
+  font-weight: 300;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  padding: 0.75rem 2rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-executive::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--gold);
+  transition: left 0.3s ease;
+}
+
+.btn-executive:hover::before {
+  left: 0;
+}
+
+.btn-executive span {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-outline-executive {
+  background: transparent;
+  color: var(--navy);
+  border: 1px solid var(--navy);
+  font-weight: 300;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  padding: 0.75rem 2rem;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-executive:hover {
+  background: var(--navy);
+  color: var(--white);
+}
+
+/* Tabs - Executive Style */
+.tabs-executive {
+  border-bottom: 1px solid var(--gray-light);
+  background: transparent;
+  position: relative;
+  z-index: 10;
+}
+
+.tab-executive {
+  background: transparent;
+  color: var(--gray-elegant);
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  padding: 1rem 1.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 10;
+}
+
+.tab-executive:hover {
+  color: var(--navy);
+}
+
+.tab-executive.active,
+.tab-executive[data-state="active"] {
+  color: var(--navy);
+  border-bottom-color: var(--gold);
+}
+
+.tab-executive.active::after,
+.tab-executive[data-state="active"]::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid var(--gold);
+}
+
+/* Value Display - Elegant */
+.value-display {
+  position: relative;
+  display: inline-block;
+}
+
+.value-label {
+  color: var(--gray-elegant);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 300;
+  margin-bottom: 0.25rem;
+}
+
+.value-amount {
+  color: var(--navy);
+  font-size: 1.75rem;
+  font-weight: 300;
+  font-family: 'Georgia', serif;
+}
+
+.value-amount.gold {
+  color: var(--gold);
+}
+
+/* Subtle Animations */
+@keyframes fadeInElegant {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-elegant {
+  animation: fadeInElegant 0.6s ease-out;
+}
+
+/* Property Grid - Clean Layout */
+.property-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: var(--gray-light);
+  border: 1px solid var(--gray-light);
+}
+
+.property-grid-item {
+  background: var(--white);
+  padding: 1rem;
+  transition: background 0.3s ease;
+}
+
+.property-grid-item:hover {
+  background: var(--gold-light);
+}
+
+.property-grid-label {
+  color: var(--gray-elegant);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.25rem;
+}
+
+.property-grid-value {
+  color: var(--navy);
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+/* Executive Contact Section */
+.contact-section {
+  border-top: 1px solid var(--gray-light);
+  padding-top: 1.5rem;
+}
+
+.contact-input {
+  border: none;
+  border-bottom: 1px solid var(--gray-light);
+  border-radius: 0;
+  padding: 0.5rem 0;
+  font-weight: 300;
+  transition: border-color 0.3s ease;
+  background: transparent;
+}
+
+.contact-input:focus {
+  border-bottom-color: var(--gold);
+  outline: none;
+  box-shadow: none;
+}
+
+/* Status Indicators - Minimal */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.status-dot.active {
+  background: var(--gold);
+}
+
+.status-dot.inactive {
+  background: var(--gray-elegant);
+}
+
+/* Elegant Scrollbar */
+.elegant-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.elegant-scroll::-webkit-scrollbar-track {
+  background: var(--gray-light);
+}
+
+.elegant-scroll::-webkit-scrollbar-thumb {
+  background: var(--navy);
+  border-radius: 0;
+}
+
+.elegant-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--navy-dark);
+}
+
+/* Print Styles */
+@media print {
+  .executive-header {
+    background: var(--navy);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .elegant-card {
+    page-break-inside: avoid;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Responsive Elegance */
+@media (min-width: 768px) {
+  .property-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .property-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+/* Fix for tab overlap issues - Complete resolution */
+.tabs-executive {
+  min-height: auto;
+  padding-bottom: 1.5rem !important;
+  margin-bottom: 0 !important;
+  background: transparent;
+  position: relative;
+  z-index: 30;
+  clear: both;
+}
+
+.tabs-executive.flex-wrap {
+  row-gap: 0.75rem;
+  column-gap: 0.5rem;
+}
+
+/* Enhanced tab navigation container */
+.tabs-executive + div {
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-light);
+  padding-bottom: 1.5rem;
+  margin-bottom: 3rem;
+  position: relative;
+  z-index: 25;
+}
+
+/* Tab content area - ensure proper separation and no overlap */
+[role='tabpanel'] {
+  position: relative;
+  z-index: 1;
+  clear: both;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  background: var(--white);
+}
+
+/* Ensure tab content has proper background and visibility */
+[role='tabpanel'] .card-executive,
+[role='tabpanel'] .elegant-card {
+  position: relative;
+  z-index: 2;
+  background: var(--white) !important;
+  margin-bottom: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+/* Fix any floating tabs issue */
+.tab-executive {
+  position: relative;
+  z-index: 35;
+  background: transparent !important;
+  margin-bottom: 0;
+}
+
+/* Ensure clear separation between key metrics and tabs */
+.grid.grid-cols-1.md\\:grid-cols-4.gap-6.mb-8 {
+  margin-bottom: 2rem !important;
+  position: relative;
+  z-index: 5;
+}
+
+/* Prevent investment overview from interfering with tabs */
+.grid.md\\:grid-cols-1.gap-6.mb-8 {
+  margin-bottom: 2rem !important;
+  position: relative;
+  z-index: 5;
+}
+
+/* Tab content wrapper for proper spacing */
+div.relative.z-10.clear-both {
+  margin-top: 0;
+  padding-top: 0;
+  min-height: 50vh;
+}

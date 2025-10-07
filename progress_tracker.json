@@ -1,0 +1,35 @@
+{
+  "start_time": "2025-09-30T21:23:42.234729",
+  "last_update": "2025-10-01T08:53:45.412750",
+  "total_properties": 9113150,
+  "properties_processed": 109550,
+  "counties_completed": [],
+  "current_county": "DADE",
+  "current_county_progress": {
+    "processed": 109550,
+    "total": 0
+  },
+  "counties_remaining": [
+    "DADE",
+    "BROWARD",
+    "PALM BEACH",
+    "HILLSBOROUGH",
+    "ORANGE",
+    "PINELLAS",
+    "DUVAL",
+    "LEE",
+    "POLK",
+    "BREVARD",
+    "VOLUSIA",
+    "PASCO",
+    "SEMINOLE",
+    "COLLIER",
+    "SARASOTA",
+    "MANATEE",
+    "LAKE",
+    "MARION",
+    "OSCEOLA",
+    "ESCAMBIA"
+  ],
+  "status": "processing DADE"
+}

@@ -1,0 +1,181 @@
+{
+  "analysis_metadata": {
+    "timestamp": "2025-09-29T12:06:49.324256",
+    "analysis_type": "comprehensive_database_discovery",
+    "database_name": "Supabase PostgreSQL - pmispwtdngkcmsrsjwbp",
+    "analyst": "Claude Code Database Analyzer"
+  },
+  "database_summary": {
+    "total_tables": 86,
+    "total_views": 21,
+    "total_records": 26417741,
+    "largest_table": "florida_entities",
+    "primary_property_table": "florida_parcels"
+  },
+  "key_tables": {
+    "florida_parcels": {
+      "description": "Primary property dataset containing Florida property records",
+      "record_count": 9113150,
+      "columns": 51,
+      "coverage": "All 67 Florida counties, years 2020-2025",
+      "data_quality": "High - core fields >90% complete",
+      "primary_keys": ["parcel_id", "county", "year"]
+    },
+    "florida_entities": {
+      "description": "Business entity records from Florida Department of State",
+      "record_count": 15013088,
+      "columns": 25,
+      "coverage": "Comprehensive business entity data",
+      "data_quality": "Good - entity information complete"
+    },
+    "sunbiz_corporate": {
+      "description": "Corporate entity records from SunBiz Florida",
+      "record_count": 2030912,
+      "columns": 23,
+      "coverage": "Corporate registrations and status",
+      "data_quality": "Good - corporate data structured"
+    },
+    "property_sales_history": {
+      "description": "Property sales transaction records",
+      "record_count": 96771,
+      "columns": 27,
+      "coverage": "Historical sales data across counties",
+      "data_quality": "Good - transaction data available"
+    },
+    "property_assessments": {
+      "description": "Property assessment and valuation records",
+      "record_count": 121477,
+      "columns": 29,
+      "coverage": "Assessment data for valued properties",
+      "data_quality": "Good - assessment information complete"
+    }
+  },
+  "sales_tables_identified": {
+    "property_sales": {
+      "record_count": 0,
+      "status": "empty_table",
+      "note": "Appears to be a staging or unused table"
+    },
+    "fl_sdf_sales": {
+      "record_count": 0,
+      "status": "empty_table",
+      "note": "SDF (Sales Disclosure Format) staging table"
+    },
+    "property_sales_history": {
+      "record_count": 96771,
+      "status": "active_data",
+      "note": "Primary sales transaction table with historical data"
+    }
+  },
+  "tax_and_auction_tables": {
+    "tax_certificates": {
+      "record_count": 10,
+      "columns": 22,
+      "note": "Tax certificate data - limited records"
+    },
+    "tax_deed_auctions": {
+      "record_count": 4,
+      "columns": 19,
+      "note": "Tax deed auction information"
+    },
+    "tax_deed_bidding_items": {
+      "record_count": 19,
+      "columns": 25,
+      "note": "Individual auction items and bidding data"
+    }
+  },
+  "entity_and_business_tables": {
+    "florida_entities": {
+      "record_count": 15013088,
+      "description": "Master business entity dataset"
+    },
+    "sunbiz_corporate": {
+      "record_count": 2030912,
+      "description": "Corporate entity details"
+    },
+    "sunbiz_officers": {
+      "record_count": 110,
+      "description": "Corporate officer information"
+    },
+    "sunbiz_fictitious": {
+      "record_count": 1,
+      "description": "Fictitious name registrations"
+    }
+  },
+  "data_quality_assessment": {
+    "florida_parcels_completeness": {
+      "parcel_id": "99.9%",
+      "county": "100%",
+      "year": "100%",
+      "phy_addr1": "~90%",
+      "owner_name1": "~92%",
+      "just_value": "~85%",
+      "land_value": "~80%",
+      "building_value": "~75%",
+      "land_sqft": "~70%"
+    },
+    "overall_assessment": "Good - Core property identification fields are highly complete, property characteristics have variable completeness"
+  },
+  "missing_data_patterns": {
+    "empty_tables": [
+      "owner_entity_links",
+      "florida_entities_staging",
+      "property_owners",
+      "property_sales",
+      "nav_summaries",
+      "nav_details",
+      "properties_master",
+      "agent_activity_logs",
+      "sunbiz_partnerships",
+      "fl_sdf_sales",
+      "fl_tpp_accounts"
+    ],
+    "staging_tables": [
+      "florida_entities_staging",
+      "properties_master",
+      "fl_sdf_sales",
+      "fl_tpp_accounts"
+    ],
+    "data_gaps": {
+      "sales_data": "Most sales tables are empty, primary data in property_sales_history",
+      "nav_data": "NAV (Name Address Value) tables mostly empty",
+      "sdf_data": "SDF (Sales Disclosure Format) tables empty"
+    }
+  },
+  "specific_property_analysis": {
+    "properties_searched": ["1078130000370", "504231242730"],
+    "search_results": {
+      "note": "Detailed property search would require running the specific property analysis script"
+    }
+  },
+  "recommendations": {
+    "data_usage": [
+      "Focus analysis on florida_parcels as primary property dataset",
+      "Use property_sales_history for sales transaction analysis",
+      "Combine florida_entities with property data for ownership analysis",
+      "Use latest year data (2024-2025) for current market conditions"
+    ],
+    "data_quality_improvements": [
+      "Monitor completeness of property_sales table",
+      "Investigate empty staging tables for data pipeline issues",
+      "Implement data validation for property characteristics fields",
+      "Establish data freshness monitoring for critical tables"
+    ],
+    "analysis_priorities": [
+      "County-level property analysis using florida_parcels",
+      "Market trend analysis using property_sales_history",
+      "Entity-property relationship analysis using florida_entities",
+      "Tax deed opportunity analysis using tax certificate tables"
+    ]
+  },
+  "technical_notes": {
+    "database_engine": "PostgreSQL with Supabase extensions",
+    "connection_method": "SQLAlchemy with psycopg2 driver",
+    "performance_considerations": "Large tables (9M+ records) require indexed queries and pagination",
+    "indexing_recommendations": [
+      "Ensure indexes on (parcel_id, county, year) for florida_parcels",
+      "Index on parcel_id for cross-table joins",
+      "Consider year-based partitioning for historical analysis"
+    ]
+  }
+}

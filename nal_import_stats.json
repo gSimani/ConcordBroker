@@ -1,0 +1,16 @@
+{
+  "counties": [
+    "INDIAN_RIVER",
+    "ORANGE",
+    "PINELLAS",
+    "PALM_BEACH",
+    "ST_JOHNS",
+    "SANTA_ROSA",
+    "ST_LUCIE"
+  ],
+  "total_processed": 605,
+  "new_properties": 600,
+  "updated_properties": 5,
+  "total_errors": 0,
+  "elapsed_minutes": 0.028800280888875325
+}

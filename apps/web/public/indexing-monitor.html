@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meilisearch Indexing Monitor - Real-Time Progress</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #2d3748;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #718096;
+            font-size: 1.1em;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-label {
+            color: #a0aec0;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            color: #2d3748;
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+
+        .stat-subtext {
+            color: #718096;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .progress-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 40px;
+            background: #e2e8f0;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .counties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .county-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #cbd5e0;
+            transition: all 0.3s ease;
+        }
+
+        .county-card.pending {
+            border-left-color: #cbd5e0;
+            opacity: 0.6;
+        }
+
+        .county-card.in-progress {
+            border-left-color: #4299e1;
+            animation: pulse 2s infinite;
+        }
+
+        .county-card.completed {
+            border-left-color: #48bb78;
+        }
+
+        .county-card.error {
+            border-left-color: #f56565;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .county-name {
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .county-stats {
+            font-size: 0.85em;
+            color: #718096;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .status-indicator.pending { background: #cbd5e0; }
+        .status-indicator.in-progress { background: #4299e1; }
+        .status-indicator.completed { background: #48bb78; }
+        .status-indicator.error { background: #f56565; }
+
+        .log-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            padding: 10px;
+            border-bottom: 1px solid #e2e8f0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .log-entry.info { color: #4299e1; }
+        .log-entry.success { color: #48bb78; }
+        .log-entry.error { color: #f56565; }
+        .log-entry.warning { color: #ed8936; }
+
+        .refresh-status {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+
+        .eta-estimate {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .eta-time {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Meilisearch Indexing Monitor</h1>
+            <p class="subtitle">Real-time progress tracking for 9.7M Florida properties across 67 counties</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Properties</div>
+                <div class="stat-value" id="totalProperties">9,113,150</div>
+                <div class="stat-subtext">Target records</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Indexed</div>
+                <div class="stat-value" id="indexedCount">0</div>
+                <div class="stat-subtext" id="indexedPercent">0%</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Speed</div>
+                <div class="stat-value" id="indexingSpeed">0</div>
+                <div class="stat-subtext">properties/second</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">ETA</div>
+                <div class="stat-value" id="eta">Calculating...</div>
+                <div class="stat-subtext">Time remaining</div>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <h2>Overall Progress</h2>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar" style="width: 0%">
+                    <span id="progressText">0%</span>
+                </div>
+            </div>
+
+            <div class="eta-estimate">
+                <div>Estimated Completion Time</div>
+                <div class="eta-time" id="completionTime">Calculating...</div>
+                <div id="completionDate">Starting...</div>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <h2>County Progress (67 Counties)</h2>
+            <div class="counties-grid" id="countiesGrid">
+                <!-- Counties will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <div class="log-section">
+            <h2>Activity Log</h2>
+            <div id="logContainer">
+                <div class="log-entry info">[INFO] Monitoring started... Waiting for indexing to begin</div>
+            </div>
+        </div>
+
+        <div class="refresh-status">
+            <span id="refreshStatus">Auto-refreshing every 5 seconds...</span>
+        </div>
+    </div>
+
+    <script>
+        const MEILISEARCH_URL = 'http://127.0.0.1:7700';
+        const API_KEY = 'concordbroker-meili-master-key';
+        const INDEX_NAME = 'florida_properties';
+        const TOTAL_PROPERTIES = 9113150;
+        const REFRESH_INTERVAL = 5000; // 5 seconds
+
+        // Florida counties (all 67)
+        const FLORIDA_COUNTIES = [
+            'ALACHUA', 'BAKER', 'BAY', 'BRADFORD', 'BREVARD', 'BROWARD', 'CALHOUN',
+            'CHARLOTTE', 'CITRUS', 'CLAY', 'COLLIER', 'COLUMBIA', 'DESOTO', 'DIXIE',
+            'DUVAL', 'ESCAMBIA', 'FLAGLER', 'FRANKLIN', 'GADSDEN', 'GILCHRIST', 'GLADES',
+            'GULF', 'HAMILTON', 'HARDEE', 'HENDRY', 'HERNANDO', 'HIGHLANDS', 'HILLSBOROUGH',
+            'HOLMES', 'INDIAN RIVER', 'JACKSON', 'JEFFERSON', 'LAFAYETTE', 'LAKE', 'LEE',
+            'LEON', 'LEVY', 'LIBERTY', 'MADISON', 'MANATEE', 'MARION', 'MARTIN', 'DADE',
+            'MONROE', 'NASSAU', 'OKALOOSA', 'OKEECHOBEE', 'ORANGE', 'OSCEOLA', 'PALM BEACH',
+            'PASCO', 'PINELLAS', 'POLK', 'PUTNAM', 'SANTA ROSA', 'SARASOTA', 'SEMINOLE',
+            'ST JOHNS', 'ST LUCIE', 'SUMTER', 'SUWANNEE', 'TAYLOR', 'UNION', 'VOLUSIA',
+            'WAKULLA', 'WALTON', 'WASHINGTON'
+        ];
+
+        let countyProgress = {};
+        let startTime = Date.now();
+        let lastIndexedCount = 0;
+
+        // Initialize county progress
+        FLORIDA_COUNTIES.forEach(county => {
+            countyProgress[county] = {
+                status: 'pending',
+                indexed: 0,
+                total: 0
+            };
+        });
+
+        // Initialize counties grid
+        function initCountiesGrid() {
+            const grid = document.getElementById('countiesGrid');
+            grid.innerHTML = FLORIDA_COUNTIES.map(county => `
+                <div class="county-card pending" id="county-${county.replace(/\s+/g, '-')}">
+                    <div class="county-name">
+                        <span class="status-indicator pending"></span>
+                        ${county}
+                    </div>
+                    <div class="county-stats">
+                        <div>0 / 0</div>
+                        <div>Pending</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Add log entry
+        function addLog(message, type = 'info') {
+            const logContainer = document.getElementById('logContainer');
+            const timestamp = new Date().toLocaleTimeString();
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = `[${timestamp}] ${message}`;
+            logContainer.insertBefore(entry, logContainer.firstChild);
+
+            // Keep only last 50 entries
+            while (logContainer.children.length > 50) {
+                logContainer.removeChild(logContainer.lastChild);
+            }
+        }
+
+        // Format time
+        function formatTime(seconds) {
+            if (!isFinite(seconds)) return 'Calculating...';
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${hours}h ${minutes}m ${secs}s`;
+        }
+
+        // Update stats
+        async function updateStats() {
+            try {
+                // Get Meilisearch stats
+                const response = await fetch(`${MEILISEARCH_URL}/indexes/${INDEX_NAME}/stats`, {
+                    headers: {
+                        'Authorization': `Bearer ${API_KEY}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Index not ready yet');
+                }
+
+                const stats = await response.json();
+                const indexed = stats.numberOfDocuments || 0;
+                const percentage = ((indexed / TOTAL_PROPERTIES) * 100).toFixed(2);
+
+                // Calculate speed
+                const elapsedSeconds = (Date.now() - startTime) / 1000;
+                const speed = indexed > 0 ? Math.floor(indexed / elapsedSeconds) : 0;
+
+                // Calculate ETA
+                const remaining = TOTAL_PROPERTIES - indexed;
+                const etaSeconds = speed > 0 ? remaining / speed : 0;
+                const completionDate = new Date(Date.now() + (etaSeconds * 1000));
+
+                // Update UI
+                document.getElementById('indexedCount').textContent = indexed.toLocaleString();
+                document.getElementById('indexedPercent').textContent = `${percentage}%`;
+                document.getElementById('indexingSpeed').textContent = speed.toLocaleString();
+                document.getElementById('eta').textContent = formatTime(etaSeconds);
+                document.getElementById('progressBar').style.width = `${percentage}%`;
+                document.getElementById('progressText').textContent = `${percentage}%`;
+                document.getElementById('completionTime').textContent = formatTime(etaSeconds);
+                document.getElementById('completionDate').textContent =
+                    `Expected: ${completionDate.toLocaleTimeString()}`;
+
+                // Log progress if significant change
+                if (indexed > lastIndexedCount + 10000) {
+                    addLog(`Indexed ${indexed.toLocaleString()} properties (${percentage}%)`, 'success');
+                    lastIndexedCount = indexed;
+                }
+
+                // Update county estimates (simplified - distribute evenly)
+                const avgPerCounty = Math.floor(TOTAL_PROPERTIES / 67);
+                FLORIDA_COUNTIES.forEach((county, idx) => {
+                    const expectedForCounty = avgPerCounty * (idx + 1);
+                    const countyId = `county-${county.replace(/\s+/g, '-')}`;
+                    const countyCard = document.getElementById(countyId);
+
+                    if (indexed >= expectedForCounty) {
+                        countyCard.className = 'county-card completed';
+                        countyCard.querySelector('.status-indicator').className = 'status-indicator completed';
+                    } else if (indexed >= avgPerCounty * idx) {
+                        countyCard.className = 'county-card in-progress';
+                        countyCard.querySelector('.status-indicator').className = 'status-indicator in-progress';
+                    }
+                });
+
+                document.getElementById('refreshStatus').textContent =
+                    `Last updated: ${new Date().toLocaleTimeString()} - Next refresh in 5s`;
+
+            } catch (error) {
+                console.error('Error fetching stats:', error);
+                document.getElementById('refreshStatus').textContent =
+                    `Waiting for indexing to start... (${error.message})`;
+            }
+        }
+
+        // Initialize
+        initCountiesGrid();
+        addLog('Monitor initialized - waiting for Meilisearch indexing to begin', 'info');
+
+        // Start monitoring
+        updateStats();
+        setInterval(updateStats, REFRESH_INTERVAL);
+    </script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DOR Standardization - Live County Tracker</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="2">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 1400px; margin: 0 auto; }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 { color: #2d3748; font-size: 2.5em; margin-bottom: 10px; }
+        .subtitle { color: #718096; font-size: 1.1em; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-label {
+            color: #a0aec0;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            color: #2d3748;
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-subtext { color: #718096; font-size: 0.85em; }
+
+        .progress-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 50px;
+            background: #e2e8f0;
+            border-radius: 25px;
+            overflow: hidden;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .county-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .county-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #cbd5e0;
+        }
+
+        .county-card.completed {
+            border-left-color: #48bb78;
+            background: #f0fff4;
+        }
+
+        .county-card.processing {
+            border-left-color: #ed8936;
+            background: #fffaf0;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .county-card.pending {
+            border-left-color: #cbd5e0;
+            opacity: 0.6;
+        }
+
+        .county-name {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .county-status {
+            font-size: 0.85em;
+            color: #718096;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .status-running { background: #fef3c7; color: #92400e; }
+        .status-complete { background: #d1fae5; color: #065f46; }
+
+        .update-time {
+            color: #718096;
+            font-size: 0.9em;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 DOR Code Standardization - Live Tracker</h1>
+            <p class="subtitle">Real-time county-by-county progress monitoring</p>
+            <div id="status-badge" class="status-badge status-running">LOADING...</div>
+            <div class="update-time">Auto-refreshing every 2 seconds...</div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Properties Processed</div>
+                <div class="stat-value" id="processed">0</div>
+                <div class="stat-subtext">Real-time count</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Total Properties</div>
+                <div class="stat-value" id="total">9,113,150</div>
+                <div class="stat-subtext">Year 2025</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Progress</div>
+                <div class="stat-value" id="progress-pct">0%</div>
+                <div class="stat-subtext" id="progress-status">Starting...</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Counties</div>
+                <div class="stat-value"><span id="counties-done">0</span>/<span id="counties-total">20</span></div>
+                <div class="stat-subtext" id="current-county">Preparing...</div>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <h2 style="color: #2d3748; margin-bottom: 15px;">Overall Progress</h2>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="main-progress-bar" style="width: 0%;">0%</div>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <h2 style="color: #2d3748; margin-bottom: 15px;">County Status</h2>
+            <div class="county-grid" id="county-grid">
+                <!-- Counties will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function loadProgress() {
+            try {
+                const response = await fetch('progress_tracker.json?' + Date.now());
+                const data = await response.json();
+
+                // Update stats
+                document.getElementById('processed').textContent = data.properties_processed.toLocaleString();
+                document.getElementById('total').textContent = data.total_properties.toLocaleString();
+
+                const progressPct = (data.properties_processed / data.total_properties * 100).toFixed(2);
+                document.getElementById('progress-pct').textContent = progressPct + '%';
+                document.getElementById('main-progress-bar').style.width = progressPct + '%';
+                document.getElementById('main-progress-bar').textContent = progressPct + '%';
+
+                // Update counties
+                const completedCount = data.counties_completed.length;
+                const totalCount = data.counties_completed.length + data.counties_remaining.length;
+                document.getElementById('counties-done').textContent = completedCount;
+                document.getElementById('counties-total').textContent = totalCount;
+
+                // Update current county
+                if (data.current_county) {
+                    document.getElementById('current-county').textContent = `Processing: ${data.current_county}`;
+                } else {
+                    document.getElementById('current-county').textContent = data.status;
+                }
+
+                // Update status badge
+                const statusBadge = document.getElementById('status-badge');
+                if (data.status === 'complete') {
+                    statusBadge.textContent = '✅ COMPLETE';
+                    statusBadge.className = 'status-badge status-complete';
+                } else if (data.status === 'running' || data.status.startsWith('processing')) {
+                    statusBadge.textContent = `⚡ RUNNING - ${data.current_county || 'Processing'}`;
+                    statusBadge.className = 'status-badge status-running';
+                } else {
+                    statusBadge.textContent = data.status.toUpperCase();
+                    statusBadge.className = 'status-badge status-running';
+                }
+
+                // Build county grid
+                const countyGrid = document.getElementById('county-grid');
+                countyGrid.innerHTML = '';
+
+                // Show completed counties
+                data.counties_completed.forEach(county => {
+                    const card = document.createElement('div');
+                    card.className = 'county-card completed';
+                    card.innerHTML = `
+                        <div class="county-name">✅ ${county.county}</div>
+                        <div class="county-status">${county.properties.toLocaleString()} properties</div>
+                    `;
+                    countyGrid.appendChild(card);
+                });
+
+                // Show current processing county
+                if (data.current_county) {
+                    const card = document.createElement('div');
+                    card.className = 'county-card processing';
+                    card.innerHTML = `
+                        <div class="county-name">⚡ ${data.current_county}</div>
+                        <div class="county-status">Processing now...</div>
+                    `;
+                    countyGrid.appendChild(card);
+                }
+
+                // Show remaining counties
+                data.counties_remaining.forEach(county => {
+                    if (county !== data.current_county) {
+                        const card = document.createElement('div');
+                        card.className = 'county-card pending';
+                        card.innerHTML = `
+                            <div class="county-name">⏳ ${county}</div>
+                            <div class="county-status">Pending...</div>
+                        `;
+                        countyGrid.appendChild(card);
+                    }
+                });
+
+            } catch (error) {
+                console.error('Error loading progress:', error);
+            }
+        }
+
+        // Load immediately
+        loadProgress();
+    </script>
+</body>
+</html>

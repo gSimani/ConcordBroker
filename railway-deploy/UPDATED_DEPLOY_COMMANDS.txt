@@ -1,0 +1,67 @@
+# UPDATED RAILWAY DEPLOYMENT COMMANDS (v4.10.0)
+# Run these commands in order from the railway-deploy directory
+
+# ============================================================================
+# STEP 1: Link to existing Railway project
+# ============================================================================
+railway link
+# Select: ConcordBroker-Railway
+
+# ============================================================================
+# STEP 2: Deploy Meilisearch (takes 2-3 minutes)
+# ============================================================================
+railway up
+
+# When prompted for Dockerfile, enter: Dockerfile.meilisearch
+
+# ============================================================================
+# STEP 3: Set Meilisearch Environment Variables
+# ============================================================================
+railway variables --set MEILI_MASTER_KEY=concordbroker-meili-railway-prod-key-2025
+railway variables --set MEILI_ENV=production
+railway variables --set MEILI_NO_ANALYTICS=true
+
+# ============================================================================
+# STEP 4: Generate Meilisearch Public URL
+# ============================================================================
+railway domain
+
+# IMPORTANT: Copy the URL shown!
+
+# ============================================================================
+# STEP 5: Test Meilisearch
+# ============================================================================
+curl https://<YOUR-MEILISEARCH-URL>/health
+
+# ============================================================================
+# STEP 6: Create new service for Search API
+# ============================================================================
+railway service
+
+# This will show current service. We need to add a new one via Railway dashboard.
+# OR use: railway up (in a separate deployment)
+
+# Alternative: Deploy Search API separately
+# 1. Go to Railway dashboard: https://railway.app/dashboard
+# 2. Open your ConcordBroker-Railway project
+# 3. Click "New Service"
+# 4. Select "Empty Service"
+# 5. Name it: search-api
+# 6. Then run the deployment commands for search-api
+
+# ============================================================================
+# After creating search-api service in dashboard, deploy it:
+# ============================================================================
+railway up
+# When prompted for Dockerfile, enter: Dockerfile.search-api
+
+railway variables --set MEILISEARCH_URL=<YOUR-MEILISEARCH-URL>
+railway variables --set MEILISEARCH_KEY=concordbroker-meili-railway-prod-key-2025
+railway variables --set SUPABASE_URL=https://pmispwtdngkcmsrsjwbp.supabase.co
+railway variables --set SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Njk1Njk1OCwiZXhwIjoyMDcyNTMyOTU4fQ.fbCYcTFxLaMC_g4P8IrQoHWbQbPr_t9eaxYD_9yS3u0
+
+railway domain
+
+# ============================================================================
+# DEPLOYMENT COMPLETE!
+# ============================================================================

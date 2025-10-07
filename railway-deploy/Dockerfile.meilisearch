@@ -1,0 +1,10 @@
+# Meilisearch Official Docker Image for Railway
+FROM getmeili/meilisearch:v1.11
+
+# Create startup script that uses Railway's PORT
+RUN printf '#!/bin/sh\nexport MEILI_HTTP_ADDR="0.0.0.0:${PORT:-7700}"\nexec meilisearch\n' > /start.sh && \
+    chmod +x /start.sh && \
+    cat /start.sh
+
+# Start Meilisearch with dynamic port
+CMD ["/bin/sh", "/start.sh"]

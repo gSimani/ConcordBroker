@@ -1,0 +1,296 @@
+version: '3.8'
+
+# Complete Production Parity Stack
+# Includes all services needed to mirror production locally
+
+services:
+  # PostgreSQL Database (Supabase)
+  postgres:
+    image: supabase/postgres:15.1.0.54
+    container_name: concordbroker-postgres
+    ports:
+      - "54322:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./supabase/migrations:/docker-entrypoint-initdb.d
+    networks:
+      - concordbroker-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Supabase Studio
+  studio:
+    image: supabase/studio:latest
+    container_name: concordbroker-studio
+    ports:
+      - "54323:3000"
+    environment:
+      STUDIO_PG_META_URL: http://meta:8080
+      POSTGRES_PASSWORD: postgres
+      DEFAULT_ORGANIZATION: concordbroker
+      DEFAULT_PROJECT: local
+    networks:
+      - concordbroker-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Supabase Auth
+  auth:
+    image: supabase/gotrue:v2.99.0
+    container_name: concordbroker-auth
+    ports:
+      - "54321:9999"
+    environment:
+      GOTRUE_API_HOST: 0.0.0.0
+      GOTRUE_API_PORT: 9999
+      API_EXTERNAL_URL: http://localhost:54321
+      GOTRUE_DB_DRIVER: postgres
+      GOTRUE_DB_DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres?search_path=auth
+      GOTRUE_SITE_URL: http://localhost:5173
+      GOTRUE_URI_ALLOW_LIST: http://localhost:5173,http://localhost:3000
+      GOTRUE_DISABLE_SIGNUP: false
+      GOTRUE_JWT_EXP: 3600
+      GOTRUE_JWT_SECRET: super-secret-jwt-token-with-at-least-32-characters-long
+      GOTRUE_JWT_DEFAULT_GROUP_NAME: authenticated
+    networks:
+      - concordbroker-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Supabase Realtime
+  realtime:
+    image: supabase/realtime:v2.25.35
+    container_name: concordbroker-realtime
+    ports:
+      - "54324:4000"
+    environment:
+      PORT: 4000
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: postgres
+      DB_SSL: "false"
+      JWT_SECRET: super-secret-jwt-token-with-at-least-32-characters-long
+      SECURE_CHANNELS: "false"
+      SLOT_NAME: realtime
+      TEMPORARY_SLOT: "true"
+    networks:
+      - concordbroker-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Supabase Storage
+  storage:
+    image: supabase/storage-api:v0.43.11
+    container_name: concordbroker-storage
+    ports:
+      - "54325:5000"
+    environment:
+      ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYzNTAwODQ4OSwiZXhwIjoxOTUwNTg0NDg5fQ.l8IgkO7TQokGSMcqDR8jU1Y2QrjEx7_4HCDtHc7RKHA
+      SERVICE_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoic2VydmljZV9yb2xlIiwiaWF0IjoxNjM1MDA4NDg5LCJleHAiOjE5NTA1ODQ0ODl9.aZYHPLqSdtEuXAnRZswj-wqJPMJfKpZqGZ8la-Qtjqw
+      PROJECT_REF: local
+      POSTGREST_URL: http://rest:3000
+      PGRST_JWT_SECRET: super-secret-jwt-token-with-at-least-32-characters-long
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
+      PGOPTIONS: -c search_path=storage
+      FILE_SIZE_LIMIT: 52428800
+      STORAGE_BACKEND: file
+      FILE_STORAGE_BACKEND_PATH: /var/lib/storage
+      REGION: us-east-1
+      GLOBAL_S3_BUCKET: concordbroker-storage
+    volumes:
+      - storage_data:/var/lib/storage
+    networks:
+      - concordbroker-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # PostgREST
+  rest:
+    image: postgrest/postgrest:v11.2.0
+    container_name: concordbroker-rest
+    ports:
+      - "54326:3000"
+    environment:
+      PGRST_DB_URI: postgres://postgres:postgres@postgres:5432/postgres
+      PGRST_DB_SCHEMAS: public,storage,extensions
+      PGRST_DB_ANON_ROLE: anon
+      PGRST_JWT_SECRET: super-secret-jwt-token-with-at-least-32-characters-long
+      PGRST_DB_USE_LEGACY_GUCS: "false"
+    networks:
+      - concordbroker-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # PG Meta
+  meta:
+    image: supabase/postgres-meta:v0.68.0
+    container_name: concordbroker-meta
+    ports:
+      - "54327:8080"
+    environment:
+      PG_META_PORT: 8080
+      PG_META_DB_HOST: postgres
+      PG_META_DB_PORT: 5432
+      PG_META_DB_NAME: postgres
+      PG_META_DB_USER: postgres
+      PG_META_DB_PASSWORD: postgres
+      PG_META_DB_SSL_MODE: disable
+    networks:
+      - concordbroker-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Kong API Gateway
+  kong:
+    image: kong:3.3.1-alpine
+    container_name: concordbroker-kong
+    ports:
+      - "54328:8000" # HTTP
+      - "54329:8443" # HTTPS
+    environment:
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: /var/lib/kong/kong.yml
+      KONG_DNS_ORDER: LAST,A,CNAME
+      KONG_PLUGINS: request-transformer,cors,key-auth,acl
+      KONG_NGINX_PROXY_PROXY_BUFFER_SIZE: 160k
+      KONG_NGINX_PROXY_PROXY_BUFFERS: 64 160k
+    volumes:
+      - ./supabase/kong.yml:/var/lib/kong/kong.yml
+    networks:
+      - concordbroker-network
+
+  # Redis Cache (for Railway compatibility)
+  redis:
+    image: redis:7-alpine
+    container_name: concordbroker-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - concordbroker-network
+    command: redis-server --appendonly yes
+
+  # MinIO (S3-compatible storage for local dev)
+  minio:
+    image: minio/minio:latest
+    container_name: concordbroker-minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - minio_data:/data
+    networks:
+      - concordbroker-network
+    command: server /data --console-address ":9001"
+
+  # Frontend (Vite)
+  frontend:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile.dev
+    container_name: concordbroker-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_SUPABASE_URL: http://kong:8000
+      VITE_SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
+      VITE_API_URL: http://backend:8000
+    volumes:
+      - ./apps/web:/app
+      - /app/node_modules
+    networks:
+      - concordbroker-network
+    depends_on:
+      - backend
+      - kong
+    command: npm run dev -- --host 0.0.0.0 --port 5173
+
+  # Backend API
+  backend:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile.dev
+    container_name: concordbroker-backend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: super-secret-jwt-token-with-at-least-32-characters-long
+      SUPABASE_URL: http://kong:8000
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
+      PORT: 8000
+    volumes:
+      - ./apps/api:/app
+      - /app/node_modules
+    networks:
+      - concordbroker-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    command: npm run dev
+
+  # Monitoring Stack
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: concordbroker-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    networks:
+      - concordbroker-network
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: concordbroker-grafana
+    ports:
+      - "3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_INSTALL_PLUGINS: grafana-piechart-panel
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+    networks:
+      - concordbroker-network
+    depends_on:
+      - prometheus
+
+networks:
+  concordbroker-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  storage_data:
+  redis_data:
+  minio_data:
+  prometheus_data:
+  grafana_data:

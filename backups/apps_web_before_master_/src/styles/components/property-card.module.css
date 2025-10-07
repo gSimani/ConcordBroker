@@ -1,0 +1,437 @@
+/**
+ * Property Card BEM Components
+ * Following BEM methodology: Block__Element--Modifier
+ */
+
+/* ==========================================================================
+   PROPERTY CARD BLOCK
+   ========================================================================== */
+
+.property-card {
+  @apply relative bg-white rounded-lg shadow-md border transition-all duration-300 overflow-hidden;
+}
+
+.property-card--featured {
+  @apply ring-2 ring-yellow-400 shadow-lg;
+}
+
+.property-card--selected {
+  @apply ring-2 ring-blue-500 bg-blue-50;
+}
+
+.property-card--priority-high {
+  @apply ring-2 ring-red-500 border-red-200;
+}
+
+.property-card--priority-medium {
+  @apply ring-2 ring-yellow-500 border-yellow-200;
+}
+
+.property-card--grid {
+  @apply flex flex-col;
+}
+
+.property-card--list {
+  @apply flex flex-row items-center;
+}
+
+.property-card--loading {
+  @apply animate-pulse bg-gray-100;
+}
+
+.property-card--error {
+  @apply border-red-300 bg-red-50;
+}
+
+/* ==========================================================================
+   PROPERTY CARD ELEMENTS
+   ========================================================================== */
+
+/* Header */
+.property-card__header {
+  @apply p-4 border-b border-gray-100;
+}
+
+.property-card__header--compact {
+  @apply p-2;
+}
+
+/* Status Indicators */
+.property-card__status {
+  @apply absolute top-3 right-3 flex items-center space-x-2 z-10;
+}
+
+.property-card__status-indicator {
+  @apply p-1.5 rounded-full;
+}
+
+.property-card__status-indicator--watched {
+  background: rgba(212, 175, 55, 0.1);
+  color: #d4af37;
+}
+
+.property-card__status-indicator--notes {
+  background: rgba(52, 152, 219, 0.1);
+  color: #3498db;
+}
+
+.property-card__selection-control {
+  @apply hover:bg-gray-100 p-1 rounded cursor-pointer transition-colors;
+}
+
+/* Property Type Badge */
+.property-card__type-badges {
+  @apply flex items-center flex-wrap gap-1.5 mb-3;
+}
+
+.property-card__type-badge {
+  @apply px-2 py-1 rounded text-xs font-medium border;
+}
+
+.property-card__type-badge--residential {
+  @apply bg-green-100 text-green-800 border-green-200;
+}
+
+.property-card__type-badge--commercial {
+  @apply bg-blue-100 text-blue-800 border-blue-200;
+}
+
+.property-card__type-badge--industrial {
+  @apply bg-orange-100 text-orange-800 border-orange-200;
+}
+
+.property-card__type-badge--agricultural {
+  @apply bg-yellow-100 text-yellow-800 border-yellow-200;
+}
+
+.property-card__type-badge--vacant {
+  @apply bg-gray-100 text-gray-800 border-gray-200;
+}
+
+.property-card__type-badge--government {
+  @apply bg-red-100 text-red-800 border-red-200;
+}
+
+/* Address Section */
+.property-card__address {
+  @apply mb-3;
+}
+
+.property-card__address-container {
+  @apply flex items-start space-x-2;
+}
+
+.property-card__address-icon {
+  @apply w-4 h-4 mt-0.5 flex-shrink-0 text-gray-400;
+}
+
+.property-card__address-content {
+  @apply flex-1 min-w-0;
+}
+
+.property-card__address-link {
+  @apply hover:underline block;
+}
+
+.property-card__address-text {
+  @apply font-semibold text-sm mb-0.5 hover:text-blue-600 transition-colors flex items-center gap-1 text-gray-900;
+}
+
+.property-card__address-text--no-address {
+  @apply text-gray-500 italic;
+}
+
+.property-card__address-city {
+  @apply text-xs text-gray-500;
+}
+
+.property-card__external-link-icon {
+  @apply w-3 h-3 opacity-50 hover:opacity-100 transition-opacity;
+}
+
+/* Owner Section */
+.property-card__owner {
+  @apply mb-3 pb-2 border-b border-gray-100;
+}
+
+.property-card__owner-container {
+  @apply flex items-start space-x-2;
+}
+
+.property-card__owner-icon {
+  @apply w-4 h-4 mt-0.5 flex-shrink-0 text-gray-400;
+}
+
+.property-card__owner-content {
+  @apply flex-1 min-w-0;
+}
+
+.property-card__owner-label {
+  @apply block text-xs uppercase tracking-wider mb-0.5 text-gray-400;
+}
+
+.property-card__owner-name {
+  @apply text-xs font-medium truncate text-gray-900;
+}
+
+.property-card__owner-name--missing {
+  @apply text-gray-500 italic;
+}
+
+/* Metrics Section */
+.property-card__metrics {
+  @apply space-y-1.5;
+}
+
+.property-card__metric {
+  @apply flex items-center justify-between;
+}
+
+.property-card__metric-label {
+  @apply flex items-center space-x-1;
+}
+
+.property-card__metric-icon {
+  @apply w-3 h-3 text-gray-400;
+}
+
+.property-card__metric-text {
+  @apply text-xs text-gray-400;
+}
+
+.property-card__metric-value {
+  @apply font-semibold text-sm;
+}
+
+.property-card__metric-value--primary {
+  @apply text-yellow-600; /* Gold color */
+}
+
+.property-card__metric-value--success {
+  @apply text-green-600;
+}
+
+.property-card__metric-value--warning {
+  @apply text-orange-600;
+}
+
+.property-card__metric-value--danger {
+  @apply text-red-600;
+}
+
+.property-card__metric-value--secondary {
+  @apply text-gray-900;
+}
+
+.property-card__metric-subtitle {
+  @apply text-xs font-medium text-gray-500;
+}
+
+/* Tax Certificate Indicators */
+.property-card__tax-indicator {
+  @apply flex items-center space-x-1 px-2 py-1 rounded text-xs font-medium;
+}
+
+.property-card__tax-indicator--certificate {
+  @apply bg-orange-100 text-orange-800 border border-orange-200;
+}
+
+.property-card__tax-indicator--auction {
+  @apply bg-red-100 text-red-800 border border-red-200;
+}
+
+.property-card__tax-indicator-icon {
+  @apply w-3 h-3;
+}
+
+/* Actions Section */
+.property-card__actions {
+  @apply mt-3 pt-2 flex justify-between items-center border-t border-gray-100;
+}
+
+.property-card__actions--compact {
+  @apply mt-2 pt-1;
+}
+
+.property-card__primary-action {
+  @apply h-6 px-2 text-xs transition-all duration-200;
+}
+
+.property-card__primary-action--match {
+  @apply bg-green-50 text-green-700 border border-green-200 hover:bg-green-100;
+}
+
+.property-card__primary-action--no-match {
+  @apply text-gray-700 hover:text-gray-900;
+}
+
+.property-card__match-indicator {
+  @apply w-2 h-2 bg-green-500 rounded-full;
+}
+
+.property-card__secondary-action {
+  @apply h-6 w-6 p-0 text-gray-700 hover:text-gray-900 transition-colors;
+}
+
+.property-card__dropdown-trigger {
+  @apply w-3 h-3;
+}
+
+/* Footer */
+.property-card__footer {
+  @apply mt-2 pt-1.5 border-t border-gray-100;
+}
+
+.property-card__parcel-id {
+  @apply text-xs text-gray-400;
+}
+
+/* ==========================================================================
+   LIST VARIANT OVERRIDES
+   ========================================================================== */
+
+.property-card--list .property-card__content {
+  @apply flex items-center justify-between w-full;
+}
+
+.property-card--list .property-card__left-section {
+  @apply flex items-center space-x-4 flex-1 min-w-0;
+}
+
+.property-card--list .property-card__icon-container {
+  @apply flex-shrink-0;
+}
+
+.property-card--list .property-card__icon {
+  @apply w-5 h-5;
+}
+
+.property-card--list .property-card__icon--residential {
+  @apply text-green-600;
+}
+
+.property-card--list .property-card__icon--commercial {
+  @apply text-blue-600;
+}
+
+.property-card--list .property-card__icon--default {
+  @apply text-gray-600;
+}
+
+.property-card--list .property-card__info {
+  @apply min-w-0 flex-1;
+}
+
+.property-card--list .property-card__title-row {
+  @apply flex items-center space-x-2 mb-1;
+}
+
+.property-card--list .property-card__subtitle {
+  @apply text-xs text-gray-500;
+}
+
+.property-card--list .property-card__owner-section {
+  @apply px-4 min-w-0 flex-1 max-w-xs;
+}
+
+.property-card--list .property-card__values-section {
+  @apply flex items-center space-x-6;
+}
+
+.property-card--list .property-card__value-group {
+  @apply text-right;
+}
+
+.property-card--list .property-card__value-label {
+  @apply text-xs text-gray-500 mb-1;
+}
+
+.property-card--list .property-card__value-amount {
+  @apply font-semibold;
+}
+
+.property-card--list .property-card__value-amount--primary {
+  @apply text-green-600;
+}
+
+.property-card--list .property-card__value-subtitle {
+  @apply text-xs text-gray-500;
+}
+
+.property-card--list .property-card__indicators {
+  @apply flex items-center space-x-2 ml-4;
+}
+
+.property-card--list .property-card__note-indicator {
+  @apply w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center;
+}
+
+.property-card--list .property-card__note-count {
+  @apply text-xs font-bold text-blue-600;
+}
+
+.property-card--list .property-card__list-actions {
+  @apply ml-4;
+}
+
+/* ==========================================================================
+   RESPONSIVE ADJUSTMENTS
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .property-card--list {
+    @apply flex-col items-start space-y-2;
+  }
+
+  .property-card--list .property-card__values-section {
+    @apply flex-wrap gap-4;
+  }
+
+  .property-card--list .property-card__indicators {
+    @apply ml-0 mt-2;
+  }
+}
+
+/* ==========================================================================
+   HOVER AND INTERACTION STATES
+   ========================================================================== */
+
+.property-card:hover {
+  @apply shadow-lg transform -translate-y-0.5;
+}
+
+.property-card--list:hover {
+  @apply shadow-md transform-none translate-y-0;
+}
+
+.property-card__address-link:hover .property-card__external-link-icon {
+  @apply opacity-100;
+}
+
+/* ==========================================================================
+   ANIMATION CLASSES
+   ========================================================================== */
+
+.property-card--animate-in {
+  @apply animate-fade-in;
+}
+
+.property-card--hover-lift:hover {
+  @apply transform -translate-y-1;
+}
+
+/* ==========================================================================
+   ACCESSIBILITY
+   ========================================================================== */
+
+.property-card:focus-within {
+  @apply ring-2 ring-blue-500 ring-offset-2;
+}
+
+.property-card__selection-control:focus {
+  @apply ring-2 ring-blue-500 ring-offset-1;
+}
+
+.property-card__primary-action:focus {
+  @apply ring-2 ring-blue-500 ring-offset-1;
+}

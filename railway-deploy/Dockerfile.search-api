@@ -1,0 +1,30 @@
+# FastAPI Search API for Railway Pro
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Copy requirements
+COPY apps/api/requirements-search.txt .
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements-search.txt
+
+# Copy API files
+COPY apps/api/search_api.py .
+COPY apps/api/search_config.py .
+
+# Environment variables (set via Railway)
+# - MEILISEARCH_URL
+# - MEILISEARCH_KEY
+# - SUPABASE_URL
+# - SUPABASE_SERVICE_ROLE_KEY
+
+# Expose port
+EXPOSE 8001
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD curl -f http://localhost:8001/health || exit 1
+
+# Start FastAPI
+CMD ["uvicorn", "search_api:app", "--host", "0.0.0.0", "--port", "8001"]

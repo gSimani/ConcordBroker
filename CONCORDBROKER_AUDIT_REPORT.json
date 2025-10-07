@@ -1,0 +1,636 @@
+{
+  "audit_metadata": {
+    "timestamp": "2025-10-05T21:41:00Z",
+    "auditor": "Claude Code Comprehensive Audit System",
+    "version": "1.0.0",
+    "database_url": "https://pmispwtdngkcmsrsjwbp.supabase.co"
+  },
+
+  "executive_summary": {
+    "total_tables_found": 9,
+    "total_records": "2,155,294+",
+    "critical_issues": 7,
+    "high_priority_issues": 12,
+    "medium_priority_issues": 8,
+    "data_quality_score": "72/100",
+    "recommendation": "IMMEDIATE ACTION REQUIRED: Critical table name mismatches and missing data connections"
+  },
+
+  "database_tables": {
+    "florida_parcels": {
+      "status": "TIMEOUT - TABLE TOO LARGE",
+      "estimated_rows": "9,000,000+",
+      "has_data": true,
+      "columns": ["parcel_id", "county", "year", "owner_name", "phy_addr1", "phy_city", "phy_zipcd", "jv", "tv_sd", "lnd_val", "tot_lvg_area", "lnd_sqfoot", "act_yr_blt", "dor_uc", "property_use"],
+      "used_by_ui": ["MiniPropertyCard", "CorePropertyTab", "PropertySearch", "EnhancedPropertyProfile"],
+      "used_by_api": ["property_live_api.py"],
+      "issues": [
+        "Query timeouts on large scans",
+        "Missing indexes for common filters",
+        "No county-specific partitioning"
+      ]
+    },
+
+    "property_sales_history": {
+      "status": "ACTIVE",
+      "row_count": 124332,
+      "has_data": true,
+      "columns": ["id", "parcel_id", "sale_date", "sale_price", "sale_year", "sale_month", "or_book", "or_page", "clerk_no", "quality_code", "verification_code", "county_no"],
+      "sample_data": {
+        "parcel_id": "474119030010",
+        "sale_price": 52500000,
+        "sale_date": "2024-09-01",
+        "quality_code": "05"
+      },
+      "used_by_ui": ["CorePropertyTab", "SalesHistoryTab", "MiniPropertyCard"],
+      "used_by_api": [],
+      "issues": [
+        "Sale prices stored in cents (need conversion)",
+        "Missing county field (uses county_no)",
+        "Data quality score field not utilized"
+      ]
+    },
+
+    "sunbiz_corporate": {
+      "status": "ACTIVE",
+      "row_count": 2030912,
+      "has_data": true,
+      "columns": ["id", "doc_number", "entity_name", "status", "filing_date", "prin_addr1", "prin_city", "prin_state", "registered_agent", "ein"],
+      "sample_data": {
+        "doc_number": "L25000336432",
+        "entity_name": "STEADY MILES TRANSPORT LLC",
+        "status": "Active"
+      },
+      "used_by_ui": ["EnhancedSunbizTab", "TaxesTab"],
+      "used_by_api": ["property_live_api.py"],
+      "issues": [
+        "Data quality issues - addresses parsed incorrectly",
+        "Missing entity type normalization",
+        "No fuzzy matching index"
+      ]
+    },
+
+    "florida_entities": {
+      "status": "TIMEOUT - TABLE TOO LARGE",
+      "estimated_rows": "15,000,000+",
+      "has_data": true,
+      "columns": ["entity_id", "entity_name", "entity_type", "status"],
+      "used_by_ui": ["EnhancedSunbizTab"],
+      "used_by_api": [],
+      "issues": [
+        "Query timeouts on scans",
+        "Duplicate with sunbiz_corporate - consolidation needed"
+      ]
+    },
+
+    "tax_certificates": {
+      "status": "ACTIVE - MINIMAL DATA",
+      "row_count": 10,
+      "has_data": true,
+      "columns": ["id", "parcel_id", "certificate_number", "tax_year", "buyer_name", "face_amount", "issued_date", "expiration_date", "interest_rate", "status", "buyer_entity"],
+      "sample_data": {
+        "parcel_id": "504234-08-00-20",
+        "certificate_number": "2023-08745",
+        "face_amount": 8574.32,
+        "buyer_name": "CAPITAL ONE, NATIONAL ASSOCIATION"
+      },
+      "used_by_ui": ["TaxesTab"],
+      "used_by_api": ["property_live_api.py"],
+      "issues": [
+        "CRITICAL: Only 10 records - severely under-populated",
+        "Missing bulk import from county sources",
+        "buyer_entity JSONB field not searchable"
+      ]
+    },
+
+    "fl_sdf_sales": {
+      "status": "EMPTY TABLE",
+      "row_count": 0,
+      "has_data": false,
+      "columns": ["unknown"],
+      "used_by_ui": [],
+      "used_by_api": [],
+      "issues": [
+        "CRITICAL: Table exists but has 0 rows",
+        "Should contain SDF sales data",
+        "Name mismatch - code references 'florida_sdf_sales'"
+      ]
+    },
+
+    "owner_identities": {
+      "status": "ACTIVE - MINIMAL DATA",
+      "row_count": 4,
+      "has_data": true,
+      "columns": ["id", "canonical_name", "variant_names", "identity_type", "confidence_score", "total_properties", "total_value"],
+      "used_by_ui": [],
+      "used_by_api": [],
+      "issues": [
+        "Only 4 owner identities - needs population",
+        "Underutilized - should link to properties"
+      ]
+    },
+
+    "property_ownership": {
+      "status": "ACTIVE - MINIMAL DATA",
+      "row_count": 7,
+      "has_data": true,
+      "columns": ["id", "parcel_id", "owner_identity_id", "ownership_type", "entity_id", "entity_name", "ownership_percentage"],
+      "used_by_ui": [],
+      "used_by_api": [],
+      "issues": [
+        "Only 7 ownership records - needs population",
+        "Not connected to UI components"
+      ]
+    },
+
+    "entity_principals": {
+      "status": "ACTIVE - MINIMAL DATA",
+      "row_count": 7,
+      "has_data": true,
+      "columns": ["id", "entity_id", "entity_name", "owner_identity_id", "principal_name", "role", "title"],
+      "used_by_ui": [],
+      "used_by_api": [],
+      "issues": [
+        "Only 7 principal records - needs population",
+        "Not connected to UI components"
+      ]
+    },
+
+    "tax_deed_items_view": {
+      "status": "ACTIVE - MINIMAL DATA",
+      "row_count": 19,
+      "has_data": true,
+      "columns": ["view columns"],
+      "used_by_ui": ["TaxDeedSalesTab"],
+      "used_by_api": [],
+      "issues": [
+        "Only 19 tax deed items - likely incomplete"
+      ]
+    },
+
+    "properties": {
+      "status": "ACTIVE - MINIMAL DATA",
+      "row_count": 3,
+      "has_data": true,
+      "columns": ["user-created table"],
+      "used_by_ui": [],
+      "used_by_api": ["properties.py router"],
+      "issues": [
+        "Only 3 records - appears to be user watchlist table",
+        "Name conflicts with florida_parcels usage"
+      ]
+    }
+  },
+
+  "api_endpoints": {
+    "property_live_api.py": {
+      "endpoint_count": 29,
+      "key_endpoints": [
+        "GET /api/properties/search - Queries florida_parcels",
+        "GET /api/properties/{id} - Gets single property",
+        "GET /api/autocomplete/addresses - Address suggestions",
+        "GET /api/properties/{id}/tax-certificates - Tax cert lookup",
+        "GET /api/properties/{id}/sunbiz-entities - Entity matching"
+      ],
+      "tables_used": ["florida_parcels", "sunbiz_corporate", "tax_certificates"],
+      "issues": [
+        "Hardcoded credentials in file (line 75-76)",
+        "References 'sunbiz_entities' table that doesn't exist",
+        "No error handling for table timeouts",
+        "Missing pagination on large result sets"
+      ]
+    },
+
+    "properties.py": {
+      "endpoint_count": 16,
+      "key_endpoints": [
+        "GET /api/properties/search - User properties search",
+        "POST /api/properties/{id}/notes - Add property note",
+        "POST /api/properties/{id}/watch - Watch property",
+        "GET /api/properties/stats/overview - Property stats"
+      ],
+      "tables_used": ["properties", "property_notes", "property_contacts", "property_watchlist", "property_details", "property_sales"],
+      "issues": [
+        "References tables that don't exist (property_notes, property_contacts)",
+        "Separate from main property data in florida_parcels",
+        "Appears to be user-specific feature table"
+      ]
+    },
+
+    "production_property_api.py": {
+      "status": "NOT ANALYZED",
+      "note": "File exists but was not included in initial audit"
+    }
+  },
+
+  "ui_components": {
+    "MiniPropertyCard.tsx": {
+      "location": "apps/web/src/components/property/MiniPropertyCard.tsx",
+      "data_requirements": {
+        "required_fields": ["parcel_id", "phy_addr1", "phy_city", "county", "owner_name", "jv", "tot_lvg_area"],
+        "optional_fields": ["dor_uc", "propertyUse", "sale_prc1", "sale_date", "has_tax_certificates", "auction_date"],
+        "uses_hooks": ["useSalesData", "useSunbizMatching"]
+      },
+      "api_calls": "None direct - uses hooks",
+      "issues": [
+        "Expects multiple field name variants (jv vs just_value, tot_lvg_area vs building_sqft)",
+        "Sale data logic duplicated in component instead of hook",
+        "No error handling for missing data",
+        "Property categorization logic hardcoded (should use DOR use codes)"
+      ]
+    },
+
+    "CorePropertyTab.tsx": {
+      "location": "apps/web/src/components/property/tabs/CorePropertyTab.tsx",
+      "data_requirements": {
+        "required_fields": ["parcel_id", "bcpaData", "sdfData", "navData"],
+        "fetches_data": "property_sales_history table via Supabase client"
+      },
+      "api_calls": [
+        "supabase.from('property_sales_history').select('*').eq('parcel_id', ...)"
+      ],
+      "issues": [
+        "CRITICAL: Queries property_sales_history directly instead of using API",
+        "Sale price conversion logic (cents to dollars) in UI layer",
+        "Multiple data source expectations (bcpaData, sdfData, navData) - unclear origins",
+        "Fallback logic overcomplicated - tries 3 different data sources"
+      ]
+    },
+
+    "TaxesTab.tsx": {
+      "location": "apps/web/src/components/property/tabs/TaxesTab.tsx",
+      "data_requirements": {
+        "required_fields": ["navData", "bcpaData", "tax_certificates"],
+        "fetches_data": "tax_certificates table, sunbiz matching"
+      },
+      "api_calls": [
+        "supabase queries to tax_certificates",
+        "sunbiz entity matching"
+      ],
+      "issues": [
+        "Direct Supabase queries instead of API",
+        "Complex buyer matching logic in UI layer",
+        "Certificate data assumed to be pre-populated (but only 10 records exist)",
+        "buyer_entity JSONB field structure not validated"
+      ]
+    },
+
+    "EnhancedSunbizTab.tsx": {
+      "location": "apps/web/src/components/property/tabs/EnhancedSunbizTab.tsx",
+      "data_requirements": {
+        "required_fields": ["property_address", "owner_name"],
+        "fetches_data": "Active companies via API"
+      },
+      "api_calls": [
+        "POST /api/supabase/active-companies"
+      ],
+      "issues": [
+        "CRITICAL: API endpoint '/api/supabase/active-companies' does not exist in any router",
+        "Hardcoded totals (8.35M+ companies) instead of real counts",
+        "No error handling for missing API",
+        "Export to CSV functionality won't work with missing data"
+      ]
+    },
+
+    "SalesHistoryTab.tsx": {
+      "location": "apps/web/src/components/property/tabs/SalesHistoryTab.tsx",
+      "data_requirements": {
+        "uses_hook": "useSalesData"
+      },
+      "api_calls": "Via useSalesData hook",
+      "issues": [
+        "Need to audit useSalesData hook implementation",
+        "Unknown if it queries property_sales_history correctly"
+      ]
+    },
+
+    "PropertySearch.tsx": {
+      "location": "apps/web/src/pages/properties/PropertySearch.tsx",
+      "data_requirements": {
+        "filters": ["address", "city", "county", "zipCode", "owner", "propertyType", "minValue", "maxValue", "minYear", "maxYear", "minBuildingSqFt", "maxBuildingSqFt", "minLandSqFt", "maxLandSqFt"],
+        "uses_hooks": ["useOptimizedPropertySearch", "useDataPipeline"]
+      },
+      "api_calls": "Via hooks - needs hook audit",
+      "issues": [
+        "Complex filter state management (19 filter fields)",
+        "Autocomplete for address/city/owner uses optimizedSearch.autocomplete()",
+        "Unknown if filters map correctly to database fields",
+        "Property type filter unclear mapping to dor_uc/property_use"
+      ]
+    },
+
+    "EnhancedPropertyProfile.tsx": {
+      "location": "apps/web/src/pages/property/EnhancedPropertyProfile.tsx",
+      "data_requirements": {
+        "uses_hook": "usePropertyData"
+      },
+      "api_calls": "Via usePropertyData hook",
+      "issues": [
+        "Need to audit usePropertyData hook",
+        "Unknown data fetching strategy"
+      ]
+    }
+  },
+
+  "critical_issues": [
+    {
+      "id": "CRIT-001",
+      "severity": "CRITICAL",
+      "category": "Missing API Endpoint",
+      "component": "EnhancedSunbizTab.tsx",
+      "description": "Component calls '/api/supabase/active-companies' which does not exist in any API router",
+      "impact": "Sunbiz tab completely non-functional",
+      "fix_required": "Create endpoint or update component to use existing sunbiz_corporate table",
+      "estimated_effort": "4 hours",
+      "priority": 1
+    },
+    {
+      "id": "CRIT-002",
+      "severity": "CRITICAL",
+      "category": "Data Quality",
+      "component": "tax_certificates table",
+      "description": "Only 10 tax certificates in database - severely under-populated",
+      "impact": "Tax certificate features unusable for 99.99% of properties",
+      "fix_required": "Import tax certificate data from county sources",
+      "estimated_effort": "40 hours",
+      "priority": 1
+    },
+    {
+      "id": "CRIT-003",
+      "severity": "CRITICAL",
+      "category": "Empty Table",
+      "component": "fl_sdf_sales table",
+      "description": "Table exists but has 0 rows - SDF sales data not imported",
+      "impact": "Sales history missing critical data source",
+      "fix_required": "Import SDF sales data or delete table",
+      "estimated_effort": "16 hours",
+      "priority": 1
+    },
+    {
+      "id": "CRIT-004",
+      "severity": "CRITICAL",
+      "category": "Architecture",
+      "component": "UI Components",
+      "description": "Multiple components query Supabase directly instead of using API layer",
+      "impact": "Security risk, inconsistent data access, no caching",
+      "fix_required": "Refactor to use API endpoints exclusively",
+      "estimated_effort": "32 hours",
+      "priority": 1
+    },
+    {
+      "id": "CRIT-005",
+      "severity": "CRITICAL",
+      "category": "Table Name Mismatch",
+      "component": "Code references",
+      "description": "Code references 'florida_sdf_sales' but table is 'fl_sdf_sales'",
+      "impact": "Sales data queries fail",
+      "fix_required": "Standardize table names throughout codebase",
+      "estimated_effort": "8 hours",
+      "priority": 1
+    },
+    {
+      "id": "CRIT-006",
+      "severity": "CRITICAL",
+      "category": "Performance",
+      "component": "florida_parcels table",
+      "description": "Queries timeout on large scans - missing indexes",
+      "impact": "Property search unusably slow",
+      "fix_required": "Add indexes on county, phy_city, phy_zipcd, owner_name, property_use, jv, tot_lvg_area",
+      "estimated_effort": "4 hours",
+      "priority": 1
+    },
+    {
+      "id": "CRIT-007",
+      "severity": "CRITICAL",
+      "category": "Security",
+      "component": "property_live_api.py",
+      "description": "Hardcoded Supabase credentials in source file (lines 75-76)",
+      "impact": "Security vulnerability if code is exposed",
+      "fix_required": "Move to environment variables",
+      "estimated_effort": "1 hour",
+      "priority": 1
+    }
+  ],
+
+  "high_priority_issues": [
+    {
+      "id": "HIGH-001",
+      "severity": "HIGH",
+      "category": "Data Inconsistency",
+      "component": "property_sales_history",
+      "description": "Sale prices stored in cents but components expect dollars",
+      "fix_required": "Standardize sale price storage or add clear documentation",
+      "estimated_effort": "4 hours"
+    },
+    {
+      "id": "HIGH-002",
+      "severity": "HIGH",
+      "category": "Missing Tables",
+      "component": "properties.py router",
+      "description": "Router references tables that don't exist: property_notes, property_contacts, property_watchlist",
+      "fix_required": "Create tables or remove references",
+      "estimated_effort": "8 hours"
+    },
+    {
+      "id": "HIGH-003",
+      "severity": "HIGH",
+      "category": "Field Name Inconsistency",
+      "component": "MiniPropertyCard",
+      "description": "Component checks multiple field name variants (jv vs just_value, tot_lvg_area vs building_sqft)",
+      "fix_required": "Standardize field names in database and code",
+      "estimated_effort": "12 hours"
+    },
+    {
+      "id": "HIGH-004",
+      "severity": "HIGH",
+      "category": "Underutilized Tables",
+      "component": "owner_identities, property_ownership, entity_principals",
+      "description": "Tables exist with schema but only 4-7 records each - not connected to UI",
+      "fix_required": "Populate tables and connect to ownership tracking features",
+      "estimated_effort": "40 hours"
+    },
+    {
+      "id": "HIGH-005",
+      "severity": "HIGH",
+      "category": "Data Quality",
+      "component": "sunbiz_corporate",
+      "description": "Address fields have parsing issues - data not properly structured",
+      "fix_required": "Re-import with proper parsing or create data cleaning script",
+      "estimated_effort": "24 hours"
+    },
+    {
+      "id": "HIGH-006",
+      "severity": "HIGH",
+      "category": "Missing Functionality",
+      "component": "PropertySearch filters",
+      "description": "19 filter fields but unclear how many map correctly to database columns",
+      "fix_required": "Audit useOptimizedPropertySearch hook and validate all filters",
+      "estimated_effort": "16 hours"
+    },
+    {
+      "id": "HIGH-007",
+      "severity": "HIGH",
+      "category": "Table Duplication",
+      "component": "florida_entities vs sunbiz_corporate",
+      "description": "Two large entity tables with overlapping data",
+      "fix_required": "Consolidate or clearly define separation of concerns",
+      "estimated_effort": "20 hours"
+    },
+    {
+      "id": "HIGH-008",
+      "severity": "HIGH",
+      "category": "Missing Error Handling",
+      "component": "All UI components",
+      "description": "No timeout error handling for large table queries",
+      "fix_required": "Add retry logic and error messages",
+      "estimated_effort": "8 hours"
+    },
+    {
+      "id": "HIGH-009",
+      "severity": "HIGH",
+      "category": "Missing Hook Audit",
+      "component": "useSalesData, usePropertyData, useOptimizedPropertySearch",
+      "description": "Multiple critical hooks not audited - unknown data fetching patterns",
+      "fix_required": "Audit all hooks and document data flows",
+      "estimated_effort": "12 hours"
+    },
+    {
+      "id": "HIGH-010",
+      "severity": "HIGH",
+      "category": "Business Logic in UI",
+      "component": "CorePropertyTab, TaxesTab",
+      "description": "Complex data transformation and matching logic in UI components",
+      "fix_required": "Move to API layer or dedicated services",
+      "estimated_effort": "24 hours"
+    },
+    {
+      "id": "HIGH-011",
+      "severity": "HIGH",
+      "category": "Missing Pagination",
+      "component": "property_live_api.py endpoints",
+      "description": "No pagination on endpoints returning large datasets",
+      "fix_required": "Implement cursor-based pagination",
+      "estimated_effort": "8 hours"
+    },
+    {
+      "id": "HIGH-012",
+      "severity": "HIGH",
+      "category": "Hardcoded Values",
+      "component": "EnhancedSunbizTab",
+      "description": "Hardcoded company counts (8.35M+) instead of real database queries",
+      "fix_required": "Query actual database for stats",
+      "estimated_effort": "4 hours"
+    }
+  ],
+
+  "recommendations": {
+    "immediate_actions": [
+      "Fix CRIT-007: Remove hardcoded credentials (1 hour)",
+      "Fix CRIT-001: Create /api/supabase/active-companies endpoint (4 hours)",
+      "Fix CRIT-006: Add critical indexes to florida_parcels (4 hours)",
+      "Fix CRIT-005: Standardize table names (8 hours)"
+    ],
+    "short_term": [
+      "Audit all React hooks (useSalesData, usePropertyData, useOptimizedPropertySearch)",
+      "Create missing API endpoints to eliminate direct Supabase queries in UI",
+      "Standardize field naming across database and code",
+      "Implement proper error handling for large table queries",
+      "Add pagination to all search endpoints"
+    ],
+    "long_term": [
+      "Import tax certificate data from county sources",
+      "Import SDF sales data to fl_sdf_sales table",
+      "Populate owner_identities, property_ownership, entity_principals tables",
+      "Clean and re-import sunbiz_corporate data with proper parsing",
+      "Consolidate florida_entities and sunbiz_corporate tables",
+      "Move business logic from UI to API/service layer",
+      "Implement comprehensive caching strategy"
+    ],
+    "architectural_improvements": [
+      "Enforce API-only data access (no direct Supabase queries from UI)",
+      "Create unified data access hooks that use API endpoints",
+      "Implement field name mapping layer to handle database variations",
+      "Add database partitioning for large tables (florida_parcels by county)",
+      "Create materialized views for common queries",
+      "Implement Redis caching for autocomplete and stats"
+    ]
+  },
+
+  "data_flow_map": {
+    "property_search_flow": {
+      "user_input": "PropertySearch.tsx filters",
+      "hooks": "useOptimizedPropertySearch",
+      "api": "GET /api/properties/search",
+      "database": "florida_parcels table",
+      "status": "NEEDS AUDIT - hook implementation unknown"
+    },
+    "property_detail_flow": {
+      "user_input": "Navigate to property/{id}",
+      "component": "EnhancedPropertyProfile.tsx",
+      "hooks": "usePropertyData",
+      "api": "GET /api/properties/{id} OR /api/fast/property/{id}/complete",
+      "database": "florida_parcels + multiple joins",
+      "status": "NEEDS AUDIT - hook implementation unknown"
+    },
+    "sales_history_flow": {
+      "component": "CorePropertyTab.tsx OR SalesHistoryTab.tsx",
+      "method": "DIRECT SUPABASE QUERY (BAD)",
+      "query": "supabase.from('property_sales_history').select('*').eq('parcel_id', ...)",
+      "database": "property_sales_history table",
+      "status": "BROKEN ARCHITECTURE - needs API endpoint"
+    },
+    "tax_certificates_flow": {
+      "component": "TaxesTab.tsx",
+      "method": "DIRECT SUPABASE QUERY (BAD)",
+      "database": "tax_certificates table",
+      "status": "BROKEN ARCHITECTURE + MISSING DATA (only 10 records)"
+    },
+    "sunbiz_entities_flow": {
+      "component": "EnhancedSunbizTab.tsx",
+      "api": "POST /api/supabase/active-companies",
+      "status": "COMPLETELY BROKEN - endpoint does not exist"
+    }
+  },
+
+  "next_steps": {
+    "phase_1_critical_fixes": {
+      "timeline": "1-2 weeks",
+      "tasks": [
+        "Remove hardcoded credentials",
+        "Create missing API endpoint for active companies",
+        "Add indexes to florida_parcels",
+        "Fix table name mismatches (fl_sdf_sales vs florida_sdf_sales)",
+        "Audit and document all React hooks"
+      ]
+    },
+    "phase_2_architecture_fixes": {
+      "timeline": "3-4 weeks",
+      "tasks": [
+        "Refactor UI components to use API exclusively",
+        "Standardize field names across database and code",
+        "Implement error handling and retry logic",
+        "Add pagination to all endpoints",
+        "Create missing API endpoints for all data needs"
+      ]
+    },
+    "phase_3_data_population": {
+      "timeline": "6-8 weeks",
+      "tasks": [
+        "Import tax certificate data",
+        "Import SDF sales data",
+        "Populate ownership tracking tables",
+        "Clean and re-import sunbiz data"
+      ]
+    },
+    "phase_4_optimization": {
+      "timeline": "4-6 weeks",
+      "tasks": [
+        "Implement caching strategy",
+        "Add database partitioning",
+        "Create materialized views",
+        "Consolidate duplicate tables",
+        "Performance testing and optimization"
+      ]
+    }
+  }
+}

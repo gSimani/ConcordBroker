@@ -1,0 +1,361 @@
+{
+  "timestamp": "2025-09-28T19:26:21.960086",
+  "tables": {
+    "florida_parcels": {
+      "exists": true,
+      "columns": [
+        "id",
+        "parcel_id",
+        "county",
+        "year",
+        "geometry",
+        "centroid",
+        "area_sqft",
+        "perimeter_ft",
+        "owner_name",
+        "owner_addr1",
+        "owner_addr2",
+        "owner_city",
+        "owner_state",
+        "owner_zip",
+        "phy_addr1",
+        "phy_addr2",
+        "phy_city",
+        "phy_state",
+        "phy_zipcd",
+        "legal_desc",
+        "subdivision",
+        "lot",
+        "block",
+        "property_use",
+        "property_use_desc",
+        "land_use_code",
+        "zoning",
+        "just_value",
+        "assessed_value",
+        "taxable_value",
+        "land_value",
+        "building_value",
+        "year_built",
+        "total_living_area",
+        "bedrooms",
+        "bathrooms",
+        "stories",
+        "units",
+        "land_sqft",
+        "land_acres",
+        "sale_date",
+        "sale_price",
+        "sale_qualification",
+        "match_status",
+        "discrepancy_reason",
+        "is_redacted",
+        "data_source",
+        "import_date",
+        "update_date",
+        "data_hash",
+        "market_value"
+      ],
+      "sample_row": {
+        "id": 12469950,
+        "parcel_id": "354323C2027590170",
+        "county": "LEE",
+        "year": 2025,
+        "geometry": null,
+        "centroid": null,
+        "area_sqft": null,
+        "perimeter_ft": null,
+        "owner_name": "GARCIA JESUS VALDES &",
+        "owner_addr1": "2233 NW JUANITA PL",
+        "owner_addr2": null,
+        "owner_city": "CAPE CORAL",
+        "owner_state": "FL",
+        "owner_zip": "33993.0",
+        "phy_addr1": "2233 NW JUANITA PL",
+        "phy_addr2": null,
+        "phy_city": "CAPE CORAL",
+        "phy_state": "FL",
+        "phy_zipcd": "33993.0",
+        "legal_desc": null,
+        "subdivision": null,
+        "lot": null,
+        "block": null,
+        "property_use": "1",
+        "property_use_desc": null,
+        "land_use_code": null,
+        "zoning": null,
+        "just_value": 209465,
+        "assessed_value": 209465,
+        "taxable_value": 184465,
+        "land_value": 32300,
+        "building_value": 177165,
+        "year_built": 2003,
+        "total_living_area": 1920,
+        "bedrooms": null,
+        "bathrooms": null,
+        "stories": null,
+        "units": null,
+        "land_sqft": null,
+        "land_acres": null,
+        "sale_date": "2024-06-01T00:00:00",
+        "sale_price": 299000,
+        "sale_qualification": null,
+        "match_status": null,
+        "discrepancy_reason": null,
+        "is_redacted": false,
+        "data_source": null,
+        "import_date": "2025-09-16T08:45:17.067026",
+        "update_date": null,
+        "data_hash": null,
+        "market_value": null
+      }
+    },
+    "sales_history": {
+      "exists": false,
+      "error": "Status 404"
+    },
+    "property_characteristics": {
+      "exists": false,
+      "error": "Status 404"
+    },
+    "property_values": {
+      "exists": false,
+      "error": "Status 404"
+    },
+    "property_owners": {
+      "exists": true,
+      "columns": [],
+      "empty": true
+    },
+    "tax_assessments": {
+      "exists": false,
+      "error": "Status 404"
+    },
+    "exemptions": {
+      "exists": false,
+      "error": "Status 404"
+    },
+    "property_use_codes": {
+      "exists": false,
+      "error": "Status 404"
+    },
+    "dor_use_codes": {
+      "exists": true,
+      "columns": [
+        "id",
+        "code",
+        "description",
+        "category",
+        "subcategory",
+        "is_residential",
+        "is_commercial",
+        "is_industrial",
+        "is_agricultural",
+        "is_institutional",
+        "is_governmental",
+        "is_miscellaneous",
+        "is_vacant",
+        "color_class",
+        "bg_color_class",
+        "border_color_class",
+        "created_at",
+        "updated_at"
+      ],
+      "sample_row": {
+        "id": "a7276a0a-efc5-4dfb-ab70-f2111bf7a842",
+        "code": "000",
+        "description": "Vacant",
+        "category": "Vacant",
+        "subcategory": "Residential",
+        "is_residential": true,
+        "is_commercial": false,
+        "is_industrial": false,
+        "is_agricultural": false,
+        "is_institutional": false,
+        "is_governmental": false,
+        "is_miscellaneous": false,
+        "is_vacant": true,
+        "color_class": "text-gray-600",
+        "bg_color_class": "bg-gray-50",
+        "border_color_class": "border-gray-200",
+        "created_at": "2025-09-26T04:10:56.269345+00:00",
+        "updated_at": "2025-09-26T04:10:56.269345+00:00"
+      }
+    }
+  },
+  "relationships": [],
+  "minicard_mappings": {
+    "phy_addr1": {
+      "source_table": "florida_parcels",
+      "source_column": "phy_addr1",
+      "available": true,
+      "description": "Physical address line 1"
+    },
+    "phy_city": {
+      "source_table": "florida_parcels",
+      "source_column": "phy_city",
+      "available": true,
+      "description": "City name"
+    },
+    "phy_zipcode": {
+      "available": false,
+      "description": "Zip code",
+      "needs_join": true
+    },
+    "owner_name": {
+      "source_table": "florida_parcels",
+      "source_column": "owner_name",
+      "available": true,
+      "description": "Property owner name"
+    },
+    "jv": {
+      "source_table": "florida_parcels",
+      "source_column": "just_value",
+      "available": true,
+      "alternatives": [
+        "just_value",
+        "market_value"
+      ],
+      "description": "Just/Appraised value"
+    },
+    "tv_sd": {
+      "source_table": "florida_parcels",
+      "source_column": "taxable_value",
+      "available": true,
+      "alternatives": [
+        "taxable_value",
+        "assessed_value"
+      ],
+      "description": "Taxable value"
+    },
+    "property_use": {
+      "source_table": "florida_parcels",
+      "source_column": "property_use",
+      "available": true,
+      "description": "Property use code"
+    },
+    "sale_price": {
+      "source_table": "florida_parcels",
+      "source_column": "sale_price",
+      "available": true,
+      "description": "Recent sale price"
+    },
+    "sale_date": {
+      "source_table": "florida_parcels",
+      "source_column": "sale_date",
+      "available": true,
+      "description": "Recent sale date"
+    },
+    "land_sqft": {
+      "source_table": "florida_parcels",
+      "source_column": "land_sqft",
+      "available": true,
+      "description": "Land square footage"
+    },
+    "building_sqft": {
+      "available": false,
+      "description": "Building square footage",
+      "needs_join": true
+    },
+    "year_built": {
+      "source_table": "florida_parcels",
+      "source_column": "year_built",
+      "available": true,
+      "description": "Year property built"
+    },
+    "bedrooms": {
+      "source_table": "florida_parcels",
+      "source_column": "bedrooms",
+      "available": true,
+      "description": "Number of bedrooms"
+    },
+    "bathrooms": {
+      "source_table": "florida_parcels",
+      "source_column": "bathrooms",
+      "available": true,
+      "description": "Number of bathrooms"
+    },
+    "parcel_id": {
+      "source_table": "florida_parcels",
+      "source_column": "parcel_id",
+      "available": true,
+      "description": "Parcel identifier"
+    },
+    "county": {
+      "source_table": "florida_parcels",
+      "source_column": "county",
+      "available": true,
+      "description": "County name"
+    }
+  },
+  "filters": {
+    "property_type": {
+      "description": "Filter by property category",
+      "values": [
+        "Single Family",
+        "Condo",
+        "Multi-family",
+        "Commercial",
+        "Vacant Land",
+        "Other"
+      ],
+      "implementation": "Use property_use codes and categorization logic"
+    },
+    "price_range": {
+      "description": "Filter by just value (jv)",
+      "ranges": [
+        {
+          "min": 0,
+          "max": 100000,
+          "label": "Under $100K"
+        },
+        {
+          "min": 100000,
+          "max": 250000,
+          "label": "$100K - $250K"
+        },
+        {
+          "min": 250000,
+          "max": 500000,
+          "label": "$250K - $500K"
+        },
+        {
+          "min": 500000,
+          "max": 1000000,
+          "label": "$500K - $1M"
+        },
+        {
+          "min": 1000000,
+          "max": null,
+          "label": "Over $1M"
+        }
+      ]
+    },
+    "location": {
+      "description": "Filter by city or zip code",
+      "fields": [
+        "phy_city",
+        "phy_zipcode"
+      ],
+      "type": "text_search"
+    },
+    "size": {
+      "description": "Filter by property size",
+      "fields": [
+        "land_sqft",
+        "building_sqft"
+      ],
+      "type": "range"
+    },
+    "year_built": {
+      "description": "Filter by construction year",
+      "type": "range",
+      "field": "year_built"
+    },
+    "sale_date": {
+      "description": "Filter by recent sales",
+      "type": "date_range",
+      "field": "sale_date"
+    }
+  }
+}

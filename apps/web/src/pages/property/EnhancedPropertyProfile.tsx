@@ -20,7 +20,7 @@ import {
 // Import custom hooks and components
 import { usePropertyData } from '@/hooks/usePropertyData';
 import { OverviewTab } from '@/components/property/tabs/OverviewTab';
-import { CorePropertyTabComplete as CorePropertyTab } from '@/components/property/tabs/CorePropertyTabComplete';
+import { CorePropertyTab } from '@/components/property/tabs/CorePropertyTab';
 import { SunbizTab } from '@/components/property/tabs/SunbizTab';
 import { TaxesTab as PropertyTaxInfoTab } from '@/components/property/tabs/TaxesTab';
 import { AnalysisTab } from '@/components/property/tabs/AnalysisTab';

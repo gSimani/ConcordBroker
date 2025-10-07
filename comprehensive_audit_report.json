@@ -1,0 +1,1609 @@
+{
+  "timestamp": "2025-10-05T17:37:28.293918",
+  "database_tables": {
+    "florida_parcels": {
+      "exists": false,
+      "row_count": 0,
+      "sample_data": [],
+      "columns": [],
+      "has_data": false,
+      "error": "The read operation timed out"
+    },
+    "property_sales_history": {
+      "exists": true,
+      "row_count": 124332,
+      "sample_data": [
+        {
+          "id": 1,
+          "county_no": "16",
+          "parcel_id": "474119030010",
+          "state_parcel_id": "C16-001-192-0124-2",
+          "assessment_year": 2025,
+          "atv_start": 8,
+          "group_no": "1",
+          "dor_use_code": "000",
+          "neighborhood_code": "665550",
+          "market_area": "7",
+          "census_block": null,
+          "sale_id_code": "99000120039267",
+          "sale_change_code": null,
+          "verification_code": "V",
+          "or_book": null,
+          "or_page": null,
+          "clerk_no": "120039267",
+          "quality_code": "11",
+          "sale_year": 2025,
+          "sale_month": 2,
+          "sale_price": 100,
+          "multi_parcel_sale": "C",
+          "rs_id": "2B6D",
+          "mp_id": "00B5E2FC",
+          "sale_date": "2025-02-01",
+          "created_at": "2025-09-09T19:25:36.153999+00:00",
+          "updated_at": "2025-09-09T19:25:36.153999+00:00",
+          "county": null,
+          "data_quality_score": 100,
+          "source_type": "DOR",
+          "ingestion_run_id": null
+        },
+        {
+          "id": 2,
+          "county_no": "16",
+          "parcel_id": "474119030010",
+          "state_parcel_id": "C16-001-192-0124-2",
+          "assessment_year": 2025,
+          "atv_start": 8,
+          "group_no": "1",
+          "dor_use_code": "000",
+          "neighborhood_code": "665550",
+          "market_area": "7",
+          "census_block": null,
+          "sale_id_code": "99000119795010",
+          "sale_change_code": null,
+          "verification_code": "V",
+          "or_book": null,
+          "or_page": null,
+          "clerk_no": "119795010",
+          "quality_code": "05",
+          "sale_year": 2024,
+          "sale_month": 9,
+          "sale_price": 52500000,
+          "multi_parcel_sale": "C",
+          "rs_id": "2B6D",
+          "mp_id": "00B5E2FC",
+          "sale_date": "2024-09-01",
+          "created_at": "2025-09-09T19:25:36.153999+00:00",
+          "updated_at": "2025-09-09T19:25:36.153999+00:00",
+          "county": null,
+          "data_quality_score": 100,
+          "source_type": "DOR",
+          "ingestion_run_id": null
+        },
+        {
+          "id": 3,
+          "county_no": "16",
+          "parcel_id": "474119030020",
+          "state_parcel_id": "C16-001-192-0125-9",
+          "assessment_year": 2025,
+          "atv_start": 8,
+          "group_no": "1",
+          "dor_use_code": "000",
+          "neighborhood_code": "665550",
+          "market_area": "7",
+          "census_block": null,
+          "sale_id_code": "99000120039267",
+          "sale_change_code": null,
+          "verification_code": "V",
+          "or_book": null,
+          "or_page": null,
+          "clerk_no": "120039267",
+          "quality_code": "11",
+          "sale_year": 2025,
+          "sale_month": 2,
+          "sale_price": 100,
+          "multi_parcel_sale": "C",
+          "rs_id": "2B6D",
+          "mp_id": "00B5E2FD",
+          "sale_date": "2025-02-01",
+          "created_at": "2025-09-09T19:25:36.153999+00:00",
+          "updated_at": "2025-09-09T19:25:36.153999+00:00",
+          "county": null,
+          "data_quality_score": 100,
+          "source_type": "DOR",
+          "ingestion_run_id": null
+        },
+        {
+          "id": 4,
+          "county_no": "16",
+          "parcel_id": "474119030020",
+          "state_parcel_id": "C16-001-192-0125-9",
+          "assessment_year": 2025,
+          "atv_start": 8,
+          "group_no": "1",
+          "dor_use_code": "000",
+          "neighborhood_code": "665550",
+          "market_area": "7",
+          "census_block": null,
+          "sale_id_code": "99000119795010",
+          "sale_change_code": null,
+          "verification_code": "V",
+          "or_book": null,
+          "or_page": null,
+          "clerk_no": "119795010",
+          "quality_code": "05",
+          "sale_year": 2024,
+          "sale_month": 9,
+          "sale_price": 52500000,
+          "multi_parcel_sale": "C",
+          "rs_id": "2B6D",
+          "mp_id": "00B5E2FD",
+          "sale_date": "2024-09-01",
+          "created_at": "2025-09-09T19:25:36.153999+00:00",
+          "updated_at": "2025-09-09T19:25:36.153999+00:00",
+          "county": null,
+          "data_quality_score": 100,
+          "source_type": "DOR",
+          "ingestion_run_id": null
+        },
+        {
+          "id": 5,
+          "county_no": "16",
+          "parcel_id": "474119030030",
+          "state_parcel_id": "C16-001-192-0126-7",
+          "assessment_year": 2025,
+          "atv_start": 8,
+          "group_no": "1",
+          "dor_use_code": "000",
+          "neighborhood_code": "665550",
+          "market_area": "7",
+          "census_block": null,
+          "sale_id_code": "99000120039267",
+          "sale_change_code": null,
+          "verification_code": "V",
+          "or_book": null,
+          "or_page": null,
+          "clerk_no": "120039267",
+          "quality_code": "11",
+          "sale_year": 2025,
+          "sale_month": 2,
+          "sale_price": 100,
+          "multi_parcel_sale": "C",
+          "rs_id": "2B6D",
+          "mp_id": "00B5E2FE",
+          "sale_date": "2025-02-01",
+          "created_at": "2025-09-09T19:25:36.153999+00:00",
+          "updated_at": "2025-09-09T19:25:36.153999+00:00",
+          "county": null,
+          "data_quality_score": 100,
+          "source_type": "DOR",
+          "ingestion_run_id": null
+        }
+      ],
+      "columns": [
+        "id",
+        "county_no",
+        "parcel_id",
+        "state_parcel_id",
+        "assessment_year",
+        "atv_start",
+        "group_no",
+        "dor_use_code",
+        "neighborhood_code",
+        "market_area",
+        "census_block",
+        "sale_id_code",
+        "sale_change_code",
+        "verification_code",
+        "or_book",
+        "or_page",
+        "clerk_no",
+        "quality_code",
+        "sale_year",
+        "sale_month",
+        "sale_price",
+        "multi_parcel_sale",
+        "rs_id",
+        "mp_id",
+        "sale_date",
+        "created_at",
+        "updated_at",
+        "county",
+        "data_quality_score",
+        "source_type",
+        "ingestion_run_id"
+      ],
+      "has_data": true,
+      "error": null
+    },
+    "sunbiz_corporate": {
+      "exists": true,
+      "row_count": 2030912,
+      "sample_data": [
+        {
+          "id": 88302,
+          "doc_number": "L25000336432",
+          "entity_name": "STEADY MILES TRANSPORT LLC                                                                                                                                                                      AFLAL",
+          "status": "",
+          "filing_date": null,
+          "state_country": "RK",
+          "prin_addr1": "BLVD                   801                                       JACKSONVILLE                  3225",
+          "prin_addr2": "",
+          "prin_city": "8       14701 BARTRAM PARK BLVD",
+          "prin_state": "80",
+          "prin_zip": "1",
+          "mail_addr1": "JACKSONVILLE                FL32258     US07222025              N",
+          "mail_addr2": "",
+          "mail_city": "FL                                       MURRAY",
+          "mail_state": "",
+          "mail_zip": "",
+          "ein": "",
+          "registered_agent": "TREVOR        D       P14701 BARTRAM PARK BLVD                   JACKSONVILLE                FL322",
+          "file_type": "14701 BA",
+          "subtype": "",
+          "source_file": null,
+          "import_date": "2025-09-11T00:30:25.326397",
+          "update_date": null
+        },
+        {
+          "id": 88303,
+          "doc_number": "L25000336442",
+          "entity_name": "POWERS LEGACY HOLDINGS LLC                                                                                                                                                                      AFLAL",
+          "status": "",
+          "filing_date": null,
+          "state_country": "O",
+          "prin_addr1": "STREET                                                            PENSACOLA                     3250",
+          "prin_addr2": "",
+          "prin_city": "1       1001 EAST DE SOTO STREET",
+          "prin_state": "",
+          "prin_zip": "",
+          "mail_addr1": "PENSACOLA                   FL32501       07222025              N",
+          "mail_addr2": "",
+          "mail_city": "FL                                       POWERS",
+          "mail_state": "",
+          "mail_zip": "",
+          "ein": "",
+          "registered_agent": "MARK                  P1001 E DESOTO STREET                      PENSACOLA                   FL325",
+          "file_type": "1001 EAS",
+          "subtype": "",
+          "source_file": null,
+          "import_date": "2025-09-11T00:30:25.326397",
+          "update_date": null
+        },
+        {
+          "id": 88304,
+          "doc_number": "L25000336452",
+          "entity_name": "HITCHED-BRANDS, LLC                                                                                                                                                                             AFLAL",
+          "status": "",
+          "filing_date": null,
+          "state_country": "E",
+          "prin_addr1": "300                                                               ST. PETERSBURG                3370",
+          "prin_addr2": "",
+          "prin_city": "2       7901 4TH ST N STE 300",
+          "prin_state": "",
+          "prin_zip": "",
+          "mail_addr1": "ST. PETERSBURG              FL33702     US07222025",
+          "mail_addr2": "",
+          "mail_city": "FL                                       NORTHW",
+          "mail_state": "ES",
+          "mail_zip": "T REGISTER",
+          "ein": "",
+          "registered_agent": "ED AGENT LLC            C7901 4TH ST N STE 300                     ST. PETERSBURG              FL337",
+          "file_type": "7901 4TH",
+          "subtype": "",
+          "source_file": null,
+          "import_date": "2025-09-11T00:30:25.326397",
+          "update_date": null
+        },
+        {
+          "id": 88305,
+          "doc_number": "P25000042322",
+          "entity_name": "GRAND ISLAND FOOD MART INC                                                                                                                                                                      ADOMP",
+          "status": "",
+          "filing_date": null,
+          "state_country": "44",
+          "prin_addr1": "GRAND ISLAND                  3273",
+          "prin_addr2": "",
+          "prin_city": "5       13710 COUNTY RD 44",
+          "prin_state": "",
+          "prin_zip": "",
+          "mail_addr1": "GRAND ISLAND                FL32735       07222025              N",
+          "mail_addr2": "",
+          "mail_city": "FL                                       ULLAH",
+          "mail_state": "",
+          "mail_zip": "",
+          "ein": "33 W ORANG",
+          "registered_agent": "SAIF                  P2634 PARK RIDGE ST                        APOPKA                      FL327",
+          "file_type": "13710 CO",
+          "subtype": "",
+          "source_file": null,
+          "import_date": "2025-09-11T00:30:25.326397",
+          "update_date": null
+        },
+        {
+          "id": 88306,
+          "doc_number": "L25000336462",
+          "entity_name": "AAV2520 LLC                                                                                                                                                                                     AFLAL",
+          "status": "",
+          "filing_date": null,
+          "state_country": "ST",
+          "prin_addr1": "1303                                    CLEARWATER                    3375",
+          "prin_addr2": "",
+          "prin_city": "5       1100 CLEVLEVLAD ST",
+          "prin_state": "",
+          "prin_zip": "1303",
+          "mail_addr1": "CLEARWATER                  FL33755     US07222025              N",
+          "mail_addr2": "",
+          "mail_city": "FL                                       AVDIEN",
+          "mail_state": "KO",
+          "mail_zip": "",
+          "ein": "",
+          "registered_agent": "ANDREI                P1100  CLEVELAND ST                        CLEARWATER                  FL337",
+          "file_type": "1100 CLE",
+          "subtype": "",
+          "source_file": null,
+          "import_date": "2025-09-11T00:30:25.326397",
+          "update_date": null
+        }
+      ],
+      "columns": [
+        "id",
+        "doc_number",
+        "entity_name",
+        "status",
+        "filing_date",
+        "state_country",
+        "prin_addr1",
+        "prin_addr2",
+        "prin_city",
+        "prin_state",
+        "prin_zip",
+        "mail_addr1",
+        "mail_addr2",
+        "mail_city",
+        "mail_state",
+        "mail_zip",
+        "ein",
+        "registered_agent",
+        "file_type",
+        "subtype",
+        "source_file",
+        "import_date",
+        "update_date"
+      ],
+      "has_data": true,
+      "error": null
+    },
+    "florida_entities": {
+      "exists": false,
+      "row_count": 0,
+      "sample_data": [],
+      "columns": [],
+      "has_data": false,
+      "error": "The read operation timed out"
+    },
+    "tax_certificates": {
+      "exists": true,
+      "row_count": 10,
+      "sample_data": [
+        {
+          "id": 1,
+          "parcel_id": "504234-08-00-20",
+          "real_estate_account": "504234-08-00-20",
+          "certificate_number": "2023-08745",
+          "tax_year": 2023,
+          "buyer_name": "CAPITAL ONE, NATIONAL ASSOCIATION (USA)",
+          "certificate_buyer": "CAPITAL ONE, NATIONAL ASSOCIATION",
+          "advertised_number": "AD-2023-08745",
+          "face_amount": 8574.32,
+          "tax_amount": 8574.32,
+          "issued_date": "2023-06-01",
+          "sale_date": "2023-06-01",
+          "expiration_date": "2025-06-01",
+          "interest_rate": 18.0,
+          "bid_percentage": 18.0,
+          "winning_bid_percentage": 18.0,
+          "status": "active",
+          "redemption_amount": 10117.7,
+          "redemption_date": null,
+          "buyer_entity": {
+            "status": "Active",
+            "entity_name": "CAPITAL ONE, NATIONAL ASSOCIATION",
+            "filing_type": "Corporation",
+            "document_number": "F96000004500",
+            "registered_agent": "Corporate Services Company",
+            "principal_address": "1680 Capital One Drive, McLean, VA 22102"
+          },
+          "created_at": "2025-09-08T22:54:48.017946",
+          "updated_at": "2025-09-08T22:54:48.017946"
+        },
+        {
+          "id": 2,
+          "parcel_id": "504234-08-00-20",
+          "real_estate_account": "504234-08-00-20",
+          "certificate_number": "2022-08746",
+          "tax_year": 2022,
+          "buyer_name": "TLGFY, LLC, A FLORIDA LIMITED LIABILITY CO.",
+          "certificate_buyer": "TLGFY, LLC",
+          "advertised_number": "AD-2022-08746",
+          "face_amount": 4285.16,
+          "tax_amount": 4285.16,
+          "issued_date": "2022-06-01",
+          "sale_date": "2022-06-01",
+          "expiration_date": "2024-06-01",
+          "interest_rate": 18.0,
+          "bid_percentage": 18.0,
+          "winning_bid_percentage": 18.0,
+          "status": "active",
+          "redemption_amount": 5827.42,
+          "redemption_date": null,
+          "buyer_entity": {
+            "status": "Active",
+            "entity_name": "TLGFY, LLC",
+            "filing_type": "Limited Liability Company",
+            "document_number": "L22000145890",
+            "registered_agent": "Florida Corporate Filings LLC",
+            "principal_address": "500 Brickell Avenue, Suite 3100, Miami, FL 33131"
+          },
+          "created_at": "2025-09-08T22:54:48.017946",
+          "updated_at": "2025-09-08T22:54:48.017946"
+        },
+        {
+          "id": 3,
+          "parcel_id": "064210010010",
+          "real_estate_account": "064210010010",
+          "certificate_number": "2023-12456",
+          "tax_year": 2023,
+          "buyer_name": "5T WEALTH PARTNERS LP",
+          "certificate_buyer": "5T WEALTH PARTNERS LP",
+          "advertised_number": "AD-2023-12456",
+          "face_amount": 15234.5,
+          "tax_amount": 15234.5,
+          "issued_date": "2023-06-01",
+          "sale_date": "2023-06-01",
+          "expiration_date": "2025-06-01",
+          "interest_rate": 18.0,
+          "bid_percentage": 18.0,
+          "winning_bid_percentage": 18.0,
+          "status": "active",
+          "redemption_amount": 17976.71,
+          "redemption_date": null,
+          "buyer_entity": {
+            "status": "Active",
+            "entity_name": "5T WEALTH PARTNERS LP",
+            "filing_type": "Limited Partnership",
+            "document_number": "P20000087654",
+            "registered_agent": "Wealth Management Services Inc",
+            "principal_address": "800 Brickell Avenue, Suite 900, Miami, FL 33131"
+          },
+          "created_at": "2025-09-08T22:54:48.017946",
+          "updated_at": "2025-09-08T22:54:48.017946"
+        },
+        {
+          "id": 5,
+          "parcel_id": "064210010011",
+          "real_estate_account": "064210010011",
+          "certificate_number": "2023-05433",
+          "tax_year": 2023,
+          "buyer_name": "BRIDGE TAX CERTIFICATE COMPANY",
+          "certificate_buyer": "BRIDGE TAX CERTIFICATE COMPANY",
+          "advertised_number": "AD-2023-05433",
+          "face_amount": 7250.0,
+          "tax_amount": 7250.0,
+          "issued_date": "2023-06-01",
+          "sale_date": "2023-06-01",
+          "expiration_date": "2025-06-01",
+          "interest_rate": 18.0,
+          "bid_percentage": 18.0,
+          "winning_bid_percentage": 18.0,
+          "status": "active",
+          "redemption_amount": 8555.0,
+          "redemption_date": null,
+          "buyer_entity": {
+            "status": "Active",
+            "entity_name": "BRIDGE TAX CERTIFICATE COMPANY",
+            "filing_type": "Corporation",
+            "document_number": "F19000045678",
+            "registered_agent": "Bridge Legal Services",
+            "principal_address": "200 S Biscayne Blvd, Miami, FL 33131"
+          },
+          "created_at": "2025-09-08T22:54:48.017946",
+          "updated_at": "2025-09-08T22:54:48.017946"
+        },
+        {
+          "id": 6,
+          "parcel_id": "494228162300",
+          "real_estate_account": "494228162300",
+          "certificate_number": "2023-98765",
+          "tax_year": 2023,
+          "buyer_name": "JPMORGAN CHASE BANK, NATIONAL ASSOCIATION",
+          "certificate_buyer": "JPMORGAN CHASE BANK, N.A.",
+          "advertised_number": "AD-2023-98765",
+          "face_amount": 45678.9,
+          "tax_amount": 45678.9,
+          "issued_date": "2023-06-01",
+          "sale_date": "2023-06-01",
+          "expiration_date": "2025-06-01",
+          "interest_rate": 18.0,
+          "bid_percentage": 18.0,
+          "winning_bid_percentage": 18.0,
+          "status": "active",
+          "redemption_amount": 53901.1,
+          "redemption_date": null,
+          "buyer_entity": {
+            "status": "Active",
+            "entity_name": "JPMORGAN CHASE BANK, NATIONAL ASSOCIATION",
+            "filing_type": "National Bank",
+            "document_number": "F95000001234",
+            "registered_agent": "CT Corporation System",
+            "principal_address": "383 Madison Avenue, New York, NY 10017"
+          },
+          "created_at": "2025-09-08T22:54:48.017946",
+          "updated_at": "2025-09-08T22:54:48.017946"
+        }
+      ],
+      "columns": [
+        "id",
+        "parcel_id",
+        "real_estate_account",
+        "certificate_number",
+        "tax_year",
+        "buyer_name",
+        "certificate_buyer",
+        "advertised_number",
+        "face_amount",
+        "tax_amount",
+        "issued_date",
+        "sale_date",
+        "expiration_date",
+        "interest_rate",
+        "bid_percentage",
+        "winning_bid_percentage",
+        "status",
+        "redemption_amount",
+        "redemption_date",
+        "buyer_entity",
+        "created_at",
+        "updated_at"
+      ],
+      "has_data": true,
+      "error": null
+    },
+    "sdf_sales": {
+      "exists": false,
+      "row_count": 0,
+      "sample_data": [],
+      "columns": [],
+      "has_data": false,
+      "error": "{'code': 'PGRST205', 'details': None, 'hint': \"Perhaps you meant the table 'public.fl_sdf_sales'\", 'message': \"Could not find the table 'public.sdf_sales' in the schema cache\"}"
+    },
+    "sales_data_view": {
+      "exists": false,
+      "row_count": 0,
+      "sample_data": [],
+      "columns": [],
+      "has_data": false,
+      "error": "{'code': 'PGRST205', 'details': None, 'hint': \"Perhaps you meant the table 'public.tax_deed_items_view'\", 'message': \"Could not find the table 'public.sales_data_view' in the schema cache\"}"
+    },
+    "florida_sdf_sales": {
+      "exists": false,
+      "row_count": 0,
+      "sample_data": [],
+      "columns": [],
+      "has_data": false,
+      "error": "{'code': 'PGRST205', 'details': None, 'hint': \"Perhaps you meant the table 'public.fl_sdf_sales'\", 'message': \"Could not find the table 'public.florida_sdf_sales' in the schema cache\"}"
+    },
+    "owner_identities": {
+      "exists": true,
+      "row_count": 4,
+      "sample_data": [
+        {
+          "id": "d56c0feb-5d4a-4d15-a74f-8be602192d46",
+          "canonical_name": "C&O INVESTMENT LLC",
+          "variant_names": [],
+          "identity_type": "company",
+          "confidence_score": 0.86,
+          "primary_address": null,
+          "phone": null,
+          "email": null,
+          "total_properties": 1,
+          "total_value": 132592.0,
+          "created_at": "2025-10-05T21:21:25.943073+00:00",
+          "updated_at": "2025-10-05T21:26:43.754304+00:00"
+        },
+        {
+          "id": "4d18826e-a60f-4308-b7b4-f3334a9b401b",
+          "canonical_name": "MM BUSINESS INVESTMENTS LLC",
+          "variant_names": [],
+          "identity_type": "company",
+          "confidence_score": 0.91,
+          "primary_address": null,
+          "phone": null,
+          "email": null,
+          "total_properties": 1,
+          "total_value": 5229.0,
+          "created_at": "2025-10-05T21:21:26.842141+00:00",
+          "updated_at": "2025-10-05T21:26:43.754304+00:00"
+        },
+        {
+          "id": "7bd83f5b-0b07-4cb9-b2ad-183995a69401",
+          "canonical_name": "MD LAND LLC",
+          "variant_names": [
+            "HT DESIGN INC"
+          ],
+          "identity_type": "company",
+          "confidence_score": 0.88,
+          "primary_address": null,
+          "phone": null,
+          "email": null,
+          "total_properties": 4,
+          "total_value": 15423334.0,
+          "created_at": "2025-10-05T21:21:27.203266+00:00",
+          "updated_at": "2025-10-05T21:26:43.754304+00:00"
+        },
+        {
+          "id": "55ce20fb-7ada-458d-9176-e8d3431f545b",
+          "canonical_name": "AE REAL ESTATE INVESTMENTS LLC",
+          "variant_names": [],
+          "identity_type": "company",
+          "confidence_score": 0.86,
+          "primary_address": null,
+          "phone": null,
+          "email": null,
+          "total_properties": 1,
+          "total_value": 179265.0,
+          "created_at": "2025-10-05T21:21:27.957772+00:00",
+          "updated_at": "2025-10-05T21:26:43.754304+00:00"
+        }
+      ],
+      "columns": [
+        "id",
+        "canonical_name",
+        "variant_names",
+        "identity_type",
+        "confidence_score",
+        "primary_address",
+        "phone",
+        "email",
+        "total_properties",
+        "total_value",
+        "created_at",
+        "updated_at"
+      ],
+      "has_data": true,
+      "error": null
+    },
+    "property_ownership": {
+      "exists": true,
+      "row_count": 7,
+      "sample_data": [
+        {
+          "id": "71244110-4adc-498a-b1ef-9b95ce06048e",
+          "parcel_id": "01462311000044020",
+          "county_code": 36,
+          "owner_identity_id": "d56c0feb-5d4a-4d15-a74f-8be602192d46",
+          "ownership_type": "corporation",
+          "entity_id": "L25000344178",
+          "entity_name": "MCV INVESTMENT PROPERTIES LLC                                                                                                                                                                   AFLAL",
+          "ownership_percentage": 100.0,
+          "acquired_date": null,
+          "disposed_date": null,
+          "source": "florida_parcels",
+          "created_at": "2025-10-05T21:21:26.119649+00:00",
+          "updated_at": "2025-10-05T21:21:26.119649+00:00"
+        },
+        {
+          "id": "70d07c91-4a90-4492-a6ab-17421bfae8dc",
+          "parcel_id": "01462306000192670",
+          "county_code": 36,
+          "owner_identity_id": "4d18826e-a60f-4308-b7b4-f3334a9b401b",
+          "ownership_type": "corporation",
+          "entity_id": "P25000042381",
+          "entity_name": "MG BUSINESS SERVICES INC                                                                                                                                                                        ADOMP",
+          "ownership_percentage": 100.0,
+          "acquired_date": null,
+          "disposed_date": null,
+          "source": "florida_parcels",
+          "created_at": "2025-10-05T21:21:27.039388+00:00",
+          "updated_at": "2025-10-05T21:21:27.039388+00:00"
+        },
+        {
+          "id": "c37653b2-1f2e-40d4-acc5-f38109aea74f",
+          "parcel_id": "01462306000192680",
+          "county_code": 36,
+          "owner_identity_id": "7bd83f5b-0b07-4cb9-b2ad-183995a69401",
+          "ownership_type": "corporation",
+          "entity_id": "L25000337781",
+          "entity_name": "JMS LANDSCAPING & CONCRETE DESIGNS LLC                                                                                                                                                          AFLAL",
+          "ownership_percentage": 100.0,
+          "acquired_date": null,
+          "disposed_date": null,
+          "source": "florida_parcels",
+          "created_at": "2025-10-05T21:21:27.391007+00:00",
+          "updated_at": "2025-10-05T21:21:27.391007+00:00"
+        },
+        {
+          "id": "25e2038a-c299-42b4-941f-7eda6ad17f60",
+          "parcel_id": "142060710490",
+          "county_code": 0,
+          "owner_identity_id": "7bd83f5b-0b07-4cb9-b2ad-183995a69401",
+          "ownership_type": "corporation",
+          "entity_id": "L25000337781",
+          "entity_name": "JMS LANDSCAPING & CONCRETE DESIGNS LLC                                                                                                                                                          AFLAL",
+          "ownership_percentage": 100.0,
+          "acquired_date": null,
+          "disposed_date": null,
+          "source": "florida_parcels",
+          "created_at": "2025-10-05T21:21:27.561985+00:00",
+          "updated_at": "2025-10-05T21:21:27.561985+00:00"
+        },
+        {
+          "id": "7802b7f6-457b-4ab9-a8d6-9e816b5305e5",
+          "parcel_id": "0142060710490",
+          "county_code": 0,
+          "owner_identity_id": "7bd83f5b-0b07-4cb9-b2ad-183995a69401",
+          "ownership_type": "corporation",
+          "entity_id": "L25000337781",
+          "entity_name": "JMS LANDSCAPING & CONCRETE DESIGNS LLC                                                                                                                                                          AFLAL",
+          "ownership_percentage": 100.0,
+          "acquired_date": null,
+          "disposed_date": null,
+          "source": "florida_parcels",
+          "created_at": "2025-10-05T21:21:27.685256+00:00",
+          "updated_at": "2025-10-05T21:21:27.685256+00:00"
+        }
+      ],
+      "columns": [
+        "id",
+        "parcel_id",
+        "county_code",
+        "owner_identity_id",
+        "ownership_type",
+        "entity_id",
+        "entity_name",
+        "ownership_percentage",
+        "acquired_date",
+        "disposed_date",
+        "source",
+        "created_at",
+        "updated_at"
+      ],
+      "has_data": true,
+      "error": null
+    },
+    "entity_principals": {
+      "exists": true,
+      "row_count": 7,
+      "sample_data": [
+        {
+          "id": "86ffb142-afb0-4714-a66d-b711f17e2a2c",
+          "entity_id": "L25000344178",
+          "entity_name": "MCV INVESTMENT PROPERTIES LLC                                                                                                                                                                   AFLAL",
+          "owner_identity_id": "d56c0feb-5d4a-4d15-a74f-8be602192d46",
+          "principal_name": "MCV INVESTMENT PROPERTIES LLC                                                                                                                                                                   AFLAL",
+          "role": "owner",
+          "title": null,
+          "ownership_percentage": null,
+          "start_date": null,
+          "end_date": null,
+          "source": "sunbiz",
+          "created_at": "2025-10-05T21:21:26.54262+00:00",
+          "updated_at": "2025-10-05T21:21:26.54262+00:00"
+        },
+        {
+          "id": "5e3bc882-f9a1-4bcd-bde1-6c309c052ce0",
+          "entity_id": "L25000343168",
+          "entity_name": "FINPORT INVESTMENT L.L.C.                                                                                                                                                                       AFLAL",
+          "owner_identity_id": "d56c0feb-5d4a-4d15-a74f-8be602192d46",
+          "principal_name": "FINPORT INVESTMENT L.L.C.                                                                                                                                                                       AFLAL",
+          "role": "owner",
+          "title": null,
+          "ownership_percentage": null,
+          "start_date": null,
+          "end_date": null,
+          "source": "sunbiz",
+          "created_at": "2025-10-05T21:21:26.66475+00:00",
+          "updated_at": "2025-10-05T21:21:26.66475+00:00"
+        },
+        {
+          "id": "19f566c7-2516-460a-9312-9298e0eb1737",
+          "entity_id": "P25000042300",
+          "entity_name": "MDC INVESTMENT CORP                                                                                                                                                                             ADOMP",
+          "owner_identity_id": "d56c0feb-5d4a-4d15-a74f-8be602192d46",
+          "principal_name": "MDC INVESTMENT CORP                                                                                                                                                                             ADOMP",
+          "role": "owner",
+          "title": null,
+          "ownership_percentage": null,
+          "start_date": null,
+          "end_date": null,
+          "source": "sunbiz",
+          "created_at": "2025-10-05T21:21:26.783511+00:00",
+          "updated_at": "2025-10-05T21:21:26.783511+00:00"
+        },
+        {
+          "id": "ee191abd-18fb-4f69-9dd9-bb43f633be40",
+          "entity_id": "P25000042381",
+          "entity_name": "MG BUSINESS SERVICES INC                                                                                                                                                                        ADOMP",
+          "owner_identity_id": "4d18826e-a60f-4308-b7b4-f3334a9b401b",
+          "principal_name": "MG BUSINESS SERVICES INC                                                                                                                                                                        ADOMP",
+          "role": "owner",
+          "title": null,
+          "ownership_percentage": null,
+          "start_date": null,
+          "end_date": null,
+          "source": "sunbiz",
+          "created_at": "2025-10-05T21:21:27.145735+00:00",
+          "updated_at": "2025-10-05T21:21:27.145735+00:00"
+        },
+        {
+          "id": "5a5613a6-5e01-44f5-9c23-6e68287dca96",
+          "entity_id": "L25000337781",
+          "entity_name": "JMS LANDSCAPING & CONCRETE DESIGNS LLC                                                                                                                                                          AFLAL",
+          "owner_identity_id": "7bd83f5b-0b07-4cb9-b2ad-183995a69401",
+          "principal_name": "JMS LANDSCAPING & CONCRETE DESIGNS LLC                                                                                                                                                          AFLAL",
+          "role": "owner",
+          "title": null,
+          "ownership_percentage": null,
+          "start_date": null,
+          "end_date": null,
+          "source": "sunbiz",
+          "created_at": "2025-10-05T21:21:27.898565+00:00",
+          "updated_at": "2025-10-05T21:21:27.898565+00:00"
+        }
+      ],
+      "columns": [
+        "id",
+        "entity_id",
+        "entity_name",
+        "owner_identity_id",
+        "principal_name",
+        "role",
+        "title",
+        "ownership_percentage",
+        "start_date",
+        "end_date",
+        "source",
+        "created_at",
+        "updated_at"
+      ],
+      "has_data": true,
+      "error": null
+    }
+  },
+  "api_endpoints": {
+    "property_live_api.py": {
+      "endpoints": [
+        {
+          "method": "GET",
+          "route": "/",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/fast/health",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/health",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/cache/status",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/cache/status",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/test-db",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/properties/search-fast",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/properties/search",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/fast/search",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/properties/recent-sales",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/properties/high-value",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/properties/{property_id}",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/fast/property/{property_id}/complete",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/autocomplete/addresses",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/fast/autocomplete/addresses",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/autocomplete/owners",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/fast/autocomplete/owners",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/autocomplete/cities",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/fast/autocomplete/cities",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/autocomplete/properties-by-county",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/fast/autocomplete/properties-by-county",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/properties/stats/overview",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/fast/stats",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/test-endpoint",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/properties/{property_id}/tax-certificates",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/properties/{property_id}/sunbiz-entities",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/fast/cities",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/properties/stats/by-type",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/api/properties/address/{address}",
+          "file": "property_live_api.py",
+          "tables_referenced": [
+            "florida_parcels",
+            "sunbiz_entities",
+            "tax_certificates"
+          ]
+        }
+      ]
+    },
+    "properties.py": {
+      "endpoints": [
+        {
+          "method": "GET",
+          "route": "/search",
+          "file": "properties.py",
+          "tables_referenced": [
+            "property_contacts",
+            "property_notes",
+            "property_sales",
+            "properties",
+            "property_details",
+            "property_watchlist"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/address/{address}",
+          "file": "properties.py",
+          "tables_referenced": [
+            "property_contacts",
+            "property_notes",
+            "property_sales",
+            "properties",
+            "property_details",
+            "property_watchlist"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/{property_id}",
+          "file": "properties.py",
+          "tables_referenced": [
+            "property_contacts",
+            "property_notes",
+            "property_sales",
+            "properties",
+            "property_details",
+            "property_watchlist"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/parcel/{parcel_id}",
+          "file": "properties.py",
+          "tables_referenced": [
+            "property_contacts",
+            "property_notes",
+            "property_sales",
+            "properties",
+            "property_details",
+            "property_watchlist"
+          ]
+        },
+        {
+          "method": "POST",
+          "route": "/{property_id}/details",
+          "file": "properties.py",
+          "tables_referenced": [
+            "property_contacts",
+            "property_notes",
+            "property_sales",
+            "properties",
+            "property_details",
+            "property_watchlist"
+          ]
+        },
+        {
+          "method": "POST",
+          "route": "/{property_id}/notes",
+          "file": "properties.py",
+          "tables_referenced": [
+            "property_contacts",
+            "property_notes",
+            "property_sales",
+            "properties",
+            "property_details",
+            "property_watchlist"
+          ]
+        },
+        {
+          "method": "PUT",
+          "route": "/notes/{note_id}",
+          "file": "properties.py",
+          "tables_referenced": [
+            "property_contacts",
+            "property_notes",
+            "property_sales",
+            "properties",
+            "property_details",
+            "property_watchlist"
+          ]
+        },
+        {
+          "method": "POST",
+          "route": "/{property_id}/contacts",
+          "file": "properties.py",
+          "tables_referenced": [
+            "property_contacts",
+            "property_notes",
+            "property_sales",
+            "properties",
+            "property_details",
+            "property_watchlist"
+          ]
+        },
+        {
+          "method": "POST",
+          "route": "/{property_id}/watch",
+          "file": "properties.py",
+          "tables_referenced": [
+            "property_contacts",
+            "property_notes",
+            "property_sales",
+            "properties",
+            "property_details",
+            "property_watchlist"
+          ]
+        },
+        {
+          "method": "DELETE",
+          "route": "/{property_id}/watch",
+          "file": "properties.py",
+          "tables_referenced": [
+            "property_contacts",
+            "property_notes",
+            "property_sales",
+            "properties",
+            "property_details",
+            "property_watchlist"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/stats/overview",
+          "file": "properties.py",
+          "tables_referenced": [
+            "property_contacts",
+            "property_notes",
+            "property_sales",
+            "properties",
+            "property_details",
+            "property_watchlist"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/stats/by-city",
+          "file": "properties.py",
+          "tables_referenced": [
+            "property_contacts",
+            "property_notes",
+            "property_sales",
+            "properties",
+            "property_details",
+            "property_watchlist"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/stats/by-type",
+          "file": "properties.py",
+          "tables_referenced": [
+            "property_contacts",
+            "property_notes",
+            "property_sales",
+            "properties",
+            "property_details",
+            "property_watchlist"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/recent-sales",
+          "file": "properties.py",
+          "tables_referenced": [
+            "property_contacts",
+            "property_notes",
+            "property_sales",
+            "properties",
+            "property_details",
+            "property_watchlist"
+          ]
+        },
+        {
+          "method": "GET",
+          "route": "/high-value",
+          "file": "properties.py",
+          "tables_referenced": [
+            "property_contacts",
+            "property_notes",
+            "property_sales",
+            "properties",
+            "property_details",
+            "property_watchlist"
+          ]
+        },
+        {
+          "method": "POST",
+          "route": "/bulk/import",
+          "file": "properties.py",
+          "tables_referenced": [
+            "property_contacts",
+            "property_notes",
+            "property_sales",
+            "properties",
+            "property_details",
+            "property_watchlist"
+          ]
+        }
+      ]
+    },
+    "main.py": {
+      "endpoints": [
+        {
+          "method": "GET",
+          "route": "/",
+          "file": "main.py",
+          "tables_referenced": []
+        }
+      ]
+    }
+  },
+  "ui_components": {
+    "MiniPropertyCard.tsx": {
+      "file": "MiniPropertyCard.tsx",
+      "full_path": "C:\\Users\\gsima\\Documents\\MyProject\\ConcordBroker\\apps\\web\\src\\components\\property\\MiniPropertyCard.tsx",
+      "api_calls": [],
+      "data_fields_used": [
+        "own_name",
+        "propertyUseDesc",
+        "dor_uc",
+        "year_built",
+        "tot_lvg_area",
+        "assessed_value",
+        "taxable_value",
+        "certificate_count",
+        "phy_zipcd",
+        "jv",
+        "lnd_sqfoot",
+        "lnd_val",
+        "act_yr_blt",
+        "county",
+        "just_value",
+        "land_value",
+        "phy_addr1",
+        "tax_value",
+        "auction_date",
+        "css",
+        "has_tax_certificates",
+        "appraised_value",
+        "phy_city",
+        "property_type",
+        "propertyUse",
+        "owner_addr1",
+        "tv_sd",
+        "market_value",
+        "owner_name"
+      ],
+      "hooks_used": [
+        "SunbizMatching",
+        "SalesData"
+      ]
+    },
+    "CorePropertyTab.tsx": {
+      "file": "CorePropertyTab.tsx",
+      "full_path": "C:\\Users\\gsima\\Documents\\MyProject\\ConcordBroker\\apps\\web\\src\\components\\property\\tabs\\CorePropertyTab.tsx",
+      "api_calls": [],
+      "data_fields_used": [],
+      "hooks_used": [
+        "Effect",
+        "State"
+      ]
+    },
+    "TaxesTab.tsx": {
+      "file": "TaxesTab.tsx",
+      "full_path": "C:\\Users\\gsima\\Documents\\MyProject\\ConcordBroker\\apps\\web\\src\\components\\property\\tabs\\TaxesTab.tsx",
+      "api_calls": [],
+      "data_fields_used": [
+        "entities",
+        "certificates"
+      ],
+      "hooks_used": [
+        "Memo",
+        "Effect"
+      ]
+    },
+    "EnhancedSunbizTab.tsx": {
+      "file": "EnhancedSunbizTab.tsx",
+      "full_path": "C:\\Users\\gsima\\Documents\\MyProject\\ConcordBroker\\apps\\web\\src\\components\\property\\tabs\\EnhancedSunbizTab.tsx",
+      "api_calls": [
+        "/api/supabase/active-companies"
+      ],
+      "data_fields_used": [
+        "total_count",
+        "companies"
+      ],
+      "hooks_used": [
+        "Effect",
+        "State"
+      ]
+    },
+    "SalesHistoryTab.tsx": {
+      "file": "SalesHistoryTab.tsx",
+      "full_path": "C:\\Users\\gsima\\Documents\\MyProject\\ConcordBroker\\apps\\web\\src\\components\\property\\tabs\\SalesHistoryTab.tsx",
+      "api_calls": [],
+      "data_fields_used": [],
+      "hooks_used": [
+        "SalesData"
+      ]
+    },
+    "PropertySearch.tsx": {
+      "file": "PropertySearch.tsx",
+      "full_path": "C:\\Users\\gsima\\Documents\\MyProject\\ConcordBroker\\apps\\web\\src\\pages\\properties\\PropertySearch.tsx",
+      "api_calls": [],
+      "data_fields_used": [
+        "lot_size",
+        "own_name",
+        "property_id",
+        "taxableValue",
+        "dor_uc",
+        "id",
+        "tot_lvg_area",
+        "year_built",
+        "assessed_value",
+        "taxable_value",
+        "sale_yr1",
+        "total",
+        "phy_zipcd",
+        "jv",
+        "lnd_sqfoot",
+        "yearBuilt",
+        "sale_prc1",
+        "living_area",
+        "lnd_val",
+        "assessedValue",
+        "total_sq_ft",
+        "address",
+        "property_address",
+        "act_yr_blt",
+        "landValue",
+        "property_use_code",
+        "property_zip",
+        "bathrooms",
+        "lastSalePrice",
+        "propertyType",
+        "use_code",
+        "just_value",
+        "land_value",
+        "sale_date",
+        "stories",
+        "taxAmount",
+        "marketValue",
+        "landSqFt",
+        "phy_addr1",
+        "buildingSqFt",
+        "bedrooms",
+        "property_city",
+        "is_watched",
+        "css",
+        "note_count",
+        "parcel_id",
+        "zipCode",
+        "ownerAddress",
+        "tax_amount",
+        "phy_city",
+        "property_type",
+        "owner",
+        "pagination",
+        "pool",
+        "lastSaleDate",
+        "propertyUse",
+        "owner_addr1",
+        "tv_sd",
+        "data",
+        "properties",
+        "owner_name",
+        "justValue",
+        "city"
+      ],
+      "hooks_used": [
+        "DataPipeline",
+        "SearchParams",
+        "Ref",
+        "Callback",
+        "Effect",
+        "Navigate",
+        "OptimizedPropertySearch",
+        "State"
+      ]
+    },
+    "EnhancedPropertyProfile.tsx": {
+      "file": "EnhancedPropertyProfile.tsx",
+      "full_path": "C:\\Users\\gsima\\Documents\\MyProject\\ConcordBroker\\apps\\web\\src\\pages\\property\\EnhancedPropertyProfile.tsx",
+      "api_calls": [],
+      "data_fields_used": [
+        "css"
+      ],
+      "hooks_used": [
+        "Navigate",
+        "State",
+        "PropertyData"
+      ]
+    }
+  },
+  "issues_found": [
+    {
+      "type": "missing_table",
+      "severity": "high",
+      "component": "database.florida_parcels",
+      "description": "Table 'florida_parcels' does not exist in database",
+      "fix_required": "Create florida_parcels table or remove references to it"
+    },
+    {
+      "type": "missing_table",
+      "severity": "high",
+      "component": "database.florida_entities",
+      "description": "Table 'florida_entities' does not exist in database",
+      "fix_required": "Create florida_entities table or remove references to it"
+    },
+    {
+      "type": "missing_table",
+      "severity": "high",
+      "component": "database.sdf_sales",
+      "description": "Table 'sdf_sales' does not exist in database",
+      "fix_required": "Create sdf_sales table or remove references to it"
+    },
+    {
+      "type": "missing_table",
+      "severity": "high",
+      "component": "database.sales_data_view",
+      "description": "Table 'sales_data_view' does not exist in database",
+      "fix_required": "Create sales_data_view table or remove references to it"
+    },
+    {
+      "type": "missing_table",
+      "severity": "high",
+      "component": "database.florida_sdf_sales",
+      "description": "Table 'florida_sdf_sales' does not exist in database",
+      "fix_required": "Create florida_sdf_sales table or remove references to it"
+    }
+  ]
+}
