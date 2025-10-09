@@ -1,0 +1,222 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - img [ref=e8]
+          - generic [ref=e12]:
+            - generic [ref=e13]: ConcordBroker
+            - generic [ref=e14]: Real Estate Platform
+        - button [ref=e15] [cursor=pointer]:
+          - img [ref=e17] [cursor=pointer]
+      - generic [ref=e21]:
+        - navigation [ref=e22]:
+          - link "Dashboard" [ref=e25] [cursor=pointer]:
+            - /url: /dashboard
+            - generic [ref=e26] [cursor=pointer]:
+              - img [ref=e28] [cursor=pointer]
+              - generic [ref=e31] [cursor=pointer]: Dashboard
+          - link "Search Properties" [ref=e34] [cursor=pointer]:
+            - /url: /properties
+            - generic [ref=e35] [cursor=pointer]:
+              - img [ref=e37] [cursor=pointer]
+              - generic [ref=e40] [cursor=pointer]: Search Properties
+          - link "Tax Deed Sales New 109" [ref=e43] [cursor=pointer]:
+            - /url: /tax-deed-sales
+            - generic [ref=e44] [cursor=pointer]:
+              - img [ref=e46] [cursor=pointer]
+              - generic [ref=e52] [cursor=pointer]: Tax Deed Sales
+              - generic [ref=e53] [cursor=pointer]: New
+            - generic [ref=e54] [cursor=pointer]: "109"
+          - link "Analytics 3" [ref=e57] [cursor=pointer]:
+            - /url: /analytics
+            - generic [ref=e58] [cursor=pointer]:
+              - img [ref=e60] [cursor=pointer]
+              - generic [ref=e62] [cursor=pointer]: Analytics
+            - generic [ref=e63] [cursor=pointer]: "3"
+          - button "Portfolio" [ref=e66] [cursor=pointer]:
+            - generic [ref=e67] [cursor=pointer]:
+              - img [ref=e69] [cursor=pointer]
+              - generic [ref=e73] [cursor=pointer]: Portfolio
+            - img [ref=e76] [cursor=pointer]
+          - button "Market Insights New" [ref=e80] [cursor=pointer]:
+            - generic [ref=e81] [cursor=pointer]:
+              - img [ref=e83] [cursor=pointer]
+              - generic [ref=e86] [cursor=pointer]: Market Insights
+              - generic [ref=e87] [cursor=pointer]: New
+            - img [ref=e90] [cursor=pointer]
+          - link "Clients 12" [ref=e94] [cursor=pointer]:
+            - /url: /clients
+            - generic [ref=e95] [cursor=pointer]:
+              - img [ref=e97] [cursor=pointer]
+              - generic [ref=e102] [cursor=pointer]: Clients
+            - generic [ref=e103] [cursor=pointer]: "12"
+        - navigation [ref=e105]:
+          - link "Notifications 5" [ref=e108] [cursor=pointer]:
+            - /url: /notifications
+            - generic [ref=e109] [cursor=pointer]:
+              - img [ref=e111] [cursor=pointer]
+              - generic [ref=e114] [cursor=pointer]: Notifications
+            - generic [ref=e115] [cursor=pointer]: "5"
+          - link "Profile" [ref=e118] [cursor=pointer]:
+            - /url: /profile
+            - generic [ref=e119] [cursor=pointer]:
+              - img [ref=e121] [cursor=pointer]
+              - generic [ref=e124] [cursor=pointer]: Profile
+          - link "Settings" [ref=e127] [cursor=pointer]:
+            - /url: /settings
+            - generic [ref=e128] [cursor=pointer]:
+              - img [ref=e130] [cursor=pointer]
+              - generic [ref=e133] [cursor=pointer]: Settings
+      - generic [ref=e135]:
+        - generic [ref=e138]: JD
+        - generic [ref=e140]:
+          - paragraph [ref=e141]: John Doe
+          - paragraph [ref=e142]: Real Estate Agent
+    - main [ref=e143]:
+      - generic [ref=e145]:
+        - generic [ref=e148]:
+          - generic [ref=e149]:
+            - heading "Property Search" [level=1] [ref=e150]
+            - paragraph [ref=e151]: Search Broward County properties by address, owner, or criteria
+          - generic [ref=e153]:
+            - button "AI Search" [ref=e154] [cursor=pointer]:
+              - img
+              - generic: AI Search
+            - button "Map View" [ref=e155] [cursor=pointer]:
+              - img
+              - generic: Map View
+        - generic [ref=e156]:
+          - generic [ref=e157]:
+            - button "All Properties" [ref=e158] [cursor=pointer]
+            - button "Residential" [ref=e159] [cursor=pointer]:
+              - img [ref=e160] [cursor=pointer]
+              - text: Residential
+            - button "Commercial" [ref=e163] [cursor=pointer]:
+              - img [ref=e164] [cursor=pointer]
+              - text: Commercial
+            - button "Industrial" [ref=e167] [cursor=pointer]:
+              - img [ref=e168] [cursor=pointer]
+              - text: Industrial
+            - button "Agricultural" [ref=e171] [cursor=pointer]:
+              - img [ref=e172] [cursor=pointer]
+              - text: Agricultural
+            - button "Vacant Land" [ref=e174] [cursor=pointer]:
+              - img [ref=e175] [cursor=pointer]
+              - text: Vacant Land
+            - button "Government" [ref=e178] [cursor=pointer]:
+              - img [ref=e179] [cursor=pointer]
+              - text: Government
+            - button "Conservation" [ref=e183] [cursor=pointer]:
+              - img [ref=e184] [cursor=pointer]
+              - text: Conservation
+            - button "Religious" [ref=e186] [cursor=pointer]:
+              - img [ref=e187] [cursor=pointer]
+              - text: Religious
+            - button "Vacant/Special" [ref=e190] [cursor=pointer]
+            - button "Tax Deed Sales" [ref=e192] [cursor=pointer]:
+              - img [ref=e193] [cursor=pointer]
+              - text: Tax Deed Sales
+          - generic [ref=e199]:
+            - generic [ref=e200]:
+              - heading "Search All Properties" [level=3] [ref=e201]:
+                - img [ref=e202]
+                - text: Search All Properties
+              - paragraph [ref=e205]: Quick search for all properties in Broward County
+            - generic [ref=e207]:
+              - generic [ref=e208]:
+                - generic [ref=e209]:
+                  - generic [ref=e210]:
+                    - img [ref=e211]
+                    - text: "Cache: 0.0%"
+                  - generic [ref=e214]:
+                    - img [ref=e215]
+                    - text: 87ms
+                  - generic [ref=e218]:
+                    - img [ref=e219]
+                    - text: 1 cached
+                - generic [ref=e222]:
+                  - img [ref=e223]
+                  - textbox "Search by address (e.g. '123 Main St'), city, or owner name..." [ref=e226]
+                  - button [ref=e228] [cursor=pointer]:
+                    - img [ref=e229] [cursor=pointer]
+                - generic [ref=e232]:
+                  - button "Clear Cache" [ref=e233] [cursor=pointer]
+                  - button "Preload Popular" [ref=e234] [cursor=pointer]
+              - generic [ref=e235]:
+                - generic [ref=e236]:
+                  - img [ref=e237]
+                  - button "All Cities" [ref=e241] [cursor=pointer]:
+                    - generic [ref=e242] [cursor=pointer]:
+                      - img [ref=e244] [cursor=pointer]
+                      - generic [ref=e249] [cursor=pointer]: All Cities
+                    - generic [ref=e250] [cursor=pointer]:
+                      - button [ref=e251] [cursor=pointer]:
+                        - img [ref=e252] [cursor=pointer]
+                      - img [ref=e255] [cursor=pointer]
+                  - img [ref=e257]
+                  - button "All Counties" [ref=e262] [cursor=pointer]:
+                    - generic [ref=e263] [cursor=pointer]:
+                      - img [ref=e265] [cursor=pointer]
+                      - generic [ref=e271] [cursor=pointer]: All Counties
+                    - generic [ref=e272] [cursor=pointer]:
+                      - button [ref=e273] [cursor=pointer]:
+                        - img [ref=e274] [cursor=pointer]
+                      - img [ref=e277] [cursor=pointer]
+                - button "Advanced Filters" [ref=e279] [cursor=pointer]:
+                  - img [ref=e280] [cursor=pointer]
+                  - generic [ref=e281] [cursor=pointer]: Advanced Filters
+          - generic [ref=e283]:
+            - generic [ref=e284]:
+              - heading "0 Properties Found" [level=3] [ref=e286]
+              - generic [ref=e288]:
+                - button [ref=e289] [cursor=pointer]:
+                  - img [ref=e290] [cursor=pointer]
+                - button [ref=e292] [cursor=pointer]:
+                  - img [ref=e293] [cursor=pointer]
+            - generic [ref=e294]:
+              - button "Unselect All" [ref=e295] [cursor=pointer]:
+                - img [ref=e296] [cursor=pointer]
+                - generic [ref=e299] [cursor=pointer]: Unselect All
+              - button "Select Page" [ref=e300] [cursor=pointer]:
+                - img [ref=e301] [cursor=pointer]
+                - generic [ref=e303] [cursor=pointer]: Select Page
+          - generic [ref=e304]:
+            - img [ref=e305]
+            - paragraph [ref=e310]: Searching properties...
+  - generic [ref=e311]:
+    - alert [ref=e312]:
+      - img [ref=e313]
+      - generic [ref=e315]:
+        - generic [ref=e316]: Failed to activate offline support
+        - button [ref=e317] [cursor=pointer]:
+          - img [ref=e318] [cursor=pointer]
+    - alert [ref=e321]:
+      - img [ref=e322]
+      - generic [ref=e324]:
+        - generic [ref=e325]: Failed to activate offline support
+        - button [ref=e326] [cursor=pointer]:
+          - img [ref=e327] [cursor=pointer]
+  - generic [ref=e330]:
+    - heading "Service Worker Inactive" [level=3] [ref=e332]:
+      - generic [ref=e333]:
+        - img [ref=e334]
+        - text: Service Worker
+      - generic [ref=e338]: Inactive
+    - generic [ref=e339]:
+      - generic [ref=e341]: "Version:"
+      - generic [ref=e342]:
+        - button "Clear Cache" [ref=e343] [cursor=pointer]
+        - button "Prefetch" [ref=e344] [cursor=pointer]:
+          - img [ref=e345] [cursor=pointer]
+          - text: Prefetch
+  - region "Notifications (F8)":
+    - list
+  - generic [ref=e348]:
+    - img [ref=e350]
+    - button "Open Tanstack query devtools" [ref=e398] [cursor=pointer]:
+      - img [ref=e399] [cursor=pointer]
+```

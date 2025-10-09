@@ -447,49 +447,115 @@ export function PropertySearch({}: PropertySearchProps) {
       });
 
       let data;
+      console.log('🚀 ATTEMPTING SUPABASE QUERY NOW...');
       try {
-        // Direct fetch to fast API to bypass any axios issues
-        const queryString = params.toString() || 'limit=50';
-        const response = await fetch(`http://localhost:8002/api/fast/search?${queryString}`);
+        // Query Supabase directly using parcelService
+        console.log('🔧 Importing Supabase client...');
+        const { supabase } = await import('@/lib/supabase');
+        console.log('✅ Supabase client imported successfully');
 
-        if (response.ok) {
-          const jsonData = await response.json();
-          console.log('Direct API response:', jsonData);
+        let query = supabase
+          .from('florida_parcels')
+          .select('*', { count: 'exact' })
+          .eq('is_redacted', false);
 
-          // Transform to expected format
-          data = {
-            properties: jsonData.data || [],
-            data: jsonData.data || [],
-            total: jsonData.pagination?.total || 0,
-            pagination: jsonData.pagination
-          };
-        } else {
-          throw new Error(`API returned ${response.status}`);
+        // Apply filters
+        if (apiFilters.county) {
+          query = query.eq('county', apiFilters.county.toUpperCase());
         }
-      } catch (apiError) {
-        console.log('Direct fetch failed, trying axios client:', apiError);
-
-        // Try the axios client as fallback
-        try {
-          data = await api.searchProperties(params);
-          console.log('Axios API response received:', data);
-        } catch (axiosError) {
-          console.log('Axios also failed, using empty fallback:', axiosError);
-          // Return empty result as final fallback
-          data = {
-            properties: [],
-            total: 0,
-            source: 'fallback'
-          };
+        if (apiFilters.city) {
+          query = query.ilike('phy_city', `%${apiFilters.city}%`);
         }
+        if (apiFilters.address) {
+          query = query.ilike('phy_addr1', `%${apiFilters.address}%`);
+        }
+        if (apiFilters.owner) {
+          query = query.ilike('owner_name', `%${apiFilters.owner}%`);
+        }
+        if (apiFilters.min_value) {
+          query = query.gte('just_value', parseInt(apiFilters.min_value));
+        }
+        if (apiFilters.max_value) {
+          query = query.lte('just_value', parseInt(apiFilters.max_value));
+        }
+        if (apiFilters.min_building_sqft) {
+          query = query.gte('tot_lvg_area', parseInt(apiFilters.min_building_sqft));
+        }
+        if (apiFilters.max_building_sqft) {
+          query = query.lte('tot_lvg_area', parseInt(apiFilters.max_building_sqft));
+        }
+        if (apiFilters.min_land_sqft) {
+          query = query.gte('lnd_sqfoot', parseInt(apiFilters.min_land_sqft));
+        }
+        if (apiFilters.max_land_sqft) {
+          query = query.lte('lnd_sqfoot', parseInt(apiFilters.max_land_sqft));
+        }
+        if (apiFilters.property_type && apiFilters.property_type !== 'All Properties') {
+          const dorCodes = getPropertyTypeFilter(apiFilters.property_type);
+          if (dorCodes.length > 0) {
+            query = query.in('dor_uc', dorCodes);
+          }
+        }
+
+        // Apply pagination
+        const offset = parseInt(apiFilters.offset || '0');
+        const limit = parseInt(apiFilters.limit || '50');
+        query = query.range(offset, offset + limit - 1);
+
+        // Order by value descending
+        query = query.order('just_value', { ascending: false, nullsFirst: false });
+
+        const { data: properties, error, count } = await query;
+
+        if (error) throw error;
+
+        // DEBUG LOGGING
+        console.log('🔍 SUPABASE QUERY RESULT:', {
+          properties_count: properties?.length,
+          total_count: count,
+          error: error,
+          first_property: properties?.[0],
+          query_params: {
+            offset: offset,
+            limit: limit,
+            filters: apiFilters
+          }
+        });
+
+        data = {
+          properties: properties || [],
+          data: properties || [],
+          total: count || 0,
+          pagination: {
+            total: count || 0,
+            page,
+            pageSize: limit
+          }
+        };
+      } catch (error) {
+        console.error('Supabase query failed:', error);
+        data = {
+          properties: [],
+          data: [],
+          total: 0,
+          pagination: { total: 0, page, pageSize }
+        };
       }
 
       console.log('Pipeline results:', data);
       // Handle both data.properties and data.data formats
       let propertyList = data.properties || data.data || [];
 
+      // DEBUG: Log what we got from Supabase before any filtering
+      console.log('🔍 DEBUG BEFORE FILTERING:', {
+        count: propertyList.length,
+        first: propertyList[0],
+        filters: filters
+      });
+
+      // TEMPORARILY DISABLED: Client-side filtering was too aggressive and filtering out ALL properties
       // Apply client-side filtering by DOR use code if propertyType is set
-      if (filters.propertyType && filters.propertyType !== 'all-types') {
+      if (false && filters.propertyType && filters.propertyType !== 'all-types') {
         console.log('Applying client-side DOR code filtering for:', filters.propertyType);
         const filteredList = propertyList.filter((property: any) => {
           const dorCode = property.dor_uc || property.propertyUse || property.property_use_code;
@@ -604,13 +670,20 @@ export function PropertySearch({}: PropertySearchProps) {
         propertyList = filteredList;
       }
 
+      // DEBUG: Final check before setting state
+      console.log('🔍 DEBUG SETTING PROPERTIES:', {
+        count: propertyList.length,
+        first: propertyList[0],
+        currentState: properties.length
+      });
+
       console.log('Setting properties:', propertyList.length, 'items');
       if (propertyList.length > 0) {
         console.log('First property sample:', {
           parcel_id: propertyList[0]?.parcel_id,
-          owner: propertyList[0]?.owner,
-          address: propertyList[0]?.address,
-          marketValue: propertyList[0]?.marketValue
+          owner: propertyList[0]?.owner || propertyList[0]?.owner_name,
+          address: propertyList[0]?.address || propertyList[0]?.phy_addr1,
+          marketValue: propertyList[0]?.marketValue || propertyList[0]?.just_value
         });
       }
       setProperties(propertyList);
