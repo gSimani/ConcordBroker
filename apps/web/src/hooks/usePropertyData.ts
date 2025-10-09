@@ -131,6 +131,7 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '') =>
         } catch (err) {
           console.error('Error fetching property by parcel ID:', err)
         }
+        }
       } else {
         // Search by address
         try {
