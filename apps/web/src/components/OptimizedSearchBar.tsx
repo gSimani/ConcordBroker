@@ -12,6 +12,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { useOptimizedSearch } from '@/hooks/useOptimizedSearch';
 import { useSearchDebounce } from '@/hooks/useDebounce';
 import { api } from '@/api/client';
+import { usePropertyAutocomplete } from '@/hooks/usePropertyAutocomplete';
 
 interface Suggestion {
   type: 'address' | 'owner' | 'history';
@@ -113,6 +114,9 @@ export function OptimizedSearchBar({
     preloadPopularSearches
   } = useOptimizedSearch();
 
+  // Use Supabase-powered autocomplete for real data
+  const { suggestions: supabaseSuggestions, loading: supabaseLoading, searchProperties } = usePropertyAutocomplete();
+
   // Performance metrics state
   const [performanceMetrics, setPerformanceMetrics] = useState<SearchMetrics>({
     cacheHitRate: 0,
@@ -134,75 +138,59 @@ export function OptimizedSearchBar({
     }, [searchHistory])
   );
 
-  // Fetch autocomplete suggestions
-  const fetchAutocompleteData = useCallback(async (query: string) => {
-    if (query.length < 2) {
+  // Fetch autocomplete suggestions using Supabase
+  const fetchAutocompleteData = useCallback((query: string) => {
+    if (query.length < 3) {
       setCombinedSuggestions([]);
       setShowSuggestions(false);
       return;
     }
 
-    setAutocompleteLoading(true);
+    // Trigger Supabase search
+    searchProperties(query);
+    setShowSuggestions(true);
+  }, [searchProperties]);
 
-    try {
-      // Fetch both address and owner suggestions in parallel
-      const [addressResponse, ownerResponse] = await Promise.all([
-        api.getAddressSuggestions(query, 8),
-        api.getOwnerSuggestions(query, 7)
-      ]);
-
-      const suggestions: Suggestion[] = [];
-
-      // Add address suggestions with owner information
-      if (addressResponse?.data?.data) {
-        addressResponse.data.data.forEach((addr: any) => {
-          suggestions.push({
-            type: 'address',
-            display: addr.full_address,
-            value: addr.full_address,
-            property_type: addr.property_type,
-            metadata: {
-              ...addr,
-              owner_name: addr.owner_name // Include owner name in metadata
-            }
-          });
-        });
-      }
-
-      // Add owner suggestions
-      if (ownerResponse?.data?.data) {
-        ownerResponse.data.data.forEach((owner: any) => {
-          suggestions.push({
-            type: 'owner',
-            display: owner.owner_name,
-            value: owner.owner_name,
-            metadata: owner
-          });
-        });
-      }
-
-      // Add search history as suggestions if no other suggestions
-      if (suggestions.length === 0 && searchHistory.length > 0) {
-        searchHistory.slice(0, 5).forEach(term => {
-          suggestions.push({
-            type: 'history',
-            display: term,
-            value: term
-          });
-        });
-      }
-
+  // Sync Supabase suggestions to combined suggestions
+  useEffect(() => {
+    if (supabaseSuggestions.length > 0) {
+      const suggestions: Suggestion[] = supabaseSuggestions.map(s => ({
+        type: s.type === 'owner' ? 'owner' : 'address',
+        display: s.address,
+        value: s.type === 'owner' ? (s.owner || s.address) : s.address,
+        property_type: s.type === 'city' ? 'City' : undefined,
+        metadata: {
+          city: s.city,
+          county: s.county,
+          zip_code: s.zipCode,
+          parcel_id: s.parcelId,
+          owner_name: s.owner,
+          just_value: s.value,
+          matchScore: s.matchScore
+        }
+      }));
       setCombinedSuggestions(suggestions);
-      setShowSuggestions(suggestions.length > 0);
-
-    } catch (error) {
-      console.error('Error fetching autocomplete data:', error);
-      setCombinedSuggestions([]);
-      setShowSuggestions(false);
-    } finally {
+      setAutocompleteLoading(false);
+    } else if (!supabaseLoading && searchTerm.length >= 3) {
+      // No results from Supabase, show search history
+      if (searchHistory.length > 0) {
+        const historySuggestions: Suggestion[] = searchHistory.slice(0, 5).map(term => ({
+          type: 'history',
+          display: term,
+          value: term
+        }));
+        setCombinedSuggestions(historySuggestions);
+      } else {
+        setCombinedSuggestions([]);
+      }
       setAutocompleteLoading(false);
     }
-  }, [searchHistory]);
+  }, [supabaseSuggestions, supabaseLoading, searchTerm, searchHistory]);
+
+  // Update autocomplete loading state
+  useEffect(() => {
+    setAutocompleteLoading(supabaseLoading);
+  }, [supabaseLoading]);
 
   // Handle search input changes
   const handleSearchChange = useCallback((value: string) => {
@@ -213,10 +201,10 @@ export function OptimizedSearchBar({
       clearTimeout(autocompleteTimeoutRef.current);
     }
 
-    // Debounce autocomplete requests - reduced for faster response
+    // Debounce autocomplete requests to match hook's 300ms debounce
     autocompleteTimeoutRef.current = setTimeout(() => {
       fetchAutocompleteData(value);
-    }, 100);  // Reduced from 150ms to 100ms for faster autocomplete
+    }, 300);
 
     // Trigger search with current filters
     const searchFilters = {
