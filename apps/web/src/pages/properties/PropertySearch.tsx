@@ -93,6 +93,10 @@ export function PropertySearch({}: PropertySearchProps) {
   const [showAISearch, setShowAISearch] = useState(false);
   const [showTaxDeedSales, setShowTaxDeedSales] = useState(false);
 
+  // Results cache for instant perceived performance
+  const resultsCache = useRef<Map<string, any>>(new Map());
+  const getCacheKey = (filters: any) => JSON.stringify(filters);
+
   const [filters, setFilters] = useState<SearchFilters>({
     address: '',
     city: '',
@@ -446,6 +450,20 @@ export function PropertySearch({}: PropertySearchProps) {
         }
       });
 
+      // Check cache first for instant results
+      const cacheKey = getCacheKey({ filters: apiFilters, page });
+      const cachedResult = resultsCache.current.get(cacheKey);
+
+      if (cachedResult) {
+        console.log('⚡ CACHE HIT - Showing instant results');
+        setProperties(cachedResult.properties);
+        setTotalResults(cachedResult.total);
+        setTotalPages(Math.ceil(cachedResult.total / pageSize));
+        setPagination(cachedResult.pagination);
+        setLoading(false);
+        // Still fetch fresh data in background
+      }
+
       let data;
       console.log('🚀 ATTEMPTING SUPABASE QUERY NOW...');
       try {
@@ -454,31 +472,37 @@ export function PropertySearch({}: PropertySearchProps) {
         const { supabase } = await import('@/lib/supabase');
         console.log('✅ Supabase client imported successfully');
 
-        // PERFORMANCE: Select only needed columns, use estimated count
+        // ULTRA-FAST: Select only needed columns, NO count for speed
         let query = supabase
           .from('florida_parcels')
-          .select('parcel_id,county,owner_name,phy_addr1,phy_city,phy_zipcd,just_value,taxable_value,land_value,building_value,total_living_area,land_sqft,units,property_use,year_built', { count: 'estimated' })
-          .eq('is_redacted', false);
+          .select('parcel_id,county,owner_name,phy_addr1,phy_city,phy_zipcd,just_value,taxable_value,land_value,building_value,total_living_area,land_sqft,units,property_use,year_built')
+          .eq('is_redacted', false)
+          .gt('just_value', 0);
 
-        // Apply filters
+        // CRITICAL: Apply filters in optimal order (most selective first)
+
+        // 1. County filter first (most selective, uses index)
         if (apiFilters.county) {
           query = query.eq('county', apiFilters.county.toUpperCase());
         }
-        if (apiFilters.city) {
-          query = query.ilike('phy_city', `%${apiFilters.city}%`);
+
+        // 2. Property type filter (uses index)
+        if (apiFilters.property_type && apiFilters.property_type !== 'All Properties') {
+          const dorCodes = getPropertyTypeFilter(apiFilters.property_type);
+          if (dorCodes.length > 0) {
+            query = query.in('property_use', dorCodes);
+          }
         }
-        if (apiFilters.address) {
-          query = query.ilike('phy_addr1', `%${apiFilters.address}%`);
-        }
-        if (apiFilters.owner) {
-          query = query.ilike('owner_name', `%${apiFilters.owner}%`);
-        }
+
+        // 3. Value range filters (uses index)
         if (apiFilters.min_value) {
           query = query.gte('just_value', parseInt(apiFilters.min_value));
         }
         if (apiFilters.max_value) {
           query = query.lte('just_value', parseInt(apiFilters.max_value));
         }
+
+        // 4. Building/land size filters (uses index)
         if (apiFilters.min_building_sqft) {
           query = query.gte('total_living_area', parseInt(apiFilters.min_building_sqft));
         }
@@ -491,23 +515,30 @@ export function PropertySearch({}: PropertySearchProps) {
         if (apiFilters.max_land_sqft) {
           query = query.lte('land_sqft', parseInt(apiFilters.max_land_sqft));
         }
-        if (apiFilters.property_type && apiFilters.property_type !== 'All Properties') {
-          const dorCodes = getPropertyTypeFilter(apiFilters.property_type);
-          if (dorCodes.length > 0) {
-            query = query.in('property_use', dorCodes);
-          }
+
+        // 5. Text searches last (slower, but necessary)
+        // Use exact match first, then ILIKE if needed
+        if (apiFilters.city) {
+          // Try exact match first (faster)
+          const cityExact = apiFilters.city.toUpperCase();
+          query = query.or(`phy_city.eq.${cityExact},phy_city.ilike.%${apiFilters.city}%`);
+        }
+        if (apiFilters.address) {
+          query = query.ilike('phy_addr1', `${apiFilters.address}%`); // Prefix match is faster
+        }
+        if (apiFilters.owner) {
+          query = query.ilike('owner_name', `${apiFilters.owner}%`); // Prefix match is faster
         }
 
-        // PERFORMANCE: Only show properties with values > 0 for faster results
-        query = query.gt('just_value', 0);
-
-        // Apply pagination with smaller default
+        // Apply pagination BEFORE ordering for speed
         const offset = parseInt(apiFilters.offset || '0');
         const limit = parseInt(apiFilters.limit || '20');
-        query = query.range(offset, offset + limit - 1);
 
-        // Order by value descending
+        // Order by value descending (uses index)
         query = query.order('just_value', { ascending: false, nullsFirst: false });
+
+        // Apply range last
+        query = query.range(offset, offset + limit - 1);
 
         const { data: properties, error, count } = await query;
 
@@ -693,15 +724,31 @@ export function PropertySearch({}: PropertySearchProps) {
       setProperties(propertyList);
 
       // Handle pagination metadata from optimized API
+      let totalCount;
       if (data.pagination) {
-        setTotalResults(data.pagination.total || propertyList.length);
-        setTotalPages(data.pagination.total_pages || Math.ceil((data.pagination.total || propertyList.length) / pageSize));
+        totalCount = data.pagination.total || propertyList.length;
+        setTotalResults(totalCount);
+        setTotalPages(data.pagination.total_pages || Math.ceil(totalCount / pageSize));
         setPagination(data.pagination);
       } else {
-        setTotalResults(data.total || propertyList.length);
-        setTotalPages(Math.ceil((data.total || propertyList.length) / pageSize));
+        totalCount = data.total || propertyList.length;
+        setTotalResults(totalCount);
+        setTotalPages(Math.ceil(totalCount / pageSize));
       }
       setCurrentPage(page);
+
+      // Store in cache for instant future access
+      resultsCache.current.set(cacheKey, {
+        properties: propertyList,
+        total: totalCount,
+        pagination: data.pagination || { total: totalCount, page, pageSize }
+      });
+
+      // Keep cache size reasonable (max 20 entries)
+      if (resultsCache.current.size > 20) {
+        const firstKey = resultsCache.current.keys().next().value;
+        resultsCache.current.delete(firstKey);
+      }
       
     } catch (error) {
       if (error.name !== 'AbortError') {
