@@ -457,7 +457,7 @@ export function PropertySearch({}: PropertySearchProps) {
         // PERFORMANCE: Select only needed columns, use estimated count
         let query = supabase
           .from('florida_parcels')
-          .select('parcel_id,county,owner_name,phy_addr1,phy_city,phy_zipcd,just_value,taxable_value,land_value,building_value,tot_lvg_area,lnd_sqfoot,no_land_unt,dor_uc,year_built', { count: 'estimated' })
+          .select('parcel_id,county,owner_name,phy_addr1,phy_city,phy_zipcd,just_value,taxable_value,land_value,building_value,total_living_area,land_sqft,units,property_use,year_built', { count: 'estimated' })
           .eq('is_redacted', false);
 
         // Apply filters
@@ -480,21 +480,21 @@ export function PropertySearch({}: PropertySearchProps) {
           query = query.lte('just_value', parseInt(apiFilters.max_value));
         }
         if (apiFilters.min_building_sqft) {
-          query = query.gte('tot_lvg_area', parseInt(apiFilters.min_building_sqft));
+          query = query.gte('total_living_area', parseInt(apiFilters.min_building_sqft));
         }
         if (apiFilters.max_building_sqft) {
-          query = query.lte('tot_lvg_area', parseInt(apiFilters.max_building_sqft));
+          query = query.lte('total_living_area', parseInt(apiFilters.max_building_sqft));
         }
         if (apiFilters.min_land_sqft) {
-          query = query.gte('lnd_sqfoot', parseInt(apiFilters.min_land_sqft));
+          query = query.gte('land_sqft', parseInt(apiFilters.min_land_sqft));
         }
         if (apiFilters.max_land_sqft) {
-          query = query.lte('lnd_sqfoot', parseInt(apiFilters.max_land_sqft));
+          query = query.lte('land_sqft', parseInt(apiFilters.max_land_sqft));
         }
         if (apiFilters.property_type && apiFilters.property_type !== 'All Properties') {
           const dorCodes = getPropertyTypeFilter(apiFilters.property_type);
           if (dorCodes.length > 0) {
-            query = query.in('dor_uc', dorCodes);
+            query = query.in('property_use', dorCodes);
           }
         }
 

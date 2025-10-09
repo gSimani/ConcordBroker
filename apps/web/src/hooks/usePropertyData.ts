@@ -187,10 +187,10 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '') =>
         console.log('⚡ API failed - querying Supabase directly for parcel:', addressOrParcelId);
 
         try {
-          // PERFORMANCE: Select only needed columns
+          // PERFORMANCE: Select only needed columns with CORRECT names
           const { data: supabaseProperty, error: supabaseError } = await supabase
             .from('florida_parcels')
-            .select('parcel_id,county,year,owner_name,owner_addr1,owner_city,owner_state,owner_zip,phy_addr1,phy_addr2,phy_city,phy_state,phy_zipcd,just_value,assessed_value,taxable_value,land_value,building_value,tot_lvg_area,lnd_sqfoot,no_land_unt,dor_uc,year_built,no_bdrm,no_bth,sale_date1,sale_price1')
+            .select('parcel_id,county,year,owner_name,owner_addr1,owner_city,owner_state,owner_zip,phy_addr1,phy_addr2,phy_city,phy_state,phy_zipcd,just_value,assessed_value,taxable_value,land_value,building_value,total_living_area,land_sqft,units,property_use,year_built,bedrooms,bathrooms,sale_date,sale_price')
             .eq('parcel_id', addressOrParcelId)
             .single();
 
