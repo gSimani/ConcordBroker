@@ -30,7 +30,7 @@ import {
   Home,
   RefreshCw,
   Download,
-  Map,
+  Map as MapIcon,
   CheckSquare,
   Square,
   CheckCircle2,
@@ -83,7 +83,7 @@ export function PropertySearch({}: PropertySearchProps) {
   const [totalResults, setTotalResults] = useState(0);
   const [searchResults, setSearchResults] = useState<any>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(50); // Optimized for 6.4M properties
+  const [pageSize, setPageSize] = useState(10); // Reduced for query performance without indexes
   const [totalPages, setTotalPages] = useState(0);
   const [pagination, setPagination] = useState<any>(null);
   const [showMapView, setShowMapView] = useState(false);
@@ -530,14 +530,15 @@ export function PropertySearch({}: PropertySearchProps) {
           query = query.ilike('owner_name', `${apiFilters.owner}%`); // Prefix match is faster
         }
 
-        // Apply pagination BEFORE ordering for speed
+        // Apply pagination
         const offset = parseInt(apiFilters.offset || '0');
-        const limit = parseInt(apiFilters.limit || '20');
+        const limit = parseInt(apiFilters.limit || '10'); // Smaller limit for faster queries
 
-        // Order by value descending (uses index)
-        query = query.order('just_value', { ascending: false, nullsFirst: false });
+        // TEMPORARY: Skip ordering until indexes are created (ordering causes timeout)
+        // TODO: Re-enable after running CRITICAL_PERFORMANCE_INDEXES.sql in Supabase
+        // query = query.order('just_value', { ascending: false, nullsFirst: false });
 
-        // Apply range last
+        // Apply range for pagination
         query = query.range(offset, offset + limit - 1);
 
         const { data: properties, error, count } = await query;
@@ -1147,7 +1148,7 @@ export function PropertySearch({}: PropertySearchProps) {
                     outline: 'none'
                   }}
                 >
-                  <Map className="w-4 h-4 inline mr-2" style={{pointerEvents: 'none'}} />
+                  <MapIcon className="w-4 h-4 inline mr-2" style={{pointerEvents: 'none'}} />
                   <span style={{pointerEvents: 'none'}}>
                     {showMapView 
                       ? 'List View' 
