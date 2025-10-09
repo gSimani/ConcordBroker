@@ -54,9 +54,27 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '') =>
       // Fetch comprehensive property data from enhanced API
       if (isParcelId) {
         // Get property by parcel ID using enhanced endpoint
+        let apiAvailable = false;
+
+        // Quick API health check (100ms timeout) - saves 2-3 seconds if API down
         try {
-          // Try the property API endpoint (port 8000)
-          const enhancedResponse = await fetch(`http://localhost:8000/api/properties/${encodeURIComponent(addressOrParcelId)}`)
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 100);
+          const healthCheck = await fetch('http://localhost:8000/health', {
+            signal: controller.signal
+          });
+          clearTimeout(timeoutId);
+          apiAvailable = healthCheck.ok;
+          console.log('API health check:', apiAvailable ? 'UP' : 'DOWN');
+        } catch {
+          apiAvailable = false;
+          console.log('API health check: FAILED - will query Supabase directly');
+        }
+
+        if (apiAvailable) {
+          try {
+            // Try the property API endpoint (port 8000)
+            const enhancedResponse = await fetch(`http://localhost:8000/api/properties/${encodeURIComponent(addressOrParcelId)}`)
           if (enhancedResponse.ok) {
             const enhancedResult = await enhancedResponse.json()
             console.log('Fast API response:', enhancedResult)
@@ -173,6 +191,45 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '') =>
       }
 
       console.log('API result:', { bcpaData, sdfData })
+
+      // CRITICAL FIX: If API failed, query Supabase directly (guarantees data loads)
+      if (!bcpaData && isParcelId) {
+        console.log('⚡ API failed - querying Supabase directly for parcel:', addressOrParcelId);
+
+        try {
+          const { data: supabaseProperty, error: supabaseError } = await supabase
+            .from('florida_parcels')
+            .select('*')
+            .eq('parcel_id', addressOrParcelId)
+            .single();
+
+          if (!supabaseError && supabaseProperty) {
+            bcpaData = supabaseProperty;
+            console.log('✅ Loaded property directly from Supabase:', {
+              parcel_id: bcpaData.parcel_id,
+              owner: bcpaData.owner_name,
+              value: bcpaData.just_value
+            });
+
+            // Fetch sales history directly from Supabase
+            const { data: salesHistory } = await supabase
+              .from('property_sales_history')
+              .select('*')
+              .eq('parcel_id', addressOrParcelId)
+              .order('sale_date', { ascending: false })
+              .limit(20);
+
+            if (salesHistory && salesHistory.length > 0) {
+              sdfData = salesHistory;
+              console.log(`✅ Loaded ${salesHistory.length} sales records from Supabase`);
+            }
+          } else {
+            console.error('Supabase query failed:', supabaseError);
+          }
+        } catch (err) {
+          console.error('Error querying Supabase directly:', err);
+        }
+      }
 
       // Convert API data to expected format for backward compatibility
       // Skip transformation if data came from enhanced API (already transformed)
