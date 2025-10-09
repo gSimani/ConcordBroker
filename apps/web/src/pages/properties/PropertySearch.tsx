@@ -454,9 +454,10 @@ export function PropertySearch({}: PropertySearchProps) {
         const { supabase } = await import('@/lib/supabase');
         console.log('✅ Supabase client imported successfully');
 
+        // PERFORMANCE: Select only needed columns, use estimated count
         let query = supabase
           .from('florida_parcels')
-          .select('*', { count: 'exact' })
+          .select('parcel_id,county,owner_name,phy_addr1,phy_city,phy_zipcd,just_value,taxable_value,land_value,building_value,tot_lvg_area,lnd_sqfoot,no_land_unt,dor_uc,year_built', { count: 'estimated' })
           .eq('is_redacted', false);
 
         // Apply filters
@@ -497,9 +498,12 @@ export function PropertySearch({}: PropertySearchProps) {
           }
         }
 
-        // Apply pagination
+        // PERFORMANCE: Only show properties with values > 0 for faster results
+        query = query.gt('just_value', 0);
+
+        // Apply pagination with smaller default
         const offset = parseInt(apiFilters.offset || '0');
-        const limit = parseInt(apiFilters.limit || '50');
+        const limit = parseInt(apiFilters.limit || '20');
         query = query.range(offset, offset + limit - 1);
 
         // Order by value descending

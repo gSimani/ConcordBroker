@@ -56,20 +56,9 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '') =>
         // Get property by parcel ID using enhanced endpoint
         let apiAvailable = false;
 
-        // Quick API health check (100ms timeout) - saves 2-3 seconds if API down
-        try {
-          const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 100);
-          const healthCheck = await fetch('http://localhost:8000/health', {
-            signal: controller.signal
-          });
-          clearTimeout(timeoutId);
-          apiAvailable = healthCheck.ok;
-          console.log('API health check:', apiAvailable ? 'UP' : 'DOWN');
-        } catch {
-          apiAvailable = false;
-          console.log('API health check: FAILED - will query Supabase directly');
-        }
+        // PERFORMANCE: Skip API check, use Supabase directly
+        apiAvailable = false;
+        console.log('⚡ PERFORMANCE MODE: Querying Supabase directly (skipping API check)');
 
         if (apiAvailable) {
           try {
@@ -198,9 +187,10 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '') =>
         console.log('⚡ API failed - querying Supabase directly for parcel:', addressOrParcelId);
 
         try {
+          // PERFORMANCE: Select only needed columns
           const { data: supabaseProperty, error: supabaseError } = await supabase
             .from('florida_parcels')
-            .select('*')
+            .select('parcel_id,county,year,owner_name,owner_addr1,owner_city,owner_state,owner_zip,phy_addr1,phy_addr2,phy_city,phy_state,phy_zipcd,just_value,assessed_value,taxable_value,land_value,building_value,tot_lvg_area,lnd_sqfoot,no_land_unt,dor_uc,year_built,no_bdrm,no_bth,sale_date1,sale_price1')
             .eq('parcel_id', addressOrParcelId)
             .single();
 
