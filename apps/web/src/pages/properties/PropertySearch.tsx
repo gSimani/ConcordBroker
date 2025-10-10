@@ -16,6 +16,7 @@ import { useOptimizedPropertySearch } from '@/hooks/useOptimizedPropertySearch';
 import { api } from '@/api/client';
 import { OptimizedSearchBar } from '@/components/OptimizedSearchBar';
 import { getPropertyTypeFilter, matchesPropertyTypeFilter } from '@/lib/dorUseCodes';
+import { sortByPropertyRank, getPropertyRank } from '@/lib/propertyRanking';
 import '@/styles/elegant-property.css';
 import {
   Search,
@@ -480,12 +481,10 @@ export function PropertySearch({}: PropertySearchProps) {
           .from('florida_parcels')
           .select('parcel_id,county,owner_name,phy_addr1,phy_city,phy_zipcd,just_value,taxable_value,land_value,building_value,total_living_area,land_sqft,units,property_use,year_built');
 
-        // If no filters active, show all 9.1M Florida properties (paginated)
+        // If no filters active, default to BROWARD county for fast load
         if (!hasActiveFilters) {
-          console.log('📊 NO FILTERS - Showing all 9.1M Florida properties (paginated)');
-          // Don't restrict to any county - let user see full dataset
-          // Pagination will handle performance
-          // Order by property USE priority is done client-side via sortByPropertyRank()
+          console.log('🎯 NO FILTERS - Defaulting to BROWARD county for fast initial load');
+          query = query.eq('county', 'BROWARD');
         }
 
         // CRITICAL: Apply filters in optimal order (most selective first)
@@ -615,7 +614,6 @@ export function PropertySearch({}: PropertySearchProps) {
       // ALWAYS apply USE-based ranking (Multifamily → Commercial → Industrial → Hotel → Residential)
       if (propertyList.length > 0) {
         console.log('📊 Applying USE-based ranking to properties');
-        const { sortByPropertyRank, getPropertyRank } = await import('@/lib/propertyRanking');
         propertyList = sortByPropertyRank(propertyList);
         const firstRank = getPropertyRank(propertyList[0]?.property_use);
         console.log('✅ Properties sorted by USE priority:', {
