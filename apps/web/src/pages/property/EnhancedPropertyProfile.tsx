@@ -680,24 +680,35 @@ export default function EnhancedPropertyProfile({ parcelId, data: propData }: En
               <div>
                 <p className="text-gray-500 text-sm font-light">Last Sale</p>
                 <p className="text-2xl font-light elegant-text text-navy">
-                  {actualParcelId === '474131031040' ?
-                    '$485,000' :
-                    (propertyData?.sales?.last_sale_price && propertyData.sales.last_sale_price > 1000 ?
-                      formatCurrency(propertyData.sales.last_sale_price) :
-                      (propertyData?.sales?.sale_price1 && propertyData.sales.sale_price1 > 1000 ?
-                        formatCurrency(propertyData.sales.sale_price1) : 'N/A'))}
+                  {(() => {
+                    // Check multiple possible sources for sale price > $1000
+                    const salePrice = propertyData?.sales?.last_sale_price ||
+                                    propertyData?.sales?.sale_price1 ||
+                                    propertyData?.bcpaData?.sale_prc1 ||
+                                    propertyData?.sale_prc1 ||
+                                    0;
+                    return salePrice > 1000 ? formatCurrency(salePrice) : 'N/A';
+                  })()}
                 </p>
-                {(actualParcelId === '474131031040' ||
-                  propertyData?.sales?.last_sale_date ||
-                  (propertyData?.sales?.sale_year1 && propertyData?.sales?.sale_month1)) && (
-                  <p className="text-sm text-gray-600 font-light">
-                    {actualParcelId === '474131031040' ?
-                      'August 15, 2023' :
-                      (propertyData.sales?.last_sale_date ?
-                        new Date(propertyData.sales.last_sale_date).toLocaleDateString() :
-                        `${propertyData.sales?.sale_month1}/${propertyData.sales?.sale_year1}`)}
-                  </p>
-                )}
+                {(() => {
+                  // Check multiple sources for sale date
+                  const saleDate = propertyData?.sales?.last_sale_date ||
+                                 propertyData?.bcpaData?.sale_date ||
+                                 propertyData?.sale_date;
+                  const saleYear = propertyData?.sales?.sale_year1 ||
+                                 propertyData?.bcpaData?.sale_yr1 ||
+                                 propertyData?.sale_yr1;
+                  const saleMonth = propertyData?.sales?.sale_month1 ||
+                                  propertyData?.bcpaData?.sale_mo1 ||
+                                  propertyData?.sale_mo1;
+
+                  if (saleDate) {
+                    return <p className="text-sm text-gray-600 font-light">{new Date(saleDate).toLocaleDateString()}</p>;
+                  } else if (saleYear && saleMonth) {
+                    return <p className="text-sm text-gray-600 font-light">{saleMonth}/{saleYear}</p>;
+                  }
+                  return null;
+                })()}
               </div>
               <DollarSign className="h-8 w-8 text-gold" />
             </div>

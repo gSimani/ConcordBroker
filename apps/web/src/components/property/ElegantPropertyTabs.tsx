@@ -207,10 +207,14 @@ export function ElegantPropertyTabs({
                     mostRecentSale.price ||
                     null;
                 } else {
-                  // Check property data - prioritize over $1000, but accept any sale
+                  // Check property data for sale price > $1000
                   const propSalePrice = propertyData.sale_prc1 || propertyData.sale_price;
                   if (propSalePrice) {
-                    salePrice = parseFloat(propSalePrice);
+                    const parsed = parseFloat(propSalePrice);
+                    // Only use if > $1000
+                    if (parsed > 1000) {
+                      salePrice = parsed;
+                    }
                   }
                 }
 
