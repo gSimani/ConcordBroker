@@ -83,7 +83,7 @@ export function PropertySearch({}: PropertySearchProps) {
   const [totalResults, setTotalResults] = useState(0);
   const [searchResults, setSearchResults] = useState<any>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10); // Reduced for query performance without indexes
+  const [pageSize, setPageSize] = useState(50); // Show 50 properties by default for better UX
   const [totalPages, setTotalPages] = useState(0);
   const [pagination, setPagination] = useState<any>(null);
   const [showMapView, setShowMapView] = useState(false);
@@ -379,6 +379,12 @@ export function PropertySearch({}: PropertySearchProps) {
     { value: 'Government', label: 'Government' }
   ];
 
+  // Check if any filters are active (for display purposes)
+  const hasActiveFilters = Object.entries(filters).some(([key, value]) => {
+    if (key === 'taxDelinquent') return value === true;
+    return value && value !== '' && value !== 'all-cities' && value !== 'all-types';
+  });
+
   // Optimized search with data pipeline - using ref to avoid stale closure
   const searchPropertiesRef = useRef<(page?: number) => Promise<void>>();
   
@@ -436,7 +442,7 @@ export function PropertySearch({}: PropertySearchProps) {
           }
         }
       });
-      
+
       apiFilters.limit = pageSize.toString();
       apiFilters.offset = ((page - 1) * pageSize).toString();
       
@@ -466,6 +472,8 @@ export function PropertySearch({}: PropertySearchProps) {
 
       let data;
       console.log('🚀 ATTEMPTING SUPABASE QUERY NOW...');
+      console.log('Has active filters:', hasActiveFilters);
+
       try {
         // Query Supabase directly using parcelService
         console.log('🔧 Importing Supabase client...');
@@ -478,6 +486,14 @@ export function PropertySearch({}: PropertySearchProps) {
           .select('parcel_id,county,owner_name,phy_addr1,phy_city,phy_zipcd,just_value,taxable_value,land_value,building_value,total_living_area,land_sqft,units,property_use,year_built')
           .eq('is_redacted', false)
           .gt('just_value', 0);
+
+        // If no filters active, add default constraints for faster initial load
+        if (!hasActiveFilters) {
+          console.log('🎯 NO FILTERS - Loading default high-value properties');
+          // Load high-value properties by default for better UX
+          query = query.gte('just_value', 100000); // Properties over $100k
+          query = query.not('property_use', 'is', null); // Has property use data
+        }
 
         // CRITICAL: Apply filters in optimal order (most selective first)
 
@@ -1377,22 +1393,43 @@ export function PropertySearch({}: PropertySearchProps) {
             borderBottom: '1px solid #ecf0f1',
             padding: '1.5rem'
           }}>
-            <h3 className="elegant-card-title gold-accent flex items-center" style={{
-              fontFamily: 'Georgia, serif',
-              color: '#2c3e50',
-              fontSize: '1.25rem',
-              fontWeight: '400',
-              letterSpacing: '0.5px',
-              position: 'relative'
-            }}>
-              <Search className="w-5 h-5 mr-2" style={{color: '#2c3e50'}} />
-              {showAdvancedFilters ? 'Advanced Property Search' : `Search ${filters.propertyType || 'All'} Properties`}
-            </h3>
-            <p className="text-sm mt-3" style={{ color: '#7f8c8d' }}>
-              {showAdvancedFilters 
-                ? 'Find properties using comprehensive search criteria' 
-                : `Quick search for ${(filters.propertyType || 'all').toLowerCase()} properties in Broward County`}
-            </p>
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1">
+                <h3 className="elegant-card-title gold-accent flex items-center" style={{
+                  fontFamily: 'Georgia, serif',
+                  color: '#2c3e50',
+                  fontSize: '1.25rem',
+                  fontWeight: '400',
+                  letterSpacing: '0.5px',
+                  position: 'relative'
+                }}>
+                  <Search className="w-5 h-5 mr-2" style={{color: '#2c3e50'}} />
+                  {showAdvancedFilters ? 'Advanced Property Search' : `Search ${filters.propertyType || 'All'} Properties`}
+                </h3>
+                <p className="text-sm mt-3" style={{ color: '#7f8c8d' }}>
+                  {showAdvancedFilters
+                    ? 'Find properties using comprehensive search criteria'
+                    : `Quick search for ${(filters.propertyType || 'all').toLowerCase()} properties in Broward County`}
+                </p>
+              </div>
+              {/* Prominent Toggle Button - Always Visible */}
+              <Button
+                variant="outline"
+                size="lg"
+                data-testid="header-toggle-advanced-filters"
+                className="hover-lift flex items-center space-x-2 h-12 px-6 shrink-0"
+                style={{
+                  borderColor: showAdvancedFilters ? '#d4af37' : '#ecf0f1',
+                  color: showAdvancedFilters ? '#d4af37' : '#2c3e50',
+                  background: showAdvancedFilters ? 'rgba(212, 175, 55, 0.05)' : 'white',
+                  fontWeight: '500'
+                }}
+                onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+              >
+                <SlidersHorizontal className="w-5 h-5" />
+                <span>{showAdvancedFilters ? 'Hide' : 'Show'} Advanced Filters</span>
+              </Button>
+            </div>
           </div>
           <div className="p-8">
             <div className="space-y-6">
@@ -1473,6 +1510,7 @@ export function PropertySearch({}: PropertySearchProps) {
                   <Button
                     variant="outline"
                     size="sm"
+                    data-testid="advanced-filters-toggle"
                     className="hover-lift flex items-center space-x-2 h-10 px-4"
                     style={{
                       borderColor: showAdvancedFilters ? '#d4af37' : '#ecf0f1',
@@ -1482,7 +1520,7 @@ export function PropertySearch({}: PropertySearchProps) {
                     onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
                   >
                     <SlidersHorizontal className="w-4 h-4" />
-                    <span>Advanced Filters</span>
+                    <span>{showAdvancedFilters ? 'Hide' : 'Show'} Advanced Filters</span>
                   </Button>
 
                   {/* Secondary Tabs for Property Subtypes */}
@@ -2194,13 +2232,33 @@ export function PropertySearch({}: PropertySearchProps) {
         {/* Results */}
         {!showMapView && !showTaxDeedSales && (
           loading ? (
-            <div className="text-center py-12">
-              <RefreshCw className="w-8 h-8 animate-spin mx-auto mb-4 text-gray-400" />
-              <p className="text-gray-600">Searching properties...</p>
+            <div className="text-center py-20">
+              <RefreshCw className="w-12 h-12 animate-spin mx-auto mb-6" style={{ color: '#d4af37' }} />
+              <p className="text-xl font-medium mb-2" style={{ color: '#2c3e50' }}>Searching Properties...</p>
+              <p className="text-sm" style={{ color: '#7f8c8d' }}>Loading premium Florida property data</p>
             </div>
           ) : (
             <>
               {console.log('Render - Properties count:', properties.length, 'Loading:', loading, 'Properties:', properties)}
+              {/* Results Count Display */}
+              {properties.length > 0 && (
+                <div className="mb-6 flex items-center justify-between px-4 py-3 rounded-lg" style={{ backgroundColor: '#f8f9fa', borderLeft: '4px solid #d4af37' }}>
+                  <div className="flex items-center space-x-3">
+                    <CheckCircle2 className="w-5 h-5" style={{ color: '#27ae60' }} />
+                    <span className="text-lg font-semibold" style={{ color: '#2c3e50' }}>
+                      {totalResults.toLocaleString()} Properties Found
+                    </span>
+                    {hasActiveFilters && (
+                      <Badge variant="outline" className="ml-2" style={{ borderColor: '#d4af37', color: '#d4af37' }}>
+                        Filtered Results
+                      </Badge>
+                    )}
+                  </div>
+                  <span className="text-sm" style={{ color: '#7f8c8d' }}>
+                    Page {currentPage} of {totalPages}
+                  </span>
+                </div>
+              )}
               {properties.length === 0 ? (
               <Card>
                 <CardContent className="text-center py-12">
