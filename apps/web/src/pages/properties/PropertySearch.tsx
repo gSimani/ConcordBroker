@@ -482,21 +482,19 @@ export function PropertySearch({}: PropertySearchProps) {
 
         // ULTRA-FAST: Default to BROWARD county with USE-based ranking
         // This makes query fast (uses county index) and shows properties in priority order
+        // IMPORTANT: Don't use count parameter on initial load - it causes timeouts
         let query = supabase
           .from('florida_parcels')
-          .select('parcel_id,county,owner_name,phy_addr1,phy_city,phy_zipcd,just_value,taxable_value,land_value,building_value,total_living_area,land_sqft,units,property_use,year_built',
-            { count: hasActiveFilters ? 'exact' : 'estimated' })
+          .select('parcel_id,county,owner_name,phy_addr1,phy_city,phy_zipcd,just_value,taxable_value,land_value,building_value,total_living_area,land_sqft,units,property_use,year_built')
           .eq('is_redacted', false)
           .gt('just_value', 0);
 
-        // If no filters active, default to BROWARD for fast query
+        // If no filters active, show all 9.1M Florida properties (paginated)
         if (!hasActiveFilters) {
-          console.log('🎯 NO FILTERS - Defaulting to BROWARD with USE-based ranking');
-          query = query.eq('county', 'BROWARD');
-
-          // Order by property USE priority (Multifamily > Commercial > Industrial > Hotels > Residential > Land)
-          // NOTE: Ordering is done client-side via sortByPropertyRank() to avoid timeout
-          // Server-side ordering on property_use causes timeout due to missing index
+          console.log('📊 NO FILTERS - Showing all 9.1M Florida properties (paginated)');
+          // Don't restrict to any county - let user see full dataset
+          // Pagination will handle performance
+          // Order by property USE priority is done client-side via sortByPropertyRank()
         }
 
         // CRITICAL: Apply filters in optimal order (most selective first)
@@ -561,14 +559,15 @@ export function PropertySearch({}: PropertySearchProps) {
         // Apply range for pagination
         query = query.range(offset, offset + limit - 1);
 
-        const { data: properties, error, count } = await query;
+        // CRITICAL: Don't destructure 'count' - it triggers a slow COUNT query
+        // Just get the data directly for fast response
+        const { data: properties, error } = await query;
 
         if (error) throw error;
 
         // DEBUG LOGGING
         console.log('🔍 SUPABASE QUERY RESULT:', {
           properties_count: properties?.length,
-          total_count: count,
           error: error,
           first_property: properties?.[0],
           query_params: {
@@ -578,12 +577,17 @@ export function PropertySearch({}: PropertySearchProps) {
           }
         });
 
-        // Use estimated count or fallback to known total (9.1M)
-        let totalCount = count || 0;
-        if (!hasActiveFilters && (!count || count === 0)) {
-          // Use known total for all properties: 9,113,150 (as of last database audit)
-          totalCount = 9113150;
-          console.log('📊 Using cached total count for all properties:', totalCount);
+        // Use estimated totalCount based on known database stats
+        // Actual count queries cause timeouts on large tables
+        let totalCount;
+        if (!hasActiveFilters) {
+          // Default BROWARD county has ~850,000 properties
+          totalCount = 850000;
+          console.log('📊 Using estimated count for BROWARD:', totalCount);
+        } else {
+          // With filters, estimate based on returned data (pageSize * estimated pages)
+          totalCount = properties?.length > 0 ? properties.length * 100 : 0;
+          console.log('📊 Estimated count with filters:', totalCount);
         }
 
         data = {
