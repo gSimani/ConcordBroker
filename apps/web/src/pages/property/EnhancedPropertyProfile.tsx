@@ -555,9 +555,9 @@ export default function EnhancedPropertyProfile({ parcelId, data: propData }: En
   const formattedCity = city?.replace(/-/g, ' ') || '';
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white" data-testid="property-profile">
       {/* Executive Header */}
-      <div className="executive-header text-white">
+      <div className="executive-header text-white" data-testid="property-header">
         <div className="px-8 py-12">
           <div className="max-w-7xl mx-auto">
             <motion.div
@@ -661,7 +661,14 @@ export default function EnhancedPropertyProfile({ parcelId, data: propData }: En
               <div>
                 <p className="text-gray-500 text-sm font-light">Market Value</p>
                 <p className="text-2xl font-light elegant-text text-navy">
-                  {propertyData?.values?.market_value ? formatCurrency(propertyData.values.market_value) : 'N/A'}
+                  {formatCurrency(
+                    propertyData?.values?.market_value ||
+                    propertyData?.bcpaData?.jv ||
+                    propertyData?.bcpaData?.just_value ||
+                    propertyData?.jv ||
+                    propertyData?.just_value ||
+                    0
+                  )}
                 </p>
               </div>
               <Home className="h-8 w-8 text-gold" />
