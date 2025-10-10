@@ -2,6 +2,63 @@
 
 This project is configured to automatically start the MCP Server when Claude Code begins a new session with **robust error handling and failsafe mechanisms**.
 
+## 🔒 CRITICAL: Work Coordination & Single UI Rules (PERMANENT MEMORY)
+
+**MANDATORY - READ ON EVERY SESSION START**
+
+### Rule 1: ONE UI Website - ONE Port - ONE Branch (NEVER VIOLATE)
+- **UI Location:** `apps/web/` (ONLY frontend - never create apps/web2/, apps/new-ui/)
+- **Dev Port:** `5191` (STANDARD - all other ports are WRONG)
+- **Branch:** `feature/ui-consolidation-unified` (or main/master)
+- **Production:** https://www.concordbroker.com
+
+**ENFORCEMENT:**
+```bash
+# Start of EVERY session:
+git pull --rebase           # Get latest work
+npm run port:clean          # Kill zombie ports (5177-5180)
+npm run dev                 # Start on port 5191
+```
+
+### Rule 2: Continuous Merge - Commit Immediately (MANDATORY)
+**Git is the single source of truth.** Commit after EVERY feature/fix:
+```bash
+git add <files>
+git commit -m "descriptive message"
+git push origin <branch>
+```
+
+**NEVER:**
+- ❌ Wait to commit multiple features
+- ❌ Have uncommitted changes at end of session
+- ❌ Skip pushing commits
+
+### Rule 3: Verify Work Complete (MANDATORY)
+Before ending session or marking work "done":
+```bash
+npm run verify:complete
+```
+
+Must pass ALL checks:
+- ✅ All changes committed to git
+- ✅ All commits pushed to remote
+- ✅ No zombie dev servers running
+- ✅ Tests use standard port (5191)
+
+### Rule 4: Golden Rules (PERMANENT)
+1. **If it's not committed and pushed to git, it doesn't exist**
+2. **If there's a zombie port, kill it**
+3. **If it's not on port 5191, it's wrong**
+4. **There is ONE UI website, not multiple**
+5. **Work merges continuously through immediate commits**
+
+**Quick Reference:**
+- Port Management: `npm run port:clean`
+- Work Verification: `npm run verify:complete`
+- Full Documentation: `PERMANENT_MEMORY_COORDINATION_RULES.md`
+
+---
+
 ## Automatic Services Connection (IMPROVED)
 
 When you start Claude Code in this project, the following services are automatically connected:
