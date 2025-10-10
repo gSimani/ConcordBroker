@@ -149,3 +149,4 @@ infra/secrets/*
 docs/_build/
 docs/.doctrees/
 .vercel
+.dev-session.json
