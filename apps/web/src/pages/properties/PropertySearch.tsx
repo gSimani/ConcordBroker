@@ -225,13 +225,6 @@ export function PropertySearch({}: PropertySearchProps) {
     }
   };
 
-  // Initial load effect with optimized search
-  useEffect(() => {
-    console.log('Initial mount - loading properties...');
-    // Use optimized search for initial load
-    searchProperties();
-  }, []); // Only run once on mount
-
   // Comprehensive auto-filter that triggers on any meaningful filter changes
   useEffect(() => {
     if (isInitialMount.current) {
@@ -485,9 +478,7 @@ export function PropertySearch({}: PropertySearchProps) {
         // IMPORTANT: Don't use count parameter on initial load - it causes timeouts
         let query = supabase
           .from('florida_parcels')
-          .select('parcel_id,county,owner_name,phy_addr1,phy_city,phy_zipcd,just_value,taxable_value,land_value,building_value,total_living_area,land_sqft,units,property_use,year_built')
-          .eq('is_redacted', false)
-          .gt('just_value', 0);
+          .select('parcel_id,county,owner_name,phy_addr1,phy_city,phy_zipcd,just_value,taxable_value,land_value,building_value,total_living_area,land_sqft,units,property_use,year_built');
 
         // If no filters active, show all 9.1M Florida properties (paginated)
         if (!hasActiveFilters) {
@@ -581,9 +572,9 @@ export function PropertySearch({}: PropertySearchProps) {
         // Actual count queries cause timeouts on large tables
         let totalCount;
         if (!hasActiveFilters) {
-          // Default BROWARD county has ~850,000 properties
-          totalCount = 850000;
-          console.log('📊 Using estimated count for BROWARD:', totalCount);
+          // All Florida properties = 9,113,150 (67 counties)
+          totalCount = 9113150;
+          console.log('📊 Using total count for all Florida properties:', totalCount);
         } else {
           // With filters, estimate based on returned data (pageSize * estimated pages)
           totalCount = properties?.length > 0 ? properties.length * 100 : 0;
@@ -621,14 +612,17 @@ export function PropertySearch({}: PropertySearchProps) {
         filters: filters
       });
 
-      // Apply USE-based ranking if no filters (default Broward view)
-      if (!hasActiveFilters && propertyList.length > 0) {
-        console.log('📊 Applying USE-based ranking to Broward properties');
-        const { sortByPropertyRank } = await import('@/lib/propertyRanking');
+      // ALWAYS apply USE-based ranking (Multifamily → Commercial → Industrial → Hotel → Residential)
+      if (propertyList.length > 0) {
+        console.log('📊 Applying USE-based ranking to properties');
+        const { sortByPropertyRank, getPropertyRank } = await import('@/lib/propertyRanking');
         propertyList = sortByPropertyRank(propertyList);
+        const firstRank = getPropertyRank(propertyList[0]?.property_use);
         console.log('✅ Properties sorted by USE priority:', {
           first: propertyList[0],
           firstUseCode: propertyList[0]?.property_use,
+          firstCategory: firstRank.category,
+          firstPriority: firstRank.priority,
           total: propertyList.length
         });
       }
@@ -803,8 +797,14 @@ export function PropertySearch({}: PropertySearchProps) {
       setLoading(false);
     }
   }, [filters, pipeline, pageSize]);
-  
+
   searchPropertiesRef.current = searchProperties;
+
+  // Initial load effect - MUST be after searchProperties definition
+  useEffect(() => {
+    console.log('Initial mount - loading properties...');
+    searchProperties();
+  }, [searchProperties]); // Depend on searchProperties
 
   // Handle filter changes
   const handleFilterChange = (key: keyof SearchFilters, value: string | boolean) => {
