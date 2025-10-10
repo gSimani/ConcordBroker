@@ -656,12 +656,12 @@ async function calculateSalesTrends(salesHistory: any[]) {
 
 async function fetchSimilarProperties(propertyData: any) {
   try {
+    // Query similar properties without property_use_code (column doesn't exist in DB)
     const { data } = await supabase
       .from('florida_parcels')
       .select('*')
       .eq('county', propertyData.county)
       .eq('phy_city', propertyData.phy_city)
-      .eq('dor_uc', propertyData.dor_uc)
       .gte('just_value', parseFloat(propertyData.just_value || '0') * 0.8)
       .lte('just_value', parseFloat(propertyData.just_value || '0') * 1.2)
       .neq('parcel_id', propertyData.parcel_id)
@@ -669,6 +669,7 @@ async function fetchSimilarProperties(propertyData: any) {
 
     return data || []
   } catch (error) {
+    console.error('Error fetching similar properties:', error)
     return []
   }
 }

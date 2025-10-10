@@ -8,11 +8,12 @@ export interface PropertySuggestion {
   city: string;
   county: string;
   zipCode: string;
-  type: 'property' | 'owner' | 'city';
+  type: 'property' | 'owner' | 'city' | 'county';
   parcelId?: string;
   owner?: string;
   value?: number;
   matchScore: number;
+  dorUseCode?: string;
 }
 
 export function usePropertyAutocomplete() {
@@ -30,11 +31,12 @@ export function usePropertyAutocomplete() {
       try {
         const term = searchTerm.toLowerCase().trim();
 
-        // Search across multiple fields in florida_parcels
+        // Search across multiple fields in florida_parcels (including county)
+        // Note: property_use_code column doesn't exist, so we omit it from SELECT
         const { data, error } = await supabase
           .from('florida_parcels')
           .select('parcel_id,phy_addr1,phy_city,phy_zipcd,county,owner_name,just_value')
-          .or(`phy_addr1.ilike.%${term}%,phy_city.ilike.%${term}%,owner_name.ilike.%${term}%`)
+          .or(`phy_addr1.ilike.%${term}%,phy_city.ilike.%${term}%,county.ilike.%${term}%,owner_name.ilike.%${term}%`)
           .eq('is_redacted', false)
           .gt('just_value', 0)
           .limit(15);
@@ -44,11 +46,12 @@ export function usePropertyAutocomplete() {
         // Transform results into suggestions
         const suggestions: PropertySuggestion[] = (data || []).map((prop, index) => {
           // Determine match type and score
-          let type: 'property' | 'owner' | 'city' = 'property';
+          let type: 'property' | 'owner' | 'city' | 'county' = 'property';
           let matchScore = 0.5;
 
           const addr = prop.phy_addr1?.toLowerCase() || '';
           const city = prop.phy_city?.toLowerCase() || '';
+          const county = prop.county?.toLowerCase() || '';
           const owner = prop.owner_name?.toLowerCase() || '';
 
           if (addr.startsWith(term)) {
@@ -60,6 +63,9 @@ export function usePropertyAutocomplete() {
           } else if (owner.includes(term)) {
             type = 'owner';
             matchScore = 0.75;
+          } else if (county.includes(term)) {
+            type = 'county';
+            matchScore = 0.70;
           } else if (city.startsWith(term)) {
             type = 'city';
             matchScore = 0.65;
@@ -71,6 +77,7 @@ export function usePropertyAutocomplete() {
           // Boost score for exact matches
           if (addr === term) matchScore = 1.0;
           if (owner === term) matchScore = 0.95;
+          if (county === term) matchScore = 0.92;
           if (city === term) matchScore = 0.90;
 
           return {
@@ -83,7 +90,8 @@ export function usePropertyAutocomplete() {
             parcelId: prop.parcel_id,
             owner: prop.owner_name || undefined,
             value: prop.just_value || undefined,
-            matchScore
+            matchScore,
+            dorUseCode: undefined // Column doesn't exist in database
           };
         });
 

@@ -174,16 +174,58 @@ export function useOptimizedPropertySearch() {
     }
   }, []);
 
-  // Autocomplete function - disabled for now since endpoint doesn't exist
+  // Autocomplete function - connects to API autocomplete endpoints
   const autocomplete = useCallback(async (field: string, query: string): Promise<any[]> => {
     if (!query || query.length < 2) return [];
 
     try {
-      // Autocomplete endpoint not available in current API
-      console.log('Autocomplete not implemented');
-      return [];
+      const startTime = performance.now();
+
+      // Map field types to API endpoints
+      const endpointMap: Record<string, string> = {
+        address: '/api/autocomplete/addresses',
+        city: '/api/autocomplete/cities',
+        owner: '/api/autocomplete/owners',
+        zipCode: '/api/autocomplete/zipcodes',
+      };
+
+      const endpoint = endpointMap[field] || `/api/autocomplete/addresses`;
+      const url = `http://localhost:8000${endpoint}?q=${encodeURIComponent(query)}&limit=20`;
+
+      console.log(`[Autocomplete] ${field}: '${query}' -> ${url}`);
+
+      // Fetch with timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+      const response = await fetch(url, {
+        signal: controller.signal,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        }
+      });
+
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        console.warn(`[Autocomplete] ${field}: HTTP ${response.status}`);
+        return [];
+      }
+
+      const data = await response.json();
+      const results = data.suggestions || data.results || data || [];
+      const endTime = performance.now();
+
+      console.log(`[Autocomplete] ${field}: ${results.length} results in ${(endTime - startTime).toFixed(1)}ms`);
+
+      return results;
     } catch (error) {
-      console.error('Autocomplete error:', error);
+      if (error instanceof Error && error.name === 'AbortError') {
+        console.warn('[Autocomplete] Request timeout (>5s)');
+      } else {
+        console.error('[Autocomplete] Error:', error);
+      }
       return [];
     }
   }, []);
