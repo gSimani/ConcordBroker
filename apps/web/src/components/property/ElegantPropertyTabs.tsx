@@ -260,7 +260,17 @@ export function ElegantPropertyTabs({
                 ) : (
                   <div className="text-center py-4">
                     <p className="text-2xl font-light elegant-text text-navy">
-                      {formatCurrency(propertyData.jv || propertyData.just_value)}
+                      {(() => {
+                        const justValue = propertyData.jv || propertyData.just_value;
+                        console.log('🔍 Market Value Debug:', {
+                          jv: propertyData.jv,
+                          just_value: propertyData.just_value,
+                          finalValue: justValue,
+                          formatted: formatCurrency(justValue),
+                          propertyData_keys: Object.keys(propertyData)
+                        });
+                        return formatCurrency(justValue);
+                      })()}
                     </p>
                     <p className="text-sm text-gray-elegant mt-1">
                       Market Value (No recent sales)
