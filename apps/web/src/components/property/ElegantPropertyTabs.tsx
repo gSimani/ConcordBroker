@@ -72,7 +72,7 @@ export function ElegantPropertyTabs({
   ];
 
   return (
-    <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full">
+    <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full" data-testid="property-tabs">
       {/* Executive Tabs Navigation */}
       <div className="tabs-executive flex justify-center mb-8">
         {tabs.map(tab => {
@@ -80,6 +80,7 @@ export function ElegantPropertyTabs({
           return (
             <button
               key={tab.id}
+              data-testid={`tab-${tab.id}`}
               onClick={() => setActiveTab(tab.id)}
               className={`tab-executive ${activeTab === tab.id ? 'active' : ''}`}
             >
@@ -258,9 +259,11 @@ export function ElegantPropertyTabs({
                   </div>
                 ) : (
                   <div className="text-center py-4">
-                    <p className="text-2xl font-light elegant-text text-navy">N/A</p>
+                    <p className="text-2xl font-light elegant-text text-navy">
+                      {formatCurrency(propertyData.jv || propertyData.just_value)}
+                    </p>
                     <p className="text-sm text-gray-elegant mt-1">
-                      No recent sales recorded
+                      Market Value (No recent sales)
                     </p>
                   </div>
                 );
