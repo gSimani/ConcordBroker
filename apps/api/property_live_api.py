@@ -579,7 +579,13 @@ async def search_properties(
     maxBuildingSqFt: Optional[float] = Query(None),
     minLandSqFt: Optional[float] = Query(None),
     maxLandSqFt: Optional[float] = Query(None),
-    
+
+    # Sale filters
+    min_sale_date: Optional[str] = Query(None, description="Minimum sale date (YYYY-MM-DD)"),
+    max_sale_date: Optional[str] = Query(None, description="Maximum sale date (YYYY-MM-DD)"),
+    min_sale_price: Optional[float] = Query(None, description="Minimum sale price"),
+    max_sale_price: Optional[float] = Query(None, description="Maximum sale price"),
+
     # Tax certificate filters
     hasTaxCertificate: Optional[bool] = Query(None),
     minCertAmount: Optional[float] = Query(None),
@@ -783,10 +789,24 @@ async def search_properties(
         # Land square footage filters
         if minLandSqFt is not None:
             query = query.gte('lnd_sqfoot', minLandSqFt)
-        
+
         if maxLandSqFt is not None:
             query = query.lte('lnd_sqfoot', maxLandSqFt)
-        
+
+        # Sale date filters
+        if min_sale_date is not None:
+            query = query.gte('sale_date', min_sale_date)
+
+        if max_sale_date is not None:
+            query = query.lte('sale_date', max_sale_date)
+
+        # Sale price filters
+        if min_sale_price is not None:
+            query = query.gte('sale_price', min_sale_price)
+
+        if max_sale_price is not None:
+            query = query.lte('sale_price', max_sale_price)
+
         # Sorting - default to sorting by city and address for better results
         if sortBy and sortOrder:
             if sortOrder.lower() == 'asc':
