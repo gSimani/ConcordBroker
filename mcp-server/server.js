@@ -31,6 +31,16 @@ const {
 const { spawn } = require('child_process');
 let aiSystemProcess = null;
 
+// Import Permanent Memory, DeepWiki, and Playwright Verification
+const PermanentMemorySystem = require('./permanent-memory-system');
+const DeepWikiIntegrations = require('./deepwiki-integrations');
+const PlaywrightVerificationSystem = require('./playwright-verification-system');
+
+// Initialize advanced systems
+const permanentMemory = new PermanentMemorySystem();
+const deepWiki = new DeepWikiIntegrations();
+const playwrightVerification = new PlaywrightVerificationSystem();
+
 // Initialize Express app
 const app = express();
 app.use(express.json());
@@ -466,6 +476,83 @@ if (app.locals.services?.langchain) {
   app.use('/api/langchain', app.locals.services.langchain.getExpressRouter());
 }
 
+// Mount Permanent Memory routes
+app.get('/api/memory/rules', (req, res) => {
+  res.json({ rules: permanentMemory.getRules() });
+});
+
+app.get('/api/memory/sessions', (req, res) => {
+  const count = parseInt(req.query.count) || 10;
+  res.json({ sessions: permanentMemory.getRecentSessions(count) });
+});
+
+app.get('/api/memory/verifications', (req, res) => {
+  const count = parseInt(req.query.count) || 20;
+  res.json({ verifications: permanentMemory.getRecentVerifications(count) });
+});
+
+app.get('/api/memory/stats', async (req, res) => {
+  const stats = await permanentMemory.getMemoryStats();
+  res.json(stats);
+});
+
+app.post('/api/memory/check-compliance', async (req, res) => {
+  const result = await permanentMemory.checkRuleCompliance();
+  res.json(result);
+});
+
+// Mount DeepWiki routes
+app.get('/api/deepwiki/repositories', (req, res) => {
+  res.json({ repositories: deepWiki.getAllRepositories() });
+});
+
+app.get('/api/deepwiki/search', async (req, res) => {
+  const query = req.query.q || req.query.query;
+  if (!query) {
+    return res.status(400).json({ error: 'Query parameter required' });
+  }
+  const results = await deepWiki.searchAllRepositories(query);
+  res.json({ query, results });
+});
+
+app.get('/api/deepwiki/:repository', async (req, res) => {
+  const { repository } = req.params;
+  const repo = deepWiki.getRepository(repository);
+  if (!repo) {
+    return res.status(404).json({ error: 'Repository not found' });
+  }
+  res.json(repo);
+});
+
+// Mount Playwright Verification routes
+app.post('/api/verify/frontend', async (req, res) => {
+  const url = req.body.url || 'http://localhost:5191';
+  const result = await playwrightVerification.verifyFrontend(url);
+  res.json(result);
+});
+
+app.post('/api/verify/mcp', async (req, res) => {
+  const url = req.body.url || 'http://localhost:3001';
+  const result = await playwrightVerification.verifyMCPServer(url);
+  res.json(result);
+});
+
+app.post('/api/verify/property-search', async (req, res) => {
+  const result = await playwrightVerification.verifyPropertySearch();
+  res.json(result);
+});
+
+app.post('/api/verify/all', async (req, res) => {
+  const results = await playwrightVerification.runAllVerifications();
+  res.json(results);
+});
+
+app.get('/api/verify/history', (req, res) => {
+  const count = parseInt(req.query.count) || 10;
+  const history = playwrightVerification.getVerificationHistory(count);
+  res.json({ history });
+});
+
 // Mount Supabase MCP tool routes (with auth)
 const { supabaseMcpTools } = require('./supabase-mcp-integration');
 
@@ -598,10 +685,19 @@ async function startAISystem() {
 // Start server
 async function startServer() {
   console.log('\n🚀 Starting ConcordBroker MCP Server...\n');
-  
+
+  // Initialize Permanent Memory System
+  await permanentMemory.initialize();
+
+  // Initialize DeepWiki Integrations
+  await deepWiki.initialize();
+
+  // Initialize Playwright Verification
+  await playwrightVerification.initialize();
+
   // Load configuration
   const config = await loadConfig();
-  
+
   // Initialize services
   const services = initializeServices();
   console.log('✅ Services initialized');
@@ -652,10 +748,30 @@ async function startServer() {
   // Start AI Data Flow System
   await startAISystem();
   
+  // Run initial rule compliance check
+  console.log('\n🔍 Running initial rule compliance check...');
+  await permanentMemory.checkRuleCompliance();
+
+  // Schedule periodic verifications (every 30 minutes)
+  setInterval(async () => {
+    console.log('\n🔍 Running periodic verification...');
+    try {
+      await playwrightVerification.runAllVerifications();
+      await permanentMemory.checkRuleCompliance();
+    } catch (error) {
+      console.error('❌ Periodic verification failed:', error.message);
+    }
+  }, 30 * 60 * 1000);
+
+  console.log('\n✅ All systems initialized and running!\n');
+  console.log('📚 DeepWiki Repositories:', Object.keys(deepWiki.getAllRepositories()).length);
+  console.log('📋 Rules Loaded:', permanentMemory.getRules().length);
+  console.log('🎭 Playwright Verification: Active\n');
+
   // Graceful shutdown
   process.on('SIGINT', async () => {
     console.log('\n🛑 Shutting down MCP Server...');
-    
+
     // Shutdown AI System
     if (aiSystemProcess) {
       console.log('🤖 Stopping AI Data Flow System...');
@@ -666,16 +782,24 @@ async function startServer() {
       }
     }
 
+    // Shutdown Permanent Memory
+    console.log('🧠 Saving permanent memory...');
+    await permanentMemory.shutdown();
+
+    // Shutdown Playwright
+    console.log('🎭 Closing Playwright...');
+    await playwrightVerification.shutdown();
+
     // Shutdown LangChain
     if (services.langchain) {
       await services.langchain.shutdown();
     }
-    
+
     // Close WebSocket connections
     wss.clients.forEach((client) => {
       client.close();
     });
-    
+
     // Close HTTP server
     server.close(() => {
       console.log('👋 MCP Server shut down successfully');
