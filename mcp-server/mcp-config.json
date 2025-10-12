@@ -72,6 +72,24 @@
           "purpose": "Agent Lion dynamic generation"
         }
       },
+      "anthropic": {
+        "provider": "Anthropic Claude",
+        "config": {
+          "apiKey": "${ANTHROPIC_API_KEY}",
+          "purpose": "Advanced reasoning and code generation",
+          "models": {
+            "sonnet": "claude-sonnet-4",
+            "opus": "claude-opus-4"
+          }
+        }
+      },
+      "google": {
+        "provider": "Google AI Studio",
+        "config": {
+          "apiKey": "${GOOGLE_AI_STUDIO_API_KEY}",
+          "purpose": "Codex Concord - specialized property analysis"
+        }
+      },
       "langchain": {
         "provider": "LangChain/LangSmith",
         "config": {
@@ -87,7 +105,8 @@
             "propertyAnalysis": true,
             "marketResearch": true,
             "investmentScoring": true,
-            "dataValidation": true
+            "dataValidation": true,
+            "agentLion": true
           }
         }
       }
@@ -126,28 +145,46 @@
       "provider": "Firecrawl",
       "config": {
         "apiKey": "${FIRECRAWL_API_KEY}",
-        "purpose": "Web scraping and website input"
+        "purpose": "Web scraping and website input",
+        "rateLimit": 100,
+        "timeout": 30000
       }
     },
-    
+
     "memory": {
       "provider": "Memvid",
       "config": {
-        "purpose": "Memory management system"
+        "purpose": "Memory management system",
+        "persistence": true,
+        "maxSize": 10000
       }
     },
-    
+
     "vectorDb": {
       "provider": "RAG/Vector Database",
       "config": {
-        "purpose": "Document retrieval"
+        "purpose": "Document retrieval",
+        "embeddingModel": "text-embedding-3-small",
+        "dimensions": 1536
       }
     },
-    
+
     "automation": {
       "provider": "Playwright MCP",
       "config": {
-        "purpose": "Browser automation and testing"
+        "purpose": "Browser automation and testing",
+        "headless": true,
+        "browsers": ["chromium", "firefox", "webkit"]
+      }
+    },
+
+    "sandbox": {
+      "provider": "E2B",
+      "config": {
+        "apiKey": "${E2B_API_KEY}",
+        "purpose": "Code execution sandbox",
+        "timeout": 60000,
+        "maxMemory": "2gb"
       }
     },
     
@@ -222,6 +259,8 @@
       "supabase",
       "huggingface",
       "openai",
+      "anthropic",
+      "google-ai",
       "langchain",
       "github",
       "sentry",
@@ -231,7 +270,43 @@
       "memvid",
       "playwright",
       "google-maps",
-      "redis"
+      "redis",
+      "e2b"
     ]
+  },
+
+  "dataEnrichment": {
+    "sources": {
+      "nav": {
+        "enabled": true,
+        "purpose": "Property assessment values",
+        "fields": ["just_value", "assessed_value", "taxable_value", "land_value", "building_value"]
+      },
+      "sdf": {
+        "enabled": true,
+        "purpose": "Sales history data",
+        "fields": ["sale_date", "sale_price", "sale_qualification"]
+      },
+      "tpp": {
+        "enabled": true,
+        "purpose": "Property characteristics",
+        "fields": ["year_built", "total_living_area", "bedrooms", "bathrooms", "stories"]
+      },
+      "sunbiz": {
+        "enabled": true,
+        "purpose": "Business entity information",
+        "fields": ["entity_name", "filing_number", "status", "principals"]
+      },
+      "permits": {
+        "enabled": true,
+        "purpose": "Building permits and construction history",
+        "fields": ["permit_number", "permit_type", "issue_date", "value"]
+      },
+      "taxDeeds": {
+        "enabled": true,
+        "purpose": "Tax deed sales and certificates",
+        "fields": ["certificate_number", "face_amount", "sale_date", "status"]
+      }
+    }
   }
 }
