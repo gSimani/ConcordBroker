@@ -49,19 +49,48 @@ class PermanentMemorySystem {
   }
 
   async initializeRedis() {
+    // Skip Redis if URL is not configured
+    if (!process.env.REDIS_URL) {
+      console.log('⚠️  Redis not configured, using local memory only');
+      this.redisClient = null;
+      return;
+    }
+
     try {
       this.redisClient = createClient({
-        url: process.env.REDIS_URL
+        url: process.env.REDIS_URL,
+        socket: {
+          connectTimeout: 3000, // 3 second timeout
+          reconnectStrategy: false // Don't auto-reconnect
+        }
       });
 
+      // Suppress error logging during connection attempt
+      let errorHandler = () => {};
+      this.redisClient.on('error', errorHandler);
+
+      // Try to connect with timeout
+      const connectPromise = this.redisClient.connect();
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Connection timeout')), 3000)
+      );
+
+      await Promise.race([connectPromise, timeoutPromise]);
+
+      // Replace with real error handler after successful connection
+      this.redisClient.removeListener('error', errorHandler);
       this.redisClient.on('error', (err) => {
         console.log('⚠️  Redis warning:', err.message);
       });
 
-      await this.redisClient.connect();
       console.log('✅ Redis memory cache connected');
     } catch (error) {
       console.log('⚠️  Redis not available, using local memory only');
+      if (this.redisClient) {
+        try {
+          await this.redisClient.quit();
+        } catch {}
+      }
       this.redisClient = null;
     }
   }
