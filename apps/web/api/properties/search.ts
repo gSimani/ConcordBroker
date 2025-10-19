@@ -1,103 +1,100 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
+import { createClient } from '@supabase/supabase-js'
 
-// Simple proxy to our AI-enhanced API for production
+// Query real data from Supabase instead of mocks
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+  res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300')
 
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end()
-  }
+  if (req.method === 'OPTIONS') return res.status(200).end()
 
   try {
-    // Return mock data for now to show properties
-    const mockProperties = [
-      {
-        id: "123456789",
-        parcel_id: "123456789",
-        address: "123 MAIN ST",
-        city: "MIAMI",
-        zip_code: "33101",
-        owner_name: "FLORIDA HOLDINGS LLC",
-        county: "DADE",
-        property_type: "RESIDENTIAL",
-        just_value: 750000,
-        land_value: 250000,
-        building_value: 500000
-      },
-      {
-        id: "987654321",
-        parcel_id: "987654321",
-        address: "456 OCEAN BLVD",
-        city: "MIAMI BEACH",
-        zip_code: "33139",
-        owner_name: "BEACHFRONT PROPERTIES LLC",
-        county: "DADE",
-        property_type: "COMMERCIAL",
-        just_value: 2500000,
-        land_value: 1500000,
-        building_value: 1000000
-      },
-      {
-        id: "555777999",
-        parcel_id: "555777999",
-        address: "789 BISCAYNE BLVD",
-        city: "MIAMI",
-        zip_code: "33132",
-        owner_name: "MIAMI TOWER LLC",
-        county: "DADE",
-        property_type: "COMMERCIAL",
-        just_value: 5000000,
-        land_value: 2000000,
-        building_value: 3000000
-      },
-      {
-        id: "111222333",
-        parcel_id: "111222333",
-        address: "3930 SW 53RD AVE",
-        city: "DAVIE",
-        zip_code: "33314",
-        owner_name: "RESIDENTIAL TRUST LLC",
-        county: "BROWARD",
-        property_type: "RESIDENTIAL",
-        just_value: 450000,
-        land_value: 180000,
-        building_value: 270000
-      },
-      {
-        id: "444555666",
-        parcel_id: "444555666",
-        address: "1000 CORPORATE BLVD",
-        city: "FORT LAUDERDALE",
-        zip_code: "33334",
-        owner_name: "CORPORATE CENTER LLC",
-        county: "BROWARD",
-        property_type: "COMMERCIAL",
-        just_value: 8500000,
-        land_value: 3500000,
-        building_value: 5000000
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.VITE_SUPABASE_URL
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY
+
+    if (!supabaseUrl || !supabaseKey) {
+      return res.status(500).json({ success: false, error: 'Supabase not configured', data: [], pagination: { total: 0, page: 1, limit: 20 } })
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseKey)
+
+    const {
+      search = '',
+      page = 1,
+      limit = 500, // Increased default from 20 to 500
+      county,
+      city,
+      property_type,
+      min_value,
+      max_value
+    } = req.method === 'POST' ? req.body : req.query
+
+    const pageNum = parseInt(page as string)
+    // FIXED: Removed hard cap of 100 - now allows up to 5000 properties per request
+    const requestedLimit = parseInt(limit as string) || 500
+    const limitNum = Math.min(requestedLimit, 5000) // Safety limit to prevent abuse
+    const offset = (pageNum - 1) * limitNum
+
+    let query = supabase
+      .from('florida_parcels')
+      .select('*', { count: 'exact' })
+
+    if (search) {
+      const s = String(search).trim()
+      if (/^\d/.test(s)) {
+        query = query.or(`phy_addr1.ilike.${s}%,parcel_id.ilike.${s}%`)
+      } else {
+        query = query.or(`owner_name.ilike.%${s}%,phy_city.ilike.%${s}%`)
       }
-    ]
+    }
+
+    if (county) query = query.eq('county', String(county).toUpperCase())
+    if (city) query = query.ilike('phy_city', `%${city}%`)
+    if (property_type) query = query.eq('dor_uc', property_type)
+    if (min_value) query = query.gte('just_value', parseInt(min_value as string))
+    if (max_value) query = query.lte('just_value', parseInt(max_value as string))
+
+    query = query.order('just_value', { ascending: false }).range(offset, offset + limitNum - 1)
+
+    const { data, error, count } = await query
+    if (error) throw error
+
+    const formatted = (data || []).map((p: any) => ({
+      id: p.parcel_id,
+      parcel_id: p.parcel_id,
+      address: p.phy_addr1 || '',
+      city: p.phy_city || '',
+      zip_code: p.phy_zipcd || '',
+      county: p.county || '',
+      owner_name: p.owner_name || '',
+      property_type: p.dor_uc || 'RESIDENTIAL',
+      just_value: p.just_value || 0,
+      land_value: p.land_value || 0,
+      building_value: p.building_value || 0,
+      taxable_value: p.taxable_value || 0,
+      year_built: p.year_built || null,
+      living_area: p.living_area || 0,
+      bedrooms: p.bedrooms || 0,
+      bathrooms: p.bathrooms || 0,
+      land_sqft: p.land_sqft || 0,
+      sale_price: p.sale_price1 || 0,
+      sale_date: p.sale_date1 || null
+    }))
 
     return res.status(200).json({
       success: true,
-      data: mockProperties,
+      data: formatted,
       pagination: {
-        total: mockProperties.length,
-        page: 1,
-        limit: 20
+        total: count || 0,
+        page: pageNum,
+        limit: limitNum,
+        totalPages: Math.ceil((count || 0) / limitNum)
       }
     })
-
-  } catch (error) {
-    console.error('API Error:', error)
-    return res.status(500).json({
-      success: false,
-      error: 'Internal server error',
-      data: [],
-      pagination: { total: 0, page: 1, limit: 20 }
-    })
+  } catch (err: any) {
+    console.error('Search API error:', err)
+    return res.status(500).json({ success: false, error: 'Internal server error', data: [], pagination: { total: 0, page: 1, limit: 20 } })
   }
 }

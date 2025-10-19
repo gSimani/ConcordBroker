@@ -14,6 +14,7 @@ import { TaxDeedSalesTab } from '@/components/property/tabs/TaxDeedSalesTab';
 import { useDataPipeline } from '@/lib/data-pipeline';
 import { useOptimizedPropertySearch } from '@/hooks/useOptimizedPropertySearch';
 import { useBatchSalesData } from '@/hooks/useBatchSalesData';
+import { useInfinitePropertyScroll } from '@/hooks/useInfiniteScroll';
 import { api } from '@/api/client';
 import { OptimizedSearchBar } from '@/components/OptimizedSearchBar';
 import { getPropertyTypeFilter, matchesPropertyTypeFilter } from '@/lib/dorUseCodes';
@@ -73,6 +74,13 @@ interface SearchFilters {
   usageCode: string;
   subUsageCode: string;
   taxDelinquent: boolean;
+
+  // Phase 1 filters - using existing database columns
+  hasHomesteadExemption: string;  // '', 'true', or 'false'
+  qualifiedSaleOnly: string;  // '', 'true', or 'false'
+  excludeMultiParcel: string;  // '', 'true', or 'false'
+  subdivision: string;
+  zoning: string;
 }
 
 export function PropertySearch({}: PropertySearchProps) {
@@ -85,7 +93,7 @@ export function PropertySearch({}: PropertySearchProps) {
   const [totalResults, setTotalResults] = useState(0);
   const [searchResults, setSearchResults] = useState<any>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(50); // Show 50 properties by default for better UX
+  const [pageSize, setPageSize] = useState(500); // FIXED: Increased from 50 to 500 for better UX
   const [totalPages, setTotalPages] = useState(0);
   const [pagination, setPagination] = useState<any>(null);
   const [showMapView, setShowMapView] = useState(false);
@@ -122,7 +130,14 @@ export function PropertySearch({}: PropertySearchProps) {
     maxSaleDate: '',
     usageCode: '',
     subUsageCode: '',
-    taxDelinquent: false
+    taxDelinquent: false,
+
+    // Phase 1 filters
+    hasHomesteadExemption: '',
+    qualifiedSaleOnly: '',
+    excludeMultiParcel: '',
+    subdivision: '',
+    zoning: ''
   });
 
   // Autocomplete state
@@ -154,6 +169,19 @@ export function PropertySearch({}: PropertySearchProps) {
   // useSalesData hook will automatically check this cache before making individual requests
   const parcelIds = properties.map((p: any) => p.parcel_id).filter(Boolean);
   useBatchSalesData(parcelIds);
+
+  // PHASE 3: Infinite scroll implementation
+  const { triggerRef, hasMore, percentLoaded, remainingCount } = useInfinitePropertyScroll(
+    properties.length,
+    totalResults,
+    loading,
+    () => {
+      if (!loading && properties.length < totalResults) {
+        console.log('🔄 Infinite scroll triggered - loading next page');
+        searchProperties(currentPage + 1);
+      }
+    }
+  );
 
   // Fetch address suggestions using optimized API
   const fetchAddressSuggestions = async (query: string) => {
@@ -417,7 +445,14 @@ export function PropertySearch({}: PropertySearchProps) {
         minSaleDate: 'min_sale_date',
         maxSaleDate: 'max_sale_date',
         usageCode: 'usage_code',
-        subUsageCode: 'sub_usage_code'
+        subUsageCode: 'sub_usage_code',
+
+        // Phase 1 filters
+        hasHomesteadExemption: 'has_homestead_exemption',
+        qualifiedSaleOnly: 'qualified_sale_only',
+        excludeMultiParcel: 'exclude_multi_parcel',
+        subdivision: 'subdivision',
+        zoning: 'zoning'
       };
 
       Object.entries(filters).forEach(([key, value]) => {
@@ -545,6 +580,29 @@ export function PropertySearch({}: PropertySearchProps) {
           query = query.ilike('owner_name', `${apiFilters.owner}%`); // Prefix match is faster
         }
 
+        // 6. Phase 1 filters - using existing database columns
+        if (apiFilters.has_homestead_exemption === 'true') {
+          query = query.eq('homestead_exemption', 'Y');
+        } else if (apiFilters.has_homestead_exemption === 'false') {
+          query = query.or('homestead_exemption.is.null,homestead_exemption.neq.Y');
+        }
+
+        if (apiFilters.qualified_sale_only === 'true') {
+          query = query.eq('qual_cd1', 'Q');
+        }
+
+        if (apiFilters.exclude_multi_parcel === 'true') {
+          query = query.or('multi_par_sal1.is.null,multi_par_sal1.eq.N');
+        }
+
+        if (apiFilters.subdivision) {
+          query = query.ilike('subdivision', `%${apiFilters.subdivision}%`);
+        }
+
+        if (apiFilters.zoning) {
+          query = query.ilike('zoning', `%${apiFilters.zoning}%`);
+        }
+
         // Apply pagination
         const offset = parseInt(apiFilters.offset || '0');
         const limit = parseInt(apiFilters.limit || pageSize.toString()); // Use pageSize (50 by default)
@@ -582,9 +640,18 @@ export function PropertySearch({}: PropertySearchProps) {
           totalCount = 9113150;
           console.log('📊 Using total count for all Florida properties:', totalCount);
         } else {
-          // With filters, estimate based on returned data (pageSize * estimated pages)
-          totalCount = properties?.length > 0 ? properties.length * 100 : 0;
-          console.log('📊 Estimated count with filters:', totalCount);
+          // With filters, estimate total based on current page fullness
+          // If we got a full page (50 results), there are likely more properties
+          // More accurate than the old multiplier (properties.length * 100 = always 5,000)
+          const pageIsFull = (properties?.length || 0) >= limit;
+          if (pageIsFull) {
+            // Full page = estimate there are many more (conservative estimate)
+            totalCount = Math.min((properties?.length || 0) * 20, 100000); // Cap at 100k estimate
+          } else {
+            // Partial page = we probably got all matching results
+            totalCount = (page - 1) * limit + (properties?.length || 0);
+          }
+          console.log('📊 Estimated count with filters:', totalCount, pageIsFull ? '(full page - more available)' : '(partial page - likely all results)');
         }
 
         data = {
@@ -765,7 +832,15 @@ export function PropertySearch({}: PropertySearchProps) {
           marketValue: propertyList[0]?.marketValue || propertyList[0]?.just_value
         });
       }
-      setProperties(propertyList);
+
+      // PHASE 2 FIX: Append properties when loading more (page > 1), replace when page = 1
+      if (page > 1) {
+        console.log('📄 Loading more - appending', propertyList.length, 'properties to existing', properties.length);
+        setProperties(prev => [...prev, ...propertyList]);
+      } else {
+        console.log('🔄 New search - replacing with', propertyList.length, 'properties');
+        setProperties(propertyList);
+      }
 
       // Handle pagination metadata from optimized API
       let totalCount;
@@ -824,7 +899,12 @@ export function PropertySearch({}: PropertySearchProps) {
       clearTimeout(autocompleteTimeoutRef.current);
     }
 
-    // Trigger autocomplete with debouncing
+    // Clear search timeout
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+    }
+
+    // Trigger autocomplete with debouncing for autocomplete fields
     if (key === 'address' || key === 'city' || key === 'owner' || key === 'usageCode' || key === 'subUsageCode') {
       autocompleteTimeoutRef.current = setTimeout(() => {
         if (key === 'address') {
@@ -841,6 +921,28 @@ export function PropertySearch({}: PropertySearchProps) {
           fetchSubUsageCodeSuggestions(value, filters.usageCode);
         }
       }, 300); // 300ms debounce
+    }
+
+    // CRITICAL FIX: Debounce search for value input fields to prevent focus loss
+    // These fields need debouncing to allow user to type multiple digits
+    const searchDebounceFields = [
+      'minValue', 'maxValue',
+      'minBuildingSqFt', 'maxBuildingSqFt',
+      'minLandSqFt', 'maxLandSqFt',
+      'minYear', 'maxYear',
+      'minSalePrice', 'maxSalePrice',
+      'minAppraisedValue', 'maxAppraisedValue',
+      'subdivision', 'zoning'
+    ];
+
+    if (searchDebounceFields.includes(key)) {
+      // Debounce search for these fields - wait 800ms after user stops typing
+      searchTimeoutRef.current = setTimeout(() => {
+        searchProperties();
+      }, 800);
+    } else {
+      // For other fields (dropdowns, checkboxes), search immediately
+      searchProperties();
     }
   };
 
@@ -1952,6 +2054,81 @@ export function PropertySearch({}: PropertySearchProps) {
                     </div>
                   </div>
 
+                  {/* Phase 1 Filters - Using Existing Database Columns */}
+                  <div className="border-t-2 pt-6 mt-6" style={{borderColor: '#d4af37'}}>
+                    <h3 className="text-lg font-semibold mb-4" style={{color: '#2c3e50'}}>Advanced Filters (Phase 1)</h3>
+
+                    {/* Exemption and Sales Quality Filters */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                      <div className="space-y-2">
+                        <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Homestead Exemption:</label>
+                        <select
+                          className="w-full h-12 rounded-lg border px-4"
+                          style={{borderColor: '#ecf0f1'}}
+                          value={filters.hasHomesteadExemption}
+                          onChange={(e) => handleFilterChange('hasHomesteadExemption', e.target.value)}
+                        >
+                          <option value="">Any</option>
+                          <option value="true">Has Homestead</option>
+                          <option value="false">No Homestead</option>
+                        </select>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Sales Quality:</label>
+                        <select
+                          className="w-full h-12 rounded-lg border px-4"
+                          style={{borderColor: '#ecf0f1'}}
+                          value={filters.qualifiedSaleOnly}
+                          onChange={(e) => handleFilterChange('qualifiedSaleOnly', e.target.value)}
+                        >
+                          <option value="">All Sales</option>
+                          <option value="true">Qualified Sales Only</option>
+                        </select>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Multi-Parcel Sales:</label>
+                        <select
+                          className="w-full h-12 rounded-lg border px-4"
+                          style={{borderColor: '#ecf0f1'}}
+                          value={filters.excludeMultiParcel}
+                          onChange={(e) => handleFilterChange('excludeMultiParcel', e.target.value)}
+                        >
+                          <option value="">Include All</option>
+                          <option value="true">Exclude Multi-Parcel</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Location Detail Filters */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Subdivision:</label>
+                        <Input
+                          placeholder="e.g., Oak Hammock"
+                          className="h-12 rounded-lg"
+                          style={{borderColor: '#ecf0f1'}}
+                          value={filters.subdivision}
+                          onChange={(e) => handleFilterChange('subdivision', e.target.value)}
+                        />
+                        <p className="text-xs" style={{color: '#95a5a6'}}>Search by neighborhood or subdivision name</p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Zoning:</label>
+                        <Input
+                          placeholder="e.g., R-1, C-2"
+                          className="h-12 rounded-lg"
+                          style={{borderColor: '#ecf0f1'}}
+                          value={filters.zoning}
+                          onChange={(e) => handleFilterChange('zoning', e.target.value)}
+                        />
+                        <p className="text-xs" style={{color: '#95a5a6'}}>Filter by zoning classification</p>
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Property Usage Code Filters */}
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
                     <div className="relative space-y-2">
@@ -2318,29 +2495,95 @@ export function PropertySearch({}: PropertySearchProps) {
                 </CardContent>
               </Card>
             ) : (
-              <div className={
-                viewMode === 'grid' 
-                  ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'
-                  : 'space-y-2'
-              }>
-                {properties.map((property) => {
-                  const transformedProperty = transformPropertyData(property);
-                  return (
-                    <MiniPropertyCard
-                      key={transformedProperty.parcel_id || transformedProperty.id}
-                      parcelId={transformedProperty.parcel_id}
-                      data={transformedProperty}
-                      variant={viewMode}
-                      onClick={() => handlePropertyClick(property)}
-                      isWatched={property.is_watched}
-                      hasNotes={property.note_count > 0}
-                      priority={property.note_count > 5 ? 'high' : property.note_count > 2 ? 'medium' : 'low'}
-                      isSelected={selectedProperties.has(String(transformedProperty.parcel_id || transformedProperty.id))}
-                      onToggleSelection={() => togglePropertySelection(transformedProperty.parcel_id || transformedProperty.id)}
-                    />
-                  );
-                })}
-              </div>
+              <>
+                {/* FIXED: Display info if more properties are available */}
+                {totalResults > properties.length && (
+                  <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div className="flex items-start space-x-3">
+                      <Info className="w-5 h-5 text-blue-600 mt-0.5" />
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-blue-900">
+                          Showing {properties.length.toLocaleString()} of {totalResults.toLocaleString()} Properties
+                        </p>
+                        <p className="text-xs text-blue-700 mt-1">
+                          {totalResults - properties.length > 0 && `${(totalResults - properties.length).toLocaleString()} more properties match your search. `}
+                          Scroll down or click "Load More" to see additional results.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className={
+                  viewMode === 'grid'
+                    ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'
+                    : 'space-y-2'
+                }>
+                  {properties.map((property) => {
+                    const transformedProperty = transformPropertyData(property);
+                    return (
+                      <MiniPropertyCard
+                        key={transformedProperty.parcel_id || transformedProperty.id}
+                        parcelId={transformedProperty.parcel_id}
+                        data={transformedProperty}
+                        variant={viewMode}
+                        onClick={() => handlePropertyClick(property)}
+                        isWatched={property.is_watched}
+                        hasNotes={property.note_count > 0}
+                        priority={property.note_count > 5 ? 'high' : property.note_count > 2 ? 'medium' : 'low'}
+                        isSelected={selectedProperties.has(String(transformedProperty.parcel_id || transformedProperty.id))}
+                        onToggleSelection={() => togglePropertySelection(transformedProperty.parcel_id || transformedProperty.id)}
+                      />
+                    );
+                  })}
+                </div>
+
+                {/* PHASE 3: Infinite Scroll Trigger */}
+                {hasMore && (
+                  <div ref={triggerRef} className="mt-8 text-center py-4">
+                    {loading ? (
+                      <div className="flex flex-col items-center space-y-3">
+                        <RefreshCw className="w-8 h-8 animate-spin" style={{ color: '#d4af37' }} />
+                        <p className="text-sm text-gray-600">Loading more properties...</p>
+                      </div>
+                    ) : (
+                      <Button
+                        onClick={() => searchProperties(currentPage + 1)}
+                        size="lg"
+                        className="px-8 py-4"
+                        style={{
+                          backgroundColor: '#d4af37',
+                          color: 'white',
+                          fontSize: '16px',
+                          fontWeight: '500'
+                        }}
+                      >
+                        Load More Properties
+                        <span className="ml-2 text-sm opacity-90">
+                          ({remainingCount.toLocaleString()} remaining)
+                        </span>
+                      </Button>
+                    )}
+                    <div className="mt-4 space-y-2">
+                      <p className="text-sm text-gray-600">
+                        Showing {properties.length.toLocaleString()} of {totalResults.toLocaleString()} total properties
+                      </p>
+                      <div className="w-full max-w-md mx-auto">
+                        <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                          <div
+                            className="h-full transition-all duration-500"
+                            style={{
+                              width: `${percentLoaded}%`,
+                              backgroundColor: '#d4af37'
+                            }}
+                          />
+                        </div>
+                        <p className="text-xs text-gray-500 mt-1">{percentLoaded}% loaded</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </>
             )}
 
             {/* Elegant Pagination Footer */}

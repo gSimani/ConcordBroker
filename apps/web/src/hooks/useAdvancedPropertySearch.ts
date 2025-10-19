@@ -47,6 +47,13 @@ export interface PropertySearchFilters {
   waterfront?: boolean;
   gatedCommunity?: boolean;
 
+  // Phase 1 filters - using existing database columns
+  hasHomesteadExemption?: boolean;  // homestead_exemption = 'Y'
+  qualifiedSaleOnly?: boolean;  // qual_cd1 = 'Q'
+  excludeMultiParcel?: boolean;  // multi_par_sal1 = 'N' or NULL
+  subdivision?: string;  // subdivision ILIKE '%value%'
+  zoning?: string;  // zoning ILIKE '%value%'
+
   // Pagination and sorting
   limit?: number;
   offset?: number;
@@ -117,7 +124,7 @@ export interface UseAdvancedPropertySearchResult {
 }
 
 const DEFAULT_FILTERS: PropertySearchFilters = {
-  limit: 100,
+  limit: 500, // FIXED: Increased from 100 to 500 for better UX
   offset: 0,
   sortBy: 'just_value',
   sortOrder: 'desc'
@@ -204,7 +211,7 @@ export const useAdvancedPropertySearch = (): UseAdvancedPropertySearchResult => 
       const cleanFilters = validateAndCleanFilters(searchFilters);
 
       // Make API request
-      const response = await makeApiRequest('/api/search/properties', {
+      const response = await makeApiRequest('/api/properties/search', {
         method: 'POST',
         body: JSON.stringify(cleanFilters)
       });
@@ -236,7 +243,7 @@ export const useAdvancedPropertySearch = (): UseAdvancedPropertySearchResult => 
 
     setIsLoading(true);
     try {
-      const response = await makeApiRequest('/api/search/properties', {
+      const response = await makeApiRequest('/api/properties/search', {
         method: 'POST',
         body: JSON.stringify(newFilters)
       });
@@ -380,8 +387,8 @@ function validateAndCleanFilters(filters: PropertySearchFilters): PropertySearch
     delete cleaned.subUsageCode;
   }
 
-  // Ensure pagination defaults
-  cleaned.limit = cleaned.limit || 100;
+  // Ensure pagination defaults - FIXED: Increased from 100 to 500
+  cleaned.limit = cleaned.limit || 500;
   cleaned.offset = cleaned.offset || 0;
 
   // Ensure sorting defaults

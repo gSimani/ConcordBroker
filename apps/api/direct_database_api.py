@@ -99,8 +99,8 @@ async def search_properties(
     min_land_sqft: Optional[float] = Query(None),
     max_land_sqft: Optional[float] = Query(None),
     
-    # Pagination
-    limit: int = Query(100, ge=1, le=1000),
+    # Pagination - FIXED: Increased limit from 1000 to 10000
+    limit: int = Query(500, ge=1, le=10000),  # Default 500, max 10000
     offset: int = Query(0, ge=0),
     
     # Sorting
