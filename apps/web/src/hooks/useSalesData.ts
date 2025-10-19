@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 
 export interface SalesRecord {
@@ -33,193 +33,219 @@ export interface PropertySalesData {
   last_sale_year: number | null;
 }
 
-export function useSalesData(parcelId: string | null) {
-  const [salesData, setSalesData] = useState<PropertySalesData | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+// Helper function to fetch from multiple data sources
+const fetchFromMultipleSources = async (parcelId: string): Promise<SalesRecord[]> => {
+  const allSales: SalesRecord[] = [];
 
-  useEffect(() => {
-    if (!parcelId) {
-      setSalesData(null);
-      return;
+  // Source 1: property_sales_history table (MAIN SOURCE - 96,771 records)
+  // This is the correct table with or_book and or_page fields
+  try {
+    const { data: historyData, error: historyError } = await supabase
+      .from('property_sales_history')
+      .select('*')
+      .eq('parcel_id', parcelId)
+      .order('sale_date', { ascending: false });
+
+    if (historyError) {
+      console.error('Error querying property_sales_history:', historyError);
     }
 
-    fetchSalesData(parcelId);
-  }, [parcelId]);
+    if (historyData && historyData.length > 0) {
 
-  const fetchSalesData = async (parcelId: string) => {
-    setIsLoading(true);
-    setError(null);
+      const records = historyData
+        .map(sale => ({
+          parcel_id: sale.parcel_id,
+          sale_date: sale.sale_date,
+          // Convert from cents to dollars (database stores in cents)
+          sale_price: sale.sale_price ? Math.round(parseFloat(sale.sale_price) / 100) : 0,
+          sale_year: sale.sale_year || 0,
+          sale_month: sale.sale_month || 0,
+          qualified_sale: sale.quality_code === 'Q' || sale.quality_code === 'q',
+          document_type: sale.clerk_no || '',
+          grantor_name: '',
+          grantee_name: '',
+          // Use or_book and or_page fields from property_sales_history
+          book: sale.or_book || '',
+          page: sale.or_page || '',
+          sale_reason: '',
+          vi_code: sale.clerk_no || '',
+          is_distressed: false,
+          is_bank_sale: false,
+          is_cash_sale: false,
+          data_source: 'property_sales_history',
+        }))
+        .filter(record => record.sale_price >= 1000); // Filter out sales under $1,000
 
-    try {
-      // Try multiple sales data sources in order of preference
-      const salesRecords = await fetchFromMultipleSources(parcelId);
+      allSales.push(...records);
+      return allSales; // Return early since this is our main source
+    }
+  } catch (error) {
+    console.error('Error fetching from property_sales_history:', error);
+  }
 
-      if (salesRecords.length === 0) {
-        setSalesData({
-          parcel_id: parcelId,
-          most_recent_sale: null,
-          previous_sales: [],
-          total_sales_count: 0,
-          highest_sale_price: 0,
-          lowest_sale_price: 0,
-          average_sale_price: 0,
-          years_on_market: 0,
-          last_sale_year: null,
+  // Source 2: florida_parcels table (9.1M records - fallback with sale_date, sale_price, sale_qualification)
+  try {
+    const { data: parcelsData, error: parcelsError } = await supabase
+      .from('florida_parcels')
+      .select('parcel_id, sale_date, sale_price, sale_qualification')
+      .eq('parcel_id', parcelId)
+      .not('sale_price', 'is', null)
+      .not('sale_date', 'is', null)
+      .limit(1);
+
+    if (parcelsError) {
+      console.error('Error querying florida_parcels:', parcelsError);
+    }
+
+    if (parcelsData && parcelsData.length > 0) {
+      const parcel = parcelsData[0];
+      const price = parcel.sale_price;
+      const saleDate = parcel.sale_date;
+      const qualification = parcel.sale_qualification;
+
+      if (price && price > 1000 && saleDate) {
+        // Extract year and month from date
+        const date = new Date(saleDate);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+
+        allSales.push({
+          parcel_id: parcel.parcel_id,
+          sale_date: saleDate,
+          sale_price: parseFloat(price) || 0,
+          sale_year: year,
+          sale_month: month,
+          qualified_sale: qualification?.toLowerCase() === 'qualified',
+          document_type: '',
+          grantor_name: '',
+          grantee_name: '',
+          book: '',
+          page: '',
+          sale_reason: '',
+          vi_code: '',
+          is_distressed: false,
+          is_bank_sale: false,
+          is_cash_sale: false,
+          data_source: 'florida_parcels',
         });
-        return;
       }
-
-      // Sort by sale date descending
-      salesRecords.sort((a, b) => new Date(b.sale_date).getTime() - new Date(a.sale_date).getTime());
-
-      // Calculate statistics
-      const prices = salesRecords.map(s => s.sale_price).filter(p => p > 0);
-      const years = salesRecords.map(s => s.sale_year).filter(y => y > 0);
-
-      const propertyData: PropertySalesData = {
-        parcel_id: parcelId,
-        most_recent_sale: salesRecords[0] || null,
-        previous_sales: salesRecords.slice(1),
-        total_sales_count: salesRecords.length,
-        highest_sale_price: prices.length > 0 ? Math.max(...prices) : 0,
-        lowest_sale_price: prices.length > 0 ? Math.min(...prices) : 0,
-        average_sale_price: prices.length > 0 ? prices.reduce((a, b) => a + b, 0) / prices.length : 0,
-        years_on_market: years.length > 1 ? Math.max(...years) - Math.min(...years) : 0,
-        last_sale_year: years.length > 0 ? Math.max(...years) : null,
-      };
-
-      setSalesData(propertyData);
-    } catch (err) {
-      console.error('Error fetching sales data:', err);
-      setError(err instanceof Error ? err.message : 'Failed to fetch sales data');
-      setSalesData(null);
-    } finally {
-      setIsLoading(false);
     }
-  };
+  } catch (error) {
+    console.error('Error fetching from florida_parcels:', error);
+  }
 
-  const fetchFromMultipleSources = async (parcelId: string): Promise<SalesRecord[]> => {
-    const allSales: SalesRecord[] = [];
+  // Remove duplicates based on date and price
+  const uniqueSales = allSales.filter((sale, index, self) =>
+    index === self.findIndex(s =>
+      s.sale_date === sale.sale_date &&
+      Math.abs(s.sale_price - sale.sale_price) < 1 // Allow for small floating point differences
+    )
+  );
 
-    // Source 1: property_sales_history table (MAIN SOURCE - 96,771 records)
-    // This is the correct table with or_book and or_page fields
-    try {
-      const { data: historyData, error: historyError } = await supabase
-        .from('property_sales_history')
-        .select('*')
-        .eq('parcel_id', parcelId)
-        .order('sale_date', { ascending: false });
+  // Sort by date descending
+  uniqueSales.sort((a, b) => new Date(b.sale_date).getTime() - new Date(a.sale_date).getTime());
 
-      if (historyError) {
-        console.error('Error querying property_sales_history:', historyError);
-      }
+  return uniqueSales;
+};
 
-      if (historyData && historyData.length > 0) {
+// Fetch function that will be used by React Query
+const fetchSalesData = async (parcelId: string): Promise<PropertySalesData> => {
+  // Try multiple sales data sources in order of preference
+  const salesRecords = await fetchFromMultipleSources(parcelId);
 
-        const records = historyData
-          .map(sale => ({
-            parcel_id: sale.parcel_id,
-            sale_date: sale.sale_date,
-            // Convert from cents to dollars (database stores in cents)
-            sale_price: sale.sale_price ? Math.round(parseFloat(sale.sale_price) / 100) : 0,
-            sale_year: sale.sale_year || 0,
-            sale_month: sale.sale_month || 0,
-            qualified_sale: sale.quality_code === 'Q' || sale.quality_code === 'q',
-            document_type: sale.clerk_no || '',
-            grantor_name: '',
-            grantee_name: '',
-            // Use or_book and or_page fields from property_sales_history
-            book: sale.or_book || '',
-            page: sale.or_page || '',
-            sale_reason: '',
-            vi_code: sale.clerk_no || '',
-            is_distressed: false,
-            is_bank_sale: false,
-            is_cash_sale: false,
-            data_source: 'property_sales_history',
-          }))
-          .filter(record => record.sale_price >= 1000); // Filter out sales under $1,000
+  if (salesRecords.length === 0) {
+    return {
+      parcel_id: parcelId,
+      most_recent_sale: null,
+      previous_sales: [],
+      total_sales_count: 0,
+      highest_sale_price: 0,
+      lowest_sale_price: 0,
+      average_sale_price: 0,
+      years_on_market: 0,
+      last_sale_year: null,
+    };
+  }
 
-        allSales.push(...records);
-        return allSales; // Return early since this is our main source
-      } else {
-      }
-    } catch (error) {
-      console.error('Error fetching from property_sales_history:', error);
-    }
+  // Sort by sale date descending
+  salesRecords.sort((a, b) => new Date(b.sale_date).getTime() - new Date(a.sale_date).getTime());
 
-    // Source 2: florida_parcels table (9.1M records - fallback with sale_date, sale_price, sale_qualification)
-    try {
-      const { data: parcelsData, error: parcelsError } = await supabase
-        .from('florida_parcels')
-        .select('parcel_id, sale_date, sale_price, sale_qualification')
-        .eq('parcel_id', parcelId)
-        .not('sale_price', 'is', null)
-        .not('sale_date', 'is', null)
-        .limit(1);
-
-      if (parcelsError) {
-        console.error('Error querying florida_parcels:', parcelsError);
-      }
-
-      if (parcelsData && parcelsData.length > 0) {
-        const parcel = parcelsData[0];
-        const price = parcel.sale_price;
-        const saleDate = parcel.sale_date;
-        const qualification = parcel.sale_qualification;
-
-        if (price && price > 1000 && saleDate) {
-          // Extract year and month from date
-          const date = new Date(saleDate);
-          const year = date.getFullYear();
-          const month = date.getMonth() + 1;
-
-          allSales.push({
-            parcel_id: parcel.parcel_id,
-            sale_date: saleDate,
-            sale_price: parseFloat(price) || 0,
-            sale_year: year,
-            sale_month: month,
-            qualified_sale: qualification?.toLowerCase() === 'qualified',
-            document_type: '',
-            grantor_name: '',
-            grantee_name: '',
-            book: '',
-            page: '',
-            sale_reason: '',
-            vi_code: '',
-            is_distressed: false,
-            is_bank_sale: false,
-            is_cash_sale: false,
-            data_source: 'florida_parcels',
-          });
-
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching from florida_parcels:', error);
-    }
-
-    // Remove duplicates based on date and price
-    const uniqueSales = allSales.filter((sale, index, self) =>
-      index === self.findIndex(s =>
-        s.sale_date === sale.sale_date &&
-        Math.abs(s.sale_price - sale.sale_price) < 1 // Allow for small floating point differences
-      )
-    );
-
-    // Sort by date descending
-    uniqueSales.sort((a, b) => new Date(b.sale_date).getTime() - new Date(a.sale_date).getTime());
-
-    return uniqueSales;
-  };
+  // Calculate statistics
+  const prices = salesRecords.map(s => s.sale_price).filter(p => p > 0);
+  const years = salesRecords.map(s => s.sale_year).filter(y => y > 0);
 
   return {
-    salesData,
+    parcel_id: parcelId,
+    most_recent_sale: salesRecords[0] || null,
+    previous_sales: salesRecords.slice(1),
+    total_sales_count: salesRecords.length,
+    highest_sale_price: prices.length > 0 ? Math.max(...prices) : 0,
+    lowest_sale_price: prices.length > 0 ? Math.min(...prices) : 0,
+    average_sale_price: prices.length > 0 ? prices.reduce((a, b) => a + b, 0) / prices.length : 0,
+    years_on_market: years.length > 1 ? Math.max(...years) - Math.min(...years) : 0,
+    last_sale_year: years.length > 0 ? Math.max(...years) : null,
+  };
+};
+
+export function useSalesData(parcelId: string | null) {
+  const queryClient = useQueryClient();
+
+  // Check if a batch query is currently in progress or has completed
+  const checkBatchQueryStatus = (): { inProgress: boolean; hasData: boolean; data?: PropertySalesData } => {
+    if (!parcelId) return { inProgress: false, hasData: false };
+
+    // Look through all batch query caches
+    const queries = queryClient.getQueryCache().findAll({ queryKey: ['batchSalesData'] });
+
+    for (const query of queries) {
+      // Check if batch query is loading or has data
+      if (query.state.status === 'pending') {
+        return { inProgress: true, hasData: false };
+      }
+
+      if (query.state.status === 'success') {
+        const batchData = query.state.data as Map<string, PropertySalesData> | undefined;
+        if (batchData && batchData.has(parcelId)) {
+          return { inProgress: false, hasData: true, data: batchData.get(parcelId) };
+        }
+      }
+    }
+
+    return { inProgress: false, hasData: false };
+  };
+
+  const batchStatus = checkBatchQueryStatus();
+
+  // Use React Query with aggressive caching and deduplication
+  const { data: salesData, isLoading, error, refetch } = useQuery({
+    queryKey: ['salesData', parcelId],
+    queryFn: () => {
+      // If we have batch data, use it
+      if (batchStatus.hasData && batchStatus.data) {
+        console.log(`✅ Using batch cached data for parcel ${parcelId}`);
+        return Promise.resolve(batchStatus.data);
+      }
+      // Fallback to individual fetch if not in batch cache
+      console.log(`🔍 Fetching individual data for parcel ${parcelId}`);
+      return fetchSalesData(parcelId!);
+    },
+    // CRITICAL: Only enable if parcelId exists AND batch query is not in progress
+    // This prevents individual queries from firing while batch query is loading
+    enabled: !!parcelId && !batchStatus.inProgress,
+    staleTime: 10 * 60 * 1000, // 10 minutes - sales data doesn't change often
+    gcTime: 30 * 60 * 1000, // 30 minutes in cache
+    refetchOnWindowFocus: false,
+    refetchOnMount: false, // Critical: prevents refetch on component remount
+    retry: 1, // Only retry once for sales data
+    // Fix for React Query v5 compatibility - prevent optimistic update issues
+    placeholderData: batchStatus.hasData ? batchStatus.data : undefined,
+  });
+
+  return {
+    salesData: salesData || null,
     isLoading,
-    error,
-    refetch: () => parcelId && fetchSalesData(parcelId),
+    error: error ? (error instanceof Error ? error.message : 'Failed to fetch sales data') : null,
+    refetch,
   };
 }
 

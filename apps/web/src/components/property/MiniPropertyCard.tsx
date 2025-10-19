@@ -306,7 +306,7 @@ const getPropertyTypeBadge = (useCode?: string, propertyType?: string, ownerName
   );
 };
 
-export function MiniPropertyCard({
+export const MiniPropertyCard = React.memo(function MiniPropertyCard({
   parcelId,
   data,
   onClick,
@@ -322,7 +322,7 @@ export function MiniPropertyCard({
   console.log('MiniPropertyCard data received:', data);
   console.log('ParcelId received:', parcelId);
 
-  // Fetch sales data for this property
+  // Fetch sales data - automatically checks batch cache first (useBatchSalesData in PropertySearch)
   const { salesData } = useSalesData(parcelId);
 
   // Fetch Sunbiz matching data for this property
@@ -973,4 +973,4 @@ export function MiniPropertyCard({
       </div>
     </Card>
   );
-}
+});

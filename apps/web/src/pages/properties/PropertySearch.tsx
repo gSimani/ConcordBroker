@@ -13,6 +13,7 @@ import { AISearchEnhanced } from '@/components/ai/AISearchEnhanced';
 import { TaxDeedSalesTab } from '@/components/property/tabs/TaxDeedSalesTab';
 import { useDataPipeline } from '@/lib/data-pipeline';
 import { useOptimizedPropertySearch } from '@/hooks/useOptimizedPropertySearch';
+import { useBatchSalesData } from '@/hooks/useBatchSalesData';
 import { api } from '@/api/client';
 import { OptimizedSearchBar } from '@/components/OptimizedSearchBar';
 import { getPropertyTypeFilter, matchesPropertyTypeFilter } from '@/lib/dorUseCodes';
@@ -147,6 +148,12 @@ export function PropertySearch({}: PropertySearchProps) {
   const isInitialMount = useRef(true);
   const pipeline = useDataPipeline();
   const optimizedSearch = useOptimizedPropertySearch();
+
+  // Batch prefetch sales data for all visible properties
+  // This dramatically reduces API calls by fetching all sales data in a single request
+  // useSalesData hook will automatically check this cache before making individual requests
+  const parcelIds = properties.map((p: any) => p.parcel_id).filter(Boolean);
+  useBatchSalesData(parcelIds);
 
   // Fetch address suggestions using optimized API
   const fetchAddressSuggestions = async (query: string) => {

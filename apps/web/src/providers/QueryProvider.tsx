@@ -25,10 +25,7 @@ const queryClient = new QueryClient({
       // Performance optimizations
       refetchOnWindowFocus: false, // Prevent unnecessary refetches
       refetchOnReconnect: 'always', // Always refresh on reconnect for fresh data
-      refetchOnMount: (query) => {
-        // Only refetch on mount if data is stale
-        return query.state.dataUpdatedAt + (query.options.staleTime || 0) < Date.now();
-      },
+      refetchOnMount: false, // Simplified: don't refetch on mount (rely on staleTime)
 
       // Background updates for better UX
       refetchInterval: false, // We'll handle this per query as needed
