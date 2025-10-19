@@ -1,4 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 
 export interface SalesRecord {
@@ -190,9 +191,18 @@ const fetchSalesData = async (parcelId: string): Promise<PropertySalesData> => {
 export function useSalesData(parcelId: string | null) {
   const queryClient = useQueryClient();
 
+  // FIX: Use reactive state instead of stale closure
+  // Track batch status reactively so it updates when batch query completes
+  const [batchStatus, setBatchStatus] = useState<{
+    inProgress: boolean;
+    hasData: boolean;
+    data?: PropertySalesData;
+    timestamp: number; // Track when status was checked
+  }>({ inProgress: false, hasData: false, timestamp: Date.now() });
+
   // Check if a batch query is currently in progress or has completed
-  const checkBatchQueryStatus = (): { inProgress: boolean; hasData: boolean; data?: PropertySalesData } => {
-    if (!parcelId) return { inProgress: false, hasData: false };
+  const checkBatchQueryStatus = (): { inProgress: boolean; hasData: boolean; data?: PropertySalesData; timestamp: number } => {
+    if (!parcelId) return { inProgress: false, hasData: false, timestamp: Date.now() };
 
     // Look through all batch query caches
     const queries = queryClient.getQueryCache().findAll({ queryKey: ['batchSalesData'] });
@@ -200,21 +210,47 @@ export function useSalesData(parcelId: string | null) {
     for (const query of queries) {
       // Check if batch query is loading or has data
       if (query.state.status === 'pending') {
-        return { inProgress: true, hasData: false };
+        return { inProgress: true, hasData: false, timestamp: Date.now() };
       }
 
       if (query.state.status === 'success') {
         const batchData = query.state.data as Map<string, PropertySalesData> | undefined;
         if (batchData && batchData.has(parcelId)) {
-          return { inProgress: false, hasData: true, data: batchData.get(parcelId) };
+          return { inProgress: false, hasData: true, data: batchData.get(parcelId), timestamp: Date.now() };
         }
       }
     }
 
-    return { inProgress: false, hasData: false };
+    return { inProgress: false, hasData: false, timestamp: Date.now() };
   };
 
-  const batchStatus = checkBatchQueryStatus();
+  // FIX: Subscribe to query cache changes and update batch status reactively
+  // This ensures individual queries wait for batch completion
+  useEffect(() => {
+    if (!parcelId) return;
+
+    // Initial check
+    const initialStatus = checkBatchQueryStatus();
+    setBatchStatus(initialStatus);
+
+    // Subscribe to query cache changes to detect when batch completes
+    const unsubscribe = queryClient.getQueryCache().subscribe((event) => {
+      // Only react to batch query changes
+      if (event?.query?.queryKey?.[0] === 'batchSalesData') {
+        const newStatus = checkBatchQueryStatus();
+        // Only update if status actually changed
+        if (newStatus.inProgress !== batchStatus.inProgress ||
+            newStatus.hasData !== batchStatus.hasData) {
+          console.log(`🔄 Batch status changed for ${parcelId}:`, newStatus);
+          setBatchStatus(newStatus);
+        }
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [parcelId, queryClient]);
 
   // Use React Query with aggressive caching and deduplication
   const { data: salesData, isLoading, error, refetch } = useQuery({
