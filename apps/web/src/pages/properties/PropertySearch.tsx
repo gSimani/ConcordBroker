@@ -177,7 +177,6 @@ export function PropertySearch({}: PropertySearchProps) {
     loading,
     () => {
       if (!loading && properties.length < totalResults) {
-        console.log('🔄 Infinite scroll triggered - loading next page');
         searchProperties(currentPage + 1);
       }
     }
@@ -276,11 +275,6 @@ export function PropertySearch({}: PropertySearchProps) {
 
     // Immediate search for category toggles (no debounce needed)
     if (filters.propertyType !== '' || filters.hasPool || filters.hasWaterfront) {
-      console.log('Category filter changed - immediate search:', {
-        propertyType: filters.propertyType,
-        hasPool: filters.hasPool,
-        hasWaterfront: filters.hasWaterfront
-      });
       searchProperties(1);
       return;
     }
@@ -298,12 +292,10 @@ export function PropertySearch({}: PropertySearchProps) {
     // Only trigger debounced search if there are actual filter values
     if (hasSearchableFilters) {
       searchTimeoutRef.current = setTimeout(() => {
-        console.log('Debounced auto-search triggered with filters:', filters);
         searchProperties(1);
       }, 300); // Debounce for comprehensive search
     } else {
       // No filters applied - show default results
-      console.log('No filters applied - showing default results');
       searchProperties(1);
     }
 
@@ -418,7 +410,6 @@ export function PropertySearch({}: PropertySearchProps) {
   const searchPropertiesRef = useRef<(page?: number) => Promise<void>>();
   
   const searchProperties = useCallback(async (page = 1) => {
-    console.log('searchProperties called with page:', page);
     setLoading(true);
     try {
       // Map frontend keys to API keys
@@ -481,9 +472,7 @@ export function PropertySearch({}: PropertySearchProps) {
 
       apiFilters.limit = pageSize.toString();
       apiFilters.offset = ((page - 1) * pageSize).toString();
-      
-      console.log('Fast pipeline search:', apiFilters);
-      
+
       // Use API client for property search
       const params = new URLSearchParams();
       Object.entries(apiFilters).forEach(([key, value]) => {
@@ -497,7 +486,6 @@ export function PropertySearch({}: PropertySearchProps) {
       const cachedResult = resultsCache.current.get(cacheKey);
 
       if (cachedResult) {
-        console.log('⚡ CACHE HIT - Showing instant results');
         setProperties(cachedResult.properties);
         setTotalResults(cachedResult.total);
         setTotalPages(Math.ceil(cachedResult.total / pageSize));
@@ -507,14 +495,10 @@ export function PropertySearch({}: PropertySearchProps) {
       }
 
       let data;
-      console.log('🚀 ATTEMPTING SUPABASE QUERY NOW...');
-      console.log('Has active filters:', hasActiveFilters);
 
       try {
         // Query Supabase directly using parcelService
-        console.log('🔧 Importing Supabase client...');
         const { supabase } = await import('@/lib/supabase');
-        console.log('✅ Supabase client imported successfully');
 
         // ULTRA-FAST: Default to BROWARD county with USE-based ranking
         // This makes query fast (uses county index) and shows properties in priority order
@@ -525,7 +509,6 @@ export function PropertySearch({}: PropertySearchProps) {
 
         // If no filters active, default to BROWARD county for fast load
         if (!hasActiveFilters) {
-          console.log('🎯 NO FILTERS - Defaulting to BROWARD county for fast initial load');
           query = query.eq('county', 'BROWARD');
         }
 
@@ -605,11 +588,9 @@ export function PropertySearch({}: PropertySearchProps) {
 
         // Apply pagination
         const offset = parseInt(apiFilters.offset || '0');
-        const limit = parseInt(apiFilters.limit || pageSize.toString()); // Use pageSize (50 by default)
+        const limit = parseInt(apiFilters.limit || pageSize.toString());
 
-        // TEMPORARY: Skip ordering until indexes are created (ordering causes timeout)
-        // TODO: Re-enable after running CRITICAL_PERFORMANCE_INDEXES.sql in Supabase
-        // query = query.order('just_value', { ascending: false, nullsFirst: false });
+        // Skip ordering - performance optimization to avoid timeout on large queries
 
         // Apply range for pagination
         query = query.range(offset, offset + limit - 1);
@@ -620,25 +601,12 @@ export function PropertySearch({}: PropertySearchProps) {
 
         if (error) throw error;
 
-        // DEBUG LOGGING
-        console.log('🔍 SUPABASE QUERY RESULT:', {
-          properties_count: properties?.length,
-          error: error,
-          first_property: properties?.[0],
-          query_params: {
-            offset: offset,
-            limit: limit,
-            filters: apiFilters
-          }
-        });
-
         // Use estimated totalCount based on known database stats
         // Actual count queries cause timeouts on large tables
         let totalCount;
         if (!hasActiveFilters) {
           // All Florida properties = 9,113,150 (67 counties)
           totalCount = 9113150;
-          console.log('📊 Using total count for all Florida properties:', totalCount);
         } else {
           // With filters, estimate total based on current page fullness
           // If we got a full page (50 results), there are likely more properties
@@ -651,7 +619,6 @@ export function PropertySearch({}: PropertySearchProps) {
             // Partial page = we probably got all matching results
             totalCount = (page - 1) * limit + (properties?.length || 0);
           }
-          console.log('📊 Estimated count with filters:', totalCount, pageIsFull ? '(full page - more available)' : '(partial page - likely all results)');
         }
 
         data = {
@@ -674,171 +641,20 @@ export function PropertySearch({}: PropertySearchProps) {
         };
       }
 
-      console.log('Pipeline results:', data);
       // Handle both data.properties and data.data formats
       let propertyList = data.properties || data.data || [];
 
-      // DEBUG: Log what we got from Supabase before any filtering
-      console.log('🔍 DEBUG BEFORE FILTERING:', {
-        count: propertyList.length,
-        first: propertyList[0],
-        filters: filters
-      });
-
       // ALWAYS apply USE-based ranking (Multifamily → Commercial → Industrial → Hotel → Residential)
       if (propertyList.length > 0) {
-        console.log('📊 Applying USE-based ranking to properties');
         propertyList = sortByPropertyRank(propertyList);
-        const firstRank = getPropertyRank(propertyList[0]?.property_use);
-        console.log('✅ Properties sorted by USE priority:', {
-          first: propertyList[0],
-          firstUseCode: propertyList[0]?.property_use,
-          firstCategory: firstRank.category,
-          firstPriority: firstRank.priority,
-          total: propertyList.length
-        });
       }
 
-      // TEMPORARILY DISABLED: Client-side filtering was too aggressive and filtering out ALL properties
-      // Apply client-side filtering by DOR use code if propertyType is set
-      if (false && filters.propertyType && filters.propertyType !== 'all-types') {
-        console.log('Applying client-side DOR code filtering for:', filters.propertyType);
-        const filteredList = propertyList.filter((property: any) => {
-          const dorCode = property.property_use || property.propertyUse || property.property_use_code;
-          const ownerName = (property.owner || property.owner_name || '').toUpperCase();
-
-          // First check DOR code
-          if (dorCode && matchesPropertyTypeFilter(dorCode, filters.propertyType)) {
-            return true;
-          }
-
-          // For properties without DOR codes, check owner-based categorization
-          if (!dorCode || dorCode === '') {
-            const propertyTypeUpper = filters.propertyType.toUpperCase();
-
-            // Government properties
-            if (propertyTypeUpper === 'GOVERNMENT' || propertyTypeUpper === 'GOVERNMENTAL') {
-              if (ownerName.includes('TRUSTEE') || ownerName.includes('BRD OF') ||
-                  ownerName.includes('BOARD OF') || ownerName.includes('STATE OF') ||
-                  ownerName.includes('COUNTY') || ownerName.includes('CITY OF')) {
-                return true;
-              }
-            }
-
-            // Religious properties
-            if (propertyTypeUpper === 'RELIGIOUS') {
-              if (ownerName.includes('CHURCH') || ownerName.includes('BAPTIST') ||
-                  ownerName.includes('METHODIST') || ownerName.includes('CATHOLIC') ||
-                  ownerName.includes('SYNAGOGUE') || ownerName.includes('TEMPLE') ||
-                  ownerName.includes('MOSQUE')) {
-                return true;
-              }
-            }
-
-            // Conservation properties
-            if (propertyTypeUpper === 'CONSERVATION') {
-              if (ownerName.includes('CONSERVANCY') || ownerName.includes('NATURE') ||
-                  ownerName.includes('FORESTRY') || ownerName.includes('PARK') ||
-                  ownerName.includes('PRESERVE') || ownerName.includes('WILDLIFE') ||
-                  ownerName.includes('AG FORESTRY') || ownerName.includes('TIITF/AG')) {
-                return true;
-              }
-            }
-
-            // Residential properties - individual names (not corporations/government/institutions)
-            if (propertyTypeUpper === 'RESIDENTIAL') {
-              const isIndividual = !ownerName.includes('CORP') && !ownerName.includes('LLC') &&
-                                 !ownerName.includes('INC') && !ownerName.includes('COMPANY') &&
-                                 !ownerName.includes('TRUSTEE') && !ownerName.includes('BRD OF') &&
-                                 !ownerName.includes('CHURCH') && !ownerName.includes('BAPTIST') &&
-                                 !ownerName.includes('TIITF') && !ownerName.includes('CONSERVANCY') &&
-                                 !ownerName.includes('FORESTRY') && !ownerName.includes('STATE OF') &&
-                                 !ownerName.includes('COUNTY') && !ownerName.includes('CITY OF') &&
-                                 ownerName.includes(' ') && ownerName.length > 5 &&
-                                 // Must contain typical individual name patterns
-                                 (ownerName.includes(' & ') || ownerName.match(/[A-Z]+ [A-Z]+/));
-              console.log(`  Residential check: isIndividual=${isIndividual}, ownerName="${ownerName}"`);
-              return isIndividual;
-            }
-
-            // Commercial properties - corporations, LLCs, businesses
-            if (propertyTypeUpper === 'COMMERCIAL') {
-              const isBusiness = ownerName.includes('CORP') || ownerName.includes('LLC') ||
-                                ownerName.includes('INC') || ownerName.includes('COMPANY') ||
-                                ownerName.includes('PROPERTIES') || ownerName.includes('ENTERPRISES') ||
-                                ownerName.includes('DEVELOPMENT') || ownerName.includes('INVESTMENTS');
-              console.log(`  Commercial check: ${isBusiness}`);
-              return isBusiness;
-            }
-
-            // Industrial properties - manufacturing, warehouse terms
-            if (propertyTypeUpper === 'INDUSTRIAL') {
-              const isIndustrial = ownerName.includes('MANUFACTURING') || ownerName.includes('INDUSTRIAL') ||
-                                 ownerName.includes('WAREHOUSE') || ownerName.includes('LOGISTICS') ||
-                                 ownerName.includes('DISTRIBUTION') || ownerName.includes('FACTORY');
-              console.log(`  Industrial check: ${isIndustrial}`);
-              return isIndustrial;
-            }
-
-            // Agricultural properties - farming, agriculture
-            if (propertyTypeUpper === 'AGRICULTURAL') {
-              const isAgricultural = ownerName.includes('FARM') || ownerName.includes('RANCH') ||
-                                   ownerName.includes('AGRICULTURE') || ownerName.includes('GROVE') ||
-                                   ownerName.includes('NURSERY') || ownerName.includes('AG ');
-              console.log(`  Agricultural check: ${isAgricultural}`);
-              return isAgricultural;
-            }
-
-            // Vacant Land - no address but has value, not government/institutional
-            if (propertyTypeUpper === 'VACANT' || propertyTypeUpper === 'VACANT LAND') {
-              const address = property.address || property.phy_addr1 || '';
-              const noAddress = !address || address === '-' || address.trim() === '';
-              const marketValue = property.marketValue || property.just_value || property.jv || 0;
-              const notGovernment = !ownerName.includes('TRUSTEE') && !ownerName.includes('BRD OF') &&
-                                  !ownerName.includes('TIITF') && !ownerName.includes('CONSERVANCY');
-              const notReligious = !ownerName.includes('CHURCH') && !ownerName.includes('BAPTIST');
-              const isVacant = noAddress && marketValue > 0 && notGovernment && notReligious;
-              console.log(`  Vacant check: noAddress=${noAddress}, hasValue=${marketValue > 0}, notGov=${notGovernment}, result=${isVacant}`);
-              return isVacant;
-            }
-
-            // Vacant/Special - properties with value but no use code
-            if (propertyTypeUpper === 'VACANT/SPECIAL') {
-              if (property.just_value || property.marketValue || property.jv) {
-                return true;
-              }
-            }
-          }
-
-          return false;
-        });
-        console.log(`Filtered from ${propertyList.length} to ${filteredList.length} properties`);
-        propertyList = filteredList;
-      }
-
-      // DEBUG: Final check before setting state
-      console.log('🔍 DEBUG SETTING PROPERTIES:', {
-        count: propertyList.length,
-        first: propertyList[0],
-        currentState: properties.length
-      });
-
-      console.log('Setting properties:', propertyList.length, 'items');
-      if (propertyList.length > 0) {
-        console.log('First property sample:', {
-          parcel_id: propertyList[0]?.parcel_id,
-          owner: propertyList[0]?.owner || propertyList[0]?.owner_name,
-          address: propertyList[0]?.address || propertyList[0]?.phy_addr1,
-          marketValue: propertyList[0]?.marketValue || propertyList[0]?.just_value
-        });
-      }
+      // Client-side filtering by DOR use code removed - now handled server-side
 
       // PHASE 2 FIX: Append properties when loading more (page > 1), replace when page = 1
       if (page > 1) {
-        console.log('📄 Loading more - appending', propertyList.length, 'properties to existing', properties.length);
         setProperties(prev => [...prev, ...propertyList]);
       } else {
-        console.log('🔄 New search - replacing with', propertyList.length, 'properties');
         setProperties(propertyList);
       }
 
@@ -882,13 +698,11 @@ export function PropertySearch({}: PropertySearchProps) {
 
   // Initial load effect - MUST be after searchProperties definition
   useEffect(() => {
-    console.log('Initial mount - loading properties...');
     searchProperties();
   }, [searchProperties]); // Depend on searchProperties
 
   // Handle filter changes
   const handleFilterChange = (key: keyof SearchFilters, value: string | boolean) => {
-    console.log(`handleFilterChange: ${key} = ${value}`); // Debug log
     setFilters(prev => ({
       ...prev,
       [key]: value
@@ -1083,15 +897,9 @@ export function PropertySearch({}: PropertySearchProps) {
     }
   };
 
-  // Debug: Log filters state changes
-  useEffect(() => {
-    console.log('Filters state changed:', filters);
-  }, [filters]);
-
   // Trigger search when propertyType filter changes
   useEffect(() => {
     if (filters.propertyType) {
-      console.log('Property type changed to:', filters.propertyType);
       searchProperties(1);
     }
   }, [filters.propertyType]);
@@ -1571,14 +1379,12 @@ export function PropertySearch({}: PropertySearchProps) {
               {/* Optimized Search Bar */}
               <OptimizedSearchBar
                 onResults={(results) => {
-                  console.log('OptimizedSearchBar results:', results);
                   setSearchResults(results);
                   setProperties(results.properties || []);
                   setTotalResults(results.total || 0);
                   setLoading(false);
                 }}
                 onFiltersChange={(newFilters) => {
-                  console.log('OptimizedSearchBar filters:', newFilters);
                   setFilters(prev => ({ ...prev, ...newFilters }));
                 }}
                 placeholder="Search by address (e.g. '123 Main St'), city, or owner name..."
@@ -2449,7 +2255,6 @@ export function PropertySearch({}: PropertySearchProps) {
             </div>
           ) : (
             <>
-              {console.log('Render - Properties count:', properties.length, 'Loading:', loading, 'Properties:', properties)}
               {/* Results Count Display */}
               {properties.length > 0 && (
                 <div className="mb-6 flex items-center justify-between px-4 py-3 rounded-lg" style={{ backgroundColor: '#f8f9fa', borderLeft: '4px solid #d4af37' }}>

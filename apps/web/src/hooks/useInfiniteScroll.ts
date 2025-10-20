@@ -51,7 +51,6 @@ export function useInfiniteScroll({
       const [entry] = entries;
 
       if (entry.isIntersecting && hasMore && !isLoading) {
-        console.log('🔄 Infinite scroll triggered - loading more properties');
         onLoadMore();
       }
     },
@@ -107,7 +106,6 @@ export function useScrollDistance({
 
     if (distanceFromBottom < threshold) {
       loadingRef.current = true;
-      console.log('🔄 Scroll distance threshold reached - loading more');
       onLoadMore();
 
       // Reset after a delay to prevent rapid firing
