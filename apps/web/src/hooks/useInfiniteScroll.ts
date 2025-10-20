@@ -40,7 +40,6 @@ export function useInfiniteScroll({
   onLoadMore,
   hasMore,
   isLoading,
-  threshold = 300,
   rootMargin = '300px'
 }: UseInfiniteScrollOptions) {
   const triggerRef = useRef<HTMLDivElement>(null);

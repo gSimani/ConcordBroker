@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { FormattedInput } from '@/components/ui/formatted-input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { SearchableSelect } from '@/components/ui/searchable-select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { MiniPropertyCard } from '@/components/property/MiniPropertyCard';
 import { PropertyMap } from '@/components/property/PropertyMap';
 import { AISearchEnhanced } from '@/components/ai/AISearchEnhanced';
@@ -17,33 +16,28 @@ import { useBatchSalesData } from '@/hooks/useBatchSalesData';
 import { useInfinitePropertyScroll } from '@/hooks/useInfiniteScroll';
 import { api } from '@/api/client';
 import { OptimizedSearchBar } from '@/components/OptimizedSearchBar';
-import { getPropertyTypeFilter, matchesPropertyTypeFilter } from '@/lib/dorUseCodes';
-import { sortByPropertyRank, getPropertyRank } from '@/lib/propertyRanking';
+import { getPropertyTypeFilter } from '@/lib/dorUseCodes';
+import { sortByPropertyRank } from '@/lib/propertyRanking';
 import '@/styles/elegant-property.css';
 import {
   Search,
-  Filter,
   MapPin,
   Grid3X3,
   List,
   SlidersHorizontal,
-  TrendingUp,
   Building,
   Building2,
   Home,
   RefreshCw,
-  Download,
   Map as MapIcon,
   CheckSquare,
   Square,
   CheckCircle2,
-  Circle,
   Briefcase,
   TreePine,
   AlertTriangle,
   Info,
   Brain,
-  Sparkles,
   Gavel
 } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -83,29 +77,72 @@ interface SearchFilters {
   zoning: string;
 }
 
+interface Property {
+  parcel_id: string;
+  id?: string;
+  property_id?: string;
+  address?: string;
+  phy_addr1?: string;
+  phy_addr2?: string;
+  property_address?: string;
+  city?: string;
+  phy_city?: string;
+  property_city?: string;
+  zipCode?: string;
+  phy_zipcd?: string;
+  property_zip?: string;
+  owner?: string;
+  own_name?: string;
+  owner_name?: string;
+  county?: string;
+  year?: number;
+  just_value?: number;
+  land_value?: number;
+  building_value?: number;
+  dor_uc?: string;
+  strap?: string;
+}
+
+interface PaginationMetadata {
+  total: number;
+  page: number;
+  pageSize: number;
+  total_pages?: number;
+}
+
+interface SearchCacheResult {
+  properties: Property[];
+  total: number;
+  pagination: PaginationMetadata;
+}
+
+interface UsageCodeSuggestion {
+  code: string;
+  description: string;
+}
+
 export function PropertySearch({}: PropertySearchProps) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [properties, setProperties] = useState([]);
+  const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(false);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [totalResults, setTotalResults] = useState(0);
-  const [searchResults, setSearchResults] = useState<any>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(500); // FIXED: Increased from 50 to 500 for better UX
   const [totalPages, setTotalPages] = useState(0);
-  const [pagination, setPagination] = useState<any>(null);
+  const [pagination, setPagination] = useState<PaginationMetadata | null>(null);
   const [showMapView, setShowMapView] = useState(false);
-  const [selectedProperty, setSelectedProperty] = useState<any>(null);
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [selectedProperties, setSelectedProperties] = useState<Set<string>>(new Set());
   const [mapButtonHovered, setMapButtonHovered] = useState(false);
   const [showAISearch, setShowAISearch] = useState(false);
   const [showTaxDeedSales, setShowTaxDeedSales] = useState(false);
 
   // Results cache for instant perceived performance
-  const resultsCache = useRef<Map<string, any>>(new Map());
-  const getCacheKey = (filters: any) => JSON.stringify(filters);
+  const resultsCache = useRef<Map<string, SearchCacheResult>>(new Map());
+  const getCacheKey = (filters: SearchFilters) => JSON.stringify(filters);
 
   const [filters, setFilters] = useState<SearchFilters>({
     address: '',
@@ -140,22 +177,13 @@ export function PropertySearch({}: PropertySearchProps) {
     zoning: ''
   });
 
-  // Autocomplete state
+  // Autocomplete state (kept only what's actively used)
   const [addressSuggestions, setAddressSuggestions] = useState<string[]>([]);
   const [showAddressSuggestions, setShowAddressSuggestions] = useState(false);
-  const [citySuggestions, setCitySuggestions] = useState<string[]>([]);
-  const [showCitySuggestions, setShowCitySuggestions] = useState(false);
-  const [ownerSuggestions, setOwnerSuggestions] = useState<string[]>([]);
-  const [showOwnerSuggestions, setShowOwnerSuggestions] = useState(false);
-  const [mainSearchSuggestions, setMainSearchSuggestions] = useState<any[]>([]);
-  const [showMainSearchSuggestions, setShowMainSearchSuggestions] = useState(false);
-  const [usageCodeSuggestions, setUsageCodeSuggestions] = useState<any[]>([]);
+  const [usageCodeSuggestions, setUsageCodeSuggestions] = useState<UsageCodeSuggestion[]>([]);
   const [showUsageCodeSuggestions, setShowUsageCodeSuggestions] = useState(false);
-  const [subUsageCodeSuggestions, setSubUsageCodeSuggestions] = useState<any[]>([]);
+  const [subUsageCodeSuggestions, setSubUsageCodeSuggestions] = useState<UsageCodeSuggestion[]>([]);
   const [showSubUsageCodeSuggestions, setShowSubUsageCodeSuggestions] = useState(false);
-  const addressInputRef = useRef<HTMLInputElement>(null);
-  const cityInputRef = useRef<HTMLInputElement>(null);
-  const ownerInputRef = useRef<HTMLInputElement>(null);
   const usageCodeInputRef = useRef<HTMLInputElement>(null);
   const subUsageCodeInputRef = useRef<HTMLInputElement>(null);
   const autocompleteTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -167,7 +195,7 @@ export function PropertySearch({}: PropertySearchProps) {
   // Batch prefetch sales data for all visible properties
   // This dramatically reduces API calls by fetching all sales data in a single request
   // useSalesData hook will automatically check this cache before making individual requests
-  const parcelIds = properties.map((p: any) => p.parcel_id).filter(Boolean);
+  const parcelIds = properties.map((p: Property) => p.parcel_id).filter(Boolean);
   useBatchSalesData(parcelIds);
 
   // PHASE 3: Infinite scroll implementation
@@ -390,14 +418,6 @@ export function PropertySearch({}: PropertySearchProps) {
     'Wakulla',
     'Walton',
     'Washington'
-  ];
-
-  const propertyTypes = [
-    { value: 'Residential', label: 'Residential' },
-    { value: 'Commercial', label: 'Commercial' },
-    { value: 'Industrial', label: 'Industrial' },
-    { value: 'Agricultural', label: 'Agricultural' },
-    { value: 'Government', label: 'Government' }
   ];
 
   // Check if any filters are active (for display purposes)
@@ -780,19 +800,19 @@ export function PropertySearch({}: PropertySearchProps) {
 
       // Process address results
       if (addressData && addressData.properties) {
-        const addresses = [...new Set(addressData.properties.map((p: any) => p.phy_addr1).filter(Boolean) || [])].slice(0, 5);
+        const addresses = [...new Set(addressData.properties.map((p: Property) => p.phy_addr1).filter(Boolean) || [])].slice(0, 5);
         addresses.forEach((addr: string) => suggestions.push({ type: 'address', value: addr, display: `📍 ${addr}` }));
       }
 
       // Process city results
       if (cityData && cityData.properties) {
-        const cities = [...new Set(cityData.properties.map((p: any) => p.phy_city).filter(Boolean) || [])].slice(0, 3);
+        const cities = [...new Set(cityData.properties.map((p: Property) => p.phy_city).filter(Boolean) || [])].slice(0, 3);
         cities.forEach((city: string) => suggestions.push({ type: 'city', value: city, display: `🏘️ ${city}` }));
       }
 
       // Process owner results
       if (ownerData && ownerData.properties) {
-        const owners = [...new Set(ownerData.properties.map((p: any) => p.own_name).filter(Boolean) || [])].slice(0, 5);
+        const owners = [...new Set(ownerData.properties.map((p: Property) => p.own_name).filter(Boolean) || [])].slice(0, 5);
         owners.forEach((owner: string) => suggestions.push({ type: 'owner', value: owner, display: `👤 ${owner}` }));
       }
       
@@ -805,26 +825,8 @@ export function PropertySearch({}: PropertySearchProps) {
     }
   };
 
-  // Quick address search
-  const handleQuickSearch = (searchTerm: string) => {
-    // Determine if it's an address, city, or parcel ID
-    if (searchTerm.match(/^\d+\s/)) {
-      // Starts with number - likely address
-      handleFilterChange('address', searchTerm);
-    } else if (searchTerm.match(/^\d{12}$/)) {
-      // 12 digits - parcel ID
-      navigate(`/properties/parcel/${searchTerm}`);
-      return;
-    } else {
-      // Likely city or owner name
-      handleFilterChange('city', searchTerm);
-    }
-    
-    searchProperties();
-  };
-
   // Transform property data for compatibility
-  const transformPropertyData = (property: any) => {
+  const transformPropertyData = (property: Property): Property => {
     // Clean up address - remove leading dash if present
     const cleanAddress = (addr: string) => {
       if (!addr) return null;
@@ -867,7 +869,7 @@ export function PropertySearch({}: PropertySearchProps) {
   };
 
   // Navigate to property detail
-  const handlePropertyClick = (property: any) => {
+  const handlePropertyClick = (property: Property) => {
     // Use parcel_id for navigation as addresses may be incomplete
     const parcelId = property.parcel_id || property.id;
 
@@ -973,7 +975,7 @@ export function PropertySearch({}: PropertySearchProps) {
 
         // Handle both data.properties and data.data formats
         const propertyList = data.properties || data.data || [];
-        const allIds = propertyList.map((p: any) => String(p.parcel_id || p.id));
+        const allIds = propertyList.map((p: Property) => String(p.parcel_id || p.id));
         setSelectedProperties(new Set(allIds));
       } catch (error) {
         console.error('Error selecting all properties:', error);
@@ -2440,7 +2442,7 @@ export function PropertySearch({}: PropertySearchProps) {
                         {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                           const page = i + 1;
                           let startPage = Math.max(1, currentPage - 2);
-                          let endPage = Math.min(totalPages, startPage + 4);
+                          const endPage = Math.min(totalPages, startPage + 4);
                           
                           if (endPage - startPage < 4) {
                             startPage = Math.max(1, endPage - 4);
