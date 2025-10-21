@@ -1,0 +1,302 @@
+name: Deploy Optimized Agent System
+
+on:
+  push:
+    branches:
+      - main
+      - production
+    paths:
+      - 'mcp-server/orchestrator/**'
+      - 'docker-compose.orchestrator.yml'
+      - '.github/workflows/deploy-orchestrator.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'mcp-server/orchestrator/**'
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: '3.11'
+  NODE_VERSION: '18'
+
+jobs:
+  # ============================================================================
+  # TESTING
+  # ============================================================================
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    services:
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          cd mcp-server/orchestrator
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-asyncio httpx pytest-cov
+
+      - name: Run linting
+        run: |
+          pip install flake8 black isort
+          cd mcp-server/orchestrator
+          flake8 . --max-line-length=120 --exclude=tests --exit-zero
+          black --check . --line-length=120 --exclude=tests || true
+          isort --check-only . --profile black || true
+
+      - name: Run unit tests
+        env:
+          REDIS_URL: redis://localhost:6379
+          CONFIDENCE_THRESHOLD: 0.7
+        run: |
+          cd mcp-server/orchestrator
+          pytest tests/ -v --cov=. --cov-report=xml --cov-report=term
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./mcp-server/orchestrator/coverage.xml
+          flags: orchestrator
+          name: orchestrator-coverage
+
+  # ============================================================================
+  # INTEGRATION TESTS
+  # ============================================================================
+  integration-test:
+    name: Integration Tests
+    runs-on: ubuntu-latest
+    needs: test
+
+    services:
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          cd mcp-server/orchestrator
+          pip install -r requirements.txt
+          pip install pytest pytest-asyncio httpx
+
+      - name: Start all services
+        env:
+          REDIS_URL: redis://localhost:6379
+        run: |
+          cd mcp-server/orchestrator
+
+          # Start orchestrator in background
+          python master_orchestrator.py &
+          ORCH_PID=$!
+
+          # Start all workers
+          cd workers
+          python florida_data_worker.py &
+          python data_quality_worker.py &
+          python sunbiz_worker.py &
+          python entity_matching_worker.py &
+          python performance_worker.py &
+          python aiml_worker.py &
+
+          # Wait for services to be ready
+          sleep 15
+
+          # Health checks
+          curl -f http://localhost:8000/health || exit 1
+          curl -f http://localhost:8001/health || exit 1
+          curl -f http://localhost:8002/health || exit 1
+          curl -f http://localhost:8003/health || exit 1
+          curl -f http://localhost:8004/health || exit 1
+          curl -f http://localhost:8005/health || exit 1
+          curl -f http://localhost:8006/health || exit 1
+
+      - name: Run integration tests
+        run: |
+          cd mcp-server/orchestrator/tests
+          pytest test_integration.py -v -s --tb=short
+
+      - name: Run E2E tests
+        run: |
+          cd mcp-server/orchestrator/tests
+          pytest test_e2e_workflow.py -v -s --tb=short
+
+  # ============================================================================
+  # BUILD DOCKER IMAGES
+  # ============================================================================
+  build:
+    name: Build Docker Images
+    runs-on: ubuntu-latest
+    needs: [test, integration-test]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/production')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Orchestrator
+        uses: docker/build-push-action@v5
+        with:
+          context: ./mcp-server/orchestrator
+          file: ./mcp-server/orchestrator/Dockerfile
+          push: true
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/concordbroker-orchestrator:latest
+            ${{ secrets.DOCKER_USERNAME }}/concordbroker-orchestrator:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build and push Workers
+        run: |
+          cd mcp-server/orchestrator/workers
+
+          # Build each worker
+          for worker in florida_data data_quality sunbiz entity_matching performance aiml; do
+            docker build \
+              -f Dockerfile.worker \
+              --build-arg WORKER_NAME=${worker}_worker \
+              --build-arg WORKER_PORT=800$((1+i)) \
+              -t ${{ secrets.DOCKER_USERNAME }}/concordbroker-${worker}-worker:latest \
+              -t ${{ secrets.DOCKER_USERNAME }}/concordbroker-${worker}-worker:${{ github.sha }} \
+              .
+
+            docker push ${{ secrets.DOCKER_USERNAME }}/concordbroker-${worker}-worker:latest
+            docker push ${{ secrets.DOCKER_USERNAME }}/concordbroker-${worker}-worker:${{ github.sha }}
+          done
+
+  # ============================================================================
+  # DEPLOY TO RAILWAY
+  # ============================================================================
+  deploy-railway:
+    name: Deploy to Railway
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/production'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
+      - name: Deploy Orchestrator
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          cd mcp-server/orchestrator
+          railway up --service orchestrator
+
+      - name: Deploy Workers
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          cd mcp-server/orchestrator/workers
+
+          # Deploy each worker as separate service
+          for worker in florida-data data-quality sunbiz entity-matching performance aiml; do
+            railway up --service ${worker}-worker
+          done
+
+      - name: Verify Deployment
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: |
+          # Get service URLs
+          ORCH_URL=$(railway variables get RAILWAY_STATIC_URL --service orchestrator)
+
+          # Health checks
+          curl -f $ORCH_URL/health || exit 1
+
+          echo "✅ Deployment successful!"
+
+  # ============================================================================
+  # POST-DEPLOYMENT VALIDATION
+  # ============================================================================
+  validate-deployment:
+    name: Validate Production Deployment
+    runs-on: ubuntu-latest
+    needs: deploy-railway
+    if: github.ref == 'refs/heads/production'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install test dependencies
+        run: |
+          pip install pytest pytest-asyncio httpx
+
+      - name: Run production smoke tests
+        env:
+          ORCHESTRATOR_URL: ${{ secrets.PRODUCTION_ORCHESTRATOR_URL }}
+        run: |
+          # Simple smoke test
+          curl -f $ORCHESTRATOR_URL/health || exit 1
+
+          # Test operation creation
+          curl -X POST $ORCHESTRATOR_URL/operations \
+            -H "Content-Type: application/json" \
+            -d '{"operation_type":"performance_check","parameters":{"components":["all"]}}' \
+            || exit 1
+
+          echo "✅ Production validation successful!"
+
+      - name: Notify on success
+        if: success()
+        run: |
+          echo "🚀 Deployment to production successful!"
+          echo "Orchestrator URL: ${{ secrets.PRODUCTION_ORCHESTRATOR_URL }}"
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "❌ Production deployment validation failed!"
+          exit 1

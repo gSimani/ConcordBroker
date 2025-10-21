@@ -1,0 +1,45 @@
+# Shared Dockerfile for All Workers
+# Build with: docker build -f Dockerfile.worker --build-arg WORKER_NAME=florida_data_worker -t florida-worker .
+
+FROM python:3.11-slim
+
+ARG WORKER_NAME
+ARG WORKER_PORT
+
+LABEL maintainer="ConcordBroker"
+LABEL description="Worker for Agent System"
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements from parent directory
+COPY ../requirements.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy worker file
+COPY ${WORKER_NAME}.py .
+
+# Create logs directory
+RUN mkdir -p /app/logs
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+ENV PORT=${WORKER_PORT}
+
+# Expose port (will be overridden by docker-compose)
+EXPOSE ${WORKER_PORT}
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:${WORKER_PORT}/health || exit 1
+
+# Run the worker
+CMD python ${WORKER_NAME}.py

@@ -1,0 +1,243 @@
+# Docker Compose for Optimized Agent System
+# Usage: docker-compose -f docker-compose.orchestrator.yml up
+
+version: '3.8'
+
+services:
+  # Redis - State persistence
+  redis:
+    image: redis:7-alpine
+    container_name: concordbroker-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    networks:
+      - agent-network
+
+  # Master Orchestrator
+  orchestrator:
+    build:
+      context: ./mcp-server/orchestrator
+      dockerfile: Dockerfile
+    container_name: concordbroker-orchestrator
+    ports:
+      - "8000:8000"
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=${DATABASE_URL}
+      - CONFIDENCE_THRESHOLD=0.7
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - agent-network
+    volumes:
+      - ./logs:/app/logs
+
+  # Florida Data Worker
+  florida-worker:
+    build:
+      context: ./mcp-server/orchestrator/workers
+      dockerfile: Dockerfile.worker
+      args:
+        WORKER_NAME: florida_data_worker
+        WORKER_PORT: 8001
+    container_name: concordbroker-florida-worker
+    ports:
+      - "8001:8001"
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=${DATABASE_URL}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+    depends_on:
+      - redis
+      - orchestrator
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - agent-network
+    volumes:
+      - ./logs:/app/logs
+
+  # Data Quality Worker
+  data-quality-worker:
+    build:
+      context: ./mcp-server/orchestrator/workers
+      dockerfile: Dockerfile.worker
+      args:
+        WORKER_NAME: data_quality_worker
+        WORKER_PORT: 8002
+    container_name: concordbroker-data-quality-worker
+    ports:
+      - "8002:8002"
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=${DATABASE_URL}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+    depends_on:
+      - redis
+      - orchestrator
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - agent-network
+    volumes:
+      - ./logs:/app/logs
+
+  # SunBiz Worker
+  sunbiz-worker:
+    build:
+      context: ./mcp-server/orchestrator/workers
+      dockerfile: Dockerfile.worker
+      args:
+        WORKER_NAME: sunbiz_worker
+        WORKER_PORT: 8003
+    container_name: concordbroker-sunbiz-worker
+    ports:
+      - "8003:8003"
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=${DATABASE_URL}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+    depends_on:
+      - redis
+      - orchestrator
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8003/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - agent-network
+    volumes:
+      - ./logs:/app/logs
+
+  # Entity Matching Worker
+  entity-matching-worker:
+    build:
+      context: ./mcp-server/orchestrator/workers
+      dockerfile: Dockerfile.worker
+      args:
+        WORKER_NAME: entity_matching_worker
+        WORKER_PORT: 8004
+    container_name: concordbroker-entity-matching-worker
+    ports:
+      - "8004:8004"
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=${DATABASE_URL}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+    depends_on:
+      - redis
+      - orchestrator
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8004/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - agent-network
+    volumes:
+      - ./logs:/app/logs
+
+  # Performance Worker
+  performance-worker:
+    build:
+      context: ./mcp-server/orchestrator/workers
+      dockerfile: Dockerfile.worker
+      args:
+        WORKER_NAME: performance_worker
+        WORKER_PORT: 8005
+    container_name: concordbroker-performance-worker
+    ports:
+      - "8005:8005"
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      - redis
+      - orchestrator
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8005/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - agent-network
+    volumes:
+      - ./logs:/app/logs
+
+  # AI/ML Worker
+  aiml-worker:
+    build:
+      context: ./mcp-server/orchestrator/workers
+      dockerfile: Dockerfile.worker
+      args:
+        WORKER_NAME: aiml_worker
+        WORKER_PORT: 8006
+    container_name: concordbroker-aiml-worker
+    ports:
+      - "8006:8006"
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=${DATABASE_URL}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    depends_on:
+      - redis
+      - orchestrator
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8006/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+    networks:
+      - agent-network
+    volumes:
+      - ./logs:/app/logs
+
+networks:
+  agent-network:
+    driver: bridge
+
+volumes:
+  redis-data:
+    driver: local
