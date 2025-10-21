@@ -28,7 +28,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       city,
       property_type,
       min_value,
-      max_value
+      max_value,
+      // Size filters
+      min_building_sqft,
+      max_building_sqft,
+      min_land_sqft,
+      max_land_sqft,
+      // Year built filters
+      min_year,
+      max_year,
+      // Assessment filters
+      min_appraised_value,
+      max_appraised_value,
+      // Location filters
+      zip_code,
+      // Property type filters
+      sub_usage_code
     } = req.method === 'POST' ? req.body : req.query
 
     const pageNum = parseInt(page as string)
@@ -50,11 +65,34 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
     }
 
+    // Location filters (most selective first)
     if (county) query = query.eq('county', String(county).toUpperCase())
     if (city) query = query.ilike('phy_city', `%${city}%`)
+    if (zip_code) query = query.eq('phy_zipcd', String(zip_code))
+
+    // Property type filters
     if (property_type) query = query.eq('dor_uc', property_type)
+    if (sub_usage_code) query = query.like('dor_uc', `${sub_usage_code}%`)
+
+    // Value range filters
     if (min_value) query = query.gte('just_value', parseInt(min_value as string))
     if (max_value) query = query.lte('just_value', parseInt(max_value as string))
+
+    // Assessment filters (taxable value)
+    if (min_appraised_value) query = query.gte('taxable_value', parseInt(min_appraised_value as string))
+    if (max_appraised_value) query = query.lte('taxable_value', parseInt(max_appraised_value as string))
+
+    // Building size filters
+    if (min_building_sqft) query = query.gte('living_area', parseInt(min_building_sqft as string))
+    if (max_building_sqft) query = query.lte('living_area', parseInt(max_building_sqft as string))
+
+    // Land size filters
+    if (min_land_sqft) query = query.gte('land_sqft', parseInt(min_land_sqft as string))
+    if (max_land_sqft) query = query.lte('land_sqft', parseInt(max_land_sqft as string))
+
+    // Year built filters
+    if (min_year) query = query.gte('year_built', parseInt(min_year as string))
+    if (max_year) query = query.lte('year_built', parseInt(max_year as string))
 
     query = query.order('just_value', { ascending: false }).range(offset, offset + limitNum - 1)
 
