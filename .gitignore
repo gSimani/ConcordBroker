@@ -151,3 +151,4 @@ docs/.doctrees/
 .vercel
 .dev-session.json
 meilisearch.exe
+GITHUB_MCP_SERVER_SETUP.md
