@@ -203,6 +203,12 @@ export const useAdvancedPropertySearch = (): UseAdvancedPropertySearchResult => 
       if (cleanFilters.minAssessedValue) apiParams.min_appraised_value = cleanFilters.minAssessedValue;
       if (cleanFilters.maxAssessedValue) apiParams.max_appraised_value = cleanFilters.maxAssessedValue;
 
+      // Boolean filters
+      if (cleanFilters.recentlySold) apiParams.recently_sold = 'true';
+      if (cleanFilters.taxExempt !== undefined) apiParams.tax_exempt = cleanFilters.taxExempt ? 'true' : 'false';
+      if (cleanFilters.hasPool !== undefined) apiParams.has_pool = cleanFilters.hasPool ? 'true' : 'false';
+      if (cleanFilters.waterfront !== undefined) apiParams.waterfront = cleanFilters.waterfront ? 'true' : 'false';
+
       // FIXED: Using correct endpoint path
       const queryString = new URLSearchParams(apiParams).toString();
       const response = await fetch(`/api/properties/search?${queryString}`, {

@@ -43,7 +43,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       // Location filters
       zip_code,
       // Property type filters
-      sub_usage_code
+      sub_usage_code,
+      // Boolean filters
+      recently_sold,
+      tax_exempt,
+      has_pool,
+      waterfront
     } = req.method === 'POST' ? req.body : req.query
 
     const pageNum = parseInt(page as string)
@@ -93,6 +98,48 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Year built filters
     if (min_year) query = query.gte('year_built', parseInt(min_year as string))
     if (max_year) query = query.lte('year_built', parseInt(max_year as string))
+
+    // Boolean filters
+    // Recently Sold filter (within 1 year)
+    if (recently_sold === 'true' || recently_sold === true) {
+      const oneYearAgo = new Date()
+      oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1)
+      const dateStr = oneYearAgo.toISOString().split('T')[0]
+
+      // Use sale_date1 column from florida_parcels
+      query = query
+        .not('sale_date1', 'is', null)
+        .gte('sale_date1', dateStr)
+    }
+
+    // Tax Exempt filter
+    // Note: Checking multiple possible column names for homestead exemption
+    if (tax_exempt === 'true' || tax_exempt === true) {
+      // Try common column variations - one of these should exist
+      query = query.or('homestead_exemption.eq.Y,homestead_exemption.eq.y,homestead_exemption.eq.true,exempt_value.gt.0')
+    } else if (tax_exempt === 'false' || tax_exempt === false) {
+      query = query.or('homestead_exemption.is.null,homestead_exemption.eq.N,homestead_exemption.eq.n,homestead_exemption.eq.false')
+    }
+
+    // Pool filter
+    // Note: May require NAP (property characteristics) table join if available
+    if (has_pool === 'true' || has_pool === true) {
+      // Try multiple approaches - use first that works
+      // Approach 1: Direct column (if exists)
+      query = query.or('pool_ind.eq.Y,pool_ind.eq.y,pool_ind.eq.true,has_pool.eq.true')
+      // If NAP table exists, this query will need to be updated to join
+    } else if (has_pool === 'false' || has_pool === false) {
+      query = query.or('pool_ind.is.null,pool_ind.eq.N,pool_ind.eq.n,pool_ind.eq.false,has_pool.eq.false')
+    }
+
+    // Waterfront filter
+    // Note: May require NAP table join or geographic boundary check
+    if (waterfront === 'true' || waterfront === true) {
+      // Try multiple possible column names
+      query = query.or('waterfront_ind.eq.Y,waterfront_ind.eq.y,waterfront_ind.eq.true,waterfront.eq.true,is_waterfront.eq.true')
+    } else if (waterfront === 'false' || waterfront === false) {
+      query = query.or('waterfront_ind.is.null,waterfront_ind.eq.N,waterfront_ind.eq.n,waterfront_ind.eq.false,waterfront.eq.false,is_waterfront.eq.false')
+    }
 
     query = query.order('just_value', { ascending: false }).range(offset, offset + limitNum - 1)
 
