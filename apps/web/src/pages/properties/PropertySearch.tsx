@@ -12,7 +12,6 @@ import { AISearchEnhanced } from '@/components/ai/AISearchEnhanced';
 import { TaxDeedSalesTab } from '@/components/property/tabs/TaxDeedSalesTab';
 import { useDataPipeline } from '@/lib/data-pipeline';
 import { useOptimizedPropertySearch } from '@/hooks/useOptimizedPropertySearch';
-import { useBatchSalesData } from '@/hooks/useBatchSalesData';
 import { useInfinitePropertyScroll } from '@/hooks/useInfiniteScroll';
 import { api } from '@/api/client';
 import { OptimizedSearchBar } from '@/components/OptimizedSearchBar';
@@ -192,11 +191,8 @@ export function PropertySearch({}: PropertySearchProps) {
   const pipeline = useDataPipeline();
   const optimizedSearch = useOptimizedPropertySearch();
 
-  // Batch prefetch sales data for all visible properties
-  // This dramatically reduces API calls by fetching all sales data in a single request
-  // useSalesData hook will automatically check this cache before making individual requests
-  const parcelIds = properties.map((p: Property) => p.parcel_id).filter(Boolean);
-  useBatchSalesData(parcelIds);
+  // Sales data is fetched individually by MiniPropertyCard components
+  // Each card uses useSalesData hook which handles caching automatically
 
   // PHASE 3: Infinite scroll implementation
   const { triggerRef, hasMore, percentLoaded, remainingCount } = useInfinitePropertyScroll(
