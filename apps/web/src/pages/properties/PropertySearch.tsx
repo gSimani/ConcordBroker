@@ -2437,6 +2437,18 @@ export function PropertySearch({}: PropertySearchProps) {
 
                     {/* Page Navigation */}
                     <div className="flex items-center space-x-2">
+                      {/* First Page Button */}
+                      <Button
+                        variant="outline"
+                        disabled={currentPage === 1}
+                        className="hover-lift h-9 px-3"
+                        style={{borderColor: '#ecf0f1'}}
+                        onClick={() => searchProperties(1)}
+                        title="First page"
+                      >
+                        <span style={{color: '#2c3e50'}}>««</span>
+                      </Button>
+
                       <Button
                         variant="outline"
                         disabled={currentPage === 1}
@@ -2446,35 +2458,99 @@ export function PropertySearch({}: PropertySearchProps) {
                       >
                         <span style={{color: '#2c3e50'}}>Previous</span>
                       </Button>
-                      
+
                       <div className="flex items-center space-x-1">
-                        {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                          const page = i + 1;
+                        {(() => {
+                          const pages = [];
                           let startPage = Math.max(1, currentPage - 2);
-                          const endPage = Math.min(totalPages, startPage + 4);
-                          
+                          let endPage = Math.min(totalPages, startPage + 4);
+
+                          // Adjust startPage if we're near the end
                           if (endPage - startPage < 4) {
                             startPage = Math.max(1, endPage - 4);
                           }
-                          
-                          if (page < startPage || page > endPage) return null;
-                          
-                          return (
-                            <Button
-                              key={page}
-                              variant={currentPage === page ? 'default' : 'outline'}
-                              size="sm"
-                              className="hover-lift h-9 w-9"
-                              style={currentPage === page ? 
-                                {background: '#d4af37', borderColor: '#d4af37', color: 'white'} : 
-                                {borderColor: '#ecf0f1', color: '#2c3e50'}
+
+                          // Add first page if not in range
+                          if (startPage > 1) {
+                            pages.push(
+                              <Button
+                                key={1}
+                                variant="outline"
+                                size="sm"
+                                className="hover-lift h-9 w-9"
+                                style={{borderColor: '#ecf0f1', color: '#2c3e50'}}
+                                onClick={() => searchProperties(1)}
+                              >
+                                1
+                              </Button>
+                            );
+                            if (startPage > 2) {
+                              pages.push(<span key="start-ellipsis" className="px-2" style={{color: '#7f8c8d'}}>...</span>);
+                            }
+                          }
+
+                          // Add page buttons in range
+                          for (let page = startPage; page <= endPage; page++) {
+                            pages.push(
+                              <Button
+                                key={page}
+                                variant={currentPage === page ? 'default' : 'outline'}
+                                size="sm"
+                                className="hover-lift h-9 w-9"
+                                style={currentPage === page ?
+                                  {background: '#d4af37', borderColor: '#d4af37', color: 'white'} :
+                                  {borderColor: '#ecf0f1', color: '#2c3e50'}
+                                }
+                                onClick={() => searchProperties(page)}
+                              >
+                                {page}
+                              </Button>
+                            );
+                          }
+
+                          // Add last page if not in range
+                          if (endPage < totalPages) {
+                            if (endPage < totalPages - 1) {
+                              pages.push(<span key="end-ellipsis" className="px-2" style={{color: '#7f8c8d'}}>...</span>);
+                            }
+                            pages.push(
+                              <Button
+                                key={totalPages}
+                                variant="outline"
+                                size="sm"
+                                className="hover-lift h-9 w-9"
+                                style={{borderColor: '#ecf0f1', color: '#2c3e50'}}
+                                onClick={() => searchProperties(totalPages)}
+                              >
+                                {totalPages}
+                              </Button>
+                            );
+                          }
+
+                          return pages;
+                        })()}
+                      </div>
+
+                      {/* Page Jump Input */}
+                      <div className="flex items-center space-x-2 ml-2">
+                        <span className="text-sm" style={{color: '#7f8c8d'}}>Go to:</span>
+                        <input
+                          type="number"
+                          min="1"
+                          max={totalPages}
+                          placeholder={currentPage.toString()}
+                          className="w-20 h-9 px-2 text-center border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d4af37]"
+                          style={{borderColor: '#ecf0f1'}}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              const page = parseInt(e.currentTarget.value);
+                              if (page >= 1 && page <= totalPages) {
+                                searchProperties(page);
+                                e.currentTarget.value = '';
                               }
-                              onClick={() => searchProperties(page)}
-                            >
-                              {page}
-                            </Button>
-                          );
-                        })}
+                            }
+                          }}
+                        />
                       </div>
 
                       <Button
@@ -2485,6 +2561,18 @@ export function PropertySearch({}: PropertySearchProps) {
                         onClick={() => searchProperties(currentPage + 1)}
                       >
                         <span style={{color: '#2c3e50'}}>Next</span>
+                      </Button>
+
+                      {/* Last Page Button */}
+                      <Button
+                        variant="outline"
+                        disabled={currentPage >= totalPages}
+                        className="hover-lift h-9 px-3"
+                        style={{borderColor: '#ecf0f1'}}
+                        onClick={() => searchProperties(totalPages)}
+                        title="Last page"
+                      >
+                        <span style={{color: '#2c3e50'}}>»»</span>
                       </Button>
                     </div>
                   </div>
@@ -2499,12 +2587,12 @@ export function PropertySearch({}: PropertySearchProps) {
       </div>
 
       {/* AI Chatbox - Floating Assistant */}
-      {/* DISABLED: AI chatbot blocking UI - re-enable when WebSocket backend is ready */}
-      {/* <AIChatbox
+      {/* Note: Backend service (port 8003) requires OpenAI billing to be active */}
+      <AIChatbox
         position="bottom-right"
         initialOpen={false}
         onPropertySelect={(property) => handlePropertyClick(property)}
-      /> */}
+      />
     </div>
   );
 }
