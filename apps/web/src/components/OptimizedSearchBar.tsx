@@ -15,7 +15,7 @@ import { api } from '@/api/client';
 import { usePropertyAutocomplete } from '@/hooks/usePropertyAutocomplete';
 
 interface Suggestion {
-  type: 'address' | 'owner' | 'history';
+  type: 'address' | 'owner' | 'city' | 'history';
   display: string;
   value: string;
   property_type?: string;
@@ -154,19 +154,20 @@ export function OptimizedSearchBar({
   // Sync Supabase suggestions to combined suggestions
   useEffect(() => {
     if (supabaseSuggestions.length > 0) {
+      // Map Supabase suggestions to combined format with correct property names
       const suggestions: Suggestion[] = supabaseSuggestions.map(s => ({
-        type: s.type === 'owner' ? 'owner' : 'address',
-        display: s.address,
-        value: s.type === 'owner' ? (s.owner || s.address) : s.address,
-        property_type: s.type === 'city' ? 'City' : undefined,
+        type: s.type,                    // Use existing type (address/owner/city)
+        display: s.display,              // Correct: s.display not s.address
+        value: s.value,                  // Correct: s.value directly
+        property_type: s.property_type,  // Correct: s.property_type
         metadata: {
-          city: s.city,
-          county: s.county,
-          zip_code: s.zipCode,
-          parcel_id: s.parcelId,
-          owner_name: s.owner,
-          just_value: s.value,
-          matchScore: s.matchScore
+          city: s.metadata?.city,              // Correct: nested in metadata
+          county: 'BROWARD',                   // Default county (hook filters by this)
+          zip_code: s.metadata?.zip_code,      // Correct: nested, note underscore
+          parcel_id: s.metadata?.parcel_id,    // Correct: nested, note underscore
+          owner_name: s.metadata?.owner_name,  // Correct: nested, note underscore
+          just_value: s.metadata?.just_value,  // Correct: nested, note underscore
+          matchScore: 1.0                      // Default match score
         }
       }));
       setCombinedSuggestions(suggestions);
@@ -201,24 +202,11 @@ export function OptimizedSearchBar({
       clearTimeout(autocompleteTimeoutRef.current);
     }
 
-    // Debounce autocomplete requests to match hook's 300ms debounce
+    // Only fetch autocomplete suggestions - DO NOT trigger search on every keystroke
     autocompleteTimeoutRef.current = setTimeout(() => {
       fetchAutocompleteData(value);
-    }, 300);
-
-    // Trigger search with current filters
-    const searchFilters = {
-      ...activeFilters,
-      address: value
-    };
-
-    if (onFiltersChange) {
-      onFiltersChange(searchFilters);
-    }
-
-    // Perform debounced search
-    debouncedSearch(searchFilters);
-  }, [activeFilters, fetchAutocompleteData, onFiltersChange, debouncedSearch]);
+    }, 150); // Reduced from 300ms to 150ms for faster response
+  }, [fetchAutocompleteData]);
 
   // Handle suggestion selection
   const handleSuggestionSelect = useCallback((suggestion: Suggestion) => {
@@ -292,16 +280,45 @@ export function OptimizedSearchBar({
     recognition.start();
   }, [handleSearchChange]);
 
+  // Execute search with current search term
+  const executeSearch = useCallback(() => {
+    const searchFilters = {
+      ...activeFilters,
+      address: searchTerm
+    };
+
+    if (onFiltersChange) {
+      onFiltersChange(searchFilters);
+    }
+
+    // Perform instant search
+    if (searchInstant) {
+      searchInstant(searchFilters).then(result => {
+        onResults(result);
+      });
+    }
+
+    // Hide suggestions after search
+    setShowSuggestions(false);
+    setCombinedSuggestions([]);
+  }, [activeFilters, searchTerm, onFiltersChange, searchInstant, onResults]);
+
   // Handle keyboard navigation
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Escape') {
       setShowSuggestions(false);
       setCombinedSuggestions([]);
-    } else if (e.key === 'Enter' && combinedSuggestions.length > 0) {
+    } else if (e.key === 'Enter') {
       e.preventDefault();
-      handleSuggestionSelect(combinedSuggestions[0]);
+      if (combinedSuggestions.length > 0) {
+        // Select first suggestion
+        handleSuggestionSelect(combinedSuggestions[0]);
+      } else {
+        // Execute search with current term
+        executeSearch();
+      }
     }
-  }, [combinedSuggestions, handleSuggestionSelect]);
+  }, [combinedSuggestions, handleSuggestionSelect, executeSearch]);
 
   // Handle click outside to close suggestions
   useEffect(() => {
@@ -318,13 +335,6 @@ export function OptimizedSearchBar({
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  // Update results when search completes
-  useEffect(() => {
-    if (results) {
-      onResults(results);
-    }
-  }, [results, onResults]);
 
   // Update performance metrics
   useEffect(() => {
@@ -372,6 +382,21 @@ export function OptimizedSearchBar({
     inputRef.current?.focus();
   }, [onFiltersChange]);
 
+  // Delete individual search history item
+  const handleDeleteSearchHistory = useCallback((term: string, e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent triggering the search
+    const updated = searchHistory.filter(s => s !== term);
+    setSearchHistory(updated);
+    localStorage.setItem('search-history', JSON.stringify(updated));
+  }, [searchHistory]);
+
+  // Clear all search history
+  const handleClearAllHistory = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSearchHistory([]);
+    localStorage.removeItem('search-history');
+  }, []);
+
   // Get performance status color
   const getPerformanceColor = (responseTime: number) => {
     if (responseTime < 100) return 'text-green-600';
@@ -416,8 +441,21 @@ export function OptimizedSearchBar({
           />
 
           <div className="absolute right-2 flex items-center gap-1">
+            {/* Search Button - only show when there's text */}
+            {searchTerm && !loading && (
+              <Button
+                size="sm"
+                onClick={executeSearch}
+                className="h-8 px-3 bg-[#d4af37] hover:bg-[#c4a137] text-white"
+                title="Search (or press Enter)"
+              >
+                <Search className="w-3 h-3 mr-1" />
+                Search
+              </Button>
+            )}
+
             {/* Voice Search Button */}
-            {enableVoiceSearch && (
+            {enableVoiceSearch && !searchTerm && (
               <Button
                 size="sm"
                 variant="ghost"
@@ -444,7 +482,7 @@ export function OptimizedSearchBar({
                 onClick={handleClear}
                 className="h-8 w-8 p-0"
               >
-                <X className="w-4 h-4" />
+                <X className="w-3 h-3" />
               </Button>
             )}
 
@@ -471,22 +509,27 @@ export function OptimizedSearchBar({
                 </div>
               )}
               {combinedSuggestions.map((suggestion, index) => {
-                // For address suggestions, use property type icon
+                // Select icon based on suggestion type
                 const Icon = suggestion.type === 'address'
                   ? getPropertyIcon(suggestion.property_type)
                   : suggestion.type === 'owner'
                   ? User
+                  : suggestion.type === 'city'
+                  ? MapPin
                   : Clock;
 
-                // For address suggestions, use property type color
+                // Select color based on suggestion type
                 const iconColor = suggestion.type === 'address'
                   ? getPropertyColor(suggestion.property_type)
                   : suggestion.type === 'owner'
                   ? 'text-green-500'
+                  : suggestion.type === 'city'
+                  ? 'text-purple-500'
                   : 'text-gray-400';
 
                 const bgColor = suggestion.type === 'address' ? 'hover:bg-blue-50' :
-                               suggestion.type === 'owner' ? 'hover:bg-green-50' : 'hover:bg-gray-50';
+                               suggestion.type === 'owner' ? 'hover:bg-green-50' :
+                               suggestion.type === 'city' ? 'hover:bg-purple-50' : 'hover:bg-gray-50';
 
                 return (
                   <div
@@ -513,6 +556,9 @@ export function OptimizedSearchBar({
                       {suggestion.type === 'owner' && (
                         <span className="text-xs text-gray-500 block">Property Owner</span>
                       )}
+                      {suggestion.type === 'city' && (
+                        <span className="text-xs text-gray-500 block">City</span>
+                      )}
                       {suggestion.type === 'history' && (
                         <span className="text-xs text-gray-500 block">Recent Search</span>
                       )}
@@ -531,21 +577,35 @@ export function OptimizedSearchBar({
         {!showSuggestions && searchTerm === '' && searchHistory.length > 0 && (
           <Card className="absolute top-full left-0 right-0 z-50 mt-1">
             <CardContent className="p-0">
-              <div className="p-2 text-xs text-gray-500 border-b bg-gray-50">
-                Recent Searches
+              <div className="p-2 text-xs text-gray-500 border-b bg-gray-50 flex items-center justify-between">
+                <span>Recent Searches</span>
+                <button
+                  onClick={handleClearAllHistory}
+                  className="text-xs text-red-500 hover:text-red-700 hover:underline transition-colors"
+                  title="Clear all recent searches"
+                >
+                  Clear All
+                </button>
               </div>
               {searchHistory.slice(0, 5).map((term, index) => (
                 <div
                   key={index}
-                  className="p-3 hover:bg-gray-50 cursor-pointer border-b last:border-b-0 flex items-center gap-2"
+                  className="group p-3 hover:bg-gray-50 cursor-pointer border-b last:border-b-0 flex items-center gap-2"
                   onClick={() => handleSuggestionSelect({
                     type: 'history',
                     display: term,
                     value: term
                   })}
                 >
-                  <Clock className="w-4 h-4 text-gray-400" />
-                  <span className="text-sm text-gray-600">{term}</span>
+                  <Clock className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                  <span className="text-sm text-gray-600 flex-1">{term}</span>
+                  <button
+                    onClick={(e) => handleDeleteSearchHistory(term, e)}
+                    className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:bg-red-100 rounded"
+                    title="Delete this search"
+                  >
+                    <X className="w-3 h-3 text-red-500" />
+                  </button>
                 </div>
               ))}
             </CardContent>
