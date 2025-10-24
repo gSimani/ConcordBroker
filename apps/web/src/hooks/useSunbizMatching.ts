@@ -29,6 +29,7 @@ interface SunbizMatchResponse {
 
 // Track service availability to avoid repeated failed requests
 let serviceAvailable = true;
+let serviceChecking = false; // Prevents concurrent initial checks
 let lastServiceCheck = 0;
 const SERVICE_CHECK_INTERVAL = 60000; // Check every 60 seconds
 
@@ -47,7 +48,14 @@ export function useSunbizMatching(parcelId: string, ownerName?: string) {
       return;
     }
 
+    // Skip if another instance is currently checking service availability
+    if (serviceChecking) {
+      setError('Service check in progress');
+      return;
+    }
+
     const fetchSunbizMatches = async () => {
+      serviceChecking = true; // Mark as checking to prevent concurrent requests
       setLoading(true);
       setError(null);
 
@@ -83,6 +91,7 @@ export function useSunbizMatching(parcelId: string, ownerName?: string) {
           };
           setMatchData(adaptedData);
           serviceAvailable = true; // Service is working
+          serviceChecking = false; // Reset checking flag
         } else {
           // No match found, but service is working
           setMatchData({
@@ -96,6 +105,7 @@ export function useSunbizMatching(parcelId: string, ownerName?: string) {
             best_match: null
           });
           serviceAvailable = true;
+          serviceChecking = false; // Reset checking flag
         }
       } catch (err) {
         // Check if it's a connection error (service not running)
@@ -116,11 +126,13 @@ export function useSunbizMatching(parcelId: string, ownerName?: string) {
             console.warn('⚠️ Sunbiz matching service unavailable (port 8003). Features will be limited.');
           }
           serviceAvailable = false;
+          serviceChecking = false; // Reset checking flag
           lastServiceCheck = Date.now();
           setError('Service unavailable');
         } else {
           // Log other errors normally (not connection issues)
           console.error('Error fetching Sunbiz matches:', err);
+          serviceChecking = false; // Reset checking flag
           setError(err instanceof Error ? err.message : 'Unknown error');
         }
         setMatchData(null);
