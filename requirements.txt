@@ -12,3 +12,9 @@ slowapi==0.1.9
 psycopg2-binary==2.9.9
 requests==2.31.0
 httpx==0.24.1
+
+# Property Update System
+playwright==1.40.0
+pandas==2.1.4
+numpy==1.26.2
+python-dateutil==2.8.2
