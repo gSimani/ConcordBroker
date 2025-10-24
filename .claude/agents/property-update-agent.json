@@ -1,0 +1,215 @@
+{
+  "name": "property-update-agent",
+  "version": "1.0.0",
+  "enabled": true,
+  "type": "scheduled",
+  "priority": "high",
+  "description": "Daily Florida property data update system - monitors portal, downloads files, detects changes, updates database",
+
+  "schedule": {
+    "fileMonitoring": {
+      "cron": "0 */6 * * *",
+      "description": "Monitor Florida Revenue portal for file changes every 6 hours",
+      "timezone": "America/New_York",
+      "script": "scripts/monitor_file_changes.py"
+    },
+    "dailyUpdate": {
+      "cron": "0 2 * * *",
+      "description": "Full daily property update at 2:00 AM EST",
+      "timezone": "America/New_York",
+      "script": "scripts/daily_property_update.py"
+    },
+    "weeklyFullSync": {
+      "cron": "0 1 * * 0",
+      "description": "Weekly full sync on Sundays at 1:00 AM EST",
+      "timezone": "America/New_York",
+      "script": "scripts/daily_property_update.py --force"
+    }
+  },
+
+  "responsibilities": [
+    "Monitor Florida Revenue portal for file changes (268 files across 67 counties)",
+    "Download updated NAL, NAP, NAV, and SDF files",
+    "Parse fixed-width property data formats",
+    "Detect ownership, value, tax, and sale changes",
+    "Update Supabase database incrementally (not full refresh)",
+    "Log all changes to property_change_log table",
+    "Send email notifications for significant changes",
+    "Generate daily summary reports",
+    "Track job status in data_update_jobs table",
+    "Self-heal on errors with retry logic"
+  ],
+
+  "capabilities": {
+    "dataSource": {
+      "url": "https://floridarevenue.com/property/dataportal/",
+      "counties": 67,
+      "files": 268,
+      "fileTypes": ["NAL", "NAP", "NAV", "SDF"],
+      "estimatedRecords": 9700000
+    },
+    "changeDetection": {
+      "ownership": true,
+      "value": true,
+      "tax": true,
+      "sales": true,
+      "address": true,
+      "thresholds": {
+        "valueChange": 0.05,
+        "significantSale": 1000000
+      }
+    },
+    "processing": {
+      "batchSize": 1000,
+      "parallelWorkers": 4,
+      "timeout": 10800,
+      "retries": 3,
+      "backoffFactor": 2
+    }
+  },
+
+  "database": {
+    "tables": [
+      "florida_parcels",
+      "property_sales_history",
+      "property_change_log",
+      "data_update_jobs",
+      "file_checksums"
+    ],
+    "functions": [
+      "get_daily_update_stats",
+      "get_county_stats",
+      "log_property_change"
+    ],
+    "views": [
+      "property_master"
+    ]
+  },
+
+  "notifications": {
+    "email": {
+      "enabled": true,
+      "recipients": ["admin@concordbroker.com"],
+      "conditions": {
+        "onSuccess": true,
+        "onFailure": true,
+        "onHighErrorRate": true,
+        "significantChanges": true
+      }
+    },
+    "slack": {
+      "enabled": false,
+      "webhook": "${SLACK_WEBHOOK_URL}",
+      "conditions": {
+        "onFailure": true,
+        "onHighErrorRate": true
+      }
+    }
+  },
+
+  "monitoring": {
+    "metrics": {
+      "updateSuccessRate": {
+        "target": 0.99,
+        "alert": 0.95
+      },
+      "processingTime": {
+        "target": 7200,
+        "alert": 10800
+      },
+      "errorRate": {
+        "target": 0.001,
+        "alert": 0.05
+      }
+    },
+    "dashboard": {
+      "enabled": true,
+      "url": "http://localhost:8004",
+      "refreshInterval": 60
+    }
+  },
+
+  "errorHandling": {
+    "retries": {
+      "network": 3,
+      "database": 1,
+      "parsing": 0
+    },
+    "backoff": {
+      "initial": 2,
+      "multiplier": 2,
+      "maxDelay": 60
+    },
+    "escalation": {
+      "criticalErrors": "immediate",
+      "highErrorRate": "within_5_minutes",
+      "databaseConnection": "immediate"
+    }
+  },
+
+  "priorityCounties": [
+    "MIAMI-DADE",
+    "BROWARD",
+    "PALM BEACH",
+    "HILLSBOROUGH",
+    "ORANGE",
+    "DUVAL"
+  ],
+
+  "documentation": {
+    "architecture": "DAILY_PROPERTY_UPDATE_SYSTEM.md",
+    "summary": "PROPERTY_UPDATE_IMPLEMENTATION_SUMMARY.md",
+    "quickStart": "QUICK_START_GUIDE.md",
+    "agentSpec": ".claude/agents/property-update-monitor.md",
+    "complete": "IMPLEMENTATION_COMPLETE.md"
+  },
+
+  "commands": {
+    "deploy": "python scripts/deploy_schema.py",
+    "test": "python scripts/test_portal_access.py",
+    "download": "python scripts/download_county.py --county {COUNTY}",
+    "parse": "python scripts/parse_county_files.py --county {COUNTY}",
+    "load": "python scripts/load_county_data.py --county {COUNTY}",
+    "update": "python scripts/daily_property_update.py",
+    "dryRun": "python scripts/daily_property_update.py --dry-run",
+    "force": "python scripts/daily_property_update.py --force"
+  },
+
+  "health": {
+    "checks": [
+      "Database connection",
+      "Portal accessibility",
+      "File checksums match",
+      "No stale jobs (> 6 hours)",
+      "Error rate < 5%",
+      "Disk space available",
+      "All 67 counties processed"
+    ],
+    "endpoint": "/health",
+    "frequency": "hourly"
+  },
+
+  "permanentMemory": {
+    "criticalInfo": [
+      "Portal URL: https://floridarevenue.com/property/dataportal/",
+      "Database: Supabase (pmispwtdngkcmsrsjwbp.supabase.co)",
+      "Schedule: Daily at 2:00 AM EST",
+      "File monitoring: Every 6 hours",
+      "Priority: HIGH - Critical for business operations",
+      "Never disable without explicit approval",
+      "Always verify schema deployed before running"
+    ],
+    "lastUpdated": "2025-10-24T00:00:00.000Z",
+    "implementedBy": "Claude Code",
+    "status": "production-ready"
+  },
+
+  "metadata": {
+    "created": "2025-10-24",
+    "lastModified": "2025-10-24",
+    "version": "1.0.0",
+    "status": "active",
+    "owner": "ConcordBroker DevOps",
+    "contact": "dev@concordbroker.com"
+  }
+}

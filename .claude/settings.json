@@ -1,0 +1,89 @@
+{
+  "project": "concordbroker",
+  "version": "1.0.0",
+  "description": "ConcordBroker real estate investment platform",
+
+  "inheritGlobal": {
+    "enabled": true,
+    "globalConfigPath": "~/.claude/config.json",
+    "inheritAgents": true,
+    "inheritWorkflows": true,
+    "inheritHooks": true,
+    "allowOverrides": true
+  },
+
+  "autoStart": {
+    "enabled": true,
+    "useGlobalAgents": true,
+    "startupScript": "~/.claude/start-agents.cjs",
+    "services": [
+      {
+        "name": "verification-agent",
+        "source": "global",
+        "enabled": true,
+        "description": "Automatic code verification sub-agent from global config"
+      }
+    ]
+  },
+
+  "agents": {
+    "verification-agent": {
+      "source": "global",
+      "autoStart": true,
+      "useGlobalConfig": true,
+      "localOverrides": {
+        "watchDirectories": [
+          "apps/web/src",
+          "apps/api",
+          "mcp-server"
+        ]
+      }
+    },
+    "property-update-agent": {
+      "source": "local",
+      "autoStart": false,
+      "configFile": ".claude/agents/property-update-agent.json",
+      "enabled": true,
+      "priority": "high",
+      "schedule": "daily",
+      "description": "Daily Florida property data update system - monitors portal, downloads files, updates database"
+    }
+  },
+
+  "hooks": {
+    "enabled": true,
+    "useGlobalHooks": true,
+    "postChange": {
+      "enabled": true,
+      "source": "global"
+    }
+  },
+
+  "workflows": {
+    "useGlobalWorkflows": true,
+    "autoVerify": {
+      "enabled": true,
+      "source": "global"
+    }
+  },
+
+  "features": {
+    "automaticVerification": true,
+    "fileWatching": true,
+    "realtimeStatus": true,
+    "verificationHistory": true,
+    "useGlobalFeatures": true
+  },
+
+  "paths": {
+    "logs": "logs",
+    "status": "logs/verification-status.json",
+    "history": "logs/verification-history.jsonl",
+    "globalLogs": "~/.claude/logs"
+  },
+
+  "metadata": {
+    "lastUpdated": "2025-10-20T22:30:00.000Z",
+    "globalConfigVersion": "1.0.0"
+  }
+}

@@ -2,9 +2,79 @@
 
 This project is configured to automatically start the MCP Server when Claude Code begins a new session with **robust error handling and failsafe mechanisms**.
 
+## 🔒 PERMANENT MEMORY - Critical Systems
+
+**⚠️ READ THIS FIRST IN EVERY SESSION ⚠️**
+
+### Daily Property Update System 🔴 HIGH PRIORITY
+**Status**: ✅ Production-Ready (Implemented 2025-10-24)
+**Agent**: `property-update-agent`
+**Schedule**: Daily at 2:00 AM EST + File monitoring every 6 hours
+
+**NEVER FORGET**:
+- 🔴 **268 files** monitored across **67 Florida counties**
+- 🔴 **9.7M properties** depend on this system
+- 🔴 Must run daily - data becomes stale without updates
+- 🔴 Database schema MUST be deployed before first run
+
+**Quick Access**:
+- 📚 Complete Guide: `DAILY_PROPERTY_UPDATE_SYSTEM.md`
+- 🚀 Quick Start: `QUICK_START_GUIDE.md` (30 min setup)
+- 🔒 Permanent Memory: `.memory/property-updates-permanent.md`
+- 🤖 Agent Config: `.claude/agents/property-update-agent.json`
+
+**Quick Commands**:
+```bash
+# Deploy schema (ONE TIME)
+python scripts/deploy_schema.py
+
+# Daily update (manual)
+python scripts/daily_property_update.py --dry-run
+
+# Check status
+SELECT * FROM get_daily_update_stats(CURRENT_DATE);
+```
+
+**GitHub Actions**: Automatic daily updates at 2 AM EST (`.github/workflows/daily-property-update.yml`)
+
+---
+
 ## 🔒 CRITICAL: Work Coordination & Single UI Rules (PERMANENT MEMORY)
 
 **MANDATORY - READ ON EVERY SESSION START**
+
+### Rule 0: UI Verification Protocol (CANNOT BE SKIPPED)
+**⚠️ FOR ANY UI CODE CHANGE: VERIFICATION REQUIRED BEFORE AND AFTER WORK**
+
+**BEFORE Starting Work (Pre-Work Baseline):**
+0. **RUN PRE-WORK BASELINE VERIFICATION** (MANDATORY)
+   - Inspect current console state (all errors/warnings)
+   - Document existing issues
+   - Take baseline screenshot
+   - Establish baseline metrics (request count, load time)
+   - Create baseline report
+
+**AFTER Completing Work (Post-Work Verification):**
+1. Make code changes → Save files → Wait for hot reload
+2. **RUN POST-WORK VERIFICATION** (CANNOT SKIP)
+3. **INSPECT CONSOLE TAB - ANALYZE ALL ERRORS/WARNINGS** (MANDATORY)
+4. Check Network tab for excessive requests
+5. Take screenshot as evidence
+6. **COMPARE: Baseline vs Post-Work** (NEW errors? Metrics improved?)
+7. Fix NEW errors introduced, repeat until passing
+8. Report with BOTH baseline and post-work results
+9. Mark complete ONLY after verification passes
+
+**Console Analysis MUST Include:**
+- Total count of console messages
+- List ALL errors with full messages
+- List ALL warnings with full messages
+- Network request analysis
+- Screenshot evidence
+
+**Detailed Protocol:** `.claude/PERMANENT_MEMORY_VERIFICATION_PROTOCOL.md`
+
+---
 
 ### Rule 1: ONE UI Website - ONE Port - ONE Branch (NEVER VIOLATE)
 - **UI Location:** `apps/web/` (ONLY frontend - never create apps/web2/, apps/new-ui/)
