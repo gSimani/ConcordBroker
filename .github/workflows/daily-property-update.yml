@@ -1,0 +1,175 @@
+name: Daily Property Update
+
+on:
+  schedule:
+    # Run at 2:00 AM EST (7:00 AM UTC) every day
+    - cron: '0 7 * * *'
+
+  # Allow manual trigger
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Force update all counties'
+        required: false
+        default: 'false'
+      dry_run:
+        description: 'Dry run mode (no database changes)'
+        required: false
+        default: 'false'
+
+jobs:
+  update-properties:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180  # 3 hours max
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install Playwright
+        run: |
+          playwright install chromium
+          playwright install-deps
+
+      - name: Create logs directory
+        run: mkdir -p logs
+
+      - name: Run property update
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          FORCE: ${{ github.event.inputs.force || 'false' }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+        run: |
+          FLAGS=""
+          if [ "$FORCE" = "true" ]; then
+            FLAGS="$FLAGS --force"
+          fi
+          if [ "$DRY_RUN" = "true" ]; then
+            FLAGS="$FLAGS --dry-run"
+          fi
+
+          python scripts/daily_property_update.py $FLAGS
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: update-logs-${{ github.run_number }}
+          path: logs/
+          retention-days: 30
+
+      - name: Send success notification
+        if: success()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: '✅ Daily Property Update Completed'
+          body: |
+            Daily property update completed successfully!
+
+            Run: ${{ github.run_number }}
+            Time: ${{ github.event.schedule || 'Manual' }}
+
+            View logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          to: ${{ secrets.ADMIN_EMAIL }}
+          from: ConcordBroker Automation <noreply@concordbroker.com>
+
+      - name: Send failure notification
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: '❌ Daily Property Update FAILED'
+          body: |
+            Daily property update FAILED!
+
+            Run: ${{ github.run_number }}
+            Time: ${{ github.event.schedule || 'Manual' }}
+
+            URGENT: Check logs immediately!
+
+            View logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          to: ${{ secrets.ADMIN_EMAIL }}
+          from: ConcordBroker Automation <noreply@concordbroker.com>
+          priority: high
+
+  # Weekly full update (Sundays at 1:00 AM EST)
+  weekly-full-update:
+    runs-on: ubuntu-latest
+    if: github.event.schedule == '0 6 * * 0'
+    timeout-minutes: 300  # 5 hours for full update
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install Playwright
+        run: |
+          playwright install chromium
+          playwright install-deps
+
+      - name: Create logs directory
+        run: mkdir -p logs
+
+      - name: Run full property update
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          python scripts/daily_property_update.py --force
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: weekly-update-logs-${{ github.run_number }}
+          path: logs/
+          retention-days: 90
+
+      - name: Send notification
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: 'Weekly Full Property Update - ${{ job.status }}'
+          body: |
+            Weekly full property update completed with status: ${{ job.status }}
+
+            Run: ${{ github.run_number }}
+            Duration: ${{ job.duration }}
+
+            View logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          to: ${{ secrets.ADMIN_EMAIL }}
+          from: ConcordBroker Automation <noreply@concordbroker.com>
