@@ -9,6 +9,7 @@ from pathlib import Path
 import psycopg2
 from psycopg2 import sql
 from dotenv import load_dotenv
+from urllib.parse import quote_plus
 
 # Add parent to path
 sys.path.append(str(Path(__file__).parent.parent))
@@ -18,12 +19,23 @@ load_dotenv('.env.mcp')
 
 # Get database connection string
 # Format: postgres://postgres.{project_ref}:{password}@{host}:5432/postgres
+
 SUPABASE_URL = os.getenv('SUPABASE_URL')  # https://xxx.supabase.co
 SUPABASE_PASSWORD = os.getenv('POSTGRES_PASSWORD', 'West@Boca613!')
-SUPABASE_HOST = os.getenv('POSTGRES_HOST', 'db.pmispwtdngkcmsrsjwbp.supabase.co')
+
+# Extract project ref from SUPABASE_URL to build PostgreSQL host
+# Format: https://mogulpssjdlxjvstqfee.supabase.co -> db.mogulpssjdlxjvstqfee.supabase.co
+if SUPABASE_URL:
+    project_ref = SUPABASE_URL.replace('https://', '').replace('.supabase.co', '')
+    SUPABASE_HOST = os.getenv('POSTGRES_HOST', f'db.{project_ref}.supabase.co')
+else:
+    SUPABASE_HOST = os.getenv('POSTGRES_HOST', 'db.pmispwtdngkcmsrsjwbp.supabase.co')
+
+# URL-encode password to handle special characters like @
+encoded_password = quote_plus(SUPABASE_PASSWORD)
 
 # Build connection string
-DATABASE_URL = f"postgres://postgres:{SUPABASE_PASSWORD}@{SUPABASE_HOST}:5432/postgres"
+DATABASE_URL = f"postgres://postgres:{encoded_password}@{SUPABASE_HOST}:5432/postgres"
 
 # Schema file
 SCHEMA_FILE = Path(__file__).parent.parent / 'supabase' / 'migrations' / 'daily_update_schema.sql'
