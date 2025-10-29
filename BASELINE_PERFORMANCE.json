@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "testDate": "2025-10-29T23:12:54.537Z",
+    "supabaseUrl": "https://pmispwtdngkcmsrsjwbp.supabase.co",
+    "phase": "baseline"
+  },
+  "tests": {
+    "autocomplete": {
+      "name": "Autocomplete (4 parallel queries)",
+      "duration": 405,
+      "resultCount": 0,
+      "success": true,
+      "timestamp": "2025-10-29T23:12:54.942Z"
+    },
+    "propertySearch": {
+      "name": "Property search with county filter",
+      "duration": 75,
+      "resultCount": 100,
+      "success": true,
+      "timestamp": "2025-10-29T23:12:55.018Z"
+    },
+    "propertyDetail": {
+      "name": "Property detail lookup",
+      "duration": 81,
+      "resultCount": 1,
+      "success": true,
+      "timestamp": "2025-10-29T23:12:55.099Z"
+    },
+    "salesHistory": {
+      "name": "Sales history for parcel",
+      "duration": 57,
+      "resultCount": 0,
+      "success": true,
+      "timestamp": "2025-10-29T23:12:55.239Z"
+    },
+    "ownerSearch": {
+      "name": "Owner name search with ILIKE",
+      "duration": 54,
+      "resultCount": 50,
+      "success": true,
+      "timestamp": "2025-10-29T23:12:55.293Z"
+    },
+    "addressSearch": {
+      "name": "Address search with ILIKE",
+      "duration": 320,
+      "resultCount": 50,
+      "success": true,
+      "timestamp": "2025-10-29T23:12:55.613Z"
+    },
+    "valueRangeQuery": {
+      "name": "Property value range query",
+      "duration": 59,
+      "resultCount": 100,
+      "success": true,
+      "timestamp": "2025-10-29T23:12:55.672Z"
+    },
+    "yearBuiltRange": {
+      "name": "Year built range query",
+      "duration": 64,
+      "resultCount": 100,
+      "success": true,
+      "timestamp": "2025-10-29T23:12:55.736Z"
+    },
+    "multiFilter": {
+      "name": "Multi-filter complex query",
+      "duration": 56,
+      "resultCount": 100,
+      "success": true,
+      "timestamp": "2025-10-29T23:12:55.792Z"
+    },
+    "countQuery": {
+      "name": "Count query with filter",
+      "duration": 148,
+      "resultCount": 0,
+      "success": true,
+      "timestamp": "2025-10-29T23:12:55.940Z"
+    }
+  }
+}
