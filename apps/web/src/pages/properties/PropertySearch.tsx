@@ -146,6 +146,13 @@ export function PropertySearch({}: PropertySearchProps) {
   const resultsCache = useRef<Map<string, SearchCacheResult>>(new Map());
   const getCacheKey = (filters: SearchFilters) => JSON.stringify(filters);
 
+  // Render count tracking to identify infinite loops
+  const renderCount = useRef(0);
+  useEffect(() => {
+    renderCount.current += 1;
+    console.log(`[RENDER COUNT] PropertySearch rendered ${renderCount.current} times`);
+  });
+
   const [filters, setFilters] = useState<SearchFilters>({
     address: '',
     city: '',
@@ -773,9 +780,15 @@ export function PropertySearch({}: PropertySearchProps) {
   searchPropertiesRef.current = searchProperties;
 
   // Initial load effect - MUST be after searchProperties definition
+  // FIX: Remove searchProperties from dependencies to prevent infinite loop
+  // The comprehensive auto-filter useEffect (line 308) handles filter changes
   useEffect(() => {
-    searchProperties();
-  }, [searchProperties]); // Depend on searchProperties
+    // Only run on initial mount, not when searchProperties changes
+    if (renderCount.current === 1) {
+      searchProperties();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty deps = run once on mount
 
   // Handle filter changes
   const handleFilterChange = (key: keyof SearchFilters, value: string | boolean) => {

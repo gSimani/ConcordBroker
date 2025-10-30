@@ -344,7 +344,7 @@ const getPropertyTypeBadge = (useCode?: string, propertyType?: string, ownerName
           background: categoryStyle.bg
         }}
       >
-        {CategoryIconComponent && <CategoryIconComponent className="w-3 h-3 mr-1" />}
+        {CategoryIconComponent && React.createElement(CategoryIconComponent, { className: "w-3 h-3 mr-1" })}
         {category}
       </div>
 
