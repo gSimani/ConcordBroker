@@ -729,24 +729,57 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
         </div>
 
         <div className="p-4">
-          {/* Property Type/Usage Badge and Tax Certificate Indicator */}
-          <div className="mb-2 flex items-center justify-between">
-            {propertyBadge}
-            <div className="flex items-center space-x-1">
-              {data.has_tax_certificates && (
-                <Badge className="bg-orange-100 text-orange-800 border-orange-200 flex items-center space-x-1">
-                  <AlertTriangle className="w-3 h-3" />
-                  <span className="text-xs font-medium">
-                    {data.certificate_count} Certificate{data.certificate_count && data.certificate_count > 1 ? 's' : ''}
-                  </span>
-                </Badge>
-              )}
-              {data.auction_date && (
-                <Badge className="bg-red-100 text-red-800 border-red-200 flex items-center space-x-1">
-                  <Calendar className="w-3 h-3" />
-                  <span className="text-xs font-medium">Tax Deed Auction</span>
-                </Badge>
-              )}
+          {/* Property USE Display - Main Category & Subtype at Top */}
+          <div className="mb-3 pb-3" style={{borderBottom: '2px solid #ecf0f1'}}>
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                {/* Main USE Category */}
+                <div className="flex items-center space-x-2 mb-1.5">
+                  <div className={`flex items-center justify-center w-8 h-8 rounded-lg ${iconColor}`} style={{
+                    background: iconColor === 'text-orange-600' ? 'rgba(234, 88, 12, 0.1)' :
+                               iconColor === 'text-blue-600' ? 'rgba(37, 99, 235, 0.1)' :
+                               iconColor === 'text-green-600' ? 'rgba(22, 163, 74, 0.1)' :
+                               iconColor === 'text-emerald-600' ? 'rgba(5, 150, 105, 0.1)' :
+                               iconColor === 'text-purple-600' ? 'rgba(147, 51, 234, 0.1)' :
+                               'rgba(107, 114, 128, 0.1)'
+                  }}>
+                    {IconComponent && <IconComponent className="w-5 h-5" />}
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-wider font-semibold" style={{
+                      color: iconColor === 'text-orange-600' ? '#ea580c' :
+                             iconColor === 'text-blue-600' ? '#2563eb' :
+                             iconColor === 'text-green-600' ? '#16a34a' :
+                             iconColor === 'text-emerald-600' ? '#059669' :
+                             iconColor === 'text-purple-600' ? '#9333ea' :
+                             '#6b7280'
+                    }}>
+                      {category || 'Unknown'}
+                    </p>
+                    {/* SubUSE - Specific Property Type */}
+                    {useDescription && (
+                      <p className="text-xs font-medium mt-0.5" style={{color: '#7f8c8d'}}>
+                        {useDescription}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+              {/* Tax Certificate & Auction Indicators */}
+              <div className="flex flex-col items-end space-y-1">
+                {data.has_tax_certificates && (
+                  <Badge className="bg-orange-100 text-orange-800 border-orange-200 flex items-center space-x-1 text-xs">
+                    <AlertTriangle className="w-3 h-3" />
+                    <span>{data.certificate_count} Cert{data.certificate_count && data.certificate_count > 1 ? 's' : ''}</span>
+                  </Badge>
+                )}
+                {data.auction_date && (
+                  <Badge className="bg-red-100 text-red-800 border-red-200 flex items-center space-x-1 text-xs">
+                    <Calendar className="w-3 h-3" />
+                    <span>Auction</span>
+                  </Badge>
+                )}
+              </div>
             </div>
           </div>
 
