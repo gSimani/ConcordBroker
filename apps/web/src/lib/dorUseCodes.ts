@@ -185,15 +185,15 @@ export function getPropertyTypeFilter(propertyType: string): string[] {
       return ['000', '010', '040', '070', '080', '099']; // All vacant categories
     case 'GOVERNMENT':
     case 'GOVERNMENTAL':
-      return ['082', '083', '084', '086', '087', '088', '089'];
+      return ['081', '083', '084', '085', '086', '087', '088', '089']; // Government (excluding parks/conservation)
     case 'INSTITUTIONAL':
       return ['071', '072', '073', '074', '075', '076', '077', '078', '079'];
     case 'RELIGIOUS':
-      return ['077']; // Churches, temples, synagogues
+      return ['071']; // Churches, temples, synagogues, mosques
     case 'CONSERVATION':
-      return ['093', '094', '095', '096']; // Conservation lands, parks, preserves
+      return ['082', '093', '094', '095', '096', '097']; // Parks, conservation lands, recreational
     case 'VACANT/SPECIAL':
-      return ['000', '091', '092', '097', '098', '099']; // Vacant and special categories
+      return ['000', '010', '040', '070', '080', '090', '091', '092', '098', '099']; // All vacant + special categories
     case 'MISCELLANEOUS':
       return ['090', '091', '092', '093', '094', '095', '096', '097', '098', '099'];
     default:
@@ -231,4 +231,167 @@ export const SPECIAL_ASSESSMENT_CODES: Record<string, string> = {
 export function getSpecialAssessment(code: string | undefined | null): string | null {
   if (!code) return null;
   return SPECIAL_ASSESSMENT_CODES[code] || null;
+}
+
+/**
+ * Icon mappings for property types
+ * Returns the icon name that corresponds to lucide-react icons
+ */
+export type PropertyIconType =
+  | 'Home'           // Residential
+  | 'Building2'      // Office/Multi-family
+  | 'Store'          // Commercial/Retail
+  | 'Factory'        // Industrial
+  | 'TreePine'       // Agricultural/Vacant Land
+  | 'Landmark'       // Government
+  | 'Church'         // Religious/Institutional
+  | 'Hotel'          // Hotels/Motels
+  | 'MapPin'         // Location/General
+  | 'Wrench'         // Repair/Service
+  | 'Truck'          // Transportation/Warehouse
+  | 'Banknote'       // Financial
+  | 'Utensils'       // Restaurant/Food
+  | 'Building'       // Commercial Building
+  | 'GraduationCap'  // Schools
+  | 'Cross'          // Medical/Hospital
+  | 'Zap';           // Utilities
+
+/**
+ * Get icon type based on DOR use code
+ */
+export function getPropertyIcon(code: string | undefined | null): PropertyIconType {
+  if (!code) return 'Home';
+
+  const formattedCode = String(code).padStart(3, '0');
+  const firstDigit = formattedCode[0];
+  const twoDigits = formattedCode.substring(0, 2);
+
+  // Detailed icon mapping by specific codes
+  switch (formattedCode) {
+    // RESIDENTIAL
+    case '001': return 'Home';           // Single Family
+    case '002': return 'Home';           // Mobile Home
+    case '003': return 'Building2';      // Multi-family 10+
+    case '004': return 'Building2';      // Condos
+    case '005': return 'Building2';      // Co-ops
+    case '008': return 'Building2';      // Multi-family <10
+
+    // COMMERCIAL - Retail
+    case '011':
+    case '012':
+    case '013':
+    case '014':
+    case '015':
+    case '016': return 'Store';          // Stores, Shopping Centers
+
+    // COMMERCIAL - Office
+    case '017':
+    case '018':
+    case '019': return 'Building';       // Office Buildings
+
+    // COMMERCIAL - Transportation
+    case '020': return 'Truck';          // Airports, Terminals, Marinas
+
+    // COMMERCIAL - Food Service
+    case '021':
+    case '022': return 'Utensils';       // Restaurants
+
+    // COMMERCIAL - Financial
+    case '023':
+    case '024': return 'Banknote';       // Banks, Insurance
+
+    // COMMERCIAL - Services
+    case '025':
+    case '026':
+    case '027': return 'Wrench';         // Repair, Service Stations
+
+    // COMMERCIAL - Hospitality
+    case '039': return 'Hotel';          // Hotels/Motels
+
+    // INDUSTRIAL
+    case '048': return 'Truck';          // Warehouse
+
+    // AGRICULTURAL
+    case '066': return 'TreePine';       // Orchard/Grove
+
+    // INSTITUTIONAL
+    case '071': return 'Church';         // Churches
+    case '072':
+    case '083':
+    case '084': return 'GraduationCap';  // Schools
+    case '073':
+    case '085': return 'Cross';          // Hospitals
+
+    // GOVERNMENTAL
+    case '086':
+    case '087':
+    case '088':
+    case '089': return 'Landmark';       // Government Buildings
+
+    // UTILITIES
+    case '091': return 'Zap';            // Utilities
+
+    default:
+      break;
+  }
+
+  // Fallback by category (first digit or two digits)
+  if (firstDigit === '0') {
+    // 000-009: Residential
+    if (twoDigits === '00') return 'TreePine'; // Vacant Residential
+    return 'Home';
+  } else if (twoDigits === '01' || twoDigits === '02' || twoDigits === '03') {
+    // 010-039: Commercial
+    if (formattedCode === '010') return 'TreePine'; // Vacant Commercial
+    return 'Store';
+  } else if (twoDigits === '04') {
+    // 040-049: Industrial
+    if (formattedCode === '040') return 'TreePine'; // Vacant Industrial
+    return 'Factory';
+  } else if (twoDigits === '05' || twoDigits === '06') {
+    // 050-069: Agricultural
+    return 'TreePine';
+  } else if (twoDigits === '07') {
+    // 070-079: Institutional
+    if (formattedCode === '070') return 'TreePine'; // Vacant Institutional
+    return 'Church';
+  } else if (twoDigits === '08') {
+    // 080-089: Governmental
+    if (formattedCode === '080') return 'TreePine'; // Vacant Governmental
+    if (formattedCode === '082') return 'TreePine'; // Parks
+    return 'Landmark';
+  } else if (twoDigits === '09') {
+    // 090-099: Miscellaneous
+    if (formattedCode === '091') return 'Zap'; // Utilities
+    return 'MapPin';
+  }
+
+  // Final fallback
+  return 'Home';
+}
+
+/**
+ * Get icon color based on property category
+ */
+export function getPropertyIconColor(code: string | undefined | null): string {
+  const category = getPropertyCategory(code);
+
+  switch (category) {
+    case 'RESIDENTIAL':
+      return 'text-green-500';
+    case 'COMMERCIAL':
+      return 'text-blue-500';
+    case 'INDUSTRIAL':
+      return 'text-orange-500';
+    case 'AGRICULTURAL':
+      return 'text-yellow-600';
+    case 'INSTITUTIONAL':
+      return 'text-purple-500';
+    case 'GOVERNMENTAL':
+      return 'text-red-500';
+    case 'MISCELLANEOUS':
+      return 'text-gray-500';
+    default:
+      return 'text-gray-400';
+  }
 }
