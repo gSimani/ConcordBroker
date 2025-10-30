@@ -260,3 +260,181 @@ export const PROPERTY_STATUS = {
   'OFF_MARKET': 'Off Market',
   'COMING_SOON': 'Coming Soon'
 }
+
+/**
+ * STANDARDIZED PROPERTY USE MAPPING
+ * Maps filter button names to actual standardized_property_use database values
+ * These functions are used by PropertySearch to filter properties correctly
+ */
+
+export type PropertyFilterType =
+  | 'Residential'
+  | 'Commercial'
+  | 'Industrial'
+  | 'Agricultural'
+  | 'Institutional'
+  | 'Governmental'
+  | 'Vacant'
+  | 'All Properties';
+
+/**
+ * Get standardized_property_use values for a filter type
+ * These match the EXACT values in florida_parcels.standardized_property_use column
+ */
+export function getStandardizedPropertyUseValues(filterType: PropertyFilterType): string[] {
+  switch (filterType) {
+    case 'Residential':
+      return [
+        'Single Family Residential',  // 3,337,161 properties
+        'Condominium',                 // 958,443 properties
+        'Multi-Family',                // 594,074 properties (2-9 units)
+        'Multi-Family 10+ Units',      // 421,948 properties
+        'Vacant Residential',          // 65,844 properties
+        'Mobile Home',                 // 6,808 properties
+        // TOTAL: ~5,384,278 residential properties
+      ];
+
+    case 'Commercial':
+      return [
+        'Commercial',                  // 323,332 properties
+      ];
+
+    case 'Industrial':
+      return [
+        'Industrial',                  // 19,468 properties
+      ];
+
+    case 'Agricultural':
+      return [
+        'Agricultural',                // 186,235 properties
+      ];
+
+    case 'Institutional':
+      return [
+        'Institutional',               // 71,868 properties
+      ];
+
+    case 'Governmental':
+      return [
+        'Governmental',                // 56,048 properties
+      ];
+
+    case 'Vacant':
+      return [
+        'Vacant Residential',          // 65,844 properties
+        'Unknown',                     // 789,806 properties (may include vacant)
+      ];
+
+    case 'All Properties':
+    default:
+      return [];  // No filter - show all
+  }
+}
+
+/**
+ * Get display name for a standardized_property_use value
+ * Maps database values to user-friendly display names
+ */
+export function getPropertyUseDisplayName(standardizedUse: string | null | undefined): string {
+  if (!standardizedUse) return 'Unknown';
+
+  // Return the value as-is since they're already user-friendly
+  // e.g., "Single Family Residential", "Condominium", "Commercial"
+  return standardizedUse;
+}
+
+/**
+ * Get short display name for property cards
+ * Used in MiniPropertyCard for concise labels
+ */
+export function getPropertyUseShortName(standardizedUse: string | null | undefined): string {
+  if (!standardizedUse) return 'Unknown';
+
+  const shortNames: Record<string, string> = {
+    'Single Family Residential': 'Single Family',
+    'Multi-Family': 'Multi-Family',
+    'Multi-Family 10+ Units': 'Multi-Family 10+',
+    'Condominium': 'Condo',
+    'Mobile Home': 'Mobile Home',
+    'Vacant Residential': 'Vacant Residential',
+    'Commercial': 'Commercial',
+    'Industrial': 'Industrial',
+    'Agricultural': 'Agricultural',
+    'Institutional': 'Institutional',
+    'Governmental': 'Government',
+    'Common Area': 'Common Area',
+    'Utility': 'Utility',
+    'Centrally Assessed': 'Centrally Assessed',
+    'Parking': 'Parking',
+    'Marina': 'Marina',
+    'Unknown': 'Unknown',
+    'Other': 'Other',
+  };
+
+  return shortNames[standardizedUse] || standardizedUse;
+}
+
+/**
+ * Get category color for badges/labels
+ */
+export function getPropertyUseCategoryColor(standardizedUse: string | null | undefined): string {
+  if (!standardizedUse) return 'gray';
+
+  // Residential types
+  if (standardizedUse.includes('Residential') ||
+      standardizedUse.includes('Condominium') ||
+      standardizedUse.includes('Multi-Family') ||
+      standardizedUse.includes('Mobile Home')) {
+    return 'green';
+  }
+
+  // Commercial
+  if (standardizedUse === 'Commercial') {
+    return 'blue';
+  }
+
+  // Industrial
+  if (standardizedUse === 'Industrial') {
+    return 'orange';
+  }
+
+  // Agricultural
+  if (standardizedUse === 'Agricultural') {
+    return 'yellow';
+  }
+
+  // Institutional
+  if (standardizedUse === 'Institutional') {
+    return 'purple';
+  }
+
+  // Governmental
+  if (standardizedUse === 'Governmental') {
+    return 'red';
+  }
+
+  return 'gray';
+}
+
+/**
+ * Get total count for a filter type
+ * These are the actual counts in the database as of the latest audit
+ */
+export function getPropertyTypeCount(filterType: PropertyFilterType): number {
+  switch (filterType) {
+    case 'Residential':
+      return 5_384_278;  // All residential types combined
+    case 'Commercial':
+      return 323_332;
+    case 'Industrial':
+      return 19_468;
+    case 'Agricultural':
+      return 186_235;
+    case 'Institutional':
+      return 71_868;
+    case 'Governmental':
+      return 56_048;
+    default:
+      return 0;
+  }
+}

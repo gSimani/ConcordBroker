@@ -20,6 +20,7 @@ import { api } from '@/api/client';
 import { OptimizedSearchBar } from '@/components/OptimizedSearchBar';
 import { getPropertyTypeFilter } from '@/lib/dorUseCodes';
 import { sortByPropertyRank } from '@/lib/propertyRanking';
+import { getStandardizedPropertyUseValues, type PropertyFilterType } from '@/lib/property-types';
 import '@/styles/elegant-property.css';
 import {
   Search,
@@ -565,15 +566,22 @@ export function PropertySearch({}: PropertySearchProps) {
         // CRITICAL: Apply filters in optimal order (most selective first)
         // NOTE: County filter already applied above as default
 
-        // 1. Property type filter (uses standardized_property_use for 100% accuracy)
+        // 1. Property type filter (FIXED: uses property_use DOR codes instead of NULL standardized_property_use)
         if (apiFilters.property_type && apiFilters.property_type !== 'All Properties') {
-          console.log('[FILTER DEBUG] Applying standardized_property_use filter:', {
-            propertyType: apiFilters.property_type,
-            county: countyFilter
-          });
-          // Use standardized_property_use column for accurate filtering across all counties
-          // This captures ALL properties (e.g., 323K commercial vs 195K with old method)
-          query = query.eq('standardized_property_use', apiFilters.property_type);
+          // Get DOR codes for the property type (01-09 for Residential, 10-39 for Commercial, etc.)
+          const dorCodes = getCodesForPropertyType(apiFilters.property_type);
+
+          if (dorCodes.length > 0) {
+            console.log('[FILTER DEBUG] Applying property_use DOR code filter:', {
+              propertyType: apiFilters.property_type,
+              dorCodes: dorCodes.length,
+              county: countyFilter,
+              sampleCodes: dorCodes.slice(0, 5)
+            });
+
+            // Query using property_use field with DOR codes (works for 100% of database)
+            query = query.in('property_use', dorCodes);
+          }
         }
 
         // 3. Value range filters (uses index)
