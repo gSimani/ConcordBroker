@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { SearchableSelect } from '@/components/ui/searchable-select';
 import { MiniPropertyCard } from '@/components/property/MiniPropertyCard';
+import { VirtualizedPropertyList } from '@/components/property/VirtualizedPropertyList';
 import { PropertyMap } from '@/components/property/PropertyMap';
 import { AISearchEnhanced } from '@/components/ai/AISearchEnhanced';
 import { AIChatbox } from '@/components/ai/AIChatbox';
@@ -192,6 +193,12 @@ export function PropertySearch({}: PropertySearchProps) {
   const isInitialMount = useRef(true);
   const pipeline = useDataPipeline();
   const optimizedSearch = useOptimizedPropertySearch();
+
+  // FIX: Use ref to always get latest filters state (prevents stale closure bug)
+  const filtersRef = useRef(filters);
+  useEffect(() => {
+    filtersRef.current = filters;
+  }, [filters]);
 
   // CRITICAL FIX: Batch fetch sales data for all properties to eliminate N+1 query problem
   // This single query replaces 500+ individual API requests, reducing load time from 2-5s to <500ms
@@ -435,6 +442,9 @@ export function PropertySearch({}: PropertySearchProps) {
   const searchProperties = useCallback(async (page = 1) => {
     setLoading(true);
     try {
+      // FIX: Use latest filters from ref (prevents stale closure)
+      const currentFilters = filtersRef.current;
+
       // Map frontend keys to API keys
       const apiFilters: Record<string, any> = {};
       const keyMap: Record<string, string> = {
@@ -469,7 +479,7 @@ export function PropertySearch({}: PropertySearchProps) {
         zoning: 'zoning'
       };
 
-      Object.entries(filters).forEach(([key, value]) => {
+      Object.entries(currentFilters).forEach(([key, value]) => {
         if (value && value !== 'all-cities' && value !== 'all-types' && value !== '') {
           // Skip taxDelinquent as it needs special handling
           if (key === 'taxDelinquent') {
@@ -1398,6 +1408,7 @@ export function PropertySearch({}: PropertySearchProps) {
                 placeholder="Search by address (e.g. '123 Main St'), city, or owner name..."
                 showMetrics={true}
                 enableVoiceSearch={true}
+                county={filters.county}
               />
 
               {/* Quick Filters - Only show when not in advanced mode */}
@@ -2327,46 +2338,32 @@ export function PropertySearch({}: PropertySearchProps) {
                   </div>
                 )}
 
-                <div className={
-                  viewMode === 'grid'
-                    ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'
-                    : 'space-y-2'
-                }>
-                  {properties.map((property) => {
-                    const transformedProperty = transformPropertyData(property);
-                    const parcelId = transformedProperty.parcel_id;
-                    return (
-                      <MiniPropertyCard
-                        key={parcelId || transformedProperty.id}
-                        parcelId={parcelId}
-                        data={transformedProperty}
-                        salesData={batchSalesData?.[parcelId]}
-                        isBatchLoading={batchLoading}
-                        variant={viewMode}
-                        onClick={() => handlePropertyClick(property)}
-                        isWatched={property.is_watched}
-                        hasNotes={property.note_count > 0}
-                        priority={property.note_count > 5 ? 'high' : property.note_count > 2 ? 'medium' : 'low'}
-                        isSelected={selectedProperties.has(String(parcelId || transformedProperty.id))}
-                        onToggleSelection={() => togglePropertySelection(parcelId || transformedProperty.id)}
-                      />
-                    );
-                  })}
-                </div>
+                {/* PHASE 3: Virtual Scrolling for Performance - Renders only visible properties */}
+                <VirtualizedPropertyList
+                  properties={properties.map(transformPropertyData)}
+                  hasNextPage={hasMore}
+                  isNextPageLoading={loading}
+                  loadNextPage={async () => {
+                    if (!loading && hasMore) {
+                      await searchProperties(currentPage + 1);
+                    }
+                  }}
+                  onPropertyClick={handlePropertyClick}
+                  viewMode={viewMode}
+                  height={800}
+                  selectedProperties={selectedProperties}
+                  onToggleSelection={togglePropertySelection}
+                  batchSalesData={batchSalesData}
+                  isBatchLoading={batchLoading}
+                />
 
-                {/* PHASE 3: Infinite Scroll Trigger */}
-                {hasMore && (
-                  <div ref={triggerRef} className="mt-8 text-center py-4">
-                    {loading ? (
-                      <div className="flex flex-col items-center space-y-3">
-                        <RefreshCw className="w-8 h-8 animate-spin" style={{ color: '#d4af37' }} />
-                        <p className="text-sm text-gray-600">Loading more properties...</p>
-                      </div>
-                    ) : (
-                      <Button
-                        onClick={() => searchProperties(currentPage + 1)}
-                        size="lg"
-                        className="px-8 py-4"
+                {/* Load More Button (backup for manual loading) */}
+                {hasMore && !loading && (
+                  <div className="mt-8 text-center py-4">
+                    <Button
+                      onClick={() => searchProperties(currentPage + 1)}
+                      size="lg"
+                      className="px-8 py-4"
                         style={{
                           backgroundColor: '#d4af37',
                           color: 'white',
@@ -2379,7 +2376,12 @@ export function PropertySearch({}: PropertySearchProps) {
                           ({remainingCount.toLocaleString()} remaining)
                         </span>
                       </Button>
-                    )}
+                    </div>
+                  )}
+
+                {/* Property count and progress bar */}
+                {properties.length > 0 && (
+                  <div className="mt-8 text-center">
                     <div className="mt-4 space-y-2">
                       <p className="text-sm text-gray-600">
                         Showing {properties.length.toLocaleString()} of {totalResults.toLocaleString()} total properties
