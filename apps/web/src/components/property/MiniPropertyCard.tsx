@@ -21,7 +21,13 @@ import {
   Tag,
   CheckSquare,
   AlertTriangle,
-  ExternalLink
+  ExternalLink,
+  Factory,
+  TreePine,
+  Church,
+  Shield,
+  Leaf,
+  Landmark
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -251,75 +257,96 @@ const getPropertyTypeBadge = (useCode?: string, propertyType?: string, ownerName
   const shortName = getUseCodeShortName(useCode);
   const useCodeInfo = getUseCodeInfo(useCode);
 
+  // Category styling configuration (icon + color)
+  const getCategoryStyle = (cat: string) => {
+    const styles = {
+      'Residential': {
+        icon: Home,
+        color: 'rgb(46, 204, 113)',
+        bg: 'rgba(46, 204, 113, 0.1)'
+      },
+      'Commercial': {
+        icon: Building,
+        color: 'rgb(155, 89, 182)',
+        bg: 'rgba(155, 89, 182, 0.1)'
+      },
+      'Industrial': {
+        icon: Factory,
+        color: 'rgb(230, 126, 34)',
+        bg: 'rgba(230, 126, 34, 0.1)'
+      },
+      'Agricultural': {
+        icon: TreePine,
+        color: 'rgb(241, 196, 15)',
+        bg: 'rgba(241, 196, 15, 0.1)'
+      },
+      'Government': {
+        icon: Shield,
+        color: 'rgb(231, 76, 60)',
+        bg: 'rgba(231, 76, 60, 0.1)'
+      },
+      'Governmental': {
+        icon: Landmark,
+        color: 'rgb(231, 76, 60)',
+        bg: 'rgba(231, 76, 60, 0.1)'
+      },
+      'Conservation': {
+        icon: Leaf,
+        color: 'rgb(39, 174, 96)',
+        bg: 'rgba(39, 174, 96, 0.1)'
+      },
+      'Religious': {
+        icon: Church,
+        color: 'rgb(142, 68, 173)',
+        bg: 'rgba(142, 68, 173, 0.1)'
+      },
+      'Vacant/Special': {
+        icon: Square,
+        color: 'rgb(243, 156, 18)',
+        bg: 'rgba(243, 156, 18, 0.1)'
+      },
+      'Vacant Land': {
+        icon: Square,
+        color: 'rgb(149, 165, 166)',
+        bg: 'rgba(149, 165, 166, 0.1)'
+      },
+      'Institutional': {
+        icon: Building,
+        color: 'rgb(155, 89, 182)',
+        bg: 'rgba(155, 89, 182, 0.1)'
+      },
+      'Miscellaneous': {
+        icon: Tag,
+        color: 'rgb(149, 165, 166)',
+        bg: 'rgba(149, 165, 166, 0.1)'
+      },
+      'Unknown': {
+        icon: Tag,
+        color: 'rgb(149, 165, 166)',
+        bg: 'rgba(149, 165, 166, 0.1)'
+      }
+    };
+    return styles[cat as keyof typeof styles] || styles['Unknown'];
+  };
+
+  const categoryStyle = getCategoryStyle(category);
+  const CategoryIcon = categoryStyle.icon;
+
   // Return both category badge and detailed use badge
   return (
     <div className="flex items-center flex-wrap gap-1.5">
-      {/* Main category badge */}
-      {category === 'Residential' && (
-        <Badge className="bg-green-100 text-green-800 border-green-200 font-medium">
-          Residential
-        </Badge>
-      )}
-      {category === 'Commercial' && (
-        <Badge className="bg-blue-100 text-blue-800 border-blue-200 font-medium">
-          Commercial
-        </Badge>
-      )}
-      {category === 'Industrial' && (
-        <Badge className="bg-orange-100 text-orange-800 border-orange-200 font-medium">
-          Industrial
-        </Badge>
-      )}
-      {category === 'Agricultural' && (
-        <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200 font-medium">
-          Agricultural
-        </Badge>
-      )}
-      {category === 'Vacant Land' && (
-        <Badge className="bg-gray-100 text-gray-800 border-gray-200 font-medium">
-          Vacant Land
-        </Badge>
-      )}
-      {category === 'Institutional' && (
-        <Badge className="bg-purple-100 text-purple-800 border-purple-200 font-medium">
-          Institutional
-        </Badge>
-      )}
-      {category === 'Governmental' && (
-        <Badge className="bg-indigo-100 text-indigo-800 border-indigo-200 font-medium">
-          Governmental
-        </Badge>
-      )}
-      {category === 'Miscellaneous' && (
-        <Badge className="bg-gray-100 text-gray-800 border-gray-200 font-medium">
-          Miscellaneous
-        </Badge>
-      )}
-      {category === 'Unknown' && (
-        <Badge className="bg-gray-100 text-gray-600 border-gray-200 font-medium">
-          Unknown
-        </Badge>
-      )}
-      {category === 'Religious' && (
-        <Badge className="bg-purple-100 text-purple-800 border-purple-200 font-medium">
-          Religious
-        </Badge>
-      )}
-      {category === 'Government' && (
-        <Badge className="bg-red-100 text-red-800 border-red-200 font-medium">
-          Government
-        </Badge>
-      )}
-      {category === 'Conservation' && (
-        <Badge className="bg-emerald-100 text-emerald-800 border-emerald-200 font-medium">
-          Conservation
-        </Badge>
-      )}
-      {category === 'Vacant/Special' && (
-        <Badge className="bg-amber-100 text-amber-800 border-amber-200 font-medium">
-          Vacant/Special
-        </Badge>
-      )}
+      {/* Main category badge with icon - ELEGANT STYLE */}
+      <div
+        className="badge-elegant inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium transition-colors"
+        style={{
+          borderColor: categoryStyle.color,
+          color: categoryStyle.color,
+          background: categoryStyle.bg
+        }}
+      >
+        <CategoryIcon className="w-3 h-3 mr-1" />
+        {category}
+      </div>
 
       {/* NEW: Property USE description badge with icon (from property_use field) */}
       {useDescription && useDescription !== 'Property' && IconComponent && (
