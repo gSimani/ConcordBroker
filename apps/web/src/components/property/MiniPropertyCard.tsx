@@ -252,48 +252,32 @@ const getPropertyTypeBadge = (standardizedPropertyUse?: string, useCode?: string
   let IconComponent: any;
   let iconColor: string = '';
 
-  // PRIORITY 1: Use standardized_property_use directly from database (100% accurate)
-  if (standardizedPropertyUse) {
-    category = getPropertyUseShortName(standardizedPropertyUse);
-    useDescription = standardizedPropertyUse; // Use full name as description
+  // PRIORITY 1: Use property_use (DOR code) - most accurate source!
+  // DOR codes are the official Florida Department of Revenue classification
+  if (propertyUse) {
+    const propertyUseStr = String(propertyUse);
+    category = getStandardizedCategory(propertyUseStr);
+    useDescription = getPropertySubtype(propertyUseStr);
 
     // Debug logging
     if (import.meta.env.DEV) {
-      console.log('[MiniPropertyCard] Using standardized_property_use:', {
-        standardizedPropertyUse,
+      console.log('[MiniPropertyCard] Using property_use DOR code (PRIMARY):', {
+        propertyUse: propertyUseStr,
         category,
+        useDescription,
         ownerName: ownerName?.substring(0, 30)
       });
     }
 
-    // Get icon and color based on standardized category
-    // Map standardized categories to icon names
-    const categoryLower = standardizedPropertyUse.toLowerCase();
-    if (categoryLower.includes('residential') || categoryLower.includes('condominium') || categoryLower.includes('home')) {
-      IconComponent = Home;
-      iconColor = 'text-blue-600';
-    } else if (categoryLower.includes('commercial')) {
-      IconComponent = Store;
-      iconColor = 'text-green-600';
-    } else if (categoryLower.includes('industrial')) {
-      IconComponent = Factory;
-      iconColor = 'text-orange-600';
-    } else if (categoryLower.includes('agricultural')) {
-      IconComponent = TreePine;
-      iconColor = 'text-emerald-600';
-    } else if (categoryLower.includes('institutional') || categoryLower.includes('government')) {
-      IconComponent = Landmark;
-      iconColor = 'text-purple-600';
-    } else if (categoryLower.includes('vacant')) {
-      IconComponent = Square;
-      iconColor = 'text-gray-500';
-    } else {
-      IconComponent = Home;
-      iconColor = 'text-gray-500';
-    }
+    // Get icon and color from DOR code system
+    dorCode = getDorCodeFromPropertyUse(propertyUseStr);
+    const iconName = getPropertyIcon(dorCode || propertyUseStr);
+    IconComponent = ICON_MAP[iconName] || Home; // Convert string to React component
+    iconColor = getPropertyIconColor(dorCode || propertyUseStr);
   }
-  // PRIORITY 2: Fallback to property_use parsing if standardized field is missing
-  else if (propertyUse) {
+  // PRIORITY 2: Fallback to standardized_property_use if DOR code is missing
+  // NOTE: This column has data quality issues, so only use as fallback!
+  else if (standardizedPropertyUse) {
     const propertyUseStr = String(propertyUse);
     category = getStandardizedCategory(propertyUseStr);
     useDescription = getPropertySubtype(propertyUseStr);
@@ -904,6 +888,50 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
                   <span className="text-xs" style={{color: '#95a5a6'}}>Built</span>
                 </div>
                 <span className="font-semibold text-xs" style={{color: '#2c3e50'}}>{data.act_yr_blt}</span>
+              </div>
+            )}
+
+            {/* Units Count (Multi-Family) */}
+            {(data.units || data.no_res_unts) && (Number(data.units) > 1 || Number(data.no_res_unts) > 1) && (
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-1">
+                  <Building2 className="w-3 h-3" style={{color: '#9b59b6'}} />
+                  <span className="text-xs" style={{color: '#9b59b6'}}>Units</span>
+                </div>
+                <span className="font-semibold text-xs" style={{color: '#2c3e50'}}>
+                  {data.units || data.no_res_unts}
+                </span>
+              </div>
+            )}
+
+            {/* Annual Property Tax */}
+            {(data.taxable_value || data.tv_nsd) && (
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-1">
+                  <Tag className="w-3 h-3" style={{color: '#e67e22'}} />
+                  <span className="text-xs" style={{color: '#e67e22'}}>Est. Tax</span>
+                </div>
+                <span className="font-semibold text-xs" style={{color: '#2c3e50'}}>
+                  {formatCurrency(Math.round((Number(data.taxable_value) || Number(data.tv_nsd) || 0) * 0.015))}
+                </span>
+              </div>
+            )}
+
+            {/* Last Sale */}
+            {enhancedData.sale_prc1 && enhancedData.sale_prc1 > 1000 && (
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-1">
+                  <TrendingUp className="w-3 h-3" style={{color: '#27ae60'}} />
+                  <span className="text-xs" style={{color: '#27ae60'}}>Last Sale</span>
+                </div>
+                <span className="font-semibold text-xs" style={{color: '#2c3e50'}}>
+                  {formatCurrency(enhancedData.sale_prc1)}
+                  {enhancedData.sale_yr1 && (
+                    <span className="text-xs ml-1" style={{color: '#95a5a6'}}>
+                      ({enhancedData.sale_yr1})
+                    </span>
+                  )}
+                </span>
               </div>
             )}
           </div>
