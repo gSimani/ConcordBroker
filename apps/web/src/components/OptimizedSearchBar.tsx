@@ -4,7 +4,11 @@
  */
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Search, Clock, Zap, TrendingUp, X, Filter, MapPin, User, Home, Building2, Store, Factory, TreePine, Landmark, Church } from 'lucide-react';
+import {
+  Search, Clock, Zap, TrendingUp, X, Filter, MapPin, User, Home, Building2,
+  Store, Factory, TreePine, Landmark, Church, Hotel, Wrench, Truck, Banknote,
+  Utensils, Building, GraduationCap, Cross
+} from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -13,6 +17,7 @@ import { useOptimizedSearch } from '@/hooks/useOptimizedSearch';
 import { useSearchDebounce } from '@/hooks/useDebounce';
 import { api } from '@/api/client';
 import { usePropertyAutocomplete } from '@/hooks/usePropertyAutocomplete';
+import { getPropertyIcon, getPropertyIconColor, type PropertyIconType } from '@/lib/dorUseCodes';
 
 interface Suggestion {
   type: 'address' | 'owner' | 'city' | 'history';
@@ -28,6 +33,7 @@ interface SearchBarProps {
   placeholder?: string;
   showMetrics?: boolean;
   enableVoiceSearch?: boolean;
+  county?: string; // Dynamic county filter for autocomplete
 }
 
 interface SearchMetrics {
@@ -37,58 +43,42 @@ interface SearchMetrics {
   totalRequests: number;
 }
 
-// Helper function to get property type icon
-const getPropertyIcon = (propertyType?: string) => {
-  if (!propertyType) return Home;
-
-  const type = propertyType.toLowerCase();
-
-  if (type.includes('commercial') || type.includes('retail') || type.includes('store')) {
-    return Store;
-  } else if (type.includes('industrial') || type.includes('warehouse')) {
-    return Factory;
-  } else if (type.includes('office') || type.includes('professional')) {
-    return Building2;
-  } else if (type.includes('vacant') || type.includes('land') || type.includes('agricultural')) {
-    return TreePine;
-  } else if (type.includes('government') || type.includes('municipal')) {
-    return Landmark;
-  } else if (type.includes('religious') || type.includes('church')) {
-    return Church;
-  } else {
-    return Home; // Default to residential
-  }
+// Icon component map - maps icon names from DOR codes to actual Lucide React components
+const ICON_MAP: Record<PropertyIconType, React.ComponentType<any>> = {
+  'Home': Home,
+  'Building2': Building2,
+  'Store': Store,
+  'Factory': Factory,
+  'TreePine': TreePine,
+  'Landmark': Landmark,
+  'Church': Church,
+  'Hotel': Hotel,
+  'MapPin': MapPin,
+  'Wrench': Wrench,
+  'Truck': Truck,
+  'Banknote': Banknote,
+  'Utensils': Utensils,
+  'Building': Building,
+  'GraduationCap': GraduationCap,
+  'Cross': Cross,
+  'Zap': Zap,
 };
 
-// Helper function to get property type color
-const getPropertyColor = (propertyType?: string) => {
-  if (!propertyType) return 'text-blue-500';
+// Helper function to get the actual icon component for a property type
+const getPropertyIconComponent = (propertyUseCode?: string): React.ComponentType<any> => {
+  if (!propertyUseCode) return Home;
 
-  const type = propertyType.toLowerCase();
-
-  if (type.includes('commercial') || type.includes('retail')) {
-    return 'text-purple-500';
-  } else if (type.includes('industrial')) {
-    return 'text-orange-500';
-  } else if (type.includes('office')) {
-    return 'text-indigo-500';
-  } else if (type.includes('vacant') || type.includes('land')) {
-    return 'text-green-500';
-  } else if (type.includes('government')) {
-    return 'text-gray-600';
-  } else if (type.includes('religious')) {
-    return 'text-pink-500';
-  } else {
-    return 'text-blue-500'; // Residential
-  }
+  const iconName = getPropertyIcon(propertyUseCode);
+  return ICON_MAP[iconName] || Home;
 };
 
 export function OptimizedSearchBar({
   onResults,
   onFiltersChange,
-  placeholder = "Search by address (e.g. '123 Main St'), city, or owner name...",
+  placeholder = "Search by address (e.g. '123 Main St'), city, county, or owner name...",
   showMetrics = true,
-  enableVoiceSearch = false
+  enableVoiceSearch = false,
+  county
 }: SearchBarProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [isVoiceSearching, setIsVoiceSearching] = useState(false);
@@ -97,6 +87,7 @@ export function OptimizedSearchBar({
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const [autocompleteLoading, setAutocompleteLoading] = useState(false);
   const [combinedSuggestions, setCombinedSuggestions] = useState<Suggestion[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
@@ -114,8 +105,8 @@ export function OptimizedSearchBar({
     preloadPopularSearches
   } = useOptimizedSearch();
 
-  // Use Supabase-powered autocomplete for real data
-  const { suggestions: supabaseSuggestions, loading: supabaseLoading, searchProperties } = usePropertyAutocomplete();
+  // Use Supabase-powered autocomplete for real data (with dynamic county filtering)
+  const { suggestions: supabaseSuggestions, loading: supabaseLoading, searchProperties } = usePropertyAutocomplete(county);
 
   // Performance metrics state
   const [performanceMetrics, setPerformanceMetrics] = useState<SearchMetrics>({
@@ -162,7 +153,7 @@ export function OptimizedSearchBar({
         property_type: s.property_type,  // Correct: s.property_type
         metadata: {
           city: s.metadata?.city,              // Correct: nested in metadata
-          county: 'BROWARD',                   // Default county (hook filters by this)
+          county: county,                      // Dynamic county filter (no default)
           zip_code: s.metadata?.zip_code,      // Correct: nested, note underscore
           parcel_id: s.metadata?.parcel_id,    // Correct: nested, note underscore
           owner_name: s.metadata?.owner_name,  // Correct: nested, note underscore
@@ -281,27 +272,43 @@ export function OptimizedSearchBar({
   }, [handleSearchChange]);
 
   // Execute search with current search term
-  const executeSearch = useCallback(() => {
+  const executeSearch = useCallback(async () => {
+    // Prevent multiple simultaneous searches
+    if (isSearching || !searchTerm.trim()) {
+      return;
+    }
+
     const searchFilters = {
       ...activeFilters,
       address: searchTerm
     };
 
-    if (onFiltersChange) {
-      onFiltersChange(searchFilters);
-    }
+    // Set loading state immediately for instant visual feedback
+    setIsSearching(true);
 
-    // Perform instant search
-    if (searchInstant) {
-      searchInstant(searchFilters).then(result => {
+    try {
+      if (onFiltersChange) {
+        onFiltersChange(searchFilters);
+      }
+
+      // Perform instant search with proper error handling
+      if (searchInstant) {
+        const result = await searchInstant(searchFilters);
         onResults(result);
-      });
-    }
+      }
 
-    // Hide suggestions after search
-    setShowSuggestions(false);
-    setCombinedSuggestions([]);
-  }, [activeFilters, searchTerm, onFiltersChange, searchInstant, onResults]);
+      // Hide suggestions after successful search
+      setShowSuggestions(false);
+      setCombinedSuggestions([]);
+    } catch (error) {
+      // Handle errors gracefully
+      console.error('Search execution failed:', error);
+      // Don't clear results on error - keep previous results visible
+    } finally {
+      // Always clear loading state
+      setIsSearching(false);
+    }
+  }, [activeFilters, searchTerm, onFiltersChange, searchInstant, onResults, isSearching]);
 
   // Handle keyboard navigation
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
@@ -446,11 +453,21 @@ export function OptimizedSearchBar({
               <Button
                 size="sm"
                 onClick={executeSearch}
-                className="h-8 px-3 bg-[#d4af37] hover:bg-[#c4a137] text-white"
+                disabled={isSearching || loading || !searchTerm.trim()}
+                className="h-8 px-3 bg-[#d4af37] hover:bg-[#c4a137] text-white disabled:opacity-50 disabled:cursor-not-allowed"
                 title="Search (or press Enter)"
               >
-                <Search className="w-3 h-3 mr-1" />
-                Search
+                {isSearching ? (
+                  <>
+                    <div className="w-3 h-3 mr-1 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Searching...
+                  </>
+                ) : (
+                  <>
+                    <Search className="w-3 h-3 mr-1" />
+                    Search
+                  </>
+                )}
               </Button>
             )}
 
@@ -509,18 +526,29 @@ export function OptimizedSearchBar({
                 </div>
               )}
               {combinedSuggestions.map((suggestion, index) => {
+                // DEBUG: Log property type data
+                if (suggestion.type === 'address' && index === 0) {
+                  console.log('[AUTOCOMPLETE DEBUG]', {
+                    display: suggestion.display,
+                    property_type: suggestion.property_type,
+                    iconName: getPropertyIcon(suggestion.property_type),
+                    iconColor: getPropertyIconColor(suggestion.property_type),
+                    metadata: suggestion.metadata
+                  });
+                }
+
                 // Select icon based on suggestion type
                 const Icon = suggestion.type === 'address'
-                  ? getPropertyIcon(suggestion.property_type)
+                  ? getPropertyIconComponent(suggestion.property_type)
                   : suggestion.type === 'owner'
                   ? User
                   : suggestion.type === 'city'
                   ? MapPin
                   : Clock;
 
-                // Select color based on suggestion type
+                // Select color based on DOR use code
                 const iconColor = suggestion.type === 'address'
-                  ? getPropertyColor(suggestion.property_type)
+                  ? getPropertyIconColor(suggestion.property_type)
                   : suggestion.type === 'owner'
                   ? 'text-green-500'
                   : suggestion.type === 'city'
@@ -540,9 +568,9 @@ export function OptimizedSearchBar({
                     <Icon className={`w-4 h-4 ${iconColor} flex-shrink-0`} />
                     <div className="flex-1 min-w-0">
                       <span className="text-sm text-gray-900 block truncate">{suggestion.display}</span>
-                      {suggestion.type === 'address' && suggestion.property_type && (
-                        <span className="text-xs text-gray-500 capitalize">
-                          {suggestion.property_type}
+                      {suggestion.type === 'address' && suggestion.metadata?.property_use_desc && (
+                        <span className="text-xs text-blue-600 font-medium">
+                          {suggestion.metadata.property_use_desc}
                         </span>
                       )}
                       {suggestion.type === 'address' && suggestion.metadata && (
