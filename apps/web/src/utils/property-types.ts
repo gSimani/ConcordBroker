@@ -38,8 +38,8 @@ export const PROPERTY_TYPE_CODES = {
     '010', '011', '012', '013', '014', '015', '016', '017', '018', '019',
     '020', '021', '022', '023', '024', '025', '026', '027', '028', '029',
     '030', '031', '032', '033', '034', '035', '036', '037', '038', '039',
-    // Text code
-    'COM'
+    // Text codes (Broward and other counties)
+    'COM', 'COMM'
   ],
   industrial: [
     // 2-digit codes
@@ -56,8 +56,8 @@ export const PROPERTY_TYPE_CODES = {
     // 3-digit codes
     '051', '052', '053', '054', '055', '056', '057', '058', '059',
     '060', '061', '062', '063', '064', '065', '066', '067', '068', '069',
-    // Text code
-    'AGR'
+    // Text codes (Broward and other counties)
+    'AGR', 'AG'
   ],
   institutional: [
     // Numeric codes
@@ -76,8 +76,8 @@ export const PROPERTY_TYPE_CODES = {
     '00', '0', '90', '91', '92', '93', '94', '95', '96', '97', '98', '99',
     // 3-digit codes
     '000', '090', '091', '092', '093', '094', '095', '096', '097', '098', '099',
-    // Text code
-    'VAC'
+    // Text codes (Broward and other counties)
+    'VAC', 'VAC_RES'
   ]
 } as const;
 
