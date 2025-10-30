@@ -20,7 +20,8 @@ import { api } from '@/api/client';
 import { OptimizedSearchBar } from '@/components/OptimizedSearchBar';
 import { getPropertyTypeFilter } from '@/lib/dorUseCodes';
 import { sortByPropertyRank } from '@/lib/propertyRanking';
-import { getStandardizedPropertyUseValues, type PropertyFilterType } from '@/lib/property-types';
+import { getCodesForPropertyType, getPropertyCategory, getPropertySubtype, getStandardizedPropertyUseValues } from '@/utils/property-types';
+import { type PropertyFilterType } from '@/lib/property-types';
 import '@/styles/elegant-property.css';
 import {
   Search,
@@ -41,7 +42,8 @@ import {
   AlertTriangle,
   Info,
   Brain,
-  Gavel
+  Gavel,
+  Loader2
 } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
@@ -2177,12 +2179,32 @@ export function PropertySearch({}: PropertySearchProps) {
                     >
                       <span style={{color: '#2c3e50'}}>Clear All</span>
                     </Button>
-                    <Button 
-                      className="h-12 px-6 hover-lift"
-                      style={{background: '#d4af37', borderColor: '#d4af37'}}
+                    <Button
+                      className="h-12 px-6 hover-lift relative overflow-hidden transition-all duration-300"
+                      style={{
+                        background: loading ? '#b8962d' : '#d4af37',
+                        borderColor: loading ? '#b8962d' : '#d4af37',
+                        opacity: loading ? 0.9 : 1,
+                        transform: loading ? 'scale(0.98)' : 'scale(1)',
+                        boxShadow: loading ? '0 0 20px rgba(212, 175, 55, 0.5)' : '0 2px 4px rgba(0,0,0,0.1)'
+                      }}
                       onClick={() => searchProperties(1)}
+                      disabled={loading}
                     >
-                      Apply Filters
+                      {loading && (
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer"
+                             style={{
+                               backgroundSize: '200% 100%',
+                               animation: 'shimmer 1.5s infinite'
+                             }}
+                        />
+                      )}
+                      <div className="flex items-center gap-2 relative z-10">
+                        {loading && (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        )}
+                        <span>{loading ? 'Processing...' : 'Apply Filters'}</span>
+                      </div>
                     </Button>
                   </div>
                 </div>
