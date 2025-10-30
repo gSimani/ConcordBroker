@@ -41,46 +41,65 @@ export function usePropertyAutocomplete(county?: string) {
     setLoading(true);
     try {
       const cleanQuery = query.trim().toUpperCase();
-      // Dynamic county filter - defaults to BROWARD for backward compatibility and performance
-      const targetCounty = (county || 'BROWARD').toUpperCase().replace(/\s+/g, '_');
+
+      // FIXED: Only apply county filter if one is actually selected
+      // If no county selected, search across ALL counties for better autocomplete
+      const hasCountyFilter = county && county.trim() !== '';
+      const targetCounty = hasCountyFilter ? county.toUpperCase().replace(/\s+/g, '_') : null;
+
+      // Build query builders with conditional county filter
+      const buildAddressQuery = () => {
+        let q = supabase
+          .from('florida_parcels')
+          .select('phy_addr1, phy_city, phy_zipcd, owner_name, property_use, just_value, parcel_id, county')
+          .ilike('phy_addr1', `${cleanQuery}%`)
+          .not('phy_addr1', 'is', null)
+          .limit(5)
+          .order('phy_addr1');
+
+        if (targetCounty) q = q.eq('county', targetCounty);
+        return q;
+      };
+
+      const buildOwnerQuery = () => {
+        let q = supabase
+          .from('florida_parcels')
+          .select('owner_name, phy_addr1, phy_city, phy_zipcd, property_use, just_value, parcel_id, county')
+          .ilike('owner_name', `${cleanQuery}%`)
+          .not('owner_name', 'is', null)
+          .limit(5)
+          .order('owner_name');
+
+        if (targetCounty) q = q.eq('county', targetCounty);
+        return q;
+      };
+
+      const buildCityQuery = () => {
+        if (cleanQuery.length < 3 || /^\d/.test(cleanQuery)) {
+          return Promise.resolve({ data: [], error: null });
+        }
+
+        let q = supabase
+          .from('florida_parcels')
+          .select('phy_city, county')
+          .ilike('phy_city', `${cleanQuery}%`)
+          .not('phy_city', 'is', null)
+          .limit(3);
+
+        if (targetCounty) q = q.eq('county', targetCounty);
+        return q;
+      };
 
       // RUN QUERIES IN PARALLEL for maximum speed
       // Counties use static list for instant results (no database query needed)
       const [addressResult, ownerResult, cityResult] = await Promise.allSettled([
-        // Query 1: Search addresses (prefix match for performance)
-        supabase
-          .from('florida_parcels')
-          .select('phy_addr1, phy_city, phy_zipcd, owner_name, property_use, just_value, parcel_id')
-          .eq('county', targetCounty)
-          .ilike('phy_addr1', `${cleanQuery}%`)
-          .not('phy_addr1', 'is', null)
-          .limit(5)
-          .order('phy_addr1'),
-
-        // Query 2: Search owner names (prefix match for performance)
-        supabase
-          .from('florida_parcels')
-          .select('owner_name, phy_addr1, phy_city, phy_zipcd, property_use, just_value, parcel_id')
-          .eq('county', targetCounty)
-          .ilike('owner_name', `${cleanQuery}%`)
-          .not('owner_name', 'is', null)
-          .limit(5)
-          .order('owner_name'),
-
-        // Query 3: Search cities (if query looks like a city name)
-        cleanQuery.length >= 3 && !/^\d/.test(cleanQuery)
-          ? supabase
-              .from('florida_parcels')
-              .select('phy_city')
-              .eq('county', targetCounty)
-              .ilike('phy_city', `${cleanQuery}%`)
-              .not('phy_city', 'is', null)
-              .limit(3)
-          : Promise.resolve({ data: [], error: null })
+        buildAddressQuery(),
+        buildOwnerQuery(),
+        buildCityQuery()
       ]);
 
-      // Query 4: Counties (instant static search - no database query)
-      const matchingCounties = cleanQuery.length >= 3 && !/^\d/.test(cleanQuery)
+      // Query 4: Counties (instant static search - ALWAYS search all counties)
+      const matchingCounties = cleanQuery.length >= 2 && !/^\d/.test(cleanQuery)
         ? searchCounties(cleanQuery, 5)
         : [];
 
