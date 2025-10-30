@@ -2349,16 +2349,12 @@ export function PropertySearch({}: PropertySearchProps) {
             </div>
           ) : (
             <>
-              {/* Results Count Display */}
+              {/* Pagination Display */}
               {properties.length > 0 && (
                 <div className="mb-6 flex items-center justify-between px-4 py-3 rounded-lg" style={{ backgroundColor: '#f8f9fa', borderLeft: '4px solid #d4af37' }}>
                   <div className="flex items-center space-x-3">
-                    <CheckCircle2 className="w-5 h-5" style={{ color: '#27ae60' }} />
-                    <span className="text-lg font-semibold" style={{ color: '#2c3e50' }}>
-                      {totalResults.toLocaleString()} Properties Found
-                    </span>
                     {hasActiveFilters && (
-                      <Badge variant="outline" className="ml-2" style={{ borderColor: '#d4af37', color: '#d4af37' }}>
+                      <Badge variant="outline" style={{ borderColor: '#d4af37', color: '#d4af37' }}>
                         Filtered Results
                       </Badge>
                     )}
