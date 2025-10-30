@@ -652,14 +652,16 @@ export function PropertySearch({}: PropertySearchProps) {
 
         // CRITICAL DEBUG: Log first few properties to verify filter worked
         if (apiFilters.property_type && properties && properties.length > 0) {
-          console.log('[FILTER DEBUG] Query returned properties:', {
-            count: properties.length,
-            firstFive: properties.slice(0, 5).map(p => ({
-              parcel_id: p.parcel_id,
-              property_use: p.property_use,
-              address: p.phy_addr1
-            }))
-          });
+          const firstFive = properties.slice(0, 5).map(p => ({
+            parcel_id: p.parcel_id,
+            property_use: p.property_use,
+            address: p.phy_addr1
+          }));
+
+          console.log('[FILTER DEBUG] Query returned properties:');
+          console.log(`  Count: ${properties.length}`);
+          console.log('  First 5 properties:', firstFive);
+          console.table(firstFive);
         }
 
         // CRITICAL FIX: Better total count estimation
