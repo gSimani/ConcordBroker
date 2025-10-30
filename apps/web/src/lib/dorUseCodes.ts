@@ -168,34 +168,86 @@ export function getUseCodeDescription(code: string | undefined | null): string {
 export function getPropertyTypeFilter(propertyType: string): string[] {
   const normalizedType = propertyType.toUpperCase();
 
+  // Database has THREE formats:
+  // 1. Zero-padded: "001", "011", "041" (Palm Beach, Sumter)
+  // 2. Non-padded: "1", "11", "41" (Escambia, Calhoun)
+  // 3. TEXT codes: "SFR", "COMM", "IND" (Broward)
+
   switch (normalizedType) {
     case 'RESIDENTIAL':
-      return ['000', '001', '002', '004', '005', '006', '007', '008', '009'];
+      return [
+        '000', '001', '002', '004', '005', '006', '007', '008', '009', // Zero-padded
+        '0', '1', '2', '4', '5', '6', '7', '8', '9', // Non-padded
+        'SFR', 'SINGLE_FAMILY', 'CONDO', 'CONDOMINIUM', 'MF_2-9', 'MF_10PLUS', 'MOBILE', 'MOBILE_HOME', 'TIMESHARE', 'APARTMENT', 'DUPLEX', 'RES' // TEXT codes
+      ];
     case 'COMMERCIAL':
-      return ['003', '010', '011', '012', '013', '014', '015', '016', '017', '018', '019',
-              '020', '021', '022', '023', '024', '025', '026', '027', '028', '029',
-              '030', '031', '032', '033', '034', '035', '036', '037', '038', '039'];
+      return [
+        '003', '010', '011', '012', '013', '014', '015', '016', '017', '018', '019', // Zero-padded
+        '020', '021', '022', '023', '024', '025', '026', '027', '028', '029',
+        '030', '031', '032', '033', '034', '035', '036', '037', '038', '039',
+        '3', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', // Non-padded
+        '20', '21', '22', '23', '24', '25', '26', '27', '28', '29',
+        '30', '31', '32', '33', '34', '35', '36', '37', '38', '39',
+        'COMM', 'COMMERCIAL', 'STORE', 'RETAIL', 'OFFICE', 'RESTAURANT', 'REST', 'HOTEL', 'MOTEL', 'BANK', 'PARKING', 'MALL', 'SHOPPING_CENTER' // TEXT codes
+      ];
     case 'INDUSTRIAL':
-      return ['040', '041', '042', '043', '044', '045', '046', '047', '048', '049'];
+      return [
+        '040', '041', '042', '043', '044', '045', '046', '047', '048', '049', // Zero-padded
+        '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', // Non-padded
+        'IND', 'INDUSTRIAL', 'FACTORY', 'MANUFACTURING', 'WAREHOUSE', 'DISTRIBUTION' // TEXT codes
+      ];
     case 'AGRICULTURAL':
-      return ['050', '051', '052', '053', '054', '055', '056', '057', '058', '059',
-              '060', '061', '062', '063', '064', '065', '066', '067', '068', '069'];
+      return [
+        '050', '051', '052', '053', '054', '055', '056', '057', '058', '059', // Zero-padded
+        '060', '061', '062', '063', '064', '065', '066', '067', '068', '069',
+        '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', // Non-padded
+        '60', '61', '62', '63', '64', '65', '66', '67', '68', '69',
+        'AG', 'AGR', 'AGRICULTURAL', 'FARM', 'GROVE', 'RANCH', 'TIMBER' // TEXT codes
+      ];
     case 'VACANT':
     case 'VACANT LAND':
-      return ['000', '010', '040', '070', '080', '099']; // All vacant categories
+      return [
+        '000', '010', '040', '070', '080', '099', // Zero-padded
+        '0', '10', '40', '70', '80', '99', // Non-padded
+        'VAC', 'VACANT', 'VAC_RES', 'VACANT_RES', 'VACANT_LAND' // TEXT codes
+      ];
     case 'GOVERNMENT':
     case 'GOVERNMENTAL':
-      return ['081', '083', '084', '085', '086', '087', '088', '089']; // Government (excluding parks/conservation)
+      return [
+        '081', '083', '084', '085', '086', '087', '088', '089', // Zero-padded
+        '81', '83', '84', '85', '86', '87', '88', '89', // Non-padded
+        'GOV', 'GOVT', 'GOVERNMENT', 'MUNICIPAL', 'MIL', 'MILITARY' // TEXT codes
+      ];
     case 'INSTITUTIONAL':
-      return ['071', '072', '073', '074', '075', '076', '077', '078', '079'];
+      return [
+        '071', '072', '073', '074', '075', '076', '077', '078', '079', // Zero-padded
+        '71', '72', '73', '74', '75', '76', '77', '78', '79', // Non-padded
+        'INST', 'INSTITUTIONAL', 'EDU', 'SCHOOL', 'HOSP', 'HOSPITAL', 'MEDICAL' // TEXT codes
+      ];
     case 'RELIGIOUS':
-      return ['071']; // Churches, temples, synagogues, mosques
+      return [
+        '071', // Zero-padded
+        '71', // Non-padded
+        'REL', 'RELIGIOUS', 'CHURCH', 'TEMPLE', 'SYNAGOGUE', 'MOSQUE' // TEXT codes
+      ];
     case 'CONSERVATION':
-      return ['082', '093', '094', '095', '096', '097']; // Parks, conservation lands, recreational
+      return [
+        '082', '093', '094', '095', '096', '097', // Zero-padded
+        '82', '93', '94', '95', '96', '97', // Non-padded
+        'PARK', 'CONSERVATION', 'RECREATION', 'FOREST_PARK' // TEXT codes
+      ];
     case 'VACANT/SPECIAL':
-      return ['000', '010', '040', '070', '080', '090', '091', '092', '098', '099']; // All vacant + special categories
+      return [
+        '000', '010', '040', '070', '080', '090', '091', '092', '098', '099', // Zero-padded
+        '0', '10', '40', '70', '80', '90', '91', '92', '98', '99', // Non-padded
+        'VAC', 'VACANT', 'VACANT_LAND', 'MISC', 'OTHER', 'UNKNOWN' // TEXT codes
+      ];
     case 'MISCELLANEOUS':
-      return ['090', '091', '092', '093', '094', '095', '096', '097', '098', '099'];
+      return [
+        '090', '091', '092', '093', '094', '095', '096', '097', '098', '099', // Zero-padded
+        '90', '91', '92', '93', '94', '95', '96', '97', '98', '99', // Non-padded
+        'MISC', 'OTHER', 'UTIL', 'UTILITY', 'CEMETERY' // TEXT codes
+      ];
     default:
       return [];
   }
@@ -203,6 +255,10 @@ export function getPropertyTypeFilter(propertyType: string): string[] {
 
 /**
  * Check if a use code matches a property type filter
+ * Handles THREE database formats:
+ * - Zero-padded numeric: "001", "011", "041"
+ * - Non-padded numeric: "1", "11", "41"
+ * - TEXT codes: "SFR", "COMM", "IND"
  */
 export function matchesPropertyTypeFilter(code: string | undefined | null, propertyType: string): boolean {
   if (!propertyType) return true; // No filter applied
@@ -211,9 +267,17 @@ export function matchesPropertyTypeFilter(code: string | undefined | null, prope
   if (!code) return false;
 
   const validCodes = getPropertyTypeFilter(propertyType);
-  const formattedCode = String(code).padStart(3, '0');
+  const codeStr = String(code).toUpperCase().trim();
 
-  return validCodes.includes(formattedCode);
+  // Check three variants:
+  // 1. Original code (handles TEXT like "SFR", "COMM")
+  // 2. Zero-padded (handles "11" → "011")
+  // 3. Non-padded (handles "011" → "11")
+  const originalMatch = validCodes.includes(codeStr);
+  const paddedMatch = /^\d+$/.test(codeStr) && validCodes.includes(codeStr.padStart(3, '0'));
+  const unpaddedMatch = /^0\d+$/.test(codeStr) && validCodes.includes(codeStr.replace(/^0+/, ''));
+
+  return originalMatch || paddedMatch || unpaddedMatch;
 }
 
 /**
