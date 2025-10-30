@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -30,8 +30,9 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useSalesData, getLatestSaleInfo } from '@/hooks/useSalesData';
-import { getUseCodeInfo, getPropertyCategory as getDORCategory, getUseCodeShortName, getUseCodeDescription } from '@/lib/dorUseCodes';
+import { getUseCodeInfo, getPropertyCategory as getDORCategory, getUseCodeShortName, getUseCodeDescription, getPropertyIcon, getPropertyIconColor } from '@/lib/dorUseCodes';
 import { useSunbizMatching, getSunbizSearchUrl } from '@/hooks/useSunbizMatching';
+import { getDorCodeFromPropertyUse, getPropertyUseDescription, getPropertyCategory as getUseCategoryFromText } from '@/lib/propertyUseToDorCode';
 
 // New function to categorize properties based on actual property_use numeric codes
 export const getPropertyCategoryFromCode = (propertyUse?: string | number, propertyUseDesc?: string): string => {
@@ -90,6 +91,7 @@ interface MiniPropertyCardProps {
     phy_zipcd?: string;
     own_name?: string;
     owner_name?: string;   // Alternative owner name field
+    owner_addr1?: string;  // Owner address field
     jv?: number;           // Just (appraised) value
     tv_sd?: number;        // Taxable value
     lnd_val?: number;      // Land value
@@ -108,6 +110,8 @@ interface MiniPropertyCardProps {
     property_type?: string; // Property type description
     has_tax_certificates?: boolean; // Tax certificate indicator
     certificate_count?: number;     // Number of tax certificates
+    taxable_value?: number;         // Taxable value
+    assessed_value?: number;        // Assessed value
     // Tax deed auction details
     auction_date?: string;          // Auction date (YYYY-MM-DD)
     opening_bid?: number;           // Starting bid amount
@@ -115,6 +119,8 @@ interface MiniPropertyCardProps {
     auction_url?: string;           // Direct link to auction
     total_certificate_amount?: number; // Total certificate amount
   };
+  salesData?: any[];  // Optional: pre-fetched sales data from batch query (eliminates N+1 queries)
+  isBatchLoading?: boolean;  // Indicates whether batch sales data is currently loading
   onClick?: () => void;
   variant?: 'grid' | 'list';
   showQuickActions?: boolean;
@@ -125,7 +131,7 @@ interface MiniPropertyCardProps {
   onToggleSelection?: () => void;
 }
 
-// Get property category based on DOR use code
+// Get property category based on DOR use code (moved outside component for stability)
 export const getPropertyCategory = (useCode?: string, propertyType?: string): string => {
   const category = getDORCategory(useCode);
   if (category !== 'UNKNOWN') {
@@ -158,12 +164,31 @@ export const getPropertyCategory = (useCode?: string, propertyType?: string): st
   return 'Unknown';
 };
 
-// Property type badges with colors
+// Property type badges with colors (moved outside component for stability)
 const getPropertyTypeBadge = (useCode?: string, propertyType?: string, ownerName?: string, justValue?: number, hasAddress?: boolean, propertyUse?: string | number, propertyUseDesc?: string) => {
-  // First try to get category from the new property_use field
-  let category = getPropertyCategoryFromCode(propertyUse, propertyUseDesc);
+  // **NEW MAPPING SYSTEM**: Convert property_use TEXT code to DOR code and get category
+  let category = 'Unknown';
+  let dorCode: string | undefined;
+  let useDescription: string | undefined;
+  let IconComponent: any;
+  let iconColor: string = '';
 
-  // If that doesn't work, fall back to old method
+  // Try NEW system first: property_use TEXT → DOR code → category
+  if (propertyUse) {
+    const propertyUseStr = String(propertyUse);
+    dorCode = getDorCodeFromPropertyUse(propertyUseStr);
+    useDescription = getPropertyUseDescription(propertyUseStr);
+    category = getUseCategoryFromText(propertyUseStr);
+    IconComponent = getPropertyIcon(dorCode);
+    iconColor = getPropertyIconColor(dorCode);
+  }
+
+  // Fallback to OLD system if NEW system didn't work
+  if (category === 'Unknown') {
+    category = getPropertyCategoryFromCode(propertyUse, propertyUseDesc);
+  }
+
+  // If still unknown, try old DOR code method
   if (category === 'Unknown') {
     category = getPropertyCategory(useCode, propertyType);
   }
@@ -296,6 +321,14 @@ const getPropertyTypeBadge = (useCode?: string, propertyType?: string, ownerName
         </Badge>
       )}
 
+      {/* NEW: Property USE description badge with icon (from property_use field) */}
+      {useDescription && useDescription !== 'Property' && IconComponent && (
+        <Badge variant="outline" className="flex items-center gap-1.5 text-xs font-medium border-blue-300 bg-blue-50 text-blue-700">
+          <IconComponent className={`w-3.5 h-3.5 ${iconColor}`} />
+          <span>{useDescription}</span>
+        </Badge>
+      )}
+
       {/* Sub-use type badge - showing DOR code and specific type */}
       {shortName && shortName !== 'Unknown' && useCodeInfo && (
         <Badge variant="outline" className="text-xs" title={useCodeInfo.description}>
@@ -306,9 +339,58 @@ const getPropertyTypeBadge = (useCode?: string, propertyType?: string, ownerName
   );
 };
 
+// Helper functions moved outside component to prevent recreation
+const getAppraisedValue = (data: any) => {
+  return data.jv || data.just_value || data.appraised_value || data.market_value || data.assessed_value;
+};
+
+const getTaxableValue = (data: any) => {
+  return data.tv_sd || data.taxable_value || data.tax_value;
+};
+
+const getLandValue = (data: any) => {
+  return data.lnd_val || data.land_value;
+};
+
+const formatCurrency = (value?: number) => {
+  if (!value && value !== 0) return 'N/A';
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(value);
+};
+
+const formatArea = (sqft?: number) => {
+  if (!sqft) return 'N/A';
+  return `${sqft.toLocaleString()} sqft`;
+};
+
+const formatSaleDate = (saleDate?: string, saleYear?: number, saleMonth?: number) => {
+  if (saleDate) {
+    const date = new Date(saleDate);
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      year: 'numeric'
+    });
+  } else if (saleYear && saleMonth) {
+    const date = new Date(saleYear, saleMonth - 1);
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      year: 'numeric'
+    });
+  } else if (saleYear) {
+    return saleYear.toString();
+  }
+  return 'N/A';
+};
+
 export const MiniPropertyCard = React.memo(function MiniPropertyCard({
   parcelId,
   data,
+  salesData: salesDataProp,
+  isBatchLoading = false,
   onClick,
   variant = 'grid',
   showQuickActions = true,
@@ -319,174 +401,126 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
   onToggleSelection
 }: MiniPropertyCardProps) {
 
-  console.log('MiniPropertyCard data received:', data);
-  console.log('ParcelId received:', parcelId);
+  // Use prop salesData if provided (batch query), otherwise fetch individually
+  // This eliminates N+1 query problem when parent provides batch data
+  // CRITICAL: Don't fetch individually if batch is loading (race condition fix)
+  const shouldFetchIndividually = !salesDataProp && !isBatchLoading;
 
-  // Fetch sales data - automatically checks batch cache first (useBatchSalesData in PropertySearch)
-  const { salesData } = useSalesData(parcelId);
+  const { salesData: fetchedSalesData } = useSalesData(shouldFetchIndividually ? parcelId : null);
+  const salesData = salesDataProp || fetchedSalesData;
 
-  // Fetch Sunbiz matching data for this property
-  const { bestMatch, hasMatches, loading: sunbizLoading } = useSunbizMatching(
+  // Sunbiz matching - only fetches on manual trigger (button click)
+  const { bestMatch, hasMatches, loading: sunbizLoading, fetchMatches } = useSunbizMatching(
     parcelId,
-    data.owner_name || data.own_name
+    data.owner_name || data.own_name,
+    false // Don't auto-fetch - only fetch when user clicks "View Sunbiz" button
   );
 
-  console.log('Sales data for parcel', parcelId, ':', salesData);
-  console.log('Sunbiz match for parcel', parcelId, ':', bestMatch);
+  // Memoize latest sale info
+  const latestSaleInfo = useMemo(() => getLatestSaleInfo(salesData), [salesData]);
 
-  // Get latest sale info to augment the property data (filters out sales ≤ $1,000)
-  const latestSaleInfo = getLatestSaleInfo(salesData);
+  // Memoize enhanced data
+  const enhancedData = useMemo(() => {
+    const base = {
+      ...data,
+      ...latestSaleInfo
+    };
 
-  console.log('Latest sale info for parcel', parcelId, ':', latestSaleInfo);
-
-  // Combine property data with latest qualifying sale info
-  const enhancedData = {
-    ...data,
-    ...latestSaleInfo
-  };
-
-  // Enhanced debugging and real data integration
-  console.log('🔍 MiniPropertyCard Debug - Parcel ID:', parcelId);
-  console.log('📊 Raw data received:', data);
-  console.log('💰 Sales data from useSalesData:', salesData);
-
-  // Use real sales data if available, NO mock data
-  if (salesData && Array.isArray(salesData) && salesData.length > 0) {
-    const latestSale = salesData[0];
-    const salePrice = typeof latestSale.sale_price === 'string' ? parseFloat(latestSale.sale_price) : latestSale.sale_price;
-    if (salePrice && salePrice >= 1000) {
-      enhancedData.sale_prc1 = salePrice;
-      enhancedData.sale_yr1 = latestSale.sale_date ? new Date(latestSale.sale_date).getFullYear() : null;
-      enhancedData.sale_date = latestSale.sale_date;
-      enhancedData.sale_month = latestSale.sale_date ? new Date(latestSale.sale_date).getMonth() + 1 : null;
-      console.log('✅ REAL SALES DATA found:', enhancedData.sale_prc1, enhancedData.sale_yr1, enhancedData.sale_month);
+    // Use real sales data if available
+    if (salesData && Array.isArray(salesData) && salesData.length > 0) {
+      const latestSale = salesData[0];
+      const salePrice = typeof latestSale.sale_price === 'string' ? parseFloat(latestSale.sale_price) : latestSale.sale_price;
+      if (salePrice && salePrice >= 1000) {
+        base.sale_prc1 = salePrice;
+        base.sale_yr1 = latestSale.sale_date ? new Date(latestSale.sale_date).getFullYear() : null;
+        base.sale_date = latestSale.sale_date;
+        base.sale_month = latestSale.sale_date ? new Date(latestSale.sale_date).getMonth() + 1 : null;
+      }
     }
-  }
-  // NO MOCK DATA - only show real data from database
 
-  console.log('Enhanced data (simplified for debugging):', enhancedData);
-  console.log('Original data jv field:', data.jv);
-  console.log('Enhanced data jv field:', enhancedData.jv);
+    return base;
+  }, [data, latestSaleInfo, salesData]);
 
-  // Helper function to get appraised value from multiple possible field names
-  const getAppraisedValue = (data: any) => {
-    const value = data.jv || data.just_value || data.appraised_value || data.market_value || data.assessed_value;
-    console.log('getAppraisedValue checking fields:', {
-      jv: data.jv,
-      just_value: data.just_value,
-      appraised_value: data.appraised_value,
-      market_value: data.market_value,
-      assessed_value: data.assessed_value,
-      final_value: value
-    });
-    return value;
-  };
-
-  // Helper function to get taxable value from multiple possible field names
-  const getTaxableValue = (data: any) => {
-    return data.tv_sd || data.taxable_value || data.tax_value;
-  };
-
-  // Helper function to get land value
-  const getLandValue = (data: any) => {
-    return data.lnd_val || data.land_value;
-  };
-
-  const formatCurrency = (value?: number) => {
-    console.log('MiniPropertyCard.formatCurrency called with value:', value, 'type:', typeof value);
-    console.log('MiniPropertyCard.formatCurrency value is falsy:', !value);
-    console.log('MiniPropertyCard.formatCurrency value == 0:', value == 0);
-    console.log('MiniPropertyCard.formatCurrency value === 0:', value === 0);
-    console.log('MiniPropertyCard.formatCurrency value === undefined:', value === undefined);
-    console.log('MiniPropertyCard.formatCurrency value === null:', value === null);
-
-    if (!value && value !== 0) return 'N/A';  // Only return N/A if value is actually falsy but not zero
-
-    // Format as full currency with commas (no abbreviation)
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(value);
-  };
-
-  const formatArea = (sqft?: number) => {
-    if (!sqft) return 'N/A';
-    return `${sqft.toLocaleString()} sqft`;
-  };
-
-  const formatSaleDate = (saleDate?: string, saleYear?: number, saleMonth?: number) => {
-    if (saleDate) {
-      const date = new Date(saleDate);
-      return date.toLocaleDateString('en-US', {
-        month: 'short',
-        year: 'numeric'
-      });
-    } else if (saleYear && saleMonth) {
-      const date = new Date(saleYear, saleMonth - 1);
-      return date.toLocaleDateString('en-US', {
-        month: 'short',
-        year: 'numeric'
-      });
-    } else if (saleYear) {
-      return saleYear.toString();
-    }
-    return 'N/A';
-  };
-
-  // Format address for display
-  const formatAddress = () => {
-    // Check if property has a valid street address
+  // Memoize formatted address
+  const formattedAddress = useMemo(() => {
     if (!data.phy_addr1 || data.phy_addr1 === '-' || data.phy_addr1 === 'No Street Address') {
-      // For properties without street addresses, show owner address WITHOUT 'Owner:' prefix
       if (data.owner_addr1 && data.owner_addr1 !== '-') {
         return data.owner_addr1;
       }
-      // For government properties, use a cleaner format
       if (data.owner_name && (data.owner_name.includes('TRUSTEE') || data.owner_name.includes('BRD OF'))) {
         return 'No Street Address';
       }
-      // Default for properties without addresses
       return 'Address Not Available';
     }
     return data.phy_addr1;
-  };
+  }, [data.phy_addr1, data.owner_addr1, data.owner_name]);
 
-  // Get property category with better defaults
-  const getPropertyCategoryDisplay = () => {
-    // First try the new property_use categorization
-    let category = getPropertyCategoryFromCode(data.propertyUse, data.propertyUseDesc);
+  // Memoize Google Maps URL
+  const googleMapsUrl = useMemo(() => {
+    if (data.phy_addr1 && data.phy_city && data.phy_addr1 !== '-' && data.phy_addr1 !== 'No Street Address') {
+      return `https://www.google.com/maps/search/${encodeURIComponent(
+        `${data.phy_addr1}, ${data.phy_city}, FL ${data.phy_zipcd || ''}`
+      )}`;
+    } else if (data.owner_addr1 && data.owner_addr1 !== '-') {
+      return `https://www.google.com/maps/search/${encodeURIComponent(
+        `${data.owner_addr1}, FL`
+      )}`;
+    } else if (parcelId) {
+      return `https://www.google.com/maps/search/${encodeURIComponent(
+        `Parcel ${parcelId} Florida`
+      )}`;
+    }
+    return '#';
+  }, [data.phy_addr1, data.phy_city, data.phy_zipcd, data.owner_addr1, parcelId]);
 
-    // Fall back to old method if needed
-    if (category === 'Unknown') {
-      category = getPropertyCategory(data.dor_uc, data.property_type);
+  // Memoize property badge
+  const propertyBadge = useMemo(() => {
+    return getPropertyTypeBadge(
+      data.dor_uc,
+      data.property_type,
+      data.owner_name || data.own_name,
+      getAppraisedValue(data),
+      !!(data.phy_addr1 && data.phy_addr1 !== '-'),
+      data.propertyUse,
+      data.propertyUseDesc
+    );
+  }, [data.dor_uc, data.property_type, data.owner_name, data.own_name, data.phy_addr1, data.propertyUse, data.propertyUseDesc, data.jv]);
+
+  // Memoize Sunbiz click handler - triggers fetch and opens Sunbiz search
+  const handleSunbizClick = useCallback(async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const ownerName = data.owner_name || data.own_name || '';
+    if (!ownerName) return;
+
+    // Trigger the Sunbiz match fetch (only runs once, on first click)
+    if (!hasMatches && !sunbizLoading && fetchMatches) {
+      await fetchMatches();
     }
-    // For government/institutional properties, use better categorization
-    if (data.owner_name) {
-      const ownerUpper = data.owner_name.toUpperCase();
-      if (ownerUpper.includes('CHURCH') || ownerUpper.includes('BAPTIST') || ownerUpper.includes('METHODIST')) {
-        return 'Religious';
-      }
-      if (ownerUpper.includes('TRUSTEE') || ownerUpper.includes('BRD OF') || ownerUpper.includes('BOARD OF')) {
-        return 'Government';
-      }
-      if (ownerUpper.includes('CONSERVANCY') || ownerUpper.includes('NATURE') || ownerUpper.includes('FORESTRY')) {
-        return 'Conservation';
-      }
+
+    // Open Sunbiz search URL (with best match if available)
+    const searchUrl = getSunbizSearchUrl(ownerName, bestMatch);
+    window.open(searchUrl, '_blank');
+  }, [data.owner_name, data.own_name, bestMatch, hasMatches, sunbizLoading, fetchMatches]);
+
+  // Memoize Google Maps click handler
+  const handleMapClick = useCallback((e: React.MouseEvent) => {
+    if (!data.phy_addr1 && !data.owner_addr1 && !parcelId) {
+      e.preventDefault();
+    } else {
+      e.stopPropagation();
     }
-    // If still unknown, check assessed value for hints
-    if (category === 'Unknown' && data.jv) {
-      // Properties with value are likely vacant land or special use
-      return 'Vacant/Special';
-    }
-    return category;
-  };
+  }, [data.phy_addr1, data.owner_addr1, parcelId]);
+
+  // Memoize selection toggle handler
+  const handleToggleSelection = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    onToggleSelection?.();
+  }, [onToggleSelection]);
 
   // Grid variant - Elegant card design
   if (variant === 'grid') {
     return (
-      <div 
+      <div
         className={`
           elegant-card hover-lift cursor-pointer animate-in
           ${priority === 'high' ? 'ring-2 ring-red-500' : ''}
@@ -508,12 +542,9 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
             </div>
           )}
           {onToggleSelection && (
-            <div 
+            <div
               className="hover:bg-gray-100 p-1 rounded z-10"
-              onClick={(e) => {
-                e.stopPropagation();
-                onToggleSelection();
-              }}
+              onClick={handleToggleSelection}
             >
               {isSelected ? (
                 <CheckSquare className="w-4 h-4" style={{color: '#d4af37'}} />
@@ -527,7 +558,7 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
         <div className="p-4">
           {/* Property Type/Usage Badge and Tax Certificate Indicator */}
           <div className="mb-2 flex items-center justify-between">
-            {getPropertyTypeBadge(data.dor_uc, data.property_type, data.owner_name || data.own_name, getAppraisedValue(data), !!(data.phy_addr1 && data.phy_addr1 !== '-'), data.propertyUse, data.propertyUseDesc)}
+            {propertyBadge}
             <div className="flex items-center space-x-1">
               {data.has_tax_certificates && (
                 <Badge className="bg-orange-100 text-orange-800 border-orange-200 flex items-center space-x-1">
@@ -552,40 +583,14 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
               <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" style={{color: '#95a5a6'}} />
               <div className="flex-1">
                 <a
-                  href={(() => {
-                    // Determine the best address to use for Google Maps
-                    if (data.phy_addr1 && data.phy_city && data.phy_addr1 !== '-' && data.phy_addr1 !== 'No Street Address') {
-                      // Use property address if available
-                      return `https://www.google.com/maps/search/${encodeURIComponent(
-                        `${data.phy_addr1}, ${data.phy_city}, FL ${data.phy_zipcd || ''}`
-                      )}`;
-                    } else if (data.owner_addr1 && data.owner_addr1 !== '-') {
-                      // Use owner address as fallback
-                      return `https://www.google.com/maps/search/${encodeURIComponent(
-                        `${data.owner_addr1}, FL`
-                      )}`;
-                    } else if (parcelId) {
-                      // Search by parcel ID as last resort
-                      return `https://www.google.com/maps/search/${encodeURIComponent(
-                        `Parcel ${parcelId} Florida`
-                      )}`;
-                    }
-                    return '#';
-                  })()}
+                  href={googleMapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:underline"
-                  onClick={(e) => {
-                    // Only prevent click if we have no address at all
-                    if (!data.phy_addr1 && !data.owner_addr1 && !parcelId) {
-                      e.preventDefault();
-                    } else {
-                      e.stopPropagation();
-                    }
-                  }}
+                  onClick={handleMapClick}
                 >
                   <p className="font-semibold text-sm mb-0.5 hover:text-blue-600 transition-colors flex items-center gap-1" style={{color: '#2c3e50'}}>
-                    {formatAddress()}
+                    {formattedAddress}
                     {(data.phy_addr1 || data.owner_addr1 || parcelId) && (
                       <ExternalLink className="w-3 h-3 opacity-50 hover:opacity-100" />
                     )}
@@ -627,7 +632,6 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
                 </div>
               </div>
             ) : (
-              // Show annual tax if no sale data
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-1">
                   <DollarSign className="w-3 h-3" style={{color: '#95a5a6'}} />
@@ -740,14 +744,7 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
                 variant="ghost"
                 className={`hover-lift h-6 px-2 ${hasMatches ? 'bg-green-50 text-green-700 border border-green-200' : ''}`}
                 style={{color: hasMatches ? '#059669' : '#2c3e50'}}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  const ownerName = data.owner_name || data.own_name || '';
-                  if (ownerName) {
-                    const searchUrl = getSunbizSearchUrl(ownerName, bestMatch);
-                    window.open(searchUrl, '_blank');
-                  }
-                }}
+                onClick={handleSunbizClick}
                 title={
                   hasMatches && bestMatch
                     ? `Best match: ${bestMatch.company_name} (${bestMatch.confidence}% confidence)`
@@ -764,11 +761,11 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
                   'View Sunbiz'
                 )}
               </Button>
-              
+
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button 
-                    size="sm" 
+                  <Button
+                    size="sm"
                     variant="ghost"
                     className="h-6 w-6 p-0 hover-lift"
                     style={{color: '#2c3e50'}}
@@ -806,7 +803,7 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
 
   // List variant - Horizontal layout
   return (
-    <Card 
+    <Card
       className={`
         relative p-3 hover:shadow-md transition-all cursor-pointer
         ${priority === 'high' ? 'border-l-4 border-l-red-500' : ''}
@@ -823,45 +820,19 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
             {data.dor_uc?.startsWith('1') && <Building className="w-5 h-5 text-blue-600" />}
             {!data.dor_uc?.match(/^[01]/) && <MapPin className="w-5 h-5 text-gray-600" />}
           </div>
-          
+
           <div className="min-w-0 flex-1">
             <div className="flex items-center space-x-2 mb-1">
-              {getPropertyTypeBadge(data.dor_uc, data.property_type, data.owner_name || data.own_name, getAppraisedValue(data), !!(data.phy_addr1 && data.phy_addr1 !== '-'), data.propertyUse, data.propertyUseDesc)}
+              {propertyBadge}
               <a
-                href={(() => {
-                  // Determine the best address to use for Google Maps
-                  if (data.phy_addr1 && data.phy_city && data.phy_addr1 !== '-' && data.phy_addr1 !== 'No Street Address') {
-                    // Use property address if available
-                    return `https://www.google.com/maps/search/${encodeURIComponent(
-                      `${data.phy_addr1}, ${data.phy_city}, FL ${data.phy_zipcd || ''}`
-                    )}`;
-                  } else if (data.owner_addr1 && data.owner_addr1 !== '-') {
-                    // Use owner address as fallback
-                    return `https://www.google.com/maps/search/${encodeURIComponent(
-                      `${data.owner_addr1}, FL`
-                    )}`;
-                  } else if (parcelId) {
-                    // Search by parcel ID as last resort
-                    return `https://www.google.com/maps/search/${encodeURIComponent(
-                      `Parcel ${parcelId} Florida`
-                    )}`;
-                  }
-                  return '#';
-                })()}
+                href={googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:underline truncate"
-                onClick={(e) => {
-                  // Only prevent click if we have no address at all
-                  if (!data.phy_addr1 && !data.owner_addr1 && !parcelId) {
-                    e.preventDefault();
-                  } else {
-                    e.stopPropagation();
-                  }
-                }}
+                onClick={handleMapClick}
               >
                 <p className="font-semibold text-sm truncate hover:text-blue-600 transition-colors flex items-center gap-1">
-                  {formatAddress()}
+                  {formattedAddress}
                   {(data.phy_addr1 || data.owner_addr1 || parcelId) && (
                     <ExternalLink className="w-3 h-3 opacity-50 hover:opacity-100 flex-shrink-0" />
                   )}
@@ -892,13 +863,13 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
               </p>
             </div>
           )}
-          
+
           {/* Appraised Value */}
           <div className="text-right">
             <p className="text-xs text-gray-500">Appraised</p>
             <p className="font-bold text-green-600">{formatCurrency(getAppraisedValue(data))}</p>
           </div>
-          
+
           {/* Building Sq Ft */}
           {data.tot_lvg_area && (
             <div className="text-right">
@@ -923,12 +894,9 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
             </div>
           )}
           {onToggleSelection && (
-            <div 
+            <div
               className="hover:bg-gray-100 p-1 rounded"
-              onClick={(e) => {
-                e.stopPropagation();
-                onToggleSelection();
-              }}
+              onClick={handleToggleSelection}
             >
               {isSelected ? (
                 <CheckSquare className="w-4 h-4" style={{color: '#d4af37'}} />
@@ -944,8 +912,8 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
           <div className="ml-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button 
-                  size="sm" 
+                <Button
+                  size="sm"
                   variant="ghost"
                   className="h-8 w-8 p-0"
                   onClick={(e) => e.stopPropagation()}
@@ -972,5 +940,26 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
         )}
       </div>
     </Card>
+  );
+}, (prevProps, nextProps) => {
+  // Custom comparison function for React.memo
+  return (
+    prevProps.parcelId === nextProps.parcelId &&
+    prevProps.variant === nextProps.variant &&
+    prevProps.showQuickActions === nextProps.showQuickActions &&
+    prevProps.isWatched === nextProps.isWatched &&
+    prevProps.hasNotes === nextProps.hasNotes &&
+    prevProps.priority === nextProps.priority &&
+    prevProps.isSelected === nextProps.isSelected &&
+    // Sales data props (CRITICAL: ensures update when batch data arrives)
+    prevProps.salesData === nextProps.salesData &&
+    prevProps.isBatchLoading === nextProps.isBatchLoading &&
+    // Deep comparison of data object key fields
+    prevProps.data.phy_addr1 === nextProps.data.phy_addr1 &&
+    prevProps.data.owner_name === nextProps.data.owner_name &&
+    prevProps.data.jv === nextProps.data.jv &&
+    prevProps.data.sale_prc1 === nextProps.data.sale_prc1 &&
+    prevProps.data.has_tax_certificates === nextProps.data.has_tax_certificates &&
+    prevProps.data.auction_date === nextProps.data.auction_date
   );
 });

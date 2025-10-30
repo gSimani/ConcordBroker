@@ -72,12 +72,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Location filters (most selective first)
     if (county) query = query.eq('county', String(county).toUpperCase())
-    if (city) query = query.ilike('phy_city', `%${city}%`)
+    // Use prefix matching for city to enable index usage (idx_fp_city)
+    if (city) query = query.ilike('phy_city', `${String(city).trim().toUpperCase()}%`)
     if (zip_code) query = query.eq('phy_zipcd', String(zip_code))
 
     // Property type filters
-    if (property_type) query = query.eq('dor_uc', property_type)
-    if (sub_usage_code) query = query.like('dor_uc', `${sub_usage_code}%`)
+    if (property_type) query = query.eq('property_use', property_type)
+    // Sub-usage code: Use land_use_code for detailed DOR codes, property_use for general types
+    if (sub_usage_code) {
+      query = query.or(`property_use.like.${sub_usage_code}%,land_use_code.like.${sub_usage_code}%`)
+    }
 
     // Value range filters
     if (min_value) query = query.gte('just_value', parseInt(min_value as string))
@@ -106,40 +110,38 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1)
       const dateStr = oneYearAgo.toISOString().split('T')[0]
 
-      // Use sale_date1 column from florida_parcels
+      // FIXED: Use sale_date column (actual column in florida_parcels)
       query = query
-        .not('sale_date1', 'is', null)
-        .gte('sale_date1', dateStr)
+        .not('sale_date', 'is', null)
+        .gte('sale_date', dateStr)
     }
 
     // Tax Exempt filter
-    // Note: Checking multiple possible column names for homestead exemption
+    // FIXED: homestead_exemption column doesn't exist - use taxable_value = 0 as proxy for tax exempt
     if (tax_exempt === 'true' || tax_exempt === true) {
-      // Try common column variations - one of these should exist
-      query = query.or('homestead_exemption.eq.Y,homestead_exemption.eq.y,homestead_exemption.eq.true,exempt_value.gt.0')
+      // Properties with $0 taxable value are typically fully tax-exempt (government, non-profit, etc.)
+      query = query.eq('taxable_value', 0)
     } else if (tax_exempt === 'false' || tax_exempt === false) {
-      query = query.or('homestead_exemption.is.null,homestead_exemption.eq.N,homestead_exemption.eq.n,homestead_exemption.eq.false')
+      // Properties with taxable value > 0
+      query = query.gt('taxable_value', 0)
     }
 
     // Pool filter
-    // Note: May require NAP (property characteristics) table join if available
-    if (has_pool === 'true' || has_pool === true) {
-      // Try multiple approaches - use first that works
-      // Approach 1: Direct column (if exists)
-      query = query.or('pool_ind.eq.Y,pool_ind.eq.y,pool_ind.eq.true,has_pool.eq.true')
-      // If NAP table exists, this query will need to be updated to join
-    } else if (has_pool === 'false' || has_pool === false) {
-      query = query.or('pool_ind.is.null,pool_ind.eq.N,pool_ind.eq.n,pool_ind.eq.false,has_pool.eq.false')
-    }
+    // ❌ DISABLED: pool_ind column does NOT exist in florida_parcels
+    // TODO: Need to add pool data from NAP table or property_assessments
+    // if (has_pool === 'true' || has_pool === true) {
+    //   console.warn('Pool filter requested but column does not exist in database')
+    // }
 
     // Waterfront filter
-    // Note: May require NAP table join or geographic boundary check
-    if (waterfront === 'true' || waterfront === true) {
-      // Try multiple possible column names
-      query = query.or('waterfront_ind.eq.Y,waterfront_ind.eq.y,waterfront_ind.eq.true,waterfront.eq.true,is_waterfront.eq.true')
-    } else if (waterfront === 'false' || waterfront === false) {
-      query = query.or('waterfront_ind.is.null,waterfront_ind.eq.N,waterfront_ind.eq.n,waterfront_ind.eq.false,waterfront.eq.false,is_waterfront.eq.false')
-    }
+    // ❌ DISABLED: waterfront_ind column does NOT exist in florida_parcels
+    // TODO: Options to implement:
+    //   1. Add waterfront column from NAP data
+    //   2. Use address keyword heuristic (WATERFRONT, BAY, OCEAN, etc.)
+    //   3. Geographic boundary check (distance to coast)
+    // if (waterfront === 'true' || waterfront === true) {
+    //   console.warn('Waterfront filter requested but column does not exist in database')
+    // }
 
     query = query.order('just_value', { ascending: false }).range(offset, offset + limitNum - 1)
 
@@ -154,7 +156,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       zip_code: p.phy_zipcd || '',
       county: p.county || '',
       owner_name: p.owner_name || '',
-      property_type: p.dor_uc || 'RESIDENTIAL',
+      property_type: p.property_use || 'RESIDENTIAL',
       just_value: p.just_value || 0,
       land_value: p.land_value || 0,
       building_value: p.building_value || 0,
