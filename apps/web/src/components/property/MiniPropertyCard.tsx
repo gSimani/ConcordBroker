@@ -17,6 +17,7 @@ import {
   Phone,
   Mail,
   Building,
+  Building2,
   Square,
   Tag,
   CheckSquare,
@@ -27,7 +28,17 @@ import {
   Church,
   Shield,
   Leaf,
-  Landmark
+  Landmark,
+  Store,
+  Truck,
+  Utensils,
+  Banknote,
+  Wrench,
+  Hotel,
+  GraduationCap,
+  Cross,
+  Zap,
+  type LucideIcon
 } from 'lucide-react';
 import {
   DropdownMenu,
@@ -39,6 +50,29 @@ import { useSalesData, getLatestSaleInfo } from '@/hooks/useSalesData';
 import { getUseCodeInfo, getPropertyCategory as getDORCategory, getUseCodeShortName, getUseCodeDescription, getPropertyIcon, getPropertyIconColor } from '@/lib/dorUseCodes';
 import { useSunbizMatching, getSunbizSearchUrl } from '@/hooks/useSunbizMatching';
 import { getDorCodeFromPropertyUse, getPropertyUseDescription, getPropertyCategory as getUseCategoryFromText } from '@/lib/propertyUseToDorCode';
+import { getPropertySubtype, getPropertyCategory as getStandardizedCategory } from '@/utils/property-types';
+import { getPropertyUseShortName } from '@/lib/property-types';
+
+// Icon mapper to convert string icon names to React components
+const ICON_MAP: Record<string, LucideIcon> = {
+  Home,
+  Building,
+  Building2,
+  Store,
+  Factory,
+  TreePine,
+  Church,
+  Landmark,
+  Truck,
+  Utensils,
+  Banknote,
+  Wrench,
+  Hotel,
+  GraduationCap,
+  Cross,
+  Zap,
+  MapPin
+};
 
 // New function to categorize properties based on actual property_use numeric codes
 export const getPropertyCategoryFromCode = (propertyUse?: string | number, propertyUseDesc?: string): string => {
@@ -109,6 +143,7 @@ interface MiniPropertyCardProps {
     propertyType?: string | number; // Same as propertyUse
     propertyUseDesc?: string;       // property_use_desc from database
     landUseCode?: string;           // land_use_code from database
+    standardized_property_use?: string; // Standardized property use category from database
     sale_prc1?: number;    // Last sale price
     sale_yr1?: number;     // Last sale year
     sale_date?: string;    // Last sale date (YYYY-MM-DD)
@@ -171,36 +206,106 @@ export const getPropertyCategory = (useCode?: string, propertyType?: string): st
 };
 
 // Property type badges with colors (moved outside component for stability)
-const getPropertyTypeBadge = (useCode?: string, propertyType?: string, ownerName?: string, justValue?: number, hasAddress?: boolean, propertyUse?: string | number, propertyUseDesc?: string) => {
-  // **NEW MAPPING SYSTEM**: Convert property_use TEXT code to DOR code and get category
+const getPropertyTypeBadge = (standardizedPropertyUse?: string, useCode?: string, propertyType?: string, ownerName?: string, justValue?: number, hasAddress?: boolean, propertyUse?: string | number, propertyUseDesc?: string) => {
+  // **PRIORITY 1**: Use standardized_property_use from database (most accurate!)
   let category = 'Unknown';
   let dorCode: string | undefined;
   let useDescription: string | undefined;
   let IconComponent: any;
   let iconColor: string = '';
 
-  // Try NEW system first: property_use TEXT → DOR code → category
-  if (propertyUse) {
+  // PRIORITY 1: Use standardized_property_use directly from database (100% accurate)
+  if (standardizedPropertyUse) {
+    category = getPropertyUseShortName(standardizedPropertyUse);
+    useDescription = standardizedPropertyUse; // Use full name as description
+
+    // Debug logging
+    if (import.meta.env.DEV) {
+      console.log('[MiniPropertyCard] Using standardized_property_use:', {
+        standardizedPropertyUse,
+        category,
+        ownerName: ownerName?.substring(0, 30)
+      });
+    }
+
+    // Get icon and color based on standardized category
+    // Map standardized categories to icon names
+    const categoryLower = standardizedPropertyUse.toLowerCase();
+    if (categoryLower.includes('residential') || categoryLower.includes('condominium') || categoryLower.includes('home')) {
+      IconComponent = Home;
+      iconColor = 'text-blue-600';
+    } else if (categoryLower.includes('commercial')) {
+      IconComponent = Store;
+      iconColor = 'text-green-600';
+    } else if (categoryLower.includes('industrial')) {
+      IconComponent = Factory;
+      iconColor = 'text-orange-600';
+    } else if (categoryLower.includes('agricultural')) {
+      IconComponent = TreePine;
+      iconColor = 'text-emerald-600';
+    } else if (categoryLower.includes('institutional') || categoryLower.includes('government')) {
+      IconComponent = Landmark;
+      iconColor = 'text-purple-600';
+    } else if (categoryLower.includes('vacant')) {
+      IconComponent = Square;
+      iconColor = 'text-gray-500';
+    } else {
+      IconComponent = Home;
+      iconColor = 'text-gray-500';
+    }
+  }
+  // PRIORITY 2: Fallback to property_use parsing if standardized field is missing
+  else if (propertyUse) {
     const propertyUseStr = String(propertyUse);
+    category = getStandardizedCategory(propertyUseStr);
+    useDescription = getPropertySubtype(propertyUseStr);
+
+    // Debug logging
+    if (import.meta.env.DEV) {
+      console.log('[MiniPropertyCard] Fallback to property_use parsing:', {
+        propertyUse: propertyUseStr,
+        category,
+        useDescription,
+        ownerName: ownerName?.substring(0, 30)
+      });
+    }
+
+    // Get icon and color from existing DOR system
     dorCode = getDorCodeFromPropertyUse(propertyUseStr);
-    useDescription = getPropertyUseDescription(propertyUseStr);
-    category = getUseCategoryFromText(propertyUseStr);
-    IconComponent = getPropertyIcon(dorCode);
-    iconColor = getPropertyIconColor(dorCode);
+    const iconName = getPropertyIcon(dorCode || propertyUseStr);
+    IconComponent = ICON_MAP[iconName] || Home; // Convert string to React component
+    iconColor = getPropertyIconColor(dorCode || propertyUseStr);
+  } else {
+    // Log when both fields are missing
+    if (import.meta.env.DEV) {
+      console.warn('[MiniPropertyCard] No standardized_property_use or property_use field, will use fallback categorization:', {
+        ownerName: ownerName?.substring(0, 30),
+        propertyType,
+        useCode
+      });
+    }
+    // Set fallback icon when property_use is not available
+    IconComponent = Home;
+    iconColor = 'text-gray-500';
   }
 
-  // Fallback to OLD system if NEW system didn't work
-  if (category === 'Unknown') {
-    category = getPropertyCategoryFromCode(propertyUse, propertyUseDesc);
-  }
-
-  // If still unknown, try old DOR code method
-  if (category === 'Unknown') {
+  // PRIORITY 2: Check API's propertyType if standardized utility didn't provide category
+  if (category === 'Unknown' && propertyType) {
     category = getPropertyCategory(useCode, propertyType);
   }
 
-  // Since DOR codes are not available, categorize based on owner names and other data
-  if (ownerName) {
+  // PRIORITY 3: Fallback to DOR code mapping if TEXT system didn't work
+  if (category === 'Unknown' && propertyUse) {
+    // Use correct DOR code category mapping
+    const dorCategory = getDORCategory(String(propertyUse));
+    if (dorCategory !== 'UNKNOWN') {
+      category = dorCategory.charAt(0) + dorCategory.slice(1).toLowerCase();
+    }
+  }
+
+  // PRIORITY 4 (FINAL FALLBACK): Only use owner-based categorization if API didn't provide propertyType
+  // AND property_use codes didn't provide a category
+  if (category === 'Unknown' && ownerName) {
     const ownerUpper = ownerName.toUpperCase();
 
     // Government/Public entities
@@ -503,6 +608,7 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
   // Memoize property badge
   const propertyBadge = useMemo(() => {
     return getPropertyTypeBadge(
+      data.standardized_property_use, // PRIORITY 1: Use standardized field from database
       data.dor_uc,
       data.property_type,
       data.owner_name || data.own_name,
@@ -511,7 +617,7 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
       data.property_use,        // FIXED: Was data.propertyUse (camelCase)
       data.property_use_desc    // FIXED: Was data.propertyUseDesc (camelCase)
     );
-  }, [data.dor_uc, data.property_type, data.owner_name, data.own_name, data.phy_addr1, data.property_use, data.property_use_desc, data.jv]);
+  }, [data.standardized_property_use, data.dor_uc, data.property_type, data.owner_name, data.own_name, data.phy_addr1, data.property_use, data.property_use_desc, data.jv]);
 
   // Memoize Sunbiz click handler - triggers fetch and opens Sunbiz search
   const handleSunbizClick = useCallback(async (e: React.MouseEvent) => {
