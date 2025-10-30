@@ -15,7 +15,7 @@ import { TaxDeedSalesTab } from '@/components/property/tabs/TaxDeedSalesTab';
 import { useDataPipeline } from '@/lib/data-pipeline';
 import { useOptimizedPropertySearch } from '@/hooks/useOptimizedPropertySearch';
 import { useInfinitePropertyScroll } from '@/hooks/useInfiniteScroll';
-import { useBatchSalesData } from '@/hooks/useBatchSalesData';
+import { useBatchSalesData } from '@/hooks/useSalesData';
 import { api } from '@/api/client';
 import { OptimizedSearchBar } from '@/components/OptimizedSearchBar';
 import { getPropertyTypeFilter } from '@/lib/dorUseCodes';
@@ -550,6 +550,16 @@ export function PropertySearch({}: PropertySearchProps) {
       let data;
 
       try {
+        // CRITICAL DEBUG: Log all filters being applied
+        console.log('[APPLY FILTERS DEBUG] Starting query with filters:', {
+          page,
+          allFilters: apiFilters,
+          filterCount: Object.keys(apiFilters).length,
+          hasPropertyType: !!apiFilters.property_type,
+          hasMinSaleDate: !!apiFilters.min_sale_date,
+          hasMaxSaleDate: !!apiFilters.max_sale_date
+        });
+
         // Query Supabase directly using parcelService
         const { supabase } = await import('@/lib/supabase');
 
@@ -568,25 +578,21 @@ export function PropertySearch({}: PropertySearchProps) {
         // CRITICAL: Apply filters in optimal order (most selective first)
         // NOTE: County filter already applied above as default
 
-        // 1. Property type filter (FIXED: uses standardized_property_use for 100% accuracy)
+        // 1. Property type filter (FIXED: uses property_use DOR codes for 100% accuracy)
         if (apiFilters.property_type && apiFilters.property_type !== 'All Properties') {
-          // Get standardized property use values (e.g., 'Residential' → ['Single Family Residential', 'Condominium', ...])
-          const standardizedValues = getStandardizedPropertyUseValues(apiFilters.property_type as PropertyFilterType);
+          // Get DOR codes for the property type (01-09 for Residential, 10-39 for Commercial, etc.)
+          const dorCodes = getCodesForPropertyType(apiFilters.property_type as PropertyFilterType);
 
-          if (standardizedValues.length > 0) {
-            console.log('[FILTER DEBUG] Applying standardized_property_use filter:', {
+          if (dorCodes.length > 0) {
+            console.log('[APPLY FILTERS DEBUG] Applying property_use DOR code filter:', {
               propertyType: apiFilters.property_type,
-              standardizedValues: standardizedValues,
-              valueCount: standardizedValues.length,
-              county: countyFilter
+              dorCodes: dorCodes.length,
+              county: countyFilter,
+              sampleCodes: dorCodes.slice(0, 5)
             });
 
-            // Use .in() for multiple values, .eq() for single value
-            if (standardizedValues.length > 1) {
-              query = query.in('standardized_property_use', standardizedValues);
-            } else {
-              query = query.eq('standardized_property_use', standardizedValues[0]);
-            }
+            // Query using property_use field with DOR codes (works for 100% of database)
+            query = query.in('property_use', dorCodes);
           }
         }
 
@@ -618,6 +624,80 @@ export function PropertySearch({}: PropertySearchProps) {
         }
         if (apiFilters.max_year) {
           query = query.lte('year_built', parseInt(apiFilters.max_year));
+        }
+
+        // 5b. Sale date filters (FIXED - filters by LAST sale from property_sales_history)
+        // When sale date or price filters are active, we need to filter based on the MOST RECENT sale
+        const hasSaleFilters = apiFilters.min_sale_date || apiFilters.max_sale_date || apiFilters.min_sale_price;
+
+        if (hasSaleFilters) {
+          console.log('[SALES FILTER] Filtering by most recent sale:', {
+            minDate: apiFilters.min_sale_date,
+            maxDate: apiFilters.max_sale_date,
+            minPrice: apiFilters.min_sale_price
+          });
+
+          // Query property_sales_history to get parcels where the MOST RECENT sale meets criteria
+          let salesQuery = supabase
+            .from('property_sales_history')
+            .select('parcel_id, sale_date, sale_price');
+
+          // Apply county filter to sales query (must match main query county)
+          salesQuery = salesQuery.eq('county', countyFilter.toUpperCase());
+
+          // Apply date range filters
+          if (apiFilters.min_sale_date) {
+            salesQuery = salesQuery.gte('sale_date', apiFilters.min_sale_date);
+          }
+          if (apiFilters.max_sale_date) {
+            salesQuery = salesQuery.lte('sale_date', apiFilters.max_sale_date);
+          }
+
+          // Apply min sale price filter
+          if (apiFilters.min_sale_price) {
+            const minPrice = parseInt(apiFilters.min_sale_price);
+            salesQuery = salesQuery.gte('sale_price', minPrice);
+          }
+
+          // Order by sale_date descending to get most recent sales first
+          salesQuery = salesQuery.order('sale_date', { ascending: false });
+
+          // Execute sales query
+          const { data: salesData, error: salesError } = await salesQuery;
+
+          if (salesError) {
+            console.error('[SALES FILTER ERROR]', salesError);
+          } else if (salesData && salesData.length > 0) {
+            // Group by parcel_id and keep only the MOST RECENT sale (first one due to sort)
+            const parcelLastSaleMap = new Map<string, any>();
+            for (const sale of salesData) {
+              const key = sale.parcel_id;
+              if (!parcelLastSaleMap.has(key)) {
+                parcelLastSaleMap.set(key, sale);
+              }
+            }
+
+            const eligibleParcelIds = Array.from(parcelLastSaleMap.keys());
+
+            console.log('[SALES FILTER] Found parcels with last sale in range:', {
+              totalSalesRecords: salesData.length,
+              uniqueParcels: eligibleParcelIds.length,
+              sampleParcels: eligibleParcelIds.slice(0, 5)
+            });
+
+            if (eligibleParcelIds.length > 0) {
+              // Filter main query to only these parcel IDs
+              query = query.in('parcel_id', eligibleParcelIds);
+            } else {
+              // No parcels match the sales criteria - return empty result
+              console.log('[SALES FILTER] No parcels found matching sales criteria');
+              query = query.eq('parcel_id', 'NO_MATCH'); // Force empty result
+            }
+          } else {
+            // No sales data found matching criteria
+            console.log('[SALES FILTER] No sales found matching criteria');
+            query = query.eq('parcel_id', 'NO_MATCH'); // Force empty result
+          }
         }
 
         // 6. Text searches last (slower, but necessary)
@@ -1833,26 +1913,56 @@ export function PropertySearch({}: PropertySearchProps) {
                     <div className="space-y-2">
                       <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Min Sale Date</label>
                       <Input
-                        placeholder="MM/DD/YYYY"
-                        type="date"
+                        placeholder="YYYY or MM/DD/YYYY"
+                        type="text"
                         className="h-12 rounded-lg"
                         style={{borderColor: '#ecf0f1'}}
                         value={filters.minSaleDate}
-                        onChange={(e) => handleFilterChange('minSaleDate', e.target.value)}
+                        onChange={(e) => {
+                          const value = e.target.value.trim();
+                          // Handle year-only input (e.g., "2023" → "2023-01-01")
+                          if (/^\d{4}$/.test(value)) {
+                            handleFilterChange('minSaleDate', `${value}-01-01`);
+                          } else {
+                            handleFilterChange('minSaleDate', value);
+                          }
+                        }}
+                        onBlur={(e) => {
+                          const value = e.target.value.trim();
+                          // Convert year to date format on blur for display
+                          if (/^\d{4}$/.test(value)) {
+                            e.target.value = `${value}-01-01`;
+                          }
+                        }}
                       />
-                      <p className="text-xs" style={{color: '#95a5a6'}}>Purchase date from</p>
+                      <p className="text-xs" style={{color: '#95a5a6'}}>Enter year (2023) or full date (01/01/2023)</p>
                     </div>
                     <div className="space-y-2">
                       <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Max Sale Date</label>
                       <Input
-                        placeholder="MM/DD/YYYY"
-                        type="date"
+                        placeholder="YYYY or MM/DD/YYYY"
+                        type="text"
                         className="h-12 rounded-lg"
                         style={{borderColor: '#ecf0f1'}}
                         value={filters.maxSaleDate}
-                        onChange={(e) => handleFilterChange('maxSaleDate', e.target.value)}
+                        onChange={(e) => {
+                          const value = e.target.value.trim();
+                          // Handle year-only input (e.g., "2023" → "2023-12-31")
+                          if (/^\d{4}$/.test(value)) {
+                            handleFilterChange('maxSaleDate', `${value}-12-31`);
+                          } else {
+                            handleFilterChange('maxSaleDate', value);
+                          }
+                        }}
+                        onBlur={(e) => {
+                          const value = e.target.value.trim();
+                          // Convert year to date format on blur for display
+                          if (/^\d{4}$/.test(value)) {
+                            e.target.value = `${value}-12-31`;
+                          }
+                        }}
                       />
-                      <p className="text-xs" style={{color: '#95a5a6'}}>Purchase date to</p>
+                      <p className="text-xs" style={{color: '#95a5a6'}}>Enter year (2023) or full date (12/31/2023)</p>
                     </div>
                     <div className="col-span-2 flex items-end">
                       <div className="flex flex-wrap gap-2">

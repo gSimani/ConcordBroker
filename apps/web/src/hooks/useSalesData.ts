@@ -285,13 +285,141 @@ export function useSalesData(parcelId: string | null) {
   };
 }
 
+// NEW: Batch fetch hook to eliminate N+1 query problem
+// Fetches sales data for multiple parcels in one query
+export function useBatchSalesData(parcelIds: string[]) {
+  const queryClient = useQueryClient();
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['batchSalesData', parcelIds.sort().join(',')],
+    queryFn: async (): Promise<Map<string, PropertySalesData>> => {
+      if (parcelIds.length === 0) {
+        return new Map();
+      }
+
+      console.log(`🔥 Batch fetching sales data for ${parcelIds.length} parcels`);
+      const startTime = Date.now();
+
+      // Fetch all sales records for all parcels in ONE query
+      const { data: salesRecords, error: salesError } = await supabase
+        .from('property_sales_history')
+        .select('*')
+        .in('parcel_id', parcelIds)
+        .order('sale_date', { ascending: false });
+
+      if (salesError) {
+        console.error('Error batch fetching sales:', salesError);
+        throw new Error(`Failed to batch fetch sales: ${salesError.message}`);
+      }
+
+      const fetchTime = Date.now() - startTime;
+      console.log(`✅ Batch fetched ${salesRecords?.length || 0} sales records in ${fetchTime}ms`);
+
+      // Group sales by parcel_id
+      const salesByParcel = new Map<string, SalesRecord[]>();
+      salesRecords?.forEach(sale => {
+        const parcelId = sale.parcel_id;
+        if (!salesByParcel.has(parcelId)) {
+          salesByParcel.set(parcelId, []);
+        }
+
+        // Convert sale record to SalesRecord format
+        const record: SalesRecord = {
+          parcel_id: sale.parcel_id,
+          sale_date: sale.sale_date,
+          // Convert from cents to dollars (database stores in cents)
+          sale_price: sale.sale_price ? Math.round(parseFloat(sale.sale_price) / 100) : 0,
+          sale_year: sale.sale_year || 0,
+          sale_month: sale.sale_month || 0,
+          qualified_sale: sale.quality_code === 'Q' || sale.quality_code === 'q',
+          document_type: sale.clerk_no || '',
+          grantor_name: '',
+          grantee_name: '',
+          book: sale.or_book || '',
+          page: sale.or_page || '',
+          sale_reason: '',
+          vi_code: sale.clerk_no || '',
+          is_distressed: false,
+          is_bank_sale: false,
+          is_cash_sale: false,
+          data_source: 'property_sales_history',
+        };
+
+        // Filter out sales under $1,000
+        if (record.sale_price >= 1000) {
+          salesByParcel.get(parcelId)!.push(record);
+        }
+      });
+
+      // Convert to PropertySalesData format for each parcel
+      const result = new Map<string, PropertySalesData>();
+      parcelIds.forEach(parcelId => {
+        const salesRecords = salesByParcel.get(parcelId) || [];
+
+        if (salesRecords.length === 0) {
+          result.set(parcelId, {
+            parcel_id: parcelId,
+            most_recent_sale: null,
+            previous_sales: [],
+            total_sales_count: 0,
+            highest_sale_price: 0,
+            lowest_sale_price: 0,
+            average_sale_price: 0,
+            years_on_market: 0,
+            last_sale_year: null,
+          });
+          return;
+        }
+
+        // Sort by date descending
+        salesRecords.sort((a, b) => new Date(b.sale_date).getTime() - new Date(a.sale_date).getTime());
+
+        // Calculate statistics
+        const prices = salesRecords.map(s => s.sale_price).filter(p => p > 0);
+        const years = salesRecords.map(s => s.sale_year).filter(y => y > 0);
+
+        const propertyData: PropertySalesData = {
+          parcel_id: parcelId,
+          most_recent_sale: salesRecords[0] || null,
+          previous_sales: salesRecords.slice(1),
+          total_sales_count: salesRecords.length,
+          highest_sale_price: prices.length > 0 ? Math.max(...prices) : 0,
+          lowest_sale_price: prices.length > 0 ? Math.min(...prices) : 0,
+          average_sale_price: prices.length > 0 ? prices.reduce((a, b) => a + b, 0) / prices.length : 0,
+          years_on_market: years.length > 1 ? Math.max(...years) - Math.min(...years) : 0,
+          last_sale_year: years.length > 0 ? Math.max(...years) : null,
+        };
+
+        result.set(parcelId, propertyData);
+      });
+
+      console.log(`📊 Processed sales data for ${result.size} parcels`);
+      return result;
+    },
+    enabled: parcelIds.length > 0,
+    staleTime: 10 * 60 * 1000, // 10 minutes
+    gcTime: 30 * 60 * 1000, // 30 minutes
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    retry: 1,
+  });
+
+  return {
+    salesDataMap: data || new Map(),
+    isLoading,
+    error: error ? (error instanceof Error ? error.message : 'Failed to batch fetch sales data') : null,
+  };
+}
+
 // Helper function to format sales data for components
 export function formatSalesForSdfData(salesData: PropertySalesData | null): any[] {
   if (!salesData || salesData.total_sales_count === 0) {
     return [];
   }
 
-  const allSales = [salesData.most_recent_sale, ...salesData.previous_sales].filter(Boolean);
+  // Safety check: ensure previous_sales is an array
+  const previousSales = Array.isArray(salesData.previous_sales) ? salesData.previous_sales : [];
+  const allSales = [salesData.most_recent_sale, ...previousSales].filter(Boolean);
 
   return allSales.map(sale => ({
     sale_date: sale!.sale_date,
@@ -322,7 +450,9 @@ export function getLatestSaleInfo(salesData: PropertySalesData | null): {
   }
 
   // Get all sales (most recent + previous) and filter for actual sales > $1,000
-  const allSales = [salesData.most_recent_sale, ...salesData.previous_sales]
+  // Safety check: ensure previous_sales is an array
+  const previousSales = Array.isArray(salesData.previous_sales) ? salesData.previous_sales : [];
+  const allSales = [salesData.most_recent_sale, ...previousSales]
     .filter(Boolean)
     .filter(sale => sale!.sale_price > 1000); // Skip quick claim deeds and nominal transfers
 
