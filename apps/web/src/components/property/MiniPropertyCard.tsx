@@ -330,7 +330,7 @@ const getPropertyTypeBadge = (useCode?: string, propertyType?: string, ownerName
   };
 
   const categoryStyle = getCategoryStyle(category);
-  const CategoryIcon = categoryStyle.icon;
+  const CategoryIconComponent = categoryStyle.icon;
 
   // Return both category badge and detailed use badge
   return (
@@ -344,7 +344,7 @@ const getPropertyTypeBadge = (useCode?: string, propertyType?: string, ownerName
           background: categoryStyle.bg
         }}
       >
-        <CategoryIcon className="w-3 h-3 mr-1" />
+        {CategoryIconComponent && <CategoryIconComponent className="w-3 h-3 mr-1" />}
         {category}
       </div>
 
