@@ -105,7 +105,18 @@ export function usePropertyAutocomplete(county?: string) {
 
       const allSuggestions: Suggestion[] = [];
 
-      // Process address results
+      // PRIORITY 1: Process county results FIRST (instant static search)
+      // Counties appear at the top when user types county names
+      matchingCounties.forEach(county => {
+        allSuggestions.push({
+          type: 'county',
+          display: getCountyDisplayName(county),
+          value: county,
+          metadata: {}
+        });
+      });
+
+      // PRIORITY 2: Process address results
       if (addressResult.status === 'fulfilled' && addressResult.value.data) {
         addressResult.value.data.forEach((prop) => {
           // Convert property_use text code (e.g., "SFR") to DOR code (e.g., "0100") for icon mapping
@@ -130,7 +141,24 @@ export function usePropertyAutocomplete(county?: string) {
         });
       }
 
-      // Process owner results (with deduplication)
+      // PRIORITY 3: Process city results
+      if (cityResult.status === 'fulfilled' && cityResult.value.data) {
+        const uniqueCities = [...new Set(cityResult.value.data.map(p => p.phy_city))];
+        uniqueCities.forEach(city => {
+          if (city) {
+            allSuggestions.push({
+              type: 'city',
+              display: city,
+              value: city,
+              metadata: {
+                city: city
+              }
+            });
+          }
+        });
+      }
+
+      // PRIORITY 4: Process owner results (with deduplication)
       if (ownerResult.status === 'fulfilled' && ownerResult.value.data) {
         const uniqueOwners = new Map<string, typeof ownerResult.value.data[0]>();
         ownerResult.value.data.forEach(prop => {
@@ -161,33 +189,6 @@ export function usePropertyAutocomplete(county?: string) {
           });
         });
       }
-
-      // Process city results
-      if (cityResult.status === 'fulfilled' && cityResult.value.data) {
-        const uniqueCities = [...new Set(cityResult.value.data.map(p => p.phy_city))];
-        uniqueCities.forEach(city => {
-          if (city) {
-            allSuggestions.push({
-              type: 'city',
-              display: city,
-              value: city,
-              metadata: {
-                city: city
-              }
-            });
-          }
-        });
-      }
-
-      // Process county results (instant static search)
-      matchingCounties.forEach(county => {
-        allSuggestions.push({
-          type: 'county',
-          display: getCountyDisplayName(county),
-          value: county,
-          metadata: {}
-        });
-      });
 
       setSuggestions(allSuggestions);
     } catch (error) {
