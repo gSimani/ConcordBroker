@@ -62,6 +62,28 @@ export function OverviewTab({ data }: OverviewTabProps) {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [notesExpanded, setNotesExpanded] = useState(false)
 
+  // Owner notes state
+  const [ownerNotes, setOwnerNotes] = useState('')
+  const [isEditingNotes, setIsEditingNotes] = useState(false)
+  const [tempNotes, setTempNotes] = useState('')
+
+  // Notes handlers
+  const startEditingNotes = () => {
+    setTempNotes(ownerNotes)
+    setIsEditingNotes(true)
+  }
+
+  const saveNotes = () => {
+    setOwnerNotes(tempNotes)
+    setIsEditingNotes(false)
+    // TODO: Persist to backend/localStorage
+  }
+
+  const cancelNotesEdit = () => {
+    setTempNotes('')
+    setIsEditingNotes(false)
+  }
+
   // Add new contact
   const addContact = () => {
     if (newContactValue.trim()) {
@@ -715,6 +737,61 @@ export function OverviewTab({ data }: OverviewTabProps) {
                     </div>
                   )}
                 </div>
+              </div>
+
+              {/* Owner Notes Section */}
+              <div className="pt-3 border-t border-gold">
+                <div className="flex items-center justify-between mb-3">
+                  <h4 className="text-xs uppercase tracking-wider text-gray-elegant font-medium flex items-center">
+                    <StickyNote className="w-4 h-4 mr-2 text-gold" />
+                    Notes About Owner
+                  </h4>
+                  {!isEditingNotes && (
+                    <button
+                      onClick={startEditingNotes}
+                      className="p-1.5 rounded-lg hover:bg-gold-light transition-colors"
+                      title="Edit Notes"
+                    >
+                      <Edit3 className="w-4 h-4 text-gold" />
+                    </button>
+                  )}
+                </div>
+
+                {isEditingNotes ? (
+                  <div className="space-y-2">
+                    <textarea
+                      value={tempNotes}
+                      onChange={(e) => setTempNotes(e.target.value)}
+                      placeholder="Add notes about the property owner (contacts made, preferences, important details, etc.)..."
+                      className="w-full px-3 py-3 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold focus:border-gold text-navy resize-none"
+                      rows={6}
+                      autoFocus
+                    />
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={saveNotes}
+                        className="flex-1 px-3 py-2 bg-gold text-navy text-sm font-medium rounded-lg hover:bg-gold-dark transition-colors flex items-center justify-center"
+                      >
+                        <Save className="w-4 h-4 mr-2" />
+                        Save Notes
+                      </button>
+                      <button
+                        onClick={cancelNotesEdit}
+                        className="flex-1 px-3 py-2 bg-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-300 transition-colors"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="p-3 bg-gray-50 rounded-lg border border-gray-200 min-h-[100px]">
+                    {ownerNotes ? (
+                      <p className="text-sm text-navy whitespace-pre-wrap break-words">{ownerNotes}</p>
+                    ) : (
+                      <p className="text-sm text-gray-400 italic">No notes added yet. Click the edit button to add notes about this property owner.</p>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </div>
