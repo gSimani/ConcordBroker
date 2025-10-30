@@ -116,7 +116,25 @@ export function usePropertyAutocomplete(county?: string) {
         });
       });
 
-      // PRIORITY 2: Process address results
+      // PRIORITY 2: Process city results (location filter)
+      // Cities appear high in suggestions for location-based searches
+      if (cityResult.status === 'fulfilled' && cityResult.value.data) {
+        const uniqueCities = [...new Set(cityResult.value.data.map(p => p.phy_city))];
+        uniqueCities.forEach(city => {
+          if (city) {
+            allSuggestions.push({
+              type: 'city',
+              display: city,
+              value: city,
+              metadata: {
+                city: city
+              }
+            });
+          }
+        });
+      }
+
+      // PRIORITY 3: Process address results
       if (addressResult.status === 'fulfilled' && addressResult.value.data) {
         addressResult.value.data.forEach((prop) => {
           // Convert property_use text code (e.g., "SFR") to DOR code (e.g., "0100") for icon mapping
@@ -138,23 +156,6 @@ export function usePropertyAutocomplete(county?: string) {
               property_use_desc: useDescription        // Human-readable (e.g., "Single Family")
             }
           });
-        });
-      }
-
-      // PRIORITY 3: Process city results
-      if (cityResult.status === 'fulfilled' && cityResult.value.data) {
-        const uniqueCities = [...new Set(cityResult.value.data.map(p => p.phy_city))];
-        uniqueCities.forEach(city => {
-          if (city) {
-            allSuggestions.push({
-              type: 'city',
-              display: city,
-              value: city,
-              metadata: {
-                city: city
-              }
-            });
-          }
         });
       }
 
