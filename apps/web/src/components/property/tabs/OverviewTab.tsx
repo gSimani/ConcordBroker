@@ -517,7 +517,7 @@ export function OverviewTab({ data }: OverviewTabProps) {
           </div>
         </div>
 
-        <div className="card-executive animate-elegant">
+        <div className="card-executive animate-elegant min-h-[600px]">
           <div className="elegant-card-header">
             <h3 className="elegant-card-title gold-accent">
               Property Owner
@@ -526,15 +526,15 @@ export function OverviewTab({ data }: OverviewTabProps) {
           <div className="pt-4">
             <div className="space-y-4">
               {/* Owner Name & Address */}
-              <div>
-                <p className="text-base font-medium text-navy mb-1">{bcpaData?.owner_name || 'Unknown Owner'}</p>
+              <div className="bg-gold-light p-4 rounded-lg border border-gold-light">
+                <p className="text-lg font-semibold text-navy mb-2 break-words leading-relaxed">{bcpaData?.owner_name || 'Unknown Owner'}</p>
                 {(bcpaData?.owner_addr1 || bcpaData?.owner_address) && (
-                  <p className="text-sm text-gray-elegant">
+                  <p className="text-sm text-gray-elegant break-words">
                     {bcpaData.owner_addr1 || bcpaData.owner_address}
                   </p>
                 )}
                 {bcpaData?.owner_city && (
-                  <p className="text-sm text-gray-elegant">
+                  <p className="text-sm text-gray-elegant break-words">
                     {bcpaData.owner_city}, {bcpaData.owner_state || 'FL'} {bcpaData.owner_zipcd || ''}
                   </p>
                 )}
