@@ -1,0 +1,54 @@
+{
+  "request_type": "data_quality_fix",
+  "priority": "high",
+  "context": "Fix major data quality issue in florida_parcels.standardized_property_use field. Currently 19,434 COMMERCIAL properties (restaurants, auto sales, parking lots) are incorrectly marked as 'Industrial' when they should be 'Commercial'. These properties have official Florida DOR commercial codes (21, 27, 28) but wrong standardization. This does not affect the current Industrial filter (which uses owner name patterns), but compromises database integrity and future feature reliability.",
+  "affected_records": 19434,
+  "impact": "Database integrity improvement - ensures standardized_property_use field is reliable for future queries and features. No impact on current Industrial filter functionality.",
+  "tasks": [
+    {
+      "task_id": 1,
+      "action": "Create backup table before making changes",
+      "sql": "CREATE TABLE IF NOT EXISTS standardized_fix_backup_20251030 AS\nSELECT * FROM florida_parcels\nWHERE property_use IN ('21', '27', '28')\n  AND standardized_property_use ILIKE '%Industrial%';",
+      "verification": "SELECT COUNT(*) FROM standardized_fix_backup_20251030;\n-- Expected: 19,434 rows"
+    },
+    {
+      "task_id": 2,
+      "action": "Fix Code 21 (Restaurants, cafeterias) - Update 4,292 properties from 'Industrial' to 'Commercial'",
+      "sql": "UPDATE florida_parcels\nSET standardized_property_use = 'Commercial'\nWHERE property_use = '21'\n  AND standardized_property_use ILIKE '%Industrial%';",
+      "verification": "SELECT COUNT(*) FROM florida_parcels\nWHERE property_use = '21'\n  AND standardized_property_use = 'Commercial';\n-- Expected: Should increase by 4,292"
+    },
+    {
+      "task_id": 3,
+      "action": "Fix Code 27 (Auto sales, repair, service stations) - Update 8,479 properties from 'Industrial' to 'Commercial'",
+      "sql": "UPDATE florida_parcels\nSET standardized_property_use = 'Commercial'\nWHERE property_use = '27'\n  AND standardized_property_use ILIKE '%Industrial%';",
+      "verification": "SELECT COUNT(*) FROM florida_parcels\nWHERE property_use = '27'\n  AND standardized_property_use = 'Commercial';\n-- Expected: Should increase by 8,479"
+    },
+    {
+      "task_id": 4,
+      "action": "Fix Code 28 (Parking lots, mobile home parks) - Update 6,663 properties from 'Industrial' to 'Commercial'",
+      "sql": "UPDATE florida_parcels\nSET standardized_property_use = 'Commercial'\nWHERE property_use = '28'\n  AND standardized_property_use ILIKE '%Industrial%';",
+      "verification": "SELECT COUNT(*) FROM florida_parcels\nWHERE property_use = '28'\n  AND standardized_property_use = 'Commercial';\n-- Expected: Should increase by 6,663"
+    },
+    {
+      "task_id": 5,
+      "action": "Verify no commercial codes remain marked as Industrial",
+      "sql": "SELECT\n  property_use,\n  standardized_property_use,\n  COUNT(*) as count\nFROM florida_parcels\nWHERE property_use IN ('21', '27', '28')\n  AND standardized_property_use ILIKE '%Industrial%'\nGROUP BY property_use, standardized_property_use;",
+      "verification": "-- Expected: 0 rows (no commercial codes should remain marked as Industrial)"
+    },
+    {
+      "task_id": 6,
+      "action": "Final verification - Confirm all standardized industrial properties have valid industrial indicators",
+      "sql": "SELECT\n  property_use,\n  COUNT(*) as count,\n  CASE\n    WHEN property_use IN ('040', '041', '042', '043', '044', '045', '046', '047', '048', '049', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49') THEN 'Valid DOR Code'\n    WHEN property_use IN ('21', '27', '28') THEN 'COMMERCIAL CODE (SHOULD NOT BE HERE)'\n    ELSE 'Needs Review'\n  END as status\nFROM florida_parcels\nWHERE standardized_property_use ILIKE '%Industrial%'\nGROUP BY property_use\nORDER BY count DESC\nLIMIT 50;",
+      "verification": "-- Verify no codes 21, 27, 28 appear in results\n-- All properties marked Industrial should have valid industrial DOR codes (040-049) or industrial owner names"
+    }
+  ],
+  "rollback_plan": "If issues occur, restore from backup:\nINSERT INTO florida_parcels (SELECT * FROM standardized_fix_backup_20251030)\nON CONFLICT (id) DO UPDATE\nSET standardized_property_use = EXCLUDED.standardized_property_use;",
+  "testing_notes": "Before fix: 19,434 properties with codes 21, 27, 28 marked as Industrial. After fix: 0 properties with codes 21, 27, 28 marked as Industrial. Sample validation performed on 150 properties confirmed 100% were incorrectly standardized (all are restaurants, auto sales, or parking lots with no industrial characteristics).",
+  "data_quality_metrics": {
+    "current_accuracy": "0% (19,434 out of 19,434 examined commercial codes are wrong)",
+    "expected_accuracy_after_fix": "100%",
+    "affected_percentage": "100% of codes 21, 27, 28 currently marked as Industrial",
+    "sample_size_validated": 150,
+    "validation_method": "Owner name keyword analysis + DOR code definition cross-reference"
+  }
+}

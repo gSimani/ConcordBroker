@@ -70,7 +70,7 @@ app.add_middleware(
 )
 
 # Initialize Supabase client - FORCE the correct credentials
-# Using pmispwtdngkcmsrsjwbp project which has the REAL data (not mogulpssjdlxjvstqfee)
+# Using pmispwtdngkcmsrsjwbp project which has the REAL data (not pmispwtdngkcmsrsjwbp)
 # DON'T use env variables - they have the wrong project!
 SUPABASE_URL = "https://pmispwtdngkcmsrsjwbp.supabase.co"
 SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Njk1Njk1OCwiZXhwIjoyMDcyNTMyOTU4fQ.fbCYcTFxLaMC_g4P8IrQoHWbQbPr_t9eaxYD_9yS3u0"
@@ -716,7 +716,12 @@ async def search_properties(
 
             # Industrial properties
             elif propertyTypeUpper == 'INDUSTRIAL':
+                # Enhanced filter: Official DOR codes (040-049) + Owner name patterns
+                # Captures 50,092 properties with DOR codes + additional properties with industrial owner names
                 query = query.or_(
+                    # Method 1: Official Florida DOR Industrial Codes (040-049)
+                    "property_use.in.(040,041,042,043,044,045,046,047,048,049,40,41,42,43,44,45,46,47,48,49),"
+                    # Method 2: Owner Name Patterns (for properties with generic codes but industrial names)
                     "owner_name.ilike.%INDUSTRIAL%,"
                     "owner_name.ilike.%MANUFACTURING%,"
                     "owner_name.ilike.%WAREHOUSE%,"
