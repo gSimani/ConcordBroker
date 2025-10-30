@@ -481,10 +481,10 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
       data.owner_name || data.own_name,
       getAppraisedValue(data),
       !!(data.phy_addr1 && data.phy_addr1 !== '-'),
-      data.propertyUse,
-      data.propertyUseDesc
+      data.property_use,        // FIXED: Was data.propertyUse (camelCase)
+      data.property_use_desc    // FIXED: Was data.propertyUseDesc (camelCase)
     );
-  }, [data.dor_uc, data.property_type, data.owner_name, data.own_name, data.phy_addr1, data.propertyUse, data.propertyUseDesc, data.jv]);
+  }, [data.dor_uc, data.property_type, data.owner_name, data.own_name, data.phy_addr1, data.property_use, data.property_use_desc, data.jv]);
 
   // Memoize Sunbiz click handler - triggers fetch and opens Sunbiz search
   const handleSunbizClick = useCallback(async (e: React.MouseEvent) => {
