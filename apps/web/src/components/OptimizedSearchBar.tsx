@@ -538,19 +538,17 @@ export function OptimizedSearchBar({
                 }
 
                 // Select icon based on suggestion type
-                const Icon = suggestion.type === 'address'
+                // For both ADDRESS and OWNER types, use property-specific icons based on USE code
+                const Icon = (suggestion.type === 'address' || suggestion.type === 'owner')
                   ? getPropertyIconComponent(suggestion.property_type)
-                  : suggestion.type === 'owner'
-                  ? User
                   : suggestion.type === 'city'
                   ? MapPin
                   : Clock;
 
                 // Select color based on DOR use code
-                const iconColor = suggestion.type === 'address'
+                // For both ADDRESS and OWNER types, use property-specific colors based on USE code
+                const iconColor = (suggestion.type === 'address' || suggestion.type === 'owner')
                   ? getPropertyIconColor(suggestion.property_type)
-                  : suggestion.type === 'owner'
-                  ? 'text-green-500'
                   : suggestion.type === 'city'
                   ? 'text-purple-500'
                   : 'text-gray-400';
@@ -568,7 +566,8 @@ export function OptimizedSearchBar({
                     <Icon className={`w-4 h-4 ${iconColor} flex-shrink-0`} />
                     <div className="flex-1 min-w-0">
                       <span className="text-sm text-gray-900 block truncate">{suggestion.display}</span>
-                      {suggestion.type === 'address' && suggestion.metadata?.property_use_desc && (
+                      {/* Show USE description for both ADDRESS and OWNER types */}
+                      {(suggestion.type === 'address' || suggestion.type === 'owner') && suggestion.metadata?.property_use_desc && (
                         <span className="text-xs text-blue-600 font-medium">
                           {suggestion.metadata.property_use_desc}
                         </span>
@@ -581,8 +580,10 @@ export function OptimizedSearchBar({
                           )}
                         </span>
                       )}
-                      {suggestion.type === 'owner' && (
-                        <span className="text-xs text-gray-500 block">Property Owner</span>
+                      {suggestion.type === 'owner' && suggestion.metadata && (
+                        <span className="text-xs text-gray-500 block">
+                          {suggestion.metadata.city} {suggestion.metadata.zip_code}
+                        </span>
                       )}
                       {suggestion.type === 'city' && (
                         <span className="text-xs text-gray-500 block">City</span>
