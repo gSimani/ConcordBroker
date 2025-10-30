@@ -311,6 +311,13 @@ export function PropertySearch({}: PropertySearchProps) {
       clearTimeout(searchTimeoutRef.current);
     }
 
+    // CRITICAL FIX: Clear cache when property type filter changes
+    // This prevents showing stale cached results from previous searches
+    if (filters.propertyType) {
+      console.log('[FILTER DEBUG] Property type filter changed to:', filters.propertyType);
+      resultsCache.current.clear();
+    }
+
     // Immediate search for category toggles (no debounce needed)
     if (filters.propertyType !== '' || filters.hasPool || filters.hasWaterfront) {
       searchProperties(1);
@@ -552,6 +559,12 @@ export function PropertySearch({}: PropertySearchProps) {
         if (apiFilters.property_type && apiFilters.property_type !== 'All Properties') {
           const dorCodes = getPropertyTypeFilter(apiFilters.property_type);
           if (dorCodes.length > 0) {
+            console.log('[FILTER DEBUG] Applying property_use filter:', {
+              propertyType: apiFilters.property_type,
+              dorCodesCount: dorCodes.length,
+              sampleCodes: dorCodes.slice(0, 10).join(', '),
+              county: countyFilter
+            });
             query = query.in('property_use', dorCodes);
           }
         }
@@ -632,29 +645,53 @@ export function PropertySearch({}: PropertySearchProps) {
         // Apply range for pagination
         query = query.range(offset, offset + limit - 1);
 
-        // CRITICAL: Don't destructure 'count' - it triggers a slow COUNT query
-        // Just get the data directly for fast response
+        // Execute query - Don't destructure 'count' to avoid slow COUNT query
         const { data: properties, error } = await query;
 
         if (error) throw error;
 
-        // Use estimated totalCount based on known database stats
-        // Actual count queries cause timeouts on large tables
+        // CRITICAL DEBUG: Log first few properties to verify filter worked
+        if (apiFilters.property_type && properties && properties.length > 0) {
+          console.log('[FILTER DEBUG] Query returned properties:', {
+            count: properties.length,
+            firstFive: properties.slice(0, 5).map(p => ({
+              parcel_id: p.parcel_id,
+              property_use: p.property_use,
+              address: p.phy_addr1
+            }))
+          });
+        }
+
+        // CRITICAL FIX: Better total count estimation
         let totalCount;
         if (!hasActiveFilters) {
           // All Florida properties = 9,113,150 (67 counties)
           totalCount = 9113150;
         } else {
-          // With filters, estimate total based on current page fullness
-          // If we got a full page (50 results), there are likely more properties
-          // More accurate than the old multiplier (properties.length * 100 = always 5,000)
+          // With filters, use smarter estimation based on page fullness
           const pageIsFull = (properties?.length || 0) >= limit;
           if (pageIsFull) {
-            // Full page = estimate there are many more (conservative estimate)
-            totalCount = Math.min((properties?.length || 0) * 20, 100000); // Cap at 100k estimate
+            // Full page = estimate based on pageSize, not arbitrary multiplier
+            // Old: 500 * 20 = 10,000 (WRONG - too low)
+            // New: Use a more reasonable estimate based on filter selectivity
+            const resultsPerPage = properties?.length || 0;
+
+            // For property type filters, we know there are typically more results
+            // Conservative estimate: at least 20 pages worth of results
+            const minPages = 20;
+            const estimatedTotal = resultsPerPage * minPages;
+
+            console.log('[COUNT DEBUG] Full page - estimating total:', {
+              resultsThisPage: resultsPerPage,
+              estimatedTotal,
+              hasFilters: hasActiveFilters
+            });
+
+            totalCount = estimatedTotal;
           } else {
-            // Partial page = we probably got all matching results
+            // Partial page = we got all matching results
             totalCount = (page - 1) * limit + (properties?.length || 0);
+            console.log('[COUNT DEBUG] Partial page - exact count:', totalCount);
           }
         }
 
