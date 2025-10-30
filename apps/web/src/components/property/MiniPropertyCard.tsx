@@ -278,25 +278,42 @@ const getPropertyTypeBadge = (standardizedPropertyUse?: string, useCode?: string
   // PRIORITY 2: Fallback to standardized_property_use if DOR code is missing
   // NOTE: This column has data quality issues, so only use as fallback!
   else if (standardizedPropertyUse) {
-    const propertyUseStr = String(propertyUse);
-    category = getStandardizedCategory(propertyUseStr);
-    useDescription = getPropertySubtype(propertyUseStr);
+    category = getPropertyUseShortName(standardizedPropertyUse);
+    useDescription = standardizedPropertyUse; // Use full name as description
 
     // Debug logging
     if (import.meta.env.DEV) {
-      console.log('[MiniPropertyCard] Fallback to property_use parsing:', {
-        propertyUse: propertyUseStr,
+      console.log('[MiniPropertyCard] Fallback to standardized_property_use (SECONDARY):', {
+        standardizedPropertyUse,
         category,
-        useDescription,
         ownerName: ownerName?.substring(0, 30)
       });
     }
 
-    // Get icon and color from existing DOR system
-    dorCode = getDorCodeFromPropertyUse(propertyUseStr);
-    const iconName = getPropertyIcon(dorCode || propertyUseStr);
-    IconComponent = ICON_MAP[iconName] || Home; // Convert string to React component
-    iconColor = getPropertyIconColor(dorCode || propertyUseStr);
+    // Get icon and color based on standardized category
+    const categoryLower = standardizedPropertyUse.toLowerCase();
+    if (categoryLower.includes('residential') || categoryLower.includes('condominium') || categoryLower.includes('home')) {
+      IconComponent = Home;
+      iconColor = 'text-blue-600';
+    } else if (categoryLower.includes('commercial')) {
+      IconComponent = Store;
+      iconColor = 'text-green-600';
+    } else if (categoryLower.includes('industrial')) {
+      IconComponent = Factory;
+      iconColor = 'text-orange-600';
+    } else if (categoryLower.includes('agricultural')) {
+      IconComponent = TreePine;
+      iconColor = 'text-emerald-600';
+    } else if (categoryLower.includes('institutional') || categoryLower.includes('government')) {
+      IconComponent = Landmark;
+      iconColor = 'text-purple-600';
+    } else if (categoryLower.includes('vacant')) {
+      IconComponent = Square;
+      iconColor = 'text-gray-500';
+    } else {
+      IconComponent = Home;
+      iconColor = 'text-gray-500';
+    }
   } else {
     // Log when both fields are missing
     if (import.meta.env.DEV) {
