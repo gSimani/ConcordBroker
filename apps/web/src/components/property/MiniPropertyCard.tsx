@@ -74,6 +74,44 @@ const ICON_MAP: Record<string, LucideIcon> = {
   MapPin
 };
 
+// Helper function to get border color based on property type for visual distinction
+const getPropertyTypeBorderColor = (standardizedUse?: string): string => {
+  if (!standardizedUse) return '';
+
+  const useLower = standardizedUse.toLowerCase();
+
+  // Residential properties (Single Family, Condo, etc.) - Blue
+  if (useLower.includes('residential') || useLower.includes('condominium') || useLower.includes('home')) {
+    return 'border-l-4 border-l-blue-500';
+  }
+  // Commercial properties - Green
+  else if (useLower.includes('commercial')) {
+    return 'border-l-4 border-l-green-500';
+  }
+  // Industrial properties - Orange
+  else if (useLower.includes('industrial')) {
+    return 'border-l-4 border-l-orange-500';
+  }
+  // Multi-Family properties - Purple
+  else if (useLower.includes('multi-family')) {
+    return 'border-l-4 border-l-purple-500';
+  }
+  // Agricultural properties - Emerald
+  else if (useLower.includes('agricultural')) {
+    return 'border-l-4 border-l-emerald-500';
+  }
+  // Institutional/Government properties - Indigo
+  else if (useLower.includes('institutional') || useLower.includes('government')) {
+    return 'border-l-4 border-l-indigo-500';
+  }
+  // Vacant land - Gray
+  else if (useLower.includes('vacant')) {
+    return 'border-l-4 border-l-gray-400';
+  }
+
+  return '';
+};
+
 // New function to categorize properties based on actual property_use numeric codes
 export const getPropertyCategoryFromCode = (propertyUse?: string | number, propertyUseDesc?: string): string => {
   // Convert to string for comparison
@@ -656,6 +694,7 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
       <div
         className={`
           elegant-card hover-lift cursor-pointer animate-in
+          ${getPropertyTypeBorderColor(data.standardized_property_use)}
           ${priority === 'high' ? 'ring-2 ring-red-500' : ''}
           ${priority === 'medium' ? 'ring-2 ring-yellow-500' : ''}
           ${isSelected ? 'ring-2 ring-yellow-400 bg-yellow-50/30' : ''}
@@ -941,6 +980,7 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
         relative p-3 hover:shadow-md transition-all cursor-pointer
         ${priority === 'high' ? 'border-l-4 border-l-red-500' : ''}
         ${priority === 'medium' ? 'border-l-4 border-l-yellow-500' : ''}
+        ${!priority ? getPropertyTypeBorderColor(data.standardized_property_use) : ''}
         ${isSelected ? 'ring-2 ring-yellow-400 bg-yellow-50/30' : ''}
       `}
       onClick={onClick}

@@ -1,0 +1,28 @@
+{
+  "timestamp": "2025-10-30T18:10:47.548Z",
+  "testUrl": "http://localhost:5191/properties",
+  "fix": "Added 3-digit padded DOR codes (040-049) to industrial array",
+  "tests": [
+    {
+      "name": "Industrial filter returns results",
+      "status": "WARNING",
+      "reason": "No property cards or error messages found",
+      "note": "May still be loading or pagination issue"
+    },
+    {
+      "name": "Console error check",
+      "status": "WARNING",
+      "consoleErrors": 2,
+      "consoleWarnings": 0
+    },
+    {
+      "name": "Filter active state",
+      "status": "PASS",
+      "buttonStyle": {
+        "backgroundColor": "rgb(254, 215, 170)",
+        "color": "rgb(194, 65, 12)",
+        "borderColor": "rgb(251, 146, 60)"
+      }
+    }
+  ]
+}
