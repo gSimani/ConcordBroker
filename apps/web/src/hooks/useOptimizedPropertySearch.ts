@@ -24,7 +24,7 @@ interface PropertySearchResult {
 // Optimized configuration for fast loading
 const VIRTUAL_SCROLL_BUFFER = 5;
 const ITEMS_PER_PAGE = 20;  // Load less initially for faster response
-const AI_OPTIMIZED_API_URL = 'http://localhost:8000/api/properties/search';  // Ultra-fast optimized API with caching
+const AI_OPTIMIZED_API_URL = 'http://localhost:8080/api/properties/search';  // Ultra-fast optimized API with caching
 
 export function useOptimizedPropertySearch() {
   const [searchOptions, setSearchOptions] = useState<PropertySearchOptions>({
@@ -168,9 +168,11 @@ export function useOptimizedPropertySearch() {
   const prefetchCommon = useCallback(async () => {
     try {
       // Prefetch endpoint not available in current API
-      console.log('Prefetch not implemented');
+      // Silently skip - will be implemented when backend supports it
     } catch (error) {
-      console.error('Prefetch error:', error);
+      if (import.meta.env.DEV) {
+        console.error('Prefetch error:', error);
+      }
     }
   }, []);
 
@@ -190,7 +192,7 @@ export function useOptimizedPropertySearch() {
       };
 
       const endpoint = endpointMap[field] || `/api/autocomplete/addresses`;
-      const url = `http://localhost:8000${endpoint}?q=${encodeURIComponent(query)}&limit=20`;
+      const url = `http://localhost:8080${endpoint}?q=${encodeURIComponent(query)}&limit=20`;
 
       console.log(`[Autocomplete] ${field}: '${query}' -> ${url}`);
 

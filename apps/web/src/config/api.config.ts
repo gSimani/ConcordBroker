@@ -6,11 +6,11 @@
 // Base URLs - all pointing to localhost
 const BASE_URLS = {
   FRONTEND: import.meta.env.VITE_APP_URL || 'http://localhost:5173',
-  PROPERTY_API: import.meta.env.VITE_API_URL || 'http://localhost:8000',
+  PROPERTY_API: import.meta.env.VITE_API_URL || 'http://localhost:8080',
   VISUALIZATION_API: import.meta.env.VITE_VISUALIZATION_API_URL || 'http://localhost:8002',
   MCP_SERVER: import.meta.env.VITE_MCP_SERVER_URL || 'http://localhost:3005',
   LANGCHAIN_API: import.meta.env.VITE_LANGCHAIN_API_URL || 'http://localhost:8003',
-  SUPABASE: import.meta.env.VITE_SUPABASE_URL || 'https://mogulpssjdlxjvstqfee.supabase.co'
+  SUPABASE: import.meta.env.VITE_SUPABASE_URL || 'https://pmispwtdngkcmsrsjwbp.supabase.co'
 };
 
 // API Keys
@@ -239,7 +239,7 @@ export async function checkAllServices(): Promise<{[key: string]: boolean}> {
 export const WEBSOCKET_URLS = {
   MCP: `ws://localhost:3005`,
   LANGCHAIN: `ws://localhost:8003`,
-  PROPERTY_UPDATES: `ws://localhost:8000/ws`
+  PROPERTY_UPDATES: `ws://localhost:8080/ws`
 };
 
 // Environment Check
