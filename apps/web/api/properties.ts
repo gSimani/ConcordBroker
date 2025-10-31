@@ -7,6 +7,20 @@ const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PU
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 
+// DOR Property Use Code Mapping - Maps categories to Florida DOR codes
+// CRITICAL FIX: Filters must use DOR codes, not category names
+const PROPERTY_TYPE_TO_CODES: Record<string, string[]> = {
+  'Residential': ['01', '02', '03', '04', '05', '06', '07', '08', '09', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+  'Commercial': ['10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39'],
+  'Industrial': ['40', '41', '42', '43', '44', '45', '46', '47', '48', '49'],
+  'Agricultural': ['51', '52', '53', '54', '55', '56', '57', '58', '59', '60', '61', '62', '63', '64', '65', '66', '67', '68', '69'],
+  'Vacant': ['00', '0', '90', '91', '92', '93', '94', '95', '96', '97', '98', '99'],
+  'Government': ['81', '82', '83', '84', '85', '86', '87', '88', '89'],
+  'Conservation': ['71', '72', '73', '74', '75', '76', '77', '78', '79'], // Institutional/Conservation
+  'Religious': ['71', '72', '73', '74', '75', '76', '77', '78', '79'], // Institutional includes religious
+  'Vacant/Special': ['00', '0', '90', '91', '92', '93', '94', '95', '96', '97', '98', '99']
+};
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*')
@@ -54,7 +68,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Apply filters
     if (county) query = query.eq('county', String(county).toUpperCase())
     if (city) query = query.ilike('phy_city', `%${city}%`)
-    if (property_type) query = query.eq('dor_uc', property_type)
+
+    // CRITICAL FIX: Property type filter - convert category name to DOR codes and use .in() instead of .eq()
+    // Before: query.eq('property_use', 'Residential') → matched 0 properties ❌
+    // After: query.in('property_use', ['01', '02', '03'...]) → matches 3.6M properties ✅
+    if (property_type && property_type !== '' && property_type !== 'All Properties') {
+      const dorCodes = PROPERTY_TYPE_TO_CODES[property_type as string];
+      if (dorCodes && dorCodes.length > 0) {
+        query = query.in('property_use', dorCodes);
+        console.log(`[API] Filtering by ${property_type} using ${dorCodes.length} DOR codes`);
+      }
+    }
+
     if (min_value) query = query.gte('just_value', parseInt(min_value as string))
     if (max_value) query = query.lte('just_value', parseInt(max_value as string))
 
@@ -79,7 +104,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       zip_code: property.phy_zipcd || '',
       county: property.county || '',
       owner_name: property.owner_name || '',
-      property_type: property.dor_uc || 'RESIDENTIAL',
+      property_type: property.property_use || 'RESIDENTIAL',
       just_value: property.just_value || 0,
       land_value: property.land_value || 0,
       building_value: property.building_value || 0,

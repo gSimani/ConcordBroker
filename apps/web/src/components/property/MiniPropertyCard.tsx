@@ -113,7 +113,7 @@ const getPropertyTypeBorderColor = (standardizedUse?: string): string => {
 };
 
 // New function to categorize properties based on actual property_use numeric codes
-export const getPropertyCategoryFromCode = (propertyUse?: string | number, propertyUseDesc?: string): string => {
+const getPropertyCategoryFromCode = (propertyUse?: string | number, propertyUseDesc?: string): string => {
   // Convert to string for comparison
   const code = String(propertyUse || '').trim();
 
@@ -211,7 +211,7 @@ interface MiniPropertyCardProps {
 }
 
 // Get property category based on DOR use code (moved outside component for stability)
-export const getPropertyCategory = (useCode?: string, propertyType?: string): string => {
+const getPropertyCategory = (useCode?: string, propertyType?: string): string => {
   const category = getDORCategory(useCode);
   if (category !== 'UNKNOWN') {
     // Format category for display
@@ -476,8 +476,8 @@ const getPropertyTypeBadge = (standardizedPropertyUse?: string, useCode?: string
   const categoryStyle = getCategoryStyle(category);
   const CategoryIconComponent = categoryStyle.icon;
 
-  // Return both category badge and detailed use badge
-  return (
+  // Return both the badge JSX AND the values needed by the component
+  const badgeJsx = (
     <div className="flex items-center flex-wrap gap-1.5">
       {/* Main category badge with icon - ELEGANT STYLE */}
       <div
@@ -508,6 +508,14 @@ const getPropertyTypeBadge = (standardizedPropertyUse?: string, useCode?: string
       )}
     </div>
   );
+
+  return {
+    badge: badgeJsx,
+    category,
+    iconColor,
+    IconComponent,
+    useDescription
+  };
 };
 
 // Helper functions moved outside component to prevent recreation
@@ -597,7 +605,7 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
       ...latestSaleInfo
     };
 
-    // Use real sales data if available
+    // PRIORITY 1: Use real sales data from property_sales_history API if available
     if (salesData && Array.isArray(salesData) && salesData.length > 0) {
       const latestSale = salesData[0];
       const salePrice = typeof latestSale.sale_price === 'string' ? parseFloat(latestSale.sale_price) : latestSale.sale_price;
@@ -608,9 +616,27 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
         base.sale_month = latestSale.sale_date ? new Date(latestSale.sale_date).getMonth() + 1 : null;
       }
     }
+    // PRIORITY 2: Use sale data from florida_parcels table (data.sale_prc1 field)
+    // This ensures ALL 9.1M properties show last sale if it exists in NAL files
+    else if (!base.sale_prc1 && data.sale_prc1 && data.sale_prc1 >= 1000) {
+      base.sale_prc1 = data.sale_prc1;
+      base.sale_yr1 = data.sale_yr1;
+      base.sale_date = data.sale_date;
+      base.sale_month = data.sale_month;
+    }
+
+    // Debug logging for sale data (temporary - remove after verification)
+    if (import.meta.env.DEV && base.sale_prc1 && base.sale_prc1 >= 1000 && Math.random() < 0.01) {
+      console.log(`[MiniPropertyCard] Sale data displayed for ${parcelId}:`, {
+        salePrice: base.sale_prc1,
+        saleDate: base.sale_date || base.sale_yr1,
+        source: salesData?.length > 0 ? 'property_sales_history API' : 'florida_parcels table',
+        formatted: `${formatCurrency(base.sale_prc1)} on ${formatSaleDate(base.sale_date, base.sale_yr1, base.sale_month)}`
+      });
+    }
 
     return base;
-  }, [data, latestSaleInfo, salesData]);
+  }, [data, latestSaleInfo, salesData, parcelId]);
 
   // Memoize formatted address
   const formattedAddress = useMemo(() => {
@@ -644,8 +670,8 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
     return '#';
   }, [data.phy_addr1, data.phy_city, data.phy_zipcd, data.owner_addr1, parcelId]);
 
-  // Memoize property badge
-  const propertyBadge = useMemo(() => {
+  // Memoize property badge and extract needed values
+  const propertyBadgeData = useMemo(() => {
     return getPropertyTypeBadge(
       data.standardized_property_use, // PRIORITY 1: Use standardized field from database
       data.dor_uc,
@@ -657,6 +683,9 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
       data.property_use_desc    // FIXED: Was data.propertyUseDesc (camelCase)
     );
   }, [data.standardized_property_use, data.dor_uc, data.property_type, data.owner_name, data.own_name, data.phy_addr1, data.property_use, data.property_use_desc, data.jv]);
+
+  // Destructure the values for use in the component
+  const { badge: propertyBadge, category, iconColor, IconComponent, useDescription } = propertyBadgeData;
 
   // Memoize Sunbiz click handler - triggers fetch and opens Sunbiz search
   const handleSunbizClick = useCallback(async (e: React.MouseEvent) => {

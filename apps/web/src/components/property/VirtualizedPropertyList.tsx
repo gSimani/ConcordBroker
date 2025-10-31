@@ -76,7 +76,7 @@ export const VirtualizedPropertyList = memo<VirtualizedPropertyListProps>(({
   const rowVirtualizer = useVirtualizer({
     count: rowCount,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => (viewMode === 'grid' ? 350 : 150), // Estimated row height
+    estimateSize: () => (viewMode === 'grid' ? 470 : 150), // FIXED: 470px provides slight gap without excessive spacing
     overscan: 5, // Render 5 extra items outside viewport for smooth scrolling
     // Enable infinite loading
     onChange: (instance) => {
