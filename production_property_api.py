@@ -66,7 +66,7 @@ def build_search_query(
     # Start with base query - select ALL properties by default
     query = supabase.table('florida_parcels').select(
         'parcel_id, phy_addr1, phy_city, phy_zipcd, owner_name, county, '
-        'property_use_desc, just_value, assessed_value, year_built, '
+        'standardized_property_use, property_use_desc, just_value, assessed_value, year_built, '
         'total_living_area, bedrooms, bathrooms, land_sqft'
     )
 
@@ -77,6 +77,7 @@ def build_search_query(
         logger.info(f"Applied county filter: {county_upper}")
 
     # Apply use category filter if provided
+    # Use standardized_property_use column for filtering
     if use_category:
         if isinstance(use_category, str):
             use_list = [use_category.strip()]
@@ -84,8 +85,15 @@ def build_search_query(
             use_list = [u.strip() for u in use_category if u.strip()]
 
         if use_list and use_list[0].upper() != 'ALL':
-            query = query.in_('property_use_desc', use_list)
-            logger.info(f"Applied use category filter: {use_list}")
+            # Filter by standardized_property_use column
+            if len(use_list) == 1:
+                # Single category: use simple .eq()
+                query = query.eq('standardized_property_use', use_list[0])
+                logger.info(f"Applied standardized_property_use filter: {use_list[0]}")
+            else:
+                # Multiple categories: use .in_()
+                query = query.in_('standardized_property_use', use_list)
+                logger.info(f"Applied standardized_property_use filter (multiple): {use_list}")
 
     # Apply search tokens with AND-of-OR logic
     if q and q.strip():
@@ -255,7 +263,8 @@ async def search_properties(
                 'zip': row.get('phy_zipcd', ''),
                 'full_address': full_address,
                 'owner_name': row.get('owner_name', ''),
-                'use_category': row.get('property_use_desc', ''),
+                'use_category': row.get('standardized_property_use', '') or row.get('property_use_desc', ''),
+                'property_type': row.get('standardized_property_use', '') or row.get('property_use_desc', ''),
                 'county': row.get('county', ''),
                 'market_value': clean_numeric_value(row.get('just_value', 0)),
                 'assessed_value': clean_numeric_value(row.get('assessed_value', 0)),
@@ -293,7 +302,9 @@ async def search_properties(
         return result
 
     except Exception as e:
+        import traceback
         logger.error(f"Search error: {e}")
+        logger.error(f"Traceback: {traceback.format_exc()}")
         raise HTTPException(status_code=500, detail=f"Search failed: {str(e)}")
 
 @app.get("/api/autocomplete")
@@ -699,3 +710,5 @@ async def health_check():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000, log_level="info")
+
+# force reload
