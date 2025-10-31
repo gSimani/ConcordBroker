@@ -1,0 +1,184 @@
+name: Agent Health Check
+
+on:
+  schedule:
+    # Every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Check specific environment'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - pc
+          - railway
+          - github
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install psycopg2-binary python-dotenv psutil
+
+      - name: Register GitHub Actions agent
+        env:
+          POSTGRES_URL_NON_POOLING: ${{ secrets.POSTGRES_URL_NON_POOLING }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          python << 'PYTHON_SCRIPT'
+          import os
+          import json
+          import platform
+          from datetime import datetime
+          import psycopg2
+
+          # Connect to Supabase
+          conn = psycopg2.connect(os.getenv('POSTGRES_URL_NON_POOLING'))
+          conn.autocommit = True
+          cursor = conn.cursor()
+
+          # Register GitHub Actions agent
+          agent_id = "github-health-check-agent"
+          
+          cursor.execute("""
+              INSERT INTO agent_registry (
+                  agent_id, agent_name, agent_type, environment,
+                  status, last_heartbeat, capabilities, metadata
+              ) VALUES (
+                  %s, %s, %s, %s, %s, NOW(),
+                  %s::jsonb, %s::jsonb
+              )
+              ON CONFLICT (agent_id) DO UPDATE
+              SET status = 'online',
+                  last_heartbeat = NOW(),
+                  updated_at = NOW();
+          """, (
+              agent_id,
+              "GitHub Actions Health Check Agent",
+              "monitoring",
+              "github",
+              "online",
+              json.dumps({
+                  "can_monitor_health": True,
+                  "scheduled": True,
+                  "github_actions": True
+              }),
+              json.dumps({
+                  "workflow": "agent-health-check",
+                  "run_id": os.getenv('GITHUB_RUN_ID', 'manual'),
+                  "started_at": datetime.now().isoformat()
+              })
+          ))
+
+          print(f"✅ Registered agent: {agent_id}")
+
+          # Check health of all agents
+          cursor.execute("""
+              SELECT
+                  environment,
+                  COUNT(*) as total,
+                  COUNT(*) FILTER (WHERE status = 'online') as online,
+                  COUNT(*) FILTER (WHERE status = 'offline') as offline,
+                  COUNT(*) FILTER (
+                      WHERE last_heartbeat < NOW() - INTERVAL '5 minutes'
+                  ) as stale
+              FROM agent_registry
+              GROUP BY environment
+              ORDER BY environment;
+          """)
+
+          results = cursor.fetchall()
+
+          print("\n" + "="*60)
+          print("  DISTRIBUTED AGENT MESH HEALTH REPORT")
+          print("="*60)
+
+          all_healthy = True
+          for row in results:
+                env, total, online, offline, stale = row
+                print(f"\n  {env.upper()}:")
+                print(f"    Total: {total} | Online: {online} | Offline: {offline}")
+                print(f"    Stale Heartbeats: {stale}")
+
+                if stale > 0 or offline > online:
+                    all_healthy = False
+                    print(f"    ⚠️  WARNING: Health issues detected")
+
+          # Check for active alerts
+          cursor.execute("""
+              SELECT COUNT(*) FROM agent_alerts
+              WHERE status = 'active'
+                AND created_at > NOW() - INTERVAL '6 hours';
+          """)
+
+          alert_count = cursor.fetchone()[0]
+          print(f"\n  Active Alerts (last 6h): {alert_count}")
+
+          if alert_count > 0:
+              print(f"    ⚠️  WARNING: Active alerts need attention")
+              all_healthy = False
+
+          # Overall status
+          print("\n" + "="*60)
+          if all_healthy:
+              print("  ✅ ALL SYSTEMS OPERATIONAL")
+          else:
+              print("  ⚠️  ISSUES DETECTED - Review Required")
+          print("="*60 + "\n")
+
+          cursor.close()
+          conn.close()
+
+          # Exit with error if unhealthy (for GitHub Actions notification)
+          if not all_healthy:
+              exit(1)
+          PYTHON_SCRIPT
+
+      - name: Send notification on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue_title = '⚠️ Agent Health Check Failed';
+            const issue_body = `
+            ## Agent Health Check Alert
+            
+            **Time:** ${new Date().toISOString()}
+            **Workflow:** ${context.workflow}
+            **Run:** ${context.runNumber}
+            
+            The distributed agent mesh health check has detected issues.
+            
+            ### Action Required:
+            - Check agent registry for offline/stale agents
+            - Review active alerts in agent_alerts table
+            - Verify Railway orchestrator is running
+            - Check PC agent heartbeats
+            
+            [View Run](${context.payload.repository.html_url}/actions/runs/${context.runId})
+            `;
+            
+            // Create issue if health check fails
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: issue_title,
+              body: issue_body,
+              labels: ['agent-health', 'automated']
+            });

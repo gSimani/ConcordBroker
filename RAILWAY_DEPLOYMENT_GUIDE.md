@@ -1,88 +1,170 @@
-# Railway Deployment Guide for ConcordBroker
+# 🚂 Railway Deployment Guide - Cloud Orchestrator
 
-## Problem Fixed
+**Status:** Ready to Deploy
+**Estimated Time:** 15 minutes
+**Cost:** ~$5-10/month
 
-The Railway deployment was failing because:
-1. Nixpacks couldn't detect the project structure (only saw README.md)
-2. Missing proper configuration files
-3. Incorrect start commands pointing to non-existent files
+---
 
-## Files Created/Updated
+## 📋 Quick Start
 
-### 1. `nixpacks.toml` (NEW)
-- Configures Nixpacks to detect Python + Node.js project
-- Sets up proper build phases
-- Specifies dependencies and start command
+### What You're Deploying:
+A cloud-based orchestrator that coordinates with your PC agents through Supabase.
 
-### 2. `railway.json` (UPDATED)
-- Simplified configuration
-- Fixed start command to use `property_live_api:app`
-- Added health check endpoint
+### Files Needed:
+- ✅ `railway-orchestrator.py` (cloud orchestrator code)
+- ✅ `railway.json` (Railway configuration)  
+- ✅ `requirements-railway.txt` (Python dependencies)
 
-### 3. `Procfile` (NEW)
-- Backup deployment configuration
-- Simple web process definition
+---
 
-### 4. `requirements.txt` (UPDATED)
-- Removed problematic `asyncio==3.4.3` (built-in module)
-- Added `gunicorn` for production deployment
-- Updated `uvicorn` to include standard extras
+## 🚀 Deployment Steps
 
-## Environment Variables Needed in Railway
+### Step 1: Create Railway Project
 
-You need to set these in your Railway dashboard:
+1. Go to: https://railway.app/dashboard
+2. Click "New Project" → "Empty Project"
+3. Name: "concordbroker-orchestrator"
 
-```
-SUPABASE_URL=your_supabase_url
-SUPABASE_ANON_KEY=your_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
-PORT=8000
-RAILWAY_ENVIRONMENT=production
-```
+### Step 2: Deploy Files
 
-## Deployment Steps
-
-### 1. Push to GitHub
+**Option A - GitHub (Recommended):**
 ```bash
-git add .
-git commit -m "fix: Railway deployment configuration"
-git push origin main
+git add railway-orchestrator.py railway.json requirements-railway.txt
+git commit -m "feat: add Railway cloud orchestrator"
+git push
+```
+Then in Railway: New Service → Deploy from GitHub → Select your repo
+
+**Option B - Railway CLI:**
+```bash
+npm install -g @railway/cli
+railway login
+railway link
+railway up
 ```
 
-### 2. In Railway Dashboard
-1. Go to your project: `ConcordBroker-Railway`
-2. Connect to your GitHub repository
-3. Set the environment variables above
-4. Deploy from `main` branch
+### Step 3: Set Environment Variables
 
-### 3. Verify Deployment
-Once deployed, test:
-- Health check: `https://your-railway-url.up.railway.app/health`
-- API docs: `https://your-railway-url.up.railway.app/docs`
+In Railway Dashboard → Service → Variables:
 
-## Project Structure for Railway
-
-Railway now correctly detects:
-```
-ConcordBroker/
-├── nixpacks.toml         # Nixpacks configuration
-├── railway.json          # Railway deployment config
-├── Procfile             # Process definition
-├── apps/
-│   ├── api/
-│   │   ├── requirements.txt
-│   │   ├── property_live_api.py  # Main app
-│   │   └── ...
-│   └── web/
-│       ├── package.json
-│       └── ...
+```bash
+POSTGRES_URL_NON_POOLING=<from .env.mcp>
+SUPABASE_URL=<from .env.mcp>
+SUPABASE_SERVICE_ROLE_KEY=<from .env.mcp>
+ENVIRONMENT=railway
 ```
 
-## Next Steps
+### Step 4: Verify Deployment
 
-1. **Commit and push** the configuration files
-2. **Set environment variables** in Railway dashboard
-3. **Trigger new deployment** from Railway dashboard
-4. **Monitor build logs** to ensure success
+**Check Railway Logs:**
+Look for:
+```
+🚂 RAILWAY CLOUD ORCHESTRATOR
+✅ Connected to Supabase
+✅ Registered as cloud orchestrator
+✅ Railway orchestrator operational
+```
 
-The deployment should now work properly with the FastAPI application running on Railway!
+**Check from PC:**
+```bash
+python check_agent_activity.py
+```
+
+Should show:
+```
+✅ Railway Cloud Orchestrator
+   Status: online
+```
+
+---
+
+## ✅ Success Criteria
+
+- ✅ Railway shows "Deployed" status
+- ✅ Agent registered in Supabase
+- ✅ Heartbeats updating every 30s
+- ✅ No errors in logs
+
+---
+
+## 🧪 Test Communication
+
+**PC → Cloud:**
+```bash
+python << 'EOF'
+import os, json
+from dotenv import load_dotenv
+load_dotenv('.env.mcp')
+import psycopg2
+
+conn = psycopg2.connect(os.getenv('POSTGRES_URL_NON_POOLING'))
+conn.autocommit = True
+cursor = conn.cursor()
+
+cursor.execute("""
+    INSERT INTO agent_messages (
+        from_agent_id, to_agent_id, message_type, payload, priority
+    ) VALUES (%s, %s, %s, %s::jsonb, %s);
+""", (
+    "local-orchestrator-VENGEANCE",
+    "railway-orchestrator-cloud",
+    "query",
+    json.dumps({"test": "PC to Cloud"}),
+    5
+))
+
+print("✅ Message sent PC → Cloud")
+cursor.close()
+conn.close()
+EOF
+```
+
+Check Railway logs for: `📨 MESSAGE FROM local-orchestrator`
+
+---
+
+## 🔧 Troubleshooting
+
+**Build fails:** Ensure requirements-railway.txt exists and contains psycopg2-binary
+
+**Connection fails:** Verify POSTGRES_URL_NON_POOLING is correct
+
+**No heartbeats:** Check Railway service is running and database accessible
+
+---
+
+## 📊 Monitoring
+
+**View logs:**
+```bash
+railway logs  # CLI
+# Or: Dashboard → Service → Logs
+```
+
+**Check health:**
+```bash
+python check_agent_activity.py | grep railway
+```
+
+---
+
+## 💰 Cost
+
+- Free tier: $5 credit/month
+- Orchestrator: ~$5-10/month
+- Monitor usage in Railway dashboard
+
+---
+
+## 🎯 Next Steps
+
+After Railway deployment:
+1. Set up GitHub Actions (`.github/workflows/agent-health-check.yml`)
+2. Test PC ↔ Cloud ↔ GitHub communication
+3. Deploy additional cloud agents
+4. Set up monitoring dashboard
+
+---
+
+**🎉 Once deployed: Distributed agent mesh operational!**
