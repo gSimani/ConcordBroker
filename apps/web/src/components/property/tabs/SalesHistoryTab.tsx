@@ -9,7 +9,16 @@ interface SalesHistoryTabUpdatedProps {
 }
 
 export function SalesHistoryTabUpdated({ parcelId, data }: SalesHistoryTabUpdatedProps) {
-  const { salesData, isLoading, isScraping, scrapingComplete, error } = useSalesData(parcelId);
+  const { salesData, isLoading, isScraping, scrapingComplete, error, refetch } = useSalesData(parcelId);
+
+  // Manual scrape handler
+  const handleManualScrape = async () => {
+    console.log('🔘 Manual scrape triggered for:', parcelId);
+    // Clear React Query cache first
+    await refetch();
+    // Force browser to reload
+    window.location.reload();
+  };
 
   // Format currency
   const formatCurrency = (value?: number) => {
@@ -103,17 +112,25 @@ export function SalesHistoryTabUpdated({ parcelId, data }: SalesHistoryTabUpdate
               Property may be newly constructed or have no recorded sales
             </p>
 
+            {/* Manual scrape button */}
+            <div className="mt-6">
+              <button
+                onClick={handleManualScrape}
+                disabled={isScraping}
+                className="px-6 py-3 bg-gold hover:bg-gold/90 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isScraping ? '🔄 Searching...' : '🔍 Search County Records'}
+              </button>
+            </div>
+
             {/* Additional help text */}
             <div className="mt-6 p-4 bg-blue-50 rounded-lg max-w-md mx-auto">
               <p className="text-sm text-blue-700">
-                <strong>Possible reasons:</strong>
+                <strong>No sales found in database</strong>
               </p>
-              <ul className="text-xs text-blue-600 mt-2 space-y-1">
-                <li>• Property has never been sold</li>
-                <li>• Sales data not yet imported</li>
-                <li>• Property is newly constructed</li>
-                <li>• Records are in different database tables</li>
-              </ul>
+              <p className="text-xs text-blue-600 mt-2">
+                Click the button above to search the county property appraiser website for sales history.
+              </p>
             </div>
           </motion.div>
         </div>
@@ -127,10 +144,19 @@ export function SalesHistoryTabUpdated({ parcelId, data }: SalesHistoryTabUpdate
   return (
     <div className="card-executive">
       <div className="elegant-card-header">
-        <h3 className="elegant-card-title gold-accent flex items-center">
-          <Calendar className="w-5 h-5 mr-2 text-navy" />
-          Sales History
-        </h3>
+        <div className="flex items-center justify-between">
+          <h3 className="elegant-card-title gold-accent flex items-center">
+            <Calendar className="w-5 h-5 mr-2 text-navy" />
+            Sales History
+          </h3>
+          <button
+            onClick={handleManualScrape}
+            className="px-4 py-2 bg-gold/10 hover:bg-gold/20 text-gold font-medium rounded-lg transition-all text-sm"
+            title="Refresh sales data and clear cache"
+          >
+            🔄 Refresh
+          </button>
+        </div>
         <p className="text-sm mt-4 text-gray-elegant">
           All recorded sales for this property ({salesData.total_sales_count} transaction{salesData.total_sales_count !== 1 ? 's' : ''})
         </p>
