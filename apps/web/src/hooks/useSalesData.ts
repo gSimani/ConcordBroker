@@ -57,8 +57,8 @@ const fetchFromMultipleSources = async (parcelId: string): Promise<SalesRecord[]
         .map(sale => ({
           parcel_id: sale.parcel_id,
           sale_date: sale.sale_date,
-          // Convert from cents to dollars (database stores in cents)
-          sale_price: sale.sale_price ? Math.round(parseFloat(sale.sale_price) / 100) : 0,
+          // Database stores prices in dollars (not cents)
+          sale_price: sale.sale_price ? Math.round(parseFloat(sale.sale_price)) : 0,
           sale_year: sale.sale_year || 0,
           sale_month: sale.sale_month || 0,
           qualified_sale: sale.quality_code === 'Q' || sale.quality_code === 'q',
@@ -327,8 +327,8 @@ export function useBatchSalesData(parcelIds: string[]) {
         const record: SalesRecord = {
           parcel_id: sale.parcel_id,
           sale_date: sale.sale_date,
-          // Convert from cents to dollars (database stores in cents)
-          sale_price: sale.sale_price ? Math.round(parseFloat(sale.sale_price) / 100) : 0,
+          // Database stores prices in dollars (not cents)
+          sale_price: sale.sale_price ? Math.round(parseFloat(sale.sale_price)) : 0,
           sale_year: sale.sale_year || 0,
           sale_month: sale.sale_month || 0,
           qualified_sale: sale.quality_code === 'Q' || sale.quality_code === 'q',
