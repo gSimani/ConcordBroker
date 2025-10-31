@@ -9,11 +9,11 @@ interface SalesHistoryTabUpdatedProps {
 }
 
 export function SalesHistoryTabUpdated({ parcelId, data }: SalesHistoryTabUpdatedProps) {
-  const { salesData, isLoading, error } = useSalesData(parcelId);
+  const { salesData, isLoading, isScraping, scrapingComplete, error } = useSalesData(parcelId);
 
   // Format currency
   const formatCurrency = (value?: number) => {
-    if (!value || value === 0) return 'N/A';
+    if (!value || value === 0) return '-';
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
@@ -44,7 +44,9 @@ export function SalesHistoryTabUpdated({ parcelId, data }: SalesHistoryTabUpdate
             <Calendar className="w-5 h-5 mr-2 text-navy" />
             Sales History
           </h3>
-          <p className="text-sm mt-4 text-gray-elegant">Loading sales data...</p>
+          <p className="text-sm mt-4 text-gray-elegant">
+            {isScraping ? '🔄 Searching for sales history...' : 'Loading sales data...'}
+          </p>
         </div>
         <div className="pt-8">
           <div className="flex items-center justify-center py-12">
@@ -85,7 +87,9 @@ export function SalesHistoryTabUpdated({ parcelId, data }: SalesHistoryTabUpdate
             <Calendar className="w-5 h-5 mr-2 text-navy" />
             Sales History
           </h3>
-          <p className="text-sm mt-4 text-gray-elegant">All recorded sales for this property</p>
+          <p className="text-sm mt-4 text-gray-elegant">
+            {isScraping ? 'Searching county records...' : 'All recorded sales for this property'}
+          </p>
         </div>
         <div className="pt-8">
           <motion.div
@@ -135,55 +139,55 @@ export function SalesHistoryTabUpdated({ parcelId, data }: SalesHistoryTabUpdate
       <div className="pt-8">
         {/* Sales Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-lg border border-green-200">
+          <div className="p-4 rounded-lg border border-gray-100">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-green-700 font-medium">Most Recent Sale</p>
-                <p className="text-2xl font-bold text-green-800">
+                <p className="text-sm text-navy font-medium">Most Recent Sale</p>
+                <p className="text-2xl font-light text-navy">
                   {formatCurrency(salesData.most_recent_sale?.sale_price)}
                 </p>
-                <p className="text-xs text-green-600">
+                <p className="text-xs text-gray-elegant">
                   {salesData.most_recent_sale?.sale_date && formatDate(salesData.most_recent_sale.sale_date)}
                 </p>
               </div>
-              <DollarSign className="w-8 h-8 text-green-600" />
+              <DollarSign className="w-8 h-8 text-navy" />
             </div>
           </div>
 
-          <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-lg border border-blue-200">
+          <div className="p-4 rounded-lg border border-gray-100">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-blue-700 font-medium">Average Price</p>
-                <p className="text-2xl font-bold text-blue-800">
+                <p className="text-sm text-navy font-medium">Average Price</p>
+                <p className="text-2xl font-light text-navy">
                   {formatCurrency(salesData.average_sale_price)}
                 </p>
-                <p className="text-xs text-blue-600">Over {salesData.total_sales_count} sales</p>
+                <p className="text-xs text-gray-elegant">Over {salesData.total_sales_count} sales</p>
               </div>
-              <TrendingUp className="w-8 h-8 text-blue-600" />
+              <TrendingUp className="w-8 h-8 text-navy" />
             </div>
           </div>
 
-          <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg border border-purple-200">
+          <div className="p-4 rounded-lg border border-gray-100">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-purple-700 font-medium">Highest Sale</p>
-                <p className="text-2xl font-bold text-purple-800">
+                <p className="text-sm text-navy font-medium">Highest Sale</p>
+                <p className="text-2xl font-light text-navy">
                   {formatCurrency(salesData.highest_sale_price)}
                 </p>
-                <p className="text-xs text-purple-600">Peak value</p>
+                <p className="text-xs text-gray-elegant">Peak value</p>
               </div>
-              <TrendingUp className="w-8 h-8 text-purple-600" />
+              <TrendingUp className="w-8 h-8 text-navy" />
             </div>
           </div>
 
-          <div className="bg-gradient-to-r from-orange-50 to-orange-100 p-4 rounded-lg border border-orange-200">
+          <div className="p-4 rounded-lg border border-gray-100">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-orange-700 font-medium">Market Activity</p>
-                <p className="text-2xl font-bold text-orange-800">{salesData.years_on_market}</p>
-                <p className="text-xs text-orange-600">Years of sales</p>
+                <p className="text-sm text-navy font-medium">Market Activity</p>
+                <p className="text-2xl font-light text-navy">{salesData.years_on_market}</p>
+                <p className="text-xs text-gray-elegant">Years of sales</p>
               </div>
-              <Calendar className="w-8 h-8 text-orange-600" />
+              <Calendar className="w-8 h-8 text-navy" />
             </div>
           </div>
         </div>
@@ -359,3 +363,6 @@ export function SalesHistoryTabUpdated({ parcelId, data }: SalesHistoryTabUpdate
     </div>
   );
 }
+
+// Export alias for backward compatibility
+export { SalesHistoryTabUpdated as SalesHistoryTab };

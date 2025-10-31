@@ -200,6 +200,14 @@ export function useSalesData(parcelId: string | null) {
     timestamp: number; // Track when status was checked
   }>({ inProgress: false, hasData: false, timestamp: Date.now() });
 
+  // NEW: Track on-demand scraping status
+  const [scrapingStatus, setScrapingStatus] = useState<{
+    triggered: boolean;
+    inProgress: boolean;
+    completed: boolean;
+    error: string | null;
+  }>({ triggered: false, inProgress: false, completed: false, error: null });
+
   // Check if a batch query is currently in progress or has completed
   const checkBatchQueryStatus = (): { inProgress: boolean; hasData: boolean; data?: PropertySalesData; timestamp: number } => {
     if (!parcelId) return { inProgress: false, hasData: false, timestamp: Date.now() };
@@ -277,10 +285,100 @@ export function useSalesData(parcelId: string | null) {
     placeholderData: batchStatus.hasData ? batchStatus.data : undefined,
   });
 
+  // NEW: Trigger on-demand scraping when no sales data found
+  useEffect(() => {
+    // Only trigger if:
+    // 1. Data has loaded successfully
+    // 2. No sales were found (total_sales_count === 0)
+    // 3. Scraping hasn't been triggered yet for this parcel
+    // 4. Not currently scraping
+    if (
+      salesData &&
+      salesData.total_sales_count === 0 &&
+      !scrapingStatus.triggered &&
+      !scrapingStatus.inProgress &&
+      parcelId
+    ) {
+      // Get county from parcel data (would need to fetch this)
+      // For now, assume we can derive county or have it available
+      triggerSalesScraping(parcelId);
+    }
+  }, [salesData, parcelId, scrapingStatus.triggered, scrapingStatus.inProgress]);
+
+  // Function to trigger background scraping
+  const triggerSalesScraping = async (parcelId: string) => {
+    try {
+      setScrapingStatus({ triggered: true, inProgress: true, completed: false, error: null });
+      console.log(`🔄 Triggering sales scraping for ${parcelId}`);
+
+      // Get property info to determine county
+      const { data: propertyData } = await supabase
+        .from('florida_parcels')
+        .select('county')
+        .eq('parcel_id', parcelId)
+        .single();
+
+      if (!propertyData?.county) {
+        throw new Error('Could not determine property county');
+      }
+
+      // Call scraping API
+      const response = await fetch('/api/scrape-sales', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ parcel_id: parcelId, county: propertyData.county })
+      });
+
+      if (!response.ok) {
+        throw new Error('Scraping request failed');
+      }
+
+      const result = await response.json();
+      console.log('📡 Scraping response:', result);
+
+      // Poll for completion (every 2 seconds for 30 seconds)
+      let attempts = 0;
+      const maxAttempts = 15;
+
+      const pollInterval = setInterval(async () => {
+        attempts++;
+
+        if (attempts > maxAttempts) {
+          clearInterval(pollInterval);
+          setScrapingStatus({ triggered: true, inProgress: false, completed: false, error: 'Timeout waiting for scraping' });
+          return;
+        }
+
+        // Refetch sales data to check if new sales appeared
+        const refreshedData = await fetchSalesData(parcelId);
+
+        if (refreshedData.total_sales_count > 0) {
+          // Success! New sales found
+          clearInterval(pollInterval);
+          setScrapingStatus({ triggered: true, inProgress: false, completed: true, error: null });
+          // Force refetch to update UI
+          refetch();
+          console.log('✅ Scraping complete! Found new sales.');
+        }
+      }, 2000);
+
+    } catch (error) {
+      console.error('❌ Scraping error:', error);
+      setScrapingStatus({
+        triggered: true,
+        inProgress: false,
+        completed: false,
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  };
+
   return {
     salesData: salesData || null,
-    isLoading,
-    error: error ? (error instanceof Error ? error.message : 'Failed to fetch sales data') : null,
+    isLoading: isLoading || scrapingStatus.inProgress,
+    isScraping: scrapingStatus.inProgress,
+    scrapingComplete: scrapingStatus.completed,
+    error: error ? (error instanceof Error ? error.message : 'Failed to fetch sales data') : scrapingStatus.error,
     refetch,
   };
 }
