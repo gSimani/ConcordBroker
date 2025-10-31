@@ -23,6 +23,7 @@ import { OverviewTab } from '@/components/property/tabs/OverviewTab';
 import { CorePropertyTab } from '@/components/property/tabs/CorePropertyTab';
 import { SunbizTab } from '@/components/property/tabs/SunbizTab';
 import { TaxesTab as PropertyTaxInfoTab } from '@/components/property/tabs/TaxesTab';
+import { SalesHistoryTab } from '@/components/property/tabs/SalesHistoryTab';
 import { AnalysisTab } from '@/components/property/tabs/AnalysisTab';
 import { PermitTab } from '@/components/property/tabs/PermitTab';
 import { ForeclosureTab } from '@/components/property/tabs/ForeclosureTab';
@@ -45,7 +46,7 @@ function getBedBathText(bcpaData: any): string {
 
   // For Vacant Land (no building)
   if (propertyUseNum === 0 || !hasBuilding) {
-    return 'N/A (Vacant Land)';
+    return '-';
   }
 
   // For Residential properties (use codes 1, 2, 3, and 4 for condos/townhomes)
@@ -60,11 +61,11 @@ function getBedBathText(bcpaData: any): string {
       const estimatedBaths = Math.max(1, Math.floor(estimatedBeds / 1.5)); // Rough ratio
       return `${estimatedBeds}* bed • ${estimatedBaths}* bath`;
     }
-    return 'Residential - Details N/A';
+    return '-';
   }
 
   // For Non-residential properties
-  return 'N/A (Commercial/Industrial)';
+  return '-';
 }
 
 interface EnhancedPropertyProfileProps {
@@ -682,23 +683,27 @@ export default function EnhancedPropertyProfile({ parcelId, data: propData }: En
                 <p className="text-2xl font-light elegant-text text-navy">
                   {(() => {
                     // Check multiple possible sources for sale price > $1000
-                    const salePrice = propertyData?.sales?.last_sale_price ||
+                    const salePrice = propertyData?.lastSale?.sale_price ||
+                                    propertyData?.sales?.last_sale_price ||
                                     propertyData?.sales?.sale_price1 ||
                                     propertyData?.bcpaData?.sale_prc1 ||
                                     propertyData?.sale_prc1 ||
                                     0;
-                    return salePrice > 1000 ? formatCurrency(salePrice) : 'N/A';
+                    return salePrice > 1000 ? formatCurrency(salePrice) : '-';
                   })()}
                 </p>
                 {(() => {
                   // Check multiple sources for sale date
-                  const saleDate = propertyData?.sales?.last_sale_date ||
+                  const saleDate = propertyData?.lastSale?.sale_date ||
+                                 propertyData?.sales?.last_sale_date ||
                                  propertyData?.bcpaData?.sale_date ||
                                  propertyData?.sale_date;
-                  const saleYear = propertyData?.sales?.sale_year1 ||
+                  const saleYear = propertyData?.lastSale?.sale_year ||
+                                 propertyData?.sales?.sale_year1 ||
                                  propertyData?.bcpaData?.sale_yr1 ||
                                  propertyData?.sale_yr1;
-                  const saleMonth = propertyData?.sales?.sale_month1 ||
+                  const saleMonth = propertyData?.lastSale?.sale_month ||
+                                  propertyData?.sales?.sale_month1 ||
                                   propertyData?.bcpaData?.sale_mo1 ||
                                   propertyData?.sale_mo1;
 
@@ -736,8 +741,12 @@ export default function EnhancedPropertyProfile({ parcelId, data: propData }: En
               <div>
                 <p className="text-gray-500 text-sm font-light">Living Area</p>
                 <p className="text-lg font-light elegant-text text-navy">
-                  {propertyData?.characteristics?.living_area ?
-                    `${Math.round(propertyData.characteristics.living_area).toLocaleString()} sqft` : 'N/A'}
+                  {(() => {
+                    const livingArea = propertyData?.bcpaData?.total_living_area ||
+                                      propertyData?.characteristics?.living_area ||
+                                      0;
+                    return livingArea > 0 ? `${Math.round(livingArea).toLocaleString()} sqft` : '-';
+                  })()}
                 </p>
                 <p className="text-sm text-gray-600 font-light">
                   {propertyData?.characteristics?.bedrooms && propertyData?.characteristics?.bathrooms ?
@@ -785,6 +794,9 @@ export default function EnhancedPropertyProfile({ parcelId, data: propData }: En
                 </TabsTrigger>
                 <TabsTrigger value="core" className="tab-executive">
                   Core Property Info
+                </TabsTrigger>
+                <TabsTrigger value="saleshistory" className="tab-executive">
+                  Sales History
                 </TabsTrigger>
                 <TabsTrigger value="sunbiz" className="tab-executive">
                   Sunbiz Info
@@ -851,6 +863,13 @@ export default function EnhancedPropertyProfile({ parcelId, data: propData }: En
                     tax: propertyData?.tax || propertyData?.bcpaData?.tax,
                     sales: propertyData?.sales || propertyData?.bcpaData?.sales
                   }}
+                />
+              </TabsContent>
+
+              <TabsContent value="saleshistory" className="mt-0 pt-0">
+                <SalesHistoryTab
+                  parcelId={propertyData?.bcpaData?.parcel_id || actualParcelId || ''}
+                  data={propertyData}
                 />
               </TabsContent>
 
