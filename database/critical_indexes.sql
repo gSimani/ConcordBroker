@@ -40,7 +40,7 @@ CREATE INDEX CONCURRENTLY idx_parcels_address_fts
 ON florida_parcels USING gin(to_tsvector('english',
     COALESCE(phy_addr1, '') || ' ' ||
     COALESCE(phy_addr2, '') || ' ' ||
-    COALESCE(city, '')
+    COALESCE(phy_city, '')
 ));
 -- Estimated improvement: 300× faster for address searches
 
@@ -58,8 +58,8 @@ WHERE land_sqft > 0;
 
 -- Building size filtering
 CREATE INDEX CONCURRENTLY idx_parcels_building_size
-ON florida_parcels(tot_lvg_area DESC, county)
-WHERE tot_lvg_area > 0;
+ON florida_parcels(total_living_area DESC, county)
+WHERE total_living_area > 0;
 -- Estimated improvement: 25× faster for building size queries
 
 -- ============================================================================
@@ -88,46 +88,48 @@ WHERE sale_date >= '2020-01-01';
 -- Estimated improvement: 60× faster for recent sales
 
 -- ============================================================================
--- FORECLOSURE_ACTIVITY - Foreclosure Data
+-- FORECLOSURE_ACTIVITY - Foreclosure Data (TABLE DOES NOT EXIST YET)
 -- ============================================================================
 
--- Active foreclosures
-CREATE INDEX CONCURRENTLY idx_foreclosures_status_date
-ON foreclosure_activity(status, auction_date ASC NULLS LAST)
-WHERE status IN ('PENDING', 'ACTIVE');
--- Estimated improvement: 80× faster for active foreclosure searches
+-- DISABLED - table foreclosure_activity does not exist yet
+-- -- Active foreclosures
+-- CREATE INDEX CONCURRENTLY idx_foreclosures_status_date
+-- ON foreclosure_activity(status, auction_date ASC NULLS LAST)
+-- WHERE status IN ('PENDING', 'ACTIVE');
+-- -- Estimated improvement: 80× faster for active foreclosure searches
 
--- High-value opportunities
-CREATE INDEX CONCURRENTLY idx_foreclosures_value
-ON foreclosure_activity(final_judgment_amount DESC NULLS LAST, auction_date)
-WHERE final_judgment_amount > 100000;
--- Estimated improvement: 100× faster for high-value opportunities
+-- -- High-value opportunities
+-- CREATE INDEX CONCURRENTLY idx_foreclosures_value
+-- ON foreclosure_activity(final_judgment_amount DESC NULLS LAST, auction_date)
+-- WHERE final_judgment_amount > 100000;
+-- -- Estimated improvement: 100× faster for high-value opportunities
 
--- Parcel lookups
-CREATE INDEX CONCURRENTLY idx_foreclosures_parcel
-ON foreclosure_activity(parcel_id, status);
--- Estimated improvement: 40× faster for property foreclosure checks
+-- -- Parcel lookups
+-- CREATE INDEX CONCURRENTLY idx_foreclosures_parcel
+-- ON foreclosure_activity(parcel_id, status);
+-- -- Estimated improvement: 40× faster for property foreclosure checks
 
 -- ============================================================================
--- BUILDING_PERMITS - Permit Data
+-- BUILDING_PERMITS - Permit Data (TABLE DOES NOT EXIST YET)
 -- ============================================================================
 
--- Recent permits
-CREATE INDEX CONCURRENTLY idx_permits_date_county
-ON building_permits(permit_date DESC NULLS LAST, county)
-WHERE permit_date >= '2020-01-01';
--- Estimated improvement: 50× faster for recent permits by county
+-- DISABLED - table building_permits does not exist yet
+-- -- Recent permits
+-- CREATE INDEX CONCURRENTLY idx_permits_date_county
+-- ON building_permits(permit_date DESC NULLS LAST, county)
+-- WHERE permit_date >= '2020-01-01';
+-- -- Estimated improvement: 50× faster for recent permits by county
 
--- Permit value
-CREATE INDEX CONCURRENTLY idx_permits_value
-ON building_permits(construction_value DESC NULLS LAST, permit_date DESC)
-WHERE construction_value > 0;
--- Estimated improvement: 40× faster for high-value permits
+-- -- Permit value
+-- CREATE INDEX CONCURRENTLY idx_permits_value
+-- ON building_permits(construction_value DESC NULLS LAST, permit_date DESC)
+-- WHERE construction_value > 0;
+-- -- Estimated improvement: 40× faster for high-value permits
 
--- Parcel lookups
-CREATE INDEX CONCURRENTLY idx_permits_parcel
-ON building_permits(parcel_id, permit_date DESC);
--- Estimated improvement: 35× faster for property permit history
+-- -- Parcel lookups
+-- CREATE INDEX CONCURRENTLY idx_permits_parcel
+-- ON building_permits(parcel_id, permit_date DESC);
+-- -- Estimated improvement: 35× faster for property permit history
 
 -- ============================================================================
 -- SUNBIZ_CORPORATE - Corporate Entity Data (2M records)
@@ -140,8 +142,8 @@ ON sunbiz_corporate USING gin(to_tsvector('english', COALESCE(entity_name, '')))
 
 -- Filing number lookups
 CREATE INDEX CONCURRENTLY idx_sunbiz_filing
-ON sunbiz_corporate(filing_number);
--- Estimated improvement: 100× faster for exact filing number lookups
+ON sunbiz_corporate(doc_number);
+-- Estimated improvement: 100× faster for exact doc number lookups
 
 -- Active entities
 CREATE INDEX CONCURRENTLY idx_sunbiz_status_date
@@ -155,12 +157,12 @@ WHERE status = 'ACTIVE';
 
 -- Entity name searches (full-text)
 CREATE INDEX CONCURRENTLY idx_entities_name_fts
-ON florida_entities USING gin(to_tsvector('english', COALESCE(entity_name, '')));
--- Estimated improvement: 500× faster for entity name searches
+ON florida_entities USING gin(to_tsvector('english', COALESCE(business_name, '')));
+-- Estimated improvement: 500× faster for business name searches
 
 -- Entity type filtering
 CREATE INDEX CONCURRENTLY idx_entities_type
-ON florida_entities(entity_type, status);
+ON florida_entities(entity_type, entity_status);
 -- Estimated improvement: 60× faster for entity type queries
 
 -- ============================================================================
@@ -169,12 +171,12 @@ ON florida_entities(entity_type, status);
 
 -- Active auctions
 CREATE INDEX CONCURRENTLY idx_taxdeed_status
-ON tax_deed_bidding_items(item_status, auction_date ASC NULLS LAST);
+ON tax_deed_bidding_items(item_status, close_time ASC NULLS LAST);
 -- Estimated improvement: 50× faster for active auction searches
 
--- County filtering
-CREATE INDEX CONCURRENTLY idx_taxdeed_county
-ON tax_deed_bidding_items(county, auction_date ASC);
+-- County filtering - DISABLED (no county column in tax_deed_bidding_items)
+-- CREATE INDEX CONCURRENTLY idx_taxdeed_county
+-- ON tax_deed_bidding_items(county, close_time ASC);
 -- Estimated improvement: 40× faster for county-specific auctions
 
 -- ============================================================================
@@ -183,11 +185,11 @@ ON tax_deed_bidding_items(county, auction_date ASC);
 
 -- Agent metrics (for analytics)
 CREATE INDEX CONCURRENTLY idx_agent_metrics_created
-ON agent_metrics(created_at DESC, agent_id);
+ON agent_metrics(recorded_at DESC, agent_id);
 -- Estimated improvement: 30× faster for recent metrics queries
 
 CREATE INDEX CONCURRENTLY idx_agent_metrics_type
-ON agent_metrics(metric_type, agent_id, created_at DESC);
+ON agent_metrics(metric_type, agent_id, recorded_at DESC);
 -- Estimated improvement: 40× faster for metric type queries
 
 -- Agent alerts (for dashboard)

@@ -12,6 +12,12 @@ import psycopg2
 from datetime import datetime
 from dotenv import load_dotenv
 
+# Fix Windows console encoding
+if sys.platform == 'win32':
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+
 # Load environment
 load_dotenv('.env.mcp')
 
@@ -39,14 +45,47 @@ def get_indexes_from_sql():
     statements = [s.strip() for s in content.split(';')]
 
     for stmt in statements:
-        if stmt.startswith('CREATE INDEX CONCURRENTLY'):
-            # Extract index name
-            parts = stmt.split()
-            index_name = parts[3]
-            indexes.append({
-                'name': index_name,
-                'sql': stmt + ';'
-            })
+        # Skip empty statements
+        if not stmt:
+            continue
+
+        # Check if this statement contains CREATE INDEX CONCURRENTLY
+        if 'CREATE INDEX CONCURRENTLY' in stmt:
+            # Extract just the CREATE INDEX part (skip leading comments)
+            lines = stmt.split('\n')
+            create_line = None
+            start_idx = 0
+
+            for i, line in enumerate(lines):
+                stripped_line = line.strip()
+                # Skip commented lines
+                if stripped_line.startswith('--'):
+                    continue
+                # Found the actual CREATE INDEX line (not commented)
+                if 'CREATE INDEX CONCURRENTLY' in line and not stripped_line.startswith('--'):
+                    start_idx = i
+                    break
+
+            # If we didn't find a non-commented CREATE INDEX, skip this statement
+            if start_idx == 0 and not any('CREATE INDEX CONCURRENTLY' in line and not line.strip().startswith('--') for line in lines):
+                continue
+
+            # Reconstruct the statement from CREATE INDEX onwards
+            sql_lines = lines[start_idx:]
+            sql = '\n'.join(sql_lines).strip()
+
+            # Skip if the SQL is empty or just comments
+            if not sql or sql.startswith('--'):
+                continue
+
+            # Extract index name (4th word after CREATE INDEX CONCURRENTLY)
+            parts = sql.split()
+            if len(parts) >= 4:
+                index_name = parts[3]
+                indexes.append({
+                    'name': index_name,
+                    'sql': sql + ';'
+                })
 
     return indexes
 
