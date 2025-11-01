@@ -20,6 +20,7 @@ import {
   Activity,
   Zap,
   Gavel,
+  Brain,
 } from 'lucide-react'
 
 interface NavItem {
@@ -54,6 +55,13 @@ const navigation: NavItem[] = [
     href: '/analytics',
     icon: BarChart3,
     badge: 3,
+  },
+  {
+    name: 'AI Agents',
+    href: '/agents',
+    icon: Brain,
+    isNew: true,
+    badge: 11,
   },
   {
     name: 'Portfolio',

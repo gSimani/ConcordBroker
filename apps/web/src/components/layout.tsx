@@ -9,13 +9,14 @@ function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation()
 
   // Determine if we should show the modern sidebar layout
-  const useModernLayout = location.pathname.startsWith('/dashboard') || 
+  const useModernLayout = location.pathname.startsWith('/dashboard') ||
                          location.pathname.startsWith('/analytics') ||
                          location.pathname.startsWith('/portfolio') ||
                          location.pathname.startsWith('/insights') ||
                          location.pathname.startsWith('/clients') ||
                          location.pathname.startsWith('/tax-deed-sales') ||
-                         location.pathname.startsWith('/properties')
+                         location.pathname.startsWith('/properties') ||
+                         location.pathname.startsWith('/agents')
 
   if (useModernLayout) {
     return (
@@ -37,9 +38,7 @@ function Layout({ children }: { children: React.ReactNode }) {
           }}
           className="min-h-screen custom-scrollbar"
         >
-          <div className="relative">
-            {children}
-          </div>
+          {children}
         </motion.main>
       </div>
     )

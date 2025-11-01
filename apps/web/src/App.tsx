@@ -56,7 +56,6 @@ const SearchPage = lazy(() => import('@/pages/search'))
 const PropertyPage = lazy(() => import('@/pages/property'))
 const EntityPage = lazy(() => import('@/pages/entity'))
 const AnalyticsPage = lazy(() => import('@/pages/analytics'))
-const AISearchPage = lazy(() => import('@/pages/AISearch'))
 
 // Property Pages - lazy loaded
 const PropertySearch = lazy(() => import('@/pages/properties/PropertySearch'))
@@ -72,6 +71,9 @@ const PerformanceTest = lazy(() => import('@/pages/PerformanceTest'))
 const Gate14 = lazy(() => import('@/pages/Gate14'))
 const AdminDashboard = lazy(() => import('@/pages/admin/dashboard'))
 
+// Agent System Pages - lazy loaded
+const AgentDashboard = lazy(() => import('@/pages/AgentDashboard'))
+
 function App() {
   console.log('App component rendering with advanced performance optimizations')
 
@@ -85,13 +87,15 @@ function App() {
     if (typeof PerformanceObserver !== 'undefined') {
       try {
         const observer = new PerformanceObserver((list) => {
-          for (const entry of list.getEntries()) {
-            if (entry.entryType === 'largest-contentful-paint') {
-              console.log(`[Performance] LCP: ${entry.startTime.toFixed(2)}ms`);
-            }
-            if (entry.entryType === 'first-input') {
-              const fid = (entry as any).processingStart - entry.startTime;
-              console.log(`[Performance] FID: ${fid.toFixed(2)}ms`);
+          if (import.meta.env.DEV) {
+            for (const entry of list.getEntries()) {
+              if (entry.entryType === 'largest-contentful-paint') {
+                console.log(`[Performance] LCP: ${entry.startTime.toFixed(2)}ms`);
+              }
+              if (entry.entryType === 'first-input') {
+                const fid = (entry as any).processingStart - entry.startTime;
+                console.log(`[Performance] FID: ${fid.toFixed(2)}ms`);
+              }
             }
           }
         });
@@ -102,7 +106,9 @@ function App() {
           observer.disconnect();
         };
       } catch (error) {
-        console.warn('[Performance] PerformanceObserver not fully supported:', error);
+        if (import.meta.env.DEV) {
+          console.warn('[Performance] PerformanceObserver not fully supported:', error);
+        }
       }
     }
   }, [])
@@ -111,7 +117,12 @@ function App() {
     <ErrorBoundary>
       <QueryProvider>
         <ThemeProvider defaultTheme="light" storageKey="concordbroker-theme">
-          <Router>
+          <Router
+            future={{
+              v7_startTransition: true,
+              v7_relativeSplatPath: true,
+            }}
+          >
             <RoutePreloader />
             <Layout>
               <Suspense fallback={<PageLoader />}>
@@ -119,7 +130,6 @@ function App() {
                   <Route path="/" element={<HomePage />} />
                   <Route path="/dashboard" element={<DashboardPage />} />
                   <Route path="/search" element={<SearchPage />} />
-                  <Route path="/ai-search" element={<AISearchPage />} />
                   <Route path="/properties" element={<PropertySearch />} />
                   <Route path="/properties/fast" element={<FastPropertySearch />} />
                   <Route path="/properties/:city/:address" element={<EnhancedPropertyProfile />} />
@@ -129,6 +139,7 @@ function App() {
                   <Route path="/analytics" element={<AnalyticsPage />} />
                   <Route path="/tax-deed-sales" element={<TaxDeedSales />} />
                   <Route path="/performance-test" element={<PerformanceTest />} />
+                  <Route path="/agents" element={<AgentDashboard />} />
                   <Route path="/Gate14" element={<Gate14 />} />
                   <Route path="/admin/dashboard" element={<AdminDashboard />} />
                 </Routes>
@@ -136,7 +147,8 @@ function App() {
             </Layout>
 
             {/* Service Worker Manager for offline support and performance monitoring */}
-            <ServiceWorkerManager />
+            {/* DISABLED: Service workers are disabled in dev mode, so this just shows "Inactive" */}
+            {/* <ServiceWorkerManager /> */}
 
             <Toaster />
           </Router>
