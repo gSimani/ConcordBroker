@@ -52,6 +52,53 @@ def clean_numeric_value(value):
             return 0
     return 0
 
+def build_count_query(
+    q: Optional[str] = None,
+    county: Optional[str] = None,
+    use_category: Optional[Union[str, List[str]]] = None
+):
+    """
+    Build query for counting total matching records
+    """
+    query = supabase.table('florida_parcels').select('id', count='exact')
+
+    # Apply same filters as data query
+    if county and county.strip().upper() != 'ALL':
+        query = query.eq('county', county.strip().upper())
+
+    if use_category:
+        if isinstance(use_category, str):
+            use_list = [use_category.strip()]
+        else:
+            use_list = [u.strip() for u in use_category if u.strip()]
+
+        if use_list and use_list[0].upper() != 'ALL':
+            if len(use_list) == 1:
+                query = query.eq('standardized_property_use', use_list[0])
+            else:
+                query = query.in_('standardized_property_use', use_list)
+
+    if q and q.strip():
+        q_upper = q.strip().upper()
+        q_original = q.strip()
+        tokens = [token for token in q_upper.split() if token]
+
+        if q_original.isdigit() and len(q_original) >= 10:
+            query = query.eq('parcel_id', q_original)
+        else:
+            for token in tokens:
+                pattern = f'%{token}%'
+                or_conditions = [
+                    f"parcel_id.ilike.{pattern}",
+                    f"phy_addr1.ilike.{pattern}",
+                    f"phy_city.ilike.{pattern}",
+                    f"phy_zipcd.ilike.{pattern}",
+                    f"owner_name.ilike.{pattern}"
+                ]
+                query = query.or_(",".join(or_conditions))
+
+    return query
+
 def build_search_query(
     q: Optional[str] = None,
     county: Optional[str] = None,
@@ -240,7 +287,13 @@ async def search_properties(
         # Log search parameters
         logger.info(f"Search: q='{q}', county='{county}', use='{use}', limit={limit}, offset={offset}")
 
-        # Build and execute query
+        # Get total count first
+        count_query = build_count_query(q, county, use_categories).limit(1)
+        count_response = count_query.execute()
+        total_count = count_response.count if hasattr(count_response, 'count') else len(properties)
+        logger.info(f"Total matching records: {total_count}")
+
+        # Build and execute data query
         query = build_search_query(q, county, use_categories, limit, offset)
         response = query.execute()
 
@@ -280,7 +333,7 @@ async def search_properties(
 
         result = {
             'properties': properties,
-            'total_found': len(properties),
+            'total_found': total_count,
             'search_params': {
                 'query': q,
                 'county': county,
