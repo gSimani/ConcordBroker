@@ -111,10 +111,12 @@ def build_search_query(
     Queries the entire florida_parcels table (7M+ rows) across ALL counties
     """
     # Start with base query - select ALL properties by default
+    # count='exact' tells Supabase to return total count in response.count
     query = supabase.table('florida_parcels').select(
         'parcel_id, phy_addr1, phy_city, phy_zipcd, owner_name, county, '
         'standardized_property_use, property_use_desc, just_value, assessed_value, year_built, '
-        'total_living_area, bedrooms, bathrooms, land_sqft'
+        'total_living_area, bedrooms, bathrooms, land_sqft',
+        count='exact'
     )
 
     # Apply county filter ONLY if explicitly provided
@@ -287,15 +289,13 @@ async def search_properties(
         # Log search parameters
         logger.info(f"Search: q='{q}', county='{county}', use='{use}', limit={limit}, offset={offset}")
 
-        # Get total count first
-        count_query = build_count_query(q, county, use_categories).limit(1)
-        count_response = count_query.execute()
-        total_count = count_response.count if hasattr(count_response, 'count') else len(properties)
-        logger.info(f"Total matching records: {total_count}")
-
-        # Build and execute data query
+        # Build query - Supabase Python v2 returns count in same response when count='exact' is used
         query = build_search_query(q, county, use_categories, limit, offset)
         response = query.execute()
+
+        # Extract total count from response (Supabase returns this when count='exact' is in select)
+        total_count = response.count if hasattr(response, 'count') and response.count is not None else len(response.data)
+        logger.info(f"Total matching records: {total_count}, returned: {len(response.data)}")
 
         # Transform results to uniform format
         properties = []

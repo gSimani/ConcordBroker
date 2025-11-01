@@ -4,7 +4,7 @@ import type { AuthResponse, PropertyData, PropertySearchParams } from '@/types/a
 const API_BASE_URL = import.meta.env.VITE_API_URL || (
   typeof window !== 'undefined' && window.location.hostname !== 'localhost'
     ? '' // Use relative URLs in production (same origin)
-    : 'http://localhost:8000'  // Use localhost API for development
+    : 'http://localhost:8003'  // Use localhost API for development (FIXED: port 8003)
 )
 
 console.log('API Base URL:', API_BASE_URL);
