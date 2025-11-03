@@ -271,8 +271,7 @@ const getPropertyTypeBadge = (standardizedPropertyUse?: string, useCode?: string
 
     // Get icon and color from DOR code system
     dorCode = getDorCodeFromPropertyUse(propertyUseStr);
-    const iconName = getPropertyIcon(dorCode || propertyUseStr);
-    IconComponent = ICON_MAP[iconName] || Home; // Convert string to React component
+    IconComponent = getPropertyIcon(dorCode || propertyUseStr); // Get React component directly
     iconColor = getPropertyIconColor(dorCode || propertyUseStr);
   }
   // PRIORITY 2: Fallback to standardized_property_use if DOR code is missing
@@ -596,7 +595,7 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
   );
 
   // Memoize latest sale info
-  const latestSaleInfo = useMemo(() => getLatestSaleInfo(salesData), [salesData]);
+  const latestSaleInfo = useMemo(() => getLatestSaleInfo(salesData as any), [salesData]);
 
   // Memoize enhanced data
   const enhancedData = useMemo(() => {
@@ -630,7 +629,7 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
       console.log(`[MiniPropertyCard] Sale data displayed for ${parcelId}:`, {
         salePrice: base.sale_prc1,
         saleDate: base.sale_date || base.sale_yr1,
-        source: salesData?.length > 0 ? 'property_sales_history API' : 'florida_parcels table',
+        source: (salesData as any)?.length > 0 ? 'property_sales_history API' : 'florida_parcels table',
         formatted: `${formatCurrency(base.sale_prc1)} on ${formatSaleDate(base.sale_date, base.sale_yr1, base.sale_month)}`
       });
     }
