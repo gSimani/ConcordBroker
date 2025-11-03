@@ -225,8 +225,8 @@ export interface SpeechRecognitionResultList {
 // Global Window Types
 declare global {
   interface Window {
-    SpeechRecognition?: typeof SpeechRecognition;
-    webkitSpeechRecognition?: typeof SpeechRecognition;
+    SpeechRecognition?: any; // Browser API constructor
+    webkitSpeechRecognition?: any; // Browser API constructor (webkit)
     selectProperty?: (parcelId: string) => void;
   }
 
