@@ -17,10 +17,20 @@ interface TaxCertificate {
   buyer_entity?: {
     entity_name: string
     status: string
-    filing_type: string
+    filing_type?: string
     principal_address: string
     registered_agent: string
     document_number: string
+    // Extended properties from live Sunbiz data
+    entity_type?: string
+    filing_date?: string
+    agent_address?: string
+    officers?: Array<{ name: string; title: string; address: string }>
+    match_confidence?: number
+    search_term_used?: string
+    state?: string
+    zip_code?: string
+    is_live_data?: boolean
   }
   advertised_number?: string
   face_amount: number
@@ -149,7 +159,7 @@ export function TaxesTab({ data }: TaxesTabProps) {
             console.log(`Found ${entities.length} live Sunbiz entities for property owners: ${propertyOwners.join(', ')}`)
             
             // Update certificates with live Sunbiz entity data
-            setRealTaxCertificates(prevCerts => 
+            setRealTaxCertificates(prevCerts =>
               prevCerts.map(cert => {
                 // Find matching Sunbiz entity for this certificate buyer
                 const matchingEntity = entities.find((entity: any) =>
@@ -452,11 +462,11 @@ export function TaxesTab({ data }: TaxesTabProps) {
   useEffect(() => {
     const uniqueBuyers = [...new Set(taxCertificates.map((cert: TaxCertificate) => cert.buyer))];
     const newEnhancedMatches: Record<string, BuyerSunbizMatches> = {};
-    
-    uniqueBuyers.forEach(buyer => {
+
+    uniqueBuyers.forEach((buyer: string) => {
       newEnhancedMatches[buyer] = findSunbizMatches(buyer);
     });
-    
+
     setEnhancedBuyerMatches(newEnhancedMatches);
   }, [taxCertificates]);
 
