@@ -20,7 +20,7 @@ import { usePropertyAutocomplete } from '@/hooks/usePropertyAutocomplete';
 import { getPropertyIcon, getPropertyIconColor, type PropertyIconType } from '@/lib/dorUseCodes';
 
 interface Suggestion {
-  type: 'address' | 'owner' | 'city' | 'history';
+  type: 'address' | 'owner' | 'city' | 'county' | 'history';
   display: string;
   value: string;
   property_type?: string;
@@ -68,8 +68,7 @@ const ICON_MAP: Record<PropertyIconType, React.ComponentType<any>> = {
 const getPropertyIconComponent = (propertyUseCode?: string): React.ComponentType<any> => {
   if (!propertyUseCode) return Home;
 
-  const iconName = getPropertyIcon(propertyUseCode);
-  return ICON_MAP[iconName] || Home;
+  return getPropertyIcon(propertyUseCode); // Returns LucideIcon component directly
 };
 
 // Florida counties for smart detection
