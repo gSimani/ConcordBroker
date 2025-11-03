@@ -14,21 +14,24 @@ declare global {
 }
 
 interface Property {
-  id: number;
+  id?: number;
   parcel_id: string;
-  phy_addr1: string;
-  phy_city: string;
-  phy_zipcd: string;
-  own_name: string;
-  property_type: string;
-  jv: number;
-  tv_sd: number;
-  lnd_val: number;
-  tot_lvg_area: number;
-  lnd_sqfoot: number;
-  act_yr_blt: number;
+  phy_addr1?: string;
+  phy_city?: string;
+  phy_zipcd?: string;
+  own_name?: string;
+  property_type?: string;
+  jv?: number;
+  tv_sd?: number;
+  lnd_val?: number;
+  tot_lvg_area?: number;
+  lnd_sqfoot?: number;
+  act_yr_blt?: number;
   sale_prc1?: number;
   sale_yr1?: number;
+
+  // Allow dynamic property access for backward compatibility
+  [key: string]: any;
 }
 
 interface PropertyMapProps {

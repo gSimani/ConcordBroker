@@ -185,6 +185,9 @@ interface Property {
 
   // Other
   strap?: string;
+
+  // Allow dynamic property access for backward compatibility
+  [key: string]: any;
 }
 
 interface PaginationMetadata {
