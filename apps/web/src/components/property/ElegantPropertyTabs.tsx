@@ -430,7 +430,7 @@ export function ElegantPropertyTabs({
           investment_score: data.investment_score,
           roi_potential: data.roi_potential,
           market_appreciation: data.market_appreciation
-        }} />
+        } as any} />
       </TabsContent>
 
       {/* SALES TAX DEED TAB */}

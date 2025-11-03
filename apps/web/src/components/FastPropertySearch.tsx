@@ -368,7 +368,7 @@ export function FastPropertySearch() {
                   latitude: property.latitude,
                   longitude: property.longitude,
                   neighborhood: property.neighborhood
-                }}
+                } as any}
                 variant={viewMode}
                 showQuickActions={false}
               />
