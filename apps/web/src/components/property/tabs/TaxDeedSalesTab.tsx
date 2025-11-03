@@ -17,6 +17,7 @@ interface TaxDeedProperty {
   state?: string
   zip_code?: string
   homestead: boolean
+  is_homestead?: boolean  // Legacy field for backward compatibility
   assessed_value?: number
   opening_bid: number
   winning_bid?: number  // Added for past auctions
@@ -25,11 +26,15 @@ interface TaxDeedProperty {
   close_time?: string
   status: string
   applicant: string
+  applicant_name?: string  // Legacy field for backward compatibility
   applicant_companies?: string[]
   gis_map_url?: string
+  gis_map_link?: string  // Legacy field for backward compatibility
+  property_appraiser_link?: string  // Legacy field for backward compatibility
   sunbiz_matched: boolean
   sunbiz_entity_names?: string[]
   sunbiz_entity_ids?: string[]
+  sunbiz_entities?: string[]  // Legacy field for backward compatibility
   sunbiz_data?: any
   auction_date?: string
   auction_description?: string
@@ -148,18 +153,24 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
         const sampleData = [
           {
             id: '1',
+            composite_key: 'TD-2025-001',
             tax_deed_number: 'TD-2025-001',
             parcel_number: '064210010010',
             tax_certificate_number: 'TC-2023-12345',
             legal_description: 'LOT 1 BLOCK 2 BROWARD ESTATES',
             situs_address: '123 Main Street, Fort Lauderdale, FL 33301',
+            homestead: true,
             is_homestead: true,
             assessed_value: 450000,
             opening_bid: 125000,
             best_bid: 135000,
+            applicant: 'FLORIDA TAX LIEN INVESTMENTS LLC',
             applicant_name: 'FLORIDA TAX LIEN INVESTMENTS LLC',
             applicant_companies: ['FLORIDA TAX LIEN INVESTMENTS LLC'],
+            sunbiz_matched: false,
+            sunbiz_entity_ids: ['P21000012345'],
             sunbiz_entities: ['P21000012345'],
+            parcel_url: 'https://web.bcpa.net/BcpaClient/#/Record/064210010010',
             property_appraiser_link: 'https://web.bcpa.net/BcpaClient/#/Record/064210010010',
             gis_map_link: 'https://bcpa.maps.arcgis.com/apps/webappviewer/index.html?id=064210010010',
             close_time: '2025-02-15T14:00:00',
@@ -308,7 +319,7 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
           }
         ]
         console.log('📋 Using sample data for demonstration - run scraper to get real data')
-        setProperties(sampleData)
+        setProperties(sampleData as TaxDeedProperty[])
         
         // Extract unique auction dates
         const auctionDatesMap = new Map()
@@ -1025,11 +1036,11 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
                       <Building2 className="w-4 h-4 mr-1" />
                       Sunbiz Entities
                     </h5>
-                    {(property.sunbiz_entities && property.sunbiz_entities.length > 0) || 
+                    {(property.sunbiz_entity_ids && property.sunbiz_entity_ids.length > 0) || 
                      (property.applicant_companies && property.applicant_companies.length > 0) ? (
                       <div className="space-y-2">
                         {/* Show Sunbiz entities if available */}
-                        {property.sunbiz_entities && property.sunbiz_entities.map((entityId, idx) => {
+                        {property.sunbiz_entity_ids && property.sunbiz_entity_ids.map((entityId, idx) => {
                           const companyName = property.applicant_companies?.[idx] || property.applicant_name
                           return (
                             <div key={idx} className="text-sm">
@@ -1049,7 +1060,7 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
                         {/* Show companies without entity IDs */}
                         {property.applicant_companies && 
                          property.applicant_companies.filter((company, idx) => 
-                           !property.sunbiz_entities || !property.sunbiz_entities[idx]
+                           !property.sunbiz_entity_ids || !property.sunbiz_entity_ids[idx]
                          ).map((company, idx) => (
                           <div key={`company-${idx}`} className="text-sm">
                             <a
