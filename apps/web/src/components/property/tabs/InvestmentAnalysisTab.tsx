@@ -52,10 +52,10 @@ interface FinancialMetrics {
 export function InvestmentAnalysisTab({ data }: InvestmentAnalysisTabProps) {
   const { bcpaData, lastSale, navData } = data
 
-  // Get property values
-  const marketValue = bcpaData?.market_value || bcpaData?.marketValue || 0
+  // Get property values - check multiple field name variations
+  const marketValue = bcpaData?.market_value || bcpaData?.marketValue || bcpaData?.just_value || 0
   const assessedValue = bcpaData?.assessed_value || bcpaData?.assessedValue || 0
-  const taxableValue = bcpaData?.taxable_value || bcpaData?.taxableValue || 0
+  const taxableValue = bcpaData?.taxable_value || bcpaData?.taxableValue || marketValue || 0
   const livingArea = bcpaData?.living_area || bcpaData?.livingArea || bcpaData?.buildingSqFt || 0
 
   // Initialize financial metrics with defaults
@@ -85,6 +85,28 @@ export function InvestmentAnalysisTab({ data }: InvestmentAnalysisTabProps) {
     breakEvenRatio: 0
   })
 
+  // Initialize financial metrics when market data loads
+  useEffect(() => {
+    if (marketValue > 0) {
+      const price = parseFloat(String(marketValue))
+      const down = price * 0.2 // 20% down payment
+      const loan = price * 0.8
+      const taxes = parseFloat(String(taxableValue || price)) * 0.015 / 12
+      const ins = price * 0.005 / 12
+      const maint = price * 0.01 / 12
+
+      setMetrics(prev => ({
+        ...prev,
+        purchasePrice: price,
+        downPayment: down,
+        loanAmount: loan,
+        propertyTaxes: taxes,
+        insurance: ins,
+        maintenance: maint
+      }))
+    }
+  }, [marketValue, taxableValue])
+
   // Estimate monthly rent based on market data
   useEffect(() => {
     const sqft = parseFloat(String(livingArea || 0))
@@ -107,7 +129,9 @@ export function InvestmentAnalysisTab({ data }: InvestmentAnalysisTabProps) {
       estimatedRent = parseFloat(String(marketValue)) * 0.008
     }
 
-    setMetrics(prev => ({ ...prev, monthlyRent: Math.round(estimatedRent) }))
+    if (estimatedRent > 0) {
+      setMetrics(prev => ({ ...prev, monthlyRent: Math.round(estimatedRent) }))
+    }
   }, [bcpaData, marketValue, livingArea])
 
   // Calculate financial metrics when inputs change

@@ -5,6 +5,7 @@
 
 import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { useDebounce } from './useDebounce';
+import { getStandardizedPropertyUseValues } from '../utils/property-types';
 
 interface SearchResult {
   properties: any[];
@@ -185,7 +186,16 @@ export const useOptimizedSearch = () => {
         const params = new URLSearchParams();
         Object.entries(filters).forEach(([key, value]) => {
           if (value && value !== '' && value !== 'all-types' && value !== 'all-cities') {
-            params.append(key, String(value));
+            // Convert property_type to 'use' parameter with standardized values
+            if (key === 'property_type' && typeof value === 'string') {
+              const standardizedValues = getStandardizedPropertyUseValues(value);
+              if (standardizedValues.length > 0) {
+                // Backend expects comma-separated values in 'use' parameter
+                params.append('use', standardizedValues.join(','));
+              }
+            } else {
+              params.append(key, String(value));
+            }
           }
         });
 
@@ -195,7 +205,7 @@ export const useOptimizedSearch = () => {
         params.append('include_total', 'true');
 
         const response = await fetch(
-          `/api/properties?${params.toString()}`,
+          `/api/properties/search?${params.toString()}`,
           {
             signal: abortController.current.signal,
             headers: {

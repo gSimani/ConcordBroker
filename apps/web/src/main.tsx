@@ -36,18 +36,22 @@ if (!rootElement) {
     console.log('React app rendered')
   }
 
-  // Register service worker for offline capabilities
-  registerSW({
-    onSuccess: () => {
-      console.log('Service Worker: Successfully registered for offline use');
-    },
-    onUpdate: () => {
-      console.log('Service Worker: New version available - please refresh');
-    },
-    onOfflineReady: () => {
-      console.log('Service Worker: App ready for offline use');
-    }
-  });
+  // Register service worker for offline capabilities (production only)
+  if (import.meta.env.PROD) {
+    registerSW({
+      onSuccess: () => {
+        console.log('Service Worker: Successfully registered for offline use');
+      },
+      onUpdate: () => {
+        console.log('Service Worker: New version available - please refresh');
+      },
+      onOfflineReady: () => {
+        console.log('Service Worker: App ready for offline use');
+      }
+    });
+  } else {
+    console.log('[Dev Mode] Service worker registration skipped');
+  }
 
   // Check if we need to wait for DevTools
   if (window.__REACT_DEVTOOLS_GLOBAL_HOOK__) {

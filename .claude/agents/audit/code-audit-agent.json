@@ -1,0 +1,18 @@
+{
+  "name": "code-audit-agent",
+  "description": "Codebase auditor — static analysis, type checks, lint, dependency and structure review.",
+  "subagents": [
+    {
+      "name": "spell-lint-agent",
+      "role": "Scans for spelling issues in code and docs, and common error patterns"
+    }
+  ],
+  "tasks": [
+    "Run TypeScript type checks and ESLint",
+    "Scan for TODO/FIXME and anti-patterns",
+    "Lightweight spelling pass on md/tsx/ts/py",
+    "Produce Code Audit report"
+  ],
+  "entry": "scripts/audit_codebase.ps1"
+}
+

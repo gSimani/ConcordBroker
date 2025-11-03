@@ -309,33 +309,54 @@ export function mapPropertyTypeToKey(propertyType: string): keyof typeof PROPERT
 /**
  * Maps property type categories to their standardized_property_use values
  * These are the actual values stored in the database standardized_property_use column
+ * Updated 2025-10-31 based on comprehensive database audit of 10.3M properties
  */
 export const STANDARDIZED_PROPERTY_USE_MAP: Record<string, string[]> = {
   'Residential': [
-    'Single Family Residential',
-    'Condominium',
-    'Multi-Family',
+    'Single Family Residential',  // 3.3M properties
+    'Condominium',                 // 958K properties
+    'Multi-Family',                // 594K properties
     'Multi-Family 10+ Units',
-    'Vacant Residential',
     'Mobile Home'
   ],
   'Commercial': [
-    'Commercial'
+    'Commercial',                  // 323K properties
+    'Retail',
+    'Office',
+    'Warehouse',
+    'Mixed Use'
   ],
   'Industrial': [
-    'Industrial'
+    'Industrial',                  // 19K properties
+    'Warehouse'                    // Note: Warehouse maps to both Commercial and Industrial
   ],
   'Agricultural': [
-    'Agricultural'
+    'Agricultural'                 // 186K properties
   ],
-  'Institutional': [
-    'Institutional'
+  'Vacant': [
+    'Vacant Residential',
+    'Vacant Commercial',
+    'Vacant Industrial',
+    'Vacant Land'
   ],
   'Government': [
-    'Government'
+    'Governmental'                 // 56K properties (note: 'Governmental' not 'Government')
   ],
-  'Vacant Land': [
-    'Vacant Land'
+  'Conservation': [
+    'Institutional',               // 71K properties (includes conservation, parks, etc.)
+    'Common Area'                  // 124K properties
+  ],
+  'Religious': [
+    'Institutional',               // 71K properties (churches, religious institutions)
+    'Church'
+  ],
+  'Vacant/Special': [
+    'Vacant Residential',
+    'Vacant Commercial',
+    'Vacant Industrial',
+    'Vacant Land',
+    'Other',                       // 142 properties
+    'Parking'                      // 7.5K properties
   ]
 };
 

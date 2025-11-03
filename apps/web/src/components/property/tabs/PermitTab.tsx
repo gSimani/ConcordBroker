@@ -12,12 +12,7 @@ import {
   CreditCard, Receipt, Activity, Award, Phone,
   Mail, AlertTriangle, Info, Eye
 } from 'lucide-react';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL || '',
-  import.meta.env.VITE_SUPABASE_ANON_KEY || ''
-);
+import { supabase } from '@/lib/supabase';
 
 interface PermitTabProps {
   propertyData: any;
@@ -965,14 +960,14 @@ const PermitDetailCard: React.FC<{
                 <div>
                   <p className="text-sm font-medium text-gray-500">Square Footage</p>
                   <p className="text-lg font-semibold text-gray-900">
-                    {permit.square_footage?.toLocaleString() || 'N/A'}
+                    {permit.square_footage?.toLocaleString() || '-'}
                     {permit.square_footage && ' sq ft'}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm font-medium text-gray-500">Application Type</p>
                   <p className="text-lg font-semibold text-gray-900">
-                    {permit.application_type || 'N/A'}
+                    {permit.application_type || '-'}
                   </p>
                 </div>
                 {permit.film_number && (
@@ -998,14 +993,14 @@ const PermitDetailCard: React.FC<{
                 <p className="text-sm font-medium text-gray-500">Application Date</p>
                 <p className="text-base font-medium text-gray-900 flex items-center gap-1">
                   <Calendar className="h-4 w-4 text-gray-400" />
-                  {permit.application_date ? new Date(permit.application_date).toLocaleDateString() : 'N/A'}
+                  {permit.application_date ? new Date(permit.application_date).toLocaleDateString() : '-'}
                 </p>
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-500">Permit Date</p>
                 <p className="text-base font-medium text-gray-900 flex items-center gap-1">
                   <Calendar className="h-4 w-4 text-gray-400" />
-                  {permit.permit_date ? new Date(permit.permit_date).toLocaleDateString() : 'N/A'}
+                  {permit.permit_date ? new Date(permit.permit_date).toLocaleDateString() : '-'}
                 </p>
               </div>
               <div>

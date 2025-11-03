@@ -1,0 +1,18 @@
+{
+  "name": "research-agent",
+  "description": "Research agent — surveys recent fixes and best practices; proposes modern approaches and enhancements.",
+  "subagents": [
+    {
+      "name": "trend-watcher",
+      "role": "Gathers recent techniques (requires network) and summarizes applicability"
+    }
+  ],
+  "tasks": [
+    "Identify root causes from audit reports",
+    "Research current best practices and emerging solutions",
+    "Prioritize actionable improvements",
+    "Produce Research & Recommendations report"
+  ],
+  "entry": "scripts/audit_research.ps1"
+}
+

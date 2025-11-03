@@ -54,6 +54,20 @@ interface OverviewTabProps {
 export function OverviewTab({ data }: OverviewTabProps) {
   const { bcpaData, lastSale, investmentScore, opportunities, riskFactors } = data
 
+  // DEBUG: Log the data structure
+  console.log('[OverviewTab] Received data:', data);
+  console.log('[OverviewTab] bcpaData:', bcpaData);
+  console.log('[OverviewTab] bcpaData fields:', {
+    just_value: bcpaData?.just_value,
+    land_value: bcpaData?.land_value,
+    building_value: bcpaData?.building_value,
+    total_living_area: bcpaData?.total_living_area,
+    year_built: bcpaData?.year_built,
+    property_use: bcpaData?.property_use,
+    land_sqft: bcpaData?.land_sqft,
+    phy_addr1: bcpaData?.phy_addr1
+  });
+
   // Contact info state management
   const [contactInfos, setContactInfos] = useState<ContactInfo[]>([])
   const [isAddingContact, setIsAddingContact] = useState(false)
@@ -155,8 +169,12 @@ export function OverviewTab({ data }: OverviewTabProps) {
     if (fieldMappings[fieldName]) {
       for (const field of fieldMappings[fieldName]) {
         const value = bcpaData?.[field];
-        if (value && value > 0) return value;
+        if (value && value > 0) {
+          console.log(`[OverviewTab] getTaxValue('${fieldName}') found ${field} = ${value}`);
+          return value;
+        }
       }
+      console.log(`[OverviewTab] getTaxValue('${fieldName}') - no value found in:`, fieldMappings[fieldName]);
     }
 
     // Special case: For vacant land, land_value = just_value

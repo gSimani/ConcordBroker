@@ -186,13 +186,20 @@ export function SearchableSelect({
 
         <div className="flex items-center space-x-1">
           {allowClear && selectedOption && (
-            <button
-              type="button"
+            <div
+              role="button"
+              tabIndex={0}
               onClick={handleClear}
-              className="p-1 hover:bg-gray-100 rounded transition-colors"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleClear(e as any);
+                }
+              }}
+              className="p-1 hover:bg-gray-100 rounded transition-colors cursor-pointer"
             >
               <X className="w-3 h-3 text-gray-500" />
-            </button>
+            </div>
           )}
           <ChevronDown className={cn(
             "w-4 h-4 text-gray-500 transition-transform",

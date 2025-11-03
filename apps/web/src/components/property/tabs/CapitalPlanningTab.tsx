@@ -31,8 +31,9 @@ export function CapitalPlanningTab({ propertyData }: CapitalPlanningTabProps) {
 
   // Calculate property age and estimate capital expenses
   const currentYear = new Date().getFullYear();
-  const yearBuilt = data.year_built || data.yearBuilt || 1990;
-  const propertyAge = currentYear - yearBuilt;
+  const rawYearBuilt = data.year_built || data.yearBuilt;
+  const yearBuilt = (rawYearBuilt && parseInt(rawYearBuilt) > 0) ? parseInt(rawYearBuilt) : null;
+  const propertyAge = yearBuilt ? currentYear - yearBuilt : null;
   const totalSqFt = data.total_sqft || data.living_area || data.tot_lvg_area || 2000;
   const propertyValue = data.just_value || data.assessed_value || 300000;
 
@@ -45,34 +46,34 @@ export function CapitalPlanningTab({ propertyData }: CapitalPlanningTabProps) {
       lastReplaced: yearBuilt,
       costPerSqFt: 8,
       priority: 'high',
-      condition: propertyAge > 15 ? 'poor' : propertyAge > 10 ? 'fair' : 'good'
+      condition: propertyAge === null ? 'fair' : propertyAge > 15 ? 'poor' : propertyAge > 10 ? 'fair' : 'good'
     },
     {
       category: 'HVAC System',
       icon: <Wind className="w-5 h-5" />,
       lifecycle: 15,
-      lastReplaced: yearBuilt + 5,
+      lastReplaced: yearBuilt ? yearBuilt + 5 : null,
       costPerUnit: 7000,
       priority: 'high',
-      condition: propertyAge > 12 ? 'poor' : propertyAge > 8 ? 'fair' : 'good'
+      condition: propertyAge === null ? 'fair' : propertyAge > 12 ? 'poor' : propertyAge > 8 ? 'fair' : 'good'
     },
     {
       category: 'Exterior Paint',
       icon: <Paintbrush className="w-5 h-5" />,
       lifecycle: 10,
-      lastReplaced: yearBuilt + 10,
+      lastReplaced: yearBuilt ? yearBuilt + 10 : null,
       costPerSqFt: 3,
       priority: 'medium',
-      condition: propertyAge > 8 ? 'poor' : propertyAge > 5 ? 'fair' : 'good'
+      condition: propertyAge === null ? 'fair' : propertyAge > 8 ? 'poor' : propertyAge > 5 ? 'fair' : 'good'
     },
     {
       category: 'Flooring',
       icon: <Hammer className="w-5 h-5" />,
       lifecycle: 15,
-      lastReplaced: yearBuilt + 5,
+      lastReplaced: yearBuilt ? yearBuilt + 5 : null,
       costPerSqFt: 5,
       priority: 'medium',
-      condition: propertyAge > 12 ? 'poor' : propertyAge > 8 ? 'fair' : 'good'
+      condition: propertyAge === null ? 'fair' : propertyAge > 12 ? 'poor' : propertyAge > 8 ? 'fair' : 'good'
     },
     {
       category: 'Plumbing',
@@ -80,8 +81,8 @@ export function CapitalPlanningTab({ propertyData }: CapitalPlanningTabProps) {
       lifecycle: 30,
       lastReplaced: yearBuilt,
       costPerUnit: 10000,
-      priority: propertyAge > 25 ? 'high' : 'low',
-      condition: propertyAge > 25 ? 'poor' : propertyAge > 20 ? 'fair' : 'good'
+      priority: propertyAge === null ? 'low' : propertyAge > 25 ? 'high' : 'low',
+      condition: propertyAge === null ? 'fair' : propertyAge > 25 ? 'poor' : propertyAge > 20 ? 'fair' : 'good'
     },
     {
       category: 'Electrical',
@@ -89,8 +90,8 @@ export function CapitalPlanningTab({ propertyData }: CapitalPlanningTabProps) {
       lifecycle: 30,
       lastReplaced: yearBuilt,
       costPerUnit: 8000,
-      priority: propertyAge > 25 ? 'high' : 'low',
-      condition: propertyAge > 25 ? 'poor' : propertyAge > 20 ? 'fair' : 'good'
+      priority: propertyAge === null ? 'low' : propertyAge > 25 ? 'high' : 'low',
+      condition: propertyAge === null ? 'fair' : propertyAge > 25 ? 'poor' : propertyAge > 20 ? 'fair' : 'good'
     },
     {
       category: 'Windows',
@@ -98,23 +99,26 @@ export function CapitalPlanningTab({ propertyData }: CapitalPlanningTabProps) {
       lifecycle: 20,
       lastReplaced: yearBuilt,
       costPerUnit: 15000,
-      priority: propertyAge > 18 ? 'medium' : 'low',
-      condition: propertyAge > 18 ? 'poor' : propertyAge > 12 ? 'fair' : 'good'
+      priority: propertyAge === null ? 'low' : propertyAge > 18 ? 'medium' : 'low',
+      condition: propertyAge === null ? 'fair' : propertyAge > 18 ? 'poor' : propertyAge > 12 ? 'fair' : 'good'
     },
     {
       category: 'Appliances',
       icon: <Settings className="w-5 h-5" />,
       lifecycle: 10,
-      lastReplaced: yearBuilt + 10,
+      lastReplaced: yearBuilt ? yearBuilt + 10 : null,
       costPerUnit: 5000,
       priority: 'medium',
-      condition: propertyAge > 8 ? 'poor' : propertyAge > 5 ? 'fair' : 'good'
+      condition: propertyAge === null ? 'fair' : propertyAge > 8 ? 'poor' : propertyAge > 5 ? 'fair' : 'good'
     }
   ];
 
   // Calculate costs and timelines for each expense
   const expensesWithTimeline = capitalExpenses.map(expense => {
-    const yearsSinceReplaced = currentYear - expense.lastReplaced;
+    // Use lifecycle midpoint as default estimate when lastReplaced is unknown
+    const yearsSinceReplaced = expense.lastReplaced !== null
+      ? currentYear - expense.lastReplaced
+      : Math.floor(expense.lifecycle / 2);
     const remainingLife = Math.max(0, expense.lifecycle - yearsSinceReplaced);
     const replacementYear = currentYear + remainingLife;
     const estimatedCost = expense.costPerSqFt
@@ -198,7 +202,9 @@ export function CapitalPlanningTab({ propertyData }: CapitalPlanningTabProps) {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-base text-gray-600">Property Age</p>
-                <p className="text-2xl font-bold text-navy">{propertyAge} years</p>
+                <p className="text-2xl font-bold text-navy">
+                  {propertyAge !== null ? `${propertyAge} years` : 'Unknown'}
+                </p>
               </div>
               <Building className="w-8 h-8 text-gold" />
             </div>
@@ -413,11 +419,13 @@ export function CapitalPlanningTab({ propertyData }: CapitalPlanningTabProps) {
                       </div>
                       <div className="flex justify-between py-2 border-b">
                         <span className="text-base text-gray-600">Year Built</span>
-                        <span className="font-medium">{yearBuilt}</span>
+                        <span className="font-medium">{yearBuilt !== null ? yearBuilt : 'Unknown'}</span>
                       </div>
                       <div className="flex justify-between py-2 border-b">
                         <span className="text-base text-gray-600">Property Age</span>
-                        <span className="font-medium">{propertyAge} years</span>
+                        <span className="font-medium">
+                          {propertyAge !== null ? `${propertyAge} years` : 'Unknown'}
+                        </span>
                       </div>
                     </div>
                   </div>

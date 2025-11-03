@@ -1,0 +1,516 @@
+{
+  "name": "sunbiz-update-agent",
+  "version": "1.0.0",
+  "type": "scheduled-agent",
+  "priority": "high",
+  "enabled": true,
+  "description": "Daily Sunbiz (Florida Department of State business entity) update system - monitors SFTP, downloads files, parses data, detects changes, and updates database",
+
+  "schedules": {
+    "fileMonitoring": {
+      "cron": "0 */6 * * *",
+      "description": "Check SFTP every 6 hours for new Sunbiz files",
+      "timezone": "America/New_York",
+      "enabled": true,
+      "script": "scripts/test_sunbiz_sftp.py"
+    },
+    "dailyUpdate": {
+      "cron": "0 3 * * *",
+      "description": "Daily full update at 3:00 AM EST",
+      "timezone": "America/New_York",
+      "enabled": true,
+      "script": "scripts/sunbiz_daily_update.py"
+    },
+    "weeklyFullSync": {
+      "cron": "0 2 * * 0",
+      "description": "Weekly full sync every Sunday at 2:00 AM EST",
+      "timezone": "America/New_York",
+      "enabled": false,
+      "note": "Enable only if incremental updates are insufficient"
+    }
+  },
+
+  "dataSource": {
+    "name": "Florida Department of State SFTP",
+    "type": "SFTP",
+    "host": "sftp.floridados.gov",
+    "port": 22,
+    "username": "Public",
+    "passwordEnvVar": "SUNBIZ_SFTP_PASSWORD",
+    "baseDirectory": "/doc",
+    "updateSchedule": "Daily at 3:00 AM EST (business days only)",
+    "fileTypes": [
+      {
+        "type": "corporate",
+        "directory": "/doc/cor/",
+        "pattern": "yyyymmddc.txt",
+        "description": "Corporate filings",
+        "expectedVolume": "2M+ records",
+        "format": "fixed-width"
+      },
+      {
+        "type": "events",
+        "directory": "/doc/cor/",
+        "pattern": "yyyymmddce.txt",
+        "description": "Corporate events",
+        "expectedVolume": "1M+ records",
+        "format": "fixed-width"
+      },
+      {
+        "type": "fictitious",
+        "directory": "/doc/fic/",
+        "pattern": "yyyymmddfn.txt",
+        "description": "Fictitious business names",
+        "expectedVolume": "500K+ records",
+        "format": "fixed-width"
+      }
+    ]
+  },
+
+  "database": {
+    "provider": "Supabase",
+    "project": "pmispwtdngkcmsrsjwbp",
+    "url": "https://pmispwtdngkcmsrsjwbp.supabase.co",
+    "stagingTables": {
+      "sunbiz_corporate_staging": {
+        "description": "Raw corporate filings before validation",
+        "indexes": ["idx_corp_staging_batch", "idx_corp_staging_filing"],
+        "columns": "All text for fast COPY loading",
+        "provenance": "source_file, load_batch_id, loaded_at"
+      },
+      "sunbiz_events_staging": {
+        "description": "Raw corporate events before validation",
+        "indexes": ["idx_events_staging_batch", "idx_events_staging_filing"],
+        "provenance": "source_file, load_batch_id, loaded_at"
+      },
+      "sunbiz_fictitious_staging": {
+        "description": "Raw fictitious names before validation",
+        "indexes": ["idx_fict_staging_batch", "idx_fict_staging_filing"],
+        "provenance": "source_file, load_batch_id, loaded_at"
+      }
+    },
+    "tables": {
+      "sunbiz_corporate": {
+        "description": "Main corporate entities table",
+        "currentRecords": "2,030,912",
+        "primaryKey": "filing_number",
+        "updateStrategy": "upsert",
+        "indexes": [
+          "idx_sunbiz_corporate_filing_number",
+          "idx_sunbiz_corporate_entity_name",
+          "idx_sunbiz_corporate_status",
+          "idx_sunbiz_corporate_filing_date"
+        ]
+      },
+      "sunbiz_fictitious": {
+        "description": "Fictitious business names (DBAs)",
+        "currentRecords": "~500,000",
+        "primaryKey": "id",
+        "updateStrategy": "upsert",
+        "indexes": [
+          "idx_sunbiz_fictitious_name",
+          "idx_sunbiz_fictitious_owner"
+        ]
+      },
+      "sunbiz_officers": {
+        "description": "Corporate officers and directors",
+        "currentRecords": "~5,000,000",
+        "primaryKey": "id",
+        "updateStrategy": "upsert",
+        "indexes": [
+          "idx_sunbiz_officers_filing_number",
+          "idx_sunbiz_officers_name"
+        ]
+      },
+      "sunbiz_registered_agents": {
+        "description": "Registered agents",
+        "currentRecords": "~100,000",
+        "primaryKey": "id",
+        "updateStrategy": "upsert"
+      },
+      "sunbiz_entity_search": {
+        "description": "Fast lookup table with tsvector search",
+        "currentRecords": "Variable",
+        "primaryKey": "id",
+        "updateStrategy": "rebuild",
+        "indexes": [
+          "idx_sunbiz_entity_search_entity_id",
+          "idx_sunbiz_entity_search_name",
+          "idx_sunbiz_entity_search_tsv"
+        ],
+        "specialFeatures": [
+          "Trigram fuzzy matching",
+          "Full-text search with tsvector",
+          "Auto-updated by trigger"
+        ]
+      },
+      "sunbiz_events": {
+        "description": "Corporate events and filings",
+        "currentRecords": "~1,000,000",
+        "primaryKey": "id",
+        "updateStrategy": "upsert"
+      },
+      "sunbiz_change_log": {
+        "description": "Change tracking and audit trail",
+        "currentRecords": "Variable (grows daily)",
+        "primaryKey": "id",
+        "updateStrategy": "append",
+        "retentionPolicy": "90 days for processed records"
+      },
+      "sunbiz_download_jobs": {
+        "description": "Job status and metadata tracking",
+        "currentRecords": "Variable",
+        "primaryKey": "id",
+        "updateStrategy": "insert",
+        "columns": [
+          "data_type",
+          "file_count",
+          "total_size_bytes",
+          "status",
+          "created_at",
+          "completed_at",
+          "notes",
+          "job_metadata",
+          "retry_count",
+          "last_error_at"
+        ]
+      }
+    },
+    "mergeFunctions": {
+      "merge_corporate_from_staging": {
+        "description": "Merge corporate staging → sunbiz_corporate with change detection",
+        "parameters": ["p_batch_id uuid"],
+        "returns": "TABLE (inserted int, updated int, changes_logged int)",
+        "security": "SECURITY DEFINER",
+        "critical": "Uses doc_number as UNIQUE key (staging.filing_number → final.doc_number)"
+      },
+      "merge_fictitious_from_staging": {
+        "description": "Merge fictitious staging → sunbiz_fictitious with change detection",
+        "parameters": ["p_batch_id uuid"],
+        "returns": "TABLE (inserted int, updated int, changes_logged int)",
+        "security": "SECURITY DEFINER"
+      },
+      "merge_events_from_staging": {
+        "description": "Append events to sunbiz_corporate_events (idempotent)",
+        "parameters": ["p_batch_id uuid"],
+        "returns": "TABLE (inserted int)",
+        "security": "SECURITY DEFINER",
+        "critical": "Targets sunbiz_corporate_events (NOT sunbiz_events)"
+      },
+      "cleanup_staging_batch": {
+        "description": "Delete staging records older than retention period",
+        "parameters": ["p_batch_id uuid", "p_keep_days integer DEFAULT 7"],
+        "returns": "integer (deleted count)",
+        "security": "SECURITY DEFINER"
+      }
+    },
+    "functions": {
+      "get_sunbiz_update_stats": {
+        "description": "Get update statistics for a given date",
+        "parameters": ["p_date date"],
+        "returns": "TABLE (data_type, total_jobs, successful_jobs, failed_jobs, total_files, total_size_bytes)",
+        "security": "SECURITY DEFINER"
+      },
+      "log_sunbiz_change": {
+        "description": "Log a detected change to change_log table",
+        "parameters": ["p_entity_id text", "p_change_type text", "p_old_value jsonb", "p_new_value jsonb", "p_source_file text"],
+        "returns": "void",
+        "security": "SECURITY DEFINER"
+      },
+      "search_sunbiz_entities": {
+        "description": "Fuzzy search across entity names and DBAs",
+        "parameters": ["p_search_term text", "p_limit integer DEFAULT 100"],
+        "returns": "TABLE (entity_id, entity_name, dba_name, similarity, city, state)",
+        "security": "SECURITY DEFINER",
+        "features": ["Trigram similarity", "tsvector fallback"]
+      },
+      "find_sunbiz_by_address": {
+        "description": "Fuzzy search by address",
+        "parameters": ["p_address_search text", "p_limit integer DEFAULT 50"],
+        "returns": "TABLE (entity_id, entity_name, address, similarity)",
+        "security": "SECURITY DEFINER"
+      },
+      "get_unprocessed_changes": {
+        "description": "Get unprocessed changes from change log",
+        "parameters": ["p_limit integer DEFAULT 1000"],
+        "returns": "TABLE (id, entity_id, change_type, old_value, new_value, occurred_at)",
+        "security": "SECURITY DEFINER"
+      },
+      "mark_changes_processed": {
+        "description": "Mark changes as processed",
+        "parameters": ["p_change_ids bigint[]"],
+        "returns": "integer (count of marked records)",
+        "security": "SECURITY DEFINER"
+      },
+      "get_entity_change_history": {
+        "description": "Get change history for specific entity",
+        "parameters": ["p_entity_id text", "p_days_back integer DEFAULT 30"],
+        "returns": "TABLE (change_type, old_value, new_value, occurred_at, source_file)",
+        "security": "SECURITY DEFINER"
+      },
+      "cleanup_old_change_logs": {
+        "description": "Delete processed change logs older than retention period",
+        "parameters": ["p_days_to_keep integer DEFAULT 90"],
+        "returns": "integer (count of deleted records)",
+        "security": "SECURITY DEFINER"
+      }
+    },
+    "triggers": {
+      "trg_sunbiz_entity_search_tsv": {
+        "table": "sunbiz_entity_search",
+        "timing": "BEFORE INSERT OR UPDATE",
+        "function": "sunbiz_entity_search_tsv_update()",
+        "description": "Auto-update search_tsv column for full-text search"
+      },
+      "trg_sunbiz_corporate_updated": {
+        "table": "sunbiz_corporate",
+        "timing": "BEFORE UPDATE",
+        "function": "update_updated_at_column()",
+        "description": "Auto-update updated_at timestamp"
+      },
+      "trg_sunbiz_fictitious_updated": {
+        "table": "sunbiz_fictitious",
+        "timing": "BEFORE UPDATE",
+        "function": "update_updated_at_column()",
+        "description": "Auto-update updated_at timestamp"
+      }
+    },
+    "security": {
+      "rls_enabled": ["sunbiz_entity_search", "sunbiz_change_log", "sunbiz_download_jobs", "sunbiz_corporate"],
+      "policies": [
+        {
+          "name": "Authenticated users read-only",
+          "tables": ["sunbiz_entity_search", "sunbiz_change_log", "sunbiz_download_jobs", "sunbiz_corporate"],
+          "operation": "SELECT",
+          "role": "authenticated",
+          "using": "true"
+        },
+        {
+          "name": "Service role full access",
+          "tables": ["sunbiz_entity_search", "sunbiz_change_log", "sunbiz_download_jobs", "sunbiz_corporate"],
+          "operation": "ALL",
+          "role": "service_role",
+          "using": "true"
+        }
+      ]
+    }
+  },
+
+  "workflow": {
+    "dailyUpdate": {
+      "steps": [
+        {
+          "step": 1,
+          "name": "Check SFTP Connection",
+          "script": "scripts/test_sunbiz_sftp.py",
+          "timeout": "60s",
+          "retries": 3
+        },
+        {
+          "step": 2,
+          "name": "Monitor for New Files",
+          "script": "scripts/monitor_sunbiz_files.py",
+          "description": "Check for new daily files and compare checksums",
+          "timeout": "120s"
+        },
+        {
+          "step": 3,
+          "name": "Download New Files",
+          "script": "scripts/download_sunbiz_files.py",
+          "description": "Download corporate, events, and fictitious files",
+          "timeout": "600s",
+          "retries": 3
+        },
+        {
+          "step": 4,
+          "name": "Parse Fixed-Width Files",
+          "script": "scripts/parse_sunbiz_files.py",
+          "description": "Parse fixed-width format into structured data",
+          "batchSize": 1000,
+          "timeout": "3600s"
+        },
+        {
+          "step": 5,
+          "name": "Detect Changes",
+          "script": "scripts/detect_sunbiz_changes.py",
+          "description": "Compare with existing data and log changes",
+          "timeout": "1800s"
+        },
+        {
+          "step": 6,
+          "name": "Update Database",
+          "script": "scripts/load_sunbiz_data.py",
+          "description": "Batch upsert with change logging",
+          "batchSize": 1000,
+          "timeout": "7200s"
+        },
+        {
+          "step": 7,
+          "name": "Cleanup Old Logs",
+          "sql": "SELECT cleanup_old_change_logs(90);",
+          "description": "Remove processed change logs older than 90 days",
+          "timeout": "300s"
+        },
+        {
+          "step": 8,
+          "name": "Send Notification",
+          "script": "scripts/send_sunbiz_notification.py",
+          "description": "Email summary of changes and job status",
+          "timeout": "60s"
+        }
+      ],
+      "errorHandling": {
+        "onFailure": "rollback-and-notify",
+        "retryStrategy": "exponential-backoff",
+        "maxRetries": 3,
+        "notificationRecipients": ["admin@concordbroker.com"]
+      }
+    }
+  },
+
+  "scripts": {
+    "test_sunbiz_sftp.py": {
+      "location": "scripts/test_sunbiz_sftp.py",
+      "status": "COMPLETE",
+      "description": "Test SFTP connection and list available files",
+      "dependencies": ["paramiko", "python-dotenv"]
+    },
+    "deploy_sunbiz_schema.py": {
+      "location": "scripts/deploy_sunbiz_schema.py",
+      "status": "COMPLETE",
+      "description": "Deploy schema with validation",
+      "dependencies": ["supabase", "psycopg2"]
+    },
+    "parse_sunbiz_files.py": {
+      "location": "scripts/parse_sunbiz_files.py",
+      "status": "TODO",
+      "description": "Parse fixed-width Sunbiz files",
+      "dependencies": ["pandas"]
+    },
+    "daily_sunbiz_update.py": {
+      "location": "scripts/daily_sunbiz_update.py",
+      "status": "TODO",
+      "description": "Main orchestrator script",
+      "dependencies": ["all above"]
+    }
+  },
+
+  "monitoring": {
+    "healthChecks": [
+      {
+        "name": "SFTP Connection",
+        "query": "Test connection to sftp.floridados.gov",
+        "frequency": "Every 6 hours",
+        "alertOn": "connection_failure"
+      },
+      {
+        "name": "Recent Update Status",
+        "query": "SELECT * FROM get_sunbiz_update_stats(CURRENT_DATE);",
+        "frequency": "Daily",
+        "alertOn": "zero_successful_jobs"
+      },
+      {
+        "name": "Database Record Count",
+        "query": "SELECT COUNT(*) FROM sunbiz_corporate;",
+        "frequency": "Daily",
+        "alertOn": "unexpected_drop"
+      },
+      {
+        "name": "Unprocessed Changes",
+        "query": "SELECT COUNT(*) FROM sunbiz_change_log WHERE NOT processed;",
+        "frequency": "Daily",
+        "alertOn": "count > 10000"
+      }
+    ],
+    "metrics": {
+      "targetSuccessRate": ">99%",
+      "targetProcessingTime": "<2 hours",
+      "targetChangeDetectionAccuracy": ">95%",
+      "maxUnprocessedChanges": 10000
+    }
+  },
+
+  "documentation": {
+    "completeGuide": "SUNBIZ_DAILY_UPDATE_SYSTEM.md",
+    "quickStart": "SUNBIZ_QUICK_START_GUIDE.md",
+    "permanentMemory": ".memory/sunbiz-updates-permanent.md",
+    "currentState": "SUNBIZ_CURRENT_STATE.md",
+    "sftpTesting": "SUNBIZ_SFTP_TEST_REPORT.md",
+    "schemaDeployment": "supabase/migrations/sunbiz_daily_update_schema.sql"
+  },
+
+  "quickCommands": {
+    "testSFTP": "python scripts/test_sunbiz_sftp.py",
+    "deploySchema": "python scripts/deploy_sunbiz_schema.py",
+    "dailyUpdate": "python scripts/daily_sunbiz_update.py",
+    "dryRun": "python scripts/daily_sunbiz_update.py --dry-run",
+    "forceUpdate": "python scripts/daily_sunbiz_update.py --force",
+    "checkStatus": "SELECT * FROM get_sunbiz_update_stats(CURRENT_DATE);",
+    "recentChanges": "SELECT * FROM sunbiz_change_log WHERE occurred_at >= CURRENT_DATE - INTERVAL '7 days' ORDER BY occurred_at DESC LIMIT 100;",
+    "unprocessedCount": "SELECT COUNT(*) FROM sunbiz_change_log WHERE NOT processed;",
+    "searchEntity": "SELECT * FROM search_sunbiz_entities('company name', 10);",
+    "cleanupLogs": "SELECT cleanup_old_change_logs(90);"
+  },
+
+  "knownIssues": [
+    {
+      "issue": "Large table indexes cannot be created via SQL editor",
+      "reason": "CREATE INDEX CONCURRENTLY requires autocommit mode",
+      "workaround": "Use psql or Edge Function for remaining indexes",
+      "priority": "medium",
+      "tracked": "Phase 3 partial completion"
+    },
+    {
+      "issue": "SFTP files use date-based naming in subdirectories",
+      "reason": "Files are in /doc/cor/ and /doc/fic/, not root",
+      "resolution": "Updated scripts to use correct paths",
+      "status": "resolved"
+    }
+  ],
+
+  "nextActions": [
+    {
+      "priority": 1,
+      "action": "Create fixed-width format parser",
+      "status": "pending",
+      "assignedTo": "Task 8"
+    },
+    {
+      "priority": 2,
+      "action": "Build daily orchestrator script",
+      "status": "pending",
+      "assignedTo": "Task 9"
+    },
+    {
+      "priority": 3,
+      "action": "Deploy remaining performance indexes",
+      "status": "pending",
+      "assignedTo": "Optional - use psql or Edge Function"
+    },
+    {
+      "priority": 4,
+      "action": "Create GitHub Actions workflow",
+      "status": "pending",
+      "assignedTo": "Task 10"
+    }
+  ],
+
+  "criticalNumbers": {
+    "totalEntities": "15,000,000+",
+    "corporateRecords": "2,030,912",
+    "fictitiousNames": "~500,000",
+    "officers": "~5,000,000",
+    "registeredAgents": "~100,000",
+    "events": "~1,000,000",
+    "dataVolume": "~50-75 GB",
+    "updateFrequency": "Daily at 3:00 AM EST",
+    "fileTypes": 3,
+    "finalTables": 8,
+    "stagingTables": 3,
+    "utilityFunctions": 8,
+    "mergeFunctions": 4,
+    "triggers": 3,
+    "rlsPolicies": 8,
+    "uniqueConstraints": 1
+  }
+}

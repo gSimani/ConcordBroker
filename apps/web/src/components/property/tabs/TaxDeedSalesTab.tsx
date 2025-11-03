@@ -467,7 +467,7 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
   }
 
   const formatCurrency = (value?: number) => {
-    if (!value) return 'N/A'
+    if (!value) return '-'
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
@@ -477,7 +477,7 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
   }
 
   const formatDate = (dateString?: string) => {
-    if (!dateString) return 'N/A'
+    if (!dateString) return '-'
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -486,7 +486,7 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
   }
 
   const formatTime = (dateString?: string) => {
-    if (!dateString) return 'N/A'
+    if (!dateString) return '-'
     return new Date(dateString).toLocaleString('en-US', {
       month: 'short',
       day: 'numeric',
@@ -623,7 +623,7 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
       tabLabel,
       totalProperties: displayProperties.length,
       highestBid,
-      highestAddress: highestProperty?.situs_address || 'N/A',
+      highestAddress: highestProperty?.situs_address || '-',
       cancelledCount,
       activeCount,
       soldCount,

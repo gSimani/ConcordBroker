@@ -1,0 +1,232 @@
+﻿apps/web/src\utils\serviceWorker.ts:15:export function registerSW(config?: ServiceWorkerConfig) {
+apps/web/src\utils\serviceWorker.ts:92:export function unregister() {
+apps/web/src\utils\serviceWorker.ts:169:export function useServiceWorker() {
+apps/web/src\utils\realUserMonitoring.ts:601:export default globalRUM;
+apps/web/src\utils\react-devtools-config.ts:242:export function initializeReactDevTools(React: any, ReactDOM: any): void {
+apps/web/src\utils\react-devtools-config.ts:247:export function checkReactDevToolsStatus(): object {
+apps/web/src\utils\react-devtools-config.ts:252:export function debugReactPage(): void {
+apps/web/src\utils\property-types.ts:224:export function getPropertyCategory(propertyUse: string | null | undefined): string {
+apps/web/src\utils\property-types.ts:253:export function getPropertySubtype(propertyUse: string | null | undefined): string {
+apps/web/src\utils\property-types.ts:280:export function getCodesForPropertyType(propertyType: string): string[] {
+apps/web/src\utils\property-types.ts:292:export function mapPropertyTypeToKey(propertyType: string): keyof typeof PROPERTY_TYPE_CODES | null {
+apps/web/src\utils\property-types.ts:368:export function getStandardizedPropertyUseValues(propertyType: string): string[] {
+apps/web/src\utils\property-intelligence.ts:461:export default PropertyDataAnalyzer;
+apps/web/src\utils\performanceMonitor.tsx:242:export function usePerformanceMonitor() {
+apps/web/src\utils\performanceMonitor.tsx:273:export function withPerformanceTracking<T extends object>(
+apps/web/src\utils\fieldMapper.ts:61:export function standardizeFields(data: any): Partial<StandardizedPropertyFields> {
+apps/web/src\utils\fieldMapper.ts:210:export function safeValue<T>(value: T | null | undefined, fallback: T): T {
+apps/web/src\utils\fieldMapper.ts:217:export function formatCurrency(value: number | string | null | undefined): string {
+apps/web/src\utils\fieldMapper.ts:231:export function formatSqFt(value: number | string | null | undefined): string {
+apps/web/src\utils\fieldMapper.ts:244:export function getPropertyTypeDisplay(dorCode: string | null | undefined): string {
+apps/web/src\utils\fieldMapper.ts:297:export function normalizeYear(year: number | string | null | undefined): number {
+apps/web/src\utils\fieldMapper.ts:305:export default {
+apps/web/src\services\UnifiedCacheManager.ts:825:export function useUnifiedCache() {
+apps/web/src\services\propertyService.ts:364:export default propertyService;
+apps/web/src\services\dorCodeService.ts:238:export function clearDORCache(): void {
+apps/web/src\services\dorCodeService.ts:247:export function formatPropertyUse(info: PropertyUseInfo | null): string {
+apps/web/src\services\dorCodeService.ts:256:export function getCategoryColor(category: string): string {
+apps/web/src\services\dorCodeService.ts:275:export default {
+apps/web/src\services\capitalPlanningService.ts:516:export default CapitalPlanningService;
+apps/web/src\providers\QueryProvider.tsx:88:export function QueryProvider({ children }: QueryProviderProps) {
+apps/web/src\pages\TaxDeedSales.tsx:7:export default function TaxDeedSales() {
+apps/web/src\pages\search.tsx:276:export default function SearchPage() {
+apps/web/src\pages\property.tsx:1:export default function PropertyPage() { return <div>Property Page</div> }
+apps/web/src\pages\property\[id].tsx:367:export default function PropertyProfilePage() {
+apps/web/src\pages\property\EnhancedPropertyProfile.tsx:76:export default function EnhancedPropertyProfile({ parcelId, data: propData }: EnhancedPropertyProfileProps) {
+apps/web/src\pages\properties\[...slug].tsx:36:export default function PropertyPage() {
+apps/web/src\pages\properties\PropertySearch.tsx:130:export function PropertySearch({}: PropertySearchProps) {
+apps/web/src\pages\properties\PropertySearch.tsx:2907:export default PropertySearch;
+apps/web/src\pages\properties\PropertyKerasPage.tsx:6:export default function PropertyKerasPage({}: PropertyPageProps) {
+apps/web/src\pages\PerformanceTest.tsx:57:export function PerformanceTest() {
+apps/web/src\pages\home.tsx:18:export default function HomePage() {
+apps/web/src\pages\Gate14.tsx:16:export default function Gate14() {
+apps/web/src\pages\entity.tsx:1:export default function EntityPage() { return <div>Entity Page</div> }
+apps/web/src\pages\dashboard.tsx:56:export default function Dashboard() {
+apps/web/src\pages\analytics.tsx:1:export default function AnalyticsPage() { return <div>Analytics Page</div> }
+apps/web/src\pages\AgentDashboard.tsx:74:const AgentDashboard: React.FC = () => {
+apps/web/src\pages\AgentDashboard.tsx:574:export default AgentDashboard;
+apps/web/src\pages\admin\SunbizMonitor.tsx:39:export default function SunbizMonitor() {
+apps/web/src\pages\admin\populate-data.tsx:8:export default function PopulateDataPage() {
+apps/web/src\pages\admin\ParcelMonitor.tsx:50:export default function ParcelMonitor() {
+apps/web/src\pages\admin\dashboard.tsx:20:export default function AdminDashboard() {
+apps/web/src\lib\validation.ts:273:export function safeParse<T>(schema: z.ZodSchema<T>, data: unknown): {
+apps/web/src\lib\validation.ts:294:export function validatePropertyData(data: unknown): FloridaParcel | null {
+apps/web/src\lib\validation.ts:308:export function validateBatch<T>(
+apps/web/src\lib\validation.ts:379:export default {
+apps/web/src\lib\utils.ts:4:export function cn(...inputs: ClassValue[]) {
+apps/web/src\lib\useCodeMapping.ts:133:export function getUseCodeInfo(code: string | number): UseCodeInfo | null {
+apps/web/src\lib\useCodeMapping.ts:141:export function getUseCodeName(code: string | number): string {
+apps/web/src\lib\useCodeMapping.ts:149:export function getUseCodeDescription(code: string | number): string {
+apps/web/src\lib\useCodeMapping.ts:157:export function getUseCodeCategory(code: string | number): string {
+apps/web/src\lib\useCodeMapping.ts:165:export function getUseCodesByCategory(): Record<string, UseCodeInfo[]> {
+apps/web/src\lib\useCodeMapping.ts:227:export function getActiveStratum(useCode: string | number): number | null {
+apps/web/src\lib\supabase.ts:318:export default supabase
+apps/web/src\lib\supabase-optimized.ts:415:export default supabase
+apps/web/src\lib\supabase-localhost.ts:48:export function getLocalhostDatabaseUrl() {
+apps/web/src\lib\supabase-localhost.ts:54:export function getSupabaseConfig() {
+apps/web/src\lib\supabase-localhost.ts:74:export default supabase
+apps/web/src\lib\propertyUseToDorCode.ts:200:export function getDorCodeFromPropertyUse(propertyUse: string | undefined | null): string {
+apps/web/src\lib\propertyUseToDorCode.ts:245:export function getPropertyUseDescription(propertyUse: string | undefined | null): string {
+apps/web/src\lib\propertyUseToDorCode.ts:335:export function getPropertyCategory(propertyUse: string | undefined | null): string {
+apps/web/src\lib\propertyRanking.ts:31:export function getPropertyRank(dorCode?: string, hasSales?: boolean): PropertyRank {
+apps/web/src\lib\propertyRanking.ts:101:export function sortByPropertyRank(properties: any[]): any[] {
+apps/web/src\lib\propertyRanking.ts:122:export function getSQLOrderByRank(): string {
+apps/web/src\lib\property-types.ts:284:export function getStandardizedPropertyUseValues(filterType: PropertyFilterType): string[] {
+apps/web/src\lib\property-types.ts:338:export function getPropertyUseDisplayName(standardizedUse: string | null | undefined): string {
+apps/web/src\lib\property-types.ts:350:export function getPropertyUseShortName(standardizedUse: string | null | undefined): string {
+apps/web/src\lib\property-types.ts:380:export function getPropertyUseCategoryColor(standardizedUse: string | null | undefined): string {
+apps/web/src\lib\property-types.ts:423:export function getPropertyTypeCount(filterType: PropertyFilterType): number {
+apps/web/src\lib\preloader.ts:537:export function usePreloader() {
+apps/web/src\lib\preloader.ts:573:export function initializeCriticalPreloading() {
+apps/web/src\lib\preloader.ts:586:export default preloader;
+apps/web/src\lib\numberFormatting.ts:10:export function formatNumberWithCommas(value: string | number): string {
+apps/web/src\lib\numberFormatting.ts:31:export function formatCurrency(value: string | number): string {
+apps/web/src\lib\numberFormatting.ts:41:export function parseFormattedNumber(value: string): string {
+apps/web/src\lib\numberFormatting.ts:51:export function formatSquareFeet(value: string | number): string {
+apps/web/src\lib\numberFormatting.ts:62:export function handleFormattedInput(
+apps/web/src\lib\numberFormatting.ts:80:export function useFormattedNumberInput(
+apps/web/src\lib\dorUseCodes.ts:133:export function getUseCodeInfo(code: string | undefined | null): DORUseCode | null {
+apps/web/src\lib\dorUseCodes.ts:144:export function getPropertyCategory(code: string | undefined | null): string {
+apps/web/src\lib\dorUseCodes.ts:152:export function getUseCodeShortName(code: string | undefined | null): string {
+apps/web/src\lib\dorUseCodes.ts:160:export function getUseCodeDescription(code: string | undefined | null): string {
+apps/web/src\lib\dorUseCodes.ts:168:export function getPropertyTypeFilter(propertyType: string): string[] {
+apps/web/src\lib\dorUseCodes.ts:263:export function matchesPropertyTypeFilter(code: string | undefined | null, propertyType: string): boolean {
+apps/web/src\lib\dorUseCodes.ts:295:export function getSpecialAssessment(code: string | undefined | null): string | null {
+apps/web/src\lib\dorUseCodes.ts:326:export function getPropertyIcon(code: string | undefined | null): PropertyIconType {
+apps/web/src\lib\dorUseCodes.ts:440:export function getPropertyIconColor(code: string | undefined | null): string {
+apps/web/src\lib\floridaCounties.ts:79:export function searchCounties(query: string, limit: number = 5): string[] {
+apps/web/src\lib\floridaCounties.ts:92:export function getCountyDisplayName(county: string): string {
+apps/web/src\lib\data-pipeline.ts:236:export function useDataPipeline() {
+apps/web/src\lib\data-pipeline.ts:299:export function transformPropertyData(data: any): any {
+apps/web/src\lib\data-pipeline.ts:324:export function batchTransform(properties: any[]): any[] {
+apps/web/src\lib\clerkLinks.ts:15:export function buildClerkLink(countyRaw: string | undefined, sale: any): ClerkLinkResult {
+apps/web/src\lib\clerkLinks.ts:77:export function buildClerkPortalDomain(countyRaw: string | undefined): string | null {
+apps/web/src\lib\clerkLinks.ts:89:export function buildSearchByReferenceUrl(countyRaw: string | undefined, reference: string): string | null {
+apps/web/src\lib\apiClient.ts:395:export default {
+apps/web/src\hooks\useAdvancedPropertySearch.ts:475:export default useAdvancedPropertySearch;
+apps/web/src\hooks\useDebounce.ts:15:export function useDebounce<T extends (...args: any[]) => any>(
+apps/web/src\hooks\useDebounce.ts:188:export function useSimpleDebounce<T extends (...args: any[]) => any>(
+apps/web/src\hooks\useDebounce.ts:199:export function useSearchDebounce<T extends (...args: any[]) => any>(
+apps/web/src\hooks\useDebounce.ts:245:export function useValueDebounce<T>(value: T, delay: number): T {
+apps/web/src\hooks\useOptimizedPropertySearch.ts:29:export function useOptimizedPropertySearch() {
+apps/web/src\hooks\usePropertyAutocomplete.ts:31:export function usePropertyAutocomplete(county?: string) {
+apps/web/src\hooks\useSalesData.ts:191:export function useSalesData(parcelId: string | null) {
+apps/web/src\hooks\useSalesData.ts:392:export function useBatchSalesData(parcelIds: string[]) {
+apps/web/src\hooks\useSalesData.ts:517:export function formatSalesForSdfData(salesData: PropertySalesData | null): any[] {
+apps/web/src\hooks\useSalesData.ts:545:export function getLatestSaleInfo(salesData: PropertySalesData | null): {
+apps/web/src\hooks\useSunbizData.ts:12:export function useSunbizData(ownerName?: string, address?: string, city?: string) {
+apps/web/src\hooks\useSunbizData.ts:99:export function transformSunbizData(
+apps/web/src\hooks\useSaleDateRange.ts:18:export function useSaleDateRange(county: string = 'BROWARD') {
+apps/web/src\hooks\useSunbizMatching.ts:36:export function useSunbizMatching(parcelId: string, ownerName?: string, autoFetch: boolean = false) {
+apps/web/src\hooks\useSunbizMatching.ts:166:export function getSunbizSearchUrl(ownerName: string, bestMatch?: SunbizMatch | null): string {
+apps/web/src\hooks\useOwnerProperties.ts:24:export function useOwnerProperties(ownerName: string, currentParcelId?: string, county: string = 'BROWARD') {
+apps/web/src\data\mockProperties.ts:383:export default mockProperties;
+apps/web/src\hooks\useInfiniteScroll.ts:39:export function useInfiniteScroll({
+apps/web/src\hooks\useInfiniteScroll.ts:90:export function useScrollDistance({
+apps/web/src\hooks\useInfiniteScroll.ts:130:export function useInfinitePropertyScroll(
+apps/web/src\hooks\use-auth.tsx:24:export function AuthProvider({ children }: { children: ReactNode }) {
+apps/web/src\hooks\use-auth.tsx:156:export function useAuth() {
+apps/web/src\components\OptimizedSearchBar.tsx:89:export function OptimizedSearchBar({
+apps/web/src\components\OptimizedSearchBar.tsx:718:export default OptimizedSearchBar;
+apps/web/src\components\sidebar.tsx:120:export default function Sidebar({ collapsed: externalCollapsed, onCollapse, className }: SidebarProps) {
+apps/web/src\components\theme-provider.tsx:24:export function ThemeProvider({
+apps/web/src\components\ServiceWorkerManager.tsx:450:export function useServiceWorker() {
+apps/web/src\components\ServiceWorkerManager.tsx:504:export default ServiceWorkerManager;
+apps/web/src\components\performance\PerformanceMonitor.tsx:623:export default PerformanceMonitor;
+apps/web/src\components\ui\optimized-image.tsx:291:export function useImagePreloader() {
+apps/web/src\components\ui\optimized-image.tsx:386:export default OptimizedImage;
+apps/web/src\components\ui\searchable-select.tsx:25:export function SearchableSelect({
+apps/web/src\components\ui\toaster.tsx:11:export function Toaster() {
+apps/web/src\components\ui\virtual-list.tsx:359:export function useVirtualList<T>(items: T[], options: {
+apps/web/src\components\ui\virtual-list.tsx:426:export default VirtualList;
+apps/web/src\components\ui\formatted-input.tsx:13:export function FormattedInput({
+apps/web/src\components\recommendations\RecommendationDashboard.tsx:76:export const RecommendationDashboard: React.FC = () => {
+apps/web/src\components\recommendations\RecommendationDashboard.tsx:468:export default RecommendationDashboard;
+apps/web/src\components\recommendations\RecommendationCard.tsx:79:export const RecommendationCard: React.FC<RecommendationCardProps> = ({
+apps/web/src\components\recommendations\RecommendationCard.tsx:334:export default RecommendationCard;
+apps/web/src\components\ui\address-autocomplete.tsx:21:export function AddressAutocomplete({
+apps/web/src\components\PropertyAutocomplete.tsx:148:export const PropertyAutocomplete: React.FC<AutocompleteProps> = ({
+apps/web/src\components\property-table.tsx:35:export function PropertyTable({ properties }: PropertyTableProps) {
+apps/web/src\components\OptimizedPropertyList.tsx:49:export const OptimizedPropertyList: React.FC = () => {
+apps/web/src\components\NotificationBellExample.tsx:27:export default NotificationBellExample;
+apps/web/src\components\NotificationBell.tsx:9:export const NotificationBell: React.FC<NotificationBellProps> = ({ count = 0, onClick }) => {
+apps/web/src\components\NotificationBell.tsx:125:export default NotificationBell;
+apps/web/src\components\property\AdvancedPropertyFilters.tsx:17:export const AdvancedPropertyFilters: React.FC<AdvancedPropertyFiltersProps> = ({
+apps/web/src\components\property\AdvancedPropertyFilters.tsx:519:export default AdvancedPropertyFilters;
+apps/web/src\components\property\ElegantPropertyTabs.tsx:43:export function ElegantPropertyTabs({ 
+apps/web/src\components\property\OwnerPropertiesSelector.tsx:73:export function OwnerPropertiesSelector({
+apps/web/src\components\property\PropertyCharts.tsx:28:export const PropertyCharts: React.FC<PropertyChartsProps> = ({
+apps/web/src\components\property\PropertyCharts.tsx:537:export default PropertyCharts;
+apps/web/src\components\property\PropertyMap.tsx:43:export function PropertyMap({ properties, onPropertySelect, onClose, selectedProperty, showingSelectedOnly = false, totalSelected = 0 }: PropertyMapProps) {
+apps/web/src\components\property\PropertyTypeFields.tsx:29:export function PropertyTypeFields({ useCode, data, editMode, onChange }: PropertyTypeFieldsProps) {
+apps/web/src\components\property\PropertyUseDisplay.tsx:19:export function PropertyUseDisplay({
+apps/web/src\components\property\PropertyUseDisplay.tsx:143:export function PropertyUseInline({
+apps/web/src\components\property\PropertyUseDisplay.tsx:192:export default PropertyUseDisplay;
+apps/web/src\components\property\tabs\ActiveCompaniesSection.tsx:37:const ActiveCompaniesSection: React.FC<ActiveCompaniesProps> = ({ propertyData }) => {
+apps/web/src\components\property\tabs\ActiveCompaniesSection.tsx:514:export default ActiveCompaniesSection;
+apps/web/src\components\property\tabs\AnalysisTab.tsx:9:export function AnalysisTab({ data }: AnalysisTabProps) {
+apps/web/src\components\property\tabs\CapitalPlanningTabEnhanced.tsx:88:export function CapitalPlanningTabEnhanced({ propertyData }: CapitalPlanningTabEnhancedProps) {
+apps/web/src\components\property\tabs\CorePropertyTab.tsx:53:export const CorePropertyTab: React.FC<CorePropertyTabProps> = ({ propertyData, onPropertyChange }) => {
+apps/web/src\components\property\tabs\ForeclosureTab.tsx:16:export const ForeclosureTab: React.FC<ForeclosureTabProps> = ({ propertyData }) => {
+apps/web/src\components\property\tabs\InvestmentAnalysisTab.tsx:52:export function InvestmentAnalysisTab({ data }: InvestmentAnalysisTabProps) {
+apps/web/src\components\property\tabs\OwnershipTab.tsx:9:export function OwnershipTab({ data }: OwnershipTabProps) {
+apps/web/src\components\property\tabs\PermitTab.tsx:21:export const PermitTab: React.FC<PermitTabProps> = ({ propertyData }) => {
+apps/web/src\components\property\tabs\PermitTab.tsx:858:const PermitDetailCard: React.FC<{ 
+apps/web/src\components\property\tabs\SalesTaxDeedTab.tsx:19:export const SalesTaxDeedTab: React.FC<SalesTaxDeedTabProps> = ({ propertyData }) => {
+apps/web/src\components\property\tabs\SalesTaxDeedTab.tsx:221:const AuctionCard: React.FC<{ auction: any; type: 'upcoming' | 'past' }> = ({ auction, type }) => {
+apps/web/src\components\property\tabs\SalesTaxDeedTab.tsx:425:const BiddingItemCard: React.FC<{ item: any }> = ({ item }) => {
+apps/web/src\components\property\tabs\SunbizTab.tsx:28:export function SunbizTab({ propertyData }: SunbizTabProps) {
+apps/web/src\components\property\tabs\TaxesTab.tsx:81:export function TaxesTab({ data }: TaxesTabProps) {
+apps/web/src\components\property\tabs\TaxLienTab.tsx:18:export const TaxLienTab: React.FC<TaxLienTabProps> = ({ propertyData }) => {
+apps/web/src\components\property\tabs\TaxDeedSalesTab.tsx:50:export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
+apps/web/src\components\property\tabs\SalesHistoryTab.tsx:11:export function SalesHistoryTabUpdated({ parcelId, data }: SalesHistoryTabUpdatedProps) {
+apps/web/src\components\property\tabs\EnhancedAnalysisTab.tsx:20:export function EnhancedAnalysisTab({ data }: EnhancedAnalysisTabProps) {
+apps/web/src\components\property\tabs\OverviewTab.tsx:54:export function OverviewTab({ data }: OverviewTabProps) {
+apps/web/src\components\property\tabs\CapitalPlanningTab.tsx:18:export function CapitalPlanningTab({ propertyData }: CapitalPlanningTabProps) {
+apps/web/src\components\property\VirtualizedPropertyList.example.tsx:12:export function BasicGridExample() {
+apps/web/src\components\property\VirtualizedPropertyList.example.tsx:43:export function ListViewWithSelectionExample() {
+apps/web/src\components\property\VirtualizedPropertyList.example.tsx:78:export function InfiniteLoadingExample() {
+apps/web/src\components\property\VirtualizedPropertyList.example.tsx:117:export function FullFeaturedExample() {
+apps/web/src\components\property\PropertyCompleteView.tsx:42:export default function PropertyCompleteView() {
+apps/web/src\components\property\BusinessEntitySection.tsx:47:export function BusinessEntitySection({ parcelId, ownerName, address }: BusinessEntitySectionProps) {
+apps/web/src\components\ai\AISearchEnhanced.tsx:56:export function AISearchEnhanced({ onSearchResults, embedded = false }: AISearchEnhancedProps) {
+apps/web/src\components\layout.tsx:138:export default Layout
+apps/web/src\components\ai\AISearchBar.tsx:10:export const AISearchBar: React.FC<AISearchBarProps> = ({ 
+apps/web/src\components\ai\AIPropertyCard.tsx:24:export const AIPropertyCard: React.FC<AIPropertyCardProps> = ({ property }) => {
+apps/web/src\components\monitoring\RealtimeMonitoringDashboard.tsx:139:export const RealtimeMonitoringDashboard: React.FC = () => {
+apps/web/src\components\monitoring\RealtimeMonitoringDashboard.tsx:1034:export default RealtimeMonitoringDashboard;
+apps/web/src\components\ai\AIChatbox.tsx:33:export const AIChatbox: React.FC<AIChatboxProps> = ({
+apps/web/src\components\ai\AIChatbox.tsx:237:  const PropertyCardComponent: React.FC<{ property: PropertyCard }> = ({ property }) => (
+apps/web/src\components\FastPropertySearch.tsx:36:export function FastPropertySearch() {
+apps/web/src\components\FastPropertySearch.tsx:397:export default FastPropertySearch;
+apps/web/src\components\ErrorBoundary.tsx:50:export default ErrorBoundary;
+apps/web/src\components\graph\GraphVisualization.tsx:77:export const GraphVisualization: React.FC<GraphVisualizationProps> = ({
+apps/web/src\components\graph\GraphVisualization.tsx:523:export default GraphVisualization;
+apps/web/src\components\dashboard\CachePerformanceDashboard.tsx:87:export const CachePerformanceDashboard: React.FC = () => {
+apps/web/src\components\dashboard\ComprehensiveDashboard.tsx:45:export function ComprehensiveDashboard({ county = 'BROWARD', city }: ComprehensiveDashboardProps) {
+apps/web/src\components\graph\GraphTimeline.tsx:49:export const GraphTimeline: React.FC<GraphTimelineProps> = ({
+apps/web/src\components\graph\GraphTimeline.tsx:199:export default GraphTimeline;
+apps/web/src\components\graph\GraphInsights.tsx:69:export const GraphInsights: React.FC<GraphInsightsProps> = ({
+apps/web/src\components\graph\GraphInsights.tsx:296:export default GraphInsights;
+apps/web/src\components\auth\phone-verify.tsx:12:export function PhoneVerify() {
+apps/web/src\components\auth\protected-route.tsx:9:export function ProtectedRoute({ children }: ProtectedRouteProps) {
+apps/web/src\components\charts\PropertyCharts.tsx:39:export const PriceHistoryChart: React.FC<{ data: any }> = ({ data }) => {
+apps/web/src\components\charts\PropertyCharts.tsx:102:export const MarketComparisonChart: React.FC<{ data: any }> = ({ data }) => {
+apps/web/src\components\charts\PropertyCharts.tsx:161:export const ROIProjectionChart: React.FC<{ data: any }> = ({ data }) => {
+apps/web/src\components\charts\PropertyCharts.tsx:221:export const PortfolioDistributionChart: React.FC<{ data: any }> = ({ data }) => {
+apps/web/src\components\charts\PropertyCharts.tsx:283:export const InvestmentScoreRadar: React.FC<{ metrics: any }> = ({ metrics }) => {
+apps/web/src\components\charts\PropertyCharts.tsx:359:export const MarketTrendsChart: React.FC<{ data: any }> = ({ data }) => {
+apps/web/src\components\charts\PropertyCharts.tsx:443:export const PropertyMetricsCards: React.FC<{ metrics: any }> = ({ metrics }) => {
+apps/web/src\components\charts\PropertyCharts.tsx:486:export default function PropertyCharts({ data }: PropertyChartsProps) {
+apps/web/src\components\auth\login-form.tsx:13:export function LoginForm() {
+apps/web/src\config\services.config.ts:316:export default {
+apps/web/src\config\data-mapping.config.ts:446:export function getFieldMapping(table: string, field: string): FieldMapping | undefined {
+apps/web/src\config\data-mapping.config.ts:451:export function getUILocations(table: string, field: string): string[] {
+apps/web/src\config\data-mapping.config.ts:457:export function validateField(table: string, field: string, value: any): boolean {
+apps/web/src\config\data-mapping.config.ts:472:export function transformFieldValue(table: string, field: string, value: any): any {
+apps/web/src\config\api.config.ts:259:export default {
+apps/web/src\App.tsx:161:export default App
+apps/web/src\App-simple.tsx:25:export default App
+apps/web/src\components\admin\TaxDeedMonitoringDashboard.tsx:57:export const TaxDeedMonitoringDashboard: React.FC = () => {
+apps/web/src\App-debug.tsx:39:export default App
+apps/web/src\api\client.ts:196:export default client

@@ -11,12 +11,7 @@ import {
   ChevronDown, ChevronUp, Building, Home, ArrowRight
 } from 'lucide-react';
 import { useSunbizData, transformSunbizData } from '@/hooks/useSunbizData';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL || '',
-  import.meta.env.VITE_SUPABASE_ANON_KEY || ''
-);
+import { supabase } from '@/lib/supabase';
 
 interface SunbizTabProps {
   propertyData: any;
@@ -241,7 +236,7 @@ export function SunbizTab({ propertyData }: SunbizTabProps) {
   };
 
   const formatDate = (date: string | undefined) => {
-    if (!date) return 'N/A';
+    if (!date) return '-';
     return new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -271,9 +266,9 @@ export function SunbizTab({ propertyData }: SunbizTabProps) {
   };
 
   const formatCurrency = (value?: number | string) => {
-    if (!value) return 'N/A';
+    if (!value) return '-';
     const num = typeof value === 'string' ? parseFloat(value) : value;
-    if (isNaN(num)) return 'N/A';
+    if (isNaN(num)) return '-';
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
@@ -316,20 +311,6 @@ export function SunbizTab({ propertyData }: SunbizTabProps) {
 
   // Add fallback data if we have owner name but no companies found
   const shouldShowNoDataMessage = !loading && !loadingCompanies && displayCompanies.length === 0 && ownerName;
-
-  // Always ensure we have some sample data to show the UI structure
-  const ensureVisibleContent = displayCompanies.length === 0 && displayProperties.length === 0;
-
-  // Create a mock company entry if no data is available, just to show the UI structure
-  const mockCompany = ensureVisibleContent ? {
-    entity_name: `Sample Corporate Entity for ${ownerName || 'Property Owner'}`,
-    doc_number: 'P12345678',
-    status: 'ACTIVE',
-    entity_type: 'LLC',
-    filing_date: '2023-01-01',
-    prin_addr1: propertyAddress || 'Sample Address',
-    registered_agent: 'Sample Agent'
-  } : null;
 
   return (
     <div className="space-y-8">
@@ -382,7 +363,7 @@ export function SunbizTab({ propertyData }: SunbizTabProps) {
             <div className="text-3xl font-light text-gold mb-2">
               {displayProperties.reduce((sum, prop) => sum + (parseFloat((prop.market_value || prop.just_value)?.toString() || '0') || 0), 0) > 0
                 ? formatCurrency(displayProperties.reduce((sum, prop) => sum + (parseFloat((prop.market_value || prop.just_value)?.toString() || '0') || 0), 0))
-                : 'N/A'}
+                : '-'}
             </div>
             <p className="text-sm text-gray-elegant uppercase tracking-wider">Portfolio Value</p>
             <p className="text-xs text-gray-500 mt-1">Total estimated value</p>
@@ -420,9 +401,9 @@ export function SunbizTab({ propertyData }: SunbizTabProps) {
 
         {expandedSections.companies && (
           <div className="pt-8">
-            {displayCompanies.length > 0 || mockCompany ? (
+            {displayCompanies.length > 0 ? (
               <div className="space-y-4">
-                {/* Show real companies first */}
+                {/* Show real companies */}
                 {displayCompanies.map((company, index) => (
                   <motion.div
                     key={index}
@@ -455,59 +436,13 @@ export function SunbizTab({ propertyData }: SunbizTabProps) {
                           </div>
                           <div>
                             <p className="text-xs uppercase tracking-wider text-gray-elegant mb-1">Principal Address</p>
-                            <p className="text-sm text-navy">{company.prin_addr1 || company.principal_address || 'N/A'}</p>
+                            <p className="text-sm text-navy">{company.prin_addr1 || company.principal_address || '-'}</p>
                           </div>
                         </div>
                       </div>
                     </div>
                   </motion.div>
                 ))}
-
-                {/* Show mock company if no real data */}
-                {mockCompany && displayCompanies.length === 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    className="border border-yellow-200 rounded-lg p-6 hover:shadow-lg transition-all bg-yellow-50"
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center mb-2">
-                          <Building className="w-5 h-5 mr-3 text-yellow-600" />
-                          <span className="text-lg font-semibold text-navy">
-                            {mockCompany.entity_name}
-                          </span>
-                          <Badge className="ml-2 bg-yellow-100 text-yellow-800 text-xs">Demo Data</Badge>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                          <div>
-                            <p className="text-xs uppercase tracking-wider text-gray-elegant mb-1">Type</p>
-                            <p className="text-sm text-navy">{mockCompany.entity_type}</p>
-                          </div>
-                          <div>
-                            <p className="text-xs uppercase tracking-wider text-gray-elegant mb-1">Document #</p>
-                            <p className="text-sm text-navy font-mono">{mockCompany.doc_number}</p>
-                          </div>
-                          <div>
-                            <p className="text-xs uppercase tracking-wider text-gray-elegant mb-1">Filing Date</p>
-                            <p className="text-sm text-navy">{formatDate(mockCompany.filing_date)}</p>
-                          </div>
-                          <div>
-                            <p className="text-xs uppercase tracking-wider text-gray-elegant mb-1">Principal Address</p>
-                            <p className="text-sm text-navy">{mockCompany.prin_addr1}</p>
-                          </div>
-                        </div>
-                        <Alert className="mt-4 border-yellow-200 bg-yellow-100">
-                          <Info className="h-4 w-4 text-yellow-600" />
-                          <AlertDescription className="text-sm text-yellow-800">
-                            <strong>Sample Data:</strong> This is demo content showing the UI structure.
-                            Real business entity searches are performed in the background.
-                          </AlertDescription>
-                        </Alert>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
               </div>
             ) : (
               <div className="text-center py-8">
@@ -597,7 +532,7 @@ export function SunbizTab({ propertyData }: SunbizTabProps) {
                           </div>
                           <div>
                             <p className="text-xs uppercase tracking-wider text-gray-elegant mb-1">Property Type</p>
-                            <p className="text-sm text-navy">{property.property_use || 'N/A'}</p>
+                            <p className="text-sm text-navy">{property.property_use || '-'}</p>
                           </div>
                         </div>
                         <div className="flex items-center mt-4 pt-4 border-t border-gray-100">
@@ -623,17 +558,7 @@ export function SunbizTab({ propertyData }: SunbizTabProps) {
         )}
       </motion.div>
 
-      {/* Mock Data Notice */}
-      {isShowingMockData && (
-        <Alert className="border-blue-200 bg-blue-50">
-          <Info className="h-4 w-4 text-blue-600" />
-          <AlertDescription>
-            <strong>Demo Data:</strong> Showing sample business entity information.
-            Actual Sunbiz data is not available at this time.
-          </AlertDescription>
-        </Alert>
-      )}
-      
+
       {/* Detailed Entity Information */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -720,7 +645,7 @@ export function SunbizTab({ propertyData }: SunbizTabProps) {
                 <div>
                   <span className="text-sm font-semibold text-navy">Principal Address Match:</span>
                   <p className="text-xs text-gray-600 mt-1">
-                    {primaryEntity?.principal_address || 'N/A'}
+                    {primaryEntity?.principal_address || '-'}
                   </p>
                 </div>
               </div>
@@ -743,7 +668,7 @@ export function SunbizTab({ propertyData }: SunbizTabProps) {
                 <div>
                   <span className="text-sm font-semibold text-navy">Mailing Address Match:</span>
                   <p className="text-xs text-gray-600 mt-1">
-                    {primaryEntity?.mailing_address || 'N/A'}
+                    {primaryEntity?.mailing_address || '-'}
                   </p>
                 </div>
               </div>
@@ -766,7 +691,7 @@ export function SunbizTab({ propertyData }: SunbizTabProps) {
                 <div>
                   <span className="text-sm font-semibold text-navy">Officer/Owner Name Match:</span>
                   <p className="text-xs text-gray-600 mt-1">
-                    Property Owner: {ownerName || 'N/A'}
+                    Property Owner: {ownerName || '-'}
                   </p>
                 </div>
               </div>
@@ -816,7 +741,7 @@ export function SunbizTab({ propertyData }: SunbizTabProps) {
                   <span className="text-xs uppercase tracking-wider text-gray-elegant">Name of Company</span>
                 </div>
                 <p className="text-lg font-light text-navy group-hover:text-gold transition-colors">
-                  {primaryEntity?.entity_name || 'N/A'}
+                  {primaryEntity?.entity_name || '-'}
                 </p>
               </div>
               
@@ -826,7 +751,7 @@ export function SunbizTab({ propertyData }: SunbizTabProps) {
                   <span className="text-xs uppercase tracking-wider text-gray-elegant">Incorporation Type</span>
                 </div>
                 <p className="text-lg font-light text-navy group-hover:text-gold transition-colors">
-                  {primaryEntity?.entity_type || 'N/A'}
+                  {primaryEntity?.entity_type || '-'}
                 </p>
               </div>
             </div>
@@ -878,14 +803,14 @@ export function SunbizTab({ propertyData }: SunbizTabProps) {
               <div className="flex justify-between items-start p-4 border-b border-gray-100 hover:bg-gray-50 transition-all rounded">
                 <span className="text-sm text-gray-elegant font-medium">Document Number</span>
                 <span className="text-sm font-semibold text-navy font-mono">
-                  {primaryEntity?.document_number || 'N/A'}
+                  {primaryEntity?.document_number || '-'}
                 </span>
               </div>
               
               <div className="flex justify-between items-start p-4 border-b border-gray-100 hover:bg-gray-50 transition-all rounded">
                 <span className="text-sm text-gray-elegant font-medium">FEI/EIN Number</span>
                 <span className="text-sm font-semibold text-navy font-mono">
-                  {primaryEntity?.fei_ein_number || 'N/A'}
+                  {primaryEntity?.fei_ein_number || '-'}
                 </span>
               </div>
             </div>
@@ -949,7 +874,7 @@ export function SunbizTab({ propertyData }: SunbizTabProps) {
               </div>
               <div className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-all">
                 <p className="text-sm text-navy font-medium">
-                  {primaryEntity?.principal_address || 'N/A'}
+                  {primaryEntity?.principal_address || '-'}
                 </p>
               </div>
               {!principalMatch && propertyAddress && (
@@ -986,7 +911,7 @@ export function SunbizTab({ propertyData }: SunbizTabProps) {
               </div>
               <div className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-all">
                 <p className="text-sm text-navy font-medium">
-                  {primaryEntity?.mailing_address || 'N/A'}
+                  {primaryEntity?.mailing_address || '-'}
                 </p>
               </div>
               {!mailingMatch && propertyAddress && (
@@ -1034,7 +959,7 @@ export function SunbizTab({ propertyData }: SunbizTabProps) {
                 <span className="text-xs uppercase tracking-wider text-gray-elegant">Agent Name</span>
               </div>
               <p className="text-lg font-light text-navy group-hover:text-gold transition-colors">
-                {primaryEntity?.registered_agent_name || 'N/A'}
+                {primaryEntity?.registered_agent_name || '-'}
               </p>
             </div>
             
@@ -1044,7 +969,7 @@ export function SunbizTab({ propertyData }: SunbizTabProps) {
                 <span className="text-xs uppercase tracking-wider text-gray-elegant">Agent Address</span>
               </div>
               <p className="text-sm font-light text-navy group-hover:text-gold transition-colors">
-                {primaryEntity?.registered_agent_address || 'N/A'}
+                {primaryEntity?.registered_agent_address || '-'}
               </p>
             </div>
           </div>

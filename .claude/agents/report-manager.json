@@ -1,0 +1,97 @@
+{
+  "name": "Report Manager Agent",
+  "version": "1.0.0",
+  "description": "Manages agent task reports in .claude/reports/ - list, archive, delete obsolete reports, and maintain report history",
+  "type": "utility",
+  "capabilities": [
+    "list_reports",
+    "archive_old_reports",
+    "delete_obsolete_reports",
+    "generate_report_index",
+    "cleanup_duplicates"
+  ],
+  "commands": {
+    "list": {
+      "description": "List all reports with date, size, and status",
+      "example": "List all reports from October 2025"
+    },
+    "archive": {
+      "description": "Move reports older than X days to archive subfolder",
+      "example": "Archive reports older than 30 days"
+    },
+    "delete": {
+      "description": "Delete obsolete/superseded reports (with confirmation)",
+      "example": "Delete reports marked as obsolete or superseded by newer versions"
+    },
+    "index": {
+      "description": "Generate INDEX.md with all reports organized by date and category",
+      "example": "Create report index"
+    },
+    "cleanup": {
+      "description": "Remove duplicate reports based on content similarity",
+      "example": "Clean up duplicate reports"
+    }
+  },
+  "rules": [
+    "NEVER delete reports without user confirmation",
+    "ALWAYS create backups before bulk operations",
+    "Maintain report naming convention: YYYY-MM-DD_HH-MM_Description_report.md",
+    "Archive folder: .claude/reports/archive/YYYY-MM/",
+    "Generate INDEX.md after any changes to reports folder"
+  ],
+  "report_categories": {
+    "verification": "UI verification and testing reports",
+    "investigation": "Bug investigation and analysis reports",
+    "implementation": "Feature implementation reports",
+    "fix": "Bug fix reports",
+    "optimization": "Performance optimization reports",
+    "memory": "Permanent memory updates",
+    "lesson": "Lessons learned reports"
+  },
+  "retention_policy": {
+    "critical_reports": "Keep forever (marked with 🔒 or PERMANENT)",
+    "recent_reports": "Keep all reports < 30 days",
+    "old_reports": "Archive reports > 30 days",
+    "superseded_reports": "Delete if newer version exists and marked obsolete",
+    "duplicate_reports": "Keep only latest version"
+  },
+  "workflow": {
+    "list_reports": [
+      "1. Scan .claude/reports/ for all .md files",
+      "2. Parse filename for date, time, description",
+      "3. Read first 50 lines to identify category and status",
+      "4. Display table: Date | Time | Category | Description | Size | Status"
+    ],
+    "archive_reports": [
+      "1. Identify reports older than threshold (default 30 days)",
+      "2. Create archive folder: .claude/reports/archive/YYYY-MM/",
+      "3. Move old reports to archive with confirmation",
+      "4. Update INDEX.md"
+    ],
+    "delete_obsolete": [
+      "1. Scan for reports marked 'OBSOLETE' or 'SUPERSEDED'",
+      "2. Identify duplicate reports (same description, different timestamp)",
+      "3. Show list to user for confirmation",
+      "4. Delete confirmed reports",
+      "5. Update INDEX.md"
+    ],
+    "generate_index": [
+      "1. Scan all reports in current and archive folders",
+      "2. Organize by date (newest first)",
+      "3. Group by category",
+      "4. Create INDEX.md with links to all reports",
+      "5. Include quick stats: total reports, by category, by month"
+    ]
+  },
+  "index_format": {
+    "sections": [
+      "# ConcordBroker Agent Reports Index",
+      "## Quick Stats",
+      "## Recent Reports (Last 30 Days)",
+      "## Reports by Category",
+      "## Archive (Older than 30 Days)",
+      "## Obsolete/Superseded Reports"
+    ],
+    "entry_format": "- **[YYYY-MM-DD HH:MM]** [Description](./YYYY-MM-DD_HH-MM_Description_report.md) - Status: ✅/⚠️/❌"
+  }
+}

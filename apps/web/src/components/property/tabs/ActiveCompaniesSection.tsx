@@ -111,52 +111,6 @@ const ActiveCompaniesSection: React.FC<ActiveCompaniesProps> = ({ propertyData }
     } catch (error) {
       console.error('Error fetching active companies:', error);
       setError(error.message);
-
-      // Fallback to enhanced sample data on error
-      if (offset === 0) {
-        const sampleCompanies: ActiveCompany[] = [
-          {
-            id: 'sample_1',
-            entity_name: 'CONCORDBROKER PROPERTY MANAGEMENT LLC',
-            entity_type: 'LLC',
-            status: 'ACTIVE',
-            filing_date: '2024-01-15',
-            business_address: '123 Investment Blvd, Miami, FL 33101',
-            officer_name: 'John Smith',
-            officer_email: 'john@concordbroker.com',
-            officer_phone: '(305) 555-0123',
-            doc_number: 'L24000123456',
-            source: 'sunbiz_corporate'
-          },
-          {
-            id: 'sample_2',
-            entity_name: 'FLORIDA TECH SOLUTIONS INC',
-            entity_type: 'CORP',
-            status: 'ACTIVE',
-            filing_date: '2023-08-22',
-            business_address: '456 Business Blvd, Orlando, FL 32801',
-            officer_name: 'Sarah Johnson',
-            officer_email: 'sarah@floridatech.com',
-            officer_phone: '(407) 555-0456',
-            doc_number: 'P23000789012',
-            source: 'florida_entities'
-          },
-          {
-            id: 'sample_3',
-            entity_name: 'COASTAL REAL ESTATE GROUP',
-            entity_type: 'CORP',
-            status: 'ACTIVE',
-            filing_date: '2024-03-10',
-            business_address: '789 Ocean Dr, Fort Lauderdale, FL 33301',
-            officer_name: 'Michael Davis',
-            officer_email: 'mdavis@coastalre.com',
-            officer_phone: '(954) 555-0789',
-            doc_number: 'P24000345678',
-            source: 'officer_matches'
-          }
-        ];
-        setActiveCompanies(sampleCompanies);
-      }
     } finally {
       setLoading(false);
     }
@@ -204,17 +158,17 @@ const ActiveCompaniesSection: React.FC<ActiveCompaniesProps> = ({ propertyData }
   const getStatusBadge = (status: string) => {
     const statusLower = status.toLowerCase();
     if (statusLower.includes('active')) {
-      return <Badge className="bg-green-100 text-green-800 text-xs">Active</Badge>;
+      return <Badge className="badge-elegant text-xs">Active</Badge>;
     } else if (statusLower.includes('inactive')) {
-      return <Badge className="bg-red-100 text-red-800 text-xs">Inactive</Badge>;
+      return <Badge className="badge-elegant text-xs">Inactive</Badge>;
     }
     return <Badge variant="outline" className="text-xs">{status}</Badge>;
   };
 
   const getEntityTypeBadge = (type: string) => {
     const colors = {
-      'CORP': 'bg-blue-100 text-blue-800',
-      'LLC': 'bg-purple-100 text-purple-800',
+      'CORP': 'badge-elegant',
+      'LLC': 'badge-elegant',
       'ENTITY': 'bg-gray-100 text-gray-800',
       'INC': 'bg-indigo-100 text-indigo-800'
     };
@@ -224,10 +178,10 @@ const ActiveCompaniesSection: React.FC<ActiveCompaniesProps> = ({ propertyData }
 
   const getSourceBadge = (source: string) => {
     const colors = {
-      'sunbiz_corporate': 'bg-orange-100 text-orange-800',
-      'florida_entities': 'bg-green-100 text-green-800',
-      'officer_matches': 'bg-blue-100 text-blue-800',
-      'sample': 'bg-yellow-100 text-yellow-800'
+      'sunbiz_corporate': 'badge-elegant',
+      'florida_entities': 'badge-elegant',
+      'officer_matches': 'badge-elegant',
+      'sample': 'badge-elegant'
     };
     const labels = {
       'sunbiz_corporate': 'Sunbiz Corp',
@@ -283,10 +237,10 @@ const ActiveCompaniesSection: React.FC<ActiveCompaniesProps> = ({ propertyData }
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-blue-600 font-medium">Corporations</p>
-                  <p className="text-2xl font-bold text-blue-900">{formatNumber(totalStats.corporations)}</p>
+                  <p className="text-sm text-navy font-medium">Corporations</p>
+                  <p className="text-2xl font-light text-navy">{formatNumber(totalStats.corporations)}</p>
                 </div>
-                <Building2 className="w-8 h-8 text-blue-500" />
+                <Building2 className="w-8 h-8 text-navy" />
               </div>
             </motion.div>
 
@@ -298,10 +252,10 @@ const ActiveCompaniesSection: React.FC<ActiveCompaniesProps> = ({ propertyData }
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-green-600 font-medium">Active Entities</p>
-                  <p className="text-2xl font-bold text-green-900">{formatNumber(totalStats.active_entities)}</p>
+                  <p className="text-sm text-navy font-medium">Active Entities</p>
+                  <p className="text-2xl font-light text-navy">{formatNumber(totalStats.active_entities)}</p>
                 </div>
-                <CheckCircle className="w-8 h-8 text-green-500" />
+                <CheckCircle className="w-8 h-8 text-navy" />
               </div>
             </motion.div>
 
@@ -313,10 +267,10 @@ const ActiveCompaniesSection: React.FC<ActiveCompaniesProps> = ({ propertyData }
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-purple-600 font-medium">Property Owners</p>
-                  <p className="text-2xl font-bold text-purple-900">{formatNumber(totalStats.property_owners)}</p>
+                  <p className="text-sm text-navy font-medium">Property Owners</p>
+                  <p className="text-2xl font-light text-navy">{formatNumber(totalStats.property_owners)}</p>
                 </div>
-                <MapPin className="w-8 h-8 text-purple-500" />
+                <MapPin className="w-8 h-8 text-navy" />
               </div>
             </motion.div>
 
@@ -328,10 +282,10 @@ const ActiveCompaniesSection: React.FC<ActiveCompaniesProps> = ({ propertyData }
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-orange-600 font-medium">With Contacts</p>
-                  <p className="text-2xl font-bold text-orange-900">{formatNumber(totalStats.with_contacts)}</p>
+                  <p className="text-sm text-navy font-medium">With Contacts</p>
+                  <p className="text-2xl font-light text-navy">{formatNumber(totalStats.with_contacts)}</p>
                 </div>
-                <Users className="w-8 h-8 text-orange-500" />
+                <Users className="w-8 h-8 text-navy" />
               </div>
             </motion.div>
           </div>
@@ -365,7 +319,7 @@ const ActiveCompaniesSection: React.FC<ActiveCompaniesProps> = ({ propertyData }
                 onClick={() => setShowContacts(!showContacts)}
                 className={`px-4 py-2 rounded-lg border transition-colors ${
                   showContacts
-                    ? 'bg-blue-500 text-white border-blue-500'
+                    ? 'badge-elegant'
                     : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                 }`}
               >
@@ -375,7 +329,7 @@ const ActiveCompaniesSection: React.FC<ActiveCompaniesProps> = ({ propertyData }
 
               <button
                 onClick={exportToCSV}
-                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+                className="px-4 py-2 border border-gray-200 text-navy rounded-lg hover:shadow transition-colors"
               >
                 <Download className="w-4 h-4 inline mr-2" />
                 Export
@@ -384,7 +338,7 @@ const ActiveCompaniesSection: React.FC<ActiveCompaniesProps> = ({ propertyData }
               <button
                 onClick={() => fetchActiveCompanies(0)}
                 disabled={loading}
-                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50"
+                className="px-4 py-2 border border-gray-200 text-navy rounded-lg hover:shadow transition-colors disabled:opacity-50"
               >
                 {loading ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
@@ -397,10 +351,10 @@ const ActiveCompaniesSection: React.FC<ActiveCompaniesProps> = ({ propertyData }
 
           {/* Error Display */}
           {error && (
-            <Alert className="mb-6 border-red-200 bg-red-50">
-              <AlertCircle className="h-4 w-4 text-red-600" />
-              <AlertDescription className="text-red-800">
-                <strong>API Error:</strong> {error}. Showing sample data for demonstration.
+            <Alert className="mb-6 border-gray-200">
+              <AlertCircle className="h-4 w-4 text-navy" />
+              <AlertDescription className="text-navy">
+                <strong>API Error:</strong> {error}
               </AlertDescription>
             </Alert>
           )}
@@ -425,7 +379,7 @@ const ActiveCompaniesSection: React.FC<ActiveCompaniesProps> = ({ propertyData }
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-3">
-                          <Building2 className="w-5 h-5 text-blue-600" />
+                          <Building2 className="w-5 h-5 text-navy" />
                           <h4 className="text-lg font-semibold text-navy group-hover:text-gold transition-colors">
                             {company.entity_name}
                           </h4>
@@ -444,13 +398,13 @@ const ActiveCompaniesSection: React.FC<ActiveCompaniesProps> = ({ propertyData }
                             <p className="text-sm text-navy">
                               {company.filing_date
                                 ? new Date(company.filing_date).toLocaleDateString()
-                                : 'N/A'}
+                                : '-'}
                             </p>
                           </div>
                           <div>
                             <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">Address</p>
                             <p className="text-sm text-navy truncate" title={company.business_address}>
-                              {company.business_address || 'N/A'}
+                              {company.business_address || '-'}
                             </p>
                           </div>
                           <div>
@@ -475,7 +429,7 @@ const ActiveCompaniesSection: React.FC<ActiveCompaniesProps> = ({ propertyData }
                                   <Mail className="w-4 h-4 text-gray-400" />
                                   <a
                                     href={`mailto:${company.officer_email}`}
-                                    className="text-sm text-blue-600 hover:text-blue-800"
+                                    className="text-sm text-navy hover:underline"
                                   >
                                     {company.officer_email}
                                   </a>
@@ -486,7 +440,7 @@ const ActiveCompaniesSection: React.FC<ActiveCompaniesProps> = ({ propertyData }
                                   <Phone className="w-4 h-4 text-gray-400" />
                                   <a
                                     href={`tel:${company.officer_phone}`}
-                                    className="text-sm text-blue-600 hover:text-blue-800"
+                                    className="text-sm text-navy hover:underline"
                                   >
                                     {company.officer_phone}
                                   </a>
@@ -502,7 +456,7 @@ const ActiveCompaniesSection: React.FC<ActiveCompaniesProps> = ({ propertyData }
                           href={`https://search.sunbiz.org/Inquiry/CorporationSearch/SearchResultDetail?inquirytype=EntityName&directionType=Initial&searchNameOrder=${company.doc_number}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+                          className="p-2 border border-gray-200 text-navy rounded hover:shadow transition-colors"
                           title="View on Sunbiz"
                         >
                           <ExternalLink className="w-4 h-4" />

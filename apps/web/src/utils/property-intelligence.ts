@@ -18,14 +18,15 @@ export class PropertyDataAnalyzer {
    * Analyze why living area might be N/A and provide reasoning
    */
   static analyzeLivingArea(bcpaData: any): { value: string | null; reason: string } {
-    // Check multiple field variations
+    // Check multiple field variations (prioritize most common database fields)
     const livingArea =
+      bcpaData?.tot_lvg_area ||
       bcpaData?.living_area ||
       bcpaData?.livingArea ||
-      bcpaData?.tot_lvg_area ||
       bcpaData?.total_living_area ||
       bcpaData?.buildingSqFt ||
       bcpaData?.building_sqft ||
+      bcpaData?.liv_sqft ||
       0;
 
     const buildingValue =
@@ -95,6 +96,7 @@ export class PropertyDataAnalyzer {
    */
   static analyzeYearBuilt(bcpaData: any): { value: string | null; reason: string } {
     const yearBuilt =
+      bcpaData?.yr_blt ||
       bcpaData?.year_built ||
       bcpaData?.yearBuilt ||
       bcpaData?.act_yr_blt ||
@@ -143,8 +145,8 @@ export class PropertyDataAnalyzer {
    * Analyze bed/bath data and provide reasoning
    */
   static analyzeBedBath(bcpaData: any): { value: string | null; reason: string } {
-    const bedrooms = bcpaData?.bedrooms || bcpaData?.no_of_bedrooms;
-    const bathrooms = bcpaData?.bathrooms || bcpaData?.no_of_bathrooms;
+    const bedrooms = bcpaData?.bedrooms || bcpaData?.no_of_bedrooms || bcpaData?.beds || bcpaData?.no_bdrms;
+    const bathrooms = bcpaData?.bathrooms || bcpaData?.no_of_bathrooms || bcpaData?.baths || bcpaData?.no_baths;
     const propertyUse =
       bcpaData?.property_use ||
       bcpaData?.property_use_code ||
@@ -230,16 +232,18 @@ export class PropertyDataAnalyzer {
    */
   static analyzeLotSize(bcpaData: any): { value: string | null; reason: string } {
     const lotSize =
-      bcpaData?.lot_size_sqft ||
       bcpaData?.lnd_sqfoot ||
+      bcpaData?.lot_size_sqft ||
       bcpaData?.landSqFt ||
       bcpaData?.land_sqft ||
+      bcpaData?.lot_sqft ||
       0;
 
     const acres =
       bcpaData?.acres ||
       bcpaData?.landAcres ||
       bcpaData?.land_acres ||
+      bcpaData?.acreage ||
       0;
 
     const sqft = parseFloat(String(lotSize || 0));

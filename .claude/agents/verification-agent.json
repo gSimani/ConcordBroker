@@ -1,0 +1,172 @@
+{
+  "name": "verification-agent",
+  "version": "1.0.0",
+  "description": "Permanent verification sub-agent that automatically checks and verifies all work after changes",
+  "type": "background-service",
+  "autoStart": true,
+  "port": 3009,
+  "healthEndpoint": "http://localhost:3009/health",
+  "capabilities": [
+    "file-watching",
+    "automatic-testing",
+    "type-checking",
+    "linting",
+    "health-monitoring",
+    "intelligent-routing"
+  ],
+  "configuration": {
+    "debounceDelay": 2000,
+    "verificationTimeout": 120000,
+    "maxQueueSize": 50,
+    "maxHistorySize": 100,
+    "enableNotifications": true
+  },
+  "watchDirectories": [
+    "apps/web/src",
+    "apps/api",
+    "mcp-server"
+  ],
+  "ignorePatterns": [
+    "node_modules",
+    ".git",
+    "dist",
+    "build",
+    "coverage",
+    ".cache",
+    "playwright-report",
+    "test-results"
+  ],
+  "verificationRules": {
+    "typescript": {
+      "extensions": [".ts", ".tsx"],
+      "steps": [
+        {
+          "name": "TypeScript Check",
+          "command": "npm run verify:types",
+          "critical": true,
+          "timeout": 30000
+        },
+        {
+          "name": "ESLint",
+          "command": "npm run verify:lint",
+          "critical": true,
+          "timeout": 20000
+        }
+      ]
+    },
+    "react-components": {
+      "patterns": ["/components/", "/pages/"],
+      "additionalSteps": [
+        {
+          "name": "Component Tests",
+          "command": "npx playwright test {{testFile}}",
+          "critical": false,
+          "timeout": 60000,
+          "conditional": "testFileExists"
+        }
+      ]
+    },
+    "python": {
+      "extensions": [".py"],
+      "steps": [
+        {
+          "name": "Python Syntax Check",
+          "command": "python -m py_compile {{filePath}}",
+          "critical": true,
+          "timeout": 10000
+        },
+        {
+          "name": "API Health Check",
+          "command": "curl -f http://localhost:8000/health",
+          "critical": false,
+          "timeout": 5000
+        }
+      ]
+    },
+    "configuration": {
+      "extensions": [".json", ".yml", ".yaml"],
+      "steps": [
+        {
+          "name": "JSON/YAML Validation",
+          "command": "node -e \"JSON.parse(require('fs').readFileSync('{{filePath}}', 'utf-8'))\"",
+          "critical": true,
+          "timeout": 5000
+        }
+      ]
+    }
+  },
+  "specialCases": {
+    "PropertySearch.tsx": {
+      "additionalTests": [
+        "apps/web/tests/verify_property_search_fix.spec.ts",
+        "tests/verify-property-search-complete.spec.ts"
+      ],
+      "critical": true,
+      "description": "Core property search functionality"
+    },
+    "MiniPropertyCard.tsx": {
+      "additionalTests": [
+        "apps/web/tests/comprehensive-concordbroker-suite.spec.ts"
+      ],
+      "critical": true,
+      "description": "Property card display component"
+    },
+    "AdvancedPropertyFilters.tsx": {
+      "additionalTests": [
+        "tests/audit_property_filters.spec.ts"
+      ],
+      "critical": true,
+      "description": "Advanced filtering functionality"
+    }
+  },
+  "notifications": {
+    "onFailure": {
+      "enabled": true,
+      "severity": "error",
+      "channels": ["console", "log"]
+    },
+    "onSuccess": {
+      "enabled": false,
+      "severity": "info",
+      "channels": ["log"]
+    },
+    "onCriticalFailure": {
+      "enabled": true,
+      "severity": "critical",
+      "channels": ["console", "log", "status-file"]
+    }
+  },
+  "logging": {
+    "statusFile": "logs/verification-status.json",
+    "historyFile": "logs/verification-history.jsonl",
+    "maxLogSize": "10MB",
+    "logRotation": true
+  },
+  "recovery": {
+    "autoRestart": true,
+    "maxRestarts": 5,
+    "restartDelay": 5000,
+    "healthCheckInterval": 30000
+  },
+  "integration": {
+    "mcpServers": [
+      "concordbroker-main",
+      "data-flow",
+      "ai-system"
+    ],
+    "hooks": [
+      "post-change"
+    ],
+    "workflows": [
+      "auto-verify"
+    ]
+  },
+  "performance": {
+    "concurrentVerifications": 1,
+    "queueStrategy": "fifo",
+    "priorityRules": {
+      "critical-files": ["PropertySearch.tsx", "MiniPropertyCard.tsx"],
+      "priority": "high"
+    }
+  }
+}

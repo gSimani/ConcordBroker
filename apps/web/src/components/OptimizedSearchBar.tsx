@@ -72,6 +72,20 @@ const getPropertyIconComponent = (propertyUseCode?: string): React.ComponentType
   return ICON_MAP[iconName] || Home;
 };
 
+// Florida counties for smart detection
+const FLORIDA_COUNTIES = [
+  'ALACHUA', 'BAKER', 'BAY', 'BRADFORD', 'BREVARD', 'BROWARD', 'CALHOUN',
+  'CHARLOTTE', 'CITRUS', 'CLAY', 'COLLIER', 'COLUMBIA', 'DESOTO', 'DIXIE',
+  'DUVAL', 'ESCAMBIA', 'FLAGLER', 'FRANKLIN', 'GADSDEN', 'GILCHRIST', 'GLADES',
+  'GULF', 'HAMILTON', 'HARDEE', 'HENDRY', 'HERNANDO', 'HIGHLANDS', 'HILLSBOROUGH',
+  'HOLMES', 'INDIAN RIVER', 'JACKSON', 'JEFFERSON', 'LAFAYETTE', 'LAKE', 'LEE',
+  'LEON', 'LEVY', 'LIBERTY', 'MADISON', 'MANATEE', 'MARION', 'MARTIN', 'MIAMI-DADE',
+  'MONROE', 'NASSAU', 'OKALOOSA', 'OKEECHOBEE', 'ORANGE', 'OSCEOLA', 'PALM BEACH',
+  'PASCO', 'PINELLAS', 'POLK', 'PUTNAM', 'SANTA ROSA', 'SARASOTA', 'SEMINOLE',
+  'ST. JOHNS', 'ST. LUCIE', 'SUMTER', 'SUWANNEE', 'TAYLOR', 'UNION', 'VOLUSIA',
+  'WAKULLA', 'WALTON', 'WASHINGTON'
+];
+
 export function OptimizedSearchBar({
   onResults,
   onFiltersChange,
@@ -278,10 +292,38 @@ export function OptimizedSearchBar({
       return;
     }
 
-    const searchFilters = {
-      ...activeFilters,
-      address: searchTerm
-    };
+    // SMART SEARCH: Detect if input is a Florida county name
+    const upperSearchTerm = searchTerm.trim().toUpperCase();
+    const isFloridaCounty = FLORIDA_COUNTIES.includes(upperSearchTerm);
+
+    let searchFilters: Record<string, any>;
+
+    if (isFloridaCounty) {
+      // It's a county - set county filter
+      searchFilters = {
+        ...activeFilters,
+        county: upperSearchTerm,
+        address: '', // Clear address
+        city: ''      // Clear city
+      };
+      console.log('[COUNTY SEARCH] Detected Florida county:', upperSearchTerm);
+    } else if (/^\d/.test(searchTerm)) {
+      // Starts with number - likely an address
+      searchFilters = {
+        ...activeFilters,
+        address: searchTerm,
+        county: '',  // Clear county
+        city: ''     // Clear city
+      };
+    } else {
+      // Text search - could be city or owner name
+      searchFilters = {
+        ...activeFilters,
+        city: searchTerm,
+        address: '',
+        county: ''
+      };
+    }
 
     // Set loading state immediately for instant visual feedback
     setIsSearching(true);

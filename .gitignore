@@ -153,3 +153,4 @@ docs/.doctrees/
 meilisearch.exe
 GITHUB_MCP_SERVER_SETUP.md
 .env.orchestrator
+.env.mcp

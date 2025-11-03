@@ -1,0 +1,18 @@
+{
+  "name": "ui-audit-agent",
+  "description": "UI auditor — inventories components, inspects console/network, verifies data placement with Playwright.",
+  "subagents": [
+    {
+      "name": "ui-visual-verifier",
+      "role": "Uses Playwright MCP to capture screenshots and verify UI against expectations"
+    }
+  ],
+  "tasks": [
+    "Inventory React components and routes",
+    "Crawl key pages and capture console/network logs",
+    "Verify data bindings and placements",
+    "Collect issues and produce UI Audit report"
+  ],
+  "entry": "scripts/audit_ui_playwright.ps1"
+}
+

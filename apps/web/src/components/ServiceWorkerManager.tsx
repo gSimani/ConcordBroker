@@ -116,6 +116,12 @@ export const ServiceWorkerManager = memo(function ServiceWorkerManager() {
 
     setState(prev => ({ ...prev, isSupported: true }));
 
+    // Skip service worker registration in development (sw.js doesn't exist in dev)
+    if (import.meta.env.DEV) {
+      console.log('[SW Manager] Service worker disabled in development mode');
+      return;
+    }
+
     try {
       const registration = await navigator.serviceWorker.register('/sw.js', {
         scope: '/',
@@ -149,18 +155,21 @@ export const ServiceWorkerManager = memo(function ServiceWorkerManager() {
         }
       });
 
-      // Get cache stats
-      try {
-        const stats = await sendMessageToSW({ type: 'GET_CACHE_STATUS' });
-        setState(prev => ({
-          ...prev,
-          cacheStats: {
-            size: Object.values(stats).reduce((a: number, b: number) => a + b, 0),
-            hitRate: 0, // This would need to be tracked separately
-          },
-        }));
-      } catch (error) {
-        console.warn('[SW Manager] Failed to get cache stats:', error);
+      // Get cache stats (only if service worker is active)
+      if (registration.active) {
+        try {
+          const stats = await sendMessageToSW({ type: 'GET_CACHE_STATUS' });
+          setState(prev => ({
+            ...prev,
+            cacheStats: {
+              size: Object.values(stats).reduce((a: number, b: number) => a + b, 0),
+              hitRate: 0, // This would need to be tracked separately
+            },
+          }));
+        } catch (error) {
+          // Silently fail - cache stats are optional
+          console.debug('[SW Manager] Cache stats not available:', error.message);
+        }
       }
 
       addNotification('success', 'Service worker activated successfully');

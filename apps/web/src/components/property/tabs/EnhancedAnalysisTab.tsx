@@ -34,7 +34,7 @@ export function EnhancedAnalysisTab({ data }: EnhancedAnalysisTabProps) {
   } = data || {};
 
   const formatCurrency = (value: number | undefined) => {
-    if (!value) return 'N/A';
+    if (!value) return '-';
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
@@ -43,7 +43,7 @@ export function EnhancedAnalysisTab({ data }: EnhancedAnalysisTabProps) {
   };
 
   const formatPercentage = (value: number | undefined) => {
-    if (value === undefined || value === null) return 'N/A';
+    if (value === undefined || value === null) return '-';
     return `${value.toFixed(1)}%`;
   };
 
@@ -137,7 +137,7 @@ export function EnhancedAnalysisTab({ data }: EnhancedAnalysisTabProps) {
             <div className="space-y-3">
               <div className="flex justify-between">
                 <span className="text-sm">Value Percentile:</span>
-                <span className="font-medium">{marketAnalysis.valuePercentile?.toFixed(0) || 'N/A'}%</span>
+                <span className="font-medium">{marketAnalysis.valuePercentile?.toFixed(0) || '-'}%</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm">Market Trend:</span>
@@ -326,7 +326,7 @@ export function EnhancedAnalysisTab({ data }: EnhancedAnalysisTabProps) {
                   <div className="p-3 bg-purple-50 rounded-lg">
                     <p className="text-xs text-purple-600 uppercase tracking-wide">Price/SqFt</p>
                     <p className="text-xl font-semibold text-purple-900">
-                      ${marketAnalysis.pricePerSqft?.toFixed(0) || 'N/A'}
+                      ${marketAnalysis.pricePerSqft?.toFixed(0) || '-'}
                     </p>
                   </div>
                   <div className="p-3 bg-orange-50 rounded-lg">
@@ -381,7 +381,7 @@ export function EnhancedAnalysisTab({ data }: EnhancedAnalysisTabProps) {
                   <div className="flex justify-between">
                     <span className="text-sm">Payback Period:</span>
                     <span className="font-medium text-lg">
-                      {calculations.paybackPeriod ? `${calculations.paybackPeriod.toFixed(1)} years` : 'N/A'}
+                      {calculations.paybackPeriod ? `${calculations.paybackPeriod.toFixed(1)} years` : '-'}
                     </span>
                   </div>
                 </div>
@@ -397,7 +397,7 @@ export function EnhancedAnalysisTab({ data }: EnhancedAnalysisTabProps) {
                   <div className="flex justify-between">
                     <span className="text-sm">Monthly Cash Flow:</span>
                     <span className="font-medium text-lg">
-                      {calculations.cashFlow ? formatCurrency(calculations.cashFlow / 12) : 'N/A'}
+                      {calculations.cashFlow ? formatCurrency(calculations.cashFlow / 12) : '-'}
                     </span>
                   </div>
                   <div className="flex justify-between">
@@ -420,12 +420,12 @@ export function EnhancedAnalysisTab({ data }: EnhancedAnalysisTabProps) {
                 <div className="space-y-3">
                   <div className="flex justify-between">
                     <span className="text-sm">Property Age:</span>
-                    <span className="font-medium text-lg">{calculations.propertyAge || 'N/A'} years</span>
+                    <span className="font-medium text-lg">{calculations.propertyAge || '-'} years</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-sm">Land/Value Ratio:</span>
                     <span className="font-medium text-lg">
-                      {calculations.landToValueRatio ? (calculations.landToValueRatio * 100).toFixed(1) + '%' : 'N/A'}
+                      {calculations.landToValueRatio ? (calculations.landToValueRatio * 100).toFixed(1) + '%' : '-'}
                     </span>
                   </div>
                 </div>
@@ -529,7 +529,7 @@ export function EnhancedAnalysisTab({ data }: EnhancedAnalysisTabProps) {
                 <div className="p-4 bg-green-50 rounded-lg border border-green-200">
                   <h5 className="font-medium text-green-800 mb-2">Market Position</h5>
                   <p className="text-sm text-green-700">
-                    Property is in the {marketAnalysis.valuePercentile?.toFixed(0) || 'N/A'}th percentile for the area,
+                    Property is in the {marketAnalysis.valuePercentile?.toFixed(0) || '-'}th percentile for the area,
                     indicating {marketAnalysis.valuePercentile > 75 ? 'premium' : marketAnalysis.valuePercentile > 50 ? 'above average' : 'below average'} pricing.
                   </p>
                 </div>

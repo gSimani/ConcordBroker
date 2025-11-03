@@ -131,7 +131,7 @@ export function OwnershipTab({ data }: OwnershipTabProps) {
                     <div>
                       <span className="text-sm text-muted-foreground">Account Value</span>
                       <p className="font-semibold">
-                        ${tpp.assessed_value ? parseInt(tpp.assessed_value).toLocaleString() : 'N/A'}
+                        ${tpp.assessed_value ? parseInt(tpp.assessed_value).toLocaleString() : '-'}
                       </p>
                     </div>
                     <div>

@@ -1,0 +1,24 @@
+{
+  "name": "db-audit-agent",
+  "description": "Supabase database auditor — enumerates schemas, tables, FKs, RLS, functions, views, and maps data flows to UI.",
+  "subagents": [
+    {
+      "name": "db-relationship-visualizer",
+      "role": "Builds entity-relationship map and highlights orphaned relations"
+    },
+    {
+      "name": "db-policy-auditor",
+      "role": "Audits RLS and policies for coverage and leaks"
+    }
+  ],
+  "tasks": [
+    "Fetch schemas, tables, columns, indexes",
+    "Collect foreign keys and dependency graph",
+    "Enumerate views/functions and usage",
+    "Check RLS/policies by table",
+    "Map API endpoints to UI components",
+    "Produce DB Audit report"
+  ],
+  "entry": "scripts/audit_db.py"
+}
+

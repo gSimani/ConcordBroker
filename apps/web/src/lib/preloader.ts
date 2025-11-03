@@ -499,8 +499,8 @@ export const routePreloadConfigs: RoutePreloadConfig[] = [
         '/src/components/property/MiniPropertyCard.tsx',
       ],
       data: [
-        '/api/counties',
-        '/api/property-types',
+        // '/api/counties', // DISABLED: Counties are hardcoded in Florida data, no API endpoint needed
+        // '/api/property-types', // DISABLED: Endpoint doesn't exist, uses @/lib/property-types instead
       ],
       images: [
         '/assets/icons/property-placeholder.svg',
@@ -571,15 +571,14 @@ export function usePreloader() {
 
 // Initialize critical resource preloading
 export function initializeCriticalPreloading() {
-  // Preload critical fonts
-  preloader.preloadFont('https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2', {
-    priority: 'high',
-  });
+  // Note: Font preloading removed - using Josefin Sans and JetBrains Mono from Google Fonts
+  // via CSS import, which handles caching efficiently
 
   // Preload critical API endpoints
-  if (preloader.shouldPreload()) {
-    preloader.preloadData('/api/config', { priority: 'high' });
-  }
+  // Note: /api/config endpoint disabled - configuration is handled via environment variables
+  // if (preloader.shouldPreload()) {
+  //   preloader.preloadData('/api/config', { priority: 'high' });
+  // }
 
   console.log('[Preloader] Critical resources preloading initialized');
 }

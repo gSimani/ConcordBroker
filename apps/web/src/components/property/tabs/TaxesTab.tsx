@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { useState, useEffect, useMemo } from 'react'
-import { createClient } from '@supabase/supabase-js'
+import { supabase } from '@/lib/supabase'
 
 interface TaxesTabProps {
   data: PropertyData
@@ -77,12 +77,6 @@ interface BuyerSunbizMatches {
   }>
   nameScore: number
 }
-
-// Initialize Supabase client
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL || '',
-  import.meta.env.VITE_SUPABASE_ANON_KEY || ''
-)
 
 export function TaxesTab({ data }: TaxesTabProps) {
   // Handle undefined data gracefully
@@ -468,7 +462,7 @@ export function TaxesTab({ data }: TaxesTabProps) {
 
   // Format currency
   const formatCurrency = (value?: number | string) => {
-    if (!value && value !== 0) return 'N/A';
+    if (!value && value !== 0) return '-';
     const num = typeof value === 'string' ? parseFloat(value) : value;
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -479,7 +473,7 @@ export function TaxesTab({ data }: TaxesTabProps) {
   };
 
   const formatDate = (date?: string) => {
-    if (!date) return 'N/A';
+    if (!date) return '-';
     return new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -669,7 +663,7 @@ export function TaxesTab({ data }: TaxesTabProps) {
                           <span className="font-medium">Real Estate Account:</span> {cert.real_estate_account}
                         </p>
                         <p className="text-sm text-gray-elegant">
-                          <span className="font-medium">Tax Year:</span> {cert.tax_year || 'N/A'}
+                          <span className="font-medium">Tax Year:</span> {cert.tax_year || '-'}
                         </p>
                         {cert.advertised_number && (
                           <p className="text-sm text-gray-elegant">
@@ -798,14 +792,14 @@ export function TaxesTab({ data }: TaxesTabProps) {
                                   Officer/Director Name Matches:
                                 </p>
                                 {enhancedBuyerMatches[cert.buyer].officerMatches.map((match, idx) => (
-                                  <div key={idx} className="card-executive-mini bg-orange-50 border border-orange-200 p-3 rounded-lg">
+                                  <div key={idx} className="card-executive-mini bg-gold-light border border-gold p-3 rounded-lg">
                                     <div className="flex items-start justify-between">
                                       <div className="flex-1">
                                         <p className="text-xs font-semibold text-navy mb-1">{match.entity.entity_name}</p>
                                         <div className="space-y-1">
                                           {match.matchingOfficers.map((officer, officerIdx) => (
                                             <div key={officerIdx} className="flex items-center">
-                                              <AlertCircle className="w-3 h-3 mr-1 text-orange-600" />
+                                              <AlertCircle className="w-3 h-3 mr-1 text-navy" />
                                               <p className="text-xs text-gray-600">
                                                 <span className="font-medium">{officer.name}</span> - {officer.title}
                                               </p>
@@ -817,7 +811,7 @@ export function TaxesTab({ data }: TaxesTabProps) {
                                             href={`https://search.sunbiz.org/Inquiry/CorporationSearch/SearchResultDetail?inquirytype=EntityName&directionType=Initial&searchNameOrder=${match.entity.document_number}`}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="text-xs font-medium text-blue-600 hover:underline flex items-center"
+                                            className="text-xs font-medium text-navy hover:underline flex items-center"
                                           >
                                             <Link className="w-3 h-3 mr-1" />
                                             View Entity Profile
@@ -846,7 +840,7 @@ export function TaxesTab({ data }: TaxesTabProps) {
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <p className="text-xs uppercase tracking-wider text-gray-elegant mb-1">Interest Rate</p>
-                          <p className="text-lg font-semibold text-green-600">
+                          <p className="text-lg font-light text-navy">
                             {cert.interest_rate}%
                           </p>
                         </div>
@@ -876,7 +870,7 @@ export function TaxesTab({ data }: TaxesTabProps) {
                       {cert.redemption_date && (
                         <div>
                           <p className="text-xs uppercase tracking-wider text-gray-elegant mb-1">Redemption Date</p>
-                          <p className="text-sm font-medium text-green-600">
+                          <p className="text-sm font-medium text-navy">
                             {formatDate(cert.redemption_date)}
                           </p>
                         </div>
@@ -885,12 +879,12 @@ export function TaxesTab({ data }: TaxesTabProps) {
                       <div className="pt-3">
                         <p className="text-xs uppercase tracking-wider text-gray-elegant mb-2">Status</p>
                         {cert.status === 'active' ? (
-                          <Badge className="bg-orange-100 text-orange-800 border-orange-200 flex items-center w-fit">
+                          <Badge className="badge-elegant badge-gold flex items-center w-fit">
                             <AlertCircle className="w-3 h-3 mr-1" />
                             Active Lien
                           </Badge>
                         ) : cert.status === 'redeemed' ? (
-                          <Badge className="bg-green-100 text-green-800 border-green-200 flex items-center w-fit">
+                          <Badge className="badge-elegant flex items-center w-fit">
                             <CheckCircle className="w-3 h-3 mr-1" />
                             Redeemed
                           </Badge>
@@ -909,7 +903,7 @@ export function TaxesTab({ data }: TaxesTabProps) {
                       href={`https://broward.county-taxes.com/public/search/property_tax`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-sm font-medium text-blue-600 hover:underline flex items-center"
+                      className="text-sm font-medium text-navy hover:underline flex items-center"
                     >
                       <FileText className="w-4 h-4 mr-1" />
                       View Full Certificate Details
@@ -919,7 +913,7 @@ export function TaxesTab({ data }: TaxesTabProps) {
                       href={`https://broward.county-taxes.com/public/real_estate/parcels/${cert.real_estate_account}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-sm font-medium text-blue-600 hover:underline flex items-center"
+                      className="text-sm font-medium text-navy hover:underline flex items-center"
                     >
                       <Receipt className="w-4 h-4 mr-1" />
                       View Tax Bill History
@@ -933,7 +927,7 @@ export function TaxesTab({ data }: TaxesTabProps) {
                           const sunbizTab = document.querySelector('[value="sunbiz"]');
                           if (sunbizTab) (sunbizTab as HTMLElement).click();
                         }}
-                        className="text-sm font-medium text-purple-600 hover:underline flex items-center"
+                        className="text-sm font-medium text-navy hover:underline flex items-center"
                       >
                         <Building className="w-4 h-4 mr-1" />
                         View Buyer in Sunbiz Tab
@@ -947,11 +941,11 @@ export function TaxesTab({ data }: TaxesTabProps) {
             
             {/* Certificate Investment Analysis */}
             <div className="mt-8 p-6 bg-gradient-to-r from-orange-50 to-red-50 rounded-lg border-2 border-orange-200">
-              <h4 className="font-semibold text-orange-800 mb-3 flex items-center text-lg">
+              <h4 className="font-semibold text-navy mb-3 flex items-center text-lg">
                 <AlertTriangle className="w-5 h-5 mr-2" />
                 Investment Impact Analysis
               </h4>
-              <div className="space-y-3 text-sm text-orange-700">
+              <div className="space-y-3 text-sm text-navy">
                 <p>
                   <span className="font-semibold">Total Lien Amount:</span> {formatCurrency(totalCertificateAmount)} must be paid to clear all certificates
                 </p>
@@ -1065,7 +1059,7 @@ export function TaxesTab({ data }: TaxesTabProps) {
                 <div>
                   <p className="text-sm opacity-75">Effective Tax Rate</p>
                   <p className="text-2xl font-light">
-                    {marketValue > 0 ? `${((annualTaxAmount / marketValue) * 100).toFixed(2)}%` : 'N/A'}
+                    {marketValue > 0 ? `${((annualTaxAmount / marketValue) * 100).toFixed(2)}%` : '-'}
                   </p>
                 </div>
                 <div>
@@ -1091,31 +1085,31 @@ export function TaxesTab({ data }: TaxesTabProps) {
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="card-executive border-l-4 border-orange-400 bg-orange-50"
+          className="card-executive border-l-4 border-gold bg-gold-light"
         >
           <div className="elegant-card-header border-orange-200">
-            <h3 className="elegant-card-title flex items-center text-orange-700">
-              <div className="p-2 rounded-lg mr-3 bg-orange-400">
+            <h3 className="elegant-card-title flex items-center text-navy">
+              <div className="p-2 rounded-lg mr-3 bg-gold">
                 <AlertTriangle className="w-4 h-4 text-white" />
               </div>
               Special Assessment District (CDD/NAV)
             </h3>
-            <p className="text-sm mt-4 text-orange-600">Property is subject to additional annual assessments</p>
+            <p className="text-sm mt-4 text-navy">Property is subject to additional annual assessments</p>
           </div>
           <div className="pt-6">
             <div className="text-center p-6 rounded-lg bg-white border border-orange-200">
               <div className="flex items-center justify-center mb-4">
-                <Landmark className="w-8 h-8 text-orange-400 mr-3" />
+                <Landmark className="w-8 h-8 text-navy mr-3" />
                 <div>
                   <p className="text-lg font-light elegant-text text-gray-elegant">Total Annual Assessment</p>
-                  <p className="text-4xl font-light text-orange-600">
+                  <p className="text-4xl font-light text-navy">
                     {formatCurrency(totalNavAssessment)}
                   </p>
                 </div>
               </div>
-              <div className="text-center p-4 bg-orange-100 rounded-lg">
-                <p className="text-sm text-orange-700 font-medium mb-2">Investment Impact Analysis</p>
-                <p className="text-xs text-orange-600">
+              <div className="text-center p-4 bg-gold-light rounded-lg">
+                <p className="text-sm text-navy font-medium mb-2">Investment Impact Analysis</p>
+                <p className="text-xs text-gray-elegant">
                   Community Development District assessments represent additional carrying costs that should be factored into investment calculations.
                 </p>
               </div>
@@ -1133,15 +1127,15 @@ export function TaxesTab({ data }: TaxesTabProps) {
         >
           <div className="text-center py-12">
             <div className="flex items-center justify-center mb-4">
-              <div className="p-4 bg-green-100 rounded-full">
-                <Receipt className="w-8 h-8 text-green-600" />
+              <div className="p-4 bg-gold-light rounded-full">
+                <Receipt className="w-8 h-8 text-navy" />
               </div>
             </div>
             <h3 className="text-xl elegant-heading text-navy mb-2">Clean Tax Profile</h3>
             <p className="text-gray-elegant">No tax certificates, special assessments, or delinquencies found for this property.</p>
-            <div className="mt-6 p-4 bg-green-50 rounded-lg inline-block">
+            <div className="mt-6 p-4 bg-gold-light rounded-lg inline-block">
               <span className="badge-elegant badge-gold">✓ Investment Advantage</span>
-              <p className="text-xs text-green-700 mt-2">Lower carrying costs and no outstanding liens</p>
+              <p className="text-xs text-navy mt-2">Lower carrying costs and no outstanding liens</p>
             </div>
           </div>
         </motion.div>

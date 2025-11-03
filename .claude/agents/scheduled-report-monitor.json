@@ -1,0 +1,315 @@
+{
+  "name": "Scheduled Report Monitor Agent",
+  "version": "1.0.0",
+  "description": "Automatically monitors and maintains reports on a schedule - runs daily/weekly/monthly checks",
+  "type": "automation",
+  "schedule": {
+    "daily": {
+      "time": "02:00",
+      "timezone": "America/New_York",
+      "tasks": [
+        "check_report_health",
+        "update_index",
+        "identify_duplicates"
+      ]
+    },
+    "weekly": {
+      "day": "Sunday",
+      "time": "03:00",
+      "timezone": "America/New_York",
+      "tasks": [
+        "generate_weekly_summary",
+        "check_for_obsolete_reports",
+        "verify_archive_structure"
+      ]
+    },
+    "monthly": {
+      "day": 1,
+      "time": "04:00",
+      "timezone": "America/New_York",
+      "tasks": [
+        "archive_old_reports",
+        "cleanup_duplicates",
+        "generate_monthly_report",
+        "check_disk_usage"
+      ]
+    }
+  },
+  "capabilities": [
+    "scheduled_monitoring",
+    "automatic_archiving",
+    "health_checks",
+    "summary_generation",
+    "alert_generation"
+  ],
+  "monitoring_rules": {
+    "report_age": {
+      "recent": "< 7 days - Keep in main folder",
+      "active": "7-30 days - Keep in main folder",
+      "old": "> 30 days - Archive to archive/YYYY-MM/",
+      "ancient": "> 90 days - Consider deletion (with user approval)"
+    },
+    "report_status": {
+      "active": "Current and relevant - Keep",
+      "superseded": "Newer version exists - Archive or delete",
+      "obsolete": "No longer relevant - Delete (with approval)",
+      "permanent": "Marked with 🔒 - Never delete"
+    },
+    "storage": {
+      "warning_threshold": "100 reports in main folder",
+      "critical_threshold": "500 reports in main folder",
+      "max_report_size": "5 MB per report",
+      "total_size_limit": "100 MB for all reports"
+    }
+  },
+  "daily_tasks": {
+    "check_report_health": {
+      "description": "Verify all reports are readable and properly formatted",
+      "actions": [
+        "1. Scan all .md files in reports folder",
+        "2. Verify markdown formatting is valid",
+        "3. Check for broken links",
+        "4. Identify corrupted files",
+        "5. Log any issues to monitoring log"
+      ],
+      "alert_on": ["corrupted_file", "broken_link", "invalid_format"]
+    },
+    "update_index": {
+      "description": "Regenerate INDEX.md if changes detected",
+      "actions": [
+        "1. Check if new reports added since last index update",
+        "2. Regenerate INDEX.md if changes found",
+        "3. Update report counts and statistics",
+        "4. Commit changes to git"
+      ]
+    },
+    "identify_duplicates": {
+      "description": "Find potential duplicate reports",
+      "actions": [
+        "1. Compare report titles and descriptions",
+        "2. Check for similar content (> 90% match)",
+        "3. Log duplicates for user review",
+        "4. Suggest which to keep/archive"
+      ]
+    }
+  },
+  "weekly_tasks": {
+    "generate_weekly_summary": {
+      "description": "Create summary of week's activity",
+      "output_format": {
+        "file": ".claude/reports/summaries/weekly-YYYY-MM-DD.md",
+        "sections": [
+          "Reports created this week",
+          "Major fixes/features",
+          "Permanent memory updates",
+          "Issues identified",
+          "Metrics (errors fixed, performance improvements)"
+        ]
+      }
+    },
+    "check_for_obsolete_reports": {
+      "description": "Identify reports that may be obsolete",
+      "criteria": [
+        "Reports marked as 'SUPERSEDED'",
+        "Implementation reports with corresponding 'FIX' report",
+        "Investigation reports with completed fixes",
+        "Reports older than 60 days without permanent status"
+      ],
+      "action": "Generate list for user approval"
+    },
+    "verify_archive_structure": {
+      "description": "Ensure archive folder structure is correct",
+      "checks": [
+        "Archive folder exists: .claude/reports/archive/",
+        "Monthly subfolders follow YYYY-MM format",
+        "No orphaned files in archive root",
+        "Archive INDEX.md exists and is current"
+      ]
+    }
+  },
+  "monthly_tasks": {
+    "archive_old_reports": {
+      "description": "Automatically archive reports older than 30 days",
+      "actions": [
+        "1. Identify reports > 30 days old (excluding permanent)",
+        "2. Create archive folder: archive/YYYY-MM/",
+        "3. Move reports to appropriate monthly folder",
+        "4. Update main INDEX.md",
+        "5. Generate archive INDEX.md",
+        "6. Commit changes to git"
+      ],
+      "exceptions": [
+        "Reports marked with 🔒 (permanent) - never archive",
+        "Reports with status 'CRITICAL' - keep in main for 90 days"
+      ]
+    },
+    "cleanup_duplicates": {
+      "description": "Remove confirmed duplicate reports",
+      "actions": [
+        "1. Review duplicates identified during daily checks",
+        "2. For each duplicate set, keep the most recent/complete version",
+        "3. Delete older duplicates (with logging)",
+        "4. Update INDEX.md"
+      ]
+    },
+    "generate_monthly_report": {
+      "description": "Create comprehensive monthly summary",
+      "output_file": ".claude/reports/summaries/monthly-YYYY-MM.md",
+      "content": {
+        "stats": {
+          "total_reports_created": "Number of new reports",
+          "bugs_fixed": "Count of fix reports",
+          "features_implemented": "Count of implementation reports",
+          "permanent_memory_updates": "Count of memory updates",
+          "total_errors_eliminated": "Sum from all fix reports",
+          "performance_improvements": "Aggregate metrics"
+        },
+        "highlights": [
+          "Top 5 most impactful fixes",
+          "Major features implemented",
+          "System improvements",
+          "Lessons learned"
+        ],
+        "maintenance": {
+          "reports_archived": "Count",
+          "reports_deleted": "Count",
+          "duplicates_removed": "Count",
+          "disk_space_freed": "MB"
+        }
+      }
+    },
+    "check_disk_usage": {
+      "description": "Monitor storage usage for reports",
+      "thresholds": {
+        "warning": "50 MB total",
+        "critical": "100 MB total"
+      },
+      "actions": [
+        "1. Calculate total size of all reports",
+        "2. Identify largest reports (> 1 MB)",
+        "3. Check for unnecessary screenshots/assets",
+        "4. Generate cleanup recommendations",
+        "5. Alert if thresholds exceeded"
+      ]
+    }
+  },
+  "alerts": {
+    "channels": {
+      "log_file": ".claude/logs/report-monitor.log",
+      "summary_file": ".claude/reports/monitoring-summary.md",
+      "urgent_notification": "Console output on critical issues"
+    },
+    "alert_levels": {
+      "info": "Routine operations, logged only",
+      "warning": "Potential issues, logged and added to summary",
+      "error": "Problems requiring attention, logged and highlighted",
+      "critical": "Urgent issues, immediate notification required"
+    },
+    "alert_triggers": {
+      "critical": [
+        "Corrupted report files",
+        "Storage exceeds 100 MB",
+        "More than 500 reports in main folder",
+        "Archive structure broken"
+      ],
+      "warning": [
+        "Duplicate reports detected",
+        "Reports > 90 days old in main folder",
+        "Storage exceeds 50 MB",
+        "More than 100 reports in main folder"
+      ],
+      "info": [
+        "Daily health check completed",
+        "Reports archived successfully",
+        "Index updated"
+      ]
+    }
+  },
+  "automation_config": {
+    "enabled": true,
+    "require_confirmation": {
+      "archive_reports": false,
+      "delete_duplicates": true,
+      "delete_obsolete": true,
+      "update_index": false
+    },
+    "git_integration": {
+      "auto_commit": true,
+      "commit_message_format": "chore(reports): {action} - {count} reports affected",
+      "commit_after": [
+        "archive_old_reports",
+        "update_index",
+        "cleanup_duplicates"
+      ]
+    },
+    "logging": {
+      "enabled": true,
+      "log_level": "info",
+      "log_rotation": {
+        "max_size": "10 MB",
+        "max_files": 5,
+        "compress": true
+      }
+    }
+  },
+  "manual_triggers": {
+    "run_daily_now": "Execute all daily tasks immediately",
+    "run_weekly_now": "Execute all weekly tasks immediately",
+    "run_monthly_now": "Execute all monthly tasks immediately",
+    "check_health": "Run health check only",
+    "force_archive": "Archive old reports now (with confirmation)"
+  },
+  "output_formats": {
+    "monitoring_summary": {
+      "file": ".claude/reports/monitoring-summary.md",
+      "update_frequency": "After each scheduled run",
+      "sections": [
+        "Last Run Details",
+        "Actions Taken",
+        "Issues Detected",
+        "Recommendations",
+        "Next Scheduled Run"
+      ]
+    },
+    "weekly_summary": {
+      "file": ".claude/reports/summaries/weekly-YYYY-MM-DD.md",
+      "template": "weekly-summary-template.md"
+    },
+    "monthly_summary": {
+      "file": ".claude/reports/summaries/monthly-YYYY-MM.md",
+      "template": "monthly-summary-template.md"
+    }
+  },
+  "health_metrics": {
+    "track": [
+      "total_reports",
+      "reports_by_category",
+      "average_report_size",
+      "total_storage_used",
+      "reports_archived_per_month",
+      "duplicates_found_per_month",
+      "obsolete_reports_identified"
+    ],
+    "visualization": {
+      "enabled": true,
+      "output_file": ".claude/reports/metrics-dashboard.md",
+      "charts": [
+        "Reports created over time",
+        "Storage usage trend",
+        "Reports by category (pie chart)",
+        "Archive vs Active reports"
+      ]
+    }
+  },
+  "integration": {
+    "works_with": [
+      "Report Manager Agent",
+      "Verification Agent"
+    ],
+    "hooks": {
+      "pre_archive": "Run verification on reports before archiving",
+      "post_cleanup": "Update INDEX.md and commit to git",
+      "on_critical_alert": "Send notification to monitoring channel"
+    }
+  }
+}

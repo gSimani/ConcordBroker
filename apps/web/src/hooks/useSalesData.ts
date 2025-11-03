@@ -250,7 +250,12 @@ export function useSalesData(parcelId: string | null) {
         if (newStatus.inProgress !== batchStatus.inProgress ||
             newStatus.hasData !== batchStatus.hasData) {
           console.log(`🔄 Batch status changed for ${parcelId}:`, newStatus);
-          setBatchStatus(newStatus);
+          // CRITICAL FIX (2025-10-31): Defer state update to prevent React warning
+          // "Cannot update component while rendering a different component"
+          // Use queueMicrotask to defer until after current render completes
+          queueMicrotask(() => {
+            setBatchStatus(newStatus);
+          });
         }
       }
     });
@@ -287,22 +292,21 @@ export function useSalesData(parcelId: string | null) {
 
   // NEW: Trigger on-demand scraping when no sales data found
   useEffect(() => {
+    // DISABLED: Auto-scraping feature - endpoint /api/scrape-sales does not exist (404 errors)
     // Only trigger if:
     // 1. Data has loaded successfully
     // 2. No sales were found (total_sales_count === 0)
     // 3. Scraping hasn't been triggered yet for this parcel
     // 4. Not currently scraping
-    if (
-      salesData &&
-      salesData.total_sales_count === 0 &&
-      !scrapingStatus.triggered &&
-      !scrapingStatus.inProgress &&
-      parcelId
-    ) {
-      // Get county from parcel data (would need to fetch this)
-      // For now, assume we can derive county or have it available
-      triggerSalesScraping(parcelId);
-    }
+    // if (
+    //   salesData &&
+    //   salesData.total_sales_count === 0 &&
+    //   !scrapingStatus.triggered &&
+    //   !scrapingStatus.inProgress &&
+    //   parcelId
+    // ) {
+    //   triggerSalesScraping(parcelId);
+    // }
   }, [salesData, parcelId, scrapingStatus.triggered, scrapingStatus.inProgress]);
 
   // Function to trigger background scraping

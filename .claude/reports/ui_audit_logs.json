@@ -1,0 +1,200 @@
+{
+  "baseUrl": "http://localhost:5191",
+  "routes": [
+    "/",
+    "/property/504230050040"
+  ],
+  "log": [
+    {
+      "type": "console",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "console",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "console",
+      "text": "%cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold"
+    },
+    {
+      "type": "console",
+      "text": "App.tsx loaded with performance optimizations"
+    },
+    {
+      "type": "console",
+      "text": "main.tsx starting"
+    },
+    {
+      "type": "console",
+      "text": "React DevTools detected"
+    },
+    {
+      "type": "console",
+      "text": "Root element found, creating React app"
+    },
+    {
+      "type": "console",
+      "text": "[Dev Mode] Service worker registration skipped"
+    },
+    {
+      "type": "console",
+      "text": "React app rendered"
+    },
+    {
+      "type": "console",
+      "text": "Delayed render for DevTools compatibility"
+    },
+    {
+      "type": "console",
+      "text": "App component rendering with advanced performance optimizations"
+    },
+    {
+      "type": "console",
+      "text": "App component rendering with advanced performance optimizations"
+    },
+    {
+      "type": "console",
+      "text": "App mounted - initializing performance features"
+    },
+    {
+      "type": "console",
+      "text": "[Preloader] Critical resources preloading initialized"
+    },
+    {
+      "type": "console",
+      "text": "App mounted - initializing performance features"
+    },
+    {
+      "type": "console",
+      "text": "[Preloader] Critical resources preloading initialized"
+    },
+    {
+      "type": "console",
+      "text": "[Performance] LCP: 144.00ms"
+    },
+    {
+      "type": "console",
+      "text": "[Performance] LCP: 728.00ms"
+    },
+    {
+      "type": "screenshot",
+      "url": "http://localhost:5191/",
+      "path": "C:\\Users\\gsima\\Documents\\MyProject\\ConcordBroker\\.claude\\reports\\ui_screens\\screen__.png"
+    },
+    {
+      "type": "console",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "console",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "console",
+      "text": "%cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold"
+    },
+    {
+      "type": "console",
+      "text": "App.tsx loaded with performance optimizations"
+    },
+    {
+      "type": "console",
+      "text": "main.tsx starting"
+    },
+    {
+      "type": "console",
+      "text": "React DevTools detected"
+    },
+    {
+      "type": "console",
+      "text": "Root element found, creating React app"
+    },
+    {
+      "type": "console",
+      "text": "[Dev Mode] Service worker registration skipped"
+    },
+    {
+      "type": "console",
+      "text": "Delayed render for DevTools compatibility"
+    },
+    {
+      "type": "console",
+      "text": "React app rendered"
+    },
+    {
+      "type": "console",
+      "text": "App component rendering with advanced performance optimizations"
+    },
+    {
+      "type": "console",
+      "text": "App component rendering with advanced performance optimizations"
+    },
+    {
+      "type": "console",
+      "text": "[Preloader] Preloading resources for route: /property/:id"
+    },
+    {
+      "type": "console",
+      "text": "App mounted - initializing performance features"
+    },
+    {
+      "type": "console",
+      "text": "[Preloader] Critical resources preloading initialized"
+    },
+    {
+      "type": "console",
+      "text": "[Preloader] Preloading resources for route: /property/:id"
+    },
+    {
+      "type": "console",
+      "text": "App mounted - initializing performance features"
+    },
+    {
+      "type": "console",
+      "text": "[Preloader] Critical resources preloading initialized"
+    },
+    {
+      "type": "console",
+      "text": "[Performance] LCP: 56.00ms"
+    },
+    {
+      "type": "console",
+      "text": "EnhancedPropertyProfile - params: {city: undefined, address: undefined, folio: 504230050040, county: undefined, urlParcelId: undefined}"
+    },
+    {
+      "type": "console",
+      "text": "EnhancedPropertyProfile - params: {city: undefined, address: undefined, folio: 504230050040, county: undefined, urlParcelId: undefined}"
+    },
+    {
+      "type": "console",
+      "text": "[usePropertyData] Starting fetch with: {addressOrParcelId: 504230050040, city: , county: BROWARD}"
+    },
+    {
+      "type": "console",
+      "text": "[usePropertyData] Processing: {addressOrParcelId: 504230050040, city: , isParcelId: true}"
+    },
+    {
+      "type": "console",
+      "text": "[usePropertyData] Fetching by parcel ID: 504230050040"
+    },
+    {
+      "type": "console",
+      "text": "[usePropertyData] Starting fetch with: {addressOrParcelId: 504230050040, city: , county: BROWARD}"
+    },
+    {
+      "type": "console",
+      "text": "[usePropertyData] Processing: {addressOrParcelId: 504230050040, city: , isParcelId: true}"
+    },
+    {
+      "type": "console",
+      "text": "[usePropertyData] Fetching by parcel ID: 504230050040"
+    },
+    {
+      "type": "screenshot",
+      "url": "http://localhost:5191/property/504230050040",
+      "path": "C:\\Users\\gsima\\Documents\\MyProject\\ConcordBroker\\.claude\\reports\\ui_screens\\screen__property_504230050040.png"
+    }
+  ],
+  "ts": "2025-11-03T15:40:58.342Z"
+}
