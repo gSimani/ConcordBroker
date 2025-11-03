@@ -16,6 +16,8 @@ import { supabase } from '@/lib/supabase';
 
 interface PermitTabProps {
   propertyData: any;
+  sqlAlchemyData?: any;
+  dataServiceHealthy?: boolean;
 }
 
 export const PermitTab: React.FC<PermitTabProps> = ({ propertyData }) => {

@@ -49,6 +49,8 @@ function getBedBathDisplay(bcpaData: any): string {
 
 interface OverviewTabProps {
   data: PropertyData
+  sqlAlchemyData?: any
+  dataServiceHealthy?: boolean
 }
 
 export function OverviewTab({ data }: OverviewTabProps) {

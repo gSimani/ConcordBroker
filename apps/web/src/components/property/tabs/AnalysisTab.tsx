@@ -4,6 +4,8 @@ import { motion } from 'framer-motion'
 
 interface AnalysisTabProps {
   data: PropertyData
+  sqlAlchemyData?: any
+  dataServiceHealthy?: boolean
 }
 
 export function AnalysisTab({ data }: AnalysisTabProps) {

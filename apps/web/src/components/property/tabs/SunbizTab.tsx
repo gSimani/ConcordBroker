@@ -15,6 +15,8 @@ import { supabase } from '@/lib/supabase';
 
 interface SunbizTabProps {
   propertyData: any;
+  sqlAlchemyData?: any;
+  dataServiceHealthy?: boolean;
 }
 
 interface ExpandedSections {
