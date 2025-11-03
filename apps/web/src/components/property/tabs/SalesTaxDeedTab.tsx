@@ -4,11 +4,11 @@ import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { 
+import {
   FileText, Calendar, DollarSign, User, Clock,
   Award, Gavel, Building, MapPin, CheckCircle,
   XCircle, Info, Hash, ExternalLink, Eye,
-  Timer, Activity, BarChart3, Target, Home
+  Timer, Activity, BarChart3, Target, Home, TrendingUp
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 

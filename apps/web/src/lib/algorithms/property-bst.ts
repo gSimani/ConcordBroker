@@ -415,7 +415,7 @@ export class MultiPropertyBST {
       // Filter results
       results = results.filter(r => intersection.has(r.id));
       resultIds.clear();
-      intersection.forEach(id => resultIds.add(id));
+      intersection.forEach(id => resultIds.add(id as string));
     }
 
     return results.map(r => r.data);
