@@ -161,7 +161,7 @@ class RealUserMonitoring {
       const scrollPercent = Math.round((scrollTop + windowHeight) / documentHeight * 100);
       this.maxScrollDepth = Math.max(this.maxScrollDepth, scrollPercent);
       this.metrics.scrollDepth = this.maxScrollDepth;
-    }, 250));
+    }, 250) as EventListener);
 
     // Track visibility changes
     document.addEventListener('visibilitychange', () => {
@@ -332,8 +332,9 @@ class RealUserMonitoring {
       for (const entry of list.getEntries()) {
         const navEntry = entry as PerformanceNavigationTiming;
 
-        this.metrics.domContentLoaded = navEntry.domContentLoadedEventEnd - navEntry.navigationStart;
-        this.metrics.windowLoaded = navEntry.loadEventEnd - navEntry.navigationStart;
+        // Use startTime instead of deprecated navigationStart
+        this.metrics.domContentLoaded = navEntry.domContentLoadedEventEnd - navEntry.startTime;
+        this.metrics.windowLoaded = navEntry.loadEventEnd - navEntry.startTime;
       }
     });
 
@@ -459,8 +460,8 @@ class RealUserMonitoring {
       });
     } catch (error) {
       console.warn('Failed to send single metric:', error);
-      // Add to pending queue for retry
-      this.pendingMetrics.push(payload);
+      // Add to pending queue for retry (cast as any for API payload format)
+      this.pendingMetrics.push(payload as any);
     }
   }
 
@@ -503,8 +504,8 @@ class RealUserMonitoring {
 
     } catch (error) {
       console.warn('Failed to send RUM metrics:', error);
-      // Store for retry
-      this.pendingMetrics.push(payload);
+      // Store for retry (cast as any for API payload format)
+      this.pendingMetrics.push(payload as any);
     }
   }
 
