@@ -191,7 +191,7 @@ export const parcelService = {
     // Filter for properties with foreclosure data
     if (filters.hasForeclosure) {
       // Join with foreclosure_cases table to find properties with foreclosure records
-      query = query.or(
+      query = (query.or as any)(
         'parcel_id.in.(select distinct parcel_id from foreclosure_cases)',
         'parcel_id.in.(select distinct parcel_id from tax_deed_bidding_items where item_status=\'Sold\')'
       )
@@ -200,8 +200,8 @@ export const parcelService = {
     // Filter for properties with tax deed auction data
     if (filters.hasTaxDeed) {
       // Join with tax_deed_bidding_items table to find properties in auctions
-      query = query.in('parcel_id', 
-        // This will be a subquery to find parcel_ids in tax deed auctions
+      // This will be a subquery to find parcel_ids in tax deed auctions
+      query = (query.in as any)('parcel_id',
         'select distinct parcel_id from tax_deed_bidding_items'
       )
     }
@@ -209,7 +209,7 @@ export const parcelService = {
     // Filter for properties with tax lien data
     if (filters.hasTaxLien) {
       // Join with tax_certificates table to find properties with tax liens
-      query = query.or(
+      query = (query.or as any)(
         'parcel_id.in.(select distinct parcel_id from tax_certificates where status!=\'Redeemed\')',
         'parcel_id.in.(select distinct parcel_id from tax_lien_certificates)'
       )
