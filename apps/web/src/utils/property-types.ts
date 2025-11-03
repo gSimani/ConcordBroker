@@ -278,12 +278,13 @@ export function getPropertySubtype(propertyUse: string | null | undefined): stri
  * Used for filtering properties by type
  */
 export function getCodesForPropertyType(propertyType: string): string[] {
-  const typeKey = propertyType.toLowerCase().replace(/\s+/g, '') as keyof typeof PROPERTY_TYPE_CODES;
+  const normalized = propertyType.toLowerCase().replace(/\s+/g, '');
 
   // Handle common variations
-  const normalizedKey = typeKey === 'vacant' ? 'vacantLand' : typeKey;
+  const normalizedKey = normalized === 'vacant' ? 'vacantLand' : normalized;
 
-  return PROPERTY_TYPE_CODES[normalizedKey as keyof typeof PROPERTY_TYPE_CODES] || [];
+  const codes = PROPERTY_TYPE_CODES[normalizedKey as keyof typeof PROPERTY_TYPE_CODES];
+  return codes ? [...codes] : []; // Convert readonly array to mutable array
 }
 
 /**
