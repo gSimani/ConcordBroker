@@ -102,6 +102,7 @@ export const useOptimizedSearch = () => {
       // Skip building index for now since endpoints don't exist
       return;
 
+      /* TODO: Implement when autocomplete endpoints are available
       if (addressResponse.ok) {
         const addressData = await addressResponse.json();
         addressData.addresses?.forEach((addr: string) => {
@@ -123,6 +124,7 @@ export const useOptimizedSearch = () => {
           searchIndex.current.cities.get(key)!.push(city);
         });
       }
+      */
     } catch (error) {
       console.warn('Failed to build search index:', error);
     }
