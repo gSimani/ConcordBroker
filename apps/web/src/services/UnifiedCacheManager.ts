@@ -624,8 +624,8 @@ export class UnifiedCacheManager {
     console.log('[Cache] Performance Report:', report);
 
     // Send to analytics if available
-    if (window.gtag) {
-      window.gtag('event', 'cache_performance', {
+    if ((window as any).gtag) {
+      (window as any).gtag('event', 'cache_performance', {
         hit_rate: this.metrics.hitRate,
         cache_size: this.metrics.cacheSize,
         total_requests: this.metrics.totalRequests
