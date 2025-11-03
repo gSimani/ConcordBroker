@@ -14,8 +14,12 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import {
   Home, TrendingUp, DollarSign, FileText, Users, Building,
   MapPin, Calendar, Calculator, BarChart3, AlertCircle,
-  RefreshCw, Download, Share2, Heart
+  RefreshCw, Download, Share2, Heart, Banknote, Building2,
+  Factory, Church, TreePine, Landmark, Hotel, Store, GraduationCap,
+  Cross, Truck, Utensils, Wrench, Zap
 } from 'lucide-react';
+import { getDorCodeFromPropertyUse, getPropertyUseDescription } from '@/lib/propertyUseToDorCode';
+import { getPropertyIcon, getPropertyIconColor } from '@/lib/dorUseCodes';
 
 interface PropertyCompleteData {
   property: any;
@@ -87,6 +91,7 @@ export default function PropertyCompleteView() {
           bathrooms: apiData.overview.property_details.bathrooms,
           stories: apiData.overview.property_details.stories,
           property_use_code: apiData.overview.property_details.property_type,
+          property_use: apiData.overview.property_details.property_type,  // Same as property_use_code for mapping system
 
           // Valuation data
           just_value: apiData.overview.valuation_summary.just_value,
@@ -207,9 +212,25 @@ export default function PropertyCompleteView() {
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
               {data.summary.address}
             </h1>
-            <p className="text-lg text-gray-600">
+            <p className="text-lg text-gray-600 mb-3">
               Owner: {data.summary.owner}
             </p>
+            {/* Property USE Display */}
+            {data.property?.property_use && (() => {
+              const dorCode = getDorCodeFromPropertyUse(data.property.property_use);
+              const useDescription = getPropertyUseDescription(data.property.property_use);
+              const IconComponent = getPropertyIcon(dorCode);
+              const iconColor = getPropertyIconColor(dorCode);
+              return (
+                <div className="flex items-center gap-3 mt-2">
+                  <IconComponent className={`w-6 h-6 ${iconColor}`} />
+                  <div>
+                    <span className="text-sm text-gray-500">Property Type</span>
+                    <h3 className="text-lg font-semibold text-blue-600">{useDescription}</h3>
+                  </div>
+                </div>
+              );
+            })()}
           </div>
           <div className="flex gap-2">
             <Button

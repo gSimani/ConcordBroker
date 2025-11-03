@@ -679,10 +679,10 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
       data.owner_name || data.own_name,
       getAppraisedValue(data),
       !!(data.phy_addr1 && data.phy_addr1 !== '-'),
-      data.property_use,        // FIXED: Was data.propertyUse (camelCase)
-      data.property_use_desc    // FIXED: Was data.propertyUseDesc (camelCase)
+      data.propertyUse,
+      data.propertyUseDesc
     );
-  }, [data.standardized_property_use, data.dor_uc, data.property_type, data.owner_name, data.own_name, data.phy_addr1, data.property_use, data.property_use_desc, data.jv]);
+  }, [data.standardized_property_use, data.dor_uc, data.property_type, data.owner_name, data.own_name, data.phy_addr1, data.propertyUse, data.propertyUseDesc, data.jv]);
 
   // Destructure the values for use in the component
   const { badge: propertyBadge, category, iconColor, IconComponent, useDescription } = propertyBadgeData;
@@ -970,28 +970,15 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
               </div>
             )}
 
-            {/* Units Count (Multi-Family) */}
-            {(data.units || data.no_res_unts) && (Number(data.units) > 1 || Number(data.no_res_unts) > 1) && (
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-1">
-                  <Building2 className="w-3 h-3" style={{color: '#9b59b6'}} />
-                  <span className="text-xs" style={{color: '#9b59b6'}}>Units</span>
-                </div>
-                <span className="font-semibold text-xs" style={{color: '#2c3e50'}}>
-                  {data.units || data.no_res_unts}
-                </span>
-              </div>
-            )}
-
             {/* Annual Property Tax */}
-            {(data.taxable_value || data.tv_nsd) && (
+            {(data.taxable_value || data.tv_sd) && (
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-1">
                   <Tag className="w-3 h-3" style={{color: '#e67e22'}} />
                   <span className="text-xs" style={{color: '#e67e22'}}>Est. Tax</span>
                 </div>
                 <span className="font-semibold text-xs" style={{color: '#2c3e50'}}>
-                  {formatCurrency(Math.round((Number(data.taxable_value) || Number(data.tv_nsd) || 0) * 0.015))}
+                  {formatCurrency(Math.round((Number(data.taxable_value) || Number(data.tv_sd) || 0) * 0.015))}
                 </span>
               </div>
             )}

@@ -5,17 +5,17 @@ import { Button } from '@/components/ui/button';
 import { getUseCodeName, getUseCodeDescription } from '@/lib/useCodeMapping';
 import {
   MapPin, User, Hash, Building, DollarSign, Calendar,
-  FileText, Home, Calculator, Ruler, Shield, TrendingUp,
+  FileText, Home as HomeIcon, Calculator, Ruler, Shield, TrendingUp,
   ExternalLink, CheckCircle, XCircle, Info, Eye, RefreshCw,
-  Map, Navigation, Globe, Receipt, Search
+  Map, Navigation, Globe, Receipt, Search, Banknote, Building2,
+  Factory, Church, TreePine, Landmark, Hotel, Store, GraduationCap,
+  Cross, Truck, Utensils, Wrench, Zap
 } from 'lucide-react';
-import { createClient } from '@supabase/supabase-js';
+import { getDorCodeFromPropertyUse, getPropertyUseDescription, getPropertyCategory } from '@/lib/propertyUseToDorCode';
+import { buildClerkLink, buildSearchByReferenceUrl } from '@/lib/clerkLinks';
+import { getPropertyIcon, getPropertyIconColor } from '@/lib/dorUseCodes';
+import { supabase } from '@/lib/supabase';
 import { OwnerPropertiesSelector } from '../OwnerPropertiesSelector';
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL || '',
-  import.meta.env.VITE_SUPABASE_ANON_KEY || ''
-);
 
 interface CorePropertyTabProps {
   propertyData: any;
@@ -82,7 +82,9 @@ export const CorePropertyTab: React.FC<CorePropertyTabProps> = ({ propertyData, 
           own_name: fullPropertyData.own_name,
           owner_name: fullPropertyData.own_name,
           dor_uc: fullPropertyData.dor_uc,
+          property_use: fullPropertyData.property_use,  // NEW mapping system field
           property_use_code: fullPropertyData.dor_uc,
+          land_use_code: fullPropertyData.land_use_code,  // PA use code
           lnd_val: fullPropertyData.lnd_val,
           land_value: fullPropertyData.lnd_val,
           building_value: (fullPropertyData.jv || 0) - (fullPropertyData.lnd_val || 0),
@@ -174,12 +176,37 @@ export const CorePropertyTab: React.FC<CorePropertyTabProps> = ({ propertyData, 
           console.error('Error fetching property sales history:', salesError);
         }
 
-        // Format property sales
-        const currentSale = propertySales?.map(sale => ({
+        // Format and filter property sales to match official deed records
+        const rawSales = propertySales || [];
+        // Keep only legitimate property transfers (non-zero, have a date)
+        const filteredSales = rawSales.filter(s => {
+          const price = Number(s.sale_price || s.sale_amt1 || 0);
+          const hasRecordRef = (s.or_book && s.or_page) || s.book || s.page || s.deed_book || s.deed_page || s.doc_no || s.document_no || s.document_number || s.cin;
+          return s.sale_date && !isNaN(price) && price >= 1000 && hasRecordRef;
+        }).map(s => ({
+          ...s,
+          // Normalize common fields
+          sale_qualification: s.sale_qualification || s.quality_code || s.quality || s.clerk_no || 'Q',
+          or_book: s.or_book || s.book || s.orb || s.deed_book,
+          or_page: s.or_page || s.page || s.deed_page,
+          doc_no: s.doc_no || s.document_no || s.document_number,
+        }));
+
+        // Deduplicate by (date, price) to avoid repeated rows
+        const seen = new Set<string>();
+        const dedupedSales = filteredSales.filter(s => {
+          const price = Math.round(Number(s.sale_price));
+          const key = `${s.sale_date}|${price}`;
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        }).sort((a, b) => new Date(b.sale_date as any).getTime() - new Date(a.sale_date as any).getTime());
+
+        const currentSale = dedupedSales.map(sale => ({
           ...sale,
-          property_address: sale.property_address || data.phy_addr1,
+          property_address: sale.property_address || data.phy_addr1 || sale.phy_addr1,
           is_current: true
-        })) || [];
+        }));
 
         // Fetch subdivision sales from property_sales_history
         let subdivisionData = [];
@@ -250,14 +277,15 @@ export const CorePropertyTab: React.FC<CorePropertyTabProps> = ({ propertyData, 
         // - 03/16/2020: $0 (OR 31872-2543) - CITY OF HOMESTEAD ECO REDING ORD
         // - 02/01/1976: $20,000
 
-        // Sort by date
+        // Sort by date, newest first
         allSales.sort((a, b) => {
           const dateA = new Date(a.sale_date || '1900-01-01');
           const dateB = new Date(b.sale_date || '1900-01-01');
           return dateB.getTime() - dateA.getTime();
         });
 
-        setSalesHistory(allSales);
+        // Main table should show only this property's sales
+        setSalesHistory(currentSale);
 
         // Set subdivision sales separately for the search subdivision sales section
         setSubdivisionSales(subdivisionData);
@@ -310,6 +338,74 @@ export const CorePropertyTab: React.FC<CorePropertyTabProps> = ({ propertyData, 
         />
       )}
 
+      {/* Property Classification Section - NEW */}
+      {data?.property_use && (() => {
+        const dorCode = getDorCodeFromPropertyUse(data.property_use);
+        const useDescription = getPropertyUseDescription(data.property_use);
+        const useCategory = getPropertyCategory(data.property_use);
+        const IconComponent = getPropertyIcon(dorCode);
+        const iconColor = getPropertyIconColor(dorCode);
+
+        return (
+          <Card className="elegant-card">
+            <div className="p-6">
+              <div className="bg-white rounded-lg px-4 py-3 mb-4 border-l-4 border-blue-500">
+                <h3 className="text-xl font-bold text-navy flex items-center">
+                  <IconComponent className={`w-6 h-6 mr-3 ${iconColor}`} />
+                  Property Classification
+                </h3>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Primary Use */}
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 mb-3">
+                    <IconComponent className={`w-5 h-5 ${iconColor}`} />
+                    <span className="text-sm text-gray-500 uppercase tracking-wide">Primary Use</span>
+                  </div>
+                  <div className="pl-7">
+                    <p className="text-2xl font-light text-navy">{useDescription}</p>
+                    <Badge className="mt-2 badge-elegant">
+                      {useCategory}
+                    </Badge>
+                  </div>
+                </div>
+
+                {/* DOR Code */}
+                <div className="space-y-2">
+                  <span className="text-sm text-gray-500 uppercase tracking-wide block mb-3">DOR Use Code</span>
+                  <div>
+                    <p className="text-lg font-semibold text-navy font-mono">{dorCode}</p>
+                    <p className="text-sm text-gray-600 mt-1">Department of Revenue Classification</p>
+                  </div>
+                </div>
+
+                {/* Category */}
+                <div className="space-y-2">
+                  <span className="text-sm text-gray-500 uppercase tracking-wide block mb-3">Property Category</span>
+                  <div>
+                    <Badge variant="outline" className="text-base px-3 py-1">
+                      {useCategory}
+                    </Badge>
+                  </div>
+                </div>
+
+                {/* Land Use Code */}
+                {data?.land_use_code && (
+                  <div className="space-y-2">
+                    <span className="text-sm text-gray-500 uppercase tracking-wide block mb-3">Land Use Code</span>
+                    <div>
+                      <p className="text-lg font-semibold text-navy font-mono">{data.land_use_code}</p>
+                      <p className="text-sm text-gray-600 mt-1">Property Appraiser Code</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </Card>
+        );
+      })()}
+
       {/* Property Assessment Values Section */}
       <Card className="elegant-card">
         <div className="p-6">
@@ -328,21 +424,21 @@ export const CorePropertyTab: React.FC<CorePropertyTabProps> = ({ propertyData, 
               <div className="flex justify-between items-start border-b border-gray-100 pb-2">
                 <span className="text-base text-gray-600">Folio</span>
                 <span className="text-base font-semibold text-navy font-mono">
-                  {bcpaData?.parcel_id || 'N/A'}
+                  {bcpaData?.parcel_id || '-'}
                 </span>
               </div>
 
               <div className="flex justify-between items-start border-b border-gray-100 pb-2">
                 <span className="text-base text-gray-600">Sub-Division</span>
                 <span className="text-base font-semibold text-navy">
-                  {bcpaData?.subdivision || 'N/A'}
+                  {bcpaData?.subdivision || '-'}
                 </span>
               </div>
 
               <div className="flex justify-between items-start border-b border-gray-100 pb-2">
                 <span className="text-base text-gray-600">Property Address</span>
                 <span className="text-base font-semibold text-navy text-right">
-                  {bcpaData?.phy_addr1 || bcpaData?.property_address || 'N/A'}<br/>
+                  {bcpaData?.phy_addr1 || bcpaData?.property_address || '-'}<br/>
                   {bcpaData?.phy_city &&
                     `${bcpaData.phy_city}, FL ${bcpaData.phy_zipcd || ''}`}
                 </span>
@@ -351,7 +447,7 @@ export const CorePropertyTab: React.FC<CorePropertyTabProps> = ({ propertyData, 
               <div className="flex justify-between items-start border-b border-gray-100 pb-2">
                 <span className="text-base text-gray-600">Owner</span>
                 <span className="text-base font-semibold text-navy text-right">
-                  {bcpaData?.owner_name || 'N/A'}
+                  {bcpaData?.owner_name || '-'}
                 </span>
               </div>
 
@@ -365,7 +461,7 @@ export const CorePropertyTab: React.FC<CorePropertyTabProps> = ({ propertyData, 
                       {bcpaData?.owner_city &&
                         `${bcpaData.owner_city}, ${bcpaData.owner_state || 'FL'} ${bcpaData.owner_zip || ''}`}
                     </>
-                  ) : 'N/A'}
+                  ) : '-'}
                 </span>
               </div>
             </div>
@@ -497,7 +593,7 @@ export const CorePropertyTab: React.FC<CorePropertyTabProps> = ({ propertyData, 
         <div className="p-6">
           <div className="bg-white rounded-lg px-4 py-3 mb-4 border-l-4 border-gold">
             <h3 className="text-xl font-bold text-navy flex items-center">
-              <Home className="w-6 h-6 mr-3 text-gold" />
+              <HomeIcon className="w-6 h-6 mr-3 text-gold" />
               Building Information
             </h3>
           </div>
@@ -927,48 +1023,37 @@ export const CorePropertyTab: React.FC<CorePropertyTabProps> = ({ propertyData, 
                           </td>
                           <td className="py-3 px-4 text-sm text-center">
                             {(() => {
-                              // Generate book/page link based on county
-                              const county = (propertyData?.county || 'DADE').toUpperCase();
-                              const bookPage = sale.or_book && sale.or_page ?
-                                `${sale.or_book}/${sale.or_page}` :
-                                sale.book_page;
-                              const docNo = sale.doc_no || sale.cin;
-
-                              if (bookPage || docNo) {
-                                let url = '';
-                                let linkText = bookPage || docNo;
-
-                                // Different counties have different clerk systems - use general search pages
-                                if (county === 'DADE' || county === 'MIAMI-DADE') {
-                                  url = 'https://onlineservices.miamidadeclerk.gov/officialrecords/';
-                                } else if (county === 'BROWARD') {
-                                  url = 'https://officialrecords.broward.org/AcclaimWeb/search/SearchTypeName';
-                                } else if (county === 'PALM BEACH') {
-                                  url = 'https://www.mypalmbeachclerk.com/official-records';
-                                } else {
-                                  // For other counties, don't create a link
-                                  return (
-                                    <span className="font-mono text-xs text-gray-700">
-                                      {linkText}
-                                    </span>
-                                  );
-                                }
-
+                              const county = (propertyData?.county || data?.county || '').toUpperCase();
+                              const { url, text, isDeep } = buildClerkLink(county, sale);
+                              const searchUrl = buildSearchByReferenceUrl(county, text);
+                              if (url) {
                                 return (
-                                  <a
-                                    href={url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors font-mono text-xs"
-                                    title={`Search for ${linkText} in county records`}
-                                  >
-                                    <ExternalLink className="w-3 h-3 mr-1" />
-                                    {linkText}
-                                  </a>
+                                  <div className="flex items-center justify-center gap-2">
+                                    <a
+                                      href={url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center text-navy hover:underline font-mono text-xs"
+                                      title={`Open ${county} official records portal`}
+                                    >
+                                      <ExternalLink className="w-3 h-3 mr-1" />
+                                      {text}
+                                    </a>
+                                    {!isDeep && searchUrl && text !== '-' && (
+                                      <a
+                                        href={searchUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center text-gray-500 hover:text-navy font-mono text-[10px]"
+                                        title={`Search portal for ${text}`}
+                                      >
+                                        Search
+                                      </a>
+                                    )}
+                                  </div>
                                 );
                               }
-
-                              return <span className="text-gray-400">-</span>;
+                              return <span className="font-mono text-xs text-gray-700">{text}</span>;
                             })()}
                             {sale.is_demo && (
                               <Badge variant="outline" className="ml-2 text-xs bg-yellow-100 text-yellow-800 border-yellow-300">Demo</Badge>

@@ -345,7 +345,6 @@ export function FastPropertySearch() {
                   lnd_sqfoot: property.landSqFt,
                   act_yr_blt: property.yearBuilt,
                   dor_uc: property.propertyUse,
-                  property_use: property.propertyUse,
                   propertyType: property.propertyType,
                   propertyUseDesc: property.propertyUseDesc,
                   sale_prc1: property.lastSalePrice,
@@ -353,9 +352,6 @@ export function FastPropertySearch() {
                   sale_date: property.lastSaleDate,
                   assessed_value: property.assessedValue,
                   taxable_value: property.taxableValue,
-                  bedrooms: property.bedrooms,
-                  bathrooms: property.bathrooms,
-                  co_no: property.county,
                   owner_addr1: property.ownerAddress,
                   // Investment indicators
                   investmentScore: property.investmentScore,

@@ -65,7 +65,7 @@ const PropertyDetailPage = lazy(() => import('@/pages/properties/[...slug]'))
 const EnhancedPropertyProfile = lazy(() => import('@/pages/property/EnhancedPropertyProfile'))
 // Removed: SimplePropertyPage - consolidated into PropertyDetail
 const TaxDeedSales = lazy(() => import('@/pages/TaxDeedSales'))
-const PerformanceTest = lazy(() => import('@/pages/PerformanceTest'))
+const PerformanceTest = lazy(() => import('@/pages/PerformanceTest').then(m => ({ default: m.PerformanceTest })))
 
 // Admin Pages - lazy loaded
 const Gate14 = lazy(() => import('@/pages/Gate14'))

@@ -40,11 +40,12 @@ import {
   BarChart3,
   LineChart,
   PieChart,
-  Cpu
+  Cpu,
+  WifiOff
 } from 'lucide-react';
 import {
   ResponsiveContainer,
-  LineChart,
+  LineChart as RechartsLineChart,
   Line,
   AreaChart,
   Area,
@@ -474,7 +475,7 @@ export const RealtimeMonitoringDashboard: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={chartData}>
+                  <RechartsLineChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis
                       dataKey="timestamp"
@@ -493,7 +494,7 @@ export const RealtimeMonitoringDashboard: React.FC = () => {
                       dot={false}
                     />
                     <ReferenceLine y={500} stroke="red" strokeDasharray="5 5" />
-                  </LineChart>
+                  </RechartsLineChart>
                 </ResponsiveContainer>
               </CardContent>
             </Card>
@@ -655,7 +656,7 @@ export const RealtimeMonitoringDashboard: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={chartData}>
+                  <RechartsLineChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis
                       dataKey="timestamp"
@@ -675,7 +676,7 @@ export const RealtimeMonitoringDashboard: React.FC = () => {
                       stroke="#00ff00"
                       name="Cache Hit Rate %"
                     />
-                  </LineChart>
+                  </RechartsLineChart>
                 </ResponsiveContainer>
               </CardContent>
             </Card>
@@ -744,7 +745,7 @@ export const RealtimeMonitoringDashboard: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={chartData}>
+                  <RechartsLineChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis
                       dataKey="timestamp"
@@ -755,7 +756,7 @@ export const RealtimeMonitoringDashboard: React.FC = () => {
                     <Line type="monotone" dataKey="cpu" stroke="#8884d8" name="CPU %" />
                     <Line type="monotone" dataKey="memory" stroke="#82ca9d" name="Memory %" />
                     <Line type="monotone" dataKey="disk" stroke="#ffc658" name="Disk %" />
-                  </LineChart>
+                  </RechartsLineChart>
                 </ResponsiveContainer>
               </CardContent>
             </Card>
@@ -835,7 +836,7 @@ export const RealtimeMonitoringDashboard: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={chartData}>
+                  <RechartsLineChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis
                       dataKey="timestamp"
@@ -846,7 +847,7 @@ export const RealtimeMonitoringDashboard: React.FC = () => {
                     <Line type="monotone" dataKey="lcp" stroke="#8884d8" name="LCP (ms)" />
                     <Line type="monotone" dataKey="fid" stroke="#82ca9d" name="FID (ms)" />
                     <Line type="monotone" dataKey="ttfb" stroke="#ffc658" name="TTFB (ms)" />
-                  </LineChart>
+                  </RechartsLineChart>
                 </ResponsiveContainer>
               </CardContent>
             </Card>
@@ -913,7 +914,7 @@ export const RealtimeMonitoringDashboard: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={chartData}>
+                  <RechartsLineChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis
                       dataKey="timestamp"
@@ -924,7 +925,7 @@ export const RealtimeMonitoringDashboard: React.FC = () => {
                     <Line type="monotone" dataKey="conversionRate" stroke="#8884d8" name="Conversion Rate %" />
                     <Line type="monotone" dataKey="searchSuccessRate" stroke="#82ca9d" name="Search Success %" />
                     <Line type="monotone" dataKey="userEngagement" stroke="#ffc658" name="User Engagement" />
-                  </LineChart>
+                  </RechartsLineChart>
                 </ResponsiveContainer>
               </CardContent>
             </Card>

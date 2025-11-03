@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { VariableSizeList as List } from 'react-window';
-import InfiniteLoader from 'react-window-infinite-loader';
-import AutoSizer from 'react-virtualized-auto-sizer';
+import { FixedSizeList as List } from 'react-window';
+import { InfiniteLoader } from 'react-window-infinite-loader';
 import { debounce } from 'lodash';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -9,8 +8,17 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Search, Filter, Home, MapPin, DollarSign, Calendar, TrendingUp, Building } from 'lucide-react';
-import { formatCurrency, formatNumber } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+// Helper functions for formatting
+const formatCurrency = (value: number): string => {
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(value);
+};
+
+const formatNumber = (value: number): string => {
+  return new Intl.NumberFormat('en-US').format(value);
+};
 
 interface Property {
   id: string;
@@ -309,31 +317,27 @@ export const OptimizedPropertyList: React.FC = () => {
       </div>
 
       {/* Virtualized Property List */}
-      <div className="flex-1">
-        <AutoSizer>
-          {({ height, width }) => (
-            <InfiniteLoader
-              ref={infiniteLoaderRef}
-              isItemLoaded={isItemLoaded}
+      <div className="flex-1" style={{ height: '600px', width: '100%' }}>
+        <InfiniteLoader
+          ref={infiniteLoaderRef}
+          isItemLoaded={isItemLoaded}
+          itemCount={hasMore ? properties.length + 1 : properties.length}
+          loadMoreItems={loadMoreItems}
+        >
+          {({ onItemsRendered, ref }) => (
+            <List
+              ref={ref}
+              height={600}
               itemCount={hasMore ? properties.length + 1 : properties.length}
-              loadMoreItems={loadMoreItems}
+              itemSize={ITEM_HEIGHT}
+              width="100%"
+              onItemsRendered={onItemsRendered}
+              overscanCount={BUFFER_SIZE}
             >
-              {({ onItemsRendered, ref }) => (
-                <List
-                  ref={ref}
-                  height={height}
-                  itemCount={hasMore ? properties.length + 1 : properties.length}
-                  itemSize={() => ITEM_HEIGHT}
-                  width={width}
-                  onItemsRendered={onItemsRendered}
-                  overscanCount={BUFFER_SIZE}
-                >
-                  {Row}
-                </List>
-              )}
-            </InfiniteLoader>
+              {Row}
+            </List>
           )}
-        </AutoSizer>
+        </InfiniteLoader>
       </div>
     </div>
   );
