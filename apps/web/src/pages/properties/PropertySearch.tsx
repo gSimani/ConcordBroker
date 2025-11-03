@@ -94,28 +94,96 @@ interface SearchFilters {
 }
 
 interface Property {
+  // Primary identifiers
   parcel_id: string;
   id?: string;
   property_id?: string;
+
+  // Address fields (multiple naming conventions)
   address?: string;
   phy_addr1?: string;
   phy_addr2?: string;
   property_address?: string;
+
+  // City fields
   city?: string;
   phy_city?: string;
   property_city?: string;
+
+  // Zip code fields
   zipCode?: string;
   phy_zipcd?: string;
   property_zip?: string;
+
+  // Owner fields
   owner?: string;
   own_name?: string;
   owner_name?: string;
+  ownerAddress?: string;
+  owner_addr1?: string;
+
+  // Location
   county?: string;
   year?: number;
+
+  // Value fields (multiple naming conventions)
   just_value?: number;
+  justValue?: number;
+  jv?: number;
+  marketValue?: number;
   land_value?: number;
+  landValue?: number;
+  lnd_val?: number;
   building_value?: number;
+  taxableValue?: number;
+  tv_sd?: number;
+  taxable_value?: number;
+
+  // Square footage fields
+  buildingSqFt?: number;
+  tot_lvg_area?: number;
+  living_area?: number;
+  landSqFt?: number;
+  lnd_sqfoot?: number;
+  total_sq_ft?: number;
+  lot_size?: number;
+
+  // Year built fields
+  yearBuilt?: number;
+  act_yr_blt?: number;
+  year_built?: number;
+
+  // Property use/type fields
+  propertyUse?: string;
+  property_use?: string;
+  property_use_code?: string;
+  use_code?: string;
+  propertyType?: string;
+  property_type?: string;
   dor_uc?: string;
+
+  // Sales fields
+  lastSalePrice?: number;
+  sale_prc1?: number;
+  lastSaleDate?: string;
+  sale_yr1?: number;
+  sale_date?: string;
+
+  // Tax fields
+  tax_amount?: number;
+  taxAmount?: number;
+
+  // Assessment fields
+  assessedValue?: number;
+  assessed_value?: number;
+
+  // Property details
+  bedrooms?: number;
+  bathrooms?: number;
+  stories?: number;
+  pool?: boolean;
+
+  // Other
   strap?: string;
 }
 
