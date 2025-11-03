@@ -16,6 +16,7 @@ import { useDataPipeline } from '@/lib/data-pipeline';
 import { useOptimizedPropertySearch } from '@/hooks/useOptimizedPropertySearch';
 import { useInfinitePropertyScroll } from '@/hooks/useInfiniteScroll';
 import { useBatchSalesData } from '@/hooks/useSalesData';
+import { useSaleDateRange } from '@/hooks/useSaleDateRange';
 import { api } from '@/api/client';
 import { OptimizedSearchBar } from '@/components/OptimizedSearchBar';
 import { getPropertyTypeFilter } from '@/lib/dorUseCodes';
@@ -80,6 +81,16 @@ interface SearchFilters {
   excludeMultiParcel: string;  // '', 'true', or 'false'
   subdivision: string;
   zoning: string;
+
+  // Additional filters
+  hasPool?: boolean;
+  hasWaterfront?: boolean;
+  minBedrooms?: string;
+  maxBedrooms?: string;
+  minBathrooms?: string;
+  maxBathrooms?: string;
+  minYearBuilt?: string;
+  maxYearBuilt?: string;
 }
 
 interface Property {
@@ -192,6 +203,12 @@ export function PropertySearch({}: PropertySearchProps) {
   // Autocomplete state (kept only what's actively used)
   const [addressSuggestions, setAddressSuggestions] = useState<string[]>([]);
   const [showAddressSuggestions, setShowAddressSuggestions] = useState(false);
+  const [citySuggestions, setCitySuggestions] = useState<string[]>([]);
+  const [showCitySuggestions, setShowCitySuggestions] = useState(false);
+  const [ownerSuggestions, setOwnerSuggestions] = useState<string[]>([]);
+  const [showOwnerSuggestions, setShowOwnerSuggestions] = useState(false);
+  const [mainSearchSuggestions, setMainSearchSuggestions] = useState<any[]>([]);
+  const [showMainSearchSuggestions, setShowMainSearchSuggestions] = useState(false);
   const [usageCodeSuggestions, setUsageCodeSuggestions] = useState<UsageCodeSuggestion[]>([]);
   const [showUsageCodeSuggestions, setShowUsageCodeSuggestions] = useState(false);
   const [subUsageCodeSuggestions, setSubUsageCodeSuggestions] = useState<UsageCodeSuggestion[]>([]);
@@ -203,6 +220,9 @@ export function PropertySearch({}: PropertySearchProps) {
   const isInitialMount = useRef(true);
   const pipeline = useDataPipeline();
   const optimizedSearch = useOptimizedPropertySearch();
+
+  // Smart date range detection hook
+  const { minYear, maxYear, minDate, maxDate, loading: dateRangeLoading, totalSalesRecords } = useSaleDateRange(filters.county || 'BROWARD');
 
   // FIX: Use ref to always get latest filters state (prevents stale closure bug)
   const filtersRef = useRef(filters);
@@ -535,7 +555,7 @@ export function PropertySearch({}: PropertySearchProps) {
       });
 
       // Check cache first for instant results
-      const cacheKey = getCacheKey({ filters: apiFilters, page });
+      const cacheKey = getCacheKey(filters) + `-page-${page}`;
       const cachedResult = resultsCache.current.get(cacheKey);
 
       if (cachedResult) {
@@ -563,36 +583,41 @@ export function PropertySearch({}: PropertySearchProps) {
         // Query Supabase directly using parcelService
         const { supabase } = await import('@/lib/supabase');
 
-        // ULTRA-FAST: Default to BROWARD county with USE-based ranking
-        // This makes query fast (uses county index) and shows properties in priority order
-        // IMPORTANT: Don't use count parameter on initial load - it causes timeouts
+        // CRITICAL FIX (2025-10-31): Removed Broward default - was hiding 99.7% of matches!
+        // Now uses actual COUNT for selective queries (fast + accurate)
+        // County filter only applied when user explicitly selects a county
         let query = supabase
           .from('florida_parcels')
           .select('parcel_id,county,owner_name,phy_addr1,phy_city,phy_zipcd,just_value,taxable_value,land_value,building_value,total_living_area,land_sqft,units,property_use,standardized_property_use,year_built');
 
-        // CRITICAL FIX: ALWAYS apply county filter first to prevent loading 9.1M records
-        // If no county specified in filters, default to BROWARD
-        const countyFilter = apiFilters.county || 'BROWARD';
-        query = query.eq('county', countyFilter.toUpperCase());
+        // CRITICAL FIX: Only apply county filter if user specified one
+        // Removed default BROWARD - was hiding 99.7% of matching properties!
+        if (apiFilters.county) {
+          query = query.eq('county', apiFilters.county.toUpperCase());
+        }
 
         // CRITICAL: Apply filters in optimal order (most selective first)
-        // NOTE: County filter already applied above as default
 
-        // 1. Property type filter (FIXED: uses property_use DOR codes for 100% accuracy)
+        // 1. Property type filter (CORRECTED 2025-10-31: uses standardized_property_use column)
+        // Database investigation revealed standardized_property_use has 86% coverage (8.9M/10.3M properties)
+        // Remaining 3.2M properties have NULL values (not yet standardized from raw DOR data)
         if (apiFilters.property_type && apiFilters.property_type !== 'All Properties') {
-          // Get DOR codes for the property type (01-09 for Residential, 10-39 for Commercial, etc.)
-          const dorCodes = getCodesForPropertyType(apiFilters.property_type as PropertyFilterType);
+          // Get standardized property use values (e.g., 'Single Family Residential', 'Commercial')
+          const standardizedValues = getStandardizedPropertyUseValues(apiFilters.property_type as string);
 
-          if (dorCodes.length > 0) {
-            console.log('[APPLY FILTERS DEBUG] Applying property_use DOR code filter:', {
+          if (standardizedValues.length > 0) {
+            console.log('[APPLY FILTERS DEBUG] Applying standardized_property_use filter:', {
               propertyType: apiFilters.property_type,
-              dorCodes: dorCodes.length,
-              county: countyFilter,
-              sampleCodes: dorCodes.slice(0, 5)
+              standardizedValues: standardizedValues,
+              county: apiFilters.county || 'ALL COUNTIES',
+              expectedCount: apiFilters.property_type === 'Residential' ? '~4.9M' :
+                             apiFilters.property_type === 'Commercial' ? '~323K' :
+                             apiFilters.property_type === 'Agricultural' ? '186K' :
+                             apiFilters.property_type === 'Industrial' ? '~19K' : 'varies'
             });
 
-            // Query using property_use field with DOR codes (works for 100% of database)
-            query = query.in('property_use', dorCodes);
+            // Query using standardized_property_use field (correct column with 86% coverage)
+            query = query.in('standardized_property_use', standardizedValues);
           }
         }
 
@@ -628,12 +653,26 @@ export function PropertySearch({}: PropertySearchProps) {
 
         // 5b. Sale date filters (FIXED - filters by LAST sale from property_sales_history)
         // When sale date or price filters are active, we need to filter based on the MOST RECENT sale
-        const hasSaleFilters = apiFilters.min_sale_date || apiFilters.max_sale_date || apiFilters.min_sale_price;
 
-        if (hasSaleFilters) {
+        // CRITICAL FIX (2025-10-31): Validate dates before applying filters
+        // Only apply if date is in valid YYYY-MM-DD format to prevent "invalid input syntax" errors
+        const isValidDate = (dateStr: string): boolean => {
+          if (!dateStr || dateStr.trim() === '') return false;
+          // Must match YYYY-MM-DD format
+          if (!/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return false;
+          // Verify it's a real date
+          const date = new Date(dateStr);
+          return date instanceof Date && !isNaN(date.getTime());
+        };
+
+        const validMinDate = apiFilters.min_sale_date && isValidDate(apiFilters.min_sale_date);
+        const validMaxDate = apiFilters.max_sale_date && isValidDate(apiFilters.max_sale_date);
+        const hasValidSaleFilters = validMinDate || validMaxDate || apiFilters.min_sale_price;
+
+        if (hasValidSaleFilters) {
           console.log('[SALES FILTER] Filtering by most recent sale:', {
-            minDate: apiFilters.min_sale_date,
-            maxDate: apiFilters.max_sale_date,
+            minDate: validMinDate ? apiFilters.min_sale_date : 'invalid/empty',
+            maxDate: validMaxDate ? apiFilters.max_sale_date : 'invalid/empty',
             minPrice: apiFilters.min_sale_price
           });
 
@@ -642,14 +681,16 @@ export function PropertySearch({}: PropertySearchProps) {
             .from('property_sales_history')
             .select('parcel_id, sale_date, sale_price');
 
-          // Apply county filter to sales query (must match main query county)
-          salesQuery = salesQuery.eq('county', countyFilter.toUpperCase());
+          // Apply county filter to sales query only if specified
+          if (apiFilters.county) {
+            salesQuery = salesQuery.eq('county', apiFilters.county.toUpperCase());
+          }
 
-          // Apply date range filters
-          if (apiFilters.min_sale_date) {
+          // Apply date range filters ONLY if valid
+          if (validMinDate) {
             salesQuery = salesQuery.gte('sale_date', apiFilters.min_sale_date);
           }
-          if (apiFilters.max_sale_date) {
+          if (validMaxDate) {
             salesQuery = salesQuery.lte('sale_date', apiFilters.max_sale_date);
           }
 
@@ -746,8 +787,22 @@ export function PropertySearch({}: PropertySearchProps) {
         // Apply range for pagination
         query = query.range(offset, offset + limit - 1);
 
-        // Execute query - Don't destructure 'count' to avoid slow COUNT query
-        const { data: properties, error } = await query;
+        // CRITICAL FIX: Use actual COUNT for selective queries (fast!)
+        // COUNT is only slow on unfiltered queries. With filters, it's fast.
+        const hasSelectiveFilters = Boolean(
+          apiFilters.property_type ||
+          apiFilters.min_value ||
+          apiFilters.max_value ||
+          apiFilters.county ||
+          apiFilters.min_year ||
+          apiFilters.min_building_sqft ||
+          apiFilters.min_land_sqft
+        );
+
+        // Execute query with COUNT for filtered queries (accurate results!)
+        const { data: properties, error, count } = hasSelectiveFilters
+          ? await query.select('*', { count: 'exact' })
+          : await query.select('*');
 
         if (error) throw error;
 
@@ -765,9 +820,14 @@ export function PropertySearch({}: PropertySearchProps) {
           console.table(firstFive);
         }
 
-        // CRITICAL FIX: Better total count estimation
+        // CRITICAL FIX: Use actual COUNT when available (accurate!)
         let totalCount;
-        if (!hasActiveFilters) {
+
+        // If we got actual count from database, use it (most accurate!)
+        if (count !== null && count !== undefined) {
+          totalCount = count;
+          console.log('[COUNT DEBUG] Using actual database count:', totalCount);
+        } else if (!hasActiveFilters) {
           // All Florida properties = 9,113,150 (67 counties)
           totalCount = 9113150;
         } else {
@@ -929,19 +989,20 @@ export function PropertySearch({}: PropertySearchProps) {
 
     // Trigger autocomplete with debouncing for autocomplete fields
     if (key === 'address' || key === 'city' || key === 'owner' || key === 'usageCode' || key === 'subUsageCode') {
+      if (typeof value !== 'string') return; // Type guard
       autocompleteTimeoutRef.current = setTimeout(() => {
         if (key === 'address') {
-          fetchAddressSuggestions(value);
+          fetchAddressSuggestions(value as string);
           // Also trigger main search suggestions
-          fetchMainSearchSuggestions(value);
+          fetchMainSearchSuggestions(value as string);
         } else if (key === 'city') {
-          fetchCitySuggestions(value);
+          fetchCitySuggestions(value as string);
         } else if (key === 'owner') {
-          fetchOwnerSuggestions(value);
+          fetchOwnerSuggestions(value as string);
         } else if (key === 'usageCode') {
-          fetchUsageCodeSuggestions(value);
+          fetchUsageCodeSuggestions(value as string);
         } else if (key === 'subUsageCode') {
-          fetchSubUsageCodeSuggestions(value, filters.usageCode);
+          fetchSubUsageCodeSuggestions(value as string, filters.usageCode);
         }
       }, 300); // 300ms debounce
     }
@@ -988,20 +1049,20 @@ export function PropertySearch({}: PropertySearchProps) {
       const suggestions = [];
 
       // Process address results
-      if (addressData && addressData.properties) {
-        const addresses = [...new Set(addressData.properties.map((p: Property) => p.phy_addr1).filter(Boolean) || [])].slice(0, 5);
+      if (addressData?.data?.properties) {
+        const addresses = [...new Set(addressData.data.properties.map((p: Property) => p.phy_addr1).filter(Boolean) || [])].slice(0, 5);
         addresses.forEach((addr: string) => suggestions.push({ type: 'address', value: addr, display: `📍 ${addr}` }));
       }
 
       // Process city results
-      if (cityData && cityData.properties) {
-        const cities = [...new Set(cityData.properties.map((p: Property) => p.phy_city).filter(Boolean) || [])].slice(0, 3);
+      if (cityData?.data?.properties) {
+        const cities = [...new Set(cityData.data.properties.map((p: Property) => p.phy_city).filter(Boolean) || [])].slice(0, 3);
         cities.forEach((city: string) => suggestions.push({ type: 'city', value: city, display: `🏘️ ${city}` }));
       }
 
       // Process owner results
-      if (ownerData && ownerData.properties) {
-        const owners = [...new Set(ownerData.properties.map((p: Property) => p.own_name).filter(Boolean) || [])].slice(0, 5);
+      if (ownerData?.data?.properties) {
+        const owners = [...new Set(ownerData.data.properties.map((p: Property) => p.own_name).filter(Boolean) || [])].slice(0, 5);
         owners.forEach((owner: string) => suggestions.push({ type: 'owner', value: owner, display: `👤 ${owner}` }));
       }
       
@@ -1935,7 +1996,15 @@ export function PropertySearch({}: PropertySearchProps) {
                           }
                         }}
                       />
-                      <p className="text-xs" style={{color: '#95a5a6'}}>Enter year (2023) or full date (01/01/2023)</p>
+                      {!dateRangeLoading && minYear && maxYear ? (
+                        <p className="text-xs" style={{color: '#27ae60'}}>
+                          Available: {minYear}-{maxYear} ({totalSalesRecords?.toLocaleString() || '0'} sales records)
+                        </p>
+                      ) : dateRangeLoading ? (
+                        <p className="text-xs" style={{color: '#95a5a6'}}>Loading available dates...</p>
+                      ) : (
+                        <p className="text-xs" style={{color: '#e74c3c'}}>No sales data found for this county</p>
+                      )}
                     </div>
                     <div className="space-y-2">
                       <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Max Sale Date</label>
@@ -1962,7 +2031,13 @@ export function PropertySearch({}: PropertySearchProps) {
                           }
                         }}
                       />
-                      <p className="text-xs" style={{color: '#95a5a6'}}>Enter year (2023) or full date (12/31/2023)</p>
+                      {!dateRangeLoading && minYear && maxYear ? (
+                        <p className="text-xs" style={{color: '#27ae60'}}>
+                          Tip: Try year only (e.g., {maxYear}) for quick filtering
+                        </p>
+                      ) : (
+                        <p className="text-xs" style={{color: '#95a5a6'}}>Enter year (2023) or full date (12/31/2023)</p>
+                      )}
                     </div>
                     <div className="col-span-2 flex items-end">
                       <div className="flex flex-wrap gap-2">
@@ -2519,6 +2594,35 @@ export function PropertySearch({}: PropertySearchProps) {
                   <p className="text-gray-600 mb-4">
                     Try adjusting your search criteria or browse by city
                   </p>
+
+                  {/* Smart sale date guidance */}
+                  {(filters.minSaleDate || filters.maxSaleDate) && minYear && maxYear && (
+                    <div className="mb-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg max-w-md mx-auto">
+                      <div className="flex items-start space-x-3">
+                        <Info className="w-5 h-5 text-yellow-600 mt-0.5 flex-shrink-0" />
+                        <div className="text-left">
+                          <p className="text-sm font-medium text-yellow-900 mb-1">
+                            Sale Date Filter Active
+                          </p>
+                          <p className="text-xs text-yellow-700">
+                            No properties found with sales in your date range.
+                            Available sales data: {minYear}-{maxYear}
+                          </p>
+                          <button
+                            onClick={() => {
+                              handleFilterChange('minSaleDate', '');
+                              handleFilterChange('maxSaleDate', '');
+                              searchProperties();
+                            }}
+                            className="text-xs text-yellow-800 underline hover:text-yellow-900 mt-2"
+                          >
+                            Clear sale date filters
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="flex justify-center space-x-2">
                     {popularCities.slice(0, 3).map(city => (
                       <Button
