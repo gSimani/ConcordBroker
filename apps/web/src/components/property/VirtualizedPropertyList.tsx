@@ -139,7 +139,7 @@ export const VirtualizedPropertyList = memo<VirtualizedPropertyListProps>(({
           <div key={property.parcel_id} className="flex-1">
             <MiniPropertyCard
               parcelId={property.parcel_id}
-              data={property}
+              data={property as any}
               onClick={() => onPropertyClick(property)}
               variant="grid"
               isSelected={selectedProperties?.has(property.parcel_id)}
@@ -196,7 +196,7 @@ export const VirtualizedPropertyList = memo<VirtualizedPropertyListProps>(({
       >
         <MiniPropertyCard
           parcelId={property.parcel_id}
-          data={property}
+          data={property as any}
           onClick={() => onPropertyClick(property)}
           variant="list"
           isSelected={selectedProperties?.has(property.parcel_id)}
