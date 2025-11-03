@@ -165,7 +165,7 @@ export const ServiceWorkerManager = memo(function ServiceWorkerManager() {
               size: Object.values(stats).reduce((a: number, b: number) => a + b, 0),
               hitRate: 0, // This would need to be tracked separately
             },
-          }));
+          } as ServiceWorkerState));
         } catch (error) {
           // Silently fail - cache stats are optional
           console.debug('[SW Manager] Cache stats not available:', error.message);

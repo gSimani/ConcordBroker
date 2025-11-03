@@ -90,7 +90,7 @@ export default function ParcelMonitor() {
       if (historyData) setUpdateHistory(historyData)
 
       // Fetch statistics
-      const { data: parcelsCount } = await supabase
+      const { count: parcelsCount } = await supabase
         .from('florida_parcels')
         .select('county', { count: 'exact', head: true })
 
@@ -99,7 +99,7 @@ export default function ParcelMonitor() {
         .select('*')
 
       setStatistics({
-        totalParcels: parcelsCount?.count || 0,
+        totalParcels: parcelsCount || 0,
         counties: qualityData?.length || 0,
         lastUpdate: new Date().toISOString()
       })

@@ -143,7 +143,7 @@ export default function PropertyPage() {
             bathroom_cnt: propertyData.bathrooms || propertyData.bathroom_cnt
           };
 
-          setProperty(transformedData);
+          setProperty(transformedData as unknown as PropertyData);
           propertyData = transformedData; // For browser title update
         } else {
           setError('Property not found');
