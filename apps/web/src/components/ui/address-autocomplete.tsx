@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, MapPin, Home, Building2, Loader2, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { usePropertyAutocomplete } from '@/hooks/usePropertyAutocomplete';
-import type { PropertySuggestion } from '@/hooks/usePropertyAutocomplete';
+import { usePropertyAutocomplete, type Suggestion } from '@/hooks/usePropertyAutocomplete';
 
-// Use PropertySuggestion from the hook
-type AddressSuggestion = PropertySuggestion & {
-  type: 'property' | 'owner' | 'city';
-};
+// Use Suggestion from the hook
+type AddressSuggestion = Suggestion;
 
 interface AddressAutocompleteProps {
   value: string;
@@ -181,9 +178,9 @@ export function AddressAutocomplete({
                   </div>
                   <div className="text-xs text-gray-500 mt-1 flex items-center gap-2">
                     <span>{suggestion.city}, {suggestion.county} County</span>
-                    {suggestion.value && (
+                    {suggestion.metadata?.just_value && (
                       <span className="text-green-600 font-semibold">
-                        ${(suggestion.value / 1000).toFixed(0)}K
+                        ${(suggestion.metadata.just_value / 1000).toFixed(0)}K
                       </span>
                     )}
                   </div>

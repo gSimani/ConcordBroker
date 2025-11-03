@@ -12,7 +12,7 @@ import { searchCounties, getCountyDisplayName } from '@/lib/floridaCounties';
  * - USE and SUBUSE descriptions
  */
 
-interface Suggestion {
+export interface Suggestion {
   type: 'address' | 'owner' | 'city' | 'county';
   display: string;
   value: string;
@@ -26,6 +26,15 @@ interface Suggestion {
     property_use?: string;      // Original property_use text code
     property_use_desc?: string; // Human-readable description
   };
+
+  // Additional fields for compatibility with address-autocomplete
+  id?: string;
+  address?: string;
+  city?: string;
+  county?: string;
+  owner?: string;
+  parcelId?: string;
+  matchScore?: number;
 }
 
 export function usePropertyAutocomplete(county?: string) {
