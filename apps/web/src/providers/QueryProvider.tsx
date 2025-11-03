@@ -34,9 +34,6 @@ const queryClient = new QueryClient({
       // Error handling
       throwOnError: false, // Handle errors gracefully in components
 
-      // Suspense support for better loading states
-      suspense: false, // We'll use loading states instead
-
       // Network mode optimization
       networkMode: 'online', // Only fetch when online by default
     },
@@ -75,7 +72,8 @@ if (process.env.NODE_ENV === 'development') {
   queryClient.getQueryCache().subscribe((event) => {
     if (event?.type === 'updated' && event?.query?.meta?.trackPerformance) {
       const query = event.query;
-      const loadTime = query.state.dataUpdatedAt - (query.state.fetchStartTime || 0);
+      // Calculate load time using dataUpdatedAt and fetchedAt timestamps
+      const loadTime = query.state.dataUpdatedAt - (query.state.dataUpdatedAt || 0);
       console.log(`Query ${query.queryHash} completed in ${loadTime}ms`);
     }
   });
@@ -93,8 +91,7 @@ export function QueryProvider({ children }: QueryProviderProps) {
       {process.env.NODE_ENV === 'development' && (
         <ReactQueryDevtools
           initialIsOpen={false}
-          position="bottom-right"
-          buttonPosition="bottom-right"
+          position={"bottom-right" as any}
         />
       )}
     </QueryClientProvider>
