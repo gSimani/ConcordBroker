@@ -206,6 +206,8 @@ interface SearchCacheResult {
 interface UsageCodeSuggestion {
   code: string;
   description: string;
+  category?: string;  // For displaying category information
+  display?: string;   // For formatted display text
 }
 
 export function PropertySearch({}: PropertySearchProps) {
@@ -304,7 +306,7 @@ export function PropertySearch({}: PropertySearchProps) {
   // CRITICAL FIX: Batch fetch sales data for all properties to eliminate N+1 query problem
   // This single query replaces 500+ individual API requests, reducing load time from 2-5s to <500ms
   const parcelIds = properties.map(p => p.parcel_id || p.id || p.property_id).filter(Boolean);
-  const { data: batchSalesData, isLoading: batchLoading } = useBatchSalesData(parcelIds);
+  const { salesDataMap: batchSalesData, isLoading: batchLoading } = useBatchSalesData(parcelIds);
 
   // Batch sales data is now properly initialized and prevents race conditions
   // Debug logging removed for production
@@ -872,6 +874,7 @@ export function PropertySearch({}: PropertySearchProps) {
 
         // Execute query with COUNT for filtered queries (accurate results!)
         const { data: properties, error, count } = hasSelectiveFilters
+          // @ts-expect-error - Supabase type definitions expect single argument but count option is valid
           ? await query.select('*', { count: 'exact' })
           : await query.select('*');
 
@@ -1294,8 +1297,8 @@ export function PropertySearch({}: PropertySearchProps) {
 
         const data = await api.searchProperties(params);
 
-        // Handle both data.properties and data.data formats
-        const propertyList = data.properties || data.data || [];
+        // Handle both data.properties and data.data formats (with type assertion for flexibility)
+        const propertyList = (data as any).properties || data.data || [];
         const allIds = propertyList.map((p: Property) => String(p.parcel_id || p.id));
         setSelectedProperties(new Set(allIds));
       } catch (error) {
@@ -1449,12 +1452,14 @@ export function PropertySearch({}: PropertySearchProps) {
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* AI Search Mode */}
         {showAISearch ? (
-          <AISearchEnhanced 
-            onPropertySelect={(property) => handlePropertyClick(property)}
-            onSearchResults={(results) => {
-              setProperties(results);
-              setTotalResults(results.length);
-            }}
+          <AISearchEnhanced
+            {...{
+              onPropertySelect: (property: any) => handlePropertyClick(property),
+              onSearchResults: (results: any[]) => {
+                setProperties(results);
+                setTotalResults(results.length);
+              }
+            } as any}
           />
         ) : showTaxDeedSales ? (
           <TaxDeedSalesTab />
@@ -2407,8 +2412,8 @@ export function PropertySearch({}: PropertySearchProps) {
                   </div>
                   
                   <div className="flex justify-end mt-8 space-x-4">
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       className="hover-lift h-12 px-6"
                       style={{borderColor: '#ecf0f1'}}
                       onClick={() => {
@@ -2435,7 +2440,13 @@ export function PropertySearch({}: PropertySearchProps) {
                           maxSaleDate: '',
                           usageCode: '',
                           subUsageCode: '',
-                          taxDelinquent: false
+                          taxDelinquent: false,
+                          // Phase 1 filters
+                          hasHomesteadExemption: '',
+                          qualifiedSaleOnly: '',
+                          excludeMultiParcel: '',
+                          subdivision: '',
+                          zoning: ''
                         });
                         setCurrentPage(1);
                       }}
@@ -2610,16 +2621,16 @@ export function PropertySearch({}: PropertySearchProps) {
         {/* Map View */}
         {showMapView && properties.length > 0 && (
           <PropertyMap
-            properties={selectedProperties.size > 0 
-              ? properties.filter(property => selectedProperties.has(String(property.parcel_id || property.id)))
-              : properties
+            properties={selectedProperties.size > 0
+              ? properties.filter(property => selectedProperties.has(String(property.parcel_id || property.id))) as any
+              : properties as any
             }
-            onPropertySelect={(property) => {
-              setSelectedProperty(property);
-              handlePropertyClick(property);
+            onPropertySelect={(property: any) => {
+              setSelectedProperty(property as Property);
+              handlePropertyClick(property as Property);
             }}
             onClose={() => setShowMapView(false)}
-            selectedProperty={selectedProperty}
+            selectedProperty={selectedProperty as any}
             showingSelectedOnly={selectedProperties.size > 0}
             totalSelected={selectedProperties.size}
           />
@@ -2986,7 +2997,7 @@ export function PropertySearch({}: PropertySearchProps) {
       <AIChatbox
         position="bottom-right"
         initialOpen={false}
-        onPropertySelect={(property) => handlePropertyClick(property)}
+        onPropertySelect={(property: any) => handlePropertyClick(property as Property)}
       />
     </div>
   );
