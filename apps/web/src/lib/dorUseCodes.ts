@@ -4,6 +4,13 @@
  * https://floridarevenue.com/property/dataportal/Documents/PTO%20Data%20Portal/User%20Guides/2024%20Users%20guide%20and%20quick%20reference/2024_NAL_SDF_NAP_Users_Guide.pdf
  */
 
+import { LucideIcon } from 'lucide-react';
+import {
+  Home, Building2, Store, Factory, TreePine, Landmark, Church, Hotel,
+  MapPin, Wrench, Truck, Banknote, Utensils, Building, GraduationCap,
+  Cross, Zap
+} from 'lucide-react';
+
 export interface DORUseCode {
   code: string;
   category: 'RESIDENTIAL' | 'COMMERCIAL' | 'INDUSTRIAL' | 'AGRICULTURAL' | 'INSTITUTIONAL' | 'GOVERNMENTAL' | 'MISCELLANEOUS';
@@ -321,9 +328,32 @@ export type PropertyIconType =
   | 'Zap';           // Utilities
 
 /**
+ * Icon component map - maps icon names to actual lucide-react components
+ */
+export const PROPERTY_ICON_MAP: Record<PropertyIconType, LucideIcon> = {
+  Home,
+  Building2,
+  Store,
+  Factory,
+  TreePine,
+  Landmark,
+  Church,
+  Hotel,
+  MapPin,
+  Wrench,
+  Truck,
+  Banknote,
+  Utensils,
+  Building,
+  GraduationCap,
+  Cross,
+  Zap,
+};
+
+/**
  * Get icon type based on DOR use code
  */
-export function getPropertyIcon(code: string | undefined | null): PropertyIconType {
+export function getPropertyIconType(code: string | undefined | null): PropertyIconType {
   if (!code) return 'Home';
 
   const formattedCode = String(code).padStart(3, '0');
@@ -432,6 +462,14 @@ export function getPropertyIcon(code: string | undefined | null): PropertyIconTy
 
   // Final fallback
   return 'Home';
+}
+
+/**
+ * Get icon component based on DOR use code (for React rendering)
+ */
+export function getPropertyIcon(code: string | undefined | null): LucideIcon {
+  const iconType = getPropertyIconType(code);
+  return PROPERTY_ICON_MAP[iconType];
 }
 
 /**
