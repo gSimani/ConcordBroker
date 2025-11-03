@@ -260,8 +260,8 @@ class ResourcePreloader {
       const data = await response.json();
 
       // Store in cache if it has React Query
-      if (window.__REACT_QUERY_CACHE__) {
-        window.__REACT_QUERY_CACHE__.set(url, data);
+      if ((window as any).__REACT_QUERY_CACHE__) {
+        (window as any).__REACT_QUERY_CACHE__.set(url, data);
       }
 
       return {
