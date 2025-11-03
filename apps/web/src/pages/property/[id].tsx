@@ -151,7 +151,6 @@ import {
   Search,
   Filter,
   Settings,
-  Tool,
   Wrench,
   Hammer,
   PaintBucket,
@@ -173,8 +172,9 @@ const generateMockPropertyData = (id: string): PropertyMainProfile => {
   // This would normally fetch from your database
   return {
     parcelId: id || '494223-01-01-0010',
+    parcelIdNoSpace: (id || '494223-01-01-0010').replace(/\s+/g, ''),
     countyNo: '06',
-    
+
     // Owner Information
     ownerName1: 'SUNSHINE INVESTMENT GROUP LLC',
     ownerName2: '',
@@ -196,15 +196,17 @@ const generateMockPropertyData = (id: string): PropertyMainProfile => {
     legalDescription1: 'VICTORIA PARK 155-23 B',
     legalDescription2: 'LOT 10 BLK 23',
     subdivision: 'VICTORIA PARK',
+    subDivisionNumber: '155-23',
     block: '23',
     lot: '10',
     section: '15',
     township: '50S',
     range: '42E',
-    
+
     // Classification
     dorCode: '18',
     dorCodeDescription: 'Office Building, Multi-Story',
+    appraiserParcelType: 'Commercial',
     propertyUseCode: '18',
     propertyUseDescription: 'Office Building, Multi-Story',
     neighborhoodCode: '0010',
@@ -248,6 +250,10 @@ const generateMockPropertyData = (id: string): PropertyMainProfile => {
     effectiveYearBuilt: 2010,
     actualYearBuilt: 1998,
     numberOfStories: 8,
+    numberOfResidentialUnits: 0,
+    bedrooms: 0,
+    bathrooms: 0,
+    halfBathrooms: 0,
     structureType: 'Office Building',
     constructionType: 'Reinforced Concrete',
     foundation: 'Slab',

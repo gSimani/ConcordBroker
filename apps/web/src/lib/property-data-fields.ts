@@ -311,6 +311,8 @@ export interface PropertyMainProfile extends PropertyDataFields {
   taxRate?: number
   monthlyTaxes?: number
   appreciationRate?: number
+  netOperatingIncome?: number
+  capRate?: number
   comparableProperties?: PropertyMiniProfile[]
   marketTrends?: {
     date: Date
