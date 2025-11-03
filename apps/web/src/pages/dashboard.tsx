@@ -358,7 +358,7 @@ export default function Dashboard() {
                           <td className="py-3 text-right">{formatCurrency(city.totalValue)}</td>
                           <td className="py-3 text-right">{formatCurrency(city.averageValue)}</td>
                           <td className="py-3 text-center">
-                            <Link href={`/properties?city=${encodeURIComponent(city.city)}`}>
+                            <Link to={`/properties?city=${encodeURIComponent(city.city)}`}>
                               <Button variant="outline" size="sm">
                                 View Properties
                               </Button>
@@ -391,7 +391,7 @@ export default function Dashboard() {
                     <h3 className="font-semibold mb-1">{type.type}</h3>
                     <p className="text-2xl font-bold mb-1">{formatNumber(type.count)}</p>
                     <p className="text-sm text-gray-600 mb-3">{type.percentage.toFixed(1)}% of total</p>
-                    <Link href={`/properties?property_type=${encodeURIComponent(type.type)}`}>
+                    <Link to={`/properties?property_type=${encodeURIComponent(type.type)}`}>
                       <Button variant="outline" size="sm" className="w-full">
                         Explore
                       </Button>
@@ -410,7 +410,7 @@ export default function Dashboard() {
                     <Calendar className="w-5 h-5 mr-2" />
                     Recent Sales
                   </span>
-                  <Link href="/analytics?view=recent-sales">
+                  <Link to="/analytics?view=recent-sales">
                     <Button variant="outline" size="sm">
                       View All
                     </Button>
@@ -435,7 +435,7 @@ export default function Dashboard() {
                       </div>
                       <div className="text-right">
                         <p className="font-bold text-lg">{formatCurrency(sale.salePrice)}</p>
-                        <Link href={`/properties/${sale.id}`}>
+                        <Link to={`/properties/${sale.id}`}>
                           <Button variant="ghost" size="sm" className="text-xs">
                             View Details
                           </Button>
