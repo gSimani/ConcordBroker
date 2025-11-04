@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase'
 import { Link } from 'react-router-dom'
 import { SearchableSelect } from '@/components/ui/searchable-select'
 import { getPropertyAppraiserUrl, getGISMapUrl } from '@/utils/property-appraiser-links'
+import { getSunbizLink } from '@/utils/sunbiz-link'
 
 interface TaxDeedProperty {
   id: string
@@ -34,6 +35,9 @@ interface TaxDeedProperty {
   applicant_companies?: string[]
   gis_map_url?: string
   gis_map_link?: string  // Legacy field for backward compatibility
+  bid_details_url?: string  // URL to auction bid details page
+  company_detected?: boolean  // Whether applicant is a company (LLC, INC, CORP, etc.)
+  company_type?: string  // Type of company (LLC, INC, CORP, etc.)
   property_appraiser_link?: string  // Legacy field for backward compatibility
   property_appraiser_label?: string  // Human-readable label for the link
   property_appraiser_type?: 'direct' | 'search'  // Type of link: direct parcel or search page
@@ -220,7 +224,7 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
             property_appraiser_label: propertyAppraiserInfo.label,
             property_appraiser_type: propertyAppraiserInfo.searchType,
             tax_certificate_number: item.tax_certificate_number,
-            legal_description: item.legal_situs_address || '',
+            legal_description: item.legal_description || item.legal_situs_address || '',  // Use legal_description if available, fallback to address
             situs_address: item.legal_situs_address || '',
             county: item.county,
             city: 'Fort Lauderdale',
@@ -236,7 +240,10 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
             status: item.item_status || 'Active',
             applicant: item.applicant_name || '',
             applicant_companies: [],
-            gis_map_url: gisMapUrl || '',
+            gis_map_url: item.gis_map_url || gisMapUrl || '',  // Prefer database value, fallback to generated
+            bid_details_url: item.bid_details_url || '',  // URL to auction bid details page
+            company_detected: item.company_detected || false,  // Whether applicant is a company
+            company_type: item.company_type || '',  // Type of company (LLC, INC, etc.)
             sunbiz_matched: false,
             sunbiz_entity_names: [],
             sunbiz_entity_ids: [],
@@ -1251,7 +1258,30 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
                         <p className="text-xs opacity-75 uppercase tracking-wider text-green-600">Winning Bid</p>
                         {property.winner_name && (
                           <>
-                            <p className="text-sm font-medium mt-2">{property.winner_name}</p>
+                            <div className="text-sm font-medium mt-2 flex items-center justify-end gap-2">
+                              {(() => {
+                                const sunbizInfo = getSunbizLink(property.winner_name)
+                                if (sunbizInfo.isSunbiz) {
+                                  return (
+                                    <>
+                                      <a
+                                        href={sunbizInfo.searchUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-blue-600 hover:underline flex items-center gap-1"
+                                      >
+                                        {property.winner_name}
+                                        <ExternalLink className="w-3 h-3" />
+                                      </a>
+                                      <span className="px-2 py-0.5 bg-purple-100 text-purple-800 text-xs rounded-full">
+                                        {sunbizInfo.companyType}
+                                      </span>
+                                    </>
+                                  )
+                                }
+                                return <span>{property.winner_name}</span>
+                              })()}
+                            </div>
                             <p className="text-xs opacity-75 uppercase tracking-wider">Winner</p>
                           </>
                         )}
@@ -1310,19 +1340,40 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
                           <span className="font-medium text-navy">{property.tax_certificate_number}</span>
                         </div>
                       )}
+                      {property.legal_description && property.legal_description !== property.situs_address && (
+                        <div className="mt-2 pt-2 border-t border-gray-200">
+                          <span className="text-xs text-gray-600 uppercase tracking-wider">Legal Description:</span>
+                          <p className="text-xs text-navy mt-1 leading-relaxed">
+                            {property.legal_description}
+                          </p>
+                        </div>
+                      )}
                       <div className="flex justify-between">
                         <span className="text-gray-600">Assessed Value:</span>
                         <span className="font-medium text-navy">{formatCurrency(property.assessed_value)}</span>
                       </div>
                       {property.gis_map_url && (
                         <div className="mt-2">
-                          <a 
+                          <a
                             href={property.gis_map_url}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-blue-600 hover:underline text-xs flex items-center"
                           >
                             View GIS Map
+                            <ExternalLink className="w-3 h-3 ml-1" />
+                          </a>
+                        </div>
+                      )}
+                      {property.bid_details_url && (
+                        <div className="mt-1">
+                          <a
+                            href={property.bid_details_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:underline text-xs flex items-center"
+                          >
+                            View Bid Details
                             <ExternalLink className="w-3 h-3 ml-1" />
                           </a>
                         </div>
