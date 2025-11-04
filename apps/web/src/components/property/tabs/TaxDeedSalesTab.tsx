@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Gavel, DollarSign, Home, Phone, Mail, FileText, ExternalLink, Building2, User, Calendar, TrendingUp, AlertCircle, Save, Search } from 'lucide-react'
+import { Gavel, DollarSign, Home, Phone, Mail, FileText, ExternalLink, Building2, User, Calendar, TrendingUp, AlertCircle, Save, Search, ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { supabase } from '@/lib/supabase'
+import { Link } from 'react-router-dom'
 
 interface TaxDeedProperty {
   id: string
@@ -13,6 +14,7 @@ interface TaxDeedProperty {
   tax_certificate_number?: string
   legal_description: string
   situs_address: string
+  county?: string
   city?: string
   state?: string
   zip_code?: string
@@ -64,14 +66,44 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
   const [selectedAuctionDate, setSelectedAuctionDate] = useState<string>('all')
   const [availableAuctionDates, setAvailableAuctionDates] = useState<{ date: string, description: string, count: number }[]>([])
   const [auctionTab, setAuctionTab] = useState<'upcoming' | 'past' | 'cancelled'>('upcoming')
+  const [selectedCounty, setSelectedCounty] = useState<string>('all')
+  const [availableCounties, setAvailableCounties] = useState<{ name: string, count: number }[]>([])
 
   useEffect(() => {
     fetchTaxDeedProperties()
   }, [parcelNumber, auctionTab])
 
+  // Smart default tab selection - auto-switch to 'past' if no upcoming auctions
+  useEffect(() => {
+    if (properties.length > 0) {
+      const now = new Date()
+      const hasUpcoming = properties.some(p => {
+        if (p.close_time) {
+          return new Date(p.close_time) > now
+        }
+        return p.status === 'Active' || p.status === 'Upcoming'
+      })
+
+      // If we're on 'upcoming' tab but there are no upcoming auctions, switch to 'past'
+      if (auctionTab === 'upcoming' && !hasUpcoming) {
+        const hasPast = properties.some(p => {
+          if (p.close_time) {
+            return new Date(p.close_time) <= now
+          }
+          return p.status === 'Sold' || p.status === 'Closed' || p.status === 'Past'
+        })
+
+        if (hasPast) {
+          console.log('ℹ️  No upcoming auctions found, auto-switching to Past Auctions tab')
+          setAuctionTab('past')
+        }
+      }
+    }
+  }, [properties])
+
   useEffect(() => {
     filterProperties()
-  }, [properties, filter, searchTerm, selectedAuctionDate, auctionTab])
+  }, [properties, filter, searchTerm, selectedAuctionDate, auctionTab, selectedCounty])
 
   const fetchTaxDeedProperties = async () => {
     try {
@@ -105,6 +137,7 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
           tax_certificate_number: item.tax_certificate_number,
           legal_description: item.legal_situs_address || '',
           situs_address: item.legal_situs_address || '',
+          county: item.county,
           city: 'Fort Lauderdale',
           state: 'FL',
           zip_code: '',
@@ -141,7 +174,17 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
           }
         })
         setAvailableAuctionDates([{ date: 'all', description: 'All Auctions', count: mappedData.length }, ...Array.from(auctionDatesMap.values())])
-        
+
+        // Extract unique counties
+        const countiesMap = new Map()
+        mappedData.forEach(property => {
+          const county = property.county || 'Unknown'
+          const existing = countiesMap.get(county) || { name: county, count: 0 }
+          existing.count++
+          countiesMap.set(county, existing)
+        })
+        setAvailableCounties(Array.from(countiesMap.values()).sort((a, b) => a.name.localeCompare(b.name)))
+
         setLoading(false)
         return
       }
@@ -412,7 +455,12 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
   const filterProperties = () => {
     let filtered = [...properties]
 
-    // Apply auction tab filter first
+    // Apply county filter first
+    if (selectedCounty !== 'all') {
+      filtered = filtered.filter(p => p.county === selectedCounty)
+    }
+
+    // Apply auction tab filter
     const now = new Date()
     switch (auctionTab) {
       case 'upcoming':
@@ -432,7 +480,7 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
         })
         break
       case 'cancelled':
-        filtered = filtered.filter(p => 
+        filtered = filtered.filter(p =>
           p.status === 'Cancelled' || p.status === 'Canceled' || p.status === 'Removed'
         )
         break
@@ -788,6 +836,23 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
       {/* Filters and Search */}
       <div className="mt-6 p-4 bg-gray-light rounded-lg">
         <div className="flex flex-wrap gap-4 items-center">
+          {/* County Selector */}
+          <div className="flex items-center gap-2">
+            <Building2 className="w-4 h-4 text-navy" />
+            <select
+              value={selectedCounty}
+              onChange={(e) => setSelectedCounty(e.target.value)}
+              className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-navy bg-white hover:bg-gray-50 focus:ring-2 focus:ring-gold focus:border-transparent"
+            >
+              <option value="all">All Counties</option>
+              {availableCounties.map(county => (
+                <option key={county.name} value={county.name}>
+                  {county.name} ({county.count} properties)
+                </option>
+              ))}
+            </select>
+          </div>
+
           {/* Auction Date Selector */}
           <div className="flex items-center gap-2">
             <Calendar className="w-4 h-4 text-navy" />
@@ -892,14 +957,25 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
               {/* Property Header */}
               <div className="bg-gradient-to-r from-navy to-blue-900 text-white p-6">
                 <div className="flex justify-between items-start">
-                  <div>
-                    <h4 className="text-xl font-semibold flex items-center">
-                      <Home className="w-5 h-5 mr-2" />
-                      {property.situs_address}
-                    </h4>
-                    <p className="text-sm opacity-90 mt-1">
-                      {property.city && `${property.city}, `}{property.state} {property.zip_code}
-                    </p>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h4 className="text-xl font-semibold flex items-center">
+                          <Home className="w-5 h-5 mr-2" />
+                          {property.situs_address}
+                        </h4>
+                        <p className="text-sm opacity-90 mt-1">
+                          {property.city && `${property.city}, `}{property.state} {property.zip_code}
+                        </p>
+                      </div>
+                      <Link
+                        to={`/property/${property.parcel_number}`}
+                        className="px-4 py-2 bg-gold text-navy rounded-lg hover:bg-gold-dark transition-colors flex items-center gap-2 text-sm font-medium"
+                      >
+                        View Full Details
+                        <ArrowRight className="w-4 h-4" />
+                      </Link>
+                    </div>
                     <div className="flex gap-2 mt-3">
                       <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusBadge(property.status)}`}>
                         {property.status}
