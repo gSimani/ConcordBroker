@@ -938,10 +938,24 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
       <div className="mt-6 mb-6">
         {/* Main Synopsis Banner */}
         <div className="bg-gradient-to-r from-navy via-blue-900 to-navy p-8 rounded-xl shadow-lg mb-6">
-          <h2 className="text-3xl font-bold text-white mb-2">{stats.auctionName}</h2>
-          <p className="text-xl text-blue-200">
-            {selectedAuctionDate === 'all' ? 'Viewing all dates' : formatDate(selectedAuctionDate)} • {selectedCounty === 'all' ? 'All Counties' : selectedCounty}
-          </p>
+          <h2 className="text-3xl font-bold text-white mb-3">{stats.auctionName}</h2>
+          <div className="flex items-center gap-4 text-xl">
+            <div className="flex items-center gap-2 text-blue-200">
+              <Calendar className="w-5 h-5" />
+              <span>{selectedAuctionDate === 'all' ? 'All Dates' : formatDate(selectedAuctionDate)}</span>
+            </div>
+            <span className="text-blue-400">|</span>
+            <div className="flex items-center gap-2 text-blue-200">
+              <MapPin className="w-5 h-5" />
+              <span className="font-semibold">{selectedCounty === 'all' ? 'All Counties' : selectedCounty}</span>
+            </div>
+            <span className="text-blue-400">|</span>
+            <div className="flex items-center gap-2 text-blue-200">
+              <span className="text-sm uppercase tracking-wider">
+                {stats.totalProperties} {stats.totalProperties === 1 ? 'Property' : 'Properties'}
+              </span>
+            </div>
+          </div>
         </div>
 
         {/* Statistics Grid */}
