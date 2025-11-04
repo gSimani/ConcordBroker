@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Gavel, DollarSign, Home, Phone, Mail, FileText, ExternalLink, Building2, User, Calendar, TrendingUp, AlertCircle, Save, Search, ArrowRight, RefreshCw } from 'lucide-react'
+import { Gavel, DollarSign, Home, Phone, Mail, FileText, ExternalLink, Building2, User, Calendar, TrendingUp, AlertCircle, Save, Search, ArrowRight, RefreshCw, MapPin } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { supabase } from '@/lib/supabase'
 import { Link } from 'react-router-dom'
+import { SearchableSelect } from '@/components/ui/searchable-select'
 
 interface TaxDeedProperty {
   id: string
@@ -53,6 +54,79 @@ interface TaxDeedProperty {
 interface TaxDeedSalesTabProps {
   parcelNumber?: string
 }
+
+// All 67 Florida Counties - Prioritized order
+const FLORIDA_COUNTIES = [
+  // Top 3 - Most used
+  'MIAMI-DADE',
+  'BROWARD',
+  'PALM BEACH',
+  // Rest alphabetically
+  'ALACHUA',
+  'BAKER',
+  'BAY',
+  'BRADFORD',
+  'BREVARD',
+  'CALHOUN',
+  'CHARLOTTE',
+  'CITRUS',
+  'CLAY',
+  'COLLIER',
+  'COLUMBIA',
+  'DESOTO',
+  'DIXIE',
+  'DUVAL',
+  'ESCAMBIA',
+  'FLAGLER',
+  'FRANKLIN',
+  'GADSDEN',
+  'GILCHRIST',
+  'GLADES',
+  'GULF',
+  'HAMILTON',
+  'HARDEE',
+  'HENDRY',
+  'HERNANDO',
+  'HIGHLANDS',
+  'HILLSBOROUGH',
+  'HOLMES',
+  'INDIAN RIVER',
+  'JACKSON',
+  'JEFFERSON',
+  'LAFAYETTE',
+  'LAKE',
+  'LEE',
+  'LEON',
+  'LEVY',
+  'LIBERTY',
+  'MADISON',
+  'MANATEE',
+  'MARION',
+  'MARTIN',
+  'MONROE',
+  'NASSAU',
+  'OKALOOSA',
+  'OKEECHOBEE',
+  'ORANGE',
+  'OSCEOLA',
+  'PASCO',
+  'PINELLAS',
+  'POLK',
+  'PUTNAM',
+  'SANTA ROSA',
+  'SARASOTA',
+  'SEMINOLE',
+  'ST. JOHNS',
+  'ST. LUCIE',
+  'SUMTER',
+  'SUWANNEE',
+  'TAYLOR',
+  'UNION',
+  'VOLUSIA',
+  'WAKULLA',
+  'WALTON',
+  'WASHINGTON'
+]
 
 export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
   const [properties, setProperties] = useState<TaxDeedProperty[]>([])
@@ -740,6 +814,49 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
 
   const stats = getAuctionStats()
 
+  // Generate county options with counts for SearchableSelect
+  const getCountyOptions = () => {
+    // Start with All Counties option
+    const options = [{
+      value: 'all',
+      label: 'All Counties',
+      count: properties.length,
+      icon: <MapPin className="w-4 h-4" />
+    }]
+
+    // Create a map of actual county counts from properties
+    const countiesMap = new Map<string, number>()
+    properties.forEach(property => {
+      const county = property.county || 'Unknown'
+      countiesMap.set(county, (countiesMap.get(county) || 0) + 1)
+    })
+
+    // Add all Florida counties in prioritized order
+    FLORIDA_COUNTIES.forEach(county => {
+      const count = countiesMap.get(county) || 0
+      options.push({
+        value: county,
+        label: county,
+        count: count,
+        icon: <MapPin className="w-4 h-4" />
+      })
+    })
+
+    // Add any "Unknown" or other counties not in the list
+    countiesMap.forEach((count, county) => {
+      if (!FLORIDA_COUNTIES.includes(county) && county !== 'all') {
+        options.push({
+          value: county,
+          label: county,
+          count: count,
+          icon: <MapPin className="w-4 h-4" />
+        })
+      }
+    })
+
+    return options
+  }
+
   const getContactStatusBadge = (status?: string) => {
     const statusColors: { [key: string]: string } = {
       'Not Contacted': 'bg-gray-100 text-gray-800',
@@ -930,21 +1047,18 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
       {/* Filters and Search */}
       <div className="mt-6 p-4 bg-gray-light rounded-lg">
         <div className="flex flex-wrap gap-4 items-center">
-          {/* County Selector */}
+          {/* County Selector - Searchable */}
           <div className="flex items-center gap-2">
-            <Building2 className="w-4 h-4 text-navy" />
-            <select
+            <SearchableSelect
+              placeholder="Select County"
               value={selectedCounty}
-              onChange={(e) => setSelectedCounty(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-navy bg-white hover:bg-gray-50 focus:ring-2 focus:ring-gold focus:border-transparent"
-            >
-              <option value="all">All Counties</option>
-              {availableCounties.map(county => (
-                <option key={county.name} value={county.name}>
-                  {county.name} ({county.count} properties)
-                </option>
-              ))}
-            </select>
+              options={getCountyOptions()}
+              onValueChange={setSelectedCounty}
+              icon={<Building2 className="w-4 h-4" />}
+              className="w-80"
+              showCounts={true}
+              emptyMessage="No counties found"
+            />
             <button
               onClick={scrapeCountyData}
               disabled={selectedCounty === 'all' || scraping}
