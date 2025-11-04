@@ -392,13 +392,31 @@ export function getStandardizedPropertyUseValues(propertyType: string): string[]
 /**
  * Expected property counts by type (from database audit)
  * Used for validation and testing
+ *
+ * DATABASE TOTALS (as of 2025-11-03):
+ * - Total properties in florida_parcels: 9,113,150
+ * - Main categories (below): 5,010,823 (55%)
+ * - Additional categories: 131,500 (1.4%)
+ * - Unclassified/NULL: 3,970,827 (43.5%)
+ *
+ * NOTE: ~1.4M properties have NULL standardized_property_use (not yet standardized from DOR data)
+ * NOTE: ~2.5M properties are in undocumented property type categories
  */
 export const EXPECTED_PROPERTY_COUNTS = {
-  residential: 3647262,
-  commercial: 157008,
-  industrial: 41964,
-  agricultural: 127476,
-  institutional: 22454,
-  government: 91016,
-  vacantLand: 923643
+  // Main property categories (from previous audit)
+  residential: 3647262,      // Single Family, Condo, Multi-Family 2-9, Mobile Home
+  commercial: 157008,        // Commercial, Retail, Office, Mixed Use, Multi-Family 10+
+  industrial: 41964,         // Industrial, Warehouse
+  agricultural: 127476,      // Agricultural, Farms
+  institutional: 22454,      // Institutional, Churches, Parks
+  government: 91016,         // Governmental properties
+  vacantLand: 923643,        // Vacant Residential/Commercial/Industrial/Land
+
+  // Additional documented categories (from 2025-10-31 audit comments)
+  commonArea: 124000,        // Common Area (HOA, shared spaces)
+  parking: 7500,             // Parking lots
+
+  // Unclassified properties (NULL + undocumented types)
+  // This includes ~1.4M with NULL standardized_property_use + ~2.5M in undocumented types
+  unclassified: 3970827      // NULL values + undocumented property types (balances to 9.1M total)
 } as const;
