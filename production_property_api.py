@@ -104,11 +104,14 @@ def build_search_query(
     county: Optional[str] = None,
     use_category: Optional[Union[str, List[str]]] = None,
     limit: int = 50,
-    offset: int = 0
+    offset: int = 0,
+    min_value: Optional[float] = None,
+    max_value: Optional[float] = None
 ):
     """
     Canonical search function used by both autocomplete and grid
     Queries the entire florida_parcels table (7M+ rows) across ALL counties
+    Supports value filtering via min_value and max_value (filters just_value column)
     """
     # Start with base query - select ALL properties by default
     # count='exact' tells Supabase to return total count in response.count
@@ -143,6 +146,15 @@ def build_search_query(
                 # Multiple categories: use .in_()
                 query = query.in_('standardized_property_use', use_list)
                 logger.info(f"Applied standardized_property_use filter (multiple): {use_list}")
+
+    # Apply value filtering if provided
+    if min_value is not None:
+        query = query.gte('just_value', min_value)
+        logger.info(f"Applied min_value filter: ${min_value:,.2f}")
+
+    if max_value is not None:
+        query = query.lte('just_value', max_value)
+        logger.info(f"Applied max_value filter: ${max_value:,.2f}")
 
     # Apply search tokens with AND-of-OR logic
     if q and q.strip():
@@ -270,6 +282,8 @@ async def search_properties(
     q: Optional[str] = Query(None, description="Search query"),
     county: Optional[str] = Query(None, description="County filter (optional)"),
     use: Optional[str] = Query(None, description="Use category filter (comma-separated)"),
+    min_value: Optional[float] = Query(None, description="Minimum property value (just_value)"),
+    max_value: Optional[float] = Query(None, description="Maximum property value (just_value)"),
     limit: int = Query(50, ge=1, le=200, description="Results per page"),
     offset: int = Query(0, ge=0, description="Pagination offset")
 ):
@@ -287,10 +301,10 @@ async def search_properties(
             use_categories = [u.strip() for u in use.split(',') if u.strip()]
 
         # Log search parameters
-        logger.info(f"Search: q='{q}', county='{county}', use='{use}', limit={limit}, offset={offset}")
+        logger.info(f"Search: q='{q}', county='{county}', use='{use}', min_value={min_value}, max_value={max_value}, limit={limit}, offset={offset}")
 
         # Build query - Supabase Python v2 returns count in same response when count='exact' is used
-        query = build_search_query(q, county, use_categories, limit, offset)
+        query = build_search_query(q, county, use_categories, limit, offset, min_value, max_value)
         response = query.execute()
 
         # Extract total count from response (Supabase returns this when count='exact' is in select)

@@ -316,16 +316,17 @@ export const STANDARDIZED_PROPERTY_USE_MAP: Record<string, string[]> = {
   'Residential': [
     'Single Family Residential',  // 3.3M properties
     'Condominium',                 // 958K properties
-    'Multi-Family',                // 594K properties
-    'Multi-Family 10+ Units',
+    'Multi-Family',                // 594K properties - small multi-family (2-9 units)
     'Mobile Home'
+    // NOTE: 'Multi-Family 10+ Units' removed - these are commercial-scale properties
   ],
   'Commercial': [
     'Commercial',                  // 323K properties
     'Retail',
     'Office',
     'Warehouse',
-    'Mixed Use'
+    'Mixed Use',
+    'Multi-Family 10+ Units'       // Large apartment buildings (commercial investments)
   ],
   'Industrial': [
     'Industrial',                  // 19K properties
