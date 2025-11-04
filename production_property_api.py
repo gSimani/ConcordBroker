@@ -465,6 +465,116 @@ async def autocomplete_properties(
         logger.error(f"Autocomplete error: {e}")
         raise HTTPException(status_code=500, detail=f"Autocomplete failed: {str(e)}")
 
+@app.get("/api/properties/data-quality")
+async def get_data_quality_stats():
+    """
+    Get comprehensive data quality statistics using sampling
+    Samples 5000 properties and extrapolates to full dataset
+    """
+    try:
+        from collections import Counter
+        start_time = datetime.now()
+
+        # Sample 5000 properties (matches verification script)
+        SAMPLE_SIZE = 5000
+        TOTAL_PROPERTIES = 9113150
+
+        logger.info(f"Fetching sample of {SAMPLE_SIZE} properties for data quality analysis")
+
+        # Get sample
+        sample_response = supabase.table('florida_parcels')\
+            .select('standardized_property_use, property_use')\
+            .limit(SAMPLE_SIZE)\
+            .execute()
+
+        if not sample_response.data:
+            raise HTTPException(status_code=500, detail="No data returned from database")
+
+        # Analyze sample
+        total_sampled = len(sample_response.data)
+        null_count_sample = sum(1 for p in sample_response.data if not p.get('standardized_property_use'))
+        has_use_count_sample = total_sampled - null_count_sample
+        null_pct = (null_count_sample / total_sampled * 100) if total_sampled > 0 else 0
+
+        # Extrapolate to full database
+        estimated_null = int(null_count_sample / total_sampled * TOTAL_PROPERTIES)
+        estimated_has_use = int(has_use_count_sample / total_sampled * TOTAL_PROPERTIES)
+
+        # Count property types
+        property_types = [p.get('standardized_property_use') for p in sample_response.data if p.get('standardized_property_use')]
+        type_counts = Counter(property_types)
+        unique_types = len(type_counts)
+
+        # Calculate quality score
+        coverage_score = (100 - null_pct) * 0.5
+        diversity_score = min(unique_types / 50, 1) * 20
+
+        if type_counts:
+            top_type_pct = type_counts.most_common(1)[0][1] / len(property_types) * 100
+            balance_score = (1 - max(0, (top_type_pct - 50) / 50)) * 30
+        else:
+            balance_score = 0
+
+        quality_score = coverage_score + diversity_score + balance_score
+
+        # Property type distribution (extrapolated)
+        distribution = []
+        for use_type, count in type_counts.most_common(20):
+            pct = count / total_sampled * 100
+            estimated_total = int(count / total_sampled * TOTAL_PROPERTIES)
+            distribution.append({
+                'type': use_type,
+                'count': estimated_total,
+                'percentage': round(pct, 2)
+            })
+
+        # Missing mappings from sample
+        null_properties = [p for p in sample_response.data if not p.get('standardized_property_use')]
+        missing_dor_codes = Counter([p.get('property_use') for p in null_properties if p.get('property_use')])
+
+        missing_mappings = []
+        for code, count in missing_dor_codes.most_common(15):
+            missing_mappings.append({
+                'code': code,
+                'count': count,
+                'estimated_total': int(count / total_sampled * TOTAL_PROPERTIES),
+                'needs_mapping': True
+            })
+
+        response_time = (datetime.now() - start_time).total_seconds() * 1000
+
+        logger.info(f"Data quality analysis complete: {null_pct:.1f}% NULL, quality score {quality_score:.1f}, {response_time:.0f}ms")
+
+        return {
+            'summary': {
+                'total_properties': TOTAL_PROPERTIES,
+                'null_count': estimated_null,
+                'null_percentage': round(null_pct, 2),
+                'unique_types': unique_types,
+                'quality_score': round(quality_score, 1),
+                'sample_size': total_sampled
+            },
+            'property_type_distribution': distribution,
+            'missing_mappings': missing_mappings,
+            'metadata': {
+                'response_time_ms': round(response_time, 1),
+                'timestamp': datetime.now().isoformat(),
+                'target_null_percentage': 5.0,
+                'quality_thresholds': {
+                    'excellent': 90,
+                    'good': 75,
+                    'fair': 60,
+                    'poor': 0
+                },
+                'method': 'sampling',
+                'sample_size': SAMPLE_SIZE
+            }
+        }
+
+    except Exception as e:
+        logger.error(f"Data quality stats error: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to get data quality stats: {str(e)}")
+
 @app.get("/api/properties/{parcel_id}")
 async def get_property_detail(parcel_id: str):
     """
@@ -741,109 +851,6 @@ async def get_recent_sales(
         logger.error(f"Recent sales error: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to get recent sales: {str(e)}")
 
-@app.get("/api/properties/data-quality")
-async def get_data_quality_stats():
-    """
-    Get comprehensive data quality statistics for property data
-    Includes property type distribution, NULL value analysis, and data completeness
-    """
-    try:
-        start_time = datetime.now()
-
-        # Get total count
-        total_response = supabase.table('florida_parcels')\
-            .select('id', count='exact')\
-            .limit(1)\
-            .execute()
-
-        total_count = total_response.count or 0
-
-        # Get standardized_property_use distribution
-        use_response = supabase.table('florida_parcels')\
-            .select('standardized_property_use')\
-            .execute()
-
-        # Count property types and NULLs
-        type_counts = {}
-        null_count = 0
-
-        for row in use_response.data:
-            prop_type = row.get('standardized_property_use')
-            if prop_type is None or prop_type == '' or prop_type.lower() == 'null':
-                null_count += 1
-            else:
-                type_counts[prop_type] = type_counts.get(prop_type, 0) + 1
-
-        # Sort by count descending
-        sorted_types = sorted(type_counts.items(), key=lambda x: x[1], reverse=True)
-
-        # Calculate NULL percentage
-        null_percentage = (null_count / total_count * 100) if total_count > 0 else 0
-
-        # Get top 20 property types
-        top_20_types = [
-            {
-                'type': prop_type,
-                'count': count,
-                'percentage': (count / total_count * 100) if total_count > 0 else 0
-            }
-            for prop_type, count in sorted_types[:20]
-        ]
-
-        # Calculate data quality score (0-100)
-        # Factors: NULL percentage (50%), distribution balance (30%), data completeness (20%)
-        null_score = max(0, 100 - (null_percentage * 2))  # Penalize high NULL rate
-
-        # Distribution score - penalize if top type is >50%
-        top_type_percentage = (sorted_types[0][1] / total_count * 100) if sorted_types else 0
-        distribution_score = max(0, 100 - max(0, top_type_percentage - 50))
-
-        # Completeness score - how many unique types vs expected
-        unique_types = len(type_counts)
-        completeness_score = min(100, (unique_types / 100) * 100)  # Assume 100 types is ideal
-
-        quality_score = (null_score * 0.5) + (distribution_score * 0.3) + (completeness_score * 0.2)
-
-        # Get missing mappings (types with very low counts or unusual names)
-        missing_mappings = [
-            {
-                'type': prop_type,
-                'count': count,
-                'issue': 'Low count - possible unmapped value' if count < 10 else 'Unusual type name'
-            }
-            for prop_type, count in sorted_types[-10:]  # Bottom 10
-            if count < 100
-        ]
-
-        response_time = (datetime.now() - start_time).total_seconds() * 1000
-
-        return {
-            'summary': {
-                'total_properties': total_count,
-                'null_count': null_count,
-                'null_percentage': round(null_percentage, 2),
-                'unique_types': unique_types,
-                'quality_score': round(quality_score, 1)
-            },
-            'property_type_distribution': top_20_types,
-            'missing_mappings': missing_mappings,
-            'metadata': {
-                'response_time_ms': response_time,
-                'timestamp': datetime.now().isoformat(),
-                'target_null_percentage': 5.0,
-                'quality_thresholds': {
-                    'excellent': 90,
-                    'good': 75,
-                    'fair': 60,
-                    'poor': 0
-                }
-            }
-        }
-
-    except Exception as e:
-        logger.error(f"Data quality stats error: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to get data quality stats: {str(e)}")
-
 @app.get("/health")
 async def health_check():
     """Health check with dataset verification"""
@@ -881,4 +888,4 @@ if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000, log_level="info")
 
-# force reload
+# force reload - data quality endpoint fix
