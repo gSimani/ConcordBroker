@@ -741,6 +741,109 @@ async def get_recent_sales(
         logger.error(f"Recent sales error: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to get recent sales: {str(e)}")
 
+@app.get("/api/properties/data-quality")
+async def get_data_quality_stats():
+    """
+    Get comprehensive data quality statistics for property data
+    Includes property type distribution, NULL value analysis, and data completeness
+    """
+    try:
+        start_time = datetime.now()
+
+        # Get total count
+        total_response = supabase.table('florida_parcels')\
+            .select('id', count='exact')\
+            .limit(1)\
+            .execute()
+
+        total_count = total_response.count or 0
+
+        # Get standardized_property_use distribution
+        use_response = supabase.table('florida_parcels')\
+            .select('standardized_property_use')\
+            .execute()
+
+        # Count property types and NULLs
+        type_counts = {}
+        null_count = 0
+
+        for row in use_response.data:
+            prop_type = row.get('standardized_property_use')
+            if prop_type is None or prop_type == '' or prop_type.lower() == 'null':
+                null_count += 1
+            else:
+                type_counts[prop_type] = type_counts.get(prop_type, 0) + 1
+
+        # Sort by count descending
+        sorted_types = sorted(type_counts.items(), key=lambda x: x[1], reverse=True)
+
+        # Calculate NULL percentage
+        null_percentage = (null_count / total_count * 100) if total_count > 0 else 0
+
+        # Get top 20 property types
+        top_20_types = [
+            {
+                'type': prop_type,
+                'count': count,
+                'percentage': (count / total_count * 100) if total_count > 0 else 0
+            }
+            for prop_type, count in sorted_types[:20]
+        ]
+
+        # Calculate data quality score (0-100)
+        # Factors: NULL percentage (50%), distribution balance (30%), data completeness (20%)
+        null_score = max(0, 100 - (null_percentage * 2))  # Penalize high NULL rate
+
+        # Distribution score - penalize if top type is >50%
+        top_type_percentage = (sorted_types[0][1] / total_count * 100) if sorted_types else 0
+        distribution_score = max(0, 100 - max(0, top_type_percentage - 50))
+
+        # Completeness score - how many unique types vs expected
+        unique_types = len(type_counts)
+        completeness_score = min(100, (unique_types / 100) * 100)  # Assume 100 types is ideal
+
+        quality_score = (null_score * 0.5) + (distribution_score * 0.3) + (completeness_score * 0.2)
+
+        # Get missing mappings (types with very low counts or unusual names)
+        missing_mappings = [
+            {
+                'type': prop_type,
+                'count': count,
+                'issue': 'Low count - possible unmapped value' if count < 10 else 'Unusual type name'
+            }
+            for prop_type, count in sorted_types[-10:]  # Bottom 10
+            if count < 100
+        ]
+
+        response_time = (datetime.now() - start_time).total_seconds() * 1000
+
+        return {
+            'summary': {
+                'total_properties': total_count,
+                'null_count': null_count,
+                'null_percentage': round(null_percentage, 2),
+                'unique_types': unique_types,
+                'quality_score': round(quality_score, 1)
+            },
+            'property_type_distribution': top_20_types,
+            'missing_mappings': missing_mappings,
+            'metadata': {
+                'response_time_ms': response_time,
+                'timestamp': datetime.now().isoformat(),
+                'target_null_percentage': 5.0,
+                'quality_thresholds': {
+                    'excellent': 90,
+                    'good': 75,
+                    'fair': 60,
+                    'poor': 0
+                }
+            }
+        }
+
+    except Exception as e:
+        logger.error(f"Data quality stats error: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to get data quality stats: {str(e)}")
+
 @app.get("/health")
 async def health_check():
     """Health check with dataset verification"""

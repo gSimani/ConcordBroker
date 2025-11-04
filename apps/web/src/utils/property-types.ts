@@ -84,9 +84,10 @@ export const PROPERTY_TYPE_CODES = {
 /**
  * Detailed property subtype mapping for user-friendly display
  * Maps specific DOR codes to descriptive property subtypes
+ * Based on Florida DOR Property Use Code Standards (0-99)
  */
 const PROPERTY_SUBTYPE_MAP: Record<string, string> = {
-  // Residential (01-09)
+  // Residential (01-09) - Primary dwelling units
   '01': 'Single Family',
   '1': 'Single Family',
   '02': 'Manufactured/Modular',
@@ -106,7 +107,7 @@ const PROPERTY_SUBTYPE_MAP: Record<string, string> = {
   '09': 'Mobile Home Park',
   '9': 'Mobile Home Park',
 
-  // Commercial (10-39) - Key subtypes
+  // Commercial (10-39) - Retail, Office, Hospitality & Entertainment
   '10': 'Retail Store',
   '11': 'Multi-Story Store',
   '12': 'Mixed Use',
@@ -124,48 +125,58 @@ const PROPERTY_SUBTYPE_MAP: Record<string, string> = {
   '24': 'Drive-In Bank',
   '25': 'Repair Service',
   '26': 'Service Station',
-  '27': 'Hotel/Motel',
+  '27': 'Hotel/Motel',                    // DOR 27 - Hospitality
   '28': 'Bowling Alley',
   '29': 'Theater',
   '30': 'Nightclub/Bar',
-  '31': 'Marina',
+  '31': 'Entertainment/Amusement',        // DOR 31 - Entertainment venues
   '32': 'Parking Lot',
   '33': 'Mobile Home Park (Commercial)',
-  '34': 'Campground/RV Park',
-  '35': 'Race Track',
+  '34': 'Campground/RV Park',             // DOR 34 - Tourist/recreation
+  '35': 'Tourist Attraction',             // DOR 35 - Theme parks, attractions
   '36': 'Golf Course',
   '37': 'Enclosed Mall',
-  '38': 'Open Mall',
+  '38': 'Golf Course (Private)',          // DOR 38 - Private golf courses
   '39': 'Special Commercial',
 
-  // Industrial (40-49)
+  // Industrial (40-49) - Manufacturing, Utilities, Infrastructure
   '40': 'Distribution Terminal',
-  '41': 'Heavy Manufacturing',
-  '42': 'Light Manufacturing',
-  '43': 'Lumber Yard',
-  '44': 'Packing Plant',
-  '45': 'Cannery',
-  '46': 'Other Food Processing',
-  '47': 'Mineral Processing',
-  '48': 'Solid Waste/Landfill',
-  '49': 'Special Industrial',
+  '41': 'Light Manufacturing',            // DOR 41 - Light industrial/manufacturing
+  '42': 'Heavy Industrial',               // DOR 42 - Heavy industrial operations
+  '43': 'Railroad Property',              // DOR 43 - Rail yards, terminals
+  '44': 'Utility - Electric',             // DOR 44 - Electric utilities
+  '45': 'Utility - Gas',                  // DOR 45 - Gas utilities
+  '46': 'Utility - Telephone',            // DOR 46 - Telecom infrastructure
+  '47': 'Utility - Water/Sewer',          // DOR 47 - Water/wastewater facilities
+  '48': 'Utility - Other',                // DOR 48 - Other utility types
+  '49': 'Landfill/Solid Waste',           // DOR 49 - Waste management facilities
 
-  // Agricultural (51-69) - Key subtypes
+  // Agricultural (51-69) - Farms, Timberland, Marine
+  // NOTE: DOR codes 50-56 are crop/livestock production
   '51': 'Crop/Pasture',
   '52': 'Timberland',
   '53': 'Poultry/Bees',
   '54': 'Dairies/Feed Lots',
   '55': 'Ornamentals/Nursery',
   '56': 'Specialty Farm',
-  '57': 'Agricultural - Other',
-  '58': 'Vacant Agricultural',
+  '57': 'Marine Services/Docks',          // DOR 57 - Marine-related ag/commercial
+  '58': 'Marina/Boatyard',                // DOR 58 - Commercial marinas
   '59': 'Residential with Ag Exemption',
   '60': 'Grazing Land',
+
+  // Agricultural (60-69) - Extended agricultural uses
   '61': 'Forest Land',
   '62': 'Improved Agricultural',
   '63': 'Unimproved Agricultural',
+  '64': 'Agricultural Buildings',
+  '65': 'Agricultural Processing',
+  '66': 'Livestock Operations',
+  '67': 'Aquaculture',
+  '68': 'Citrus Groves',
+  '69': 'Specialty Agricultural',
 
-  // Institutional (71-79)
+  // Institutional (71-79) - Private non-profit
+  // NOTE: DOR code 70 is Vacant Institutional (classified under vacant)
   '71': 'Church/Synagogue',
   '72': 'Private School',
   '73': 'Private Hospital',
@@ -176,30 +187,74 @@ const PROPERTY_SUBTYPE_MAP: Record<string, string> = {
   '78': 'Private Recreational',
   '79': 'Special Institutional',
 
-  // Government (81-89)
-  '81': 'Military',
-  '82': 'Forest/Parks',
-  '83': 'Public School',
-  '84': 'Public Hospital',
-  '85': 'Government Office',
-  '86': 'Government Service',
-  '87': 'Government Airport',
-  '88': 'Government Housing',
-  '89': 'Special Government',
+  // Agricultural (80-89) - Primary agricultural production
+  // NOTE: DOR codes 80-89 are specific crop/livestock types
+  '80': 'Crop Land',                      // DOR 80 - Row crops, vegetables
+  '81': 'Timberland (Commercial)',        // DOR 81 - Commercial timber production
+  '82': 'Fruit Orchards',
+  '83': 'Cattle Ranch',                   // DOR 83 - Beef cattle operations
+  '84': 'Dairy Farm',                     // DOR 84 - Dairy operations
+  '85': 'Livestock Farm',                 // DOR 85 - General livestock
+  '86': 'Orchard/Grove',                  // DOR 86 - Fruit/nut orchards
+  '87': 'Ornamental Horticulture',        // DOR 87 - Nurseries, landscaping
+  '88': 'Vacant Agricultural',            // DOR 88 - Undeveloped ag land
 
-  // Vacant Land (00, 90-99)
-  '00': 'Vacant Land',
+  // Vacant Land (00, 90-99) - Undeveloped properties by intended use
+  '00': 'Vacant Land',                    // DOR 00 - General vacant
   '0': 'Vacant Land',
-  '90': 'Vacant Residential',
-  '91': 'Vacant Commercial',
-  '92': 'Vacant Industrial',
-  '93': 'Vacant Institutional',
-  '94': 'Vacant Government',
-  '95': 'Vacant Agricultural',
-  '96': 'Vacant Subsurface Rights',
-  '97': 'Vacant Right-of-Way',
-  '98': 'Vacant Easement',
-  '99': 'Special Vacant'
+  '90': 'Vacant Residential',             // DOR 90 - Zoned/intended for residential
+  '91': 'Military/Defense',               // DOR 91 - Military installations
+  '92': 'Parks/Recreation',               // DOR 92 - Public parks, forests
+  '93': 'Schools/Universities',           // DOR 93 - Educational facilities
+  '94': 'Universities/Colleges',          // DOR 94 - Higher education
+  '95': 'Hospitals (Public)',             // DOR 95 - Public hospitals
+  '96': 'County Government',              // DOR 96 - County-owned property
+  '97': 'State Government',               // DOR 97 - State-owned property
+  '98': 'Federal Government',             // DOR 98 - Federal property
+  '99': 'Municipal Government',           // DOR 99 - City-owned property
+
+  // 3-digit code support for counties using leading zeros
+  '001': 'Single Family',
+  '002': 'Manufactured/Modular',
+  '003': 'Multi-Family (10+ units)',
+  '004': 'Condominium',
+  '005': 'Cooperative',
+  '006': 'Retirement/Assisted Living',
+  '007': 'Migrant Labor Camp',
+  '008': 'Multi-Family (2-9 units)',
+  '009': 'Mobile Home Park',
+
+  // Add 3-digit support for other key codes
+  '040': 'Distribution Terminal',
+  '041': 'Light Manufacturing',
+  '042': 'Heavy Industrial',
+  '043': 'Railroad Property',
+  '044': 'Utility - Electric',
+  '045': 'Utility - Gas',
+  '046': 'Utility - Telephone',
+  '047': 'Utility - Water/Sewer',
+  '048': 'Utility - Other',
+  '049': 'Landfill/Solid Waste',
+
+  '080': 'Crop Land',
+  '081': 'Timberland (Commercial)',
+  '083': 'Cattle Ranch',
+  '084': 'Dairy Farm',
+  '085': 'Livestock Farm',
+  '086': 'Orchard/Grove',
+  '087': 'Ornamental Horticulture',
+  '088': 'Vacant Agricultural',
+
+  '090': 'Vacant Residential',
+  '091': 'Military/Defense',
+  '092': 'Parks/Recreation',
+  '093': 'Schools/Universities',
+  '094': 'Universities/Colleges',
+  '095': 'Hospitals (Public)',
+  '096': 'County Government',
+  '097': 'State Government',
+  '098': 'Federal Government',
+  '099': 'Municipal Government'
 };
 
 /**
@@ -310,55 +365,112 @@ export function mapPropertyTypeToKey(propertyType: string): keyof typeof PROPERT
 /**
  * Maps property type categories to their standardized_property_use values
  * These are the actual values stored in the database standardized_property_use column
- * Updated 2025-10-31 based on comprehensive database audit of 10.3M properties
+ * Updated 2025-11-03 - Comprehensive subtype mappings based on DOR codes 0-99
  */
 export const STANDARDIZED_PROPERTY_USE_MAP: Record<string, string[]> = {
   'Residential': [
-    'Single Family Residential',  // 3.3M properties
-    'Condominium',                 // 958K properties
-    'Multi-Family',                // 594K properties - small multi-family (2-9 units)
-    'Mobile Home'
-    // NOTE: 'Multi-Family 10+ Units' removed - these are commercial-scale properties
+    'Single Family Residential',  // DOR 01 - 3.3M properties
+    'Condominium',                 // DOR 04 - 958K properties
+    'Multi-Family',                // DOR 08 - 594K properties - small multi-family (2-9 units)
+    'Mobile Home',                 // DOR 02, 09
+    'Cooperative',                 // DOR 05
+    'Retirement/Assisted Living',  // DOR 06
+    'Manufactured/Modular'         // DOR 02
+    // NOTE: 'Multi-Family 10+ Units' moved to Commercial - these are commercial-scale properties
   ],
   'Commercial': [
-    'Commercial',                  // 323K properties
-    'Retail',
-    'Office',
-    'Warehouse',
-    'Mixed Use',
-    'Multi-Family 10+ Units'       // Large apartment buildings (commercial investments)
+    'Commercial',                  // DOR 10-39 - 323K properties
+    'Retail',                      // DOR 10-16
+    'Office',                      // DOR 17
+    'Warehouse',                   // DOR 40 (also in Industrial)
+    'Mixed Use',                   // DOR 12
+    'Multi-Family 10+ Units',      // DOR 03 - Large apartment buildings (commercial investments)
+    'Hotel/Motel',                 // DOR 27 - Hospitality
+    'Restaurant',                  // DOR 19-21
+    'Financial Institution',       // DOR 23-24
+    'Entertainment',               // DOR 28-31 - Theaters, bowling, amusement
+    'Tourist Attraction',          // DOR 35 - Theme parks, attractions
+    'Golf Course',                 // DOR 36, 38
+    'Shopping Center',             // DOR 15-16, 37-38
+    'Parking'                      // DOR 18, 32 - 7.5K properties
   ],
   'Industrial': [
-    'Industrial',                  // 19K properties
-    'Warehouse'                    // Note: Warehouse maps to both Commercial and Industrial
+    'Industrial',                  // DOR 40-49 - 19K properties
+    'Warehouse',                   // DOR 40 - Also maps to Commercial
+    'Light Manufacturing',         // DOR 41
+    'Heavy Industrial',            // DOR 42
+    'Railroad Property',           // DOR 43
+    'Utility - Electric',          // DOR 44
+    'Utility - Gas',               // DOR 45
+    'Utility - Telephone',         // DOR 46
+    'Utility - Water/Sewer',       // DOR 47
+    'Utility - Other',             // DOR 48
+    'Landfill/Solid Waste'         // DOR 49
   ],
   'Agricultural': [
-    'Agricultural'                 // 186K properties
+    'Agricultural',                // DOR 51-69, 80-88 - 186K properties
+    'Crop Land',                   // DOR 80
+    'Timberland',                  // DOR 52, 81
+    'Livestock',                   // DOR 53-54, 83-85
+    'Orchard/Grove',               // DOR 82, 86
+    'Ornamental Horticulture',     // DOR 55, 87
+    'Marine Services',             // DOR 57-58
+    'Specialty Farm',              // DOR 56
+    'Grazing Land',                // DOR 60
+    'Forest Land',                 // DOR 61
+    'Aquaculture',                 // DOR 67
+    'Citrus Groves'                // DOR 68
   ],
   'Vacant': [
-    'Vacant Residential',
-    'Vacant Commercial',
-    'Vacant Industrial',
-    'Vacant Land'
+    'Vacant Residential',          // DOR 90
+    'Vacant Commercial',           // DOR 10 (when vacant)
+    'Vacant Industrial',           // DOR 40 (when vacant)
+    'Vacant Agricultural',         // DOR 88
+    'Vacant Institutional',        // DOR 70
+    'Vacant Land',                 // DOR 00
+    'Vacant Government'            // DOR 90-99 (when undeveloped)
   ],
   'Government': [
-    'Governmental'                 // 56K properties (note: 'Governmental' not 'Government')
+    'Governmental',                // DOR 91-99 - 56K properties (note: 'Governmental' not 'Government')
+    'Military/Defense',            // DOR 91
+    'Parks/Recreation',            // DOR 92
+    'Schools/Universities',        // DOR 93-94
+    'Hospitals (Public)',          // DOR 95
+    'County Government',           // DOR 96
+    'State Government',            // DOR 97
+    'Federal Government',          // DOR 98
+    'Municipal Government'         // DOR 99
+  ],
+  'Institutional': [
+    'Institutional',               // DOR 71-79 - 71K properties (private non-profit)
+    'Church',                      // DOR 71
+    'Private School',              // DOR 72
+    'Private Hospital',            // DOR 73
+    'Nursing Home',                // DOR 74
+    'Cultural Organization',       // DOR 75
+    'Charitable Service',          // DOR 76
+    'Cemetery',                    // DOR 77
+    'Private Recreational',        // DOR 78
+    'Common Area'                  // 124K properties (HOA, shared spaces)
   ],
   'Conservation': [
-    'Institutional',               // 71K properties (includes conservation, parks, etc.)
-    'Common Area'                  // 124K properties
+    'Institutional',               // DOR 71-79 (includes conservation, parks, etc.)
+    'Common Area',                 // 124K properties
+    'Parks/Recreation',            // DOR 92 (public parks)
+    'Forest Land'                  // DOR 61 (conservation easements)
   ],
   'Religious': [
-    'Institutional',               // 71K properties (churches, religious institutions)
-    'Church'
+    'Institutional',               // DOR 71-79 (churches, religious institutions)
+    'Church'                       // DOR 71
   ],
   'Vacant/Special': [
-    'Vacant Residential',
-    'Vacant Commercial',
-    'Vacant Industrial',
-    'Vacant Land',
+    'Vacant Residential',          // DOR 90
+    'Vacant Commercial',           // DOR 10 (vacant)
+    'Vacant Industrial',           // DOR 40 (vacant)
+    'Vacant Agricultural',         // DOR 88
+    'Vacant Land',                 // DOR 00
     'Other',                       // 142 properties
-    'Parking'                      // 7.5K properties
+    'Parking'                      // DOR 18, 32 - 7.5K properties
   ]
 };
 

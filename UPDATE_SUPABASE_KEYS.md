@@ -1,9 +1,9 @@
 # 🔄 IMPORTANT: Update Supabase Keys
 
-Since your Supabase project is `supabase-concordbroker` (not `mogulpssjdlxjvstqfee`), you need to update the API keys as well.
+Since your Supabase project is `supabase-concordbroker` (not `pmispwtdngkcmsrsjwbp`), you need to update the API keys as well.
 
 ## Current Keys (Likely Incorrect)
-These keys are for the old project `mogulpssjdlxjvstqfee`:
+These keys are for the old project `pmispwtdngkcmsrsjwbp`:
 ```
 SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1vZ3VscHNzamRseGp2c3RxZmVlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5NTMyMDEsImV4cCI6MjA2MTUyOTIwMX0.5wzCkw9J3ZZMyNZvEge3ypA_41FmLR5mH6OmN0r8EZg
 
