@@ -21,7 +21,7 @@ import { api } from '@/api/client';
 import { OptimizedSearchBar } from '@/components/OptimizedSearchBar';
 import { getPropertyTypeFilter } from '@/lib/dorUseCodes';
 import { sortByPropertyRank } from '@/lib/propertyRanking';
-import { getCodesForPropertyType, getPropertyCategory, getPropertySubtype, getStandardizedPropertyUseValues } from '@/utils/property-types';
+import { getCodesForPropertyType, getPropertyCategory, getPropertySubtype, getStandardizedPropertyUseValues, EXPECTED_PROPERTY_COUNTS } from '@/utils/property-types';
 import { type PropertyFilterType } from '@/lib/property-types';
 import '@/styles/elegant-property.css';
 import {
@@ -917,15 +917,15 @@ export function PropertySearch({}: PropertySearchProps) {
             // These are exact counts from the database (verified 2025-10-30)
             let estimatedTotal;
             if (apiFilters.property_type && apiFilters.property_type !== 'All Properties') {
-              // Actual property type counts using standardized_property_use (100% accurate)
+              // Actual property type counts using standardized_property_use (from EXPECTED_PROPERTY_COUNTS)
               const propertyTypeActualCounts: Record<string, number> = {
-                'Residential': 5384278,        // Single Family + Condo + Multi-Family + Mobile Home + Vacant Residential
-                'Commercial': 323332,          // Commercial properties
-                'Industrial': 150000,          // Industrial properties (estimate - needs verification)
-                'Agricultural': 800000,        // Agricultural properties (estimate - needs verification)
-                'Institutional': 100000,       // Institutional properties (estimate - needs verification)
-                'Governmental': 50000,         // Government properties (estimate - needs verification)
-                'Mixed Use': 200000            // Mixed use (estimate - needs verification)
+                'Residential': EXPECTED_PROPERTY_COUNTS.residential,  // 3,647,262 properties
+                'Commercial': EXPECTED_PROPERTY_COUNTS.commercial,    // 157,008 properties
+                'Industrial': EXPECTED_PROPERTY_COUNTS.industrial,    // 41,964 properties
+                'Agricultural': EXPECTED_PROPERTY_COUNTS.agricultural, // 127,476 properties
+                'Institutional': EXPECTED_PROPERTY_COUNTS.institutional, // 22,454 properties
+                'Government': EXPECTED_PROPERTY_COUNTS.government,    // 91,016 properties
+                'Vacant Land': EXPECTED_PROPERTY_COUNTS.vacantLand    // 923,643 properties
               };
 
               // Find matching property type
