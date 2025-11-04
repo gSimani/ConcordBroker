@@ -665,62 +665,79 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
   const getAuctionStats = () => {
     // Use filtered properties to get stats for the current view
     const displayProperties = filteredProperties
-    
+
     const selectedAuction = availableAuctionDates.find(a => a.date === selectedAuctionDate)
-    const auctionName = selectedAuctionDate === 'all' ? 'All Auctions' : 
+    const auctionName = selectedAuctionDate === 'all' ? 'All Auctions' :
       selectedAuction?.description || formatDate(selectedAuctionDate)
-    
+
     // Calculate bid based on auction type
     let highestBid = 0
+    let lowestBid = Infinity
     let highestProperty = null
     let bidLabel = 'Highest Opening Bid'
-    
+
     if (auctionTab === 'past') {
       // For past auctions, show highest winning bid
-      highestBid = displayProperties.reduce((max, p) => 
+      highestBid = displayProperties.reduce((max, p) =>
         Math.max(max, p.winning_bid || 0), 0)
-      highestProperty = displayProperties.find(p => 
+      lowestBid = displayProperties.reduce((min, p) =>
+        Math.min(min, p.winning_bid || Infinity), Infinity)
+      highestProperty = displayProperties.find(p =>
         p.winning_bid === highestBid)
       bidLabel = 'Highest Winning Bid'
     } else {
       // For upcoming/cancelled, show highest opening bid
-      highestBid = displayProperties.reduce((max, p) => 
+      highestBid = displayProperties.reduce((max, p) =>
         Math.max(max, p.opening_bid || 0), 0)
-      highestProperty = displayProperties.find(p => 
+      lowestBid = displayProperties.reduce((min, p) =>
+        Math.min(min, p.opening_bid || Infinity), Infinity)
+      highestProperty = displayProperties.find(p =>
         p.opening_bid === highestBid)
     }
-    
-    const cancelledCount = displayProperties.filter(p => 
+
+    if (lowestBid === Infinity) lowestBid = 0
+
+    const cancelledCount = displayProperties.filter(p =>
       p.status === 'Cancelled' || p.status === 'Canceled').length
-    
-    const activeCount = displayProperties.filter(p => 
+
+    const activeCount = displayProperties.filter(p =>
       p.status === 'Active' || p.status === 'Upcoming').length
-    
-    const soldCount = displayProperties.filter(p => 
+
+    const soldCount = displayProperties.filter(p =>
       p.status === 'Sold').length
-    
+
     // Calculate total value based on auction type
-    const totalValue = auctionTab === 'past' 
+    const totalValue = auctionTab === 'past'
       ? displayProperties.reduce((sum, p) => sum + (p.winning_bid || 0), 0)
       : displayProperties.reduce((sum, p) => sum + (p.opening_bid || 0), 0)
-    
-    const tabLabel = auctionTab === 'upcoming' ? 'Upcoming' : 
+
+    const tabLabel = auctionTab === 'upcoming' ? 'Upcoming' :
                      auctionTab === 'past' ? 'Past' : 'Cancelled'
-    
+
+    // Get property use distribution (derive from homestead status for now)
+    const homesteadCount = displayProperties.filter(p => p.homestead || p.is_homestead).length
+    const commercialCount = displayProperties.filter(p =>
+      !(p.homestead || p.is_homestead) && (p.opening_bid > 200000 || (p.assessed_value && p.assessed_value > 500000))).length
+    const residentialCount = displayProperties.length - homesteadCount - commercialCount
+
     return {
       auctionName,
       tabLabel,
       totalProperties: displayProperties.length,
       highestBid,
+      lowestBid,
       highestAddress: highestProperty?.situs_address || '-',
       cancelledCount,
       activeCount,
       soldCount,
       totalValue,
-      bidLabel
+      bidLabel,
+      homesteadCount,
+      commercialCount,
+      residentialCount
     }
   }
-  
+
   const stats = getAuctionStats()
 
   const getContactStatusBadge = (status?: string) => {
@@ -800,67 +817,114 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
         </nav>
       </div>
 
-      {/* Insight Statistics Boxes */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6 mb-6">
-        {/* Selected Auction Box */}
-        <div className="bg-gradient-to-br from-blue-50 to-white p-4 rounded-lg border border-blue-200 shadow-sm">
-          <div className="flex items-start justify-between">
-            <div>
-              <p className="text-xs font-medium text-blue-600 uppercase tracking-wider">{stats.tabLabel} Auctions</p>
-              <p className="text-lg font-bold text-navy mt-1">{stats.auctionName}</p>
-              <p className="text-sm text-gray-600 mt-1">
-                {selectedAuctionDate === 'all' ? 'Viewing all dates' : formatDate(selectedAuctionDate)}
+      {/* ENHANCED Insight Statistics Boxes - Bigger Text & More Info */}
+      <div className="mt-6 mb-6">
+        {/* Main Synopsis Banner */}
+        <div className="bg-gradient-to-r from-navy via-blue-900 to-navy p-8 rounded-xl shadow-lg mb-6">
+          <h2 className="text-3xl font-bold text-white mb-2">{stats.auctionName}</h2>
+          <p className="text-xl text-blue-200">
+            {selectedAuctionDate === 'all' ? 'Viewing all dates' : formatDate(selectedAuctionDate)} • {selectedCounty === 'all' ? 'All Counties' : selectedCounty}
+          </p>
+        </div>
+
+        {/* Statistics Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Available vs Cancelled */}
+          <div className="bg-gradient-to-br from-green-50 via-white to-green-50 p-6 rounded-xl border-2 border-green-300 shadow-lg">
+            <div className="flex items-center justify-between mb-3">
+              <p className="text-sm font-bold text-green-700 uppercase tracking-wider">
+                {auctionTab === 'past' ? 'Sold' : 'Available'}
+              </p>
+              <Home className="w-10 h-10 text-green-500 opacity-60" />
+            </div>
+            <p className="text-5xl font-bold text-green-900 mb-2">
+              {auctionTab === 'past' ? stats.soldCount : stats.activeCount}
+            </p>
+            <div className="border-t-2 border-green-200 pt-3 mt-3">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-600">Cancelled:</span>
+                <span className={`text-2xl font-bold ${stats.cancelledCount > 0 ? 'text-red-600' : 'text-gray-400'}`}>
+                  {stats.cancelledCount}
+                </span>
+              </div>
+              <p className="text-xs text-gray-500 mt-1">of {stats.totalProperties} total properties</p>
+            </div>
+          </div>
+
+          {/* Price Range */}
+          <div className="bg-gradient-to-br from-gold-light via-white to-yellow-50 p-6 rounded-xl border-2 border-yellow-300 shadow-lg">
+            <div className="flex items-center justify-between mb-3">
+              <p className="text-sm font-bold text-yellow-800 uppercase tracking-wider">Price Range</p>
+              <DollarSign className="w-10 h-10 text-yellow-600 opacity-60" />
+            </div>
+            <div className="space-y-2">
+              <div>
+                <p className="text-xs text-gray-600 uppercase">High</p>
+                <p className="text-3xl font-bold text-navy">{formatCurrency(stats.highestBid)}</p>
+              </div>
+              <div className="border-t-2 border-yellow-200 pt-2">
+                <p className="text-xs text-gray-600 uppercase">Low</p>
+                <p className="text-2xl font-bold text-gray-700">{formatCurrency(stats.lowestBid)}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Property Uses */}
+          <div className="bg-gradient-to-br from-purple-50 via-white to-purple-50 p-6 rounded-xl border-2 border-purple-300 shadow-lg">
+            <div className="flex items-center justify-between mb-3">
+              <p className="text-sm font-bold text-purple-700 uppercase tracking-wider">Property Uses</p>
+              <Building2 className="w-10 h-10 text-purple-500 opacity-60" />
+            </div>
+            <div className="space-y-2">
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-medium text-gray-700">Homestead:</span>
+                <span className="text-2xl font-bold text-purple-900">{stats.homesteadCount}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-medium text-gray-700">Commercial:</span>
+                <span className="text-2xl font-bold text-purple-900">{stats.commercialCount}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-medium text-gray-700">Residential:</span>
+                <span className="text-2xl font-bold text-purple-900">{stats.residentialCount}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Total Value */}
+          <div className="bg-gradient-to-br from-blue-50 via-white to-blue-50 p-6 rounded-xl border-2 border-blue-300 shadow-lg">
+            <div className="flex items-center justify-between mb-3">
+              <p className="text-sm font-bold text-blue-700 uppercase tracking-wider">
+                {auctionTab === 'past' ? 'Total Sold Value' : 'Total Opening Bids'}
+              </p>
+              <TrendingUp className="w-10 h-10 text-blue-500 opacity-60" />
+            </div>
+            <p className="text-4xl font-bold text-blue-900 mb-2">{formatCurrency(stats.totalValue)}</p>
+            <div className="border-t-2 border-blue-200 pt-3 mt-3">
+              <p className="text-sm text-gray-600">Average per property</p>
+              <p className="text-xl font-bold text-gray-700">
+                {formatCurrency(stats.totalProperties > 0 ? stats.totalValue / stats.totalProperties : 0)}
               </p>
             </div>
-            <Calendar className="w-8 h-8 text-blue-400 opacity-50" />
           </div>
         </div>
 
-        {/* Properties Available/Sold Box */}
-        <div className="bg-gradient-to-br from-green-50 to-white p-4 rounded-lg border border-green-200 shadow-sm">
-          <div className="flex items-start justify-between">
-            <div>
-              <p className="text-xs font-medium text-green-600 uppercase tracking-wider">
-                {auctionTab === 'past' ? 'Properties Sold' : 'Available for Sale'}
-              </p>
-              <p className="text-2xl font-bold text-navy mt-1">
-                {auctionTab === 'past' ? stats.soldCount : stats.activeCount}
-              </p>
-              <p className="text-sm text-gray-600 mt-1">
-                of {stats.totalProperties} total
-              </p>
+        {/* Cancelled Properties Alert (if any) */}
+        {stats.cancelledCount > 0 && (
+          <div className="mt-6 bg-red-50 border-l-4 border-red-500 p-6 rounded-lg shadow-md">
+            <div className="flex items-center">
+              <AlertCircle className="w-8 h-8 text-red-500 mr-4" />
+              <div>
+                <h3 className="text-2xl font-bold text-red-900">
+                  {stats.cancelledCount} {stats.cancelledCount === 1 ? 'Property' : 'Properties'} Cancelled
+                </h3>
+                <p className="text-lg text-red-700 mt-1">
+                  Click the "Cancelled Auctions" tab above to view cancelled properties
+                </p>
+              </div>
             </div>
-            <Home className="w-8 h-8 text-green-400 opacity-50" />
           </div>
-        </div>
-
-        {/* Highest Bid Box */}
-        <div className="bg-gradient-to-br from-gold-light to-white p-4 rounded-lg border border-yellow-200 shadow-sm">
-          <div className="flex items-start justify-between">
-            <div>
-              <p className="text-xs font-medium text-yellow-700 uppercase tracking-wider">{stats.bidLabel}</p>
-              <p className="text-xl font-bold text-navy mt-1">{formatCurrency(stats.highestBid)}</p>
-              <p className="text-xs text-gray-600 mt-1 truncate" title={stats.highestAddress}>
-                {stats.highestAddress}
-              </p>
-            </div>
-            <TrendingUp className="w-8 h-8 text-yellow-500 opacity-50" />
-          </div>
-        </div>
-
-        {/* Cancelled Box */}
-        <div className="bg-gradient-to-br from-red-50 to-white p-4 rounded-lg border border-red-200 shadow-sm">
-          <div className="flex items-start justify-between">
-            <div>
-              <p className="text-xs font-medium text-red-600 uppercase tracking-wider">Cancelled</p>
-              <p className="text-2xl font-bold text-navy mt-1">{stats.cancelledCount}</p>
-              <p className="text-sm text-gray-600 mt-1">
-                {stats.cancelledCount > 0 ? 'Properties removed' : 'No cancellations'}
-              </p>
-            </div>
-            <AlertCircle className="w-8 h-8 text-red-400 opacity-50" />
-          </div>
-        </div>
+        )}
       </div>
 
       {/* Filters and Search */}
@@ -989,13 +1053,17 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
             </p>
           </motion.div>
         ) : (
-          filteredProperties.map((property, index) => (
+          filteredProperties.map((property, index) => {
+            const isCancelled = property.status === 'Cancelled' || property.status === 'Canceled'
+            return (
             <motion.div
               key={property.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05 }}
-              className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
+              className={`border-4 rounded-lg overflow-hidden hover:shadow-lg transition-shadow ${
+                isCancelled ? 'border-red-500 bg-red-50' : 'border-gray-200'
+              }`}
             >
               {/* Property Header */}
               <div className="bg-gradient-to-r from-navy to-blue-900 text-white p-6">
@@ -1346,8 +1414,16 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
                   )}
                 </div>
               </div>
+              {/* Cancelled Property Banner */}
+              {isCancelled && (
+                <div className="bg-red-600 text-white px-6 py-3 flex items-center justify-center">
+                  <AlertCircle className="w-5 h-5 mr-2" />
+                  <span className="text-lg font-bold uppercase">CANCELLED PROPERTY</span>
+                </div>
+              )}
             </motion.div>
-          ))
+            )
+          })
         )}
       </div>
 
