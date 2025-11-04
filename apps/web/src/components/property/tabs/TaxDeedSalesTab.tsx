@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { supabase } from '@/lib/supabase'
 import { Link } from 'react-router-dom'
 import { SearchableSelect } from '@/components/ui/searchable-select'
+import { getPropertyAppraiserUrl, getGISMapUrl } from '@/utils/property-appraiser-links'
 
 interface TaxDeedProperty {
   id: string
@@ -34,6 +35,8 @@ interface TaxDeedProperty {
   gis_map_url?: string
   gis_map_link?: string  // Legacy field for backward compatibility
   property_appraiser_link?: string  // Legacy field for backward compatibility
+  property_appraiser_label?: string  // Human-readable label for the link
+  property_appraiser_type?: 'direct' | 'search'  // Type of link: direct parcel or search page
   sunbiz_matched: boolean
   sunbiz_entity_names?: string[]
   sunbiz_entity_ids?: string[]
@@ -192,7 +195,7 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
         .limit(100)
 
       if (parcelNumber) {
-        query = query.eq('parcel_number', parcelNumber)
+        query = query.eq('parcel_id', parcelNumber)
       }
 
       const { data, error } = await query
@@ -202,37 +205,45 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
         console.log(`✅ Loaded ${data.length} tax deed properties from database`)
         
         // Map the tax_deed_bidding_items table fields to our component fields
-        const mappedData = data.map(item => ({
-          id: item.id,
-          composite_key: `${item.tax_deed_number}_${item.parcel_id}`,
-          auction_id: item.auction_id,
-          tax_deed_number: item.tax_deed_number,
-          parcel_number: item.parcel_id,
-          parcel_url: `https://web.bcpa.net/BcpaClient/#/Record/${item.parcel_id}`,
-          tax_certificate_number: item.tax_certificate_number,
-          legal_description: item.legal_situs_address || '',
-          situs_address: item.legal_situs_address || '',
-          county: item.county,
-          city: 'Fort Lauderdale',
-          state: 'FL',
-          zip_code: '',
-          homestead: item.homestead_exemption === 'Y',
-          assessed_value: item.assessed_value,
-          opening_bid: item.opening_bid || 0,
-          best_bid: item.current_bid,
-          winning_bid: item.winning_bid,
-          winner_name: item.applicant_name,  // Use applicant_name for winner since winner_name doesn't exist
-          close_time: item.close_time,
-          status: item.item_status || 'Active',
-          applicant: item.applicant_name || '',
-          applicant_companies: [],
-          gis_map_url: `https://bcpa.maps.arcgis.com/apps/webappviewer/index.html?id=${item.parcel_id}`,
-          sunbiz_matched: false,
-          sunbiz_entity_names: [],
-          sunbiz_entity_ids: [],
-          auction_date: item.close_time ? item.close_time.split('T')[0] : item.created_at,
-          auction_description: item.auction_description || '9/17/2025 Tax Deed Sale'
-        }))
+        const mappedData = data.map(item => {
+          const propertyAppraiserInfo = getPropertyAppraiserUrl(item.county, item.parcel_id, item.legal_situs_address)
+          const gisMapUrl = getGISMapUrl(item.county, item.parcel_id)
+
+          return {
+            id: item.id,
+            composite_key: `${item.tax_deed_number}_${item.parcel_id}`,
+            auction_id: item.auction_id,
+            tax_deed_number: item.tax_deed_number,
+            parcel_number: item.parcel_id,
+            parcel_url: propertyAppraiserInfo.url,
+            property_appraiser_link: propertyAppraiserInfo.url,
+            property_appraiser_label: propertyAppraiserInfo.label,
+            property_appraiser_type: propertyAppraiserInfo.searchType,
+            tax_certificate_number: item.tax_certificate_number,
+            legal_description: item.legal_situs_address || '',
+            situs_address: item.legal_situs_address || '',
+            county: item.county,
+            city: 'Fort Lauderdale',
+            state: 'FL',
+            zip_code: '',
+            homestead: item.homestead_exemption === 'Y',
+            assessed_value: item.assessed_value,
+            opening_bid: item.opening_bid || 0,
+            best_bid: item.current_bid,
+            winning_bid: item.winning_bid,
+            winner_name: item.applicant_name,  // Use applicant_name for winner since winner_name doesn't exist
+            close_time: item.close_time,
+            status: item.item_status || 'Active',
+            applicant: item.applicant_name || '',
+            applicant_companies: [],
+            gis_map_url: gisMapUrl || '',
+            sunbiz_matched: false,
+            sunbiz_entity_names: [],
+            sunbiz_entity_ids: [],
+            auction_date: item.close_time ? item.close_time.split('T')[0] : item.created_at,
+            auction_description: item.auction_description || '9/17/2025 Tax Deed Sale'
+          }
+        })
         
         setProperties(mappedData)
         
@@ -1271,29 +1282,28 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
                       <div className="flex justify-between">
                         <span className="text-gray-600">Parcel #:</span>
                         <span className="font-medium text-navy">
-                          {property.property_appraiser_link ? (
-                            <a 
-                              href={property.property_appraiser_link} 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="text-blue-600 hover:underline flex items-center"
-                            >
-                              {property.parcel_number}
-                              <ExternalLink className="w-3 h-3 ml-1" />
-                            </a>
-                          ) : (
-                            <a 
-                              href={`https://web.bcpa.net/BcpaClient/#/Record/${property.parcel_number}`} 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="text-blue-600 hover:underline flex items-center"
-                            >
-                              {property.parcel_number}
-                              <ExternalLink className="w-3 h-3 ml-1" />
-                            </a>
-                          )}
+                          {property.parcel_number}
                         </span>
                       </div>
+                      {property.property_appraiser_link && (
+                        <div className="mt-2">
+                          <a
+                            href={property.property_appraiser_link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:underline text-xs flex items-center"
+                            title={property.property_appraiser_type === 'search' ? `Search by parcel: ${property.parcel_number}` : undefined}
+                          >
+                            {property.property_appraiser_label || 'View Property Appraiser'}
+                            <ExternalLink className="w-3 h-3 ml-1" />
+                          </a>
+                          {property.property_appraiser_type === 'search' && (
+                            <p className="text-xs text-gray-500 mt-1">
+                              Search using parcel: {property.parcel_number}
+                            </p>
+                          )}
+                        </div>
+                      )}
                       {property.tax_certificate_number && (
                         <div className="flex justify-between">
                           <span className="text-gray-600">Tax Certificate #:</span>

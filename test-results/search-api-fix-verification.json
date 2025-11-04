@@ -1,0 +1,11 @@
+{
+  "searchAPIErrors": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Search error: Error: Search failed: 404\n    at http://localhost:5191/src/hooks/useOptimizedSearch.ts?t=1761845117775:144:27"
+  ],
+  "allErrors": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)",
+    "Search error: Error: Search failed: 404\n    at http://localhost:5191/src/hooks/useOptimizedSearch.ts?t=1761845117775:144:27"
+  ],
+  "testPassed": false
+}

@@ -1,0 +1,966 @@
+{
+  "iconWarnings": [],
+  "allConsoleMessages": [
+    {
+      "type": "debug",
+      "text": "[vite] connecting..."
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected."
+    },
+    {
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold"
+    },
+    {
+      "type": "log",
+      "text": "App.tsx loaded with performance optimizations"
+    },
+    {
+      "type": "log",
+      "text": "main.tsx starting"
+    },
+    {
+      "type": "log",
+      "text": "React DevTools detected"
+    },
+    {
+      "type": "log",
+      "text": "Root element found, creating React app"
+    },
+    {
+      "type": "log",
+      "text": "[Dev Mode] Service worker registration skipped"
+    },
+    {
+      "type": "log",
+      "text": "React app rendered"
+    },
+    {
+      "type": "log",
+      "text": "Delayed render for DevTools compatibility"
+    },
+    {
+      "type": "log",
+      "text": "App component rendering with advanced performance optimizations"
+    },
+    {
+      "type": "log",
+      "text": "App component rendering with advanced performance optimizations"
+    },
+    {
+      "type": "log",
+      "text": "[Preloader] Preloading resources for route: /properties"
+    },
+    {
+      "type": "log",
+      "text": "App mounted - initializing performance features"
+    },
+    {
+      "type": "log",
+      "text": "[Preloader] Critical resources preloading initialized"
+    },
+    {
+      "type": "log",
+      "text": "[Preloader] Preloading resources for route: /properties"
+    },
+    {
+      "type": "log",
+      "text": "App mounted - initializing performance features"
+    },
+    {
+      "type": "log",
+      "text": "[Preloader] Critical resources preloading initialized"
+    },
+    {
+      "type": "log",
+      "text": "API Base URL: http://localhost:8000"
+    },
+    {
+      "type": "log",
+      "text": "[RENDER COUNT] PropertySearch rendered 1 times"
+    },
+    {
+      "type": "log",
+      "text": "[RENDER COUNT] PropertySearch rendered 2 times"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    },
+    {
+      "type": "error",
+      "text": "Search error: Error: Search failed: 404\n    at http://localhost:5191/src/hooks/useOptimizedSearch.ts:144:27"
+    },
+    {
+      "type": "log",
+      "text": "[RENDER COUNT] PropertySearch rendered 3 times"
+    },
+    {
+      "type": "log",
+      "text": "[Performance] LCP: 508.00ms"
+    },
+    {
+      "type": "log",
+      "text": "[RENDER COUNT] PropertySearch rendered 4 times"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: JOHN THE PLUMBER}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: JOHN THE PLUMBER}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: BLUMBERG,EDWIN PAUL LE H/E}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: BLUMBERG,EDWIN PAUL LE H/E}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: LUMBERT,BARBARA}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: LUMBERT,BARBARA}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: BLUMBERG,ANGELA L &}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: BLUMBERG,ANGELA L &}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: PLUMBER,ALAN}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: PLUMBER,ALAN}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: BLUMBERG,BRUCE M &}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: BLUMBERG,BRUCE M &}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: 84 LUMBER CO}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: 84 LUMBER CO}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: BINKS COCA-COLA BOTTLING CO}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: BINKS COCA-COLA BOTTLING CO}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: COVE BREWERY - CRAFT BEERS}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: COVE BREWERY - CRAFT BEERS}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 044, category: Industrial, useDescription: Industrial, ownerName: GENERAL NANO PACKING LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 044, category: Industrial, useDescription: Industrial, ownerName: GENERAL NANO PACKING LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: AMERICAN BOTTLING CO, THE}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: AMERICAN BOTTLING CO, THE}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: 84 LUMBER COMPANY #1319}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: 84 LUMBER COMPANY #1319}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: BANGIN BANJO BREWERY LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: BANGIN BANJO BREWERY LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: GULF STREM BREWERY COMPANY LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: GULF STREM BREWERY COMPANY LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: INVASIVE SPECIES BREWERY}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: INVASIVE SPECIES BREWERY}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: LUMBER LIQUIDATORS INC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: LUMBER LIQUIDATORS INC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: SHERIDAN LUMBER INC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: SHERIDAN LUMBER INC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: LAUDERALE ALE BREWERY & TAP RO}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: LAUDERALE ALE BREWERY & TAP RO}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: LUMBER LIQUIDATORS INC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: LUMBER LIQUIDATORS INC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 048, category: Industrial, useDescription: Industrial, ownerName: PICTURE FRAMING WAREHOUSE}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 048, category: Industrial, useDescription: Industrial, ownerName: PICTURE FRAMING WAREHOUSE}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: JOE HILLMAN PLUMBERS INC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: JOE HILLMAN PLUMBERS INC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: COMPOSITE LUMBER SUPPLY}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: COMPOSITE LUMBER SUPPLY}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: PLUMBER MIKE'S INC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: PLUMBER MIKE'S INC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: AMERICAN BOTTLING CO, THE}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: AMERICAN BOTTLING CO, THE}"
+    },
+    {
+      "type": "log",
+      "text": "[RENDER COUNT] PropertySearch rendered 5 times"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 494203040140"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 514226DC0540"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 494128081360"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 484330DC0350"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 484236030510"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 494319NP0570"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 494319AA1790"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 494305AA0240"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 600008444429"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 600008350511"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel C00008047403"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel C00002243105"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 600007979528"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 600008110396"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 600008032403"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel C00005363002"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel C00007852075"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 600008022923"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 600008108164"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 600008342965"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel C00004668012"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 600008431184"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 600007952441"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 600008104926"
+    },
+    {
+      "type": "log",
+      "text": "[RENDER COUNT] PropertySearch rendered 6 times"
+    },
+    {
+      "type": "log",
+      "text": "[Performance] LCP: 1200.00ms"
+    },
+    {
+      "type": "log",
+      "text": "[RENDER COUNT] PropertySearch rendered 7 times"
+    },
+    {
+      "type": "log",
+      "text": "[RENDER COUNT] PropertySearch rendered 8 times"
+    },
+    {
+      "type": "log",
+      "text": "[RENDER COUNT] PropertySearch rendered 9 times"
+    },
+    {
+      "type": "log",
+      "text": "[FILTER DEBUG] Property type filter changed to: Commercial"
+    },
+    {
+      "type": "log",
+      "text": "[RENDER COUNT] PropertySearch rendered 10 times"
+    },
+    {
+      "type": "log",
+      "text": "[FILTER DEBUG] Applying standardized_property_use filter: {propertyType: Commercial, county: BROWARD, standardizedValues: Array(1), valueCount: 1}"
+    },
+    {
+      "type": "log",
+      "text": "[FILTER DEBUG] Applying standardized_property_use filter: {propertyType: Commercial, county: BROWARD, standardizedValues: Array(1), valueCount: 1}"
+    },
+    {
+      "type": "log",
+      "text": "[Performance] FID: 0.80ms"
+    },
+    {
+      "type": "log",
+      "text": "[RENDER COUNT] PropertySearch rendered 11 times"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: JOHN THE PLUMBER}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: JOHN THE PLUMBER}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: BLUMBERG,EDWIN PAUL LE H/E}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: BLUMBERG,EDWIN PAUL LE H/E}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: LUMBERT,BARBARA}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: LUMBERT,BARBARA}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: BLUMBERG,ANGELA L &}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: BLUMBERG,ANGELA L &}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: PLUMBER,ALAN}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: PLUMBER,ALAN}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: BLUMBERG,BRUCE M &}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: BLUMBERG,BRUCE M &}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: 84 LUMBER CO}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: 84 LUMBER CO}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: BINKS COCA-COLA BOTTLING CO}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: BINKS COCA-COLA BOTTLING CO}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: COVE BREWERY - CRAFT BEERS}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: COVE BREWERY - CRAFT BEERS}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 044, category: Industrial, useDescription: Industrial, ownerName: GENERAL NANO PACKING LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 044, category: Industrial, useDescription: Industrial, ownerName: GENERAL NANO PACKING LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: AMERICAN BOTTLING CO, THE}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: AMERICAN BOTTLING CO, THE}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: 84 LUMBER COMPANY #1319}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: 84 LUMBER COMPANY #1319}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: BANGIN BANJO BREWERY LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: BANGIN BANJO BREWERY LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: GULF STREM BREWERY COMPANY LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: GULF STREM BREWERY COMPANY LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: INVASIVE SPECIES BREWERY}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: INVASIVE SPECIES BREWERY}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: LUMBER LIQUIDATORS INC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: LUMBER LIQUIDATORS INC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: SHERIDAN LUMBER INC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: SHERIDAN LUMBER INC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: LAUDERALE ALE BREWERY & TAP RO}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: LAUDERALE ALE BREWERY & TAP RO}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: LUMBER LIQUIDATORS INC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: LUMBER LIQUIDATORS INC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 048, category: Industrial, useDescription: Industrial, ownerName: PICTURE FRAMING WAREHOUSE}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 048, category: Industrial, useDescription: Industrial, ownerName: PICTURE FRAMING WAREHOUSE}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: JOE HILLMAN PLUMBERS INC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: JOE HILLMAN PLUMBERS INC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: COMPOSITE LUMBER SUPPLY}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: COMPOSITE LUMBER SUPPLY}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: PLUMBER MIKE'S INC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: PLUMBER MIKE'S INC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: AMERICAN BOTTLING CO, THE}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 045, category: Industrial, useDescription: Industrial, ownerName: AMERICAN BOTTLING CO, THE}"
+    },
+    {
+      "type": "log",
+      "text": "[FILTER DEBUG] Query returned properties:"
+    },
+    {
+      "type": "log",
+      "text": "  Count: 500"
+    },
+    {
+      "type": "log",
+      "text": "  First 5 properties: [Object, Object, Object, Object, Object]"
+    },
+    {
+      "type": "table",
+      "text": "[Object, Object, Object, Object, Object]"
+    },
+    {
+      "type": "log",
+      "text": "[COUNT DEBUG] Full page - estimating total: {resultsThisPage: 500, estimatedTotal: 500000, hasFilters: true}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: PLUMBERS & STEAMFITTERS}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: 043, category: Industrial, useDescription: Industrial, ownerName: PLUMBERS & STEAMFITTERS}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: UNITED STATES OF AMERICA}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: UNITED STATES OF AMERICA}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: JM AUTO INC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: JM AUTO INC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: ZINN,CRAIG M}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: ZINN,CRAIG M}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: HALLANDALE GROUP LTD PTNRSHP}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: HALLANDALE GROUP LTD PTNRSHP}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: GH GALT OCEAN LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: GH GALT OCEAN LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: AN IMPORTS WESTON ROAD INC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: AN IMPORTS WESTON ROAD INC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: LAUDERDALE YACHT CLUB}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: LAUDERDALE YACHT CLUB}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: GLOBAL SUNRISE WEST LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: GLOBAL SUNRISE WEST LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: JBL RIVERTOWNE SQUARE LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: JBL RIVERTOWNE SQUARE LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: TRANSAMERICAN LAND CORP}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: TRANSAMERICAN LAND CORP}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: YDB THREE LAKES}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: YDB THREE LAKES}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: SOUTH BROWARD HOSPITAL DISTRIC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: SOUTH BROWARD HOSPITAL DISTRIC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: CITY OF TAMARAC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: CITY OF TAMARAC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: FLAGLER SIXTH LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: FLAGLER SIXTH LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: RED APPLE AT TAMARAC LLC (LAND}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: RED APPLE AT TAMARAC LLC (LAND}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: RI/HOLLYWOOD NISSAN ACQ CORP}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: RI/HOLLYWOOD NISSAN ACQ CORP}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: KIMCO CORAL SPRINGS 623 LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: KIMCO CORAL SPRINGS 623 LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: CITY OF FORT LAUDERDALE}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: CITY OF FORT LAUDERDALE}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: CITY OF FORT LAUDERDALE}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: CITY OF FORT LAUDERDALE}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: FORMAN,MILES A}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: FORMAN,MILES A}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: SCHOOL BOARD OF BROWARD COUNTY}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: SCHOOL BOARD OF BROWARD COUNTY}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: SAREPTA NO 6 LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: SAREPTA NO 6 LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: PLANTATION SHOPPES LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[MiniPropertyCard] Property categorization: {propertyUse: COMM, category: Vacant Land, useDescription: Vacant Land, ownerName: PLANTATION SHOPPES LLC}"
+    },
+    {
+      "type": "log",
+      "text": "[RENDER COUNT] PropertySearch rendered 12 times"
+    },
+    {
+      "type": "log",
+      "text": "[FILTER DEBUG] Query returned properties:"
+    },
+    {
+      "type": "log",
+      "text": "  Count: 500"
+    },
+    {
+      "type": "log",
+      "text": "  First 5 properties: [Object, Object, Object, Object, Object]"
+    },
+    {
+      "type": "table",
+      "text": "[Object, Object, Object, Object, Object]"
+    },
+    {
+      "type": "log",
+      "text": "[COUNT DEBUG] Full page - estimating total: {resultsThisPage: 500, estimatedTotal: 500000, hasFilters: true}"
+    },
+    {
+      "type": "log",
+      "text": "[RENDER COUNT] PropertySearch rendered 13 times"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 504222110450"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 514036010020"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 484219270020"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 514227460010"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 504028050051"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 504211440010"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 494117360010"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 484307000060"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 504133130010"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 494218190020"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 514013130060"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 494107030010"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 494234074820"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 494104520010"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 514116180011"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 484127036264"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 494209290100"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 494209290088"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 504211221210"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 494211060040"
+    },
+    {
+      "type": "log",
+      "text": "🔍 Fetching individual data for parcel 494133010010"
+    },
+    {
+      "type": "log",
+      "text": "[RENDER COUNT] PropertySearch rendered 14 times"
+    }
+  ],
+  "testPassed": true
+}

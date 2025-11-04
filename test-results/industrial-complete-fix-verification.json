@@ -1,0 +1,32 @@
+{
+  "timestamp": "2025-10-30T18:37:22.323Z",
+  "testUrl": "http://localhost:5191/properties",
+  "fixes": [
+    "Added 3-digit padded DOR codes (040-049) to filter",
+    "Swapped MiniPropertyCard priorities to use DOR code first"
+  ],
+  "tests": [
+    {
+      "name": "Property count",
+      "status": "PASS",
+      "expected": 128,
+      "actual": 128
+    },
+    {
+      "name": "Industrial property display",
+      "status": "PASS",
+      "factoryIcons": 25,
+      "hasIndustrialText": true
+    },
+    {
+      "name": "DOR code priority",
+      "status": "PASS",
+      "logsFound": 98
+    },
+    {
+      "name": "No residential icons",
+      "status": "FAIL",
+      "homeIcons": 25
+    }
+  ]
+}

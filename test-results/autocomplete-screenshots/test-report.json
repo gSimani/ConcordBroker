@@ -1,0 +1,99 @@
+{
+  "timestamp": "2025-10-24T01:41:58.627Z",
+  "tests": [
+    {
+      "name": "Test 1: Initial Page Load",
+      "status": "ERROR",
+      "checks": [],
+      "error": "page.goto: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:5191/properties\", waiting until \"networkidle\"\u001b[22m\n",
+      "timestamp": "2025-10-24T01:41:59.012Z"
+    },
+    {
+      "name": "Test 2: Address Autocomplete",
+      "status": "FAIL",
+      "checks": [
+        {
+          "name": "Dropdown is visible",
+          "passed": false,
+          "details": "No dropdown found"
+        }
+      ],
+      "error": null,
+      "timestamp": "2025-10-24T01:42:29.015Z"
+    },
+    {
+      "name": "Test 3: Owner Autocomplete",
+      "status": "FAIL",
+      "checks": [
+        {
+          "name": "Owner dropdown is visible",
+          "passed": false,
+          "details": "No dropdown found"
+        }
+      ],
+      "error": null,
+      "timestamp": "2025-10-24T01:42:30.836Z"
+    },
+    {
+      "name": "Test 4: Click Suggestion",
+      "status": "ERROR",
+      "checks": [],
+      "error": "locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[role=\"option\"], [class*=\"suggestion\"]').first()\u001b[22m\n",
+      "timestamp": "2025-10-24T01:42:33.300Z"
+    },
+    {
+      "name": "Test 5: Execute Search",
+      "status": "PASS",
+      "checks": [
+        {
+          "name": "Property cards are filtered",
+          "passed": true,
+          "details": "Showing 9 filtered cards"
+        },
+        {
+          "name": "Shows only matching properties",
+          "passed": true,
+          "details": "Filtered results displayed"
+        }
+      ],
+      "error": null,
+      "timestamp": "2025-10-24T01:43:03.308Z"
+    }
+  ],
+  "overall": "FAIL",
+  "consoleErrors": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 400 ()",
+      "timestamp": "2025-10-24T01:42:29.931Z"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 400 ()",
+      "timestamp": "2025-10-24T01:42:30.013Z"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 400 ()",
+      "timestamp": "2025-10-24T01:42:32.365Z"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 400 ()",
+      "timestamp": "2025-10-24T01:42:32.448Z"
+    }
+  ],
+  "screenshotPaths": [
+    "C:\\Users\\gsima\\Documents\\MyProject\\ConcordBroker\\test-results\\autocomplete-screenshots\\02-address-autocomplete-dropdown.png",
+    "C:\\Users\\gsima\\Documents\\MyProject\\ConcordBroker\\test-results\\autocomplete-screenshots\\03-owner-autocomplete-dropdown.png",
+    "C:\\Users\\gsima\\Documents\\MyProject\\ConcordBroker\\test-results\\autocomplete-screenshots\\05-after-search-execution.png"
+  ],
+  "summary": {
+    "totalTests": 5,
+    "passed": 1,
+    "failed": 2,
+    "errors": 2,
+    "totalChecks": 4,
+    "passedChecks": 2
+  }
+}
