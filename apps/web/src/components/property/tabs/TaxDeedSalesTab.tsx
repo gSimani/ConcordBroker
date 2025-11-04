@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Gavel, DollarSign, Home, Phone, Mail, FileText, ExternalLink, Building2, User, Calendar, TrendingUp, AlertCircle, Save, Search, ArrowRight } from 'lucide-react'
+import { Gavel, DollarSign, Home, Phone, Mail, FileText, ExternalLink, Building2, User, Calendar, TrendingUp, AlertCircle, Save, Search, ArrowRight, RefreshCw } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { supabase } from '@/lib/supabase'
 import { Link } from 'react-router-dom'
@@ -68,6 +68,7 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
   const [auctionTab, setAuctionTab] = useState<'upcoming' | 'past' | 'cancelled'>('upcoming')
   const [selectedCounty, setSelectedCounty] = useState<string>('all')
   const [availableCounties, setAvailableCounties] = useState<{ name: string, count: number }[]>([])
+  const [scraping, setScraping] = useState(false)
 
   useEffect(() => {
     fetchTaxDeedProperties()
@@ -619,6 +620,35 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
     }))
   }
 
+  const scrapeCountyData = async () => {
+    if (selectedCounty === 'all') {
+      alert('Please select a specific county to scrape')
+      return
+    }
+
+    try {
+      setScraping(true)
+
+      // TODO: Once backend API endpoint is ready, replace this with actual API call
+      // For now, show a message
+      alert(`Scraping functionality for ${selectedCounty} will be available once database setup is complete.\n\nStatus: Waiting for Guy to execute Supabase migration (TAX_DEED_SUPABASE_REQUEST.md).\n\n52 auctions are ready to upload from JSON backup.`)
+
+      // Future implementation:
+      // const response = await fetch(`http://localhost:8003/api/tax-deeds/scrape/${selectedCounty}`, {
+      //   method: 'POST'
+      // })
+      // if (response.ok) {
+      //   await fetchTaxDeedProperties() // Refresh data
+      // }
+
+    } catch (error) {
+      console.error('Error scraping county data:', error)
+      alert('Error scraping data. Please try again.')
+    } finally {
+      setScraping(false)
+    }
+  }
+
   const getStatusBadge = (status: string) => {
     const statusColors: { [key: string]: string } = {
       'Upcoming': 'bg-blue-100 text-blue-800',
@@ -851,6 +881,19 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
                 </option>
               ))}
             </select>
+            <button
+              onClick={scrapeCountyData}
+              disabled={selectedCounty === 'all' || scraping}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                selectedCounty === 'all' || scraping
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  : 'bg-navy text-white hover:bg-blue-900'
+              }`}
+              title={selectedCounty === 'all' ? 'Select a specific county to scrape' : 'Refresh auction data for this county'}
+            >
+              <RefreshCw className={`w-4 h-4 ${scraping ? 'animate-spin' : ''}`} />
+              {scraping ? 'Scraping...' : 'Refresh Data'}
+            </button>
           </div>
 
           {/* Auction Date Selector */}
