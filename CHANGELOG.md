@@ -29,9 +29,16 @@ Unreleased (2025-11-05)
   - Comprehensive audits and master control/summary docs.
 
 - Notes
-  - Service‑role key verified via REST and in the RealAuction configuration loader (backend‑only access path). Anon key intentionally not rotated until project completion.
-  - Secret‑scanning noise temporarily suppressed during active development; to be tightened post‑rotation.
+  - Service-role key verified via REST and in the RealAuction configuration loader (backend-only access path). Anon key intentionally not rotated until project completion.
+  - Secret-scanning noise temporarily suppressed during active development; to be tightened post-rotation.
   - Full raw commit history is exported to ALL_COMMITS.log for detailed reference (hash | date | subject).
+
+v0.10.1 (Unreleased) — Patch
+
+- Fixes
+  - Placeholder for hotfixes and minor improvements.
+- Notes
+  - Prepare for next patch by listing issues and small PRs here.
 
 Proposed Versioning
 
