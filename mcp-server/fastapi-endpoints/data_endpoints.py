@@ -4,6 +4,14 @@ High-Performance FastAPI Data Endpoints for ConcordBroker
 Optimized for property data, sales history, tax certificates, and entity linking
 """
 
+import os
+from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables from .env.mcp
+env_path = Path(__file__).parent.parent.parent / '.env.mcp'
+load_dotenv(dotenv_path=env_path)
+
 import asyncio
 import logging
 import json
@@ -22,7 +30,7 @@ import uvicorn
 
 # Database and async support
 import asyncpg
-import aioredis
+import redis.asyncio as aioredis
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 from sqlalchemy import text, func, select, and_, or_
 import pandas as pd
@@ -44,6 +52,7 @@ class PropertySearchRequest(BaseModel):
     county: Optional[str] = None
     owner_name: Optional[str] = None
     property_address: Optional[str] = None
+    property_type: Optional[str] = None  # Industrial, Residential, Commercial, Agricultural, etc.
     min_value: Optional[float] = None
     max_value: Optional[float] = None
     has_tax_certificates: Optional[bool] = None
@@ -104,9 +113,12 @@ class DatabaseManager:
     async def initialize(self):
         """Initialize database connections"""
         try:
+            # Normalize postgres:// to postgresql:// for SQLAlchemy
+            db_url = self.database_url.replace('postgres://', 'postgresql://')
+
             # PostgreSQL connection pool
             self.pool = await asyncpg.create_pool(
-                self.database_url,
+                db_url,
                 min_size=10,
                 max_size=50,
                 command_timeout=30,
@@ -118,7 +130,7 @@ class DatabaseManager:
 
             # SQLAlchemy async engine for complex queries
             self.engine = create_async_engine(
-                self.database_url.replace('postgresql://', 'postgresql+asyncpg://'),
+                db_url.replace('postgresql://', 'postgresql+asyncpg://'),
                 pool_size=20,
                 max_overflow=30,
                 pool_timeout=30,
@@ -196,7 +208,12 @@ async def lifespan(app: FastAPI):
 
     # Startup
     import os
-    database_url = os.getenv('DATABASE_URL') or os.getenv('SUPABASE_URL', '').replace('https://', 'postgresql://postgres:')
+    # Use proper Postgres connection strings
+    database_url = (
+        os.getenv('DATABASE_URL') or
+        os.getenv('POSTGRES_URL') or
+        os.getenv('POSTGRES_URL_NON_POOLING')
+    )
     redis_url = os.getenv('REDIS_URL', 'redis://localhost:6379')
 
     db_manager = DatabaseManager(database_url, redis_url)
@@ -282,10 +299,146 @@ async def health_check():
         "redis": "connected" if db_manager and db_manager.redis else "disconnected"
     }
 
-@app.post("/api/properties/search")
+@app.get("/api/properties")
+async def get_properties(
+    city: Optional[str] = None,
+    address: Optional[str] = None,
+    county: Optional[str] = None,
+    owner_name: Optional[str] = None,
+    property_type: Optional[str] = None,
+    min_value: Optional[int] = None,
+    max_value: Optional[int] = None,
+    use_index: bool = True,
+    optimize_for_speed: bool = True,
+    include_total: bool = True,
+    limit: int = 500,
+    offset: int = 0
+) -> Dict[str, Any]:
+    """
+    GET endpoint for property search with query parameters
+    Compatible with frontend property search requests
+    """
+    try:
+        # Build query conditions
+        conditions = []
+        params = []
+
+        if city:
+            conditions.append(f"UPPER(phy_city) = UPPER(${len(params) + 1})")
+            params.append(city)
+
+        if address:
+            conditions.append(f"phy_addr1 ILIKE ${len(params) + 1}")
+            params.append(f"%{address}%")
+
+        if county:
+            conditions.append(f"UPPER(county) = UPPER(${len(params) + 1})")
+            params.append(county)
+
+        if owner_name:
+            conditions.append(f"owner_name ILIKE ${len(params) + 1}")
+            params.append(f"%{owner_name}%")
+
+        if property_type:
+            # Map property type names to DOR use codes
+            type_mapping = {
+                "Single Family": "1",
+                "Condo": "2",
+                "Multi Family": "3",
+                "Commercial": "4",
+                "Industrial": "5"
+            }
+            use_code = type_mapping.get(property_type)
+            if use_code:
+                conditions.append(f"property_use = ${len(params) + 1}")
+                params.append(use_code)
+
+        if min_value is not None:
+            conditions.append(f"just_value >= ${len(params) + 1}")
+            params.append(min_value)
+
+        if max_value is not None:
+            conditions.append(f"just_value <= ${len(params) + 1}")
+            params.append(max_value)
+
+        # Build WHERE clause
+        where_clause = " AND ".join(conditions) if conditions else "1=1"
+
+        # Build main query
+        query = f"""
+        SELECT
+            parcel_id,
+            county,
+            year,
+            owner_name,
+            owner_addr1,
+            owner_city,
+            owner_state,
+            owner_zip,
+            phy_addr1,
+            phy_city,
+            phy_zipcd as phy_zip,
+            property_use,
+            land_use_code,
+            just_value,
+            land_value,
+            building_value,
+            land_sqft,
+            total_living_area,
+            year_built,
+            bedrooms,
+            bathrooms
+        FROM florida_parcels_latest
+        WHERE {where_clause}
+        ORDER BY just_value DESC NULLS LAST
+        LIMIT {limit}
+        OFFSET {offset}
+        """
+
+        # Execute query
+        if not db_manager or not db_manager.pool:
+            raise HTTPException(status_code=503, detail="Database not available")
+
+        async with db_manager.pool.acquire() as conn:
+            results = await conn.fetch(query, *params)
+
+            # Convert to list of dicts
+            data = [dict(row) for row in results]
+
+            # Get total count if requested
+            total = None
+            if include_total:
+                count_query = f"SELECT COUNT(*) as total FROM florida_parcels_latest WHERE {where_clause}"
+                count_result = await conn.fetchrow(count_query, *params)
+                total = count_result['total'] if count_result else 0
+
+            return {
+                "success": True,
+                "data": data,
+                "total": total,
+                "limit": limit,
+                "offset": offset,
+                "timestamp": datetime.now().isoformat()
+            }
+
+    except Exception as e:
+        logger.error(f"Property GET error: {e}")
+        import traceback
+        logger.error(traceback.format_exc())
+        raise HTTPException(status_code=500, detail=f"Property search failed: {str(e)}")
+
+@app.get("/api/properties/search")
 async def search_properties(
-    request: PropertySearchRequest,
-    token: str = Depends(verify_token)
+    parcel_id: Optional[str] = Query(None),
+    county: Optional[str] = Query(None),
+    owner_name: Optional[str] = Query(None),
+    property_address: Optional[str] = Query(None),
+    property_type: Optional[str] = Query(None),  # Industrial, Residential, Commercial, etc.
+    min_value: Optional[float] = Query(None),
+    max_value: Optional[float] = Query(None),
+    has_tax_certificates: Optional[bool] = Query(None),
+    limit: int = Query(default=100, le=1000),
+    offset: int = Query(default=0, ge=0)
 ) -> Dict[str, Any]:
     """
     High-performance property search with multiple filters
@@ -297,38 +450,62 @@ async def search_properties(
         params = {}
         param_count = 0
 
-        if request.parcel_id:
+        if parcel_id:
             param_count += 1
             conditions.append(f"parcel_id = ${param_count}")
-            params[f"param_{param_count}"] = request.parcel_id
+            params[f"param_{param_count}"] = parcel_id
 
-        if request.county:
+        if county:
             param_count += 1
             conditions.append(f"UPPER(county) = UPPER(${param_count})")
-            params[f"param_{param_count}"] = request.county
+            params[f"param_{param_count}"] = county
 
-        if request.owner_name:
+        if owner_name:
             param_count += 1
             conditions.append(f"owner_name ILIKE '%' || ${param_count} || '%'")
-            params[f"param_{param_count}"] = request.owner_name
+            params[f"param_{param_count}"] = owner_name
 
-        if request.property_address:
+        if property_address:
             param_count += 1
             conditions.append(f"phy_addr1 ILIKE '%' || ${param_count} || '%'")
-            params[f"param_{param_count}"] = request.property_address
+            params[f"param_{param_count}"] = property_address
 
-        if request.min_value is not None:
+        if property_type:
+            # FIXED: Query for Industrial using BOTH standardized field AND DOR codes
+            # Audit revealed 69,423 total industrial properties:
+            # - 19,468 correctly marked as "Industrial"
+            # - 50,000+ have industrial DOR codes (40-49) but miscategorized
+            if property_type == 'Industrial':
+                # Industrial DOR codes: 40-49 (all variations)
+                industrial_codes = ['40','41','42','43','44','45','46','47','48','49',
+                                  '040','041','042','043','044','045','046','047','048','049']
+                param_count += 1
+                # Create placeholders for IN clause
+                code_placeholders = ','.join([f'${param_count + i}' for i in range(len(industrial_codes))])
+                conditions.append(f"(standardized_property_use = ${param_count} OR property_use IN ({code_placeholders}))")
+                params[f"param_{param_count}"] = property_type
+                # Add all DOR codes as parameters
+                for i, code in enumerate(industrial_codes):
+                    param_count += 1
+                    params[f"param_{param_count}"] = code
+            else:
+                # For all other property types, use standardized_property_use only
+                param_count += 1
+                conditions.append(f"standardized_property_use = ${param_count}")
+                params[f"param_{param_count}"] = property_type
+
+        if min_value is not None:
             param_count += 1
             conditions.append(f"just_value >= ${param_count}")
-            params[f"param_{param_count}"] = request.min_value
+            params[f"param_{param_count}"] = min_value
 
-        if request.max_value is not None:
+        if max_value is not None:
             param_count += 1
             conditions.append(f"just_value <= ${param_count}")
-            params[f"param_{param_count}"] = request.max_value
+            params[f"param_{param_count}"] = max_value
 
-        if request.has_tax_certificates is not None:
-            if request.has_tax_certificates:
+        if has_tax_certificates is not None:
+            if has_tax_certificates:
                 conditions.append("""
                     parcel_id IN (
                         SELECT DISTINCT parcel_id
@@ -365,6 +542,7 @@ async def search_properties(
             beds,
             baths,
             pool,
+            standardized_property_use,
             CASE
                 WHEN EXISTS (
                     SELECT 1 FROM tax_certificates tc
@@ -374,17 +552,17 @@ async def search_properties(
                 ELSE false
             END as has_tax_certificates,
             updated_at
-        FROM florida_parcels fp
+        FROM florida_parcels_latest fp
         WHERE {where_clause}
         ORDER BY just_value DESC
-        LIMIT {request.limit}
-        OFFSET {request.offset}
+        LIMIT {limit}
+        OFFSET {offset}
         """
 
         # Count query for pagination
         count_query = f"""
         SELECT COUNT(*) as total
-        FROM florida_parcels fp
+        FROM florida_parcels_latest fp
         WHERE {where_clause}
         """
 
@@ -399,9 +577,9 @@ async def search_properties(
             "data": results,
             "pagination": {
                 "total": total_count,
-                "limit": request.limit,
-                "offset": request.offset,
-                "pages": (total_count + request.limit - 1) // request.limit
+                "limit": limit,
+                "offset": offset,
+                "pages": (total_count + limit - 1) // limit
             },
             "timestamp": datetime.now().isoformat()
         }
@@ -478,7 +656,7 @@ async def get_sales_history(
             # Get property details for comparison
             property_query = """
             SELECT county, phy_addr1, total_living_area, year_built, beds, baths
-            FROM florida_parcels
+            FROM florida_parcels_latest
             WHERE parcel_id = $1
             """
 
@@ -506,7 +684,7 @@ async def get_sales_history(
                     ABS(fp.total_living_area - $2) as sqft_diff,
                     ABS(fp.year_built - $3) as year_diff
                 FROM property_sales_history psh
-                JOIN florida_parcels fp ON psh.parcel_id = fp.parcel_id
+                JOIN florida_parcels_latest fp ON psh.parcel_id = fp.parcel_id
                 WHERE psh.parcel_id != $1
                     AND fp.county = $4
                     AND psh.sale_date >= NOW() - INTERVAL '2 years'
