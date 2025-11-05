@@ -129,3 +129,4 @@ For issues and questions, please use the GitHub issue tracker.
 - Week 2: Official Records loader, scoring algorithm, basic UI
 - Week 3: Authentication, email notifications, Cloudflare integration
 - Week 4: Playwright scrapers, UI polish, performance optimization
+>>>>>>> 10fd2a978f3bac09eec27d108b16b10b67c89fa2
