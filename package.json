@@ -29,7 +29,13 @@
     "port:clean": "node scripts/ensure-single-dev-server.cjs",
     "dev:clean": "node scripts/ensure-single-dev-server.cjs && pnpm -r run dev",
     "e2e": "node scripts/run-local-e2e.cjs",
-    "e2e:online": "E2E_ONLINE=true node scripts/run-local-e2e.cjs"
+    "e2e:online": "E2E_ONLINE=true node scripts/run-local-e2e.cjs",
+    "console:verify": "node verify-console-output.js",
+    "console:verify:detailed": "node verify-console-detailed.js",
+    "load:bcpa-sales": "node scripts/load-bcpa-sales.mjs",
+    "verify:types": "npm --prefix apps/web run verify:types",
+    "verify:lint": "npm --prefix apps/web run verify:lint",
+    "changeset": "pnpm dlx changeset"
   },
   "engines": {
     "node": ">=18.0.0",
@@ -39,13 +45,28 @@
   "dependencies": {
     "@supabase/supabase-js": "2.57.2",
     "axios": "1.11.0",
+    "csv-parse": "6.1.0",
     "dotenv": "17.2.2",
     "puppeteer": "24.19.0"
   },
   "devDependencies": {
     "@playwright/test": "1.55.0",
     "playwright": "1.55.0"
-  }
+  },
+  "main": "analyze-sales-tables.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gSimani/ConcordBroker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gSimani/ConcordBroker/issues"
+  },
+  "homepage": "https://github.com/gSimani/ConcordBroker#readme"
 }
-
-
