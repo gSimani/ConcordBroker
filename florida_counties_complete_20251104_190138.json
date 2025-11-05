@@ -1,0 +1,761 @@
+{
+  "timestamp": "2025-11-04T19:01:38.606704",
+  "source_url": "https://www.realauction.com/clients",
+  "total_counties_found": 47,
+  "counties": {
+    "Alachua": {
+      "county": "Alachua",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Baker": {
+      "county": "Baker",
+      "foreclosures": [],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Bay": {
+      "county": "Bay",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Brevard": {
+      "county": "Brevard",
+      "foreclosures": [],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Broward": {
+      "county": "Broward",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_deeds": [],
+      "tax_liens": [],
+      "other": []
+    },
+    "Calhoun": {
+      "county": "Calhoun",
+      "foreclosures": [
+        {
+          "type": "Foreclosure & Tax Deed Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Foreclosure & Tax Deed Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Charlotte": {
+      "county": "Charlotte",
+      "foreclosures": [
+        {
+          "type": "Foreclosures & Tax Deed Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Foreclosures & Tax Deed Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Citrus": {
+      "county": "Citrus",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Clay": {
+      "county": "Clay",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Columbia": {
+      "county": "Columbia",
+      "foreclosures": [
+        {
+          "type": "Foreclosure & Tax Deed Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Foreclosure & Tax Deed Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Duval": {
+      "county": "Duval",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Escambia": {
+      "county": "Escambia",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Flagler": {
+      "county": "Flagler",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Gilchrist": {
+      "county": "Gilchrist",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Gulf": {
+      "county": "Gulf",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Hendry": {
+      "county": "Hendry",
+      "foreclosures": [],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Highlands": {
+      "county": "Highlands",
+      "foreclosures": [],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Hillsborough": {
+      "county": "Hillsborough",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Indian River": {
+      "county": "Indian River",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 1
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Jackson": {
+      "county": "Jackson",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Lake": {
+      "county": "Lake",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Lee": {
+      "county": "Lee",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Leon": {
+      "county": "Leon",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Manatee": {
+      "county": "Manatee",
+      "foreclosures": [
+        {
+          "type": "Foreclosures & Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Foreclosures & Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Marion": {
+      "county": "Marion",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Martin": {
+      "county": "Martin",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Miami-Dade": {
+      "county": "Miami-Dade",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Monroe": {
+      "county": "Monroe",
+      "foreclosures": [],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Nassau": {
+      "county": "Nassau",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Okaloosa": {
+      "county": "Okaloosa",
+      "foreclosures": [],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Okeechobee": {
+      "county": "Okeechobee",
+      "foreclosures": [
+        {
+          "type": "Foreclosures & Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Foreclosures & Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Orange": {
+      "county": "Orange",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Osceola": {
+      "county": "Osceola",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Palm Beach": {
+      "county": "Palm Beach",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Pasco": {
+      "county": "Pasco",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Pinellas": {
+      "county": "Pinellas",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Polk": {
+      "county": "Polk",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Putnam": {
+      "county": "Putnam",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Saint Johns": {
+      "county": "Saint Johns",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [],
+      "tax_liens": [],
+      "other": []
+    },
+    "St. Lucie": {
+      "county": "St. Lucie",
+      "foreclosures": [
+        {
+          "type": "Foreclosures & Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Foreclosures & Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Santa Rosa": {
+      "county": "Santa Rosa",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Sarasota": {
+      "county": "Sarasota",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Seminole": {
+      "county": "Seminole",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Suwannee": {
+      "county": "Suwannee",
+      "foreclosures": [],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Volusia": {
+      "county": "Volusia",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Walton": {
+      "county": "Walton",
+      "foreclosures": [
+        {
+          "type": "Foreclosures & Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Foreclosures & Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    },
+    "Washington": {
+      "county": "Washington",
+      "foreclosures": [
+        {
+          "type": "Foreclosure Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_deeds": [
+        {
+          "type": "Tax Deed Sales",
+          "source_page": 2
+        }
+      ],
+      "tax_liens": [],
+      "other": []
+    }
+  }
+}
