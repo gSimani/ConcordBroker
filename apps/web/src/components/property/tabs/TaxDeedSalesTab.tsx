@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { SearchableSelect } from '@/components/ui/searchable-select'
 import { getPropertyAppraiserUrl, getGISMapUrl } from '@/utils/property-appraiser-links'
 import { getSunbizLink } from '@/utils/sunbiz-link'
+import { AuctionSiteLinks } from '@/components/auction/AuctionSiteLinks'
 
 interface TaxDeedProperty {
   id: string
@@ -914,6 +915,15 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
         <p className="text-sm mt-4 text-gray-elegant">
           Browse upcoming, past, and cancelled tax deed auctions
         </p>
+
+        {/* Auction Site Links */}
+        <div className="mt-4">
+          <AuctionSiteLinks
+            county={selectedCounty === 'all' ? null : selectedCounty}
+            taxDeedOnly={true}
+            inline={true}
+          />
+        </div>
       </div>
 
       {/* Auction Type Tabs */}

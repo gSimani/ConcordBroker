@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { 
+import {
   Gavel, Calendar, DollarSign, User, AlertTriangle,
   TrendingUp, Clock, FileText, Home, Building,
   Scale, Briefcase, AlertCircle, CheckCircle
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import { AuctionSiteLinks } from '@/components/auction/AuctionSiteLinks';
 
 interface ForeclosureTabProps {
   propertyData: any;
@@ -114,6 +115,13 @@ export const ForeclosureTab: React.FC<ForeclosureTabProps> = ({ propertyData }) 
 
   return (
     <div className="space-y-6">
+      {/* Auction Site Links */}
+      <AuctionSiteLinks
+        county={bcpaData?.county}
+        foreclosureOnly={true}
+        inline={true}
+      />
+
       {/* Risk Alert */}
       {hasActiveForeclosure && (
         <Alert className="border-red-200 bg-red-50">

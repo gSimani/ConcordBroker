@@ -3,6 +3,7 @@ import { DollarSign, Home, Building, Calendar, TrendingUp, Clock, TreePine, Rule
 import { getUseCodeName, getUseCodeDescription } from '@/lib/useCodeMapping'
 import { PropertyDataAnalyzer } from '@/utils/property-intelligence'
 import { useState } from 'react'
+import { AuctionSiteLinks } from '@/components/auction/AuctionSiteLinks'
 
 // Contact info types
 interface ContactInfo {
@@ -214,9 +215,16 @@ export function OverviewTab({ data }: OverviewTabProps) {
   };
 
   return (
-    <div className="grid grid-cols-3 gap-6">
-      {/* Left Column - Property & Investment */}
-      <div className="space-y-6">
+    <div className="space-y-6">
+      {/* Auction Site Links - Full Width */}
+      <AuctionSiteLinks
+        county={bcpaData?.county}
+        inline={false}
+      />
+
+      <div className="grid grid-cols-3 gap-6">
+        {/* Left Column - Property & Investment */}
+        <div className="space-y-6">
         <div className="card-executive animate-elegant">
           <div className="elegant-card-header">
             <h3 className="elegant-card-title gold-accent">
@@ -816,6 +824,7 @@ export function OverviewTab({ data }: OverviewTabProps) {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   )
