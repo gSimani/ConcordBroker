@@ -1,0 +1,447 @@
+{
+  "metadata": {
+    "source": "https://www.realauction.com/clients",
+    "date_compiled": "2025-01-05",
+    "total_counties": 47,
+    "platform_family": "RealAuction",
+    "login_credentials": {
+      "username": "gSimani",
+      "password": "12261226"
+    },
+    "login_location": "Upper-left corner beneath county banner with 'User Name' and 'User Password' fields plus Submit button"
+  },
+  "counties": [
+    {
+      "county": "ALACHUA",
+      "foreclosure_url": "https://alachua.realforeclose.com",
+      "tax_deed_url": "https://alachua.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites for foreclosure and tax‑deed sales"
+    },
+    {
+      "county": "BAKER",
+      "foreclosure_url": null,
+      "tax_deed_url": "https://baker.realtaxdeed.com",
+      "site_type": "tax_deed_only",
+      "has_foreclosure": false,
+      "has_tax_deed": true,
+      "notes": "Only tax‑deed auctions"
+    },
+    {
+      "county": "BAY",
+      "foreclosure_url": "https://bay.realforeclose.com",
+      "tax_deed_url": "https://bay.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "BREVARD",
+      "foreclosure_url": null,
+      "tax_deed_url": "https://brevard.realforeclose.com",
+      "site_type": "tax_deed_only",
+      "has_foreclosure": false,
+      "has_tax_deed": true,
+      "notes": "RealAuction hosts only tax‑deed auctions for Brevard on the RealForeclose domain"
+    },
+    {
+      "county": "BROWARD",
+      "foreclosure_url": "https://broward.realforeclose.com",
+      "tax_deed_url": null,
+      "site_type": "foreclosure_only",
+      "has_foreclosure": true,
+      "has_tax_deed": false,
+      "notes": "Broward uses RealAuction only for foreclosure sales"
+    },
+    {
+      "county": "CALHOUN",
+      "foreclosure_url": "https://calhoun.realforeclose.com",
+      "tax_deed_url": "https://calhoun.realforeclose.com",
+      "site_type": "combined",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Combined site for foreclosure and tax‑deed sales"
+    },
+    {
+      "county": "CHARLOTTE",
+      "foreclosure_url": "https://charlotte.realforeclose.com",
+      "tax_deed_url": "https://charlotte.realforeclose.com",
+      "site_type": "combined",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Combined site"
+    },
+    {
+      "county": "CITRUS",
+      "foreclosure_url": "https://citrus.realforeclose.com",
+      "tax_deed_url": "https://citrus.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "CLAY",
+      "foreclosure_url": "https://clay.realforeclose.com",
+      "tax_deed_url": "https://clay.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "COLUMBIA",
+      "foreclosure_url": null,
+      "tax_deed_url": null,
+      "site_type": "coming_soon",
+      "has_foreclosure": false,
+      "has_tax_deed": false,
+      "notes": "Sites not active yet - coming soon"
+    },
+    {
+      "county": "DUVAL",
+      "foreclosure_url": "https://duval.realforeclose.com",
+      "tax_deed_url": "https://duval.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "ESCAMBIA",
+      "foreclosure_url": "https://escambia.realforeclose.com",
+      "tax_deed_url": "https://escambia.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "FLAGLER",
+      "foreclosure_url": "https://flagler.realforeclose.com",
+      "tax_deed_url": "https://flagler.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "GILCHRIST",
+      "foreclosure_url": "https://gilchrist.realforeclose.com",
+      "tax_deed_url": "https://gilchrist.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "GULF",
+      "foreclosure_url": "https://gulf.realforeclose.com",
+      "tax_deed_url": "https://gulf.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "HENDRY",
+      "foreclosure_url": null,
+      "tax_deed_url": "https://hendry.realtaxdeed.com",
+      "site_type": "tax_deed_only",
+      "has_foreclosure": false,
+      "has_tax_deed": true,
+      "notes": "Only tax‑deed auctions"
+    },
+    {
+      "county": "HERNANDO",
+      "foreclosure_url": null,
+      "tax_deed_url": "https://hernando.realtaxdeed.com",
+      "site_type": "tax_deed_only",
+      "has_foreclosure": false,
+      "has_tax_deed": true,
+      "notes": "Only tax‑deed auctions"
+    },
+    {
+      "county": "HIGHLANDS",
+      "foreclosure_url": null,
+      "tax_deed_url": "https://highlands.realtaxdeed.com",
+      "site_type": "tax_deed_only",
+      "has_foreclosure": false,
+      "has_tax_deed": true,
+      "notes": "Only tax‑deed auctions"
+    },
+    {
+      "county": "HILLSBOROUGH",
+      "foreclosure_url": "https://hillsborough.realforeclose.com",
+      "tax_deed_url": "https://hillsborough.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "INDIAN RIVER",
+      "foreclosure_url": "https://indian-river.realforeclose.com",
+      "tax_deed_url": "https://indian-river.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "JACKSON",
+      "foreclosure_url": "https://jackson.realforeclose.com",
+      "tax_deed_url": "https://jackson.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "LAKE",
+      "foreclosure_url": "https://lake.realforeclose.com",
+      "tax_deed_url": "https://lake.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "LEE",
+      "foreclosure_url": "https://lee.realforeclose.com",
+      "tax_deed_url": "https://lee.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "LEON",
+      "foreclosure_url": "https://leon.realforeclose.com",
+      "tax_deed_url": "https://leon.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "MANATEE",
+      "foreclosure_url": "https://manatee.realforeclose.com",
+      "tax_deed_url": "https://manatee.realforeclose.com",
+      "site_type": "combined",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Combined site"
+    },
+    {
+      "county": "MARION",
+      "foreclosure_url": "https://marion.realforeclose.com",
+      "tax_deed_url": "https://marion.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "MARTIN",
+      "foreclosure_url": "https://martin.realforeclose.com",
+      "tax_deed_url": "https://martin.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "MIAMI-DADE",
+      "foreclosure_url": "https://miami-dade.realforeclose.com",
+      "tax_deed_url": "https://miami-dade.realtaxdeed.com",
+      "site_type": "combined",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Combined site - both URLs point to same site"
+    },
+    {
+      "county": "MONROE",
+      "foreclosure_url": null,
+      "tax_deed_url": "https://monroe.realtaxdeed.com",
+      "site_type": "tax_deed_only",
+      "has_foreclosure": false,
+      "has_tax_deed": true,
+      "notes": "Only tax‑deed auctions"
+    },
+    {
+      "county": "NASSAU",
+      "foreclosure_url": "https://nassau.realforeclose.com",
+      "tax_deed_url": "https://nassau.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "OKALOOSA",
+      "foreclosure_url": "https://okaloosa.realforeclose.com",
+      "tax_deed_url": "https://okaloosa.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "OKEECHOBEE",
+      "foreclosure_url": "https://okeechobee.realforeclose.com",
+      "tax_deed_url": "https://okeechobee.realforeclose.com",
+      "site_type": "combined",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Combined site"
+    },
+    {
+      "county": "ORANGE",
+      "foreclosure_url": "https://orange.realforeclose.com",
+      "tax_deed_url": "https://orange.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "OSCEOLA",
+      "foreclosure_url": "https://osceola.realforeclose.com",
+      "tax_deed_url": "https://osceola.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "PALM BEACH",
+      "foreclosure_url": "https://palmbeach.realforeclose.com",
+      "tax_deed_url": "https://palmbeach.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "PASCO",
+      "foreclosure_url": "https://pasco.realforeclose.com",
+      "tax_deed_url": "https://pasco.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "PINELLAS",
+      "foreclosure_url": "https://pinellas.realforeclose.com",
+      "tax_deed_url": "https://pinellas.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites with cross-links"
+    },
+    {
+      "county": "POLK",
+      "foreclosure_url": "https://polk.realforeclose.com",
+      "tax_deed_url": "https://polk.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "PUTNAM",
+      "foreclosure_url": "https://putnam.realforeclose.com",
+      "tax_deed_url": "https://putnam.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "SAINT JOHNS",
+      "foreclosure_url": "https://saintjohns.realforeclose.com",
+      "tax_deed_url": "https://saintjohns.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "ST. LUCIE",
+      "foreclosure_url": "https://stlucie.realforeclose.com",
+      "tax_deed_url": "https://stlucie.realforeclose.com",
+      "site_type": "combined",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Combined site"
+    },
+    {
+      "county": "SANTA ROSA",
+      "foreclosure_url": "https://santarosa.realforeclose.com",
+      "tax_deed_url": "https://santarosa.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "SARASOTA",
+      "foreclosure_url": "https://sarasota.realforeclose.com",
+      "tax_deed_url": "https://sarasota.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites with cross-links"
+    },
+    {
+      "county": "SEMINOLE",
+      "foreclosure_url": "https://seminole.realforeclose.com",
+      "tax_deed_url": "https://seminole.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "SUWANNEE",
+      "foreclosure_url": null,
+      "tax_deed_url": "https://suwannee.realtaxdeed.com",
+      "site_type": "tax_deed_only",
+      "has_foreclosure": false,
+      "has_tax_deed": true,
+      "notes": "Only tax‑deed auctions"
+    },
+    {
+      "county": "VOLUSIA",
+      "foreclosure_url": "https://volusia.realforeclose.com",
+      "tax_deed_url": "https://volusia.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    },
+    {
+      "county": "WALTON",
+      "foreclosure_url": "https://walton.realforeclose.com",
+      "tax_deed_url": "https://walton.realforeclose.com",
+      "site_type": "combined",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Combined site"
+    },
+    {
+      "county": "WASHINGTON",
+      "foreclosure_url": "https://washington.realforeclose.com",
+      "tax_deed_url": "https://washington.realtaxdeed.com",
+      "site_type": "separate",
+      "has_foreclosure": true,
+      "has_tax_deed": true,
+      "notes": "Separate sites"
+    }
+  ]
+}
