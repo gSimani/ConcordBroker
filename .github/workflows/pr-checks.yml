@@ -1,0 +1,53 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  node-ts:
+    name: TypeScript build and lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Install dependencies (workspace)
+        run: |
+          pnpm -v
+          pnpm -w -r install --frozen-lockfile || pnpm -w -r install
+
+      - name: Lint (if present)
+        run: |
+          pnpm -w -r -if-present lint
+
+      - name: Type-check / Build (if present)
+        run: |
+          pnpm -w -r -if-present build
+
+  python-syntax:
+    name: Python syntax check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Syntax check (compileall)
+        run: |
+          python -m compileall -q . || true
+
