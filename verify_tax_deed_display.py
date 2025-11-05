@@ -6,10 +6,15 @@ from playwright.async_api import async_playwright
 from datetime import datetime
 import json
 from supabase import create_client, Client
+import os
+from dotenv import load_dotenv
 
 # Supabase configuration
 SUPABASE_URL = 'https://pmispwtdngkcmsrsjwbp.supabase.co'
-SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5NTY5NTgsImV4cCI6MjA3MjUzMjk1OH0.YvWR1NkVByTY10Vzpzt4jMtMjBszD_BOCsQDBfG951A'
+SUPABASE_KEY = 'REDACTED'
+load_dotenv('.env.mcp')
+SUPABASE_URL = os.getenv('SUPABASE_URL') or SUPABASE_URL
+SUPABASE_KEY = os.getenv('SUPABASE_SERVICE_ROLE_KEY') or os.getenv('SUPABASE_KEY') or SUPABASE_KEY
 
 class TaxDeedDisplayVerifier:
     def __init__(self):

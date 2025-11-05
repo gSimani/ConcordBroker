@@ -6,6 +6,8 @@ from playwright.async_api import async_playwright
 from datetime import datetime
 import json
 from supabase import create_client, Client
+import os
+from dotenv import load_dotenv
 
 # Supabase configuration
 SUPABASE_URL = 'https://pmispwtdngkcmsrsjwbp.supabase.co'
@@ -116,3 +118,4 @@ async def verify_all_properties():
 
 if __name__ == "__main__":
     asyncio.run(verify_all_properties())
+

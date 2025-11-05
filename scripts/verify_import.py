@@ -5,8 +5,8 @@ Verify Broward County sales import
 import os
 from supabase import create_client
 
-SUPABASE_URL = os.getenv('SUPABASE_URL', 'https://pmispwtdngkcmsrsjwbp.supabase.co')
-SUPABASE_KEY = os.getenv('SUPABASE_ANON_KEY', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5NTY5NTgsImV4cCI6MjA3MjUzMjk1OH0.vSW_L6wL_lW15KPqIJFT3bY-KhNABd3d7qs8m-6hQ7g')
+SUPABASE_URL = os.getenv('SUPABASE_URL') or 'https://pmispwtdngkcmsrsjwbp.supabase.co'
+SUPABASE_KEY = os.getenv('SUPABASE_ANON_KEY') or ''
 
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
@@ -28,3 +28,4 @@ if sample.data:
     print(f"  County: {rec.get('county')}")
     print(f"  OR Book/Page: {rec.get('or_book')}/{rec.get('or_page')}")
     print(f"\nTest in UI: http://localhost:5178/property/{rec.get('parcel_id')}")
+

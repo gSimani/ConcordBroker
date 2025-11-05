@@ -2,7 +2,7 @@
 Supabase Data Verification Script
 Checks staging tables, production tables, and ingestion logs
 """
-from supabase import create_client
+from supabase import create_client`r`nfrom dotenv import load_dotenv`r`nimport os
 import sys
 
 # Fix encoding for Windows
@@ -10,9 +10,9 @@ if sys.platform == 'win32':
     sys.stdout.reconfigure(encoding='utf-8')
 
 SUPABASE_URL = "https://pmispwtdngkcmsrsjwbp.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Njk1Njk1OCwiZXhwIjoyMDcyNTMyOTU4fQ.fbCYcTFxLaMC_g4P8IrQoHWbQbPr_t9eaxYD_9yS3u0"
+SUPABASE_KEY = "REDACTED"
 
-supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+load_dotenv('.env.mcp');`r`nSUPABASE_URL = os.getenv('SUPABASE_URL') or SUPABASE_URL`r`nSUPABASE_KEY = os.getenv('SUPABASE_SERVICE_ROLE_KEY') or os.getenv('SUPABASE_KEY') or SUPABASE_KEY`r`nsupabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 print("=" * 80)
 print("SUPABASE DATA VERIFICATION")
@@ -150,3 +150,4 @@ print("   2. Or trigger manual sync: curl -X POST {BASE_URL}/ingest/run")
 print("   3. Monitor staging tables for data after sync")
 print("   4. Verify production table updates via last_validated_at")
 print()
+
