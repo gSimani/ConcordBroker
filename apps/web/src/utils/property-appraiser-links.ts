@@ -35,8 +35,16 @@ export function getPropertyAppraiserUrl(
     case 'MIAMI-DADE':
     case 'MIAMIDADE':
     case 'MIAMI DADE':
+      // Miami-Dade supports direct folio search via hash routing
+      if (parcelId) {
+        return {
+          url: `https://apps.miamidadepa.gov/PropertySearch/#/?folio=${parcelId}`,
+          label: 'View on MIAMI-DADE Property Appraiser',
+          searchType: 'direct'
+        }
+      }
       return {
-        url: 'https://www.miamidadepa.gov/pa/home.page',
+        url: 'https://apps.miamidadepa.gov/PropertySearch/#/',
         label: 'Search MIAMI-DADE Property Appraiser',
         searchType: 'search'
       }
