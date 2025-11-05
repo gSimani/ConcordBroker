@@ -54,7 +54,7 @@ CREATE TRIGGER trigger_auction_sites_updated_at
     FOR EACH ROW
     EXECUTE FUNCTION public.update_auction_sites_updated_at();
 
--- Insert all 47 Florida counties
+-- Insert all 48 Florida counties with RealAuction sites
 INSERT INTO public.auction_sites (county, foreclosure_url, tax_deed_url, site_type, has_foreclosure, has_tax_deed, notes) VALUES
 ('ALACHUA', 'https://alachua.realforeclose.com', 'https://alachua.realtaxdeed.com', 'separate', true, true, 'Separate sites for foreclosure and tax‑deed sales'),
 ('BAKER', NULL, 'https://baker.realtaxdeed.com', 'tax_deed_only', false, true, 'Only tax‑deed auctions'),
