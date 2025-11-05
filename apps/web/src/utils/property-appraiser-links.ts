@@ -25,7 +25,14 @@ export function getPropertyAppraiserUrl(
 
   switch (countyUpper) {
     case 'BROWARD':
-      // BROWARD requires search - direct parcel links don't work
+      // BROWARD supports direct parcel search via fnumber parameter
+      if (parcelId) {
+        return {
+          url: `https://web.bcpa.net/bcpaclient/#/Record-Search?fnumber=${parcelId}`,
+          label: 'View on BROWARD Property Appraiser',
+          searchType: 'direct'
+        }
+      }
       return {
         url: 'https://web.bcpa.net/BcpaClient/#/Record-Search',
         label: 'Search BROWARD Property Appraiser',
