@@ -1,0 +1,39 @@
+name: Release on tag
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate changelog snippet
+        id: changelog
+        shell: bash
+        run: |
+          TAG=${GITHUB_REF##*/}
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          if [ -f CHANGELOG.md ]; then
+            echo "Found CHANGELOG.md"
+          fi
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.changelog.outputs.tag }}
+          name: ${{ steps.changelog.outputs.tag }}
+          draft: false
+          prerelease: false
+          files: |
+            CHANGELOG.md
+            ALL_COMMITS.log
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
