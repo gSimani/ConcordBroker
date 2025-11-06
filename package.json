@@ -50,7 +50,7 @@
     "puppeteer": "24.19.0"
   },
   "devDependencies": {
-    "@playwright/test": "1.55.0",
+    "@playwright/test": "1.56.1",
     "playwright": "1.55.0"
   },
   "main": "analyze-sales-tables.js",
