@@ -6,19 +6,16 @@ Verifies that the frontend can access the live property data
 
 import requests
 import json
-from supabase import create_client
+from supabase import create_client`r`nimport os`r`nfrom dotenv import load_dotenv
 
-def verify_data_access():
+load_dotenv('.env.mcp')`r`n\1
     print("Frontend Live Data Verification")
     print("=" * 50)
 
     # Test 1: Direct database verification
     print("\n1. Database Connection Test:")
     try:
-        supabase = create_client(
-            "https://pmispwtdngkcmsrsjwbp.supabase.co",
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Njk1Njk1OCwiZXhwIjoyMDcyNTMyOTU4fQ.fbCYcTFxLaMC_g4P8IrQoHWbQbPr_t9eaxYD_9yS3u0"
-        )
+        supabase = create_client(os.getenv("SUPABASE_URL") or "https://pmispwtdngkcmsrsjwbp.supabase.co", os.getenv("SUPABASE_ANON_KEY") or os.getenv("SUPABASE_SERVICE_ROLE_KEY") or "")
 
         # Get sample data
         result = supabase.table('florida_parcels').select('parcel_id,owner_name,phy_addr1,phy_city,just_value').eq('county', 'BROWARD').limit(5).execute()
