@@ -29,3 +29,10 @@
 - Preferred: Vercel AI Gateway (`AI_GATEWAY_API_KEY`).
 - Fallback: OpenAI (`OPENAI_API_KEY`).
 - Helper: `scripts/common/ai_client.py`.
+
+## Dependency Updates
+- Dependabot: weekly PRs for npm, pip, and GitHub Actions (small batches)
+- Renovate: automated, configurable updates with grouping
+  - Auto-merges minor/patch updates for devDependencies
+  - Dashboard PR lists pending updates
+- Prefer Renovate PRs for grouped updates; Dependabot PRs are fine for individual bumps.
