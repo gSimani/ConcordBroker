@@ -7,11 +7,19 @@ load_dotenv('.env.mcp')
 
 # Use the CORRECT database credentials from property_live_api.py
 SUPABASE_URL = "https://pmispwtdngkcmsrsjwbp.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Njk1Njk1OCwiZXhwIjoyMDcyNTMyOTU4fQ.fbCYcTFxLaMC_g4P8IrQoHWbQbPr_t9eaxYD_9yS3u0"
+SUPABASE_KEY = "REDACTED"
 
 print("Querying actual count from florida_parcels table...")
 print(f"Database: {SUPABASE_URL}")
 print()
+
+# Override from environment if available
+env_url = os.getenv('SUPABASE_URL')
+env_key = os.getenv('SUPABASE_SERVICE_ROLE_KEY') or os.getenv('SUPABASE_KEY')
+if env_url:
+    SUPABASE_URL = env_url
+if env_key:
+    SUPABASE_KEY = env_key
 
 # Initialize Supabase client
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
@@ -36,3 +44,4 @@ try:
 
 except Exception as e:
     print(f"Error: {e}")
+

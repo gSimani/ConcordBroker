@@ -2,15 +2,26 @@
 Verify final database state and propose constraints to prevent future issues
 """
 from supabase import create_client, Client
+import os
+from dotenv import load_dotenv
 from datetime import datetime
 import json
 
 # Supabase configuration
 SUPABASE_URL = 'https://pmispwtdngkcmsrsjwbp.supabase.co'
-SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5NTY5NTgsImV4cCI6MjA3MjUzMjk1OH0.YvWR1NkVByTY10Vzpzt4jMtMjBszD_BOCsQDBfG951A'
+SUPABASE_KEY = 'REDACTED'
 
 def verify_database_state():
-    supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+    try:
+        load_dotenv('.env.mcp')
+        env_url = os.getenv('SUPABASE_URL')
+        env_key = os.getenv('SUPABASE_SERVICE_ROLE_KEY') or os.getenv('SUPABASE_KEY')
+        url = env_url or SUPABASE_URL
+        key = env_key or SUPABASE_KEY
+    except Exception:
+        url = SUPABASE_URL
+        key = SUPABASE_KEY
+    supabase = create_client(url, key)
     
     print("\nFINAL DATABASE STATE VERIFICATION")
     print("="*60)
@@ -180,3 +191,4 @@ if __name__ == "__main__":
         print("\n✅ Database is ready for production use!")
     else:
         print("\n⚠️ Additional cleanup may be needed.")
+

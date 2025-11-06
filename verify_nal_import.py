@@ -6,8 +6,16 @@ from supabase import create_client
 
 # Supabase configuration
 SUPABASE_URL = "https://pmispwtdngkcmsrsjwbp.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Njk1Njk1OCwiZXhwIjoyMDcyNTMyOTU4fQ.fbCYcTFxLaMC_g4P8IrQoHWbQbPr_t9eaxYD_9yS3u0"
+SUPABASE_KEY = "REDACTED"
 
+try:
+    from dotenv import load_dotenv
+    import os
+    load_dotenv('.env.mcp')
+    SUPABASE_URL = os.getenv('SUPABASE_URL') or SUPABASE_URL
+    SUPABASE_KEY = os.getenv('SUPABASE_SERVICE_ROLE_KEY') or os.getenv('SUPABASE_KEY') or SUPABASE_KEY
+except Exception:
+    pass
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 print("=" * 60)
@@ -57,3 +65,4 @@ print(f"NAL Import Success: 605 records processed")
 print(f"New properties: 600")
 print(f"Updated properties: 5")
 print("Sales history system remains fully functional")
+

@@ -3,13 +3,15 @@ Verify Property Appraiser Upload Status in Supabase
 """
 
 from supabase import create_client, Client
+import os
+from dotenv import load_dotenv
 from datetime import datetime
 
 def get_supabase_client() -> Client:
     """Create Supabase client"""
     url = "https://pmispwtdngkcmsrsjwbp.supabase.co"
-    key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Njk1Njk1OCwiZXhwIjoyMDcyNTMyOTU4fQ.fbCYcTFxLaMC_g4P8IrQoHWbQbPr_t9eaxYD_9yS3u0"
-    return create_client(url, key)
+    key = "REDACTED"
+    return load_dotenv('.env.mcp');`r`nSUPABASE_URL = os.getenv('SUPABASE_URL') or globals().get('SUPABASE_URL', 'https://pmispwtdngkcmsrsjwbp.supabase.co')`r`nSUPABASE_KEY = os.getenv('SUPABASE_SERVICE_ROLE_KEY') or os.getenv('SUPABASE_KEY') or globals().get('SUPABASE_KEY', 'REDACTED')`r`ncreate_client(url, key)
 
 def run_verification():
     """Run verification queries"""
