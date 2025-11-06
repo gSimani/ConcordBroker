@@ -5,10 +5,9 @@ Verify owner name data in Supabase using correct connection
 
 import asyncio
 import json
-from supabase import create_client, Client
-import sys
+from supabase import create_client, Client`r`nimport os`r`nfrom dotenv import load_dotenv`r`nimport sys
 
-async def verify_owner_data():
+async load_dotenv('.env.mcp');`r`ndef verify_owner_data():
     """Verify owner name data using Supabase client"""
 
     print("VERIFYING OWNER NAME DATA IN SUPABASE")

@@ -6,15 +6,14 @@ Compares local TEMP\DATABASE PROPERTY APP files with Supabase database
 import os
 import glob
 from collections import defaultdict
-from supabase import create_client, Client
-
-def get_supabase_client() -> Client:
+from supabase import create_client, Client`r`nimport os`r`nfrom dotenv import load_dotenv`r`n
+load_dotenv('.env.mcp');`r`ndef get_supabase_client() -> Client:
     """Create Supabase client"""
     url = "https://pmispwtdngkcmsrsjwbp.supabase.co"
     key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5NTY5NTgsImV4cCI6MjA3MjUzMjk1OH0.YvWR1NkVByTY10Vzpzt4jMtMjBszD_BOCsQDBfG951A"
     return create_client(url, key)
 
-def analyze_local_data():
+load_dotenv('.env.mcp');`r`ndef analyze_local_data():
     """Analyze local Property Appraiser data files"""
     base_path = r"C:\Users\gsima\Documents\MyProject\ConcordBroker\TEMP\DATABASE PROPERTY APP"
     
@@ -41,7 +40,7 @@ def analyze_local_data():
     
     return all_counties, counties_data
 
-def check_supabase_data():
+load_dotenv('.env.mcp');`r`ndef check_supabase_data():
     """Check what's in Supabase database"""
     client = get_supabase_client()
     
@@ -96,7 +95,7 @@ def check_supabase_data():
         print(f"Error checking Supabase data: {e}")
         return set(), None
 
-def main():
+load_dotenv('.env.mcp');`r`ndef main():
     """Main verification function"""
     print("=" * 80)
     print("PROPERTY APPRAISER DATA UPLOAD VERIFICATION")

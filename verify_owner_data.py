@@ -5,18 +5,18 @@ Verify owner name data in Supabase using correct connection
 
 import asyncio
 import json
-from supabase import create_client, Client
+from supabase import create_client, Client`r`nimport os`r`nfrom dotenv import load_dotenv
 import sys
 
-async def verify_owner_data():
+async load_dotenv('.env.mcp')`r`n\1
     """Verify owner name data using Supabase client"""
 
     print("VERIFYING OWNER NAME DATA IN SUPABASE")
     print("=" * 60)
 
     # Supabase configuration from .env
-    supabase_url = "https://pmispwtdngkcmsrsjwbp.supabase.co"
-    supabase_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Njk1Njk1OCwiZXhwIjoyMDcyNTMyOTU4fQ.fbCYcTFxLaMC_g4P8IrQoHWbQbPr_t9eaxYD_9yS3u0"
+    supabase_url = os.getenv("SUPABASE_URL") or "https://pmispwtdngkcmsrsjwbp.supabase.co"
+    supabase_key = os.getenv("SUPABASE_SERVICE_ROLE_KEY") or os.getenv("SUPABASE_KEY") or ""
 
     try:
         # Initialize Supabase client
