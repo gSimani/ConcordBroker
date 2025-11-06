@@ -7,7 +7,7 @@ import ScraperControls from '@/components/admin/ScraperControls'
 
 export default function TaxDeedSales() {
   const [activeView, setActiveView] = useState<'grid' | 'list'>('list')
-  const [showScraperControls, setShowScraperControls] = useState(false)
+  const [showScraperControls, setShowScraperControls] = useState(true)
 
   return (
     <Layout>
@@ -126,21 +126,25 @@ export default function TaxDeedSales() {
         >
           <button
             onClick={() => setShowScraperControls(!showScraperControls)}
-            className="w-full bg-gradient-to-r from-navy to-blue-900 text-white p-4 rounded-lg flex items-center justify-between hover:from-blue-900 hover:to-navy transition-all duration-300 shadow-lg"
+            className="w-full p-4 rounded-lg flex items-center justify-between transition-all duration-300 shadow-lg font-semibold"
+            style={{
+              background: 'linear-gradient(135deg, #d4af37 0%, #f4e5c2 100%)',
+              color: '#2c3e50'
+            }}
           >
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-gold bg-opacity-20 rounded-lg">
-                <TrendingUp className="w-5 h-5 text-gold" />
+              <div className="p-2 rounded-lg" style={{ backgroundColor: 'rgba(44, 62, 80, 0.15)' }}>
+                <TrendingUp className="w-5 h-5" style={{ color: '#2c3e50' }} />
               </div>
               <div className="text-left">
-                <h3 className="font-semibold">Manual Data Scraper Controls</h3>
-                <p className="text-sm text-gray-300">Trigger property and business entity data updates on-demand</p>
+                <h3 className="font-bold text-xl" style={{ color: '#2c3e50' }}>UPDATE RECORDS</h3>
+                <p className="text-sm font-medium" style={{ color: '#2c3e50', opacity: 0.85 }}>Trigger property and business entity data updates on-demand</p>
               </div>
             </div>
             {showScraperControls ? (
-              <ChevronUp className="w-5 h-5" />
+              <ChevronUp className="w-6 h-6" style={{ color: '#2c3e50' }} />
             ) : (
-              <ChevronDown className="w-5 h-5" />
+              <ChevronDown className="w-6 h-6" style={{ color: '#2c3e50' }} />
             )}
           </button>
 
