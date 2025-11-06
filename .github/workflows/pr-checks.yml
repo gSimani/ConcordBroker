@@ -5,6 +5,34 @@ on:
     branches: [ main ]
 
 jobs:
+  changeset-check:
+    name: Verify changeset present
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for changeset on code changes
+        shell: bash
+        run: |
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+          echo "Base: $BASE_SHA, Head: $HEAD_SHA"
+          CHANGED=$(git diff --name-only "$BASE_SHA".."$HEAD_SHA")
+          echo "$CHANGED" | sed 's/^/ - /'
+          # If code-related paths changed, require a changeset file
+          if echo "$CHANGED" | grep -E '^(apps/|scripts/|mcp-server/|package\.json|apps/web/|apps/langchain_system/)'; then
+            if ls .changeset/*.md >/dev/null 2>&1; then
+              echo "Changeset found"
+            else
+              echo "ERROR: No changeset found for code changes. Add one via 'pnpm dlx changeset' or 'npx changeset'." >&2
+              exit 1
+            fi
+          else
+            echo "No code paths changed; skipping changeset requirement."
+          fi
   node-ts:
     name: TypeScript build and lint
     runs-on: ubuntu-latest
