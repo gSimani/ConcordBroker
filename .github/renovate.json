@@ -1,0 +1,54 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":semanticCommits",
+    ":separateMultipleMajorReleases",
+    ":dependencyDashboard"
+  ],
+  "rangeStrategy": "bump",
+  "labels": [
+    "deps",
+    "renovate"
+  ],
+  "prHourlyLimit": 2,
+  "packageRules": [
+    {
+      "matchManagers": [
+        "npm"
+      ],
+      "groupName": "frontend deps",
+      "matchPaths": [
+        "apps/web/**"
+      ]
+    },
+    {
+      "matchManagers": [
+        "pip"
+      ],
+      "groupName": "python deps",
+      "matchPaths": [
+        "scripts/**",
+        "**/*.py"
+      ]
+    },
+    {
+      "matchManagers": [
+        "github-actions"
+      ],
+      "groupName": "actions"
+    },
+    {
+      "matchDepTypes": [
+        "devDependencies"
+      ],
+      "automerge": true,
+      "automergeType": "pr",
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ]
+    }
+  ]
+}
