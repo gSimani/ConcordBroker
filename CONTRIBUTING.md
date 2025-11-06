@@ -1,101 +1,31 @@
 # Contributing to ConcordBroker
 
-Thank you for your interest in contributing to ConcordBroker! This document provides guidelines and instructions for contributing.
+## PR Guidelines
+- Use Conventional Commit titles: e.g., `feat: add X`, `fix: Y`, `docs: Z`, `chore: ...`
+- Add a changeset when code behavior changes: `pnpm dlx changeset`
+- Keep PRs focused (small, reviewable diffs).
 
-## Code of Conduct
+## Running PR Checks Locally
+- Node/TypeScript:
+  - `pnpm -w -r -if-present lint`
+  - `pnpm -w -r -if-present build`
+- Python:
+  - `python -m compileall .`
 
-Please read and follow our [Code of Conduct](CODE_OF_CONDUCT.md).
+## Environment Setup
+- Copy `.env.example` to `.env` or edit `.env.mcp` (local dev only).
+- Do not commit real secrets. Frontend must only use anon keys.
+- Quick env sanity: `python scripts/tools/preflight_env.py`
 
-## How to Contribute
+## Releases
+- Merge PRs with changesets → Changesets opens a version PR → merge to publish.
+- Pushing a `v*` tag also creates a GitHub Release and uploads assets.
 
-### Reporting Issues
+## Supabase Access
+- Backend: `SUPABASE_SERVICE_ROLE_KEY` (never expose to frontend)
+- Frontend: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
-- Check if the issue already exists in the issue tracker
-- Provide clear description and steps to reproduce
-- Include relevant logs and screenshots
-
-### Pull Requests
-
-1. Fork the repository
-2. Create a feature branch from `main`
-3. Follow the coding standards
-4. Write or update tests
-5. Update documentation and PDR if needed
-6. Submit PR with clear description
-
-## Development Setup
-
-### Prerequisites
-
-- Node.js 18+
-- Python 3.11+
-- Docker
-- PNPM
-- Poetry
-
-### Setup Instructions
-
-```bash
-# Clone the repository
-git clone https://github.com/gSimani/ConcordBroker.git
-cd ConcordBroker
-
-# Install frontend dependencies
-cd apps/frontend
-pnpm install
-
-# Install API dependencies
-cd ../api
-poetry install
-
-# Install worker dependencies
-cd ../workers
-poetry install
-```
-
-## Coding Standards
-
-### Python
-
-- Use Black for formatting
-- Use ruff for linting
-- Type hints required
-- 100% test coverage for new code
-
-### TypeScript/JavaScript
-
-- Use Prettier for formatting
-- Use ESLint
-- Use TypeScript for all new code
-
-### Commits
-
-- Follow conventional commits format
-- Examples:
-  - `feat(api): add parcel search endpoint`
-  - `fix(workers): handle missing fields in DOR loader`
-  - `docs: update API documentation`
-
-## Testing
-
-```bash
-# Run Python tests
-poetry run pytest
-
-# Run frontend tests
-pnpm test
-
-# Run linting
-poetry run ruff check .
-pnpm lint
-```
-
-## Documentation
-
-- Update the PDR for any architectural changes
-- Add docstrings to all functions
-- Update README if adding new features
-
-## Questions?
-
-Open an issue for any questions about contributing.
+## AI Providers
+- Preferred: Vercel AI Gateway (`AI_GATEWAY_API_KEY`).
+- Fallback: OpenAI (`OPENAI_API_KEY`).
+- Helper: `scripts/common/ai_client.py`.
