@@ -286,12 +286,12 @@ export default function ScraperControls() {
                     {status.running ? (
                       <>
                         <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                        Triggering...
+                        Updating...
                       </>
                     ) : (
                       <>
                         <Download className="w-4 h-4 mr-2" />
-                        Trigger {isDryRun ? 'Dry Run' : 'Update'}
+                        UPDATE RECORDS
                       </>
                     )}
                   </Button>
