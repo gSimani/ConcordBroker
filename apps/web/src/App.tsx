@@ -71,6 +71,8 @@ const PerformanceTest = lazy(() => import('@/pages/PerformanceTest'))
 // Admin Pages - lazy loaded
 const Gate14 = lazy(() => import('@/pages/Gate14'))
 const AdminDashboard = lazy(() => import('@/pages/admin/dashboard'))
+const AdminUsers = lazy(() => import('@/pages/admin/users'))
+const AdminScrapers = lazy(() => import('@/pages/admin/scrapers'))
 
 function App() {
   console.log('App component rendering with advanced performance optimizations')
@@ -131,6 +133,8 @@ function App() {
                   <Route path="/performance-test" element={<PerformanceTest />} />
                   <Route path="/Gate14" element={<Gate14 />} />
                   <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                  <Route path="/admin/users" element={<AdminUsers />} />
+                  <Route path="/admin/scrapers" element={<AdminScrapers />} />
                 </Routes>
               </Suspense>
             </Layout>

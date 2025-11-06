@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { 
-  Shield, 
-  Users, 
-  Building, 
+import {
+  Shield,
+  Users,
+  Building,
   Truck,
   FileText,
   Settings,
@@ -12,7 +12,8 @@ import {
   Home,
   BarChart3,
   DollarSign,
-  Activity
+  Activity,
+  Database
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -50,6 +51,14 @@ export default function AdminDashboard() {
       href: '/admin/users',
       color: '#27ae60',
       bgColor: 'rgba(39, 174, 96, 0.1)'
+    },
+    {
+      title: 'Data Scrapers',
+      description: 'Manual scraper controls',
+      icon: Database,
+      href: '/admin/scrapers',
+      color: '#8e44ad',
+      bgColor: 'rgba(142, 68, 173, 0.1)'
     },
     {
       title: 'Vendors',
