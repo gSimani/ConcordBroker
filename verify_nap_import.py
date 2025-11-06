@@ -8,14 +8,16 @@ NAP Import Verification and Performance Testing
 
 import time
 from datetime import datetime
-from supabase import create_client, Client
-
+from supabase import create_client, Client`r`nimport os`r`nfrom dotenv import load_dotenv`r`n
 class NAPImportVerifier:
     def __init__(self):
         # Supabase connection
         self.url = "https://pmispwtdngkcmsrsjwbp.supabase.co"
-        self.service_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Njk1Njk1OCwiZXhwIjoyMDcyNTMyOTU4fQ.fbCYcTFxLaMC_g4P8IrQoHWbQbPr_t9eaxYD_9yS3u0"
-        self.supabase = create_client(self.url, self.service_key)
+        self.service_key = "REDACTED"
+        self.supabase = load_dotenv('.env.mcp');
+SUPABASE_URL = os.getenv('SUPABASE_URL') or globals().get('SUPABASE_URL', 'https://pmispwtdngkcmsrsjwbp.supabase.co')
+SUPABASE_KEY = os.getenv('SUPABASE_SERVICE_ROLE_KEY') or os.getenv('SUPABASE_KEY') or globals().get('SUPABASE_KEY', '')
+self.url, self.service_key)
 
     def time_query(self, description, query_func):
         """Time a query and return results with performance metrics"""

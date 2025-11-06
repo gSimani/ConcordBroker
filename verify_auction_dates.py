@@ -5,10 +5,21 @@ import asyncio
 from playwright.async_api import async_playwright
 from datetime import datetime
 from supabase import create_client
+import os
+from dotenv import load_dotenv
+load_dotenv('.env.mcp')
+# Override with env if present
+try:
+    SUPABASE_URL  # type: ignore[name-defined]
+    SUPABASE_KEY  # type: ignore[name-defined]
+except NameError:
+    pass
+SUPABASE_URL = os.getenv('SUPABASE_URL') or 'https://pmispwtdngkcmsrsjwbp.supabase.co'
+SUPABASE_KEY = os.getenv('SUPABASE_SERVICE_ROLE_KEY') or os.getenv('SUPABASE_KEY') or '"
 
 # Supabase configuration
 SUPABASE_URL = 'https://pmispwtdngkcmsrsjwbp.supabase.co'
-SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5NTY5NTgsImV4cCI6MjA3MjUzMjk1OH0.YvWR1NkVByTY10Vzpzt4jMtMjBszD_BOCsQDBfG951A'
+SUPABASE_KEY = 'REDACTED'
 
 async def verify_website():
     print("\n" + "="*60)
@@ -139,3 +150,4 @@ async def verify_website():
 
 if __name__ == "__main__":
     asyncio.run(verify_website())
+
