@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -6,14 +6,6 @@ import ScraperControls from '@/components/admin/ScraperControls';
 
 export default function ScrapersPage() {
   const navigate = useNavigate();
-
-  // Check authentication
-  useEffect(() => {
-    const isAuthenticated = sessionStorage.getItem('adminAuthenticated');
-    if (!isAuthenticated) {
-      navigate('/Gate14');
-    }
-  }, [navigate]);
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#f8f9fa' }}>
@@ -37,12 +29,12 @@ export default function ScrapersPage() {
             </div>
 
             <Button
-              onClick={() => navigate('/admin/dashboard')}
+              onClick={() => navigate('/dashboard')}
               variant="ghost"
               className="text-white hover:bg-white/10"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Admin
+              Back to Dashboard
             </Button>
           </div>
         </div>
