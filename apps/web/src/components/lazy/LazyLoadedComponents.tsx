@@ -24,7 +24,7 @@ const AnalysisTab = lazy(() =>
 );
 
 const SalesHistoryTab = lazy(() =>
-  import('@/components/property/tabs/SalesHistoryTab').then(module => ({ default: module.SalesHistoryTab }))
+  import('@/components/property/tabs/SalesHistoryTab').then(module => ({ default: module.SalesHistoryTabUpdated }))
 );
 
 // Loading skeleton components

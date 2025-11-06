@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import Layout from '@/components/layout'
 import { TaxDeedSalesTab } from '@/components/property/tabs/TaxDeedSalesTab'
-import { Gavel, Filter, TrendingUp, Home, Building2, DollarSign, AlertCircle, Calendar, Phone } from 'lucide-react'
+import { Gavel, Filter, TrendingUp, Home, Building2, DollarSign, AlertCircle, Calendar, Phone, ChevronDown, ChevronUp } from 'lucide-react'
 import { motion } from 'framer-motion'
+import ScraperControls from '@/components/admin/ScraperControls'
 
 export default function TaxDeedSales() {
   const [activeView, setActiveView] = useState<'grid' | 'list'>('list')
+  const [showScraperControls, setShowScraperControls] = useState(false)
 
   return (
     <Layout>
@@ -115,11 +117,51 @@ export default function TaxDeedSales() {
           </div>
         </motion.div>
 
-        {/* Tax Deed Sales Component */}
+        {/* Data Scraper Controls - Collapsible */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
+          className="mb-8"
+        >
+          <button
+            onClick={() => setShowScraperControls(!showScraperControls)}
+            className="w-full bg-gradient-to-r from-navy to-blue-900 text-white p-4 rounded-lg flex items-center justify-between hover:from-blue-900 hover:to-navy transition-all duration-300 shadow-lg"
+          >
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-gold bg-opacity-20 rounded-lg">
+                <TrendingUp className="w-5 h-5 text-gold" />
+              </div>
+              <div className="text-left">
+                <h3 className="font-semibold">Manual Data Scraper Controls</h3>
+                <p className="text-sm text-gray-300">Trigger property and business entity data updates on-demand</p>
+              </div>
+            </div>
+            {showScraperControls ? (
+              <ChevronUp className="w-5 h-5" />
+            ) : (
+              <ChevronDown className="w-5 h-5" />
+            )}
+          </button>
+
+          {showScraperControls && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="mt-4 bg-white rounded-lg shadow-lg p-6 border border-gray-200"
+            >
+              <ScraperControls />
+            </motion.div>
+          )}
+        </motion.div>
+
+        {/* Tax Deed Sales Component */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
         >
           <TaxDeedSalesTab />
         </motion.div>
