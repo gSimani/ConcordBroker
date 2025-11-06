@@ -1,0 +1,14 @@
+# Default code owners
+* @gSimani
+
+# Web app
+/apps/web/** @gSimani
+
+# Server/agents
+/mcp-server/** @gSimani
+
+# Scripts and tools
+/scripts/** @gSimani
+
+# Supabase migrations/functions
+/supabase/** @gSimani
