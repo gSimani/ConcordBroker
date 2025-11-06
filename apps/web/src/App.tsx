@@ -69,7 +69,7 @@ const TaxDeedSales = lazy(() => import('@/pages/TaxDeedSales'))
 const PerformanceTest = lazy(() => import('@/pages/PerformanceTest'))
 
 // Admin Pages - lazy loaded
-const Gate14 = lazy(() => import('@/pages/Gate14'))
+// const AdminLogin = lazy(() => import('@/pages/admin/login'))
 const AdminDashboard = lazy(() => import('@/pages/admin/dashboard'))
 const AdminUsers = lazy(() => import('@/pages/admin/users'))
 const AdminScrapers = lazy(() => import('@/pages/admin/scrapers'))
@@ -131,7 +131,7 @@ function App() {
                   <Route path="/analytics" element={<AnalyticsPage />} />
                   <Route path="/tax-deed-sales" element={<TaxDeedSales />} />
                   <Route path="/performance-test" element={<PerformanceTest />} />
-                  <Route path="/Gate14" element={<Gate14 />} />
+                  <Route path="/admin/login" element={<AdminLogin />} />
                   <Route path="/admin/dashboard" element={<AdminDashboard />} />
                   <Route path="/admin/users" element={<AdminUsers />} />
                   <Route path="/admin/scrapers" element={<AdminScrapers />} />
