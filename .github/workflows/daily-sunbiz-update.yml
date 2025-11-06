@@ -1,0 +1,115 @@
+name: Daily Sunbiz Update
+
+on:
+  schedule:
+    # Run at 3:00 AM EST (8:00 AM UTC) every day
+    - cron: '0 8 * * *'
+
+  # Allow manual trigger
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run mode (no database changes)'
+        required: false
+        default: 'false'
+      target_date:
+        description: 'Target date (YYYY-MM-DD, default: today)'
+        required: false
+        default: ''
+
+jobs:
+  update-sunbiz:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120  # 2 hours max
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+          # Install SFTP client (sshpass for non-interactive SFTP)
+          sudo apt-get update
+          sudo apt-get install -y sshpass
+
+      - name: Create logs directory
+        run: mkdir -p logs
+
+      - name: Run Sunbiz update
+        env:
+          SUNBIZ_SFTP_HOST: sftp.floridados.gov
+          SUNBIZ_SFTP_USER: Public
+          SUNBIZ_SFTP_PASSWORD: ${{ secrets.SUNBIZ_SFTP_PASSWORD }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+          TARGET_DATE: ${{ github.event.inputs.target_date || '' }}
+        run: |
+          FLAGS=""
+          if [ "$DRY_RUN" = "true" ]; then
+            FLAGS="$FLAGS --dry-run"
+          fi
+          if [ -n "$TARGET_DATE" ]; then
+            FLAGS="$FLAGS --date $TARGET_DATE"
+          fi
+
+          python scripts/daily_sunbiz_update.py $FLAGS
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sunbiz-logs-${{ github.run_number }}
+          path: logs/
+          retention-days: 30
+
+      - name: Send success notification
+        if: success()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: '✅ Daily Sunbiz Update Completed'
+          body: |
+            Daily Sunbiz update completed successfully!
+
+            Run: ${{ github.run_number }}
+            Time: ${{ github.event.schedule || 'Manual' }}
+            Date: ${{ github.event.inputs.target_date || 'Today' }}
+
+            View logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          to: ${{ secrets.ADMIN_EMAIL }}
+          from: ConcordBroker Automation <noreply@concordbroker.com>
+
+      - name: Send failure notification
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: '❌ Daily Sunbiz Update FAILED'
+          body: |
+            Daily Sunbiz update FAILED!
+
+            Run: ${{ github.run_number }}
+            Time: ${{ github.event.schedule || 'Manual' }}
+
+            URGENT: Check logs immediately!
+
+            View logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          to: ${{ secrets.ADMIN_EMAIL }}
+          from: ConcordBroker Automation <noreply@concordbroker.com>
+          priority: high
