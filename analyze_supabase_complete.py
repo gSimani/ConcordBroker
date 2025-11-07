@@ -18,7 +18,12 @@ import json
 import os
 from datetime import datetime
 import warnings
+from dotenv import load_dotenv
+
 warnings.filterwarnings('ignore')
+
+# Load environment variables from .env.mcp
+load_dotenv('.env.mcp')
 
 # Set plotting style
 plt.style.use('seaborn-v0_8-darkgrid')
@@ -45,11 +50,11 @@ class SupabaseDeepAnalyzer:
 
         try:
             self.conn = psycopg2.connect(
-                host="aws-1-us-east-1.pooler.supabase.com",
-                port=6543,
-                database="postgres",
-                user="postgres.pmispwtdngkcmsrsjwbp",
-                password="West@Boca613!",
+                host=os.getenv('SUPABASE_HOST'),
+                port=int(os.getenv('SUPABASE_PORT', '6543')),
+                database=os.getenv('POSTGRES_DATABASE', 'postgres'),
+                user=os.getenv('SUPABASE_USER'),
+                password=os.getenv('POSTGRES_PASSWORD'),
                 connect_timeout=10
             )
 

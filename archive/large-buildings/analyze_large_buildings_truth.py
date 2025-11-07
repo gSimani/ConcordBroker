@@ -8,6 +8,10 @@ import json
 from datetime import datetime
 from collections import defaultdict
 from supabase import create_client, Client
+from dotenv import load_dotenv
+
+# Load environment variables from .env.mcp
+load_dotenv('.env.mcp')
 
 print("=" * 100)
 print("DEFINITIVE ANALYSIS: Large Buildings in Florida")
@@ -16,8 +20,8 @@ print("=" * 100)
 print()
 
 # Supabase credentials
-SUPABASE_URL = "https://pmispwtdngkcmsrsjwbp.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1Njk1Njk1OCwiZXhwIjoyMDcyNTMyOTU4fQ.fbCYcTFxLaMC_g4P8IrQoHWbQbPr_t9eaxYD_9yS3u0"
+SUPABASE_URL = os.getenv('SUPABASE_URL')
+SUPABASE_KEY = os.getenv('SUPABASE_SERVICE_ROLE_KEY')
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 

@@ -2,10 +2,14 @@ import os
 from supabase import create_client, Client
 import json
 from datetime import datetime
+from dotenv import load_dotenv
+
+# Load environment variables from .env.mcp
+load_dotenv('.env.mcp')
 
 # Supabase credentials
-SUPABASE_URL = "https://pmispwtdngkcmsrsjwbp.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5NTY5NTgsImV4cCI6MjA3MjUzMjk1OH0.YvWR1NkVByTY10Vzpzt4jMtMjBszD_BOCsQDBfG951A"
+SUPABASE_URL = os.getenv('SUPABASE_URL')
+SUPABASE_KEY = os.getenv('SUPABASE_ANON_KEY')
 
 def analyze_tax_deed_status():
     print("Analyzing tax deed status distribution...")

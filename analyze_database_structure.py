@@ -10,14 +10,12 @@ from supabase import create_client, Client
 from dotenv import load_dotenv
 import pandas as pd
 
-# Load environment variables
-web_env_path = os.path.join('apps', 'web', '.env')
-if os.path.exists(web_env_path):
-    load_dotenv(web_env_path)
+# Load environment variables from .env.mcp
+load_dotenv('.env.mcp')
 
 # Initialize Supabase client
-supabase_url = "https://pmispwtdngkcmsrsjwbp.supabase.co"
-supabase_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5NTY5NTgsImV4cCI6MjA3MjUzMjk1OH0.YvWR1NkVByTY10Vzpzt4jMtMjBszD_BOCsQDBfG951A"
+supabase_url = os.getenv('SUPABASE_URL')
+supabase_key = os.getenv('SUPABASE_ANON_KEY')
 
 supabase: Client = create_client(supabase_url, supabase_key)
 

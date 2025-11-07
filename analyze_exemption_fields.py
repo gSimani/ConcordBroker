@@ -7,13 +7,22 @@ This script examines what exemption fields are available in the florida_parcels 
 import os
 from supabase import create_client, Client
 from typing import Dict, Any, List
+from dotenv import load_dotenv
+
+# Load environment variables from .env.mcp
+load_dotenv('.env.mcp')
 
 def analyze_exemption_fields():
     """Analyze exemption fields in florida_parcels table"""
 
     # Initialize Supabase client
-    supabase_url = os.getenv('SUPABASE_URL', 'https://pmispwtdngkcmsrsjwbp.supabase.co')
-    supabase_anon_key = os.getenv('SUPABASE_ANON_KEY', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBtaXNwd3RkbmdrY21zcnNqd2JwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY5NTY5NTgsImV4cCI6MjA3MjUzMjk1OH0.YvWR1NkVByTY10Vzpzt4jMtMjBszD_BOCsQDBfG951A')
+    supabase_url = os.getenv('SUPABASE_URL')
+    supabase_anon_key = os.getenv('SUPABASE_ANON_KEY')
+
+    if not supabase_url or not supabase_anon_key:
+        print("ERROR: SUPABASE_URL or SUPABASE_ANON_KEY not found in environment")
+        print("Please ensure .env.mcp file exists and contains these variables")
+        return
 
     supabase: Client = create_client(supabase_url, supabase_anon_key)
 
