@@ -60,9 +60,6 @@ dist/
 Thumbs.db
 
 # Environment
-.env
-.env.*
-.env.local
 .env.*.local
 *.env
 !.env.example
@@ -71,7 +68,6 @@ Thumbs.db
 !.template.env
 
 # Specific sensitive files
-.env.production
 .env.railway
 .env.supabase
 apps/api/.env.supabase
@@ -153,3 +149,7 @@ docs/.doctrees/
 meilisearch.exe
 GITHUB_MCP_SERVER_SETUP.md
 .env.orchestrator
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
+config.bat
