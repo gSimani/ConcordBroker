@@ -22,6 +22,17 @@ export interface FloridaParcelData {
   phy_zipcd: string | null;
   phy_state?: string;
 
+  // Alternate address field names
+  property_address_full?: string | null;
+  property_address?: string | null;
+  situs_addr?: string | null;
+  situs_address?: string | null;
+  city?: string | null;
+  situs_city?: string | null;
+  zip?: string | null;
+  zip_cd?: string | null;
+  situs_zip?: string | null;
+
   // Owner information
   owner_name: string | null;
   owner_addr1: string | null;
@@ -31,6 +42,18 @@ export interface FloridaParcelData {
   owner_zip: string | null;
   owner_zipcd?: string | null;
 
+  // Alternate owner field names (different counties use different formats)
+  own_name?: string | null;
+  own1?: string | null;
+  owner?: string | null;
+  owner_address?: string | null;
+  own_addr1?: string | null;
+  own_city?: string | null;
+  city_owner?: string | null;
+  own_state?: string | null;
+  own_zip?: string | null;
+  zip_owner?: string | null;
+
   // Property values
   just_value: number;
   assessed_value: number;
@@ -38,6 +61,13 @@ export interface FloridaParcelData {
   land_value: number;
   building_value?: number;
   market_value?: number;
+
+  // Alternate value field names
+  jv?: string | number | null; // Just Value abbreviation
+  av_sd?: string | number | null; // Assessed Value School District
+  tv_sd?: string | number | null; // Taxable Value School District
+  lnd_val?: string | number | null; // Land Value abbreviation
+  land_val?: string | number | null;
 
   // Property characteristics
   year_built: string | number | null;
@@ -47,6 +77,16 @@ export interface FloridaParcelData {
   half_baths?: string | number | null;
   land_sqft: string | number | null;
   building_sqft?: string | number | null;
+
+  // Alternate characteristic field names
+  act_yr_blt?: string | number | null; // Actual Year Built
+  yr_blt?: string | number | null; // Year Built abbreviation
+  tot_lvg_area?: string | number | null; // Total Living Area
+  living_area?: string | number | null;
+  bedroom_cnt?: string | number | null; // Bedroom Count
+  bathroom_cnt?: string | number | null; // Bathroom Count
+  lnd_sqfoot?: string | number | null; // Land Square Feet
+  lot_size_sqft?: string | number | null;
 
   // Property classification
   property_use_code: string | null;
@@ -62,6 +102,13 @@ export interface FloridaParcelData {
   sale_year: string | number | null;
   sale_month: string | number | null;
   sale_qualification?: string;
+
+  // Alternate sales field names
+  sale_dt1?: string | null; // Sale Date 1
+  sale_prc1?: string | number | null; // Sale Price 1
+  sale_amt1?: string | number | null; // Sale Amount 1
+  sale_yr1?: string | number | null; // Sale Year 1
+  sale_mo1?: string | number | null; // Sale Month 1
 
   // Tax information
   tax_amount?: number;

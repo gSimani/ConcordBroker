@@ -1,26 +1,16 @@
 import { useState, useEffect, useCallback } from 'react'
 import { supabase } from '@/lib/supabase'
+import type {
+  PropertyData,
+  FloridaParcelData,
+  SalesHistoryRecord,
+  NavAssessmentData,
+  TppData,
+  SunbizCorporateData
+} from '@/types/property'
 
-export interface PropertyData {
-  bcpaData: any
-  sdfData: any[]
-  navData: any[]
-  tppData: any[]
-  sunbizData: any[]
-  lastSale: any
-  totalNavAssessment: number
-  isInCDD: boolean
-  investmentScore: number
-  opportunities: string[]
-  riskFactors: string[]
-  dataQuality: {
-    bcpa: boolean
-    sdf: boolean
-    nav: boolean
-    tpp: boolean
-    sunbiz: boolean
-  }
-}
+// Re-export PropertyData for backward compatibility
+export type { PropertyData }
 
 export const usePropertyData = (addressOrParcelId: string, city: string = '', county: string = 'BROWARD') => {
   const [data, setData] = useState<PropertyData | null>(null)
@@ -49,8 +39,8 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '', co
       console.log(`[usePropertyData] Processing:`, { addressOrParcelId, city, isParcelId });
 
       let parcelId = isParcelId ? addressOrParcelId : null
-      let bcpaData: any = null
-      let sdfData: any[] = []
+      let bcpaData: FloridaParcelData | null = null
+      let sdfData: SalesHistoryRecord[] = []
 
       // Optional: Resolve alternate identifiers (tax deed/certificate) to a parcel_id first
       // Examples: C00007600055 (certificate), TD-XXXX (tax deed number), etc.
@@ -123,7 +113,7 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '', co
 
             if (!rowsErr && rowsLimited && rowsLimited.length > 0) {
               floridaData = rowsLimited[0];
-              floridaError = null as any;
+              floridaError = null;
             }
           }
 
@@ -226,9 +216,9 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '', co
       }
 
       // Normalize field names so UI has consistent keys regardless of county/source
-      const normalizeBcpaData = (row: any) => {
-        if (!row) return row;
-        const normalized: any = { ...row };
+      const normalizeBcpaData = (row: Partial<FloridaParcelData>): FloridaParcelData => {
+        if (!row) return row as FloridaParcelData;
+        const normalized: Partial<FloridaParcelData> = { ...row };
 
         normalized.owner_name = row.owner_name || row.own_name || row.own1 || row.owner || null;
         normalized.owner_addr1 = row.owner_addr1 || row.owner_address || row.own_addr1 || null;
@@ -273,10 +263,10 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '', co
         }
         if (salePrice) normalized.sale_price = parseFloat(salePrice) || 0;
 
-        return normalized;
+        return normalized as FloridaParcelData;
       };
 
-      bcpaData = normalizeBcpaData(bcpaData);
+      bcpaData = normalizeBcpaData(bcpaData as Partial<FloridaParcelData>);
 
       // Step 2: Get comprehensive sales data
       console.log(`[usePropertyData] Fetching sales data for parcel: ${parcelId}`);
@@ -291,8 +281,8 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '', co
 
       // Step 4: Process and calculate derived data
       const lastSale = findLastQualifiedSale(salesDataResults);
-      const totalNavAssessment = navData.reduce((sum: number, nav: any) =>
-        sum + (parseFloat(nav.total_assessment) || 0), 0);
+      const totalNavAssessment = navData.reduce((sum: number, nav: NavAssessmentData) =>
+        sum + (parseFloat(String(nav.total_assessment || 0)) || 0), 0);
       const isInCDD = totalNavAssessment > 1000;
 
       // Step 5: Calculate investment metrics
@@ -343,8 +333,8 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '', co
   }, [addressOrParcelId, city]);
 
   // Helper function to fetch sales data from multiple sources
-  const fetchSalesDataFromMultipleSources = async (parcelId: string, baseRecord?: any): Promise<any[]> => {
-    const allSales: any[] = [];
+  const fetchSalesDataFromMultipleSources = async (parcelId: string, baseRecord?: Partial<FloridaParcelData>): Promise<SalesHistoryRecord[]> => {
+    const allSales: SalesHistoryRecord[] = [];
     console.log(`[usePropertyData] Fetching sales from multiple sources for: ${parcelId}`);
 
     // Source 1: property_sales_history (main source - 96,771 records)
@@ -419,7 +409,7 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '', co
 
     // Source 3: bcpa-style columns on base record (sale_prc1, sale_yr1, sale_mo1)
     if (allSales.length === 0 && baseRecord) {
-      const prop = baseRecord as any;
+      const prop = baseRecord;
       const price = prop.sale_price ?? prop.sale_prc1 ?? prop.sale_amt1;
       const saleYear = prop.sale_year ?? prop.sale_yr1;
       const saleMonth = prop.sale_month ?? prop.sale_mo1;
@@ -454,7 +444,7 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '', co
   };
 
   // Helper function to fetch NAV assessment data
-  const fetchNavData = async (parcelId: string): Promise<any[]> => {
+  const fetchNavData = async (parcelId: string): Promise<NavAssessmentData[]> => {
     try {
       const { data: navData, error } = await supabase
         .from('nav_assessments')
@@ -478,7 +468,7 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '', co
   };
 
   // Helper function to fetch Sunbiz data
-  const fetchSunbizDataForProperty = async (ownerName: string): Promise<any[]> => {
+  const fetchSunbizDataForProperty = async (ownerName: string): Promise<SunbizCorporateData[]> => {
     if (!ownerName || ownerName.length < 3) return [];
 
     try {
@@ -502,7 +492,7 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '', co
   };
 
   // Helper function to find last qualified sale
-  const findLastQualifiedSale = (salesData: any[]): any => {
+  const findLastQualifiedSale = (salesData: SalesHistoryRecord[]): SalesHistoryRecord | null => {
     const qualifiedSale = salesData.find(sale => {
       const salePrice = parseFloat(sale.sale_price || '0');
       return salePrice >= 1000 && sale.qualified_sale;
@@ -516,8 +506,9 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '', co
 
   // Helper function to calculate investment score
   const calculateInvestmentScore = (
-    property: any, lastSale: any, salesHistory: any[], navData: any[]
+    property: FloridaParcelData | null, lastSale: SalesHistoryRecord | null, salesHistory: SalesHistoryRecord[], navData: NavAssessmentData[]
   ): number => {
+    if (!property) return 50;
     let score = 50;
 
     // Value-based scoring
@@ -541,7 +532,7 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '', co
 
     // CDD penalty
     const totalNavAssessment = navData.reduce((sum, nav) =>
-      sum + (parseFloat(nav.total_assessment) || 0), 0);
+      sum + (parseFloat(String(nav.total_assessment || 0)) || 0), 0);
     if (totalNavAssessment > 5000) score -= 15;
     else if (totalNavAssessment > 1000) score -= 5;
 
@@ -550,7 +541,7 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '', co
 
   // Helper function to identify opportunities and risks
   const identifyOpportunitiesAndRisks = (
-    property: any, lastSale: any, salesHistory: any[], navData: any[], sunbizData: any[]
+    property: FloridaParcelData | null, lastSale: SalesHistoryRecord | null, salesHistory: SalesHistoryRecord[], navData: NavAssessmentData[], sunbizData: SunbizCorporateData[]
   ): { opportunities: string[], riskFactors: string[] } => {
     const opportunities: string[] = [];
     const riskFactors: string[] = [];
@@ -569,7 +560,7 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '', co
 
     // Risk factors
     const totalNavAssessment = navData.reduce((sum, nav) =>
-      sum + (parseFloat(nav.total_assessment) || 0), 0);
+      sum + (parseFloat(String(nav.total_assessment || 0)) || 0), 0);
     if (totalNavAssessment > 1000) {
       riskFactors.push(`⚠️ Property in CDD - additional assessments $${totalNavAssessment.toFixed(0)}/year`);
     }

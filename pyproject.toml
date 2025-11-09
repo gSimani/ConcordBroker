@@ -1,0 +1,277 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "concordbroker"
+version = "0.1.0"
+description = "Automated real estate investment property acquisition system"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "ConcordBroker Team"}
+]
+keywords = ["real-estate", "property-search", "data-pipeline", "florida-properties"]
+
+# Core dependencies required for basic operation
+dependencies = [
+    # Web Framework
+    "fastapi>=0.104.1",
+    "uvicorn[standard]>=0.24.0",
+    "gunicorn>=21.2.0",
+
+    # Database
+    "supabase>=2.1.0",
+    "psycopg2-binary>=2.9.9",
+    "asyncpg>=0.30.0",
+    "sqlalchemy>=2.0.25",
+
+    # HTTP & Async
+    "aiohttp>=3.9.1",
+    "httpx>=0.24.1",
+    "requests>=2.31.0",
+    "aiofiles>=24.1.0",
+
+    # Data Validation
+    "pydantic>=2.5.0",
+    "typing-extensions>=4.8.0",
+    "python-dotenv>=1.0.0",
+
+    # Caching & Performance
+    "redis>=5.0.1",
+    "slowapi>=0.1.9",
+
+    # Monitoring
+    "prometheus-client>=0.19.0",
+
+    # Core Data Processing
+    "pandas>=2.1.4",
+    "numpy>=1.26.2",
+    "python-dateutil>=2.8.2",
+]
+
+[project.optional-dependencies]
+# Agent System Dependencies
+agents = [
+    "asyncio-mqtt>=0.11.1",
+    "paramiko>=2.12.0",
+    "fuzzywuzzy>=0.18.0",
+    "python-Levenshtein>=0.20.0",
+    "schedule>=1.2.0",
+    "croniter>=1.4.0",
+    "structlog>=23.1.0",
+    "python-json-logger>=2.0.7",
+    "slack-sdk>=3.21.0",
+]
+
+# LangChain & LLM Orchestration
+langchain = [
+    "langchain>=0.1.0",
+    "langchain-community>=0.0.10",
+    "langchain-core>=0.1.10",
+    "langchain-openai>=0.0.5",
+    "langchain-experimental>=0.0.47",
+    "langsmith>=0.0.87",
+    "opentelemetry-api>=1.22.0",
+    "opentelemetry-sdk>=1.22.0",
+]
+
+# LangGraph State Machines
+langgraph = [
+    "langgraph>=0.0.20",
+    "langgraph-checkpoint>=0.0.1",
+]
+
+# Vector Stores & Embeddings
+vectorstores = [
+    "chromadb>=0.4.22",
+    "faiss-cpu>=1.8.0",
+    "tiktoken>=0.5.2",
+    "sentence-transformers>=2.2.0",
+]
+
+# Document Processing
+documents = [
+    "unstructured>=0.11.6",
+    "pypdf>=3.17.4",
+    "docx2txt>=0.8",
+    "beautifulsoup4>=4.12.3",
+    "markdownify>=0.11.6",
+    "python-docx>=1.0.0",
+    "openpyxl>=3.1.0",
+]
+
+# LLM Provider SDKs
+llm-providers = [
+    "anthropic>=0.8.1",
+    "openai>=1.0.0",
+    "cohere>=4.44",
+    "google-generativeai>=0.3.0",
+]
+
+# NLP & Text Processing
+nlp = [
+    "spacy>=3.7.0",
+    "nltk>=3.8.0",
+    "transformers>=4.36.2",
+    "sentencepiece>=0.1.99",
+]
+
+# Machine Learning & Deep Learning
+ml = [
+    "scikit-learn>=1.3.0",
+    "tensorflow>=2.15.0",
+    "torch>=2.1.0",
+    "keras>=3.0.0",
+    "xgboost>=2.0.0",
+]
+
+# Data Science & Analysis
+data-science = [
+    "scipy>=1.11.0",
+    "statsmodels>=0.14.0",
+    "matplotlib>=3.8.0",
+    "seaborn>=0.13.0",
+    "plotly>=5.18.0",
+]
+
+# Web Scraping & Automation
+scraping = [
+    "playwright>=1.40.0",
+    "selenium>=4.15.0",
+    "scrapy>=2.11.0",
+    "requests-html>=0.10.0",
+]
+
+# Florida Property Data Processing
+florida-data = [
+    "pyarrow>=14.0.0",
+    "polars>=0.19.0",
+    "dask[dataframe]>=2023.12.0",
+]
+
+# Graph Database
+graphdb = [
+    "neo4j>=5.14.0",
+    "networkx>=3.2.0",
+]
+
+# Development Tools
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.11.0",
+    "black>=23.12.0",
+    "ruff>=0.1.9",
+    "mypy>=1.8.0",
+    "isort>=5.13.0",
+]
+
+# All optional dependencies combined
+all = [
+    "concordbroker[agents]",
+    "concordbroker[langchain]",
+    "concordbroker[langgraph]",
+    "concordbroker[vectorstores]",
+    "concordbroker[documents]",
+    "concordbroker[llm-providers]",
+    "concordbroker[nlp]",
+    "concordbroker[ml]",
+    "concordbroker[data-science]",
+    "concordbroker[scraping]",
+    "concordbroker[florida-data]",
+    "concordbroker[graphdb]",
+    "concordbroker[dev]",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/concordbroker"
+Documentation = "https://github.com/yourusername/concordbroker/docs"
+Repository = "https://github.com/yourusername/concordbroker"
+Issues = "https://github.com/yourusername/concordbroker/issues"
+
+[tool.setuptools]
+packages = ["concordbroker"]
+
+[tool.setuptools.package-data]
+concordbroker = ["py.typed"]
+
+[tool.black]
+line-length = 100
+target-version = ['py310', 'py311', 'py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  | \.git
+  | \.venv
+  | venv
+  | build
+  | dist
+  | node_modules
+  | __pycache__
+)/
+'''
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+]
+ignore = [
+    "E501",  # line too long (handled by black)
+    "B008",  # do not perform function calls in argument defaults
+    "C901",  # too complex
+]
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.isort]
+profile = "black"
+line_length = 100
+known_first_party = ["concordbroker"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+strict_optional = true
+
+[[tool.mypy.overrides]]
+module = [
+    "supabase.*",
+    "playwright.*",
+    "langchain.*",
+    "chromadb.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+    "--cov=concordbroker",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
