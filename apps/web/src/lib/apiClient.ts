@@ -13,10 +13,40 @@ import {
   getMeilisearchHeaders,
 } from '../config/services.config';
 
+import type {
+  FloridaParcelData,
+  SalesHistoryRecord,
+  SunbizCorporateData,
+  TaxCertificateData
+} from '../types/property';
+
 interface RetryOptions {
   maxRetries?: number;
   retryDelay?: number;
   backoffMultiplier?: number;
+}
+
+// API Response Types
+export interface SearchResponse<T = FloridaParcelData> {
+  source: 'Meilisearch' | 'PropertyAPI' | 'Supabase';
+  data: T[];
+  total: number;
+}
+
+export interface SalesHistoryResponse {
+  source: string;
+  sales: SalesHistoryRecord[];
+}
+
+export interface PropertyFilters {
+  county?: string;
+  city?: string;
+  property_use?: string;
+  min_value?: number;
+  max_value?: number;
+  min_sqft?: number;
+  max_sqft?: number;
+  [key: string]: string | number | { min: number; max: number } | string[] | undefined;
 }
 
 /**
@@ -83,10 +113,10 @@ async function fetchWithRetry(
  */
 export async function searchProperties(query: {
   q?: string;
-  filters?: Record<string, any>;
+  filters?: PropertyFilters;
   limit?: number;
   offset?: number;
-}): Promise<any> {
+}): Promise<SearchResponse<FloridaParcelData>> {
   const errors: Array<{ service: string; error: string }> = [];
 
   // Try Meilisearch first (fastest)
@@ -185,7 +215,7 @@ export async function searchProperties(query: {
 /**
  * Get Property Details
  */
-export async function getProperty(parcelId: string): Promise<any> {
+export async function getProperty(parcelId: string): Promise<FloridaParcelData | null> {
   try {
     const response = await fetchWithRetry(PropertyEndpoints.GET_PROPERTY(parcelId));
     return await response.json();
@@ -205,7 +235,7 @@ export async function getProperty(parcelId: string): Promise<any> {
  * Get Sales History with Multi-Source Strategy
  * Priority: comprehensive_sales_data → property_sales_history → sdf_sales → Property API
  */
-export async function getSalesHistory(parcelId: string): Promise<any> {
+export async function getSalesHistory(parcelId: string): Promise<SalesHistoryResponse> {
   const errors: Array<{ source: string; error: string }> = [];
 
   // Try comprehensive_sales_data view first
@@ -281,7 +311,7 @@ export async function getSalesHistory(parcelId: string): Promise<any> {
 /**
  * Get Corporate Data (Sunbiz)
  */
-export async function getCorporateData(entityName: string): Promise<any> {
+export async function getCorporateData(entityName: string): Promise<SunbizCorporateData[]> {
   try {
     const url = `${SupabaseEndpoints.SUNBIZ_CORPORATE}?entity_name=ilike.%${encodeURIComponent(entityName)}%`;
     const response = await fetchWithRetry(
@@ -303,7 +333,7 @@ export async function getCorporateData(entityName: string): Promise<any> {
 /**
  * Get Tax Certificates
  */
-export async function getTaxCertificates(parcelId: string): Promise<any> {
+export async function getTaxCertificates(parcelId: string): Promise<TaxCertificateData[]> {
   const url = `${SupabaseEndpoints.TAX_CERTIFICATES}?parcel_id=eq.${parcelId}`;
   const response = await fetchWithRetry(
     url,
@@ -315,7 +345,7 @@ export async function getTaxCertificates(parcelId: string): Promise<any> {
 /**
  * Get Property Comparables
  */
-export async function getComparables(parcelId: string): Promise<any> {
+export async function getComparables(parcelId: string): Promise<FloridaParcelData[]> {
   const response = await fetchWithRetry(PropertyEndpoints.GET_COMPARABLES(parcelId));
   return await response.json();
 }
@@ -323,7 +353,7 @@ export async function getComparables(parcelId: string): Promise<any> {
 /**
  * Get Owner Properties
  */
-export async function getOwnerProperties(ownerName: string): Promise<any> {
+export async function getOwnerProperties(ownerName: string): Promise<FloridaParcelData[]> {
   const response = await fetchWithRetry(PropertyEndpoints.GET_OWNER_PROPERTIES(ownerName));
   return await response.json();
 }
@@ -331,7 +361,7 @@ export async function getOwnerProperties(ownerName: string): Promise<any> {
 /**
  * Autocomplete Search
  */
-export async function autocomplete(query: string): Promise<any> {
+export async function autocomplete(query: string): Promise<Array<{ value: string; label: string; type: string }>> {
   const response = await fetchWithRetry(
     `${PropertyEndpoints.AUTOCOMPLETE}?q=${encodeURIComponent(query)}`
   );
@@ -341,7 +371,7 @@ export async function autocomplete(query: string): Promise<any> {
 /**
  * Build Meilisearch filter string from filter object
  */
-function buildMeilisearchFilter(filters: Record<string, any>): string {
+function buildMeilisearchFilter(filters: PropertyFilters): string {
   const conditions: string[] = [];
 
   Object.entries(filters).forEach(([key, value]) => {
