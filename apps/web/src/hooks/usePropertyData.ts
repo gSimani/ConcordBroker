@@ -8,6 +8,7 @@ import type {
   TppData,
   SunbizCorporateData
 } from '@/types/property'
+import { normalizePropertyData, getFieldValue } from '@/lib/propertyFieldMapping'
 
 // Re-export PropertyData for backward compatibility
 export type { PropertyData }
@@ -267,6 +268,11 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '', co
       };
 
       bcpaData = normalizeBcpaData(bcpaData as Partial<FloridaParcelData>);
+
+      // Apply comprehensive field mapping for additional variants
+      // This ensures ALL field name variants are normalized (tv_nsd, no_res_unts, etc.)
+      const enhancedNormalization = normalizePropertyData(bcpaData);
+      bcpaData = { ...bcpaData, ...enhancedNormalization } as FloridaParcelData;
 
       // Step 2: Get comprehensive sales data
       console.log(`[usePropertyData] Fetching sales data for parcel: ${parcelId}`);
