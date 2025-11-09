@@ -86,19 +86,3 @@ railway.json
 apps/api/nul
 nul
 mcp_servers/chrome-devtools-mcp/
-
-# Additional cleanup exclusions
-TEMP/
-archived_agents_*/
-archived_*/
-analysis-scripts-archived/
-env_backup_*/
-debug-videos/
-test-screenshots/
-ui_screenshots/
-e2e-test-results/
-test-results/
-playwright-report/
-.playwright/
-lighthouse-report.html
-.venv/

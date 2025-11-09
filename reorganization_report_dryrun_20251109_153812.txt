@@ -1,0 +1,35 @@
+================================================================================
+  ROOT DIRECTORY REORGANIZATION REPORT
+================================================================================
+  Mode: DRY RUN
+  Date: 2025-11-09 15:38:12
+================================================================================
+
+📊 SUMMARY
+--------------------------------------------------------------------------------
+  Files moved:        3
+  Files kept in root: 1
+  Files skipped:      0
+  Errors:             0
+
+📁 FILES BY CATEGORY
+--------------------------------------------------------------------------------
+
+  Misc (3 files):
+  → scripts-organized/misc/
+     - apply_performance_indexes.py
+     - florida_sdf_master_orchestrator.py
+     - reorganize_root_directory.py
+
+✅ FILES KEPT IN ROOT
+--------------------------------------------------------------------------------
+  - production_property_api.py
+
+🎯 NEXT STEPS
+--------------------------------------------------------------------------------
+  This was a DRY RUN - no files were moved.
+  Review the report above, then run with dry_run=False to apply changes.
+
+  To apply changes:
+    python reorganize_root_directory.py --apply
+================================================================================
