@@ -1,4 +1,5 @@
 // API Response Types
+import type { TppData, SunbizCorporateData, SunbizOfficerData, SalesHistoryRecord } from './property';
 
 export interface AuthResponse {
   success: boolean;
@@ -172,7 +173,7 @@ export interface TaxDeedProperty {
   applicant?: string;
   applicant_name?: string;
   sunbiz_matched?: boolean;
-  sunbiz_entities?: any[];
+  sunbiz_entities?: SunbizCorporateData[];
   sunbiz_entity_ids?: string[];
   property_appraiser_link?: string;
 }
@@ -199,7 +200,7 @@ export interface TaxCertificate {
     filing_type?: string;
     principal_address: string;
     registered_agent: string;
-    officers?: any;
+    officers?: SunbizOfficerData[];
     match_confidence?: number;
     search_term_used?: string;
     is_live_data?: boolean;
