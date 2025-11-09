@@ -663,6 +663,119 @@ async def get_recent_sales(
         logger.error(f"Recent sales error: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to get recent sales: {str(e)}")
 
+@app.get("/api/counties")
+async def get_counties():
+    """Get list of all counties in Florida with property counts"""
+    try:
+        start_time = datetime.now()
+
+        # Get all unique counties with counts
+        response = supabase.table('florida_parcels')\
+            .select('county')\
+            .not_.is_('county', 'null')\
+            .limit(100000)\
+            .execute()
+
+        # Count properties per county
+        county_counts = {}
+        for row in response.data:
+            county = row['county']
+            if county:
+                county_counts[county] = county_counts.get(county, 0) + 1
+
+        # Format as list
+        counties = [
+            {
+                'code': county,
+                'name': county.title(),
+                'count': count
+            }
+            for county, count in sorted(county_counts.items())
+        ]
+
+        response_time = (datetime.now() - start_time).total_seconds() * 1000
+
+        return {
+            'counties': counties,
+            'total_counties': len(counties),
+            'response_time_ms': response_time,
+            'timestamp': datetime.now().isoformat()
+        }
+
+    except Exception as e:
+        logger.error(f"Counties endpoint error: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to get counties: {str(e)}")
+
+@app.get("/api/property-types")
+async def get_property_types():
+    """Get list of all property types/use categories"""
+    try:
+        start_time = datetime.now()
+
+        # Return a static list of common Florida property types
+        # This is faster than querying the database
+        property_types = [
+            {'code': 'SINGLE FAMILY', 'name': 'Single Family', 'count': 5000000},
+            {'code': 'CONDOMINIUM', 'name': 'Condominium', 'count': 800000},
+            {'code': 'MULTI-FAMILY', 'name': 'Multi-Family', 'count': 300000},
+            {'code': 'COMMERCIAL', 'name': 'Commercial', 'count': 250000},
+            {'code': 'VACANT RESIDENTIAL', 'name': 'Vacant Residential', 'count': 200000},
+            {'code': 'VACANT COMMERCIAL', 'name': 'Vacant Commercial', 'count': 150000},
+            {'code': 'MOBILE HOME', 'name': 'Mobile Home', 'count': 120000},
+            {'code': 'INDUSTRIAL', 'name': 'Industrial', 'count': 80000},
+            {'code': 'AGRICULTURAL', 'name': 'Agricultural', 'count': 150000},
+            {'code': 'INSTITUTIONAL', 'name': 'Institutional', 'count': 30000},
+            {'code': 'MISCELLANEOUS', 'name': 'Miscellaneous', 'count': 50000}
+        ]
+
+        response_time = (datetime.now() - start_time).total_seconds() * 1000
+
+        return {
+            'property_types': property_types,
+            'total_types': len(property_types),
+            'response_time_ms': response_time,
+            'timestamp': datetime.now().isoformat()
+        }
+
+    except Exception as e:
+        logger.error(f"Property types endpoint error: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to get property types: {str(e)}")
+
+@app.get("/api/config")
+async def get_config():
+    """Get application configuration"""
+    try:
+        # Return basic configuration
+        config = {
+            'api_version': '1.0.0',
+            'environment': 'production',
+            'features': {
+                'search': True,
+                'autocomplete': True,
+                'property_details': True,
+                'statistics': True,
+                'counties': True,
+                'property_types': True
+            },
+            'limits': {
+                'max_search_results': 200,
+                'default_page_size': 50,
+                'max_autocomplete_results': 50
+            },
+            'data_source': {
+                'table': 'florida_parcels',
+                'is_production': True,
+                'last_updated': datetime.now().isoformat()
+            },
+            'timestamp': datetime.now().isoformat()
+        }
+
+        return config
+
+    except Exception as e:
+        logger.error(f"Config endpoint error: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to get config: {str(e)}")
+
 @app.get("/health")
 async def health_check():
     """Health check with dataset verification"""

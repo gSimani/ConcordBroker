@@ -1,6 +1,7 @@
 import { memo, useMemo, useRef } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { MiniPropertyCard } from './MiniPropertyCard';
+import { PropertySalesData } from '@/hooks/useSalesData';
 
 interface PropertyData {
   parcel_id: string;
@@ -17,7 +18,7 @@ interface VirtualizedPropertyListProps {
   height?: number;
   selectedProperties?: Set<string>;
   onToggleSelection?: (parcelId: string) => void;
-  batchSalesData?: Record<string, any>;
+  batchSalesData?: Map<string, PropertySalesData>;
   isBatchLoading?: boolean;
 }
 
@@ -76,7 +77,7 @@ export const VirtualizedPropertyList = memo<VirtualizedPropertyListProps>(({
   const rowVirtualizer = useVirtualizer({
     count: rowCount,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => (viewMode === 'grid' ? 350 : 150), // Estimated row height
+    estimateSize: () => (viewMode === 'grid' ? 380 : 150), // Reduced to 380 for ~1cm vertical gap between card rows
     overscan: 5, // Render 5 extra items outside viewport for smooth scrolling
     // Enable infinite loading
     onChange: (instance) => {
@@ -144,7 +145,7 @@ export const VirtualizedPropertyList = memo<VirtualizedPropertyListProps>(({
               variant="grid"
               isSelected={selectedProperties?.has(property.parcel_id)}
               onToggleSelection={onToggleSelection ? () => onToggleSelection(property.parcel_id) : undefined}
-              salesData={batchSalesData?.[property.parcel_id]}
+              salesData={batchSalesData?.get(property.parcel_id)}
               isBatchLoading={isBatchLoading}
             />
           </div>
@@ -201,7 +202,7 @@ export const VirtualizedPropertyList = memo<VirtualizedPropertyListProps>(({
           variant="list"
           isSelected={selectedProperties?.has(property.parcel_id)}
           onToggleSelection={onToggleSelection ? () => onToggleSelection(property.parcel_id) : undefined}
-          salesData={batchSalesData?.[property.parcel_id]}
+          salesData={batchSalesData?.get(property.parcel_id)}
           isBatchLoading={isBatchLoading}
         />
       </div>

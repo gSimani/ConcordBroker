@@ -5,7 +5,6 @@ import { Toaster } from '@/components/ui/toaster'
 import { ThemeProvider } from '@/components/theme-provider'
 import Layout from '@/components/layout'
 import ErrorBoundary from '@/components/ErrorBoundary'
-import ServiceWorkerManager from '@/components/ServiceWorkerManager'
 import { QueryProvider } from '@/providers/QueryProvider'
 import { initializeCriticalPreloading, preloader, routePreloadConfigs } from '@/lib/preloader'
 
@@ -69,10 +68,11 @@ const TaxDeedSales = lazy(() => import('@/pages/TaxDeedSales'))
 const PerformanceTest = lazy(() => import('@/pages/PerformanceTest'))
 
 // Admin Pages - lazy loaded
-// const AdminLogin = lazy(() => import('@/pages/admin/login'))
+const AdminLogin = lazy(() => import('@/pages/admin/login'))
 const AdminDashboard = lazy(() => import('@/pages/admin/dashboard'))
 const AdminUsers = lazy(() => import('@/pages/admin/users'))
 const AdminScrapers = lazy(() => import('@/pages/admin/scrapers'))
+const TestLogin = lazy(() => import('@/pages/admin/test-login'))
 
 function App() {
   console.log('App component rendering with advanced performance optimizations')
@@ -113,7 +113,7 @@ function App() {
     <ErrorBoundary>
       <QueryProvider>
         <ThemeProvider defaultTheme="light" storageKey="concordbroker-theme">
-          <Router>
+          <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <RoutePreloader />
             <Layout>
               <Suspense fallback={<PageLoader />}>
@@ -132,15 +132,13 @@ function App() {
                   <Route path="/tax-deed-sales" element={<TaxDeedSales />} />
                   <Route path="/performance-test" element={<PerformanceTest />} />
                   <Route path="/admin/login" element={<AdminLogin />} />
+                  <Route path="/admin/test-login" element={<TestLogin />} />
                   <Route path="/admin/dashboard" element={<AdminDashboard />} />
                   <Route path="/admin/users" element={<AdminUsers />} />
                   <Route path="/admin/scrapers" element={<AdminScrapers />} />
                 </Routes>
               </Suspense>
             </Layout>
-
-            {/* Service Worker Manager for offline support and performance monitoring */}
-            <ServiceWorkerManager />
 
             <Toaster />
           </Router>

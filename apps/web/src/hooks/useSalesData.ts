@@ -75,7 +75,25 @@ const fetchFromMultipleSources = async (parcelId: string): Promise<SalesRecord[]
           is_cash_sale: false,
           data_source: 'property_sales_history',
         }))
-        .filter(record => record.sale_price >= 1000); // Filter out sales under $1,000
+        .filter(record => {
+          // COMPREHENSIVE FAKE DATA FILTER
+          // Exclude sales under $1,000 (nominal transfers)
+          if (record.sale_price < 1000) return false;
+
+          // Exclude exactly $10,000 (common test value)
+          if (record.sale_price === 10000) return false;
+
+          // Exclude suspicious round numbers that are likely test data
+          // (e.g., exactly $20,000, $30,000, $40,000, etc. up to $100,000)
+          if (record.sale_price % 10000 === 0 && record.sale_price <= 100000) return false;
+
+          // Exclude future dates (test data)
+          const saleDate = new Date(record.sale_date);
+          const now = new Date();
+          if (saleDate > now) return false;
+
+          return true;
+        });
 
       allSales.push(...records);
       return allSales; // Return early since this is our main source
@@ -345,10 +363,14 @@ export function useBatchSalesData(parcelIds: string[]) {
           data_source: 'property_sales_history',
         };
 
-        // Filter out sales under $1,000
-        if (record.sale_price >= 1000) {
-          salesByParcel.get(parcelId)!.push(record);
-        }
+        // COMPREHENSIVE FAKE DATA FILTER - same as individual fetch
+        if (record.sale_price < 1000) return; // Nominal transfers - skip this iteration
+        if (record.sale_price === 10000) return; // Exact $10,000 test data - skip
+        if (record.sale_price % 10000 === 0 && record.sale_price <= 100000) return; // Round test values - skip
+        const saleDate = new Date(record.sale_date);
+        if (saleDate > new Date()) return; // Future dates - skip
+
+        salesByParcel.get(parcelId)!.push(record);
       });
 
       // Convert to PropertySalesData format for each parcel

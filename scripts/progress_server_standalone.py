@@ -239,8 +239,8 @@ HTML_TEMPLATE = '''
                 <div class="stat-value" id="overall-percent">--</div>
             </div>
             <div class="stat-card">
-                <div class="stat-label">Files Processed</div>
-                <div class="stat-value" id="files-done">--</div>
+                <div class="stat-label">Counties Completed</div>
+                <div class="stat-value" id="counties-done">--</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Total Rows</div>
@@ -291,7 +291,7 @@ HTML_TEMPLATE = '''
 
         <div class="hardware-info">
             <strong>Optimized for:</strong> 16GB RAM / 4-core ARM CPU / 150GB Disk<br>
-            <strong>Batch Size:</strong> 1,500 rows | <strong>Total Files:</strong> 201 (67 counties × P/S/F)
+            <strong>Batch Size:</strong> 750-1,500 rows | <strong>Total Counties:</strong> 67 Florida counties | <strong>Target:</strong> ~9.7M properties
         </div>
 
         <div class="loading pulse" id="loading">Loading progress data...</div>
@@ -314,14 +314,14 @@ HTML_TEMPLATE = '''
 
                 // Update stats
                 document.getElementById('overall-percent').innerText = data.percent + '%';
-                document.getElementById('files-done').innerText = data.done + '/' + data.total;
+                document.getElementById('counties-done').innerText = data.done + '/' + data.total;
                 document.getElementById('total-rows').innerText = (data.total_rows || 0).toLocaleString();
                 document.getElementById('current-county').innerText = data.county || '--';
 
                 // Update progress bar
                 document.getElementById('progress-percent').innerText = data.percent + '%';
                 document.getElementById('progress-bar').style.width = data.percent + '%';
-                document.getElementById('bar-text').innerText = data.done + '/' + data.total + ' files';
+                document.getElementById('bar-text').innerText = data.done + '/' + data.total + ' counties';
 
                 // Update details
                 document.getElementById('current-phase').innerText = data.current || '--';
@@ -351,39 +351,46 @@ HTML_TEMPLATE = '''
 
                 // Update county breakdown
                 const countyList = document.getElementById('county-list');
-                if (data.recent_counties && data.recent_counties.length > 0) {
-                    let html = '';
+                let html = '';
 
-                    // Add current county first (if available)
-                    if (data.county) {
-                        html += `
-                            <div class="county-item current">
-                                <div class="county-icon">⏳</div>
-                                <div class="county-name">${data.county}</div>
-                            </div>
-                        `;
-                    }
-
-                    // Add recently completed counties
-                    data.recent_counties.forEach(county => {
-                        html += `
-                            <div class="county-item completed">
-                                <div class="county-icon">✅</div>
-                                <div class="county-name">${county.name}</div>
-                            </div>
-                        `;
-                    });
-
-                    countyList.innerHTML = html;
-                } else if (data.county) {
-                    // If no recent counties but current county exists
-                    countyList.innerHTML = `
+                // Add current county first (if available)
+                if (data.county && data.current && !data.current.includes('ingested:')) {
+                    html += `
                         <div class="county-item current">
-                            <div class="county-icon">⏳</div>
+                            <div class="county-icon">...</div>
                             <div class="county-name">${data.county}</div>
                         </div>
                     `;
                 }
+
+                // Add all completed counties
+                if (data.completed_counties && data.completed_counties.length > 0) {
+                    data.completed_counties.forEach(county => {
+                        html += `
+                            <div class="county-item completed">
+                                <div class="county-icon">[OK]</div>
+                                <div class="county-name">${county.name}</div>
+                            </div>
+                        `;
+                    });
+                }
+
+                // Add in-progress counties (started but not completed)
+                if (data.in_progress_counties && data.in_progress_counties.length > 0) {
+                    data.in_progress_counties.forEach(county => {
+                        // Don't show current county twice
+                        if (county.name !== data.county) {
+                            html += `
+                                <div class="county-item" style="background: rgba(255, 165, 0, 0.15); border-left: 3px solid #ffa500;">
+                                    <div class="county-icon">[!]</div>
+                                    <div class="county-name">${county.name}</div>
+                                </div>
+                            `;
+                        }
+                    });
+                }
+
+                countyList.innerHTML = html || '<div class="county-item">No data yet...</div>';
 
             } catch (error) {
                 document.getElementById('loading').innerHTML = 'Connection error: ' + error.message;
@@ -409,7 +416,7 @@ def get_progress():
         # Get latest progress for the current run
         progress_data = query_supabase(
             'ingestion_progress',
-            filters={'run_id': '2023-full-load-v2'},
+            filters={'run_id': '2023-full-load-v3'},
             order='created_at.desc',
             limit=1
         )
@@ -442,34 +449,49 @@ def get_progress():
         content_range = response.headers.get('Content-Range', '*/0')
         total_rows = int(content_range.split('/')[-1]) if content_range != '*/0' else 0
 
-        # Get recent county history (last 10 completed)
-        recent_data = query_supabase(
+        # Get ALL progress entries to find all completed counties
+        all_progress_data = query_supabase(
             'ingestion_progress',
-            filters={'run_id': '2023-full-load-v2'},
+            filters={'run_id': '2023-full-load-v3'},
             order='created_at.desc',
-            limit=10
+            limit=200  # Fetch more to get all counties
         )
 
-        recent_counties = []
-        for r in recent_data:
-            if r.get('current') and 'ingested:' in r.get('current', ''):
-                county_name = r.get('county')
-                if county_name and county_name not in [rc['name'] for rc in recent_counties]:
-                    recent_counties.append({
+        # Find unique completed counties
+        completed_counties = set()
+        all_counties = []
+        for r in all_progress_data:
+            county_name = r.get('county')
+            if county_name:
+                if r.get('current') and 'ingested:' in r.get('current', ''):
+                    completed_counties.add(county_name)
+                if county_name not in [c['name'] for c in all_counties]:
+                    all_counties.append({
                         'name': county_name,
-                        'status': 'completed'
+                        'status': 'completed' if county_name in completed_counties else 'in_progress'
                     })
 
+        # Separate completed and in-progress
+        completed_list = [c for c in all_counties if c['status'] == 'completed']
+        in_progress_list = [c for c in all_counties if c['status'] == 'in_progress']
+
+        # Calculate overall progress
+        total_counties = 67  # Florida has 67 counties
+        counties_done = len(completed_counties)
+        overall_percent = int((counties_done / total_counties * 100) if total_counties > 0 else 0)
+
         return jsonify({
-            'percent': row.get('percent') or 0,
-            'done': row.get('done') or 0,
-            'total': row.get('total') or 201,
+            'percent': overall_percent,  # Overall progress across all counties
+            'done': counties_done,
+            'total': total_counties,
             'county': row.get('county'),
             'current': row.get('current'),
             'total_rows': total_rows,
             'timestamp': row.get('created_at'),
             'run_id': row.get('run_id'),
-            'recent_counties': recent_counties[:6]  # Last 6 counties
+            'completed_counties': completed_list,
+            'in_progress_counties': in_progress_list,
+            'counties_remaining': total_counties - counties_done
         })
 
     except Exception as e:

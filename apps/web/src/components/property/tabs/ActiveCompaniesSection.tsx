@@ -111,52 +111,8 @@ const ActiveCompaniesSection: React.FC<ActiveCompaniesProps> = ({ propertyData }
     } catch (error) {
       console.error('Error fetching active companies:', error);
       setError(error.message);
-
-      // Fallback to enhanced sample data on error
-      if (offset === 0) {
-        const sampleCompanies: ActiveCompany[] = [
-          {
-            id: 'sample_1',
-            entity_name: 'CONCORDBROKER PROPERTY MANAGEMENT LLC',
-            entity_type: 'LLC',
-            status: 'ACTIVE',
-            filing_date: '2024-01-15',
-            business_address: '123 Investment Blvd, Miami, FL 33101',
-            officer_name: 'John Smith',
-            officer_email: 'john@concordbroker.com',
-            officer_phone: '(305) 555-0123',
-            doc_number: 'L24000123456',
-            source: 'sunbiz_corporate'
-          },
-          {
-            id: 'sample_2',
-            entity_name: 'FLORIDA TECH SOLUTIONS INC',
-            entity_type: 'CORP',
-            status: 'ACTIVE',
-            filing_date: '2023-08-22',
-            business_address: '456 Business Blvd, Orlando, FL 32801',
-            officer_name: 'Sarah Johnson',
-            officer_email: 'sarah@floridatech.com',
-            officer_phone: '(407) 555-0456',
-            doc_number: 'P23000789012',
-            source: 'florida_entities'
-          },
-          {
-            id: 'sample_3',
-            entity_name: 'COASTAL REAL ESTATE GROUP',
-            entity_type: 'CORP',
-            status: 'ACTIVE',
-            filing_date: '2024-03-10',
-            business_address: '789 Ocean Dr, Fort Lauderdale, FL 33301',
-            officer_name: 'Michael Davis',
-            officer_email: 'mdavis@coastalre.com',
-            officer_phone: '(954) 555-0789',
-            doc_number: 'P24000345678',
-            source: 'officer_matches'
-          }
-        ];
-        setActiveCompanies(sampleCompanies);
-      }
+      // Set empty array on error - NO FAKE DATA
+      setActiveCompanies([]);
     } finally {
       setLoading(false);
     }

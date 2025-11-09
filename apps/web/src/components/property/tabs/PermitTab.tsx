@@ -86,16 +86,11 @@ export const PermitTab: React.FC<PermitTabProps> = ({ propertyData }) => {
           
           setInspections(inspectionData || []);
         } else {
-          // No permits found in database - show demo data for UI demonstration
-          console.log('No permits found in database - showing demo data for UI demonstration');
-          const demoPermits = generateDemoPermitData(bcpaData);
-          setPermits(demoPermits);
-          
-          // Generate demo sub-permits and inspections
-          const demoSubPermits = generateDemoSubPermits();
-          const demoInspections = generateDemoInspections();
-          setSubPermits(demoSubPermits);
-          setInspections(demoInspections);
+          // No permits found in database - show empty state (NO FAKE DATA)
+          console.log('No permits found in database');
+          setPermits([]);
+          setSubPermits([]);
+          setInspections([]);
         }
       } catch (error) {
         console.error('Error fetching permit data:', error);

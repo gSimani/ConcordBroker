@@ -1,155 +1,87 @@
+# ============================================
+# CONCORDBROKER .gitignore
+# ============================================
+
+# Environment Variables - NEVER COMMIT THESE
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+.env*.local
+
+# Keep the example file
+!.env.example
+
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+*.log
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
 # Python
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
-env/
 venv/
+env/
 ENV/
-env.bak/
-venv.bak/
-.venv
-*.egg-info/
-dist/
-build/
-*.egg
-.pytest_cache/
-.coverage
-.coverage.*
-htmlcov/
-.tox/
-.mypy_cache/
-.dmypy.json
-dmypy.json
-.pyre/
-.ruff_cache/
-*.log
 
-# Node
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
-.pnpm-debug.log*
-.npm
-.yarn
-*.tsbuildinfo
-.next/
-out/
-.nuxt
-dist/
-.cache/
-.parcel-cache
-.turbo
+# Database
+*.db
+*.sqlite
+*.sqlite3
 
-# Docker
-*.pid
-*.seed
-*.pid.lock
-.dockerignore
-
-# IDEs
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.DS_Store
-Thumbs.db
-
-# Environment
-.env
-.env.*
-.env.local
-.env.*.local
-*.env
-!.env.example
-!.env.*.example
-!*.env.example
-!.template.env
-
-# Specific sensitive files
-.env.production
-.env.railway
-.env.supabase
-apps/api/.env.supabase
-apps/web/.env.production
-
-# Testing
-coverage/
-*.lcov
-.nyc_output
-
-# Production
-build/
-*.production
+# Data files (CSV, ZIP archives, large datasets)
+*.csv
+*.zip
+data/
+backups/
+historical_data/
+florida_property_data/
+archive-cleanup-*/
 
 # Logs
 logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
-pnpm-debug.log*
+yarn-error.log*
 
-# OS
-.DS_Store
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-
-# Data
-/data/
-*.db
-*.sqlite
-*.parquet
-*.csv
-!tests/data/**
-
-# Vector stores and local indexes
-vector_stores/
-chroma_db/
-
-# Memvid generated artifacts
-data/memvid/*.mp4
-data/memvid/*.json
-
-# Temp datasets and backups
-TEMP/
-env_backup_*/
-
-# Logs
-mcp-server/claude-init.log
-
-# Cache
-.cache/
-*.cache
-/cache/
-
-# Temporary
+# Temporary files
+tmp/
+temp/
 *.tmp
-*.temp
-/tmp/
-/temp/
 
-# Secrets
-*.key
-*.pem
-*.crt
-infra/secrets/*
-!infra/secrets/.template.env
-!infra/secrets/README.md
+# Redis dump
+dump.rdb
 
-# Railway/Vercel
-.railway/
-.vercel/
-
-# Documentation build
-docs/_build/
-docs/.doctrees/
+# Vercel
 .vercel
-.dev-session.json
-meilisearch.exe
-GITHUB_MCP_SERVER_SETUP.md
-.env.orchestrator
+
+# Railway
+railway.json
+apps/api/nul
+nul

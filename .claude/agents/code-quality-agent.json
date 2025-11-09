@@ -1,0 +1,95 @@
+{
+  "name": "code-quality-agent",
+  "version": "1.0.0",
+  "description": "Code Quality Gate - Runs linting, type-checking, and auto-fixes before commits",
+  "type": "on-demand",
+  "priority": "high",
+
+  "script": {
+    "path": "agents/code-quality-agent.cjs",
+    "runtime": "node",
+    "args": []
+  },
+
+  "autoStart": false,
+  "restartOnFailure": false,
+
+  "hooks": {
+    "enabled": true,
+    "triggers": [
+      {
+        "event": "pre-commit",
+        "action": "runHook",
+        "args": ["pre-commit", "{}"],
+        "blocking": true,
+        "description": "Run quality checks with auto-fix before allowing commit"
+      },
+      {
+        "event": "post-change",
+        "condition": "file.matches('**/*.{ts,tsx,js,jsx}')",
+        "action": "runHook",
+        "args": ["post-change", "{}"],
+        "blocking": false,
+        "description": "Run quality checks after code changes (non-blocking)"
+      },
+      {
+        "event": "pre-push",
+        "action": "runHook",
+        "args": ["pre-push", "{}"],
+        "blocking": true,
+        "description": "Run quality checks before allowing push"
+      }
+    ]
+  },
+
+  "configuration": {
+    "autoFix": {
+      "preCommit": true,
+      "postChange": false,
+      "prePush": false
+    },
+    "checks": {
+      "typescript": {
+        "enabled": true,
+        "command": "npx tsc --noEmit",
+        "blocking": true
+      },
+      "eslint": {
+        "enabled": true,
+        "command": "npx eslint . --ext ts,tsx",
+        "autoFix": true,
+        "blocking": true
+      },
+      "prettier": {
+        "enabled": true,
+        "command": "npx prettier --check \"src/**/*.{ts,tsx,css}\"",
+        "autoFix": true,
+        "blocking": false
+      },
+      "unusedImports": {
+        "enabled": false,
+        "command": "npx ts-prune",
+        "blocking": false
+      }
+    },
+    "errorThreshold": {
+      "typescript": 0,
+      "eslint": 0,
+      "prettier": -1
+    }
+  },
+
+  "logging": {
+    "enabled": true,
+    "logFile": "logs/code-quality-agent.log",
+    "level": "info"
+  },
+
+  "monitoring": {
+    "healthCheck": {
+      "enabled": false
+    },
+    "trackMetrics": true,
+    "metricsFile": "logs/code-quality-metrics.json"
+  }
+}

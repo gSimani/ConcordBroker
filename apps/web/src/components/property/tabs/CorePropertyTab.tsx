@@ -174,12 +174,38 @@ export const CorePropertyTab: React.FC<CorePropertyTabProps> = ({ propertyData, 
           console.error('Error fetching property sales history:', salesError);
         }
 
-        // Format property sales
-        const currentSale = propertySales?.map(sale => ({
-          ...sale,
-          property_address: sale.property_address || data.phy_addr1,
-          is_current: true
-        })) || [];
+        // Format property sales - FILTER OUT FAKE/TEST DATA
+        const currentSale = propertySales
+          ?.filter(sale => {
+            // Exclude obvious test/fake data
+            if (!sale.sale_date || !sale.sale_price) return false;
+
+            // Exclude sales with obviously fake prices
+            // - Exactly $10,000 (common test value)
+            // - Round numbers ending in multiple zeros (10000, 20000, 30000, etc.)
+            // - Sales under $1,000 (nominal transfers)
+            const price = parseFloat(sale.sale_price);
+            if (price === 10000 || price < 1000) return false;
+
+            // Exclude suspicious round numbers that appear to be test data
+            // (e.g., exactly $100,000, $250,000, etc. without any cents)
+            if (price % 10000 === 0 && price <= 100000) return false;
+
+            // Exclude future dates (test data)
+            const saleDate = new Date(sale.sale_date);
+            const now = new Date();
+            if (saleDate > now) return false;
+
+            // Only include sales with realistic prices (> $100)
+            if (sale.sale_price < 100) return false;
+
+            return true;
+          })
+          .map(sale => ({
+            ...sale,
+            property_address: sale.property_address || data.phy_addr1,
+            is_current: true
+          })) || [];
 
         // Fetch subdivision sales from property_sales_history
         let subdivisionData = [];
@@ -272,28 +298,12 @@ export const CorePropertyTab: React.FC<CorePropertyTabProps> = ({ propertyData, 
     fetchSalesHistory();
   }, [data?.parcel_id, data?.subdivision, data?.county]);
 
-  // Fetch assessment history (mock data for now - would need historical table)
+  // Fetch assessment history - NO MOCK DATA
+  // TODO: Fetch real historical assessment data from database when available
   useEffect(() => {
-    // For now, create mock historical data based on current values
-    if (data) {
-      const currentYear = 2025;
-      const mockHistory = [];
-
-      for (let year = currentYear; year >= currentYear - 2; year--) {
-        const factor = 1 - ((currentYear - year) * 0.05); // 5% decrease per year for demo
-        mockHistory.push({
-          year,
-          land_value: data.land_value ? data.land_value * factor : null,
-          building_value: data.building_value ? data.building_value * factor : null,
-          extra_feature_value: data.extra_feature_value || 0,
-          market_value: data.just_value ? data.just_value * factor : null,
-          assessed_value: data.assessed_value ? data.assessed_value * factor : null
-        });
-      }
-
-      setAssessmentHistory(mockHistory);
-      setLoadingAssessments(false);
-    }
+    // Only use real historical data - no mock/fake data allowed
+    setAssessmentHistory([]); // Empty until we have real historical data
+    setLoadingAssessments(false);
   }, [data]);
 
   // Use normalized data throughout the component

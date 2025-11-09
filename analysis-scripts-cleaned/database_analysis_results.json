@@ -1,0 +1,482 @@
+{
+  "timestamp": "2025-11-07T08:45:43.074959",
+  "tables_analyzed": {
+    "parcels": {
+      "exists": false,
+      "error": "{'code': 'PGRST205', 'details': None, 'hint': \"Perhaps you meant the table 'public.latest_parcels'\", 'message': \"Could not find the table 'public.parcels' in the schema cache\"}"
+    },
+    "latest_parcels": {
+      "exists": false,
+      "error": "{'code': '42501', 'details': None, 'hint': None, 'message': 'permission denied for view latest_parcels'}"
+    },
+    "florida_parcels": {
+      "exists": false,
+      "error": "The read operation timed out"
+    },
+    "properties": {
+      "exists": false,
+      "error": "{'code': '42501', 'details': None, 'hint': None, 'message': 'permission denied for table properties'}"
+    },
+    "sales_history": {
+      "exists": false,
+      "error": "{'code': 'PGRST205', 'details': None, 'hint': \"Perhaps you meant the table 'public.property_sales_history'\", 'message': \"Could not find the table 'public.sales_history' in the schema cache\"}"
+    },
+    "property_sales_history": {
+      "exists": true,
+      "row_count": 638168,
+      "columns": [
+        "id",
+        "county_no",
+        "parcel_id",
+        "state_parcel_id",
+        "assessment_year",
+        "atv_start",
+        "group_no",
+        "dor_use_code",
+        "neighborhood_code",
+        "market_area",
+        "census_block",
+        "sale_id_code",
+        "sale_change_code",
+        "verification_code",
+        "or_book",
+        "or_page",
+        "clerk_no",
+        "quality_code",
+        "sale_year",
+        "sale_month",
+        "sale_price",
+        "multi_parcel_sale",
+        "rs_id",
+        "mp_id",
+        "sale_date",
+        "created_at",
+        "updated_at",
+        "county",
+        "data_quality_score",
+        "source_type",
+        "ingestion_run_id"
+      ],
+      "column_count": 31,
+      "sample_data": {
+        "id": 1,
+        "county_no": "16",
+        "parcel_id": "474119030010",
+        "state_parcel_id": "C16-001-192-0124-2",
+        "assessment_year": 2025,
+        "atv_start": 8,
+        "group_no": "1",
+        "dor_use_code": "000",
+        "neighborhood_code": "665550",
+        "market_area": "7",
+        "census_block": null,
+        "sale_id_code": "99000120039267",
+        "sale_change_code": null,
+        "verification_code": "V",
+        "or_book": null,
+        "or_page": null,
+        "clerk_no": "120039267",
+        "quality_code": "11",
+        "sale_year": 2025,
+        "sale_month": 2,
+        "sale_price": 100,
+        "multi_parcel_sale": "C",
+        "rs_id": "2B6D",
+        "mp_id": "00B5E2FC",
+        "sale_date": "2025-02-01",
+        "created_at": "2025-09-09T19:25:36.153999+00:00",
+        "updated_at": "2025-09-09T19:25:36.153999+00:00",
+        "county": null,
+        "data_quality_score": 100,
+        "source_type": "DOR",
+        "ingestion_run_id": null
+      },
+      "has_primary_key": true,
+      "has_timestamps": true,
+      "potential_foreign_keys": [
+        "parcel_id",
+        "state_parcel_id",
+        "rs_id",
+        "mp_id",
+        "ingestion_run_id"
+      ]
+    },
+    "fl_sdf_sales": {
+      "exists": true,
+      "row_count": 0,
+      "columns": [],
+      "column_count": 0,
+      "sample_data": null,
+      "is_empty": true
+    },
+    "sdf_sales": {
+      "exists": false,
+      "error": "{'code': 'PGRST205', 'details': None, 'hint': \"Perhaps you meant the table 'public.fl_sdf_sales'\", 'message': \"Could not find the table 'public.sdf_sales' in the schema cache\"}"
+    },
+    "florida_sdf_sales": {
+      "exists": false,
+      "error": "{'code': 'PGRST205', 'details': None, 'hint': \"Perhaps you meant the table 'public.fl_sdf_sales'\", 'message': \"Could not find the table 'public.florida_sdf_sales' in the schema cache\"}"
+    },
+    "tax_assessments": {
+      "exists": false,
+      "error": "{'code': 'PGRST205', 'details': None, 'hint': \"Perhaps you meant the table 'public.nav_assessments'\", 'message': \"Could not find the table 'public.tax_assessments' in the schema cache\"}"
+    },
+    "nav_assessments": {
+      "exists": false,
+      "error": "{'code': '42501', 'details': None, 'hint': None, 'message': 'permission denied for table nav_assessments'}"
+    },
+    "florida_nav_assessments": {
+      "exists": false,
+      "error": "{'code': 'PGRST205', 'details': None, 'hint': \"Perhaps you meant the table 'public.nav_assessments'\", 'message': \"Could not find the table 'public.florida_nav_assessments' in the schema cache\"}"
+    },
+    "tax_certificates": {
+      "exists": true,
+      "row_count": 10,
+      "columns": [
+        "id",
+        "parcel_id",
+        "real_estate_account",
+        "certificate_number",
+        "tax_year",
+        "buyer_name",
+        "certificate_buyer",
+        "advertised_number",
+        "face_amount",
+        "tax_amount",
+        "issued_date",
+        "sale_date",
+        "expiration_date",
+        "interest_rate",
+        "bid_percentage",
+        "winning_bid_percentage",
+        "status",
+        "redemption_amount",
+        "redemption_date",
+        "buyer_entity",
+        "created_at",
+        "updated_at"
+      ],
+      "column_count": 22,
+      "sample_data": {
+        "id": 1,
+        "parcel_id": "504234-08-00-20",
+        "real_estate_account": "504234-08-00-20",
+        "certificate_number": "2023-08745",
+        "tax_year": 2023,
+        "buyer_name": "CAPITAL ONE, NATIONAL ASSOCIATION (USA)",
+        "certificate_buyer": "CAPITAL ONE, NATIONAL ASSOCIATION",
+        "advertised_number": "AD-2023-08745",
+        "face_amount": 8574.32,
+        "tax_amount": 8574.32,
+        "issued_date": "2023-06-01",
+        "sale_date": "2023-06-01",
+        "expiration_date": "2025-06-01",
+        "interest_rate": 18.0,
+        "bid_percentage": 18.0,
+        "winning_bid_percentage": 18.0,
+        "status": "active",
+        "redemption_amount": 10117.7,
+        "redemption_date": null,
+        "buyer_entity": {
+          "status": "Active",
+          "entity_name": "CAPITAL ONE, NATIONAL ASSOCIATION",
+          "filing_type": "Corporation",
+          "document_number": "F96000004500",
+          "registered_agent": "Corporate Services Company",
+          "principal_address": "1680 Capital One Drive, McLean, VA 22102"
+        },
+        "created_at": "2025-09-08T22:54:48.017946",
+        "updated_at": "2025-09-08T22:54:48.017946"
+      },
+      "has_primary_key": true,
+      "has_timestamps": true,
+      "potential_foreign_keys": [
+        "parcel_id"
+      ]
+    },
+    "tax_deed_sales": {
+      "exists": false,
+      "error": "{'code': 'PGRST205', 'details': None, 'hint': \"Perhaps you meant the table 'public.tax_deed_auctions'\", 'message': \"Could not find the table 'public.tax_deed_sales' in the schema cache\"}"
+    },
+    "sunbiz_corporate": {
+      "exists": false,
+      "error": "The read operation timed out"
+    },
+    "sunbiz_partnerships": {
+      "exists": true,
+      "row_count": 0,
+      "columns": [],
+      "column_count": 0,
+      "sample_data": null,
+      "is_empty": true
+    },
+    "sunbiz_corporations": {
+      "exists": false,
+      "error": "{'code': 'PGRST205', 'details': None, 'hint': \"Perhaps you meant the table 'public.sunbiz_corporate'\", 'message': \"Could not find the table 'public.sunbiz_corporations' in the schema cache\"}"
+    },
+    "sunbiz_principals": {
+      "exists": false,
+      "error": "{'code': 'PGRST205', 'details': None, 'hint': \"Perhaps you meant the table 'public.sunbiz_principal_data'\", 'message': \"Could not find the table 'public.sunbiz_principals' in the schema cache\"}"
+    },
+    "business_entities": {
+      "exists": false,
+      "error": "{'code': 'PGRST205', 'details': None, 'hint': \"Perhaps you meant the table 'public.florida_business_activities'\", 'message': \"Could not find the table 'public.business_entities' in the schema cache\"}"
+    },
+    "all_entities": {
+      "exists": false,
+      "error": "{'code': '42501', 'details': None, 'hint': None, 'message': 'permission denied for view all_entities'}"
+    },
+    "building_permits": {
+      "exists": false,
+      "error": "{'code': 'PGRST205', 'details': None, 'hint': \"Perhaps you meant the table 'public.florida_permits'\", 'message': \"Could not find the table 'public.building_permits' in the schema cache\"}"
+    },
+    "florida_permits": {
+      "exists": true,
+      "row_count": 1,
+      "columns": [
+        "id",
+        "permit_number",
+        "parcel_id",
+        "property_address",
+        "permit_type",
+        "description",
+        "status",
+        "created_at"
+      ],
+      "column_count": 8,
+      "sample_data": {
+        "id": 1,
+        "permit_number": "B24-001234",
+        "parcel_id": "504231242720",
+        "property_address": "3920 SW 53 CT",
+        "permit_type": "Building",
+        "description": "Roof Replacement",
+        "status": "Active",
+        "created_at": "2025-09-07T21:22:32.056307"
+      },
+      "has_primary_key": true,
+      "has_timestamps": true,
+      "potential_foreign_keys": [
+        "parcel_id"
+      ]
+    },
+    "entity_relationships": {
+      "exists": false,
+      "error": "{'code': '42501', 'details': None, 'hint': None, 'message': 'permission denied for table entity_relationships'}"
+    },
+    "property_entity_matches": {
+      "exists": true,
+      "row_count": 0,
+      "columns": [],
+      "column_count": 0,
+      "sample_data": null,
+      "is_empty": true
+    },
+    "property_ownership_history": {
+      "exists": false,
+      "error": "{'code': '42501', 'details': None, 'hint': None, 'message': 'permission denied for table property_ownership_history'}"
+    },
+    "ownership_history": {
+      "exists": false,
+      "error": "{'code': 'PGRST205', 'details': None, 'hint': \"Perhaps you meant the table 'public.property_ownership_history'\", 'message': \"Could not find the table 'public.ownership_history' in the schema cache\"}"
+    },
+    "fl_agent_status": {
+      "exists": true,
+      "row_count": 0,
+      "columns": [],
+      "column_count": 0,
+      "sample_data": null,
+      "is_empty": true
+    },
+    "agent_notifications": {
+      "exists": false,
+      "error": "{'code': '42501', 'details': None, 'hint': None, 'message': 'permission denied for table agent_notifications'}"
+    },
+    "monitoring_agents": {
+      "exists": true,
+      "row_count": 0,
+      "columns": [],
+      "column_count": 0,
+      "sample_data": null,
+      "is_empty": true
+    },
+    "data_source_monitor": {
+      "exists": true,
+      "row_count": 0,
+      "columns": [],
+      "column_count": 0,
+      "sample_data": null,
+      "is_empty": true
+    },
+    "agent_conversations": {
+      "exists": false,
+      "error": "{'code': 'PGRST205', 'details': None, 'hint': \"Perhaps you meant the table 'public.agent_lion_conversations'\", 'message': \"Could not find the table 'public.agent_conversations' in the schema cache\"}"
+    },
+    "agent_tasks": {
+      "exists": false,
+      "error": "{'code': '42501', 'details': None, 'hint': None, 'message': 'permission denied for table agent_tasks'}"
+    },
+    "agent_results": {
+      "exists": false,
+      "error": "{'code': 'PGRST205', 'details': None, 'hint': \"Perhaps you meant the table 'public.agent_registry'\", 'message': \"Could not find the table 'public.agent_results' in the schema cache\"}"
+    }
+  },
+  "data_issues": [
+    {
+      "issue": "Duplicate Data",
+      "severity": "HIGH",
+      "description": "latest_parcels and florida_parcels contain identical number of records (789,884)",
+      "impact": "Wasting storage, potential confusion in queries",
+      "recommendation": "Consolidate into single parcels table or clarify purpose"
+    },
+    {
+      "issue": "Underutilized Table",
+      "severity": "MEDIUM",
+      "description": "properties table only has 3 records while parcels have 789,884",
+      "impact": "Properties table may not be serving its intended purpose",
+      "recommendation": "Either migrate parcel data to properties or remove properties table"
+    },
+    {
+      "issue": "Insufficient Sales Data",
+      "severity": "HIGH",
+      "description": "Only 3 sales records for 789,884 properties",
+      "impact": "Cannot perform market analysis or show property history",
+      "recommendation": "Import historical sales data from Florida SDF files"
+    },
+    {
+      "issue": "Missing Assessment Data",
+      "severity": "HIGH",
+      "description": "Only 1 assessment record for 789,884 properties",
+      "impact": "Cannot show tax information or assessed values",
+      "recommendation": "Import NAV assessment data for all properties"
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": "HIGH",
+      "category": "Data Consolidation",
+      "action": "Consolidate Parcel Tables",
+      "details": [
+        "1. Choose either latest_parcels or florida_parcels as primary table",
+        "2. Create view named \"parcels\" pointing to chosen table",
+        "3. Update all application code to use \"parcels\" view",
+        "4. Drop duplicate table after verification"
+      ],
+      "sql": "\n                -- Create unified parcels view\n                CREATE OR REPLACE VIEW parcels AS \n                SELECT * FROM latest_parcels;\n                \n                -- After verification, drop duplicate\n                -- DROP TABLE florida_parcels;\n            "
+    },
+    {
+      "priority": "HIGH",
+      "category": "Data Import",
+      "action": "Import Missing Sales Data",
+      "details": [
+        "1. Import Florida SDF sales data into fl_sdf_sales table",
+        "2. Create proper indexes on parcel_id and sale_date",
+        "3. Link sales to parcels table"
+      ],
+      "script": "python apps/workers/sdf_sales/load_sdf_sales.py"
+    },
+    {
+      "priority": "MEDIUM",
+      "category": "Table Structure",
+      "action": "Standardize Table Names",
+      "details": [
+        "1. Rename property_sales_history to sales_history",
+        "2. Rename fl_agent_status to agent_status",
+        "3. Create aliases for backward compatibility"
+      ],
+      "sql": "\n                -- Rename tables to standard names\n                ALTER TABLE property_sales_history RENAME TO sales_history;\n                ALTER TABLE fl_agent_status RENAME TO agent_status;\n                \n                -- Create compatibility views\n                CREATE VIEW property_sales_history AS SELECT * FROM sales_history;\n            "
+    },
+    {
+      "priority": "MEDIUM",
+      "category": "Business Data",
+      "action": "Load Sunbiz Business Entity Data",
+      "details": [
+        "1. Download Sunbiz data files",
+        "2. Load into sunbiz_corporate and sunbiz_partnerships",
+        "3. Create relationships with property owners"
+      ],
+      "script": "python apps/workers/sunbiz_sftp/load_sunbiz_data.py"
+    },
+    {
+      "priority": "LOW",
+      "category": "Cleanup",
+      "action": "Remove or Populate Empty Tables",
+      "details": [
+        "1. Review empty tables purpose",
+        "2. Either populate with data or remove",
+        "3. Document table purposes in schema"
+      ],
+      "tables_to_review": [
+        "all_entities",
+        "property_entity_matches",
+        "entity_relationships",
+        "agent_notifications",
+        "monitoring_agents",
+        "data_source_monitor"
+      ]
+    }
+  ],
+  "migration_plan": [
+    {
+      "step": 1,
+      "title": "Backup Current Data",
+      "commands": [
+        "pg_dump your_database > backup_20250908.sql",
+        "Export critical tables to CSV as additional backup"
+      ],
+      "estimated_time": "30 minutes"
+    },
+    {
+      "step": 2,
+      "title": "Consolidate Parcel Tables",
+      "commands": [
+        "CREATE VIEW parcels AS SELECT * FROM latest_parcels;",
+        "UPDATE application connection strings",
+        "Test all queries"
+      ],
+      "estimated_time": "1 hour"
+    },
+    {
+      "step": 3,
+      "title": "Import Sales History",
+      "commands": [
+        "python load_sdf_sales.py --year 2024",
+        "python load_sdf_sales.py --year 2023",
+        "CREATE INDEX idx_sales_parcel ON fl_sdf_sales(parcel_id);",
+        "CREATE INDEX idx_sales_date ON fl_sdf_sales(sale_date);"
+      ],
+      "estimated_time": "2-4 hours"
+    },
+    {
+      "step": 4,
+      "title": "Import Assessment Data",
+      "commands": [
+        "python load_nav_assessments.py",
+        "CREATE INDEX idx_assess_parcel ON nav_assessments(parcel_id);"
+      ],
+      "estimated_time": "2 hours"
+    },
+    {
+      "step": 5,
+      "title": "Load Business Entities",
+      "commands": [
+        "python download_sunbiz_data.py",
+        "python load_sunbiz_data.py",
+        "python match_entities_to_properties.py"
+      ],
+      "estimated_time": "3-4 hours"
+    },
+    {
+      "step": 6,
+      "title": "Cleanup and Optimize",
+      "commands": [
+        "DROP TABLE florida_parcels;  -- After verification",
+        "VACUUM ANALYZE;",
+        "REINDEX DATABASE;"
+      ],
+      "estimated_time": "1 hour"
+    }
+  ],
+  "duplications": [],
+  "relationship_issues": []
+}

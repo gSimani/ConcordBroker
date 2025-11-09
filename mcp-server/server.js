@@ -72,8 +72,9 @@ const allowedOrigins = (process.env.CORS_ORIGINS || '').split(',').map(s => s.tr
 app.use((req, res, next) => {
   const origin = req.headers.origin;
   const isProd = process.env.NODE_ENV === 'production';
+  const isLocalhost = origin && (origin.includes('localhost') || origin.includes('127.0.0.1'));
   const allowAll = !isProd || allowedOrigins.length === 0;
-  const isAllowed = allowAll || (origin && allowedOrigins.includes(origin));
+  const isAllowed = allowAll || isLocalhost || (origin && allowedOrigins.includes(origin));
 
   if (isAllowed && origin) {
     res.header('Access-Control-Allow-Origin', origin);

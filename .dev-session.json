@@ -1,0 +1,15 @@
+{
+  "activePort": 5191,
+  "sessionId": "2025-11-07T15-36-50",
+  "timestamp": "2025-11-07T15:36:50.788Z",
+  "git": {
+    "branch": "master",
+    "commit": "722a2a5",
+    "hasUncommittedChanges": true
+  },
+  "ports": {
+    "standard": 5191,
+    "active": false,
+    "zombies": []
+  }
+}

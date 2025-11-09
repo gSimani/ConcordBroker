@@ -195,7 +195,7 @@ export const useOptimizedSearch = () => {
         params.append('include_total', 'true');
 
         const response = await fetch(
-          `/api/properties?${params.toString()}`,
+          `/api/properties/search?${params.toString()}`,
           {
             signal: abortController.current.signal,
             headers: {

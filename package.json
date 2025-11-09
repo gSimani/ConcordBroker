@@ -39,6 +39,7 @@
   "dependencies": {
     "@supabase/supabase-js": "2.57.2",
     "axios": "1.11.0",
+    "bcryptjs": "3.0.3",
     "dotenv": "17.2.2",
     "puppeteer": "24.19.0"
   },
@@ -47,5 +48,3 @@
     "playwright": "1.55.0"
   }
 }
-
-

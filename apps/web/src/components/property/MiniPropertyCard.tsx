@@ -46,7 +46,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useSalesData, getLatestSaleInfo } from '@/hooks/useSalesData';
+import { useSalesData, getLatestSaleInfo, type PropertySalesData } from '@/hooks/useSalesData';
 import { getUseCodeInfo, getPropertyCategory as getDORCategory, getUseCodeShortName, getUseCodeDescription, getPropertyIcon, getPropertyIconColor } from '@/lib/dorUseCodes';
 import { useSunbizMatching, getSunbizSearchUrl } from '@/hooks/useSunbizMatching';
 import { getDorCodeFromPropertyUse, getPropertyUseDescription, getPropertyCategory as getUseCategoryFromText } from '@/lib/propertyUseToDorCode';
@@ -198,7 +198,7 @@ interface MiniPropertyCardProps {
     auction_url?: string;           // Direct link to auction
     total_certificate_amount?: number; // Total certificate amount
   };
-  salesData?: any[];  // Optional: pre-fetched sales data from batch query (eliminates N+1 queries)
+  salesData?: PropertySalesData | null;  // Optional: pre-fetched sales data from batch query (eliminates N+1 queries)
   isBatchLoading?: boolean;  // Indicates whether batch sales data is currently loading
   onClick?: () => void;
   variant?: 'grid' | 'list';
@@ -243,9 +243,8 @@ export const getPropertyCategory = (useCode?: string, propertyType?: string): st
   return 'Unknown';
 };
 
-// Property type badges with colors (moved outside component for stability)
-const getPropertyTypeBadge = (standardizedPropertyUse?: string, useCode?: string, propertyType?: string, ownerName?: string, justValue?: number, hasAddress?: boolean, propertyUse?: string | number, propertyUseDesc?: string) => {
-  // **PRIORITY 1**: Use standardized_property_use from database (most accurate!)
+// Helper to extract property type info (returns data for both badge and display)
+const getPropertyTypeInfo = (standardizedPropertyUse?: string, useCode?: string, propertyType?: string, ownerName?: string, justValue?: number, hasAddress?: boolean, propertyUse?: string | number, propertyUseDesc?: string) => {
   let category = 'Unknown';
   let dorCode: string | undefined;
   let useDescription: string | undefined;
@@ -398,6 +397,23 @@ const getPropertyTypeBadge = (standardizedPropertyUse?: string, useCode?: string
       category = 'Vacant/Special';
     }
   }
+
+  // Return the data that both the badge and component need
+  return {
+    category,
+    dorCode,
+    useDescription,
+    IconComponent,
+    iconColor,
+    useCode
+  };
+};
+
+// Property type badges with colors (uses getPropertyTypeInfo)
+const getPropertyTypeBadge = (standardizedPropertyUse?: string, useCode?: string, propertyType?: string, ownerName?: string, justValue?: number, hasAddress?: boolean, propertyUse?: string | number, propertyUseDesc?: string) => {
+  const typeInfo = getPropertyTypeInfo(standardizedPropertyUse, useCode, propertyType, ownerName, justValue, hasAddress, propertyUse, propertyUseDesc);
+  const { category, IconComponent, iconColor, useDescription } = typeInfo;
+
   const shortName = getUseCodeShortName(useCode);
   const useCodeInfo = getUseCodeInfo(useCode);
 
@@ -592,25 +608,11 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
 
   // Memoize enhanced data
   const enhancedData = useMemo(() => {
-    const base = {
+    return {
       ...data,
       ...latestSaleInfo
     };
-
-    // Use real sales data if available
-    if (salesData && Array.isArray(salesData) && salesData.length > 0) {
-      const latestSale = salesData[0];
-      const salePrice = typeof latestSale.sale_price === 'string' ? parseFloat(latestSale.sale_price) : latestSale.sale_price;
-      if (salePrice && salePrice >= 1000) {
-        base.sale_prc1 = salePrice;
-        base.sale_yr1 = latestSale.sale_date ? new Date(latestSale.sale_date).getFullYear() : null;
-        base.sale_date = latestSale.sale_date;
-        base.sale_month = latestSale.sale_date ? new Date(latestSale.sale_date).getMonth() + 1 : null;
-      }
-    }
-
-    return base;
-  }, [data, latestSaleInfo, salesData]);
+  }, [data, latestSaleInfo]);
 
   // Memoize formatted address
   const formattedAddress = useMemo(() => {
@@ -644,7 +646,21 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
     return '#';
   }, [data.phy_addr1, data.phy_city, data.phy_zipcd, data.owner_addr1, parcelId]);
 
-  // Memoize property badge
+  // Memoize property type info (for use in component rendering)
+  const propertyTypeInfo = useMemo(() => {
+    return getPropertyTypeInfo(
+      data.standardized_property_use,
+      data.dor_uc,
+      data.property_type,
+      data.owner_name || data.own_name,
+      getAppraisedValue(data),
+      !!(data.phy_addr1 && data.phy_addr1 !== '-'),
+      data.property_use,
+      data.property_use_desc
+    );
+  }, [data.standardized_property_use, data.dor_uc, data.property_type, data.owner_name, data.own_name, data.phy_addr1, data.property_use, data.property_use_desc, data.jv]);
+
+  // Memoize property badge (uses same info)
   const propertyBadge = useMemo(() => {
     return getPropertyTypeBadge(
       data.standardized_property_use, // PRIORITY 1: Use standardized field from database
@@ -735,31 +751,31 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
               <div className="flex-1">
                 {/* Main USE Category */}
                 <div className="flex items-center space-x-2 mb-1.5">
-                  <div className={`flex items-center justify-center w-8 h-8 rounded-lg ${iconColor}`} style={{
-                    background: iconColor === 'text-orange-600' ? 'rgba(234, 88, 12, 0.1)' :
-                               iconColor === 'text-blue-600' ? 'rgba(37, 99, 235, 0.1)' :
-                               iconColor === 'text-green-600' ? 'rgba(22, 163, 74, 0.1)' :
-                               iconColor === 'text-emerald-600' ? 'rgba(5, 150, 105, 0.1)' :
-                               iconColor === 'text-purple-600' ? 'rgba(147, 51, 234, 0.1)' :
+                  <div className={`flex items-center justify-center w-8 h-8 rounded-lg ${propertyTypeInfo.iconColor}`} style={{
+                    background: propertyTypeInfo.iconColor === 'text-orange-600' ? 'rgba(234, 88, 12, 0.1)' :
+                               propertyTypeInfo.iconColor === 'text-blue-600' ? 'rgba(37, 99, 235, 0.1)' :
+                               propertyTypeInfo.iconColor === 'text-green-600' ? 'rgba(22, 163, 74, 0.1)' :
+                               propertyTypeInfo.iconColor === 'text-emerald-600' ? 'rgba(5, 150, 105, 0.1)' :
+                               propertyTypeInfo.iconColor === 'text-purple-600' ? 'rgba(147, 51, 234, 0.1)' :
                                'rgba(107, 114, 128, 0.1)'
                   }}>
-                    {IconComponent && <IconComponent className="w-5 h-5" />}
+                    {propertyTypeInfo.IconComponent && <propertyTypeInfo.IconComponent className="w-5 h-5" />}
                   </div>
                   <div>
                     <p className="text-xs uppercase tracking-wider font-semibold" style={{
-                      color: iconColor === 'text-orange-600' ? '#ea580c' :
-                             iconColor === 'text-blue-600' ? '#2563eb' :
-                             iconColor === 'text-green-600' ? '#16a34a' :
-                             iconColor === 'text-emerald-600' ? '#059669' :
-                             iconColor === 'text-purple-600' ? '#9333ea' :
+                      color: propertyTypeInfo.iconColor === 'text-orange-600' ? '#ea580c' :
+                             propertyTypeInfo.iconColor === 'text-blue-600' ? '#2563eb' :
+                             propertyTypeInfo.iconColor === 'text-green-600' ? '#16a34a' :
+                             propertyTypeInfo.iconColor === 'text-emerald-600' ? '#059669' :
+                             propertyTypeInfo.iconColor === 'text-purple-600' ? '#9333ea' :
                              '#6b7280'
                     }}>
-                      {category || 'Unknown'}
+                      {propertyTypeInfo.category || 'Unknown'}
                     </p>
                     {/* SubUSE - Specific Property Type */}
-                    {useDescription && (
+                    {propertyTypeInfo.useDescription && (
                       <p className="text-xs font-medium mt-0.5" style={{color: '#7f8c8d'}}>
-                        {useDescription}
+                        {propertyTypeInfo.useDescription}
                       </p>
                     )}
                   </div>

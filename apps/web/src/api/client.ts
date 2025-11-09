@@ -181,6 +181,16 @@ export const api = {
   getOwnerSuggestions: (query: string, limit: number = 10) =>
     client.get(`/api/autocomplete/owners?q=${encodeURIComponent(query)}&limit=${limit}`),
 
+  // Configuration endpoints
+  getCounties: () =>
+    client.get('/api/counties'),
+
+  getPropertyTypes: () =>
+    client.get('/api/property-types'),
+
+  getConfig: () =>
+    client.get('/api/config'),
+
   // Helper methods for token management
   setAuthToken: (token: string) => {
     localStorage.setItem('access_token', token)

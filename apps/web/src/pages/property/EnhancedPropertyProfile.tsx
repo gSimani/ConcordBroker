@@ -140,30 +140,12 @@ export default function EnhancedPropertyProfile({ parcelId, data: propData }: En
   // Loading state from main data source
   const isLoading = loading;
 
-  // Add real sales data for property 474131031040
-  const salesDataFor474131031040 = actualParcelId === '474131031040' ? {
-    sale_price: '485000',
-    sale_date: '2023-08-15',
-    grantor_name: 'JOHNSON FAMILY TRUST',
-    grantee_name: 'MARTINEZ, CARLOS & MARIA',
-    sale_type: 'Warranty Deed',
-    book: '2023',
-    page: '45678',
-    cin: 'CLK2023-45678',
-    is_cash_sale: true
-  } : null;
+  // NO FAKE DATA - removed hardcoded sales data
+  // All data should come from real database sources
 
   // Merge all data sources - NumPy data takes precedence for numerical computations
   const enhancedData = {
     ...propertyData,
-    lastSale: salesDataFor474131031040 || propertyData?.lastSale,
-    sales: actualParcelId === '474131031040' ? {
-      last_sale_price: 485000,
-      last_sale_date: '2023-08-15',
-      sale_price1: 485000,
-      sale_year1: 2023,
-      sale_month1: 8
-    } : propertyData?.sales,
     pyspark: pySparkData,
     numpy: numpyData,
     investment: {

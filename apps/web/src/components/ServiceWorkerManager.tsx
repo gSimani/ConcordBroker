@@ -62,7 +62,7 @@ export const ServiceWorkerManager = memo(function ServiceWorkerManager() {
   // Add notification
   const addNotification = useCallback((type: 'info' | 'warning' | 'error' | 'success', message: string) => {
     const notification = {
-      id: Date.now().toString(),
+      id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`, // Unique ID with timestamp + random string
       type,
       message,
       timestamp: Date.now(),
@@ -110,6 +110,13 @@ export const ServiceWorkerManager = memo(function ServiceWorkerManager() {
   // Register service worker
   const registerServiceWorker = useCallback(async () => {
     if (!('serviceWorker' in navigator)) {
+      setState(prev => ({ ...prev, isSupported: false }));
+      return;
+    }
+
+    // Skip service worker registration in development mode
+    if (import.meta.env.DEV) {
+      console.log('[SW Manager] Service worker registration skipped in development mode');
       setState(prev => ({ ...prev, isSupported: false }));
       return;
     }

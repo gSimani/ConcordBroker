@@ -59,6 +59,7 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
   const [selectedAuctionDate, setSelectedAuctionDate] = useState<string>('all')
   const [availableAuctionDates, setAvailableAuctionDates] = useState<{ date: string, description: string, count: number }[]>([])
   const [auctionTab, setAuctionTab] = useState<'upcoming' | 'past' | 'cancelled'>('upcoming')
+  const [selectedCounty, setSelectedCounty] = useState<string>('all')
 
   useEffect(() => {
     fetchTaxDeedProperties()
@@ -66,7 +67,7 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
 
   useEffect(() => {
     filterProperties()
-  }, [properties, filter, searchTerm, selectedAuctionDate, auctionTab])
+  }, [properties, filter, searchTerm, selectedAuctionDate, auctionTab, selectedCounty])
 
   const fetchTaxDeedProperties = async () => {
     try {
@@ -141,224 +142,11 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
         return
       }
       
-      // Fallback to sample data if database is empty or has errors
-      if (error) {
-        console.warn('Database error, using sample data:', error)
-        // Use sample data for demonstration
-        const sampleData = [
-          {
-            id: '1',
-            tax_deed_number: 'TD-2025-001',
-            parcel_number: '064210010010',
-            tax_certificate_number: 'TC-2023-12345',
-            legal_description: 'LOT 1 BLOCK 2 BROWARD ESTATES',
-            situs_address: '123 Main Street, Fort Lauderdale, FL 33301',
-            is_homestead: true,
-            assessed_value: 450000,
-            opening_bid: 125000,
-            best_bid: 135000,
-            applicant_name: 'FLORIDA TAX LIEN INVESTMENTS LLC',
-            applicant_companies: ['FLORIDA TAX LIEN INVESTMENTS LLC'],
-            sunbiz_entities: ['P21000012345'],
-            property_appraiser_link: 'https://web.bcpa.net/BcpaClient/#/Record/064210010010',
-            gis_map_link: 'https://bcpa.maps.arcgis.com/apps/webappviewer/index.html?id=064210010010',
-            close_time: '2025-02-15T14:00:00',
-            status: 'Active',
-            auction_id: 'AUCTION-2025-02',
-            auction_date: '2025-02-15',
-            auction_description: 'February 2025 Tax Deed Sale'
-          },
-          {
-            id: '2',
-            tax_deed_number: 'TD-2025-002',
-            parcel_number: '474131031040',
-            tax_certificate_number: 'TC-2023-67890',
-            legal_description: 'UNIT 42 CONDO BEACH TOWERS',
-            situs_address: '456 Ocean Boulevard, Pompano Beach, FL 33062',
-            is_homestead: false,
-            assessed_value: 325000,
-            opening_bid: 87500,
-            best_bid: 92000,
-            applicant_name: 'BEACH INVESTMENTS GROUP INC',
-            applicant_companies: ['BEACH INVESTMENTS GROUP INC', 'COASTAL PROPERTIES LLC'],
-            sunbiz_entities: ['P21000067890', 'L19000123456'],
-            property_appraiser_link: 'https://web.bcpa.net/BcpaClient/#/Record/474131031040',
-            gis_map_link: 'https://bcpa.maps.arcgis.com/apps/webappviewer/index.html?id=474131031040',
-            close_time: '2025-02-15T14:30:00',
-            status: 'Active',
-            auction_id: 'AUCTION-2025-02',
-            auction_date: '2025-02-15',
-            auction_description: 'February 2025 Tax Deed Sale'
-          },
-          {
-            id: '3',
-            tax_deed_number: 'TD-2025-003',
-            parcel_number: '514210030070',
-            tax_certificate_number: 'TC-2023-11111',
-            legal_description: 'PARCEL A SUNRISE BUSINESS PARK',
-            situs_address: '789 Commercial Way, Sunrise, FL 33323',
-            is_homestead: false,
-            assessed_value: 1250000,
-            opening_bid: 425000,
-            best_bid: 450000,
-            applicant_name: 'John Smith and Mary Smith',
-            applicant_companies: [],
-            sunbiz_entities: [],
-            property_appraiser_link: 'https://web.bcpa.net/BcpaClient/#/Record/514210030070',
-            gis_map_link: 'https://bcpa.maps.arcgis.com/apps/webappviewer/index.html?id=514210030070',
-            close_time: '2025-02-15T15:00:00',
-            status: 'Active',
-            auction_id: 'AUCTION-2025-02',
-            auction_date: '2025-02-15',
-            auction_description: 'February 2025 Tax Deed Sale'
-          },
-          {
-            id: '4',
-            tax_deed_number: 'TD-2025-004',
-            parcel_number: '294210080020',
-            tax_certificate_number: 'TC-2023-22222',
-            legal_description: 'LOT 15 BLOCK 8 CORAL RIDGE',
-            situs_address: '321 Atlantic Blvd, Coral Springs, FL 33071',
-            is_homestead: false,
-            assessed_value: 275000,
-            opening_bid: 65000,
-            best_bid: 0,
-            applicant_name: 'TAX CERTIFICATE HOLDER',
-            applicant_companies: [],
-            sunbiz_entities: [],
-            property_appraiser_link: 'https://web.bcpa.net/BcpaClient/#/Record/294210080020',
-            gis_map_link: 'https://bcpa.maps.arcgis.com/apps/webappviewer/index.html?id=294210080020',
-            close_time: '2025-02-15T15:30:00',
-            status: 'Cancelled',
-            auction_id: 'AUCTION-2025-02',
-            auction_date: '2025-02-15',
-            auction_description: 'February 2025 Tax Deed Sale'
-          },
-          // Past auction properties
-          {
-            id: '5',
-            tax_deed_number: 'TD-2024-101',
-            parcel_number: '384210050030',
-            tax_certificate_number: 'TC-2022-88888',
-            legal_description: 'UNIT 105 WATERFRONT CONDOS',
-            situs_address: '999 Bayshore Drive, Fort Lauderdale, FL 33304',
-            is_homestead: false,
-            assessed_value: 520000,
-            opening_bid: 185000,
-            winning_bid: 312500,  // Added winning bid
-            winner_name: 'PRIME REAL ESTATE HOLDINGS LLC',  // Added winner name
-            best_bid: 225000,
-            applicant_name: 'COASTAL INVESTMENTS LLC',
-            applicant_companies: ['COASTAL INVESTMENTS LLC'],
-            sunbiz_entities: ['L24000045678'],
-            property_appraiser_link: 'https://web.bcpa.net/BcpaClient/#/Record/384210050030',
-            gis_map_link: 'https://bcpa.maps.arcgis.com/apps/webappviewer/index.html?id=384210050030',
-            close_time: '2024-12-15T14:00:00',
-            status: 'Sold',
-            auction_id: 'AUCTION-2024-12',
-            auction_date: '2024-12-15',
-            auction_description: 'December 2024 Tax Deed Sale'
-          },
-          {
-            id: '6',
-            tax_deed_number: 'TD-2024-102',
-            parcel_number: '494210070040',
-            tax_certificate_number: 'TC-2022-99999',
-            legal_description: 'LOT 22 BLOCK 5 PLANTATION ACRES',
-            situs_address: '456 Palm Avenue, Plantation, FL 33324',
-            is_homestead: true,
-            assessed_value: 380000,
-            opening_bid: 125000,
-            winning_bid: 198000,  // Added winning bid
-            winner_name: 'Robert Johnson',  // Added winner name
-            best_bid: 145000,
-            applicant_name: 'Jane Doe',
-            applicant_companies: [],
-            sunbiz_entities: [],
-            property_appraiser_link: 'https://web.bcpa.net/BcpaClient/#/Record/494210070040',
-            gis_map_link: 'https://bcpa.maps.arcgis.com/apps/webappviewer/index.html?id=494210070040',
-            close_time: '2024-11-15T14:30:00',
-            status: 'Sold',
-            auction_id: 'AUCTION-2024-11',
-            auction_date: '2024-11-15',
-            auction_description: 'November 2024 Tax Deed Sale'
-          },
-          // More cancelled properties
-          {
-            id: '7',
-            tax_deed_number: 'TD-2025-005',
-            parcel_number: '514210090050',
-            tax_certificate_number: 'TC-2023-33333',
-            legal_description: 'VACANT LOT SUNRISE INDUSTRIAL',
-            situs_address: '1001 Industrial Way, Sunrise, FL 33323',
-            is_homestead: false,
-            assessed_value: 150000,
-            opening_bid: 45000,
-            best_bid: 0,
-            applicant_name: 'TAX CERTIFICATE HOLDER',
-            applicant_companies: [],
-            sunbiz_entities: [],
-            property_appraiser_link: 'https://web.bcpa.net/BcpaClient/#/Record/514210090050',
-            gis_map_link: 'https://bcpa.maps.arcgis.com/apps/webappviewer/index.html?id=514210090050',
-            close_time: '2025-01-15T15:00:00',
-            status: 'Cancelled',
-            auction_id: 'AUCTION-2025-01',
-            auction_date: '2025-01-15',
-            auction_description: 'January 2025 Tax Deed Sale'
-          }
-        ]
-        console.log('📋 Using sample data for demonstration - run scraper to get real data')
-        setProperties(sampleData)
-        
-        // Extract unique auction dates
-        const auctionDatesMap = new Map()
-        sampleData.forEach(prop => {
-          if (prop.auction_date) {
-            const dateKey = prop.auction_date
-            if (!auctionDatesMap.has(dateKey)) {
-              auctionDatesMap.set(dateKey, {
-                date: dateKey,
-                description: prop.auction_description || `Auction ${dateKey}`,
-                count: 1
-              })
-            } else {
-              const existing = auctionDatesMap.get(dateKey)
-              existing.count++
-            }
-          }
-        })
-        
-        // Add more sample auction dates for demonstration
-        auctionDatesMap.set('2025-01-15', {
-          date: '2025-01-15',
-          description: 'January 2025 Tax Deed Sale',
-          count: 0
-        })
-        auctionDatesMap.set('2025-03-15', {
-          date: '2025-03-15',
-          description: 'March 2025 Tax Deed Sale',
-          count: 0
-        })
-        
-        const sortedDates = Array.from(auctionDatesMap.values()).sort((a, b) => 
-          new Date(a.date).getTime() - new Date(b.date).getTime()
-        )
-        setAvailableAuctionDates(sortedDates)
-        
-        // Initialize contact data for samples
-        const initialContactData: { [key: string]: any } = {}
-        sampleData.forEach(prop => {
-          initialContactData[prop.id] = {
-            owner_phone: '',
-            owner_email: '',
-            notes: '',
-            contact_status: 'Not Contacted'
-          }
-        })
-        setContactData(initialContactData)
-        setLoading(false)
-        return
-      }
+      // Show empty state if database has no data or errors - NO FAKE DATA
+      console.log('No tax deed properties found in database - showing empty state')
+      setProperties([])
+      setAvailableAuctionDates([{ date: 'all', description: 'All Auctions', count: 0 }])
+      setLoading(false)
 
       // Fetch auction details for each property
       const propertiesWithAuctions = await Promise.all(
@@ -430,6 +218,11 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
     // Apply auction date filter
     if (selectedAuctionDate !== 'all') {
       filtered = filtered.filter(p => p.auction_date === selectedAuctionDate)
+    }
+
+    // Apply county filter
+    if (selectedCounty !== 'all') {
+      filtered = filtered.filter(p => p.county === selectedCounty)
     }
 
     // Apply filter
@@ -777,6 +570,27 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
       {/* Filters and Search */}
       <div className="mt-6 p-4 bg-gray-light rounded-lg">
         <div className="flex flex-wrap gap-4 items-center">
+          {/* County Selector */}
+          <div className="flex items-center gap-2">
+            <select
+              value={selectedCounty}
+              onChange={(e) => setSelectedCounty(e.target.value)}
+              className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-navy bg-white hover:bg-gray-50 focus:ring-2 focus:ring-gold focus:border-transparent"
+            >
+              <option value="all">All Counties</option>
+              <option value="BROWARD">Broward</option>
+              <option value="MIAMI_DADE">Miami-Dade</option>
+              <option value="PALM_BEACH">Palm Beach</option>
+              <option value="ORANGE">Orange</option>
+              <option value="HILLSBOROUGH">Hillsborough</option>
+              <option value="PINELLAS">Pinellas</option>
+              <option value="DUVAL">Duval</option>
+              <option value="LEE">Lee</option>
+              <option value="POLK">Polk</option>
+              <option value="BREVARD">Brevard</option>
+            </select>
+          </div>
+
           {/* Auction Date Selector */}
           <div className="flex items-center gap-2">
             <Calendar className="w-4 h-4 text-navy" />

@@ -25,14 +25,18 @@ export default function AdminDashboard() {
   useEffect(() => {
     const isAuthenticated = sessionStorage.getItem('adminAuthenticated');
     if (!isAuthenticated) {
-      navigate('/Gate14');
+      navigate('/admin/login');
     }
   }, [navigate]);
 
   const handleLogout = () => {
     sessionStorage.removeItem('adminAuthenticated');
     sessionStorage.removeItem('adminLoginTime');
-    navigate('/Gate14');
+    sessionStorage.removeItem('adminUserId');
+    sessionStorage.removeItem('adminUserEmail');
+    sessionStorage.removeItem('adminUserName');
+    sessionStorage.removeItem('adminUserRole');
+    navigate('/admin/login');
   };
 
   const adminCards = [
@@ -117,7 +121,7 @@ export default function AdminDashboard() {
               <div>
                 <h1 className="text-xl font-medium text-white">Admin Dashboard</h1>
                 <p className="text-xs" style={{ color: '#95a5a6' }}>
-                  West Boca Executive Office
+                  ConcordBroker - Property Intelligence Platform
                 </p>
               </div>
             </div>

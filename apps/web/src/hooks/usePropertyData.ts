@@ -367,7 +367,15 @@ export const usePropertyData = (addressOrParcelId: string, city: string = '', co
           book: sale.or_book || '',
           page: sale.or_page || '',
           data_source: 'property_sales_history'
-        })).filter(record => record.sale_price >= 1000);
+        })).filter(record => {
+          // COMPREHENSIVE FAKE DATA FILTER - applies to ALL properties
+          if (record.sale_price < 1000) return false; // Nominal transfers
+          if (record.sale_price === 10000) return false; // Exact $10,000 test data
+          if (record.sale_price % 10000 === 0 && record.sale_price <= 100000) return false; // Round test values
+          const saleDate = new Date(record.sale_date);
+          if (saleDate > new Date()) return false; // Future dates
+          return true;
+        });
 
         allSales.push(...sales);
         console.log(`[usePropertyData] Found ${sales.length} property_sales_history records`);

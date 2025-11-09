@@ -47,6 +47,30 @@
       "priority": "high",
       "schedule": "daily",
       "description": "Daily Florida property data update system - monitors portal, downloads files, updates database"
+    },
+    "env-sync-agent": {
+      "source": "local",
+      "autoStart": true,
+      "configFile": ".claude/agents/env-sync-agent.json",
+      "enabled": true,
+      "priority": "high",
+      "description": "Environment Variable Synchronizer - Syncs .env files across all worktrees with encryption"
+    },
+    "code-quality-agent": {
+      "source": "local",
+      "autoStart": false,
+      "configFile": ".claude/agents/code-quality-agent.json",
+      "enabled": true,
+      "priority": "high",
+      "description": "Code Quality Gate - Runs linting, type-checking, and auto-fixes before commits"
+    },
+    "auto-commit-agent": {
+      "source": "local",
+      "autoStart": false,
+      "configFile": ".claude/agents/auto-commit-agent.json",
+      "enabled": true,
+      "priority": "medium",
+      "description": "Auto-Commit & Sync - Automatically commits changes with AI-generated messages every 30 minutes"
     }
   },
 
@@ -55,7 +79,47 @@
     "useGlobalHooks": true,
     "postChange": {
       "enabled": true,
-      "source": "global"
+      "source": "global",
+      "agents": ["env-sync-agent", "code-quality-agent"]
+    },
+    "postSave": {
+      "enabled": true,
+      "agents": ["auto-commit-agent"],
+      "description": "Track file saves for auto-commit interval"
+    },
+    "preCommit": {
+      "enabled": true,
+      "agents": ["code-quality-agent"],
+      "blocking": true,
+      "description": "Run quality checks with auto-fix before allowing commit"
+    },
+    "prePush": {
+      "enabled": true,
+      "agents": ["code-quality-agent"],
+      "blocking": true,
+      "description": "Run quality checks before allowing push"
+    },
+    "preSwitch": {
+      "enabled": true,
+      "agents": ["auto-commit-agent"],
+      "blocking": true,
+      "description": "Commit and push before switching branches/worktrees"
+    },
+    "sessionEnd": {
+      "enabled": true,
+      "agents": ["auto-commit-agent"],
+      "blocking": true,
+      "description": "Commit and push before ending session"
+    },
+    "worktreeCreated": {
+      "enabled": true,
+      "agents": ["env-sync-agent"],
+      "description": "Sync environment variables to new worktree"
+    },
+    "dependencyUpdate": {
+      "enabled": true,
+      "agents": ["env-sync-agent"],
+      "description": "Re-sync env vars after dependency updates"
     }
   },
 
@@ -83,7 +147,25 @@
   },
 
   "metadata": {
-    "lastUpdated": "2025-10-20T22:30:00.000Z",
-    "globalConfigVersion": "1.0.0"
+    "lastUpdated": "2025-11-09T00:00:00.000Z",
+    "globalConfigVersion": "1.0.0",
+    "agentOrchestration": {
+      "version": "1.0.0",
+      "agentsAdded": [
+        "env-sync-agent",
+        "code-quality-agent",
+        "auto-commit-agent"
+      ],
+      "hooksConfigured": [
+        "postChange",
+        "postSave",
+        "preCommit",
+        "prePush",
+        "preSwitch",
+        "sessionEnd",
+        "worktreeCreated",
+        "dependencyUpdate"
+      ]
+    }
   }
 }

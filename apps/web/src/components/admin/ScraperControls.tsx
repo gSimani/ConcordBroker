@@ -8,7 +8,8 @@ import {
   Clock,
   Database,
   Building2,
-  AlertCircle
+  AlertCircle,
+  Gavel
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -52,13 +53,24 @@ const scraperConfigs: ScraperConfig[] = [
     color: '#3498db',
     bgColor: 'rgba(52, 152, 219, 0.1)',
     schedule: 'Daily at 3:00 AM EST'
+  },
+  {
+    id: 'taxdeed',
+    name: 'Tax Deed Sales Update',
+    description: 'Scrapes tax deed auction data from all 67 Florida counties (Upcoming, Cancelled, Pending)',
+    icon: Gavel,
+    workflowFile: 'daily-tax-deed-scraper.yml',
+    color: '#e74c3c',
+    bgColor: 'rgba(231, 76, 60, 0.1)',
+    schedule: 'Daily at 4:00 AM EST'
   }
 ];
 
 export default function ScraperControls() {
   const [scraperStatus, setScraperStatus] = useState<Record<string, ScraperStatus>>({
     property: { running: false },
-    sunbiz: { running: false }
+    sunbiz: { running: false },
+    taxdeed: { running: false }
   });
   const [isDryRun, setIsDryRun] = useState(true);
 
@@ -70,9 +82,9 @@ export default function ScraperControls() {
     }));
 
     try {
-      // Get MCP server URL from environment or default to localhost:3005
-      const mcpUrl = import.meta.env.VITE_MCP_SERVER_URL || 'http://localhost:3005';
-      const apiKey = import.meta.env.VITE_MCP_API_KEY || 'concordbroker-mcp-key-claude';
+      // Get MCP server URL from environment or default to localhost:3001
+      const mcpUrl = import.meta.env.VITE_MCP_SERVER_URL || 'http://localhost:3001';
+      const apiKey = import.meta.env.VITE_MCP_API_KEY || 'concordbroker-mcp-key';
 
       // Trigger the GitHub Actions workflow via MCP server
       const response = await fetch(
@@ -327,6 +339,11 @@ export default function ScraperControls() {
             <p>
               <strong>Sunbiz Data Update:</strong> Connects to Florida Department of State SFTP server to download
               daily business entity files (corporate filings, events, and fictitious names).
+            </p>
+            <p>
+              <strong>Tax Deed Sales Update:</strong> Scrapes tax deed auction data from all 67 Florida counties.
+              Includes upcoming, cancelled, and pending auctions with progress tracking (County X of 67, Percentage: Y%).
+              Sources: realforeclose.com and deedauction.net platforms.
             </p>
             <p>
               <strong>Dry Run Mode:</strong> When enabled, the scraper will execute all steps except database writes.

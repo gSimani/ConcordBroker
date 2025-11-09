@@ -1,0 +1,165 @@
+name: Daily Tax Deed Sales Scraper
+
+on:
+  # Manual trigger with dry_run option
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run mode (true = no database writes)'
+        required: false
+        default: 'true'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+      priority_first:
+        description: 'Process large counties first'
+        required: false
+        default: 'true'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+
+  # Scheduled run: Daily at 4:00 AM EST (9:00 AM UTC)
+  schedule:
+    - cron: '0 9 * * *'
+
+jobs:
+  scrape-tax-deed-sales:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180  # 3 hours max
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install aiohttp beautifulsoup4 supabase python-dotenv
+
+      - name: Create logs directory
+        run: mkdir -p logs
+
+      - name: Run Tax Deed Scraper
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+          PRIORITY_FIRST: ${{ github.event.inputs.priority_first || 'true' }}
+        run: |
+          echo "🚀 Starting All Florida Counties Tax Deed Scraper"
+          echo "📋 Configuration:"
+          echo "   - Dry Run: $DRY_RUN"
+          echo "   - Priority First: $PRIORITY_FIRST"
+          echo "   - Total Counties: 67"
+          echo ""
+
+          # Build command based on inputs
+          if [ "$DRY_RUN" = "true" ]; then
+            CMD="python scripts/all_florida_tax_deed_scraper.py --dry-run"
+          else
+            CMD="python scripts/all_florida_tax_deed_scraper.py --live"
+          fi
+
+          if [ "$PRIORITY_FIRST" = "true" ]; then
+            CMD="$CMD --priority-first"
+          fi
+
+          echo "🎯 Running: $CMD"
+          $CMD
+
+      - name: Upload scraper logs
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tax-deed-scraper-logs-${{ github.run_number }}
+          path: |
+            logs/tax_deed_scraper.log
+            logs/tax_deed_scrape_*.json
+          retention-days: 30
+
+      - name: Generate summary
+        if: always()
+        run: |
+          echo "## Tax Deed Scraper Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          # Check if results file exists
+          LATEST_RESULT=$(ls -t logs/tax_deed_scrape_*.json 2>/dev/null | head -1)
+
+          if [ -f "$LATEST_RESULT" ]; then
+            echo "### Results" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+
+            # Extract key metrics using Python
+            python3 << 'PYTHON_SCRIPT' >> $GITHUB_STEP_SUMMARY
+          import json
+          import sys
+          from pathlib import Path
+
+          # Find latest results file
+          log_files = sorted(Path('logs').glob('tax_deed_scrape_*.json'), reverse=True)
+          if not log_files:
+              print("No results file found")
+              sys.exit(0)
+
+          with open(log_files[0]) as f:
+              results = json.load(f)
+
+          total = results.get('total_counties', 67)
+          processed = results.get('processed_counties', 0)
+          successful = len(results.get('successful', []))
+          failed = len(results.get('failed', []))
+          auctions = results.get('total_auctions', 0)
+          properties = results.get('total_properties', 0)
+
+          percentage = (processed / total * 100) if total > 0 else 0
+
+          print(f"- **Counties Processed**: {processed}/{total} ({percentage:.1f}%)")
+          print(f"- **Successful**: ✅ {successful}")
+          print(f"- **Failed**: ❌ {failed}")
+          print(f"- **Total Auctions Found**: {auctions}")
+          print(f"- **Total Properties Found**: {properties}")
+          print("")
+
+          if results.get('failed'):
+              print("### Failed Counties")
+              print("")
+              print("| County | Error |")
+              print("|--------|-------|")
+              for fail in results['failed']:
+                  county = fail.get('county', 'Unknown')
+                  error = fail.get('error', 'Unknown error')
+                  print(f"| {county} | {error} |")
+          PYTHON_SCRIPT
+          else
+            echo "⚠️ No results file generated" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "❌ Tax Deed Scraper workflow failed"
+          echo "Please check the logs for details"
+
+  notify-completion:
+    needs: scrape-tax-deed-sales
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: Send completion notification
+        run: |
+          if [ "${{ needs.scrape-tax-deed-sales.result }}" = "success" ]; then
+            echo "✅ All Florida Counties Tax Deed Scraper completed successfully"
+          else
+            echo "❌ Tax Deed Scraper encountered errors"
+          fi

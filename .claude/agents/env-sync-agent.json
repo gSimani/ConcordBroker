@@ -1,0 +1,71 @@
+{
+  "name": "env-sync-agent",
+  "version": "1.0.0",
+  "description": "Environment Variable Synchronizer - Syncs .env files across all worktrees with encryption",
+  "type": "background",
+  "priority": "high",
+
+  "script": {
+    "path": "agents/env-sync-agent.cjs",
+    "runtime": "node",
+    "args": []
+  },
+
+  "autoStart": true,
+  "restartOnFailure": true,
+  "maxRestarts": 3,
+
+  "hooks": {
+    "enabled": true,
+    "triggers": [
+      {
+        "event": "post-change",
+        "condition": "file.matches('.env*')",
+        "action": "runHook",
+        "args": ["post-change", "{ files: $changedFiles }"]
+      },
+      {
+        "event": "worktree-created",
+        "action": "runHook",
+        "args": ["worktree-created", "{ worktreePath: $worktreePath, branch: $branch }"]
+      },
+      {
+        "event": "dependency-update",
+        "condition": "file.matches('package*.json')",
+        "action": "runHook",
+        "args": ["dependency-update", "{}"]
+      }
+    ]
+  },
+
+  "configuration": {
+    "watchFiles": [
+      ".env",
+      ".env.local",
+      ".env.mcp",
+      "apps/web/.env"
+    ],
+    "encryptSensitiveKeys": true,
+    "sensitivePatterns": [
+      "*API_KEY*",
+      "*SECRET*",
+      "*TOKEN*",
+      "*PASSWORD*",
+      "*PRIVATE_KEY*",
+      "*SERVICE_ROLE_KEY*"
+    ],
+    "testingWorktreesUnencrypted": true
+  },
+
+  "logging": {
+    "enabled": true,
+    "logFile": "logs/env-sync-agent.log",
+    "level": "info"
+  },
+
+  "monitoring": {
+    "healthCheck": {
+      "enabled": false
+    }
+  }
+}

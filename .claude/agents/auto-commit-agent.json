@@ -1,0 +1,104 @@
+{
+  "name": "auto-commit-agent",
+  "version": "1.0.0",
+  "description": "Auto-Commit & Sync - Automatically commits changes with AI-generated messages and pushes to remote",
+  "type": "background",
+  "priority": "medium",
+
+  "script": {
+    "path": "agents/auto-commit-agent.cjs",
+    "runtime": "node",
+    "args": []
+  },
+
+  "autoStart": false,
+  "restartOnFailure": true,
+  "maxRestarts": 3,
+
+  "hooks": {
+    "enabled": true,
+    "triggers": [
+      {
+        "event": "post-save",
+        "action": "runHook",
+        "args": ["post-save", "{ file: $filePath }"],
+        "blocking": false,
+        "description": "Mark that changes occurred for next auto-commit interval"
+      },
+      {
+        "event": "pre-switch",
+        "action": "runHook",
+        "args": ["pre-switch", "{ fromBranch: $currentBranch, toBranch: $targetBranch }"],
+        "blocking": true,
+        "description": "Commit and push before switching branches/worktrees"
+      },
+      {
+        "event": "session-end",
+        "action": "runHook",
+        "args": ["session-end", "{}"],
+        "blocking": true,
+        "description": "Commit and push before ending Claude Code session"
+      }
+    ]
+  },
+
+  "configuration": {
+    "commitInterval": {
+      "minutes": 30,
+      "checkInterval": 60
+    },
+    "commitMessage": {
+      "prefix": "Auto-commit:",
+      "analyzeChanges": true,
+      "includeFileCount": true,
+      "includeFileTypes": true,
+      "maxTopFiles": 3
+    },
+    "autoPush": {
+      "enabled": true,
+      "setUpstream": true,
+      "handleRejection": true,
+      "pullRebase": true
+    },
+    "worktreeSupport": {
+      "enabled": true,
+      "commitAllWorktrees": false
+    },
+    "gitConfig": {
+      "respectHooks": true,
+      "skipVerify": false,
+      "noGpgSign": false
+    }
+  },
+
+  "logging": {
+    "enabled": true,
+    "logFile": "logs/auto-commit-agent.log",
+    "level": "info"
+  },
+
+  "monitoring": {
+    "healthCheck": {
+      "enabled": false
+    },
+    "trackCommits": true,
+    "commitHistoryFile": "logs/auto-commit-history.json"
+  },
+
+  "safety": {
+    "neverCommit": [
+      ".env",
+      ".env.local",
+      ".env.mcp",
+      "credentials.json",
+      "**/*.key",
+      "**/*.pem",
+      "**/*.p12"
+    ],
+    "warnOnLargeCommits": {
+      "enabled": true,
+      "fileCount": 50,
+      "totalSize": "10MB"
+    }
+  }
+}

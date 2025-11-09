@@ -1,0 +1,39 @@
+# Don't include these in Docker image
+
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info
+dist
+build
+
+# Git
+.git
+.gitignore
+
+# Environment
+.env
+.env.local
+.env.mcp
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Documentation
+README.md
+*.md
+
+# Tests
+test_*
+*_test.py
+
+# Logs
+*.log
+logs/

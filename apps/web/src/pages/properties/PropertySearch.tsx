@@ -213,7 +213,7 @@ export function PropertySearch({}: PropertySearchProps) {
   // CRITICAL FIX: Batch fetch sales data for all properties to eliminate N+1 query problem
   // This single query replaces 500+ individual API requests, reducing load time from 2-5s to <500ms
   const parcelIds = properties.map(p => p.parcel_id || p.id || p.property_id).filter(Boolean);
-  const { data: batchSalesData, isLoading: batchLoading } = useBatchSalesData(parcelIds);
+  const { salesDataMap: batchSalesData, isLoading: batchLoading } = useBatchSalesData(parcelIds);
 
   // Batch sales data is now properly initialized and prevents race conditions
   // Debug logging removed for production

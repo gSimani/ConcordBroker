@@ -359,3 +359,6 @@ export function SalesHistoryTabUpdated({ parcelId, data }: SalesHistoryTabUpdate
     </div>
   );
 }
+
+// Export as SalesHistoryTab for backwards compatibility
+export { SalesHistoryTabUpdated as SalesHistoryTab };
