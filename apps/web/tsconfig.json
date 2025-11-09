@@ -15,12 +15,20 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
-    /* Linting */
-    "strict": false,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
+    /* Linting - Incrementally enabling strict mode */
+    "strict": true,
+    "noUnusedLocals": false,  /* TODO: Enable after cleanup */
+    "noUnusedParameters": false,  /* TODO: Enable after cleanup */
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": false,
+    "noImplicitAny": false,  /* TODO: Enable incrementally */
+   
+    /* Additional strict checks to enable gradually */
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
 
     /* Paths */
     "baseUrl": ".",
