@@ -16,7 +16,7 @@ export interface User {
   email: string;
   full_name?: string;
   company?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
 export interface PropertySearchParams {
@@ -77,11 +77,11 @@ export interface PropertyData {
   // Sales history
   sdfData?: PropertySalesData;
   // TPP data
-  tppData?: any;
+  tppData?: TppData[];
   // Sunbiz data
-  sunbizData?: any;
+  sunbizData?: SunbizCorporateData[];
   // Last sale information
-  lastSale?: any;
+  lastSale?: SalesHistoryRecord | null;
   // Additional calculated fields
   calculated_value?: number;
   investment_score?: number;

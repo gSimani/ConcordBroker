@@ -26,6 +26,7 @@ import {
   TrendingUp,
   Users,
   Wifi,
+  WifiOff,
   Zap,
   Eye,
   Target,
@@ -38,7 +39,6 @@ import {
   Play,
   Pause,
   BarChart3,
-  LineChart,
   PieChart,
   Cpu
 } from 'lucide-react';
