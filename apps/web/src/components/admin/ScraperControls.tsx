@@ -28,6 +28,7 @@ interface ScraperConfig {
   description: string;
   icon: React.ElementType;
   workflowFile: string;
+  scraperName: string; // Name used by local MCP server endpoint
   color: string;
   bgColor: string;
   schedule: string;
@@ -40,6 +41,7 @@ const scraperConfigs: ScraperConfig[] = [
     description: 'Updates Florida property data from 67 counties (NAL, NAP, NAV, SDF files)',
     icon: Building2,
     workflowFile: 'daily-property-update.yml',
+    scraperName: 'property-data',
     color: '#2c3e50',
     bgColor: 'rgba(44, 62, 80, 0.1)',
     schedule: 'Daily at 2:00 AM EST'
@@ -50,6 +52,7 @@ const scraperConfigs: ScraperConfig[] = [
     description: 'Updates Florida business entity data from Department of State SFTP',
     icon: Database,
     workflowFile: 'daily-sunbiz-update.yml',
+    scraperName: 'business-entities',
     color: '#3498db',
     bgColor: 'rgba(52, 152, 219, 0.1)',
     schedule: 'Daily at 3:00 AM EST'
@@ -60,6 +63,7 @@ const scraperConfigs: ScraperConfig[] = [
     description: 'Scrapes tax deed auction data from all 67 Florida counties (Upcoming, Cancelled, Pending)',
     icon: Gavel,
     workflowFile: 'daily-tax-deed-scraper.yml',
+    scraperName: 'tax-deed-sales',
     color: '#e74c3c',
     bgColor: 'rgba(231, 76, 60, 0.1)',
     schedule: 'Daily at 4:00 AM EST'
@@ -86,26 +90,50 @@ export default function ScraperControls() {
       const mcpUrl = import.meta.env.VITE_MCP_SERVER_URL || 'http://localhost:3001';
       const apiKey = import.meta.env.VITE_MCP_API_KEY || 'concordbroker-mcp-key';
 
-      // Trigger the GitHub Actions workflow via MCP server
-      const response = await fetch(
-        `${mcpUrl}/api/github/workflows/${scraper.workflowFile}/trigger`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-api-key': apiKey
-          },
-          body: JSON.stringify({
-            ref: 'master',
-            inputs: {
-              dry_run: isDryRun ? 'true' : 'false'
-            }
-          })
-        }
-      );
+      // Detect environment: use local execution for development, GitHub Actions for production
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+      let response;
+
+      if (isLocalhost) {
+        // LOCAL DEVELOPMENT: Run scraper directly via MCP server (fast, instant)
+        response = await fetch(
+          `${mcpUrl}/api/scrapers/run`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-api-key': apiKey
+            },
+            body: JSON.stringify({
+              scraper: scraper.scraperName,
+              dryRun: isDryRun
+            })
+          }
+        );
+      } else {
+        // PRODUCTION: Trigger GitHub Actions workflow (reliable, runs in cloud)
+        response = await fetch(
+          `${mcpUrl}/api/github/workflows/${scraper.workflowFile}/trigger`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-api-key': apiKey
+            },
+            body: JSON.stringify({
+              ref: 'master',
+              inputs: {
+                dry_run: isDryRun ? 'true' : 'false'
+              }
+            })
+          }
+        );
+      }
 
       if (!response.ok) {
-        throw new Error(`Failed to trigger workflow: ${response.statusText}`);
+        const errorText = await response.text();
+        throw new Error(`Failed to trigger scraper: ${response.statusText} - ${errorText}`);
       }
 
       const result = await response.json();
@@ -116,7 +144,9 @@ export default function ScraperControls() {
         [scraper.id]: {
           running: false,
           status: 'success',
-          message: `Workflow triggered successfully! ${isDryRun ? '(Dry Run Mode)' : ''}`,
+          message: isLocalhost
+            ? `Scraper started locally! ${isDryRun ? '(Dry Run)' : '(Live)'} - PID: ${result.pid}`
+            : `GitHub workflow triggered! ${isDryRun ? '(Dry Run)' : '(Live)'}`,
           lastRun: new Date().toLocaleString()
         }
       }));

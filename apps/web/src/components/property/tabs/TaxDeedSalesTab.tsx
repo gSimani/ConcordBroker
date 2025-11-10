@@ -30,9 +30,10 @@ interface TaxDeedProperty {
   sunbiz_matched: boolean
   sunbiz_entity_names?: string[]
   sunbiz_entity_ids?: string[]
-  sunbiz_data?: any
+  sunbiz_data?: unknown
   auction_date?: string
   auction_description?: string
+  county?: string  // Added for county filtering
   // Contact fields
   owner_name?: string
   owner_phone?: string
@@ -41,6 +42,13 @@ interface TaxDeedProperty {
   notes?: string
   last_contact_date?: string
   next_followup_date?: string
+}
+
+interface ContactInfo {
+  owner_phone: string;
+  owner_email: string;
+  notes: string;
+  contact_status: string;
 }
 
 interface TaxDeedSalesTabProps {
@@ -55,7 +63,7 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
   const [filter, setFilter] = useState<'all' | 'upcoming' | 'homestead' | 'high-value'>('all')
   const [searchTerm, setSearchTerm] = useState('')
   const [editingContact, setEditingContact] = useState<string | null>(null)
-  const [contactData, setContactData] = useState<{ [key: string]: any }>({})
+  const [contactData, setContactData] = useState<{ [key: string]: ContactInfo }>({})
   const [selectedAuctionDate, setSelectedAuctionDate] = useState<string>('all')
   const [availableAuctionDates, setAvailableAuctionDates] = useState<{ date: string, description: string, count: number }[]>([])
   const [auctionTab, setAuctionTab] = useState<'upcoming' | 'past' | 'cancelled'>('upcoming')
@@ -85,6 +93,28 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
       }
 
       const { data, error } = await query
+
+      // Log any Supabase errors
+      if (error) {
+        console.error('❌ Supabase query error:', error)
+        console.error('Error details:', {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code
+        })
+        setProperties([])
+        setAvailableAuctionDates([{ date: 'all', description: 'All Auctions', count: 0 }])
+        setLoading(false)
+        return
+      }
+
+      // Log what we got from the query
+      console.log('📊 Supabase query result:', {
+        dataExists: !!data,
+        dataLength: data?.length || 0,
+        hasError: !!error
+      })
 
       // If we have real data, map it to our format
       if (data && data.length > 0) {
@@ -119,7 +149,8 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
           sunbiz_entity_names: [],
           sunbiz_entity_ids: [],
           auction_date: item.close_time ? item.close_time.split('T')[0] : item.created_at,
-          auction_description: item.auction_description || '9/17/2025 Tax Deed Sale'
+          auction_description: item.auction_description || '9/17/2025 Tax Deed Sale',
+          county: item.county  // Added for county filtering
         }))
         
         setProperties(mappedData)
@@ -168,7 +199,7 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
       setProperties(propertiesWithAuctions)
       
       // Initialize contact data
-      const initialContactData: { [key: string]: any } = {}
+      const initialContactData: { [key: string]: ContactInfo } = {}
       propertiesWithAuctions.forEach(prop => {
         initialContactData[prop.id] = {
           owner_phone: prop.owner_phone || '',
@@ -197,7 +228,8 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
           if (p.close_time) {
             return new Date(p.close_time) > now
           }
-          return p.status === 'Active' || p.status === 'Upcoming'
+          // Include Active, Upcoming, and Details statuses
+          return p.status === 'Active' || p.status === 'Upcoming' || p.status === 'Details'
         })
         break
       case 'past':
@@ -228,12 +260,12 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
     // Apply filter
     switch (filter) {
       case 'upcoming':
-        // For upcoming, check if close_time is in the future or status is Active
+        // For upcoming, check if close_time is in the future or status is Active/Details
         filtered = filtered.filter(p => {
           if (p.close_time) {
             return new Date(p.close_time) > now
           }
-          return p.status === 'Active' || p.status === 'Upcoming'
+          return p.status === 'Active' || p.status === 'Upcoming' || p.status === 'Details'
         })
         break
       case 'homestead':
@@ -397,8 +429,8 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
     const cancelledCount = displayProperties.filter(p => 
       p.status === 'Cancelled' || p.status === 'Canceled').length
     
-    const activeCount = displayProperties.filter(p => 
-      p.status === 'Active' || p.status === 'Upcoming').length
+    const activeCount = displayProperties.filter(p =>
+      p.status === 'Active' || p.status === 'Upcoming' || p.status === 'Details').length
     
     const soldCount = displayProperties.filter(p => 
       p.status === 'Sold').length
@@ -579,8 +611,8 @@ export function TaxDeedSalesTab({ parcelNumber }: TaxDeedSalesTabProps) {
             >
               <option value="all">All Counties</option>
               <option value="BROWARD">Broward</option>
-              <option value="MIAMI_DADE">Miami-Dade</option>
-              <option value="PALM_BEACH">Palm Beach</option>
+              <option value="MIAMI-DADE">Miami-Dade</option>
+              <option value="PALM-BEACH">Palm Beach</option>
               <option value="ORANGE">Orange</option>
               <option value="HILLSBOROUGH">Hillsborough</option>
               <option value="PINELLAS">Pinellas</option>

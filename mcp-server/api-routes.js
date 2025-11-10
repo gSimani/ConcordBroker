@@ -302,6 +302,72 @@ router.post('/github/workflows/:workflowId/trigger', async (req, res) => {
   }
 });
 
+// === LOCAL SCRAPER EXECUTION (No GitHub dependency) ===
+router.post('/scrapers/run', async (req, res) => {
+  const { spawn } = require('child_process');
+  const path = require('path');
+
+  try {
+    const { scraper, dryRun = true } = req.body;
+
+    // Map scraper names to Python scripts
+    const scraperMap = {
+      'property-data': 'scripts/daily_property_update.py',
+      'tax-deed-sales': 'scripts/all_florida_tax_deed_scraper.py',
+      'business-entities': 'scripts/daily_sunbiz_update.py'
+    };
+
+    const scriptPath = scraperMap[scraper];
+    if (!scriptPath) {
+      return res.status(400).json({
+        success: false,
+        error: `Unknown scraper: ${scraper}`
+      });
+    }
+
+    // Build command
+    const projectRoot = path.join(__dirname, '..');
+    const fullScriptPath = path.join(projectRoot, scriptPath);
+    const args = dryRun ? ['--dry-run'] : ['--live'];
+
+    console.log(`[Scraper] Running: python ${scriptPath} ${args.join(' ')}`);
+
+    // Spawn Python process
+    const pythonProcess = spawn('python', [fullScriptPath, ...args], {
+      cwd: projectRoot,
+      env: { ...process.env }
+    });
+
+    let output = '';
+    let errorOutput = '';
+
+    pythonProcess.stdout.on('data', (data) => {
+      output += data.toString();
+    });
+
+    pythonProcess.stderr.on('data', (data) => {
+      errorOutput += data.toString();
+    });
+
+    pythonProcess.on('close', (code) => {
+      console.log(`[Scraper] Process exited with code ${code}`);
+      if (code !== 0) {
+        console.error(`[Scraper] Error output: ${errorOutput}`);
+      }
+    });
+
+    // Return immediately (async execution)
+    res.json({
+      success: true,
+      message: `Scraper ${scraper} started ${dryRun ? '(dry run)' : '(live)'}`,
+      pid: pythonProcess.pid
+    });
+
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 router.get('/github/branches', async (req, res) => {
   try {
     const result = await req.app.locals.services.github.getBranches();
