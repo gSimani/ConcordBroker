@@ -45,7 +45,7 @@ jobs:
       - name: Create logs directory
         run: mkdir -p logs
 
-      - name: Run property update
+      - name: Monitor portal for NAL updates
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
@@ -60,6 +60,26 @@ jobs:
             FLAGS="$FLAGS --dry-run"
           fi
 
+          # Step 1: Monitor Florida Revenue portal for new/updated NAL files
+          # Downloads new files and uploads them to Supabase automatically
+          python scripts/monitor_florida_nal_updates.py $FLAGS
+
+      - name: Run property update (existing data)
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          FORCE: ${{ github.event.inputs.force || 'false' }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+        run: |
+          FLAGS=""
+          if [ "$FORCE" = "true" ]; then
+            FLAGS="$FLAGS --force"
+          fi
+          if [ "$DRY_RUN" = "true" ]; then
+            FLAGS="$FLAGS --dry-run"
+          fi
+
+          # Step 2: Process any remaining local data
           python scripts/daily_property_update.py $FLAGS
 
       - name: Upload logs

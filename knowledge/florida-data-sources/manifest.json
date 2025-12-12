@@ -1,0 +1,63 @@
+{
+  "generated": "2025-12-12T15:46:10.152680",
+  "knowledge_base": "C:\\Users\\gsima\\.claude-worktrees\\ConcordBroker\\thirsty-buck\\knowledge\\florida-data-sources",
+  "sources": [
+    {
+      "name": "NAL_SDF_NAP_Users_Guide_2024",
+      "category": "property",
+      "description": "Florida Revenue NAL/SDF/NAP file format definitions",
+      "priority": "critical",
+      "url": "https://floridarevenue.com/property/dataportal/Documents/PTO%20Data%20Portal/User%20Guides/2024%20Users%20guide%20and%20quick%20reference/2024_NAL_SDF_NAP_Users_Guide.pdf"
+    },
+    {
+      "name": "Broward_Export_Files_Layout",
+      "category": "county-specific",
+      "description": "Broward County recording export file layouts",
+      "priority": "medium",
+      "url": "https://www.broward.org/RecordsTaxesTreasury/Records/Documents/ExportFilesLayout.pdf"
+    },
+    {
+      "name": "FDOR_Cadastral_Metadata",
+      "category": "gis",
+      "description": "Florida Cadastral parcel boundary field definitions",
+      "priority": "high",
+      "url": "https://services9.arcgis.com/Gh9awoU677aKree0/arcgis/rest/services/Florida_Statewide_Cadastral/FeatureServer/0?f=json"
+    },
+    {
+      "name": "Sunbiz_Daily_Data_Guide",
+      "category": "sunbiz",
+      "type": "generated",
+      "description": "Text documentation for sunbiz"
+    },
+    {
+      "name": "Broward_Daily_Extract_Guide",
+      "category": "county-specific",
+      "type": "generated",
+      "description": "Text documentation for county-specific"
+    },
+    {
+      "name": "Florida_GIS_Parcel_Data_Guide",
+      "category": "gis",
+      "type": "generated",
+      "description": "Text documentation for gis"
+    },
+    {
+      "name": "Florida_NAL_Column_Reference",
+      "category": "property",
+      "type": "generated",
+      "description": "Text documentation for property"
+    },
+    {
+      "name": "Florida_SDF_Column_Reference",
+      "category": "property",
+      "type": "generated",
+      "description": "Text documentation for property"
+    },
+    {
+      "name": "Data_Source_Integration_Matrix",
+      "category": "reference",
+      "type": "generated",
+      "description": "Text documentation for reference"
+    }
+  ]
+}
