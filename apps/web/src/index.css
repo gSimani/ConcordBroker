@@ -1,5 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;200;300;400;500;600;700&display=swap');
-@import './styles/elegant-property.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import './styles/tokens/design-tokens.css';
+@import './styles/tokens/components.css';
 
 @tailwind base;
 @tailwind components;
@@ -150,16 +151,22 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-sans antialiased font-light;
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
-  
+
   html {
     scroll-behavior: smooth;
   }
 
   ::selection {
-    @apply bg-brand-500/20;
+    background: var(--color-accent-200);
   }
 }
 

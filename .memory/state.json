@@ -30,331 +30,6 @@
           }
         }
       },
-      "timestamp": "2025-11-08T14:11:08.134Z",
-      "passed": false
-    },
-    {
-      "type": "rule_compliance",
-      "result": {
-        "passed": false,
-        "violations": [
-          "Rule violation: Uncommitted changes detected"
-        ],
-        "checks": {
-          "gitStatus": {
-            "uncommittedChanges": true,
-            "details": " M .env.example\n D .env.orchestrator.example\n M .eslintrc.cjs\n M .gitignore\n D AGENT_MIGRATION_COMPLETED.md\n D ALL_PROPERTY_TYPES_AUDIT_REPORT.txt\n D ALL_SCRAPERS_OPERATIONAL.md\n D ALTER_SALES_TABLE.sql\n D actual_tables_audit.json\n D add_auction_date_column.sql\n D add_columns_and_fix_data.py\n D add_columns_and_update.py\n D add_correct_sales_history.py\n D add_minimal_sales.py\n D add_missing_columns.sql\n D add_more_tax_deed_data.py\n D add_nap_columns.sql\n D add_property_columns.sql\n D add_sale_year_column.sql\n D add_sales_simple.py\n D add_sunbiz_entity.py\n D add_sunbiz_sales.py\n D add_winning_bid_column.sql\n D all_properties_verification_20250910_194818.png\n M apps/web/package-lock.json\n M apps/web/package.json\n M apps/web/src/App.tsx\n M apps/web/src/api/client.ts\n M apps/web/src/components/ServiceWorkerManager.tsx\n M apps/web/src/components/admin/ScraperControls.tsx\n M apps/web/src/components/property/MiniPropertyCard.tsx\n M apps/web/src/components/property/VirtualizedPropertyList.tsx\n M apps/web/src/components/property/tabs/ActiveCompaniesSection.tsx\n M apps/web/src/components/property/tabs/CorePropertyTab.tsx\n M apps/web/src/components/property/tabs/PermitTab.tsx\n M apps/web/src/components/property/tabs/SalesHistoryTab.tsx\n M apps/web/src/components/property/tabs/TaxDeedSalesTab.tsx\n M apps/web/src/components/ui/searchable-select.tsx\n M apps/web/src/hooks/useOptimizedSearch.ts\n M apps/web/src/hooks/usePropertyData.ts\n M apps/web/src/hooks/useSalesData.ts\n D apps/web/src/pages/Gate14.tsx\n M apps/web/src/pages/admin/dashboard.tsx\n M apps/web/src/pages/properties/PropertySearch.tsx\n M apps/web/src/pages/property/EnhancedPropertyProfile.tsx\n M mcp-server/server.js\n M memvid\n M nodemon\n M package-lock.json\n M package.json\n M production_property_api.py\n M zod\n?? .dev-session.json\n?? .env.mcp\n?? .github/workflows/daily-tax-deed-scraper.yml\n?? .memory/screenshots/\n?? .memory/state.json\n?? .railway/\n?? AGENT_DOCS_ANALYSIS.md\n?? AGENT_DOCS_SUMMARY.md\n?? ANALYSIS_SCRIPTS_CLEANUP_SUMMARY.md\n?? AUDIT_QUICK_START.md\n?? CREDENTIAL_ROTATION_DEFERRED.md\n?? ENV_CLEANUP_COMPLETE.md\n?? HUGGINGFACE_SETUP_COMPLETE.md\n?? NAL16P202501.csv\n?? NAP16P202501.csv\n?? PROJECT_AUDIT_REPORT.md\n?? ROTATE_CREDENTIALS_CHECKLIST.txt\n?? SCRAPER_FIX_PLAN.md\n?? SCRAPER_PAGE_VISUAL.md\n?? SDF16P202501.csv\n?? SECURITY_CLEANUP_SUMMARY.md\n?? SELENIUM_SCRAPER_READY.txt\n?? TAX_DEED_SCAN_REPORT.md\n?? TAX_DEED_SCRAPER_COMPLETE.md\n?? add_missing_imports.py\n?? agents/\n?? analysis-scripts-archived/\n?? analysis-scripts-cleaned/\n?? apps/api/nul\n?? apps/web/src/pages/admin/login.tsx\n?? apps/web/src/pages/admin/test-login.tsx\n?? apps/web/src/pages/admin/users.tsx\n?? backups/apps_web_before_master_/.env.localhost\n?? bcpa_sales_history.csv\n?? bcpa_sales_history_clean.csv\n?? business_contacts_prioritized.csv\n?? check_tax_deed_db.py\n?? cleanup-agent-docs.sh\n?? cleanup_analysis_scripts.py\n?? cleanup_audit_files.bat\n?? cleanup_audit_files.sh\n?? data/broward/\n?? data/broward_sdf/\n?? data/broward_tpp/\n?? data/florida/\n?? data/manifests/\n?? data/miami_dade/\n?? data/raw/\n?? data/source/\n?? database/audits/\n?? database/data/\n?? database/migrations/\n?? db/audit/\n?? env_backup_2025-09-05_18-41-53/\n?? fix_script_credentials.py\n?? florida_property_data/alachua/\n?? florida_property_data/baker/\n?? florida_property_data/bay/\n?? florida_property_data/bradford/\n?? florida_property_data/brevard/\n?? historical_data/\n?? long_term_ownership_leads.csv\n?? mcp_servers/chrome-devtools-mcp/\n?? meilisearch.exe\n?? missing_data_analysis.csv\n?? nul\n?? prioritized_corporation_contacts.csv\n?? railway-orchestrator/\n?? residential_long_term_leads.csv\n?? scripts/all_florida_tax_deed_scraper.py\n?? scripts/selenium_tax_deed_scraper.py\n?? sql/\n?? sunbiz_contacts_extracted.csv\n?? sunbiz_data/sunbiz_entities_sample.csv\n?? sunbiz_data/sunbiz_fictitious_sample.csv\n?? sunbiz_data/sunbiz_officers_sample.csv\n?? sunbiz_officers_with_contacts.csv\n?? supabase/.temp/\n?? supabase/migrations/20251106_add_password_to_admin_users.sql\n?? supabase/migrations/20251106_create_admin_users.sql\n?? targeted_2024_2025_contacts.csv\n?? tax-deed-sales-with-scraper.png\n?? test-huggingface.cjs\n?? vector_stores/\n"
-          },
-          "portStatus": {
-            "zombiePorts": [],
-            "wrongPort": false,
-            "correctPort": true
-          },
-          "commitStatus": {
-            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'master'\n"
-          }
-        }
-      },
-      "timestamp": "2025-11-08T14:11:22.171Z",
-      "passed": false
-    },
-    {
-      "type": "rule_compliance",
-      "result": {
-        "passed": false,
-        "violations": [
-          "Rule violation: Uncommitted changes detected"
-        ],
-        "checks": {
-          "gitStatus": {
-            "uncommittedChanges": true,
-            "details": " M .env.example\n D .env.orchestrator.example\n M .eslintrc.cjs\n M .gitignore\n D AGENT_MIGRATION_COMPLETED.md\n D ALL_PROPERTY_TYPES_AUDIT_REPORT.txt\n D ALL_SCRAPERS_OPERATIONAL.md\n D ALTER_SALES_TABLE.sql\n D actual_tables_audit.json\n D add_auction_date_column.sql\n D add_columns_and_fix_data.py\n D add_columns_and_update.py\n D add_correct_sales_history.py\n D add_minimal_sales.py\n D add_missing_columns.sql\n D add_more_tax_deed_data.py\n D add_nap_columns.sql\n D add_property_columns.sql\n D add_sale_year_column.sql\n D add_sales_simple.py\n D add_sunbiz_entity.py\n D add_sunbiz_sales.py\n D add_winning_bid_column.sql\n D all_properties_verification_20250910_194818.png\n M apps/web/package-lock.json\n M apps/web/package.json\n M apps/web/src/App.tsx\n M apps/web/src/api/client.ts\n M apps/web/src/components/ServiceWorkerManager.tsx\n M apps/web/src/components/admin/ScraperControls.tsx\n M apps/web/src/components/property/MiniPropertyCard.tsx\n M apps/web/src/components/property/VirtualizedPropertyList.tsx\n M apps/web/src/components/property/tabs/ActiveCompaniesSection.tsx\n M apps/web/src/components/property/tabs/CorePropertyTab.tsx\n M apps/web/src/components/property/tabs/PermitTab.tsx\n M apps/web/src/components/property/tabs/SalesHistoryTab.tsx\n M apps/web/src/components/property/tabs/TaxDeedSalesTab.tsx\n M apps/web/src/components/ui/searchable-select.tsx\n M apps/web/src/hooks/useOptimizedSearch.ts\n M apps/web/src/hooks/usePropertyData.ts\n M apps/web/src/hooks/useSalesData.ts\n D apps/web/src/pages/Gate14.tsx\n M apps/web/src/pages/admin/dashboard.tsx\n M apps/web/src/pages/properties/PropertySearch.tsx\n M apps/web/src/pages/property/EnhancedPropertyProfile.tsx\n M mcp-server/server.js\n M memvid\n M nodemon\n M package-lock.json\n M package.json\n M production_property_api.py\n M zod\n?? .dev-session.json\n?? .env.mcp\n?? .github/workflows/daily-tax-deed-scraper.yml\n?? .memory/screenshots/\n?? .memory/state.json\n?? .railway/\n?? AGENT_DOCS_ANALYSIS.md\n?? AGENT_DOCS_SUMMARY.md\n?? ANALYSIS_SCRIPTS_CLEANUP_SUMMARY.md\n?? AUDIT_QUICK_START.md\n?? CREDENTIAL_ROTATION_DEFERRED.md\n?? ENV_CLEANUP_COMPLETE.md\n?? HUGGINGFACE_SETUP_COMPLETE.md\n?? NAL16P202501.csv\n?? NAP16P202501.csv\n?? PROJECT_AUDIT_REPORT.md\n?? ROTATE_CREDENTIALS_CHECKLIST.txt\n?? SCRAPER_FIX_PLAN.md\n?? SCRAPER_PAGE_VISUAL.md\n?? SDF16P202501.csv\n?? SECURITY_CLEANUP_SUMMARY.md\n?? SELENIUM_SCRAPER_READY.txt\n?? TAX_DEED_SCAN_REPORT.md\n?? TAX_DEED_SCRAPER_COMPLETE.md\n?? add_missing_imports.py\n?? agents/\n?? analysis-scripts-archived/\n?? analysis-scripts-cleaned/\n?? apps/api/nul\n?? apps/web/src/pages/admin/login.tsx\n?? apps/web/src/pages/admin/test-login.tsx\n?? apps/web/src/pages/admin/users.tsx\n?? backups/apps_web_before_master_/.env.localhost\n?? bcpa_sales_history.csv\n?? bcpa_sales_history_clean.csv\n?? business_contacts_prioritized.csv\n?? check_tax_deed_db.py\n?? cleanup-agent-docs.sh\n?? cleanup_analysis_scripts.py\n?? cleanup_audit_files.bat\n?? cleanup_audit_files.sh\n?? data/broward/\n?? data/broward_sdf/\n?? data/broward_tpp/\n?? data/florida/\n?? data/manifests/\n?? data/miami_dade/\n?? data/raw/\n?? data/source/\n?? database/audits/\n?? database/data/\n?? database/migrations/\n?? db/audit/\n?? env_backup_2025-09-05_18-41-53/\n?? fix_script_credentials.py\n?? florida_property_data/alachua/\n?? florida_property_data/baker/\n?? florida_property_data/bay/\n?? florida_property_data/bradford/\n?? florida_property_data/brevard/\n?? historical_data/\n?? long_term_ownership_leads.csv\n?? mcp_servers/chrome-devtools-mcp/\n?? meilisearch.exe\n?? missing_data_analysis.csv\n?? nul\n?? prioritized_corporation_contacts.csv\n?? railway-orchestrator/\n?? residential_long_term_leads.csv\n?? scripts/all_florida_tax_deed_scraper.py\n?? scripts/selenium_tax_deed_scraper.py\n?? sql/\n?? sunbiz_contacts_extracted.csv\n?? sunbiz_data/sunbiz_entities_sample.csv\n?? sunbiz_data/sunbiz_fictitious_sample.csv\n?? sunbiz_data/sunbiz_officers_sample.csv\n?? sunbiz_officers_with_contacts.csv\n?? supabase/.temp/\n?? supabase/migrations/20251106_add_password_to_admin_users.sql\n?? supabase/migrations/20251106_create_admin_users.sql\n?? targeted_2024_2025_contacts.csv\n?? tax-deed-sales-with-scraper.png\n?? test-huggingface.cjs\n?? vector_stores/\n"
-          },
-          "portStatus": {
-            "zombiePorts": [],
-            "wrongPort": false,
-            "correctPort": true
-          },
-          "commitStatus": {
-            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'master'\n"
-          }
-        }
-      },
-      "timestamp": "2025-11-08T14:21:07.974Z",
-      "passed": false
-    },
-    {
-      "type": "rule_compliance",
-      "result": {
-        "passed": false,
-        "violations": [
-          "Rule violation: Uncommitted changes detected"
-        ],
-        "checks": {
-          "gitStatus": {
-            "uncommittedChanges": true,
-            "details": " M .env.example\n D .env.orchestrator.example\n M .eslintrc.cjs\n M .gitignore\n D AGENT_MIGRATION_COMPLETED.md\n D ALL_PROPERTY_TYPES_AUDIT_REPORT.txt\n D ALL_SCRAPERS_OPERATIONAL.md\n D ALTER_SALES_TABLE.sql\n D actual_tables_audit.json\n D add_auction_date_column.sql\n D add_columns_and_fix_data.py\n D add_columns_and_update.py\n D add_correct_sales_history.py\n D add_minimal_sales.py\n D add_missing_columns.sql\n D add_more_tax_deed_data.py\n D add_nap_columns.sql\n D add_property_columns.sql\n D add_sale_year_column.sql\n D add_sales_simple.py\n D add_sunbiz_entity.py\n D add_sunbiz_sales.py\n D add_winning_bid_column.sql\n D all_properties_verification_20250910_194818.png\n M apps/web/package-lock.json\n M apps/web/package.json\n M apps/web/src/App.tsx\n M apps/web/src/api/client.ts\n M apps/web/src/components/ServiceWorkerManager.tsx\n M apps/web/src/components/admin/ScraperControls.tsx\n M apps/web/src/components/property/MiniPropertyCard.tsx\n M apps/web/src/components/property/VirtualizedPropertyList.tsx\n M apps/web/src/components/property/tabs/ActiveCompaniesSection.tsx\n M apps/web/src/components/property/tabs/CorePropertyTab.tsx\n M apps/web/src/components/property/tabs/PermitTab.tsx\n M apps/web/src/components/property/tabs/SalesHistoryTab.tsx\n M apps/web/src/components/property/tabs/TaxDeedSalesTab.tsx\n M apps/web/src/components/ui/searchable-select.tsx\n M apps/web/src/hooks/useOptimizedSearch.ts\n M apps/web/src/hooks/usePropertyData.ts\n M apps/web/src/hooks/useSalesData.ts\n D apps/web/src/pages/Gate14.tsx\n M apps/web/src/pages/admin/dashboard.tsx\n M apps/web/src/pages/properties/PropertySearch.tsx\n M apps/web/src/pages/property/EnhancedPropertyProfile.tsx\n M mcp-server/server.js\n M memvid\n M nodemon\n M package-lock.json\n M package.json\n M production_property_api.py\n M zod\n?? .dev-session.json\n?? .env.mcp\n?? .github/workflows/daily-tax-deed-scraper.yml\n?? .memory/screenshots/\n?? .memory/state.json\n?? .railway/\n?? AGENT_DOCS_ANALYSIS.md\n?? AGENT_DOCS_SUMMARY.md\n?? ANALYSIS_SCRIPTS_CLEANUP_SUMMARY.md\n?? AUDIT_QUICK_START.md\n?? CREDENTIAL_ROTATION_DEFERRED.md\n?? ENV_CLEANUP_COMPLETE.md\n?? HUGGINGFACE_SETUP_COMPLETE.md\n?? NAL16P202501.csv\n?? NAP16P202501.csv\n?? PROJECT_AUDIT_REPORT.md\n?? ROTATE_CREDENTIALS_CHECKLIST.txt\n?? SCRAPER_FIX_PLAN.md\n?? SCRAPER_PAGE_VISUAL.md\n?? SDF16P202501.csv\n?? SECURITY_CLEANUP_SUMMARY.md\n?? SELENIUM_SCRAPER_READY.txt\n?? TAX_DEED_SCAN_REPORT.md\n?? TAX_DEED_SCRAPER_COMPLETE.md\n?? add_missing_imports.py\n?? agents/\n?? analysis-scripts-archived/\n?? analysis-scripts-cleaned/\n?? apps/api/nul\n?? apps/web/src/pages/admin/login.tsx\n?? apps/web/src/pages/admin/test-login.tsx\n?? apps/web/src/pages/admin/users.tsx\n?? backups/apps_web_before_master_/.env.localhost\n?? bcpa_sales_history.csv\n?? bcpa_sales_history_clean.csv\n?? business_contacts_prioritized.csv\n?? check_tax_deed_db.py\n?? cleanup-agent-docs.sh\n?? cleanup_analysis_scripts.py\n?? cleanup_audit_files.bat\n?? cleanup_audit_files.sh\n?? data/broward/\n?? data/broward_sdf/\n?? data/broward_tpp/\n?? data/florida/\n?? data/manifests/\n?? data/miami_dade/\n?? data/raw/\n?? data/source/\n?? database/audits/\n?? database/data/\n?? database/migrations/\n?? db/audit/\n?? env_backup_2025-09-05_18-41-53/\n?? fix_script_credentials.py\n?? florida_property_data/alachua/\n?? florida_property_data/baker/\n?? florida_property_data/bay/\n?? florida_property_data/bradford/\n?? florida_property_data/brevard/\n?? historical_data/\n?? long_term_ownership_leads.csv\n?? mcp_servers/chrome-devtools-mcp/\n?? meilisearch.exe\n?? missing_data_analysis.csv\n?? nul\n?? prioritized_corporation_contacts.csv\n?? railway-orchestrator/\n?? residential_long_term_leads.csv\n?? scripts/all_florida_tax_deed_scraper.py\n?? scripts/selenium_tax_deed_scraper.py\n?? sql/\n?? sunbiz_contacts_extracted.csv\n?? sunbiz_data/sunbiz_entities_sample.csv\n?? sunbiz_data/sunbiz_fictitious_sample.csv\n?? sunbiz_data/sunbiz_officers_sample.csv\n?? sunbiz_officers_with_contacts.csv\n?? supabase/.temp/\n?? supabase/migrations/20251106_add_password_to_admin_users.sql\n?? supabase/migrations/20251106_create_admin_users.sql\n?? targeted_2024_2025_contacts.csv\n?? tax-deed-sales-with-scraper.png\n?? test-huggingface.cjs\n?? vector_stores/\n"
-          },
-          "portStatus": {
-            "zombiePorts": [],
-            "wrongPort": false,
-            "correctPort": true
-          },
-          "commitStatus": {
-            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'master'\n"
-          }
-        }
-      },
-      "timestamp": "2025-11-08T14:31:08.015Z",
-      "passed": false
-    },
-    {
-      "type": "rule_compliance",
-      "result": {
-        "passed": false,
-        "violations": [
-          "Rule violation: Uncommitted changes detected"
-        ],
-        "checks": {
-          "gitStatus": {
-            "uncommittedChanges": true,
-            "details": " M .env.example\n D .env.orchestrator.example\n M .eslintrc.cjs\n M .gitignore\n D AGENT_MIGRATION_COMPLETED.md\n D ALL_PROPERTY_TYPES_AUDIT_REPORT.txt\n D ALL_SCRAPERS_OPERATIONAL.md\n D ALTER_SALES_TABLE.sql\n D actual_tables_audit.json\n D add_auction_date_column.sql\n D add_columns_and_fix_data.py\n D add_columns_and_update.py\n D add_correct_sales_history.py\n D add_minimal_sales.py\n D add_missing_columns.sql\n D add_more_tax_deed_data.py\n D add_nap_columns.sql\n D add_property_columns.sql\n D add_sale_year_column.sql\n D add_sales_simple.py\n D add_sunbiz_entity.py\n D add_sunbiz_sales.py\n D add_winning_bid_column.sql\n D all_properties_verification_20250910_194818.png\n M apps/web/package-lock.json\n M apps/web/package.json\n M apps/web/src/App.tsx\n M apps/web/src/api/client.ts\n M apps/web/src/components/ServiceWorkerManager.tsx\n M apps/web/src/components/admin/ScraperControls.tsx\n M apps/web/src/components/property/MiniPropertyCard.tsx\n M apps/web/src/components/property/VirtualizedPropertyList.tsx\n M apps/web/src/components/property/tabs/ActiveCompaniesSection.tsx\n M apps/web/src/components/property/tabs/CorePropertyTab.tsx\n M apps/web/src/components/property/tabs/PermitTab.tsx\n M apps/web/src/components/property/tabs/SalesHistoryTab.tsx\n M apps/web/src/components/property/tabs/TaxDeedSalesTab.tsx\n M apps/web/src/components/ui/searchable-select.tsx\n M apps/web/src/hooks/useOptimizedSearch.ts\n M apps/web/src/hooks/usePropertyData.ts\n M apps/web/src/hooks/useSalesData.ts\n D apps/web/src/pages/Gate14.tsx\n M apps/web/src/pages/admin/dashboard.tsx\n M apps/web/src/pages/properties/PropertySearch.tsx\n M apps/web/src/pages/property/EnhancedPropertyProfile.tsx\n M mcp-server/server.js\n M memvid\n M nodemon\n M package-lock.json\n M package.json\n M production_property_api.py\n M zod\n?? .dev-session.json\n?? .env.mcp\n?? .github/workflows/daily-tax-deed-scraper.yml\n?? .memory/screenshots/\n?? .memory/state.json\n?? .railway/\n?? AGENT_DOCS_ANALYSIS.md\n?? AGENT_DOCS_SUMMARY.md\n?? ANALYSIS_SCRIPTS_CLEANUP_SUMMARY.md\n?? AUDIT_QUICK_START.md\n?? CREDENTIAL_ROTATION_DEFERRED.md\n?? ENV_CLEANUP_COMPLETE.md\n?? HUGGINGFACE_SETUP_COMPLETE.md\n?? NAL16P202501.csv\n?? NAP16P202501.csv\n?? PROJECT_AUDIT_REPORT.md\n?? ROTATE_CREDENTIALS_CHECKLIST.txt\n?? SCRAPER_FIX_PLAN.md\n?? SCRAPER_PAGE_VISUAL.md\n?? SDF16P202501.csv\n?? SECURITY_CLEANUP_SUMMARY.md\n?? SELENIUM_SCRAPER_READY.txt\n?? TAX_DEED_SCAN_REPORT.md\n?? TAX_DEED_SCRAPER_COMPLETE.md\n?? add_missing_imports.py\n?? agents/\n?? analysis-scripts-archived/\n?? analysis-scripts-cleaned/\n?? apps/api/nul\n?? apps/web/src/pages/admin/login.tsx\n?? apps/web/src/pages/admin/test-login.tsx\n?? apps/web/src/pages/admin/users.tsx\n?? backups/apps_web_before_master_/.env.localhost\n?? bcpa_sales_history.csv\n?? bcpa_sales_history_clean.csv\n?? business_contacts_prioritized.csv\n?? check_tax_deed_db.py\n?? cleanup-agent-docs.sh\n?? cleanup_analysis_scripts.py\n?? cleanup_audit_files.bat\n?? cleanup_audit_files.sh\n?? data/broward/\n?? data/broward_sdf/\n?? data/broward_tpp/\n?? data/florida/\n?? data/manifests/\n?? data/miami_dade/\n?? data/raw/\n?? data/source/\n?? database/audits/\n?? database/data/\n?? database/migrations/\n?? db/audit/\n?? env_backup_2025-09-05_18-41-53/\n?? fix_script_credentials.py\n?? florida_property_data/alachua/\n?? florida_property_data/baker/\n?? florida_property_data/bay/\n?? florida_property_data/bradford/\n?? florida_property_data/brevard/\n?? historical_data/\n?? long_term_ownership_leads.csv\n?? mcp_servers/chrome-devtools-mcp/\n?? meilisearch.exe\n?? missing_data_analysis.csv\n?? nul\n?? prioritized_corporation_contacts.csv\n?? railway-orchestrator/\n?? residential_long_term_leads.csv\n?? scripts/all_florida_tax_deed_scraper.py\n?? scripts/selenium_tax_deed_scraper.py\n?? sql/\n?? sunbiz_contacts_extracted.csv\n?? sunbiz_data/sunbiz_entities_sample.csv\n?? sunbiz_data/sunbiz_fictitious_sample.csv\n?? sunbiz_data/sunbiz_officers_sample.csv\n?? sunbiz_officers_with_contacts.csv\n?? supabase/.temp/\n?? supabase/migrations/20251106_add_password_to_admin_users.sql\n?? supabase/migrations/20251106_create_admin_users.sql\n?? targeted_2024_2025_contacts.csv\n?? tax-deed-sales-with-scraper.png\n?? test-huggingface.cjs\n?? vector_stores/\n"
-          },
-          "portStatus": {
-            "zombiePorts": [],
-            "wrongPort": false,
-            "correctPort": true
-          },
-          "commitStatus": {
-            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'master'\n"
-          }
-        }
-      },
-      "timestamp": "2025-11-08T14:41:08.499Z",
-      "passed": false
-    },
-    {
-      "type": "rule_compliance",
-      "result": {
-        "passed": false,
-        "violations": [
-          "Rule violation: Uncommitted changes detected"
-        ],
-        "checks": {
-          "gitStatus": {
-            "uncommittedChanges": true,
-            "details": " M .env.example\n D .env.orchestrator.example\n M .eslintrc.cjs\n M .gitignore\n D AGENT_MIGRATION_COMPLETED.md\n D ALL_PROPERTY_TYPES_AUDIT_REPORT.txt\n D ALL_SCRAPERS_OPERATIONAL.md\n D ALTER_SALES_TABLE.sql\n D actual_tables_audit.json\n D add_auction_date_column.sql\n D add_columns_and_fix_data.py\n D add_columns_and_update.py\n D add_correct_sales_history.py\n D add_minimal_sales.py\n D add_missing_columns.sql\n D add_more_tax_deed_data.py\n D add_nap_columns.sql\n D add_property_columns.sql\n D add_sale_year_column.sql\n D add_sales_simple.py\n D add_sunbiz_entity.py\n D add_sunbiz_sales.py\n D add_winning_bid_column.sql\n D all_properties_verification_20250910_194818.png\n M apps/web/package-lock.json\n M apps/web/package.json\n M apps/web/src/App.tsx\n M apps/web/src/api/client.ts\n M apps/web/src/components/ServiceWorkerManager.tsx\n M apps/web/src/components/admin/ScraperControls.tsx\n M apps/web/src/components/property/MiniPropertyCard.tsx\n M apps/web/src/components/property/VirtualizedPropertyList.tsx\n M apps/web/src/components/property/tabs/ActiveCompaniesSection.tsx\n M apps/web/src/components/property/tabs/CorePropertyTab.tsx\n M apps/web/src/components/property/tabs/PermitTab.tsx\n M apps/web/src/components/property/tabs/SalesHistoryTab.tsx\n M apps/web/src/components/property/tabs/TaxDeedSalesTab.tsx\n M apps/web/src/components/ui/searchable-select.tsx\n M apps/web/src/hooks/useOptimizedSearch.ts\n M apps/web/src/hooks/usePropertyData.ts\n M apps/web/src/hooks/useSalesData.ts\n D apps/web/src/pages/Gate14.tsx\n M apps/web/src/pages/admin/dashboard.tsx\n M apps/web/src/pages/properties/PropertySearch.tsx\n M apps/web/src/pages/property/EnhancedPropertyProfile.tsx\n M mcp-server/server.js\n M memvid\n M nodemon\n M package-lock.json\n M package.json\n M production_property_api.py\n M zod\n?? .dev-session.json\n?? .env.mcp\n?? .github/workflows/daily-tax-deed-scraper.yml\n?? .memory/screenshots/\n?? .memory/state.json\n?? .railway/\n?? AGENT_DOCS_ANALYSIS.md\n?? AGENT_DOCS_SUMMARY.md\n?? ANALYSIS_SCRIPTS_CLEANUP_SUMMARY.md\n?? AUDIT_QUICK_START.md\n?? CREDENTIAL_ROTATION_DEFERRED.md\n?? ENV_CLEANUP_COMPLETE.md\n?? HUGGINGFACE_SETUP_COMPLETE.md\n?? NAL16P202501.csv\n?? NAP16P202501.csv\n?? PROJECT_AUDIT_REPORT.md\n?? ROTATE_CREDENTIALS_CHECKLIST.txt\n?? SCRAPER_FIX_PLAN.md\n?? SCRAPER_PAGE_VISUAL.md\n?? SDF16P202501.csv\n?? SECURITY_CLEANUP_SUMMARY.md\n?? SELENIUM_SCRAPER_READY.txt\n?? TAX_DEED_SCAN_REPORT.md\n?? TAX_DEED_SCRAPER_COMPLETE.md\n?? add_missing_imports.py\n?? agents/\n?? analysis-scripts-archived/\n?? analysis-scripts-cleaned/\n?? apps/api/nul\n?? apps/web/src/pages/admin/login.tsx\n?? apps/web/src/pages/admin/test-login.tsx\n?? apps/web/src/pages/admin/users.tsx\n?? backups/apps_web_before_master_/.env.localhost\n?? bcpa_sales_history.csv\n?? bcpa_sales_history_clean.csv\n?? business_contacts_prioritized.csv\n?? check_tax_deed_db.py\n?? cleanup-agent-docs.sh\n?? cleanup_analysis_scripts.py\n?? cleanup_audit_files.bat\n?? cleanup_audit_files.sh\n?? data/broward/\n?? data/broward_sdf/\n?? data/broward_tpp/\n?? data/florida/\n?? data/manifests/\n?? data/miami_dade/\n?? data/raw/\n?? data/source/\n?? database/audits/\n?? database/data/\n?? database/migrations/\n?? db/audit/\n?? env_backup_2025-09-05_18-41-53/\n?? fix_script_credentials.py\n?? florida_property_data/alachua/\n?? florida_property_data/baker/\n?? florida_property_data/bay/\n?? florida_property_data/bradford/\n?? florida_property_data/brevard/\n?? historical_data/\n?? long_term_ownership_leads.csv\n?? mcp_servers/chrome-devtools-mcp/\n?? meilisearch.exe\n?? missing_data_analysis.csv\n?? nul\n?? prioritized_corporation_contacts.csv\n?? railway-orchestrator/\n?? residential_long_term_leads.csv\n?? scripts/all_florida_tax_deed_scraper.py\n?? scripts/selenium_tax_deed_scraper.py\n?? sql/\n?? sunbiz_contacts_extracted.csv\n?? sunbiz_data/sunbiz_entities_sample.csv\n?? sunbiz_data/sunbiz_fictitious_sample.csv\n?? sunbiz_data/sunbiz_officers_sample.csv\n?? sunbiz_officers_with_contacts.csv\n?? supabase/.temp/\n?? supabase/migrations/20251106_add_password_to_admin_users.sql\n?? supabase/migrations/20251106_create_admin_users.sql\n?? targeted_2024_2025_contacts.csv\n?? tax-deed-sales-with-scraper.png\n?? test-huggingface.cjs\n?? vector_stores/\n"
-          },
-          "portStatus": {
-            "zombiePorts": [],
-            "wrongPort": false,
-            "correctPort": true
-          },
-          "commitStatus": {
-            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'master'\n"
-          }
-        }
-      },
-      "timestamp": "2025-11-08T14:41:22.184Z",
-      "passed": false
-    },
-    {
-      "type": "rule_compliance",
-      "result": {
-        "passed": false,
-        "violations": [
-          "Rule violation: Uncommitted changes detected"
-        ],
-        "checks": {
-          "gitStatus": {
-            "uncommittedChanges": true,
-            "details": " M .env.example\n D .env.orchestrator.example\n M .eslintrc.cjs\n M .gitignore\n D AGENT_MIGRATION_COMPLETED.md\n D ALL_PROPERTY_TYPES_AUDIT_REPORT.txt\n D ALL_SCRAPERS_OPERATIONAL.md\n D ALTER_SALES_TABLE.sql\n D actual_tables_audit.json\n D add_auction_date_column.sql\n D add_columns_and_fix_data.py\n D add_columns_and_update.py\n D add_correct_sales_history.py\n D add_minimal_sales.py\n D add_missing_columns.sql\n D add_more_tax_deed_data.py\n D add_nap_columns.sql\n D add_property_columns.sql\n D add_sale_year_column.sql\n D add_sales_simple.py\n D add_sunbiz_entity.py\n D add_sunbiz_sales.py\n D add_winning_bid_column.sql\n D all_properties_verification_20250910_194818.png\n M apps/web/package-lock.json\n M apps/web/package.json\n M apps/web/src/App.tsx\n M apps/web/src/api/client.ts\n M apps/web/src/components/ServiceWorkerManager.tsx\n M apps/web/src/components/admin/ScraperControls.tsx\n M apps/web/src/components/property/MiniPropertyCard.tsx\n M apps/web/src/components/property/VirtualizedPropertyList.tsx\n M apps/web/src/components/property/tabs/ActiveCompaniesSection.tsx\n M apps/web/src/components/property/tabs/CorePropertyTab.tsx\n M apps/web/src/components/property/tabs/PermitTab.tsx\n M apps/web/src/components/property/tabs/SalesHistoryTab.tsx\n M apps/web/src/components/property/tabs/TaxDeedSalesTab.tsx\n M apps/web/src/components/ui/searchable-select.tsx\n M apps/web/src/hooks/useOptimizedSearch.ts\n M apps/web/src/hooks/usePropertyData.ts\n M apps/web/src/hooks/useSalesData.ts\n D apps/web/src/pages/Gate14.tsx\n M apps/web/src/pages/admin/dashboard.tsx\n M apps/web/src/pages/properties/PropertySearch.tsx\n M apps/web/src/pages/property/EnhancedPropertyProfile.tsx\n M mcp-server/server.js\n M memvid\n M nodemon\n M package-lock.json\n M package.json\n M production_property_api.py\n M zod\n?? .dev-session.json\n?? .env.mcp\n?? .github/workflows/daily-tax-deed-scraper.yml\n?? .memory/screenshots/\n?? .memory/state.json\n?? .railway/\n?? AGENT_DOCS_ANALYSIS.md\n?? AGENT_DOCS_SUMMARY.md\n?? ANALYSIS_SCRIPTS_CLEANUP_SUMMARY.md\n?? AUDIT_QUICK_START.md\n?? CREDENTIAL_ROTATION_DEFERRED.md\n?? ENV_CLEANUP_COMPLETE.md\n?? HUGGINGFACE_SETUP_COMPLETE.md\n?? NAL16P202501.csv\n?? NAP16P202501.csv\n?? PROJECT_AUDIT_REPORT.md\n?? ROTATE_CREDENTIALS_CHECKLIST.txt\n?? SCRAPER_FIX_PLAN.md\n?? SCRAPER_PAGE_VISUAL.md\n?? SDF16P202501.csv\n?? SECURITY_CLEANUP_SUMMARY.md\n?? SELENIUM_SCRAPER_READY.txt\n?? TAX_DEED_SCAN_REPORT.md\n?? TAX_DEED_SCRAPER_COMPLETE.md\n?? add_missing_imports.py\n?? agents/\n?? analysis-scripts-archived/\n?? analysis-scripts-cleaned/\n?? apps/api/nul\n?? apps/web/src/pages/admin/login.tsx\n?? apps/web/src/pages/admin/test-login.tsx\n?? apps/web/src/pages/admin/users.tsx\n?? backups/apps_web_before_master_/.env.localhost\n?? bcpa_sales_history.csv\n?? bcpa_sales_history_clean.csv\n?? business_contacts_prioritized.csv\n?? check_tax_deed_db.py\n?? cleanup-agent-docs.sh\n?? cleanup_analysis_scripts.py\n?? cleanup_audit_files.bat\n?? cleanup_audit_files.sh\n?? data/broward/\n?? data/broward_sdf/\n?? data/broward_tpp/\n?? data/florida/\n?? data/manifests/\n?? data/miami_dade/\n?? data/raw/\n?? data/source/\n?? database/audits/\n?? database/data/\n?? database/migrations/\n?? db/audit/\n?? env_backup_2025-09-05_18-41-53/\n?? fix_script_credentials.py\n?? florida_property_data/alachua/\n?? florida_property_data/baker/\n?? florida_property_data/bay/\n?? florida_property_data/bradford/\n?? florida_property_data/brevard/\n?? historical_data/\n?? long_term_ownership_leads.csv\n?? mcp_servers/chrome-devtools-mcp/\n?? meilisearch.exe\n?? missing_data_analysis.csv\n?? nul\n?? prioritized_corporation_contacts.csv\n?? railway-orchestrator/\n?? residential_long_term_leads.csv\n?? scripts/all_florida_tax_deed_scraper.py\n?? scripts/selenium_tax_deed_scraper.py\n?? sql/\n?? sunbiz_contacts_extracted.csv\n?? sunbiz_data/sunbiz_entities_sample.csv\n?? sunbiz_data/sunbiz_fictitious_sample.csv\n?? sunbiz_data/sunbiz_officers_sample.csv\n?? sunbiz_officers_with_contacts.csv\n?? supabase/.temp/\n?? supabase/migrations/20251106_add_password_to_admin_users.sql\n?? supabase/migrations/20251106_create_admin_users.sql\n?? targeted_2024_2025_contacts.csv\n?? tax-deed-sales-with-scraper.png\n?? test-huggingface.cjs\n?? vector_stores/\n"
-          },
-          "portStatus": {
-            "zombiePorts": [],
-            "wrongPort": false,
-            "correctPort": true
-          },
-          "commitStatus": {
-            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'master'\n"
-          }
-        }
-      },
-      "timestamp": "2025-11-08T14:51:08.162Z",
-      "passed": false
-    },
-    {
-      "type": "rule_compliance",
-      "result": {
-        "passed": false,
-        "violations": [
-          "Rule violation: Uncommitted changes detected"
-        ],
-        "checks": {
-          "gitStatus": {
-            "uncommittedChanges": true,
-            "details": " M .env.example\n D .env.orchestrator.example\n M .eslintrc.cjs\n M .gitignore\n D AGENT_MIGRATION_COMPLETED.md\n D ALL_PROPERTY_TYPES_AUDIT_REPORT.txt\n D ALL_SCRAPERS_OPERATIONAL.md\n D ALTER_SALES_TABLE.sql\n D actual_tables_audit.json\n D add_auction_date_column.sql\n D add_columns_and_fix_data.py\n D add_columns_and_update.py\n D add_correct_sales_history.py\n D add_minimal_sales.py\n D add_missing_columns.sql\n D add_more_tax_deed_data.py\n D add_nap_columns.sql\n D add_property_columns.sql\n D add_sale_year_column.sql\n D add_sales_simple.py\n D add_sunbiz_entity.py\n D add_sunbiz_sales.py\n D add_winning_bid_column.sql\n D all_properties_verification_20250910_194818.png\n M apps/web/package-lock.json\n M apps/web/package.json\n M apps/web/src/App.tsx\n M apps/web/src/api/client.ts\n M apps/web/src/components/ServiceWorkerManager.tsx\n M apps/web/src/components/admin/ScraperControls.tsx\n M apps/web/src/components/property/MiniPropertyCard.tsx\n M apps/web/src/components/property/VirtualizedPropertyList.tsx\n M apps/web/src/components/property/tabs/ActiveCompaniesSection.tsx\n M apps/web/src/components/property/tabs/CorePropertyTab.tsx\n M apps/web/src/components/property/tabs/PermitTab.tsx\n M apps/web/src/components/property/tabs/SalesHistoryTab.tsx\n M apps/web/src/components/property/tabs/TaxDeedSalesTab.tsx\n M apps/web/src/components/ui/searchable-select.tsx\n M apps/web/src/hooks/useOptimizedSearch.ts\n M apps/web/src/hooks/usePropertyData.ts\n M apps/web/src/hooks/useSalesData.ts\n D apps/web/src/pages/Gate14.tsx\n M apps/web/src/pages/admin/dashboard.tsx\n M apps/web/src/pages/properties/PropertySearch.tsx\n M apps/web/src/pages/property/EnhancedPropertyProfile.tsx\n M mcp-server/server.js\n M memvid\n M nodemon\n M package-lock.json\n M package.json\n M production_property_api.py\n M zod\n?? .dev-session.json\n?? .env.mcp\n?? .github/workflows/daily-tax-deed-scraper.yml\n?? .memory/screenshots/\n?? .memory/state.json\n?? .railway/\n?? AGENT_DOCS_ANALYSIS.md\n?? AGENT_DOCS_SUMMARY.md\n?? ANALYSIS_SCRIPTS_CLEANUP_SUMMARY.md\n?? AUDIT_QUICK_START.md\n?? CREDENTIAL_ROTATION_DEFERRED.md\n?? ENV_CLEANUP_COMPLETE.md\n?? HUGGINGFACE_SETUP_COMPLETE.md\n?? NAL16P202501.csv\n?? NAP16P202501.csv\n?? PROJECT_AUDIT_REPORT.md\n?? ROTATE_CREDENTIALS_CHECKLIST.txt\n?? SCRAPER_FIX_PLAN.md\n?? SCRAPER_PAGE_VISUAL.md\n?? SDF16P202501.csv\n?? SECURITY_CLEANUP_SUMMARY.md\n?? SELENIUM_SCRAPER_READY.txt\n?? TAX_DEED_SCAN_REPORT.md\n?? TAX_DEED_SCRAPER_COMPLETE.md\n?? add_missing_imports.py\n?? agents/\n?? analysis-scripts-archived/\n?? analysis-scripts-cleaned/\n?? apps/api/nul\n?? apps/web/src/pages/admin/login.tsx\n?? apps/web/src/pages/admin/test-login.tsx\n?? apps/web/src/pages/admin/users.tsx\n?? backups/apps_web_before_master_/.env.localhost\n?? bcpa_sales_history.csv\n?? bcpa_sales_history_clean.csv\n?? business_contacts_prioritized.csv\n?? check_tax_deed_db.py\n?? cleanup-agent-docs.sh\n?? cleanup_analysis_scripts.py\n?? cleanup_audit_files.bat\n?? cleanup_audit_files.sh\n?? data/broward/\n?? data/broward_sdf/\n?? data/broward_tpp/\n?? data/florida/\n?? data/manifests/\n?? data/miami_dade/\n?? data/raw/\n?? data/source/\n?? database/audits/\n?? database/data/\n?? database/migrations/\n?? db/audit/\n?? env_backup_2025-09-05_18-41-53/\n?? fix_script_credentials.py\n?? florida_property_data/alachua/\n?? florida_property_data/baker/\n?? florida_property_data/bay/\n?? florida_property_data/bradford/\n?? florida_property_data/brevard/\n?? historical_data/\n?? long_term_ownership_leads.csv\n?? mcp_servers/chrome-devtools-mcp/\n?? meilisearch.exe\n?? missing_data_analysis.csv\n?? nul\n?? prioritized_corporation_contacts.csv\n?? railway-orchestrator/\n?? residential_long_term_leads.csv\n?? scripts/all_florida_tax_deed_scraper.py\n?? scripts/selenium_tax_deed_scraper.py\n?? sql/\n?? sunbiz_contacts_extracted.csv\n?? sunbiz_data/sunbiz_entities_sample.csv\n?? sunbiz_data/sunbiz_fictitious_sample.csv\n?? sunbiz_data/sunbiz_officers_sample.csv\n?? sunbiz_officers_with_contacts.csv\n?? supabase/.temp/\n?? supabase/migrations/20251106_add_password_to_admin_users.sql\n?? supabase/migrations/20251106_create_admin_users.sql\n?? targeted_2024_2025_contacts.csv\n?? tax-deed-sales-with-scraper.png\n?? test-huggingface.cjs\n?? vector_stores/\n"
-          },
-          "portStatus": {
-            "zombiePorts": [],
-            "wrongPort": false,
-            "correctPort": true
-          },
-          "commitStatus": {
-            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'master'\n"
-          }
-        }
-      },
-      "timestamp": "2025-11-08T15:01:08.545Z",
-      "passed": false
-    },
-    {
-      "type": "rule_compliance",
-      "result": {
-        "passed": false,
-        "violations": [
-          "Rule violation: Uncommitted changes detected"
-        ],
-        "checks": {
-          "gitStatus": {
-            "uncommittedChanges": true,
-            "details": " M .env.example\n D .env.orchestrator.example\n M .eslintrc.cjs\n M .gitignore\n D AGENT_MIGRATION_COMPLETED.md\n D ALL_PROPERTY_TYPES_AUDIT_REPORT.txt\n D ALL_SCRAPERS_OPERATIONAL.md\n D ALTER_SALES_TABLE.sql\n D actual_tables_audit.json\n D add_auction_date_column.sql\n D add_columns_and_fix_data.py\n D add_columns_and_update.py\n D add_correct_sales_history.py\n D add_minimal_sales.py\n D add_missing_columns.sql\n D add_more_tax_deed_data.py\n D add_nap_columns.sql\n D add_property_columns.sql\n D add_sale_year_column.sql\n D add_sales_simple.py\n D add_sunbiz_entity.py\n D add_sunbiz_sales.py\n D add_winning_bid_column.sql\n D all_properties_verification_20250910_194818.png\n M apps/web/package-lock.json\n M apps/web/package.json\n M apps/web/src/App.tsx\n M apps/web/src/api/client.ts\n M apps/web/src/components/ServiceWorkerManager.tsx\n M apps/web/src/components/admin/ScraperControls.tsx\n M apps/web/src/components/property/MiniPropertyCard.tsx\n M apps/web/src/components/property/VirtualizedPropertyList.tsx\n M apps/web/src/components/property/tabs/ActiveCompaniesSection.tsx\n M apps/web/src/components/property/tabs/CorePropertyTab.tsx\n M apps/web/src/components/property/tabs/PermitTab.tsx\n M apps/web/src/components/property/tabs/SalesHistoryTab.tsx\n M apps/web/src/components/property/tabs/TaxDeedSalesTab.tsx\n M apps/web/src/components/ui/searchable-select.tsx\n M apps/web/src/hooks/useOptimizedSearch.ts\n M apps/web/src/hooks/usePropertyData.ts\n M apps/web/src/hooks/useSalesData.ts\n D apps/web/src/pages/Gate14.tsx\n M apps/web/src/pages/admin/dashboard.tsx\n M apps/web/src/pages/properties/PropertySearch.tsx\n M apps/web/src/pages/property/EnhancedPropertyProfile.tsx\n M mcp-server/server.js\n M memvid\n M nodemon\n M package-lock.json\n M package.json\n M production_property_api.py\n M zod\n?? .dev-session.json\n?? .env.mcp\n?? .github/workflows/daily-tax-deed-scraper.yml\n?? .memory/screenshots/\n?? .memory/state.json\n?? .railway/\n?? AGENT_DOCS_ANALYSIS.md\n?? AGENT_DOCS_SUMMARY.md\n?? ANALYSIS_SCRIPTS_CLEANUP_SUMMARY.md\n?? AUDIT_QUICK_START.md\n?? CREDENTIAL_ROTATION_DEFERRED.md\n?? ENV_CLEANUP_COMPLETE.md\n?? HUGGINGFACE_SETUP_COMPLETE.md\n?? NAL16P202501.csv\n?? NAP16P202501.csv\n?? PROJECT_AUDIT_REPORT.md\n?? ROTATE_CREDENTIALS_CHECKLIST.txt\n?? SCRAPER_FIX_PLAN.md\n?? SCRAPER_PAGE_VISUAL.md\n?? SDF16P202501.csv\n?? SECURITY_CLEANUP_SUMMARY.md\n?? SELENIUM_SCRAPER_READY.txt\n?? TAX_DEED_SCAN_REPORT.md\n?? TAX_DEED_SCRAPER_COMPLETE.md\n?? add_missing_imports.py\n?? agents/\n?? analysis-scripts-archived/\n?? analysis-scripts-cleaned/\n?? apps/api/nul\n?? apps/web/src/pages/admin/login.tsx\n?? apps/web/src/pages/admin/test-login.tsx\n?? apps/web/src/pages/admin/users.tsx\n?? backups/apps_web_before_master_/.env.localhost\n?? bcpa_sales_history.csv\n?? bcpa_sales_history_clean.csv\n?? business_contacts_prioritized.csv\n?? check_tax_deed_db.py\n?? cleanup-agent-docs.sh\n?? cleanup_analysis_scripts.py\n?? cleanup_audit_files.bat\n?? cleanup_audit_files.sh\n?? data/broward/\n?? data/broward_sdf/\n?? data/broward_tpp/\n?? data/florida/\n?? data/manifests/\n?? data/miami_dade/\n?? data/raw/\n?? data/source/\n?? database/audits/\n?? database/data/\n?? database/migrations/\n?? db/audit/\n?? env_backup_2025-09-05_18-41-53/\n?? fix_script_credentials.py\n?? florida_property_data/alachua/\n?? florida_property_data/baker/\n?? florida_property_data/bay/\n?? florida_property_data/bradford/\n?? florida_property_data/brevard/\n?? historical_data/\n?? long_term_ownership_leads.csv\n?? mcp_servers/chrome-devtools-mcp/\n?? meilisearch.exe\n?? missing_data_analysis.csv\n?? nul\n?? prioritized_corporation_contacts.csv\n?? railway-orchestrator/\n?? residential_long_term_leads.csv\n?? scripts/all_florida_tax_deed_scraper.py\n?? scripts/selenium_tax_deed_scraper.py\n?? sql/\n?? sunbiz_contacts_extracted.csv\n?? sunbiz_data/sunbiz_entities_sample.csv\n?? sunbiz_data/sunbiz_fictitious_sample.csv\n?? sunbiz_data/sunbiz_officers_sample.csv\n?? sunbiz_officers_with_contacts.csv\n?? supabase/.temp/\n?? supabase/migrations/20251106_add_password_to_admin_users.sql\n?? supabase/migrations/20251106_create_admin_users.sql\n?? targeted_2024_2025_contacts.csv\n?? tax-deed-sales-with-scraper.png\n?? test-huggingface.cjs\n?? vector_stores/\n"
-          },
-          "portStatus": {
-            "zombiePorts": [],
-            "wrongPort": false,
-            "correctPort": true
-          },
-          "commitStatus": {
-            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'master'\n"
-          }
-        }
-      },
-      "timestamp": "2025-11-08T15:11:08.390Z",
-      "passed": false
-    },
-    {
-      "type": "rule_compliance",
-      "result": {
-        "passed": false,
-        "violations": [
-          "Rule violation: Uncommitted changes detected"
-        ],
-        "checks": {
-          "gitStatus": {
-            "uncommittedChanges": true,
-            "details": " M .env.example\n D .env.orchestrator.example\n M .eslintrc.cjs\n M .gitignore\n D AGENT_MIGRATION_COMPLETED.md\n D ALL_PROPERTY_TYPES_AUDIT_REPORT.txt\n D ALL_SCRAPERS_OPERATIONAL.md\n D ALTER_SALES_TABLE.sql\n D actual_tables_audit.json\n D add_auction_date_column.sql\n D add_columns_and_fix_data.py\n D add_columns_and_update.py\n D add_correct_sales_history.py\n D add_minimal_sales.py\n D add_missing_columns.sql\n D add_more_tax_deed_data.py\n D add_nap_columns.sql\n D add_property_columns.sql\n D add_sale_year_column.sql\n D add_sales_simple.py\n D add_sunbiz_entity.py\n D add_sunbiz_sales.py\n D add_winning_bid_column.sql\n D all_properties_verification_20250910_194818.png\n M apps/web/package-lock.json\n M apps/web/package.json\n M apps/web/src/App.tsx\n M apps/web/src/api/client.ts\n M apps/web/src/components/ServiceWorkerManager.tsx\n M apps/web/src/components/admin/ScraperControls.tsx\n M apps/web/src/components/property/MiniPropertyCard.tsx\n M apps/web/src/components/property/VirtualizedPropertyList.tsx\n M apps/web/src/components/property/tabs/ActiveCompaniesSection.tsx\n M apps/web/src/components/property/tabs/CorePropertyTab.tsx\n M apps/web/src/components/property/tabs/PermitTab.tsx\n M apps/web/src/components/property/tabs/SalesHistoryTab.tsx\n M apps/web/src/components/property/tabs/TaxDeedSalesTab.tsx\n M apps/web/src/components/ui/searchable-select.tsx\n M apps/web/src/hooks/useOptimizedSearch.ts\n M apps/web/src/hooks/usePropertyData.ts\n M apps/web/src/hooks/useSalesData.ts\n D apps/web/src/pages/Gate14.tsx\n M apps/web/src/pages/admin/dashboard.tsx\n M apps/web/src/pages/properties/PropertySearch.tsx\n M apps/web/src/pages/property/EnhancedPropertyProfile.tsx\n M mcp-server/server.js\n M memvid\n M nodemon\n M package-lock.json\n M package.json\n M production_property_api.py\n M zod\n?? .dev-session.json\n?? .env.mcp\n?? .github/workflows/daily-tax-deed-scraper.yml\n?? .memory/screenshots/\n?? .memory/state.json\n?? .railway/\n?? AGENT_DOCS_ANALYSIS.md\n?? AGENT_DOCS_SUMMARY.md\n?? ANALYSIS_SCRIPTS_CLEANUP_SUMMARY.md\n?? AUDIT_QUICK_START.md\n?? CREDENTIAL_ROTATION_DEFERRED.md\n?? ENV_CLEANUP_COMPLETE.md\n?? HUGGINGFACE_SETUP_COMPLETE.md\n?? NAL16P202501.csv\n?? NAP16P202501.csv\n?? PROJECT_AUDIT_REPORT.md\n?? ROTATE_CREDENTIALS_CHECKLIST.txt\n?? SCRAPER_FIX_PLAN.md\n?? SCRAPER_PAGE_VISUAL.md\n?? SDF16P202501.csv\n?? SECURITY_CLEANUP_SUMMARY.md\n?? SELENIUM_SCRAPER_READY.txt\n?? TAX_DEED_SCAN_REPORT.md\n?? TAX_DEED_SCRAPER_COMPLETE.md\n?? add_missing_imports.py\n?? agents/\n?? analysis-scripts-archived/\n?? analysis-scripts-cleaned/\n?? apps/api/nul\n?? apps/web/src/pages/admin/login.tsx\n?? apps/web/src/pages/admin/test-login.tsx\n?? apps/web/src/pages/admin/users.tsx\n?? backups/apps_web_before_master_/.env.localhost\n?? bcpa_sales_history.csv\n?? bcpa_sales_history_clean.csv\n?? business_contacts_prioritized.csv\n?? check_tax_deed_db.py\n?? cleanup-agent-docs.sh\n?? cleanup_analysis_scripts.py\n?? cleanup_audit_files.bat\n?? cleanup_audit_files.sh\n?? data/broward/\n?? data/broward_sdf/\n?? data/broward_tpp/\n?? data/florida/\n?? data/manifests/\n?? data/miami_dade/\n?? data/raw/\n?? data/source/\n?? database/audits/\n?? database/data/\n?? database/migrations/\n?? db/audit/\n?? env_backup_2025-09-05_18-41-53/\n?? fix_script_credentials.py\n?? florida_property_data/alachua/\n?? florida_property_data/baker/\n?? florida_property_data/bay/\n?? florida_property_data/bradford/\n?? florida_property_data/brevard/\n?? historical_data/\n?? long_term_ownership_leads.csv\n?? mcp_servers/chrome-devtools-mcp/\n?? meilisearch.exe\n?? missing_data_analysis.csv\n?? nul\n?? prioritized_corporation_contacts.csv\n?? railway-orchestrator/\n?? residential_long_term_leads.csv\n?? scripts/all_florida_tax_deed_scraper.py\n?? scripts/selenium_tax_deed_scraper.py\n?? sql/\n?? sunbiz_contacts_extracted.csv\n?? sunbiz_data/sunbiz_entities_sample.csv\n?? sunbiz_data/sunbiz_fictitious_sample.csv\n?? sunbiz_data/sunbiz_officers_sample.csv\n?? sunbiz_officers_with_contacts.csv\n?? supabase/.temp/\n?? supabase/migrations/20251106_add_password_to_admin_users.sql\n?? supabase/migrations/20251106_create_admin_users.sql\n?? targeted_2024_2025_contacts.csv\n?? tax-deed-sales-with-scraper.png\n?? test-huggingface.cjs\n?? vector_stores/\n"
-          },
-          "portStatus": {
-            "zombiePorts": [],
-            "wrongPort": false,
-            "correctPort": true
-          },
-          "commitStatus": {
-            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'master'\n"
-          }
-        }
-      },
-      "timestamp": "2025-11-08T15:11:22.871Z",
-      "passed": false
-    },
-    {
-      "type": "rule_compliance",
-      "result": {
-        "passed": false,
-        "violations": [
-          "Rule violation: Uncommitted changes detected"
-        ],
-        "checks": {
-          "gitStatus": {
-            "uncommittedChanges": true,
-            "details": " M .env.example\n D .env.orchestrator.example\n M .eslintrc.cjs\n M .gitignore\n D AGENT_MIGRATION_COMPLETED.md\n D ALL_PROPERTY_TYPES_AUDIT_REPORT.txt\n D ALL_SCRAPERS_OPERATIONAL.md\n D ALTER_SALES_TABLE.sql\n D actual_tables_audit.json\n D add_auction_date_column.sql\n D add_columns_and_fix_data.py\n D add_columns_and_update.py\n D add_correct_sales_history.py\n D add_minimal_sales.py\n D add_missing_columns.sql\n D add_more_tax_deed_data.py\n D add_nap_columns.sql\n D add_property_columns.sql\n D add_sale_year_column.sql\n D add_sales_simple.py\n D add_sunbiz_entity.py\n D add_sunbiz_sales.py\n D add_winning_bid_column.sql\n D all_properties_verification_20250910_194818.png\n M apps/web/package-lock.json\n M apps/web/package.json\n M apps/web/src/App.tsx\n M apps/web/src/api/client.ts\n M apps/web/src/components/ServiceWorkerManager.tsx\n M apps/web/src/components/admin/ScraperControls.tsx\n M apps/web/src/components/property/MiniPropertyCard.tsx\n M apps/web/src/components/property/VirtualizedPropertyList.tsx\n M apps/web/src/components/property/tabs/ActiveCompaniesSection.tsx\n M apps/web/src/components/property/tabs/CorePropertyTab.tsx\n M apps/web/src/components/property/tabs/PermitTab.tsx\n M apps/web/src/components/property/tabs/SalesHistoryTab.tsx\n M apps/web/src/components/property/tabs/TaxDeedSalesTab.tsx\n M apps/web/src/components/ui/searchable-select.tsx\n M apps/web/src/hooks/useOptimizedSearch.ts\n M apps/web/src/hooks/usePropertyData.ts\n M apps/web/src/hooks/useSalesData.ts\n D apps/web/src/pages/Gate14.tsx\n M apps/web/src/pages/admin/dashboard.tsx\n M apps/web/src/pages/properties/PropertySearch.tsx\n M apps/web/src/pages/property/EnhancedPropertyProfile.tsx\n M mcp-server/server.js\n M memvid\n M nodemon\n M package-lock.json\n M package.json\n M production_property_api.py\n M zod\n?? .dev-session.json\n?? .env.mcp\n?? .github/workflows/daily-tax-deed-scraper.yml\n?? .memory/screenshots/\n?? .memory/state.json\n?? .railway/\n?? AGENT_DOCS_ANALYSIS.md\n?? AGENT_DOCS_SUMMARY.md\n?? ANALYSIS_SCRIPTS_CLEANUP_SUMMARY.md\n?? AUDIT_QUICK_START.md\n?? CREDENTIAL_ROTATION_DEFERRED.md\n?? ENV_CLEANUP_COMPLETE.md\n?? HUGGINGFACE_SETUP_COMPLETE.md\n?? NAL16P202501.csv\n?? NAP16P202501.csv\n?? PROJECT_AUDIT_REPORT.md\n?? ROTATE_CREDENTIALS_CHECKLIST.txt\n?? SCRAPER_FIX_PLAN.md\n?? SCRAPER_PAGE_VISUAL.md\n?? SDF16P202501.csv\n?? SECURITY_CLEANUP_SUMMARY.md\n?? SELENIUM_SCRAPER_READY.txt\n?? TAX_DEED_SCAN_REPORT.md\n?? TAX_DEED_SCRAPER_COMPLETE.md\n?? add_missing_imports.py\n?? agents/\n?? analysis-scripts-archived/\n?? analysis-scripts-cleaned/\n?? apps/api/nul\n?? apps/web/src/pages/admin/login.tsx\n?? apps/web/src/pages/admin/test-login.tsx\n?? apps/web/src/pages/admin/users.tsx\n?? backups/apps_web_before_master_/.env.localhost\n?? bcpa_sales_history.csv\n?? bcpa_sales_history_clean.csv\n?? business_contacts_prioritized.csv\n?? check_tax_deed_db.py\n?? cleanup-agent-docs.sh\n?? cleanup_analysis_scripts.py\n?? cleanup_audit_files.bat\n?? cleanup_audit_files.sh\n?? data/broward/\n?? data/broward_sdf/\n?? data/broward_tpp/\n?? data/florida/\n?? data/manifests/\n?? data/miami_dade/\n?? data/raw/\n?? data/source/\n?? database/audits/\n?? database/data/\n?? database/migrations/\n?? db/audit/\n?? env_backup_2025-09-05_18-41-53/\n?? fix_script_credentials.py\n?? florida_property_data/alachua/\n?? florida_property_data/baker/\n?? florida_property_data/bay/\n?? florida_property_data/bradford/\n?? florida_property_data/brevard/\n?? historical_data/\n?? long_term_ownership_leads.csv\n?? mcp_servers/chrome-devtools-mcp/\n?? meilisearch.exe\n?? missing_data_analysis.csv\n?? nul\n?? prioritized_corporation_contacts.csv\n?? railway-orchestrator/\n?? residential_long_term_leads.csv\n?? scripts/all_florida_tax_deed_scraper.py\n?? scripts/selenium_tax_deed_scraper.py\n?? sql/\n?? sunbiz_contacts_extracted.csv\n?? sunbiz_data/sunbiz_entities_sample.csv\n?? sunbiz_data/sunbiz_fictitious_sample.csv\n?? sunbiz_data/sunbiz_officers_sample.csv\n?? sunbiz_officers_with_contacts.csv\n?? supabase/.temp/\n?? supabase/migrations/20251106_add_password_to_admin_users.sql\n?? supabase/migrations/20251106_create_admin_users.sql\n?? targeted_2024_2025_contacts.csv\n?? tax-deed-sales-with-scraper.png\n?? test-huggingface.cjs\n?? vector_stores/\n"
-          },
-          "portStatus": {
-            "zombiePorts": [],
-            "wrongPort": false,
-            "correctPort": true
-          },
-          "commitStatus": {
-            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'master'\n"
-          }
-        }
-      },
-      "timestamp": "2025-11-08T15:21:08.187Z",
-      "passed": false
-    },
-    {
-      "type": "rule_compliance",
-      "result": {
-        "passed": false,
-        "violations": [
-          "Rule violation: Uncommitted changes detected"
-        ],
-        "checks": {
-          "gitStatus": {
-            "uncommittedChanges": true,
-            "details": " M .env.example\n D .env.orchestrator.example\n M .eslintrc.cjs\n M .gitignore\n D AGENT_MIGRATION_COMPLETED.md\n D ALL_PROPERTY_TYPES_AUDIT_REPORT.txt\n D ALL_SCRAPERS_OPERATIONAL.md\n D ALTER_SALES_TABLE.sql\n D actual_tables_audit.json\n D add_auction_date_column.sql\n D add_columns_and_fix_data.py\n D add_columns_and_update.py\n D add_correct_sales_history.py\n D add_minimal_sales.py\n D add_missing_columns.sql\n D add_more_tax_deed_data.py\n D add_nap_columns.sql\n D add_property_columns.sql\n D add_sale_year_column.sql\n D add_sales_simple.py\n D add_sunbiz_entity.py\n D add_sunbiz_sales.py\n D add_winning_bid_column.sql\n D all_properties_verification_20250910_194818.png\n M apps/web/package-lock.json\n M apps/web/package.json\n M apps/web/src/App.tsx\n M apps/web/src/api/client.ts\n M apps/web/src/components/ServiceWorkerManager.tsx\n M apps/web/src/components/admin/ScraperControls.tsx\n M apps/web/src/components/property/MiniPropertyCard.tsx\n M apps/web/src/components/property/VirtualizedPropertyList.tsx\n M apps/web/src/components/property/tabs/ActiveCompaniesSection.tsx\n M apps/web/src/components/property/tabs/CorePropertyTab.tsx\n M apps/web/src/components/property/tabs/PermitTab.tsx\n M apps/web/src/components/property/tabs/SalesHistoryTab.tsx\n M apps/web/src/components/property/tabs/TaxDeedSalesTab.tsx\n M apps/web/src/components/ui/searchable-select.tsx\n M apps/web/src/hooks/useOptimizedSearch.ts\n M apps/web/src/hooks/usePropertyData.ts\n M apps/web/src/hooks/useSalesData.ts\n D apps/web/src/pages/Gate14.tsx\n M apps/web/src/pages/admin/dashboard.tsx\n M apps/web/src/pages/properties/PropertySearch.tsx\n M apps/web/src/pages/property/EnhancedPropertyProfile.tsx\n M mcp-server/server.js\n M memvid\n M nodemon\n M package-lock.json\n M package.json\n M production_property_api.py\n M zod\n?? .dev-session.json\n?? .env.mcp\n?? .github/workflows/daily-tax-deed-scraper.yml\n?? .memory/screenshots/\n?? .memory/state.json\n?? .railway/\n?? AGENT_DOCS_ANALYSIS.md\n?? AGENT_DOCS_SUMMARY.md\n?? ANALYSIS_SCRIPTS_CLEANUP_SUMMARY.md\n?? AUDIT_QUICK_START.md\n?? CREDENTIAL_ROTATION_DEFERRED.md\n?? ENV_CLEANUP_COMPLETE.md\n?? HUGGINGFACE_SETUP_COMPLETE.md\n?? NAL16P202501.csv\n?? NAP16P202501.csv\n?? PROJECT_AUDIT_REPORT.md\n?? ROTATE_CREDENTIALS_CHECKLIST.txt\n?? SCRAPER_FIX_PLAN.md\n?? SCRAPER_PAGE_VISUAL.md\n?? SDF16P202501.csv\n?? SECURITY_CLEANUP_SUMMARY.md\n?? SELENIUM_SCRAPER_READY.txt\n?? TAX_DEED_SCAN_REPORT.md\n?? TAX_DEED_SCRAPER_COMPLETE.md\n?? add_missing_imports.py\n?? agents/\n?? analysis-scripts-archived/\n?? analysis-scripts-cleaned/\n?? apps/api/nul\n?? apps/web/src/pages/admin/login.tsx\n?? apps/web/src/pages/admin/test-login.tsx\n?? apps/web/src/pages/admin/users.tsx\n?? backups/apps_web_before_master_/.env.localhost\n?? bcpa_sales_history.csv\n?? bcpa_sales_history_clean.csv\n?? business_contacts_prioritized.csv\n?? check_tax_deed_db.py\n?? cleanup-agent-docs.sh\n?? cleanup_analysis_scripts.py\n?? cleanup_audit_files.bat\n?? cleanup_audit_files.sh\n?? data/broward/\n?? data/broward_sdf/\n?? data/broward_tpp/\n?? data/florida/\n?? data/manifests/\n?? data/miami_dade/\n?? data/raw/\n?? data/source/\n?? database/audits/\n?? database/data/\n?? database/migrations/\n?? db/audit/\n?? env_backup_2025-09-05_18-41-53/\n?? fix_script_credentials.py\n?? florida_property_data/alachua/\n?? florida_property_data/baker/\n?? florida_property_data/bay/\n?? florida_property_data/bradford/\n?? florida_property_data/brevard/\n?? historical_data/\n?? long_term_ownership_leads.csv\n?? mcp_servers/chrome-devtools-mcp/\n?? meilisearch.exe\n?? missing_data_analysis.csv\n?? nul\n?? prioritized_corporation_contacts.csv\n?? railway-orchestrator/\n?? residential_long_term_leads.csv\n?? scripts/all_florida_tax_deed_scraper.py\n?? scripts/selenium_tax_deed_scraper.py\n?? sql/\n?? sunbiz_contacts_extracted.csv\n?? sunbiz_data/sunbiz_entities_sample.csv\n?? sunbiz_data/sunbiz_fictitious_sample.csv\n?? sunbiz_data/sunbiz_officers_sample.csv\n?? sunbiz_officers_with_contacts.csv\n?? supabase/.temp/\n?? supabase/migrations/20251106_add_password_to_admin_users.sql\n?? supabase/migrations/20251106_create_admin_users.sql\n?? targeted_2024_2025_contacts.csv\n?? tax-deed-sales-with-scraper.png\n?? test-huggingface.cjs\n?? vector_stores/\n"
-          },
-          "portStatus": {
-            "zombiePorts": [],
-            "wrongPort": false,
-            "correctPort": true
-          },
-          "commitStatus": {
-            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'master'\n"
-          }
-        }
-      },
-      "timestamp": "2025-11-08T15:31:08.215Z",
-      "passed": false
-    },
-    {
-      "type": "rule_compliance",
-      "result": {
-        "passed": false,
-        "violations": [
-          "Rule violation: Uncommitted changes detected"
-        ],
-        "checks": {
-          "gitStatus": {
-            "uncommittedChanges": true,
-            "details": " M .env.example\n D .env.orchestrator.example\n M .eslintrc.cjs\n M .gitignore\n D AGENT_MIGRATION_COMPLETED.md\n D ALL_PROPERTY_TYPES_AUDIT_REPORT.txt\n D ALL_SCRAPERS_OPERATIONAL.md\n D ALTER_SALES_TABLE.sql\n D actual_tables_audit.json\n D add_auction_date_column.sql\n D add_columns_and_fix_data.py\n D add_columns_and_update.py\n D add_correct_sales_history.py\n D add_minimal_sales.py\n D add_missing_columns.sql\n D add_more_tax_deed_data.py\n D add_nap_columns.sql\n D add_property_columns.sql\n D add_sale_year_column.sql\n D add_sales_simple.py\n D add_sunbiz_entity.py\n D add_sunbiz_sales.py\n D add_winning_bid_column.sql\n D all_properties_verification_20250910_194818.png\n M apps/web/package-lock.json\n M apps/web/package.json\n M apps/web/src/App.tsx\n M apps/web/src/api/client.ts\n M apps/web/src/components/ServiceWorkerManager.tsx\n M apps/web/src/components/admin/ScraperControls.tsx\n M apps/web/src/components/property/MiniPropertyCard.tsx\n M apps/web/src/components/property/VirtualizedPropertyList.tsx\n M apps/web/src/components/property/tabs/ActiveCompaniesSection.tsx\n M apps/web/src/components/property/tabs/CorePropertyTab.tsx\n M apps/web/src/components/property/tabs/PermitTab.tsx\n M apps/web/src/components/property/tabs/SalesHistoryTab.tsx\n M apps/web/src/components/property/tabs/TaxDeedSalesTab.tsx\n M apps/web/src/components/ui/searchable-select.tsx\n M apps/web/src/hooks/useOptimizedSearch.ts\n M apps/web/src/hooks/usePropertyData.ts\n M apps/web/src/hooks/useSalesData.ts\n D apps/web/src/pages/Gate14.tsx\n M apps/web/src/pages/admin/dashboard.tsx\n M apps/web/src/pages/properties/PropertySearch.tsx\n M apps/web/src/pages/property/EnhancedPropertyProfile.tsx\n M mcp-server/server.js\n M memvid\n M nodemon\n M package-lock.json\n M package.json\n M production_property_api.py\n M zod\n?? .dev-session.json\n?? .env.mcp\n?? .github/workflows/daily-tax-deed-scraper.yml\n?? .memory/screenshots/\n?? .memory/state.json\n?? .railway/\n?? AGENT_DOCS_ANALYSIS.md\n?? AGENT_DOCS_SUMMARY.md\n?? ANALYSIS_SCRIPTS_CLEANUP_SUMMARY.md\n?? AUDIT_QUICK_START.md\n?? CREDENTIAL_ROTATION_DEFERRED.md\n?? ENV_CLEANUP_COMPLETE.md\n?? HUGGINGFACE_SETUP_COMPLETE.md\n?? NAL16P202501.csv\n?? NAP16P202501.csv\n?? PROJECT_AUDIT_REPORT.md\n?? ROTATE_CREDENTIALS_CHECKLIST.txt\n?? SCRAPER_FIX_PLAN.md\n?? SCRAPER_PAGE_VISUAL.md\n?? SDF16P202501.csv\n?? SECURITY_CLEANUP_SUMMARY.md\n?? SELENIUM_SCRAPER_READY.txt\n?? TAX_DEED_SCAN_REPORT.md\n?? TAX_DEED_SCRAPER_COMPLETE.md\n?? add_missing_imports.py\n?? agents/\n?? analysis-scripts-archived/\n?? analysis-scripts-cleaned/\n?? apps/api/nul\n?? apps/web/src/pages/admin/login.tsx\n?? apps/web/src/pages/admin/test-login.tsx\n?? apps/web/src/pages/admin/users.tsx\n?? backups/apps_web_before_master_/.env.localhost\n?? bcpa_sales_history.csv\n?? bcpa_sales_history_clean.csv\n?? business_contacts_prioritized.csv\n?? check_tax_deed_db.py\n?? cleanup-agent-docs.sh\n?? cleanup_analysis_scripts.py\n?? cleanup_audit_files.bat\n?? cleanup_audit_files.sh\n?? data/broward/\n?? data/broward_sdf/\n?? data/broward_tpp/\n?? data/florida/\n?? data/manifests/\n?? data/miami_dade/\n?? data/raw/\n?? data/source/\n?? database/audits/\n?? database/data/\n?? database/migrations/\n?? db/audit/\n?? env_backup_2025-09-05_18-41-53/\n?? fix_script_credentials.py\n?? florida_property_data/alachua/\n?? florida_property_data/baker/\n?? florida_property_data/bay/\n?? florida_property_data/bradford/\n?? florida_property_data/brevard/\n?? historical_data/\n?? long_term_ownership_leads.csv\n?? mcp_servers/chrome-devtools-mcp/\n?? meilisearch.exe\n?? missing_data_analysis.csv\n?? nul\n?? prioritized_corporation_contacts.csv\n?? railway-orchestrator/\n?? residential_long_term_leads.csv\n?? scripts/all_florida_tax_deed_scraper.py\n?? scripts/selenium_tax_deed_scraper.py\n?? sql/\n?? sunbiz_contacts_extracted.csv\n?? sunbiz_data/sunbiz_entities_sample.csv\n?? sunbiz_data/sunbiz_fictitious_sample.csv\n?? sunbiz_data/sunbiz_officers_sample.csv\n?? sunbiz_officers_with_contacts.csv\n?? supabase/.temp/\n?? supabase/migrations/20251106_add_password_to_admin_users.sql\n?? supabase/migrations/20251106_create_admin_users.sql\n?? targeted_2024_2025_contacts.csv\n?? tax-deed-sales-with-scraper.png\n?? test-huggingface.cjs\n?? vector_stores/\n"
-          },
-          "portStatus": {
-            "zombiePorts": [],
-            "wrongPort": false,
-            "correctPort": true
-          },
-          "commitStatus": {
-            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'master'\n"
-          }
-        }
-      },
-      "timestamp": "2025-11-08T15:41:08.815Z",
-      "passed": false
-    },
-    {
-      "type": "rule_compliance",
-      "result": {
-        "passed": false,
-        "violations": [
-          "Rule violation: Uncommitted changes detected"
-        ],
-        "checks": {
-          "gitStatus": {
-            "uncommittedChanges": true,
-            "details": " M .env.example\n D .env.orchestrator.example\n M .eslintrc.cjs\n M .gitignore\n D AGENT_MIGRATION_COMPLETED.md\n D ALL_PROPERTY_TYPES_AUDIT_REPORT.txt\n D ALL_SCRAPERS_OPERATIONAL.md\n D ALTER_SALES_TABLE.sql\n D actual_tables_audit.json\n D add_auction_date_column.sql\n D add_columns_and_fix_data.py\n D add_columns_and_update.py\n D add_correct_sales_history.py\n D add_minimal_sales.py\n D add_missing_columns.sql\n D add_more_tax_deed_data.py\n D add_nap_columns.sql\n D add_property_columns.sql\n D add_sale_year_column.sql\n D add_sales_simple.py\n D add_sunbiz_entity.py\n D add_sunbiz_sales.py\n D add_winning_bid_column.sql\n D all_properties_verification_20250910_194818.png\n M apps/web/package-lock.json\n M apps/web/package.json\n M apps/web/src/App.tsx\n M apps/web/src/api/client.ts\n M apps/web/src/components/ServiceWorkerManager.tsx\n M apps/web/src/components/admin/ScraperControls.tsx\n M apps/web/src/components/property/MiniPropertyCard.tsx\n M apps/web/src/components/property/VirtualizedPropertyList.tsx\n M apps/web/src/components/property/tabs/ActiveCompaniesSection.tsx\n M apps/web/src/components/property/tabs/CorePropertyTab.tsx\n M apps/web/src/components/property/tabs/PermitTab.tsx\n M apps/web/src/components/property/tabs/SalesHistoryTab.tsx\n M apps/web/src/components/property/tabs/TaxDeedSalesTab.tsx\n M apps/web/src/components/ui/searchable-select.tsx\n M apps/web/src/hooks/useOptimizedSearch.ts\n M apps/web/src/hooks/usePropertyData.ts\n M apps/web/src/hooks/useSalesData.ts\n D apps/web/src/pages/Gate14.tsx\n M apps/web/src/pages/admin/dashboard.tsx\n M apps/web/src/pages/properties/PropertySearch.tsx\n M apps/web/src/pages/property/EnhancedPropertyProfile.tsx\n M mcp-server/server.js\n M memvid\n M nodemon\n M package-lock.json\n M package.json\n M production_property_api.py\n M zod\n?? .dev-session.json\n?? .env.mcp\n?? .github/workflows/daily-tax-deed-scraper.yml\n?? .memory/screenshots/\n?? .memory/state.json\n?? .railway/\n?? AGENT_DOCS_ANALYSIS.md\n?? AGENT_DOCS_SUMMARY.md\n?? ANALYSIS_SCRIPTS_CLEANUP_SUMMARY.md\n?? AUDIT_QUICK_START.md\n?? CREDENTIAL_ROTATION_DEFERRED.md\n?? ENV_CLEANUP_COMPLETE.md\n?? HUGGINGFACE_SETUP_COMPLETE.md\n?? NAL16P202501.csv\n?? NAP16P202501.csv\n?? PROJECT_AUDIT_REPORT.md\n?? ROTATE_CREDENTIALS_CHECKLIST.txt\n?? SCRAPER_FIX_PLAN.md\n?? SCRAPER_PAGE_VISUAL.md\n?? SDF16P202501.csv\n?? SECURITY_CLEANUP_SUMMARY.md\n?? SELENIUM_SCRAPER_READY.txt\n?? TAX_DEED_SCAN_REPORT.md\n?? TAX_DEED_SCRAPER_COMPLETE.md\n?? add_missing_imports.py\n?? agents/\n?? analysis-scripts-archived/\n?? analysis-scripts-cleaned/\n?? apps/api/nul\n?? apps/web/src/pages/admin/login.tsx\n?? apps/web/src/pages/admin/test-login.tsx\n?? apps/web/src/pages/admin/users.tsx\n?? backups/apps_web_before_master_/.env.localhost\n?? bcpa_sales_history.csv\n?? bcpa_sales_history_clean.csv\n?? business_contacts_prioritized.csv\n?? check_tax_deed_db.py\n?? cleanup-agent-docs.sh\n?? cleanup_analysis_scripts.py\n?? cleanup_audit_files.bat\n?? cleanup_audit_files.sh\n?? data/broward/\n?? data/broward_sdf/\n?? data/broward_tpp/\n?? data/florida/\n?? data/manifests/\n?? data/miami_dade/\n?? data/raw/\n?? data/source/\n?? database/audits/\n?? database/data/\n?? database/migrations/\n?? db/audit/\n?? env_backup_2025-09-05_18-41-53/\n?? fix_script_credentials.py\n?? florida_property_data/alachua/\n?? florida_property_data/baker/\n?? florida_property_data/bay/\n?? florida_property_data/bradford/\n?? florida_property_data/brevard/\n?? historical_data/\n?? long_term_ownership_leads.csv\n?? mcp_servers/chrome-devtools-mcp/\n?? meilisearch.exe\n?? missing_data_analysis.csv\n?? nul\n?? prioritized_corporation_contacts.csv\n?? railway-orchestrator/\n?? residential_long_term_leads.csv\n?? scripts/all_florida_tax_deed_scraper.py\n?? scripts/selenium_tax_deed_scraper.py\n?? sql/\n?? sunbiz_contacts_extracted.csv\n?? sunbiz_data/sunbiz_entities_sample.csv\n?? sunbiz_data/sunbiz_fictitious_sample.csv\n?? sunbiz_data/sunbiz_officers_sample.csv\n?? sunbiz_officers_with_contacts.csv\n?? supabase/.temp/\n?? supabase/migrations/20251106_add_password_to_admin_users.sql\n?? supabase/migrations/20251106_create_admin_users.sql\n?? targeted_2024_2025_contacts.csv\n?? tax-deed-sales-with-scraper.png\n?? test-huggingface.cjs\n?? vector_stores/\n"
-          },
-          "portStatus": {
-            "zombiePorts": [],
-            "wrongPort": false,
-            "correctPort": true
-          },
-          "commitStatus": {
-            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'master'\n"
-          }
-        }
-      },
       "timestamp": "2025-11-08T15:41:21.794Z",
       "passed": false
     },
@@ -5007,8 +4682,333 @@
       },
       "timestamp": "2025-11-09T15:01:18.008Z",
       "passed": false
+    },
+    {
+      "type": "rule_compliance",
+      "result": {
+        "passed": false,
+        "violations": [
+          "Rule violation: Uncommitted changes detected"
+        ],
+        "checks": {
+          "gitStatus": {
+            "uncommittedChanges": true,
+            "details": " M .claude/settings.local.json\n?? .env.mcp\n"
+          },
+          "portStatus": {
+            "zombiePorts": [],
+            "wrongPort": false,
+            "correctPort": true
+          },
+          "commitStatus": {
+            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'relaxed-mcclintock'\n"
+          }
+        }
+      },
+      "timestamp": "2025-12-14T01:06:02.044Z",
+      "passed": false
+    },
+    {
+      "type": "rule_compliance",
+      "result": {
+        "passed": false,
+        "violations": [
+          "Rule violation: Uncommitted changes detected"
+        ],
+        "checks": {
+          "gitStatus": {
+            "uncommittedChanges": true,
+            "details": " M .claude/settings.local.json\n M .memory/state.json\n?? .env.mcp\n?? apps/agents/huggingface/\n"
+          },
+          "portStatus": {
+            "zombiePorts": [],
+            "wrongPort": false,
+            "correctPort": true
+          },
+          "commitStatus": {
+            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'relaxed-mcclintock'\n"
+          }
+        }
+      },
+      "timestamp": "2025-12-14T01:15:57.775Z",
+      "passed": false
+    },
+    {
+      "type": "rule_compliance",
+      "result": {
+        "passed": false,
+        "violations": [
+          "Rule violation: Uncommitted changes detected"
+        ],
+        "checks": {
+          "gitStatus": {
+            "uncommittedChanges": true,
+            "details": " M .claude/settings.local.json\n M .memory/state.json\n?? .env.mcp\n?? DESIGN_SYSTEM_PLAN.md\n?? apps/agents/huggingface/\n"
+          },
+          "portStatus": {
+            "zombiePorts": [],
+            "wrongPort": false,
+            "correctPort": true
+          },
+          "commitStatus": {
+            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'relaxed-mcclintock'\n"
+          }
+        }
+      },
+      "timestamp": "2025-12-14T01:25:57.786Z",
+      "passed": false
+    },
+    {
+      "type": "rule_compliance",
+      "result": {
+        "passed": false,
+        "violations": [
+          "Rule violation: Uncommitted changes detected"
+        ],
+        "checks": {
+          "gitStatus": {
+            "uncommittedChanges": true,
+            "details": " M .claude/settings.local.json\n M .memory/state.json\n M apps/web/.eslintrc.cjs\n M apps/web/.gitignore\n M apps/web/package-lock.json\n M apps/web/package.json\n M apps/web/vite.config.ts\n?? .env.mcp\n?? DESIGN_SYSTEM_PLAN.md\n?? apps/agents/huggingface/\n?? apps/web/.storybook/\n?? apps/web/src/components/ui/states.tsx\n?? apps/web/src/stories/\n?? apps/web/src/styles/tokens/\n?? apps/web/vitest.shims.d.ts\n"
+          },
+          "portStatus": {
+            "zombiePorts": [],
+            "wrongPort": false,
+            "correctPort": true
+          },
+          "commitStatus": {
+            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'relaxed-mcclintock'\n"
+          }
+        }
+      },
+      "timestamp": "2025-12-14T01:35:58.358Z",
+      "passed": false
+    },
+    {
+      "type": "rule_compliance",
+      "result": {
+        "passed": false,
+        "violations": [
+          "Rule violation: Uncommitted changes detected"
+        ],
+        "checks": {
+          "gitStatus": {
+            "uncommittedChanges": true,
+            "details": " M .claude/settings.local.json\n M .memory/state.json\n M apps/web/.eslintrc.cjs\n M apps/web/.gitignore\n M apps/web/package-lock.json\n M apps/web/package.json\n M apps/web/vite.config.ts\n?? .env.mcp\n?? .memory/screenshots/frontend-1765676172701.png\n?? DESIGN_SYSTEM_PLAN.md\n?? apps/agents/huggingface/\n?? apps/web/.storybook/\n?? apps/web/src/components/ui/states.tsx\n?? apps/web/src/stories/\n?? apps/web/src/styles/tokens/\n?? apps/web/vitest.shims.d.ts\n"
+          },
+          "portStatus": {
+            "zombiePorts": [],
+            "wrongPort": false,
+            "correctPort": true
+          },
+          "commitStatus": {
+            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'relaxed-mcclintock'\n"
+          }
+        }
+      },
+      "timestamp": "2025-12-14T01:36:14.108Z",
+      "passed": false
+    },
+    {
+      "type": "rule_compliance",
+      "result": {
+        "passed": false,
+        "violations": [
+          "Rule violation: Uncommitted changes detected"
+        ],
+        "checks": {
+          "gitStatus": {
+            "uncommittedChanges": true,
+            "details": " M .claude/settings.local.json\n M .memory/state.json\n M apps/web/.eslintrc.cjs\n M apps/web/.gitignore\n M apps/web/package-lock.json\n M apps/web/package.json\n M apps/web/vite.config.ts\n?? .env.mcp\n?? .memory/screenshots/frontend-1765676172701.png\n?? DESIGN_SYSTEM_PLAN.md\n?? apps/agents/huggingface/\n?? apps/web/.storybook/\n?? apps/web/src/components/ui/states.tsx\n?? apps/web/src/stories/\n?? apps/web/src/styles/tokens/\n?? apps/web/vitest.shims.d.ts\n"
+          },
+          "portStatus": {
+            "zombiePorts": [],
+            "wrongPort": false,
+            "correctPort": true
+          },
+          "commitStatus": {
+            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'relaxed-mcclintock'\n"
+          }
+        }
+      },
+      "timestamp": "2025-12-14T01:45:58.103Z",
+      "passed": false
+    },
+    {
+      "type": "rule_compliance",
+      "result": {
+        "passed": false,
+        "violations": [
+          "Rule violation: Uncommitted changes detected"
+        ],
+        "checks": {
+          "gitStatus": {
+            "uncommittedChanges": true,
+            "details": " M .claude/settings.local.json\n M .memory/state.json\n M apps/web/.eslintrc.cjs\n M apps/web/.gitignore\n M apps/web/package-lock.json\n M apps/web/package.json\n M apps/web/vite.config.ts\n?? .env.mcp\n?? .memory/screenshots/frontend-1765676172701.png\n?? DESIGN_SYSTEM_PLAN.md\n?? UX_UI_REDESIGN_PLAN.md\n?? apps/agents/huggingface/\n?? apps/agents/nano-banana/\n?? apps/web/.storybook/\n?? apps/web/src/components/ui/property-card.tsx\n?? apps/web/src/components/ui/states.tsx\n?? apps/web/src/stories/\n?? apps/web/src/styles/tokens/\n?? apps/web/vitest.shims.d.ts\n"
+          },
+          "portStatus": {
+            "zombiePorts": [],
+            "wrongPort": false,
+            "correctPort": true
+          },
+          "commitStatus": {
+            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'relaxed-mcclintock'\n"
+          }
+        }
+      },
+      "timestamp": "2025-12-14T01:56:01.755Z",
+      "passed": false
+    },
+    {
+      "type": "rule_compliance",
+      "result": {
+        "passed": false,
+        "violations": [
+          "Rule violation: Uncommitted changes detected"
+        ],
+        "checks": {
+          "gitStatus": {
+            "uncommittedChanges": true,
+            "details": " M .claude/settings.local.json\n M .memory/state.json\n M apps/web/.eslintrc.cjs\n M apps/web/vite.config.ts\n?? .env.mcp\n?? .memory/screenshots/frontend-1765676172701.png\n?? apps/agents/huggingface/\n?? apps/web/src/components/ui/app-shell.tsx\n?? apps/web/src/components/ui/data-table.tsx\n?? apps/web/src/components/ui/search-filters.tsx\n"
+          },
+          "portStatus": {
+            "zombiePorts": [],
+            "wrongPort": false,
+            "correctPort": true
+          },
+          "commitStatus": {
+            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'relaxed-mcclintock'\n"
+          }
+        }
+      },
+      "timestamp": "2025-12-14T02:05:58.350Z",
+      "passed": false
+    },
+    {
+      "type": "rule_compliance",
+      "result": {
+        "passed": false,
+        "violations": [
+          "Rule violation: Uncommitted changes detected"
+        ],
+        "checks": {
+          "gitStatus": {
+            "uncommittedChanges": true,
+            "details": " M .claude/settings.local.json\n M .memory/state.json\n M apps/web/.eslintrc.cjs\n M apps/web/vite.config.ts\n?? .env.mcp\n?? .memory/screenshots/frontend-1765676172701.png\n?? .memory/screenshots/frontend-1765677972554.png\n?? apps/agents/huggingface/\n?? apps/web/src/components/ui/app-shell.tsx\n?? apps/web/src/components/ui/data-table.tsx\n?? apps/web/src/components/ui/search-filters.tsx\n"
+          },
+          "portStatus": {
+            "zombiePorts": [],
+            "wrongPort": false,
+            "correctPort": true
+          },
+          "commitStatus": {
+            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'relaxed-mcclintock'\n"
+          }
+        }
+      },
+      "timestamp": "2025-12-14T02:06:14.520Z",
+      "passed": false
+    },
+    {
+      "type": "rule_compliance",
+      "result": {
+        "passed": false,
+        "violations": [
+          "Rule violation: Uncommitted changes detected"
+        ],
+        "checks": {
+          "gitStatus": {
+            "uncommittedChanges": true,
+            "details": " M .claude/settings.local.json\n M .memory/state.json\n M apps/web/.eslintrc.cjs\n M apps/web/vite.config.ts\n?? .env.mcp\n?? .memory/screenshots/frontend-1765676172701.png\n?? .memory/screenshots/frontend-1765677972554.png\n?? apps/agents/huggingface/\n"
+          },
+          "portStatus": {
+            "zombiePorts": [],
+            "wrongPort": false,
+            "correctPort": true
+          },
+          "commitStatus": {
+            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'relaxed-mcclintock'\n"
+          }
+        }
+      },
+      "timestamp": "2025-12-14T02:15:58.426Z",
+      "passed": false
+    },
+    {
+      "type": "rule_compliance",
+      "result": {
+        "passed": false,
+        "violations": [
+          "Rule violation: Uncommitted changes detected"
+        ],
+        "checks": {
+          "gitStatus": {
+            "uncommittedChanges": true,
+            "details": " M .claude/settings.local.json\n M .memory/state.json\n M apps/web/.eslintrc.cjs\n M apps/web/vite.config.ts\n?? .env.mcp\n?? .memory/screenshots/frontend-1765676172701.png\n?? .memory/screenshots/frontend-1765677972554.png\n?? apps/agents/huggingface/\n"
+          },
+          "portStatus": {
+            "zombiePorts": [],
+            "wrongPort": false,
+            "correctPort": true
+          },
+          "commitStatus": {
+            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'relaxed-mcclintock'\n"
+          }
+        }
+      },
+      "timestamp": "2025-12-14T02:26:07.403Z",
+      "passed": false
+    },
+    {
+      "type": "rule_compliance",
+      "result": {
+        "passed": false,
+        "violations": [
+          "Rule violation: Uncommitted changes detected"
+        ],
+        "checks": {
+          "gitStatus": {
+            "uncommittedChanges": true,
+            "details": " M .claude/settings.local.json\n M .memory/state.json\n M apps/web/.eslintrc.cjs\n M apps/web/src/components/ui/index.ts\n M apps/web/src/index.css\n M apps/web/src/pages/properties/PropertySearch.tsx\n M apps/web/vite.config.ts\n?? .env.mcp\n?? .memory/screenshots/frontend-1765676172701.png\n?? .memory/screenshots/frontend-1765677972554.png\n?? apps/agents/huggingface/\n?? apps/web/src/styles/tokens/components.css\n?? apps/web/src/styles/tokens/design-tokens.css\n"
+          },
+          "portStatus": {
+            "zombiePorts": [],
+            "wrongPort": false,
+            "correctPort": true
+          },
+          "commitStatus": {
+            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'relaxed-mcclintock'\n"
+          }
+        }
+      },
+      "timestamp": "2025-12-14T02:35:58.062Z",
+      "passed": false
+    },
+    {
+      "type": "rule_compliance",
+      "result": {
+        "passed": false,
+        "violations": [
+          "Rule violation: Uncommitted changes detected"
+        ],
+        "checks": {
+          "gitStatus": {
+            "uncommittedChanges": true,
+            "details": " M .claude/settings.local.json\n M .memory/state.json\n M apps/web/.eslintrc.cjs\n M apps/web/src/components/ui/index.ts\n M apps/web/src/index.css\n M apps/web/src/pages/properties/PropertySearch.tsx\n M apps/web/vite.config.ts\n?? .env.mcp\n?? .memory/screenshots/frontend-1765676172701.png\n?? .memory/screenshots/frontend-1765677972554.png\n?? .memory/screenshots/frontend-1765679772737.png\n?? apps/agents/huggingface/\n?? apps/web/src/styles/tokens/components.css\n?? apps/web/src/styles/tokens/design-tokens.css\n"
+          },
+          "portStatus": {
+            "zombiePorts": [],
+            "wrongPort": false,
+            "correctPort": true
+          },
+          "commitStatus": {
+            "error": "Command failed: git log @{u}.. --oneline\nfatal: no upstream configured for branch 'relaxed-mcclintock'\n"
+          }
+        }
+      },
+      "timestamp": "2025-12-14T02:36:13.610Z",
+      "passed": false
     }
   ],
   "integrations": {},
-  "lastCheck": "2025-11-07T18:11:04.757Z"
+  "lastCheck": "2025-12-14T01:05:57.502Z"
 }

@@ -82,3 +82,9 @@ export {
   type FilterOption,
   type FilterValues,
 } from './search-filters';
+
+// Overlay Components
+export {
+  Tooltip,
+  type TooltipProps,
+} from './tooltip';

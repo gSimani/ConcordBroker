@@ -22,7 +22,7 @@ import { getPropertyTypeFilter } from '@/lib/dorUseCodes';
 import { sortByPropertyRank } from '@/lib/propertyRanking';
 import { getCodesForPropertyType, getPropertyCategory, getPropertySubtype, getStandardizedPropertyUseValues } from '@/utils/property-types';
 import { type PropertyFilterType } from '@/lib/property-types';
-import '@/styles/elegant-property.css';
+// Design tokens are now in @/styles/tokens/ - imported via index.css
 import {
   Search,
   MapPin,
@@ -1220,101 +1220,76 @@ export function PropertySearch({}: PropertySearchProps) {
   }, [searchParams]);
 
   return (
-    <div className="bg-gray-50">
-      {/* Executive Header */}
-      <div className="executive-header text-white">
-        <div className="px-8 py-12">
-          <div className="max-w-7xl mx-auto">
-            <div className="animate-elegant">
-              <h1 className="text-3xl elegant-heading text-white mb-2 gold-accent">
+    <div className="min-h-screen" style={{ background: 'var(--bg-secondary)' }}>
+      {/* Clean Header */}
+      <header
+        className="border-b"
+        style={{
+          background: 'var(--bg-primary)',
+          borderColor: 'var(--border-muted)'
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-6 py-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1
+                className="text-2xl font-semibold"
+                style={{ color: 'var(--text-primary)' }}
+              >
                 Property Search
               </h1>
-              <p className="text-lg font-light opacity-90">
+              <p
+                className="text-sm mt-1"
+                style={{ color: 'var(--text-secondary)' }}
+              >
                 Search Broward County properties by address, owner, or criteria
               </p>
             </div>
-            
-            <div className="flex items-center justify-between mt-8">
-              <div className="flex items-center space-x-4">
-              </div>
-              
-              <div className="flex space-x-3">
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setShowAISearch(prev => !prev);
-                  }}
-                  style={{
-                    backgroundColor: showAISearch ? '#0ABAB5' : 'transparent',
-                    color: showAISearch ? 'white' : 'white',
-                    border: showAISearch ? '1px solid #0ABAB5' : '1px solid white',
-                    padding: '8px 16px',
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    letterSpacing: '0.5px',
-                    textTransform: 'uppercase',
-                    transition: 'all 0.3s ease',
-                    display: 'flex',
-                    alignItems: 'center',
-                    pointerEvents: 'auto',
-                    zIndex: 9999,
-                    outline: 'none',
-                    boxShadow: showAISearch ? '0 4px 12px rgba(10, 186, 181, 0.35)' : 'none'
-                  }}
-                >
-                  <Brain className="w-4 h-4 inline mr-2" style={{pointerEvents: 'none'}} />
-                  <span style={{pointerEvents: 'none'}}>
-                    {showAISearch ? 'Standard Search' : 'AI Search'}
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setShowMapView(prev => !prev);
-                  }}
-                  onMouseEnter={() => setMapButtonHovered(true)}
-                  onMouseLeave={() => setMapButtonHovered(false)}
-                  style={{
-                    backgroundColor: showMapView ? '#D4AF37' : (mapButtonHovered ? 'white' : 'transparent'),
-                    color: showMapView ? 'white' : (mapButtonHovered ? '#2c3e50' : 'white'),
-                    border: showMapView ? '1px solid #D4AF37' : '1px solid white',
-                    padding: '8px 16px',
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    letterSpacing: '0.5px',
-                    textTransform: 'uppercase',
-                    transition: 'all 0.3s ease',
-                    display: 'flex',
-                    alignItems: 'center',
-                    pointerEvents: 'auto',
-                    zIndex: 9999,
-                    outline: 'none',
-                    boxShadow: showMapView ? '0 4px 12px rgba(212, 175, 55, 0.35)' : 'none'
-                  }}
-                >
-                  <MapIcon className="w-4 h-4 inline mr-2" style={{pointerEvents: 'none'}} />
-                  <span style={{pointerEvents: 'none'}}>
-                    {showMapView
-                      ? 'List View'
-                      : selectedProperties.size > 0
-                        ? `Map View (${selectedProperties.size} Selected)`
-                        : 'Map View'
-                    }
-                  </span>
-                </button>
-              </div>
+
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowAISearch(prev => !prev);
+                }}
+                className="cb-btn cb-btn--md"
+                style={{
+                  background: showAISearch ? 'var(--color-accent-600)' : 'var(--bg-primary)',
+                  color: showAISearch ? 'white' : 'var(--text-primary)',
+                  border: showAISearch ? '1px solid var(--color-accent-600)' : '1px solid var(--border-default)',
+                }}
+              >
+                <Brain className="w-4 h-4" />
+                {showAISearch ? 'Standard Search' : 'AI Search'}
+              </button>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowMapView(prev => !prev);
+                }}
+                className="cb-btn cb-btn--md"
+                style={{
+                  background: showMapView ? 'var(--color-primary-700)' : 'var(--bg-primary)',
+                  color: showMapView ? 'white' : 'var(--text-primary)',
+                  border: showMapView ? '1px solid var(--color-primary-700)' : '1px solid var(--border-default)',
+                }}
+              >
+                <MapIcon className="w-4 h-4" />
+                {showMapView
+                  ? 'List View'
+                  : selectedProperties.size > 0
+                    ? `Map View (${selectedProperties.size})`
+                    : 'Map View'
+                }
+              </button>
             </div>
           </div>
         </div>
-      </div>
+      </header>
 
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* AI Search Mode */}
@@ -1330,172 +1305,138 @@ export function PropertySearch({}: PropertySearchProps) {
           <TaxDeedSalesTab />
         ) : (
           <>
-        {/* Property Category Filter Badges */}
-        <div className="flex flex-wrap justify-center gap-2 mb-8">
+        {/* Property Category Filter Badges - Clean, minimal design */}
+        <div className="flex flex-wrap justify-center gap-2 mb-6">
           {/* All Properties */}
           <button
             onClick={() => {
-              if (filters.propertyType === '') {
-                // Already showing all, do nothing
-                return;
-              }
+              if (filters.propertyType === '') return;
               handleFilterChange('propertyType', '');
             }}
-            className="inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105 cursor-pointer"
+            className="cb-badge"
             style={{
-              backgroundColor: filters.propertyType === '' ? '#0ABAB5' : 'white',
-              color: filters.propertyType === '' ? 'white' : '#7f8c8d',
-              borderColor: filters.propertyType === '' ? '#0ABAB5' : '#ecf0f1'
+              background: filters.propertyType === '' ? 'var(--color-accent-600)' : 'var(--bg-primary)',
+              color: filters.propertyType === '' ? 'white' : 'var(--text-secondary)',
+              border: `1px solid ${filters.propertyType === '' ? 'var(--color-accent-600)' : 'var(--border-default)'}`,
+              padding: '6px 14px',
+              cursor: 'pointer',
+              transition: 'var(--transition-colors)'
             }}
           >
-            All Properties
+            All
           </button>
 
           {/* Residential */}
           <button
-            onClick={() => {
-              handleFilterChange('propertyType', filters.propertyType === 'Residential' ? '' : 'Residential');
-            }}
-            className="inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105 cursor-pointer"
+            onClick={() => handleFilterChange('propertyType', filters.propertyType === 'Residential' ? '' : 'Residential')}
+            className="cb-badge"
             style={{
-              backgroundColor: filters.propertyType === 'Residential' ? '#dcfce7' : '#f0fdf4',
-              color: filters.propertyType === 'Residential' ? '#166534' : '#22c55e',
-              borderColor: filters.propertyType === 'Residential' ? '#22c55e' : '#bbf7d0'
+              background: filters.propertyType === 'Residential' ? 'var(--color-primary-700)' : 'var(--bg-primary)',
+              color: filters.propertyType === 'Residential' ? 'white' : 'var(--text-secondary)',
+              border: `1px solid ${filters.propertyType === 'Residential' ? 'var(--color-primary-700)' : 'var(--border-default)'}`,
+              padding: '6px 14px',
+              cursor: 'pointer',
+              transition: 'var(--transition-colors)'
             }}
           >
-            <Home className="w-4 h-4 mr-1.5" />
+            <Home className="w-3.5 h-3.5 mr-1.5" />
             Residential
           </button>
 
           {/* Commercial */}
           <button
-            onClick={() => {
-              handleFilterChange('propertyType', filters.propertyType === 'Commercial' ? '' : 'Commercial');
-            }}
-            className="inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105 cursor-pointer"
+            onClick={() => handleFilterChange('propertyType', filters.propertyType === 'Commercial' ? '' : 'Commercial')}
+            className="cb-badge"
             style={{
-              backgroundColor: filters.propertyType === 'Commercial' ? '#dbeafe' : '#eff6ff',
-              color: filters.propertyType === 'Commercial' ? '#1e40af' : '#3b82f6',
-              borderColor: filters.propertyType === 'Commercial' ? '#3b82f6' : '#bfdbfe'
+              background: filters.propertyType === 'Commercial' ? 'var(--color-primary-700)' : 'var(--bg-primary)',
+              color: filters.propertyType === 'Commercial' ? 'white' : 'var(--text-secondary)',
+              border: `1px solid ${filters.propertyType === 'Commercial' ? 'var(--color-primary-700)' : 'var(--border-default)'}`,
+              padding: '6px 14px',
+              cursor: 'pointer',
+              transition: 'var(--transition-colors)'
             }}
           >
-            <Building className="w-4 h-4 mr-1.5" />
+            <Building className="w-3.5 h-3.5 mr-1.5" />
             Commercial
           </button>
 
           {/* Industrial */}
           <button
-            onClick={() => {
-              handleFilterChange('propertyType', filters.propertyType === 'Industrial' ? '' : 'Industrial');
-            }}
-            className="inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105 cursor-pointer"
+            onClick={() => handleFilterChange('propertyType', filters.propertyType === 'Industrial' ? '' : 'Industrial')}
+            className="cb-badge"
             style={{
-              backgroundColor: filters.propertyType === 'Industrial' ? '#fed7aa' : '#fff7ed',
-              color: filters.propertyType === 'Industrial' ? '#c2410c' : '#fb923c',
-              borderColor: filters.propertyType === 'Industrial' ? '#fb923c' : '#fed7aa'
+              background: filters.propertyType === 'Industrial' ? 'var(--color-primary-700)' : 'var(--bg-primary)',
+              color: filters.propertyType === 'Industrial' ? 'white' : 'var(--text-secondary)',
+              border: `1px solid ${filters.propertyType === 'Industrial' ? 'var(--color-primary-700)' : 'var(--border-default)'}`,
+              padding: '6px 14px',
+              cursor: 'pointer',
+              transition: 'var(--transition-colors)'
             }}
           >
-            <Briefcase className="w-4 h-4 mr-1.5" />
+            <Briefcase className="w-3.5 h-3.5 mr-1.5" />
             Industrial
           </button>
 
           {/* Agricultural */}
           <button
-            onClick={() => {
-              handleFilterChange('propertyType', filters.propertyType === 'Agricultural' ? '' : 'Agricultural');
-            }}
-            className="inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105 cursor-pointer"
+            onClick={() => handleFilterChange('propertyType', filters.propertyType === 'Agricultural' ? '' : 'Agricultural')}
+            className="cb-badge"
             style={{
-              backgroundColor: filters.propertyType === 'Agricultural' ? '#fef3c7' : '#fffbeb',
-              color: filters.propertyType === 'Agricultural' ? '#b45309' : '#f59e0b',
-              borderColor: filters.propertyType === 'Agricultural' ? '#f59e0b' : '#fde68a'
+              background: filters.propertyType === 'Agricultural' ? 'var(--color-primary-700)' : 'var(--bg-primary)',
+              color: filters.propertyType === 'Agricultural' ? 'white' : 'var(--text-secondary)',
+              border: `1px solid ${filters.propertyType === 'Agricultural' ? 'var(--color-primary-700)' : 'var(--border-default)'}`,
+              padding: '6px 14px',
+              cursor: 'pointer',
+              transition: 'var(--transition-colors)'
             }}
           >
-            <TreePine className="w-4 h-4 mr-1.5" />
+            <TreePine className="w-3.5 h-3.5 mr-1.5" />
             Agricultural
           </button>
 
           {/* Vacant Land */}
           <button
-            onClick={() => {
-              handleFilterChange('propertyType', filters.propertyType === 'Vacant' ? '' : 'Vacant');
-            }}
-            className="inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105 cursor-pointer"
+            onClick={() => handleFilterChange('propertyType', filters.propertyType === 'Vacant' ? '' : 'Vacant')}
+            className="cb-badge"
             style={{
-              backgroundColor: filters.propertyType === 'Vacant' ? '#e5e7eb' : '#f9fafb',
-              color: filters.propertyType === 'Vacant' ? '#374151' : '#6b7280',
-              borderColor: filters.propertyType === 'Vacant' ? '#6b7280' : '#d1d5db'
+              background: filters.propertyType === 'Vacant' ? 'var(--color-primary-700)' : 'var(--bg-primary)',
+              color: filters.propertyType === 'Vacant' ? 'white' : 'var(--text-secondary)',
+              border: `1px solid ${filters.propertyType === 'Vacant' ? 'var(--color-primary-700)' : 'var(--border-default)'}`,
+              padding: '6px 14px',
+              cursor: 'pointer',
+              transition: 'var(--transition-colors)'
             }}
           >
-            <MapPin className="w-4 h-4 mr-1.5" />
-            Vacant Land
+            <MapPin className="w-3.5 h-3.5 mr-1.5" />
+            Vacant
           </button>
 
           {/* Government */}
           <button
-            onClick={() => {
-              handleFilterChange('propertyType', filters.propertyType === 'Government' ? '' : 'Government');
-            }}
-            className="inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105 cursor-pointer"
+            onClick={() => handleFilterChange('propertyType', filters.propertyType === 'Government' ? '' : 'Government')}
+            className="cb-badge"
             style={{
-              backgroundColor: filters.propertyType === 'Government' ? '#fecaca' : '#fef2f2',
-              color: filters.propertyType === 'Government' ? '#991b1b' : '#ef4444',
-              borderColor: filters.propertyType === 'Government' ? '#ef4444' : '#fecaca'
+              background: filters.propertyType === 'Government' ? 'var(--color-primary-700)' : 'var(--bg-primary)',
+              color: filters.propertyType === 'Government' ? 'white' : 'var(--text-secondary)',
+              border: `1px solid ${filters.propertyType === 'Government' ? 'var(--color-primary-700)' : 'var(--border-default)'}`,
+              padding: '6px 14px',
+              cursor: 'pointer',
+              transition: 'var(--transition-colors)'
             }}
           >
-            <Building2 className="w-4 h-4 mr-1.5" />
+            <Building2 className="w-3.5 h-3.5 mr-1.5" />
             Government
           </button>
 
-          {/* Conservation */}
-          <button
-            onClick={() => {
-              handleFilterChange('propertyType', filters.propertyType === 'Conservation' ? '' : 'Conservation');
-            }}
-            className="inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105 cursor-pointer"
-            style={{
-              backgroundColor: filters.propertyType === 'Conservation' ? '#a7f3d0' : '#ecfdf5',
-              color: filters.propertyType === 'Conservation' ? '#064e3b' : '#10b981',
-              borderColor: filters.propertyType === 'Conservation' ? '#10b981' : '#a7f3d0'
-            }}
-          >
-            <TreePine className="w-4 h-4 mr-1.5" />
-            Conservation
-          </button>
-
-          {/* Religious */}
-          <button
-            onClick={() => {
-              handleFilterChange('propertyType', filters.propertyType === 'Religious' ? '' : 'Religious');
-            }}
-            className="inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105 cursor-pointer"
-            style={{
-              backgroundColor: filters.propertyType === 'Religious' ? '#e9d5ff' : '#faf5ff',
-              color: filters.propertyType === 'Religious' ? '#6b21a8' : '#a855f7',
-              borderColor: filters.propertyType === 'Religious' ? '#a855f7' : '#e9d5ff'
-            }}
-          >
-            <Building className="w-4 h-4 mr-1.5" />
-            Religious
-          </button>
-
-          {/* Vacant/Special */}
-          <button
-            onClick={() => {
-              handleFilterChange('propertyType', filters.propertyType === 'Vacant/Special' ? '' : 'Vacant/Special');
-            }}
-            className="inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105 cursor-pointer"
-            style={{
-              backgroundColor: filters.propertyType === 'Vacant/Special' ? '#fed7aa' : '#fffbeb',
-              color: filters.propertyType === 'Vacant/Special' ? '#b45309' : '#d97706',
-              borderColor: filters.propertyType === 'Vacant/Special' ? '#d97706' : '#fde68a'
-            }}
-          >
-            Vacant/Special
-          </button>
-
           {/* Separator */}
-          <div className="w-px h-8 bg-gray-300 mx-2 self-center" />
+          <div
+            className="self-center mx-2"
+            style={{
+              width: '1px',
+              height: '24px',
+              background: 'var(--border-default)'
+            }}
+          />
 
           {/* Tax Deed Sales - Special Filter */}
           <button
@@ -1503,71 +1444,74 @@ export function PropertySearch({}: PropertySearchProps) {
               setShowTaxDeedSales(!showTaxDeedSales);
               setShowAdvancedFilters(false);
             }}
-            className="inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105 cursor-pointer"
+            className="cb-badge"
             style={{
-              backgroundColor: showTaxDeedSales ? '#dc2626' : '#fef2f2',
-              color: showTaxDeedSales ? 'white' : '#dc2626',
-              borderColor: '#dc2626'
+              background: showTaxDeedSales ? 'var(--color-error-600)' : 'var(--bg-primary)',
+              color: showTaxDeedSales ? 'white' : 'var(--color-error-600)',
+              border: `1px solid ${showTaxDeedSales ? 'var(--color-error-600)' : 'var(--color-error-200)'}`,
+              padding: '6px 14px',
+              cursor: 'pointer',
+              transition: 'var(--transition-colors)'
             }}
           >
-            <Gavel className="w-4 h-4 mr-1.5" />
+            <Gavel className="w-3.5 h-3.5 mr-1.5" />
             Tax Deed Sales
           </button>
         </div>
 
-        {/* Search Bar - Elegant Executive Design */}
-        <div className="elegant-card hover-lift animate-in mb-6" style={{
-          background: '#ffffff',
-          borderRadius: '12px',
-          boxShadow: '0 10px 30px rgba(44, 62, 80, 0.1)',
-          borderLeft: '3px solid #d4af37',
-          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-          position: 'relative'
-        }}>
-          <div className="elegant-card-header" style={{
-            background: '#ffffff',
-            borderBottom: '1px solid #ecf0f1',
-            padding: '1.5rem'
-          }}>
-            <div className="flex items-start justify-between gap-4">
+        {/* Search Card - Clean Design */}
+        <div
+          className="cb-card mb-6"
+          style={{
+            background: 'var(--bg-primary)',
+            borderRadius: 'var(--card-radius)',
+            boxShadow: 'var(--card-shadow)',
+            border: '1px solid var(--border-default)'
+          }}
+        >
+          <div
+            className="cb-card__header"
+            style={{
+              padding: 'var(--space-5)',
+              borderBottom: '1px solid var(--border-muted)'
+            }}
+          >
+            <div className="flex items-center justify-between gap-4">
               <div className="flex-1">
-                <h3 className="elegant-card-title gold-accent flex items-center" style={{
-                  fontFamily: 'Georgia, serif',
-                  color: '#2c3e50',
-                  fontSize: '1.25rem',
-                  fontWeight: '400',
-                  letterSpacing: '0.5px',
-                  position: 'relative'
-                }}>
-                  <Search className="w-5 h-5 mr-2" style={{color: '#2c3e50'}} />
-                  {showAdvancedFilters ? 'Advanced Property Search' : `Search ${filters.propertyType || 'All'} Properties`}
+                <h3
+                  className="flex items-center gap-2"
+                  style={{
+                    fontSize: 'var(--text-lg)',
+                    fontWeight: 'var(--font-semibold)',
+                    color: 'var(--text-primary)'
+                  }}
+                >
+                  <Search className="w-5 h-5" style={{ color: 'var(--text-secondary)' }} />
+                  {showAdvancedFilters ? 'Advanced Search' : `Search ${filters.propertyType || 'All'} Properties`}
                 </h3>
-                <p className="text-sm mt-3" style={{ color: '#7f8c8d' }}>
+                <p
+                  className="mt-1"
+                  style={{
+                    fontSize: 'var(--text-sm)',
+                    color: 'var(--text-secondary)'
+                  }}
+                >
                   {showAdvancedFilters
                     ? 'Find properties using comprehensive search criteria'
                     : `Quick search for ${(filters.propertyType || 'all').toLowerCase()} properties in Broward County`}
                 </p>
               </div>
-              {/* Prominent Toggle Button - Always Visible */}
-              <Button
-                variant="outline"
-                size="lg"
+              <button
                 data-testid="header-toggle-advanced-filters"
-                className="hover-lift flex items-center space-x-2 h-12 px-6 shrink-0"
-                style={{
-                  borderColor: showAdvancedFilters ? '#d4af37' : '#ecf0f1',
-                  color: showAdvancedFilters ? '#d4af37' : '#2c3e50',
-                  background: showAdvancedFilters ? 'rgba(212, 175, 55, 0.05)' : 'white',
-                  fontWeight: '500'
-                }}
+                className="cb-btn cb-btn--md cb-btn--secondary"
                 onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
               >
-                <SlidersHorizontal className="w-5 h-5" />
-                <span>{showAdvancedFilters ? 'Hide' : 'Show'} Advanced Filters</span>
-              </Button>
+                <SlidersHorizontal className="w-4 h-4" />
+                {showAdvancedFilters ? 'Hide Filters' : 'Show Filters'}
+              </button>
             </div>
           </div>
-          <div className="p-8">
+          <div className="cb-card__body" style={{ padding: 'var(--space-6)' }}>
             <div className="space-y-6">
               {/* Optimized Search Bar */}
               <OptimizedSearchBar
@@ -1587,9 +1531,12 @@ export function PropertySearch({}: PropertySearchProps) {
 
               {/* Quick Filters - Only show when not in advanced mode */}
               {!showAdvancedFilters && (
-                <div className="flex flex-wrap gap-4 items-center justify-between p-4 rounded-lg" style={{background: 'linear-gradient(135deg, #f8f9fa 0%, #fff 100%)'}}>
+                <div
+                  className="flex flex-wrap gap-4 items-center justify-between p-4 rounded-lg"
+                  style={{ background: 'var(--bg-secondary)' }}
+                >
                   <div className="flex items-center space-x-3">
-                    <MapPin className="w-4 h-4" style={{color: '#95a5a6'}} />
+                    <MapPin className="w-4 h-4" style={{ color: 'var(--text-muted)' }} />
                     <SearchableSelect
                       placeholder="Select City"
                       value={filters.city}
