@@ -1561,7 +1561,7 @@ export function PropertySearch({}: PropertySearchProps) {
                       showCounts={false}
                     />
 
-                    <Building2 className="w-4 h-4" style={{color: '#95a5a6'}} />
+                    <Building2 className="w-4 h-4" style={{color: 'var(--text-muted)'}} />
                     <SearchableSelect
                       placeholder="Select County"
                       value={filters.county}
@@ -1594,8 +1594,8 @@ export function PropertySearch({}: PropertySearchProps) {
                     data-testid="advanced-filters-toggle"
                     className="hover-lift flex items-center space-x-2 h-10 px-4"
                     style={{
-                      borderColor: showAdvancedFilters ? '#d4af37' : '#ecf0f1',
-                      color: showAdvancedFilters ? '#d4af37' : '#2c3e50',
+                      borderColor: showAdvancedFilters ? 'var(--color-accent-600)' : 'var(--border-default)',
+                      color: showAdvancedFilters ? 'var(--color-accent-600)' : 'var(--text-primary)',
                       background: showAdvancedFilters ? 'rgba(212, 175, 55, 0.05)' : 'white'
                     }}
                     onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
@@ -1610,7 +1610,7 @@ export function PropertySearch({}: PropertySearchProps) {
                       <Badge 
                         variant="outline" 
                         className="cursor-pointer hover:bg-gray-50"
-                        style={{borderColor: filters.usageCode === '001' ? '#d4af37' : '#ecf0f1', color: filters.usageCode === '001' ? '#d4af37' : '#7f8c8d'}}
+                        style={{borderColor: filters.usageCode === '001' ? 'var(--color-accent-600)' : 'var(--border-default)', color: filters.usageCode === '001' ? 'var(--color-accent-600)' : 'var(--text-secondary)'}}
                         onClick={() => handleFilterChange('usageCode', '001')}
                       >
                         Single Family
@@ -1618,7 +1618,7 @@ export function PropertySearch({}: PropertySearchProps) {
                       <Badge 
                         variant="outline" 
                         className="cursor-pointer hover:bg-gray-50"
-                        style={{borderColor: filters.usageCode === '002' ? '#d4af37' : '#ecf0f1', color: filters.usageCode === '002' ? '#d4af37' : '#7f8c8d'}}
+                        style={{borderColor: filters.usageCode === '002' ? 'var(--color-accent-600)' : 'var(--border-default)', color: filters.usageCode === '002' ? 'var(--color-accent-600)' : 'var(--text-secondary)'}}
                         onClick={() => handleFilterChange('usageCode', '002')}
                       >
                         Condos
@@ -1626,7 +1626,7 @@ export function PropertySearch({}: PropertySearchProps) {
                       <Badge 
                         variant="outline" 
                         className="cursor-pointer hover:bg-gray-50"
-                        style={{borderColor: filters.usageCode === '004' ? '#d4af37' : '#ecf0f1', color: filters.usageCode === '004' ? '#d4af37' : '#7f8c8d'}}
+                        style={{borderColor: filters.usageCode === '004' ? 'var(--color-accent-600)' : 'var(--border-default)', color: filters.usageCode === '004' ? 'var(--color-accent-600)' : 'var(--text-secondary)'}}
                         onClick={() => handleFilterChange('usageCode', '004')}
                       >
                         Multi-Family
@@ -1639,7 +1639,7 @@ export function PropertySearch({}: PropertySearchProps) {
                       <Badge 
                         variant="outline" 
                         className="cursor-pointer hover:bg-gray-50"
-                        style={{borderColor: filters.usageCode === '010' ? '#d4af37' : '#ecf0f1', color: filters.usageCode === '010' ? '#d4af37' : '#7f8c8d'}}
+                        style={{borderColor: filters.usageCode === '010' ? 'var(--color-accent-600)' : 'var(--border-default)', color: filters.usageCode === '010' ? 'var(--color-accent-600)' : 'var(--text-secondary)'}}
                         onClick={() => handleFilterChange('usageCode', '010')}
                       >
                         Retail
@@ -1647,7 +1647,7 @@ export function PropertySearch({}: PropertySearchProps) {
                       <Badge 
                         variant="outline" 
                         className="cursor-pointer hover:bg-gray-50"
-                        style={{borderColor: filters.usageCode === '011' ? '#d4af37' : '#ecf0f1', color: filters.usageCode === '011' ? '#d4af37' : '#7f8c8d'}}
+                        style={{borderColor: filters.usageCode === '011' ? 'var(--color-accent-600)' : 'var(--border-default)', color: filters.usageCode === '011' ? 'var(--color-accent-600)' : 'var(--text-secondary)'}}
                         onClick={() => handleFilterChange('usageCode', '011')}
                       >
                         Office
@@ -1655,7 +1655,7 @@ export function PropertySearch({}: PropertySearchProps) {
                       <Badge 
                         variant="outline" 
                         className="cursor-pointer hover:bg-gray-50"
-                        style={{borderColor: filters.usageCode === '039' ? '#d4af37' : '#ecf0f1', color: filters.usageCode === '039' ? '#d4af37' : '#7f8c8d'}}
+                        style={{borderColor: filters.usageCode === '039' ? 'var(--color-accent-600)' : 'var(--border-default)', color: filters.usageCode === '039' ? 'var(--color-accent-600)' : 'var(--text-secondary)'}}
                         onClick={() => handleFilterChange('usageCode', '039')}
                       >
                         Hotels
@@ -1667,27 +1667,27 @@ export function PropertySearch({}: PropertySearchProps) {
 
               {/* Advanced Filters */}
               {showAdvancedFilters && (
-                <div className="border-t-2 pt-6 mt-6" style={{borderColor: '#d4af37'}}>
+                <div className="border-t-2 pt-6 mt-6" style={{borderColor: 'var(--color-accent-600)'}}>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {/* Removed redundant Address, ZIP Code, City, and Owner Name fields - use main search bar instead */}
                     <div className="space-y-2">
-                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Min Value</label>
+                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: 'var(--text-muted)'}}>Min Value</label>
                       <FormattedInput
                         placeholder="100000"
                         format="currency"
                         className="h-12 rounded-lg"
-                        style={{borderColor: '#ecf0f1'}}
+                        style={{borderColor: 'var(--border-default)'}}
                         value={filters.minValue}
                         onChange={(value) => handleFilterChange('minValue', value)}
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Max Value</label>
+                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: 'var(--text-muted)'}}>Max Value</label>
                       <FormattedInput
                         placeholder="1000000"
                         format="currency"
                         className="h-12 rounded-lg"
-                        style={{borderColor: '#ecf0f1'}}
+                        style={{borderColor: 'var(--border-default)'}}
                         value={filters.maxValue}
                         onChange={(value) => handleFilterChange('maxValue', value)}
                       />
@@ -1697,45 +1697,45 @@ export function PropertySearch({}: PropertySearchProps) {
                   {/* Square Footage Filters */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
                     <div className="space-y-2">
-                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Min Building SqFt</label>
+                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: 'var(--text-muted)'}}>Min Building SqFt</label>
                       <FormattedInput
                         placeholder="1000"
                         format="sqft"
                         className="h-12 rounded-lg"
-                        style={{borderColor: '#ecf0f1'}}
+                        style={{borderColor: 'var(--border-default)'}}
                         value={filters.minBuildingSqFt}
                         onChange={(value) => handleFilterChange('minBuildingSqFt', value)}
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Max Building SqFt</label>
+                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: 'var(--text-muted)'}}>Max Building SqFt</label>
                       <FormattedInput
                         placeholder="5000"
                         format="sqft"
                         className="h-12 rounded-lg"
-                        style={{borderColor: '#ecf0f1'}}
+                        style={{borderColor: 'var(--border-default)'}}
                         value={filters.maxBuildingSqFt}
                         onChange={(value) => handleFilterChange('maxBuildingSqFt', value)}
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Min Land SqFt</label>
+                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: 'var(--text-muted)'}}>Min Land SqFt</label>
                       <FormattedInput
                         placeholder="5000"
                         format="sqft"
                         className="h-12 rounded-lg"
-                        style={{borderColor: '#ecf0f1'}}
+                        style={{borderColor: 'var(--border-default)'}}
                         value={filters.minLandSqFt}
                         onChange={(value) => handleFilterChange('minLandSqFt', value)}
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Max Land SqFt</label>
+                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: 'var(--text-muted)'}}>Max Land SqFt</label>
                       <FormattedInput
                         placeholder="20000"
                         format="sqft"
                         className="h-12 rounded-lg"
-                        style={{borderColor: '#ecf0f1'}}
+                        style={{borderColor: 'var(--border-default)'}}
                         value={filters.maxLandSqFt}
                         onChange={(value) => handleFilterChange('maxLandSqFt', value)}
                       />
@@ -1745,12 +1745,12 @@ export function PropertySearch({}: PropertySearchProps) {
                   {/* Year Built Filters (Missing from Interface) */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
                     <div className="space-y-2">
-                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Min Year Built</label>
+                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: 'var(--text-muted)'}}>Min Year Built</label>
                       <FormattedInput
                         placeholder="1990"
                         format="year"
                         className="h-12 rounded-lg"
-                        style={{borderColor: '#ecf0f1'}}
+                        style={{borderColor: 'var(--border-default)'}}
                         value={filters.minYear}
                         onChange={(value) => handleFilterChange('minYear', value)}
                         min="1800"
@@ -1758,12 +1758,12 @@ export function PropertySearch({}: PropertySearchProps) {
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Max Year Built</label>
+                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: 'var(--text-muted)'}}>Max Year Built</label>
                       <FormattedInput
                         placeholder="2024"
                         format="year"
                         className="h-12 rounded-lg"
-                        style={{borderColor: '#ecf0f1'}}
+                        style={{borderColor: 'var(--border-default)'}}
                         value={filters.maxYear}
                         onChange={(value) => handleFilterChange('maxYear', value)}
                         min="1800"
@@ -1779,7 +1779,7 @@ export function PropertySearch({}: PropertySearchProps) {
                             handleFilterChange('maxYear', '2025');
                           }}
                           className="px-3 py-1 text-xs rounded-lg border hover:bg-gray-50"
-                          style={{borderColor: '#ecf0f1'}}
+                          style={{borderColor: 'var(--border-default)'}}
                         >
                           New Construction (2020+)
                         </button>
@@ -1790,7 +1790,7 @@ export function PropertySearch({}: PropertySearchProps) {
                             handleFilterChange('maxYear', '2019');
                           }}
                           className="px-3 py-1 text-xs rounded-lg border hover:bg-gray-50"
-                          style={{borderColor: '#ecf0f1'}}
+                          style={{borderColor: 'var(--border-default)'}}
                         >
                           2000s Era
                         </button>
@@ -1801,7 +1801,7 @@ export function PropertySearch({}: PropertySearchProps) {
                             handleFilterChange('maxYear', '1999');
                           }}
                           className="px-3 py-1 text-xs rounded-lg border hover:bg-gray-50"
-                          style={{borderColor: '#ecf0f1'}}
+                          style={{borderColor: 'var(--border-default)'}}
                         >
                           1980s-90s
                         </button>
@@ -1812,45 +1812,45 @@ export function PropertySearch({}: PropertySearchProps) {
                   {/* Sales and Appraised Value Filters */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
                     <div className="space-y-2">
-                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Min Sale Price</label>
+                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: 'var(--text-muted)'}}>Min Sale Price</label>
                       <FormattedInput
                         placeholder="100000"
                         format="currency"
                         className="h-12 rounded-lg"
-                        style={{borderColor: '#ecf0f1'}}
+                        style={{borderColor: 'var(--border-default)'}}
                         value={filters.minSalePrice}
                         onChange={(value) => handleFilterChange('minSalePrice', value)}
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Max Sale Price</label>
+                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: 'var(--text-muted)'}}>Max Sale Price</label>
                       <FormattedInput
                         placeholder="500000"
                         format="currency"
                         className="h-12 rounded-lg"
-                        style={{borderColor: '#ecf0f1'}}
+                        style={{borderColor: 'var(--border-default)'}}
                         value={filters.maxSalePrice}
                         onChange={(value) => handleFilterChange('maxSalePrice', value)}
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Min Appraised Value</label>
+                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: 'var(--text-muted)'}}>Min Appraised Value</label>
                       <FormattedInput
                         placeholder="150000"
                         format="currency"
                         className="h-12 rounded-lg"
-                        style={{borderColor: '#ecf0f1'}}
+                        style={{borderColor: 'var(--border-default)'}}
                         value={filters.minAppraisedValue}
                         onChange={(value) => handleFilterChange('minAppraisedValue', value)}
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Max Appraised Value</label>
+                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: 'var(--text-muted)'}}>Max Appraised Value</label>
                       <FormattedInput
                         placeholder="600000"
                         format="currency"
                         className="h-12 rounded-lg"
-                        style={{borderColor: '#ecf0f1'}}
+                        style={{borderColor: 'var(--border-default)'}}
                         value={filters.maxAppraisedValue}
                         onChange={(value) => handleFilterChange('maxAppraisedValue', value)}
                       />
@@ -1860,12 +1860,12 @@ export function PropertySearch({}: PropertySearchProps) {
                   {/* Sale Date Range Filters */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
                     <div className="space-y-2">
-                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Min Sale Date</label>
+                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: 'var(--text-muted)'}}>Min Sale Date</label>
                       <Input
                         placeholder="YYYY or MM/DD/YYYY"
                         type="text"
                         className="h-12 rounded-lg"
-                        style={{borderColor: '#ecf0f1'}}
+                        style={{borderColor: 'var(--border-default)'}}
                         value={filters.minSaleDate}
                         onChange={(e) => {
                           const value = e.target.value.trim();
@@ -1884,15 +1884,15 @@ export function PropertySearch({}: PropertySearchProps) {
                           }
                         }}
                       />
-                      <p className="text-xs" style={{color: '#95a5a6'}}>Enter year (2023) or full date (01/01/2023)</p>
+                      <p className="text-xs" style={{color: 'var(--text-muted)'}}>Enter year (2023) or full date (01/01/2023)</p>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Max Sale Date</label>
+                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: 'var(--text-muted)'}}>Max Sale Date</label>
                       <Input
                         placeholder="YYYY or MM/DD/YYYY"
                         type="text"
                         className="h-12 rounded-lg"
-                        style={{borderColor: '#ecf0f1'}}
+                        style={{borderColor: 'var(--border-default)'}}
                         value={filters.maxSaleDate}
                         onChange={(e) => {
                           const value = e.target.value.trim();
@@ -1911,7 +1911,7 @@ export function PropertySearch({}: PropertySearchProps) {
                           }
                         }}
                       />
-                      <p className="text-xs" style={{color: '#95a5a6'}}>Enter year (2023) or full date (12/31/2023)</p>
+                      <p className="text-xs" style={{color: 'var(--text-muted)'}}>Enter year (2023) or full date (12/31/2023)</p>
                     </div>
                     <div className="col-span-2 flex items-end">
                       <div className="flex flex-wrap gap-2">
@@ -1925,7 +1925,7 @@ export function PropertySearch({}: PropertySearchProps) {
                             handleFilterChange('maxSaleDate', today.toISOString().split('T')[0]);
                           }}
                           className="px-3 py-1 text-xs rounded-lg border hover:bg-gray-50"
-                          style={{borderColor: '#ecf0f1'}}
+                          style={{borderColor: 'var(--border-default)'}}
                         >
                           Last 30 Days
                         </button>
@@ -1939,7 +1939,7 @@ export function PropertySearch({}: PropertySearchProps) {
                             handleFilterChange('maxSaleDate', today.toISOString().split('T')[0]);
                           }}
                           className="px-3 py-1 text-xs rounded-lg border hover:bg-gray-50"
-                          style={{borderColor: '#ecf0f1'}}
+                          style={{borderColor: 'var(--border-default)'}}
                         >
                           Last 90 Days
                         </button>
@@ -1953,7 +1953,7 @@ export function PropertySearch({}: PropertySearchProps) {
                             handleFilterChange('maxSaleDate', today.toISOString().split('T')[0]);
                           }}
                           className="px-3 py-1 text-xs rounded-lg border hover:bg-gray-50"
-                          style={{borderColor: '#ecf0f1'}}
+                          style={{borderColor: 'var(--border-default)'}}
                         >
                           Last Year
                         </button>
@@ -1966,7 +1966,7 @@ export function PropertySearch({}: PropertySearchProps) {
                             handleFilterChange('maxSaleDate', today.toISOString().split('T')[0]);
                           }}
                           className="px-3 py-1 text-xs rounded-lg border hover:bg-gray-50"
-                          style={{borderColor: '#ecf0f1'}}
+                          style={{borderColor: 'var(--border-default)'}}
                         >
                           Year to Date
                         </button>
@@ -1977,11 +1977,11 @@ export function PropertySearch({}: PropertySearchProps) {
                   {/* Tax Status Filters */}
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
                     <div className="col-span-2">
-                      <label className="text-xs uppercase tracking-wider font-medium mb-3 block" style={{color: '#95a5a6'}}>
+                      <label className="text-xs uppercase tracking-wider font-medium mb-3 block" style={{color: 'var(--text-muted)'}}>
                         Tax Certificate Status
                       </label>
                       <div className="p-4 rounded-lg border" style={{
-                        borderColor: filters.taxDelinquent ? '#d4af37' : '#ecf0f1',
+                        borderColor: filters.taxDelinquent ? 'var(--color-accent-600)' : 'var(--border-default)',
                         background: filters.taxDelinquent ? 'rgba(212, 175, 55, 0.05)' : 'white'
                       }}>
                         <div className="flex items-center justify-between">
@@ -1992,16 +1992,16 @@ export function PropertySearch({}: PropertySearchProps) {
                               checked={filters.taxDelinquent}
                               onChange={(e) => handleFilterChange('taxDelinquent', e.target.checked)}
                               className="w-5 h-5 rounded border-gray-300 text-gold focus:ring-gold"
-                              style={{accentColor: '#d4af37'}}
+                              style={{accentColor: 'var(--color-accent-600)'}}
                             />
                             <label htmlFor="taxDelinquent" className="cursor-pointer">
                               <div className="flex items-center space-x-2">
-                                <AlertTriangle className="w-4 h-4" style={{color: filters.taxDelinquent ? '#d4af37' : '#95a5a6'}} />
-                                <span className="font-medium text-sm" style={{color: '#2c3e50'}}>
+                                <AlertTriangle className="w-4 h-4" style={{color: filters.taxDelinquent ? 'var(--color-accent-600)' : 'var(--text-muted)'}} />
+                                <span className="font-medium text-sm" style={{color: 'var(--text-primary)'}}>
                                   Tax Delinquent Properties
                                 </span>
                               </div>
-                              <p className="text-xs mt-1" style={{color: '#7f8c8d'}}>
+                              <p className="text-xs mt-1" style={{color: 'var(--text-secondary)'}}>
                                 Show only properties with tax certificates in the last 7 years
                               </p>
                             </label>
@@ -2031,16 +2031,16 @@ export function PropertySearch({}: PropertySearchProps) {
                   </div>
 
                   {/* Phase 1 Filters - Using Existing Database Columns */}
-                  <div className="border-t-2 pt-6 mt-6" style={{borderColor: '#d4af37'}}>
-                    <h3 className="text-lg font-semibold mb-4" style={{color: '#2c3e50'}}>Advanced Filters (Phase 1)</h3>
+                  <div className="border-t-2 pt-6 mt-6" style={{borderColor: 'var(--color-accent-600)'}}>
+                    <h3 className="text-lg font-semibold mb-4" style={{color: 'var(--text-primary)'}}>Advanced Filters (Phase 1)</h3>
 
                     {/* Exemption and Sales Quality Filters */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                       <div className="space-y-2">
-                        <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Homestead Exemption:</label>
+                        <label className="text-xs uppercase tracking-wider font-medium" style={{color: 'var(--text-muted)'}}>Homestead Exemption:</label>
                         <select
                           className="w-full h-12 rounded-lg border px-4"
-                          style={{borderColor: '#ecf0f1'}}
+                          style={{borderColor: 'var(--border-default)'}}
                           value={filters.hasHomesteadExemption}
                           onChange={(e) => handleFilterChange('hasHomesteadExemption', e.target.value)}
                         >
@@ -2051,10 +2051,10 @@ export function PropertySearch({}: PropertySearchProps) {
                       </div>
 
                       <div className="space-y-2">
-                        <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Sales Quality:</label>
+                        <label className="text-xs uppercase tracking-wider font-medium" style={{color: 'var(--text-muted)'}}>Sales Quality:</label>
                         <select
                           className="w-full h-12 rounded-lg border px-4"
-                          style={{borderColor: '#ecf0f1'}}
+                          style={{borderColor: 'var(--border-default)'}}
                           value={filters.qualifiedSaleOnly}
                           onChange={(e) => handleFilterChange('qualifiedSaleOnly', e.target.value)}
                         >
@@ -2064,10 +2064,10 @@ export function PropertySearch({}: PropertySearchProps) {
                       </div>
 
                       <div className="space-y-2">
-                        <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Multi-Parcel Sales:</label>
+                        <label className="text-xs uppercase tracking-wider font-medium" style={{color: 'var(--text-muted)'}}>Multi-Parcel Sales:</label>
                         <select
                           className="w-full h-12 rounded-lg border px-4"
-                          style={{borderColor: '#ecf0f1'}}
+                          style={{borderColor: 'var(--border-default)'}}
                           value={filters.excludeMultiParcel}
                           onChange={(e) => handleFilterChange('excludeMultiParcel', e.target.value)}
                         >
@@ -2080,27 +2080,27 @@ export function PropertySearch({}: PropertySearchProps) {
                     {/* Location Detail Filters */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Subdivision:</label>
+                        <label className="text-xs uppercase tracking-wider font-medium" style={{color: 'var(--text-muted)'}}>Subdivision:</label>
                         <Input
                           placeholder="e.g., Oak Hammock"
                           className="h-12 rounded-lg"
-                          style={{borderColor: '#ecf0f1'}}
+                          style={{borderColor: 'var(--border-default)'}}
                           value={filters.subdivision}
                           onChange={(e) => handleFilterChange('subdivision', e.target.value)}
                         />
-                        <p className="text-xs" style={{color: '#95a5a6'}}>Search by neighborhood or subdivision name</p>
+                        <p className="text-xs" style={{color: 'var(--text-muted)'}}>Search by neighborhood or subdivision name</p>
                       </div>
 
                       <div className="space-y-2">
-                        <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Zoning:</label>
+                        <label className="text-xs uppercase tracking-wider font-medium" style={{color: 'var(--text-muted)'}}>Zoning:</label>
                         <Input
                           placeholder="e.g., R-1, C-2"
                           className="h-12 rounded-lg"
-                          style={{borderColor: '#ecf0f1'}}
+                          style={{borderColor: 'var(--border-default)'}}
                           value={filters.zoning}
                           onChange={(e) => handleFilterChange('zoning', e.target.value)}
                         />
-                        <p className="text-xs" style={{color: '#95a5a6'}}>Filter by zoning classification</p>
+                        <p className="text-xs" style={{color: 'var(--text-muted)'}}>Filter by zoning classification</p>
                       </div>
                     </div>
                   </div>
@@ -2108,12 +2108,12 @@ export function PropertySearch({}: PropertySearchProps) {
                   {/* Property Usage Code Filters */}
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
                     <div className="relative space-y-2">
-                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Usage Code (DOR Code)</label>
+                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: 'var(--text-muted)'}}>Usage Code (DOR Code)</label>
                       <Input
                         ref={usageCodeInputRef}
                         placeholder="e.g., 001 for Single Family"
                         className="h-12 rounded-lg"
-                        style={{borderColor: '#ecf0f1'}}
+                        style={{borderColor: 'var(--border-default)'}}
                         value={filters.usageCode}
                         onChange={(e) => handleFilterChange('usageCode', e.target.value)}
                         onFocus={() => {
@@ -2127,16 +2127,16 @@ export function PropertySearch({}: PropertySearchProps) {
                           setTimeout(() => setShowUsageCodeSuggestions(false), 200);
                         }}
                       />
-                      <p className="text-xs" style={{color: '#95a5a6'}}>000-099: Residential | 100-399: Commercial | 400-499: Industrial</p>
+                      <p className="text-xs" style={{color: 'var(--text-muted)'}}>000-099: Residential | 100-399: Commercial | 400-499: Industrial</p>
                       
                       {/* Usage Code Autocomplete Dropdown */}
                       {showUsageCodeSuggestions && usageCodeSuggestions.length > 0 && (
-                        <div className="absolute z-50 w-full mt-2 bg-white border rounded-lg shadow-lg max-h-60 overflow-auto" style={{ top: 'calc(100% - 20px)', borderColor: '#ecf0f1' }}>
+                        <div className="absolute z-50 w-full mt-2 bg-white border rounded-lg shadow-lg max-h-60 overflow-auto" style={{ top: 'calc(100% - 20px)', borderColor: 'var(--border-default)' }}>
                           {usageCodeSuggestions.map((suggestion, index) => (
                             <div
                               key={index}
                               className="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b last:border-b-0"
-                              style={{borderColor: '#ecf0f1'}}
+                              style={{borderColor: 'var(--border-default)'}}
                               onClick={() => {
                                 const selectedCode = suggestion.code;
                                 handleFilterChange('usageCode', selectedCode);
@@ -2151,8 +2151,8 @@ export function PropertySearch({}: PropertySearchProps) {
                                 setTimeout(() => searchProperties(), 100);
                               }}
                             >
-                              <div className="font-medium" style={{color: '#2c3e50'}}>{suggestion.code} - {suggestion.description}</div>
-                              <div className="text-xs" style={{color: '#95a5a6'}}>{suggestion.category}</div>
+                              <div className="font-medium" style={{color: 'var(--text-primary)'}}>{suggestion.code} - {suggestion.description}</div>
+                              <div className="text-xs" style={{color: 'var(--text-muted)'}}>{suggestion.category}</div>
                             </div>
                           ))}
                         </div>
@@ -2160,12 +2160,12 @@ export function PropertySearch({}: PropertySearchProps) {
                     </div>
                     
                     <div className="relative space-y-2">
-                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: '#95a5a6'}}>Sub-Usage Code</label>
+                      <label className="text-xs uppercase tracking-wider font-medium" style={{color: 'var(--text-muted)'}}>Sub-Usage Code</label>
                       <Input
                         ref={subUsageCodeInputRef}
                         placeholder="e.g., 00 for standard"
                         className="h-12 rounded-lg"
-                        style={{borderColor: '#ecf0f1'}}
+                        style={{borderColor: 'var(--border-default)'}}
                         value={filters.subUsageCode}
                         onChange={(e) => handleFilterChange('subUsageCode', e.target.value)}
                         onFocus={() => {
@@ -2178,16 +2178,16 @@ export function PropertySearch({}: PropertySearchProps) {
                         }}
                         disabled={!filters.usageCode}
                       />
-                      <p className="text-xs" style={{color: '#95a5a6'}}>Two-digit sub-classification</p>
+                      <p className="text-xs" style={{color: 'var(--text-muted)'}}>Two-digit sub-classification</p>
                       
                       {/* Sub-Usage Code Autocomplete Dropdown */}
                       {showSubUsageCodeSuggestions && subUsageCodeSuggestions.length > 0 && (
-                        <div className="absolute z-50 w-full mt-2 bg-white border rounded-lg shadow-lg max-h-60 overflow-auto" style={{ top: 'calc(100% - 20px)', borderColor: '#ecf0f1' }}>
+                        <div className="absolute z-50 w-full mt-2 bg-white border rounded-lg shadow-lg max-h-60 overflow-auto" style={{ top: 'calc(100% - 20px)', borderColor: 'var(--border-default)' }}>
                           {subUsageCodeSuggestions.map((suggestion, index) => (
                             <div
                               key={index}
                               className="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b last:border-b-0"
-                              style={{borderColor: '#ecf0f1'}}
+                              style={{borderColor: 'var(--border-default)'}}
                               onClick={() => {
                                 const selectedCode = suggestion.code;
                                 handleFilterChange('subUsageCode', selectedCode);
@@ -2201,7 +2201,7 @@ export function PropertySearch({}: PropertySearchProps) {
                                 setTimeout(() => searchProperties(), 100);
                               }}
                             >
-                              <span className="text-sm font-medium" style={{color: '#2c3e50'}}>{suggestion.display}</span>
+                              <span className="text-sm font-medium" style={{color: 'var(--text-primary)'}}>{suggestion.display}</span>
                             </div>
                           ))}
                         </div>
@@ -2213,7 +2213,7 @@ export function PropertySearch({}: PropertySearchProps) {
                     <Button 
                       variant="outline" 
                       className="hover-lift h-12 px-6"
-                      style={{borderColor: '#ecf0f1'}}
+                      style={{borderColor: 'var(--border-default)'}}
                       onClick={() => {
                         setFilters({
                           address: '',
@@ -2243,13 +2243,13 @@ export function PropertySearch({}: PropertySearchProps) {
                         setCurrentPage(1);
                       }}
                     >
-                      <span style={{color: '#2c3e50'}}>Clear All</span>
+                      <span style={{color: 'var(--text-primary)'}}>Clear All</span>
                     </Button>
                     <Button
                       className="h-12 px-6 hover-lift relative overflow-hidden transition-all duration-300"
                       style={{
-                        background: loading ? '#b8962d' : '#d4af37',
-                        borderColor: loading ? '#b8962d' : '#d4af37',
+                        background: loading ? 'var(--color-accent-700)' : 'var(--color-accent-600)',
+                        borderColor: loading ? 'var(--color-accent-700)' : 'var(--color-accent-600)',
                         opacity: loading ? 0.9 : 1,
                         transform: loading ? 'scale(0.98)' : 'scale(1)',
                         boxShadow: loading ? '0 0 20px rgba(212, 175, 55, 0.5)' : '0 2px 4px rgba(0,0,0,0.1)'
@@ -2285,23 +2285,23 @@ export function PropertySearch({}: PropertySearchProps) {
           <div className="p-6">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-4">
-                <h3 className="text-xl font-semibold" style={{color: '#2c3e50'}}>
+                <h3 className="text-xl font-semibold" style={{color: 'var(--text-primary)'}}>
                   {totalResults.toLocaleString()} Properties Found
                 </h3>
                 {filters.city && filters.city !== 'all-cities' && filters.city !== '' && (
-                  <div className="badge-elegant" style={{borderColor: '#3498db', color: '#3498db', background: 'rgba(52, 152, 219, 0.1)'}}>
+                  <div className="badge-elegant" style={{borderColor: 'var(--color-info-500)', color: 'var(--color-info-600)', background: 'var(--color-info-50)'}}>
                     <MapPin className="w-3 h-3 mr-1" />
                     {filters.city}
                   </div>
                 )}
                 {filters.county && filters.county !== '' && (
-                  <div className="badge-elegant" style={{borderColor: '#e67e22', color: '#e67e22', background: 'rgba(230, 126, 34, 0.1)'}}>
+                  <div className="badge-elegant" style={{borderColor: 'var(--color-warning-500)', color: 'var(--color-warning-600)', background: 'var(--color-warning-50)'}}>
                     <Building2 className="w-3 h-3 mr-1" />
                     {filters.county}
                   </div>
                 )}
                 {filters.propertyType && filters.propertyType !== 'all-types' && (
-                  <div className="badge-elegant" style={{borderColor: '#9b59b6', color: '#9b59b6', background: 'rgba(155, 89, 182, 0.1)'}}>
+                  <div className="badge-elegant" style={{borderColor: 'var(--color-purple-500)', color: 'var(--color-purple-600)', background: 'var(--color-purple-50)'}}>
                     <Building className="w-3 h-3 mr-1" />
                     {filters.propertyType}
                   </div>
@@ -2309,12 +2309,12 @@ export function PropertySearch({}: PropertySearchProps) {
               </div>
 
               <div className="flex items-center space-x-3">
-                <div className="flex border rounded-lg" style={{borderColor: '#ecf0f1'}}>
+                <div className="flex border rounded-lg" style={{borderColor: 'var(--border-default)'}}>
                   <Button
                     variant={viewMode === 'grid' ? 'default' : 'ghost'}
                     size="sm"
                     className="hover-lift"
-                    style={viewMode === 'grid' ? {background: '#d4af37', borderColor: '#d4af37'} : {}}
+                    style={viewMode === 'grid' ? {background: 'var(--color-accent-600)', borderColor: 'var(--color-accent-600)'} : {}}
                     onClick={() => setViewMode('grid')}
                   >
                     <Grid3X3 className="w-4 h-4" />
@@ -2323,7 +2323,7 @@ export function PropertySearch({}: PropertySearchProps) {
                     variant={viewMode === 'list' ? 'default' : 'ghost'}
                     size="sm"
                     className="hover-lift"
-                    style={viewMode === 'list' ? {background: '#d4af37', borderColor: '#d4af37'} : {}}
+                    style={viewMode === 'list' ? {background: 'var(--color-accent-600)', borderColor: 'var(--color-accent-600)'} : {}}
                     onClick={() => setViewMode('list')}
                   >
                     <List className="w-4 h-4" />
@@ -2338,12 +2338,12 @@ export function PropertySearch({}: PropertySearchProps) {
                 className="px-4 py-2 rounded-lg transition-all duration-300 flex items-center space-x-2 hover:shadow-md"
                 style={{
                   background: isAllPropertiesSelected 
-                    ? 'linear-gradient(135deg, #d4af37 0%, #b8941f 100%)' 
+                    ? 'linear-gradient(135deg, var(--color-accent-600) 0%, var(--color-accent-700) 100%)' 
                     : 'white',
                   border: isAllPropertiesSelected 
-                    ? '1px solid #d4af37' 
-                    : '1px solid #ecf0f1',
-                  color: isAllPropertiesSelected ? 'white' : '#2c3e50',
+                    ? '1px solid var(--color-accent-600)' 
+                    : '1px solid var(--border-default)',
+                  color: isAllPropertiesSelected ? 'white' : 'var(--text-primary)',
                   cursor: 'pointer',
                   fontSize: '14px',
                   fontWeight: '400',
@@ -2366,12 +2366,12 @@ export function PropertySearch({}: PropertySearchProps) {
                 className="px-4 py-2 rounded-lg transition-all duration-300 flex items-center space-x-2 hover:shadow-md"
                 style={{
                   background: isAllCurrentPageSelected 
-                    ? 'linear-gradient(135deg, #d4af37 0%, #b8941f 100%)' 
+                    ? 'linear-gradient(135deg, var(--color-accent-600) 0%, var(--color-accent-700) 100%)' 
                     : 'white',
                   border: isAllCurrentPageSelected 
-                    ? '1px solid #d4af37' 
-                    : '1px solid #ecf0f1',
-                  color: isAllCurrentPageSelected ? 'white' : '#2c3e50',
+                    ? '1px solid var(--color-accent-600)' 
+                    : '1px solid var(--border-default)',
+                  color: isAllCurrentPageSelected ? 'white' : 'var(--text-primary)',
                   cursor: 'pointer',
                   fontSize: '14px',
                   fontWeight: '400',
@@ -2396,8 +2396,8 @@ export function PropertySearch({}: PropertySearchProps) {
                   className="px-3 py-1 rounded-full"
                   style={{
                     background: 'rgba(212, 175, 55, 0.1)',
-                    border: '1px solid #d4af37',
-                    color: '#d4af37',
+                    border: '1px solid var(--color-accent-600)',
+                    color: 'var(--color-accent-600)',
                     fontSize: '14px',
                     fontWeight: '500'
                   }}
@@ -2439,23 +2439,23 @@ export function PropertySearch({}: PropertySearchProps) {
         {!showMapView && !showTaxDeedSales && (
           loading ? (
             <div className="text-center py-20">
-              <RefreshCw className="w-12 h-12 animate-spin mx-auto mb-6" style={{ color: '#d4af37' }} />
-              <p className="text-xl font-medium mb-2" style={{ color: '#2c3e50' }}>Searching Properties...</p>
-              <p className="text-sm" style={{ color: '#7f8c8d' }}>Loading premium Florida property data</p>
+              <RefreshCw className="w-12 h-12 animate-spin mx-auto mb-6" style={{ color: 'var(--color-accent-600)' }} />
+              <p className="text-xl font-medium mb-2" style={{ color: 'var(--text-primary)' }}>Searching Properties...</p>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Loading premium Florida property data</p>
             </div>
           ) : (
             <>
               {/* Pagination Display */}
               {properties.length > 0 && (
-                <div className="mb-6 flex items-center justify-between px-4 py-3 rounded-lg" style={{ backgroundColor: '#f8f9fa', borderLeft: '4px solid #d4af37' }}>
+                <div className="mb-6 flex items-center justify-between px-4 py-3 rounded-lg" style={{ backgroundColor: 'var(--bg-secondary)', borderLeft: '4px solid var(--color-accent-600)' }}>
                   <div className="flex items-center space-x-3">
                     {hasActiveFilters && (
-                      <Badge variant="outline" style={{ borderColor: '#d4af37', color: '#d4af37' }}>
+                      <Badge variant="outline" style={{ borderColor: 'var(--color-accent-600)', color: 'var(--color-accent-600)' }}>
                         Filtered Results
                       </Badge>
                     )}
                   </div>
-                  <span className="text-sm" style={{ color: '#7f8c8d' }}>
+                  <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                     Page {currentPage} of {totalPages}
                   </span>
                 </div>
@@ -2532,7 +2532,7 @@ export function PropertySearch({}: PropertySearchProps) {
                       size="lg"
                       className="px-8 py-4"
                         style={{
-                          backgroundColor: '#d4af37',
+                          backgroundColor: 'var(--color-accent-600)',
                           color: 'white',
                           fontSize: '16px',
                           fontWeight: '500'
@@ -2559,7 +2559,7 @@ export function PropertySearch({}: PropertySearchProps) {
                             className="h-full transition-all duration-500"
                             style={{
                               width: `${percentLoaded}%`,
-                              backgroundColor: '#d4af37'
+                              backgroundColor: 'var(--color-accent-600)'
                             }}
                           />
                         </div>
@@ -2578,7 +2578,7 @@ export function PropertySearch({}: PropertySearchProps) {
                   <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
                     {/* Page Size Selector */}
                     <div className="flex items-center space-x-4">
-                      <span className="text-sm font-medium" style={{color: '#2c3e50'}}>Show per page:</span>
+                      <span className="text-sm font-medium" style={{color: 'var(--text-primary)'}}>Show per page:</span>
                       <Select
                         value={pageSize.toString()}
                         onValueChange={(value) => {
@@ -2589,7 +2589,7 @@ export function PropertySearch({}: PropertySearchProps) {
                           searchPropertiesRef.current(1);
                         }}
                       >
-                        <SelectTrigger className="w-20 h-9 rounded-lg" style={{borderColor: '#ecf0f1'}}>
+                        <SelectTrigger className="w-20 h-9 rounded-lg" style={{borderColor: 'var(--border-default)'}}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -2599,7 +2599,7 @@ export function PropertySearch({}: PropertySearchProps) {
                           <SelectItem value="100">100</SelectItem>
                         </SelectContent>
                       </Select>
-                      <span className="text-sm" style={{color: '#7f8c8d'}}>
+                      <span className="text-sm" style={{color: 'var(--text-secondary)'}}>
                         Showing {((currentPage - 1) * pageSize) + 1} - {Math.min(currentPage * pageSize, totalResults)} of {totalResults.toLocaleString()} properties
                       </span>
                     </div>
@@ -2611,21 +2611,21 @@ export function PropertySearch({}: PropertySearchProps) {
                         variant="outline"
                         disabled={currentPage === 1}
                         className="hover-lift h-9 px-3"
-                        style={{borderColor: '#ecf0f1'}}
+                        style={{borderColor: 'var(--border-default)'}}
                         onClick={() => searchProperties(1)}
                         title="First page"
                       >
-                        <span style={{color: '#2c3e50'}}>««</span>
+                        <span style={{color: 'var(--text-primary)'}}>««</span>
                       </Button>
 
                       <Button
                         variant="outline"
                         disabled={currentPage === 1}
                         className="hover-lift h-9 px-4"
-                        style={{borderColor: '#ecf0f1'}}
+                        style={{borderColor: 'var(--border-default)'}}
                         onClick={() => searchProperties(currentPage - 1)}
                       >
-                        <span style={{color: '#2c3e50'}}>Previous</span>
+                        <span style={{color: 'var(--text-primary)'}}>Previous</span>
                       </Button>
 
                       <div className="flex items-center space-x-1">
@@ -2647,14 +2647,14 @@ export function PropertySearch({}: PropertySearchProps) {
                                 variant="outline"
                                 size="sm"
                                 className="hover-lift h-9 w-9"
-                                style={{borderColor: '#ecf0f1', color: '#2c3e50'}}
+                                style={{borderColor: 'var(--border-default)', color: 'var(--text-primary)'}}
                                 onClick={() => searchProperties(1)}
                               >
                                 1
                               </Button>
                             );
                             if (startPage > 2) {
-                              pages.push(<span key="start-ellipsis" className="px-2" style={{color: '#7f8c8d'}}>...</span>);
+                              pages.push(<span key="start-ellipsis" className="px-2" style={{color: 'var(--text-secondary)'}}>...</span>);
                             }
                           }
 
@@ -2667,8 +2667,8 @@ export function PropertySearch({}: PropertySearchProps) {
                                 size="sm"
                                 className="hover-lift h-9 w-9"
                                 style={currentPage === page ?
-                                  {background: '#d4af37', borderColor: '#d4af37', color: 'white'} :
-                                  {borderColor: '#ecf0f1', color: '#2c3e50'}
+                                  {background: 'var(--color-accent-600)', borderColor: 'var(--color-accent-600)', color: 'white'} :
+                                  {borderColor: 'var(--border-default)', color: 'var(--text-primary)'}
                                 }
                                 onClick={() => searchProperties(page)}
                               >
@@ -2680,7 +2680,7 @@ export function PropertySearch({}: PropertySearchProps) {
                           // Add last page if not in range
                           if (endPage < totalPages) {
                             if (endPage < totalPages - 1) {
-                              pages.push(<span key="end-ellipsis" className="px-2" style={{color: '#7f8c8d'}}>...</span>);
+                              pages.push(<span key="end-ellipsis" className="px-2" style={{color: 'var(--text-secondary)'}}>...</span>);
                             }
                             pages.push(
                               <Button
@@ -2688,7 +2688,7 @@ export function PropertySearch({}: PropertySearchProps) {
                                 variant="outline"
                                 size="sm"
                                 className="hover-lift h-9 w-9"
-                                style={{borderColor: '#ecf0f1', color: '#2c3e50'}}
+                                style={{borderColor: 'var(--border-default)', color: 'var(--text-primary)'}}
                                 onClick={() => searchProperties(totalPages)}
                               >
                                 {totalPages}
@@ -2702,14 +2702,14 @@ export function PropertySearch({}: PropertySearchProps) {
 
                       {/* Page Jump Input */}
                       <div className="flex items-center space-x-2 ml-2">
-                        <span className="text-sm" style={{color: '#7f8c8d'}}>Go to:</span>
+                        <span className="text-sm" style={{color: 'var(--text-secondary)'}}>Go to:</span>
                         <input
                           type="number"
                           min="1"
                           max={totalPages}
                           placeholder={currentPage.toString()}
-                          className="w-20 h-9 px-2 text-center border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#d4af37]"
-                          style={{borderColor: '#ecf0f1'}}
+                          className="w-20 h-9 px-2 text-center border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-accent-600)]"
+                          style={{borderColor: 'var(--border-default)'}}
                           onKeyDown={(e) => {
                             if (e.key === 'Enter') {
                               const page = parseInt(e.currentTarget.value);
@@ -2726,10 +2726,10 @@ export function PropertySearch({}: PropertySearchProps) {
                         variant="outline"
                         disabled={currentPage >= totalPages}
                         className="hover-lift h-9 px-4"
-                        style={{borderColor: '#ecf0f1'}}
+                        style={{borderColor: 'var(--border-default)'}}
                         onClick={() => searchProperties(currentPage + 1)}
                       >
-                        <span style={{color: '#2c3e50'}}>Next</span>
+                        <span style={{color: 'var(--text-primary)'}}>Next</span>
                       </Button>
 
                       {/* Last Page Button */}
@@ -2737,11 +2737,11 @@ export function PropertySearch({}: PropertySearchProps) {
                         variant="outline"
                         disabled={currentPage >= totalPages}
                         className="hover-lift h-9 px-3"
-                        style={{borderColor: '#ecf0f1'}}
+                        style={{borderColor: 'var(--border-default)'}}
                         onClick={() => searchProperties(totalPages)}
                         title="Last page"
                       >
-                        <span style={{color: '#2c3e50'}}>»»</span>
+                        <span style={{color: 'var(--text-primary)'}}>»»</span>
                       </Button>
                     </div>
                   </div>
