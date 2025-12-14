@@ -1,0 +1,331 @@
+/**
+ * ConcordBroker Design System - Typography Tokens
+ * ================================================
+ *
+ * Comprehensive typography system for property analytics
+ * Based on Ilora Design System type scale
+ */
+
+:root {
+  /* ==========================================================================
+     Font Families
+     ========================================================================== */
+  --font-family-sans: 'Inter', ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+
+  --font-family-header: 'Inter', var(--font-family-sans);
+  --font-family-body: var(--font-family-sans);
+
+  --font-family-mono: 'JetBrains Mono', 'Fira Code', ui-monospace,
+    SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+
+  /* ==========================================================================
+     Font Sizes
+     ========================================================================== */
+  --font-size-xs: 0.75rem;     /* 12px */
+  --font-size-sm: 0.875rem;    /* 14px */
+  --font-size-base: 1rem;      /* 16px */
+  --font-size-lg: 1.125rem;    /* 18px */
+  --font-size-xl: 1.25rem;     /* 20px */
+  --font-size-2xl: 1.5rem;     /* 24px */
+  --font-size-3xl: 1.875rem;   /* 30px */
+  --font-size-4xl: 2.25rem;    /* 36px */
+  --font-size-5xl: 3rem;       /* 48px */
+  --font-size-6xl: 3.75rem;    /* 60px */
+
+  /* ==========================================================================
+     Line Heights
+     ========================================================================== */
+  --line-height-none: 1;
+  --line-height-tight: 1.1;
+  --line-height-snug: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+
+  /* ==========================================================================
+     Font Weights
+     ========================================================================== */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* ==========================================================================
+     Letter Spacing
+     ========================================================================== */
+  --letter-spacing-tighter: -0.05em;
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.025em;
+  --letter-spacing-wider: 0.05em;
+  --letter-spacing-widest: 0.1em;
+
+  /* ==========================================================================
+     Type Scale - Display (Hero text)
+     ========================================================================== */
+  --text-display-lg-size: var(--font-size-5xl);
+  --text-display-lg-height: var(--line-height-tight);
+  --text-display-lg-weight: var(--font-weight-bold);
+  --text-display-lg-spacing: var(--letter-spacing-tight);
+
+  --text-display-md-size: var(--font-size-4xl);
+  --text-display-md-height: 1.2;
+  --text-display-md-weight: var(--font-weight-bold);
+  --text-display-md-spacing: var(--letter-spacing-tight);
+
+  --text-display-sm-size: var(--font-size-3xl);
+  --text-display-sm-height: 1.2;
+  --text-display-sm-weight: var(--font-weight-semibold);
+  --text-display-sm-spacing: var(--letter-spacing-normal);
+
+  /* ==========================================================================
+     Type Scale - Headings
+     ========================================================================== */
+  --text-heading-lg-size: var(--font-size-2xl);
+  --text-heading-lg-height: 1.3;
+  --text-heading-lg-weight: var(--font-weight-semibold);
+
+  --text-heading-md-size: var(--font-size-xl);
+  --text-heading-md-height: 1.4;
+  --text-heading-md-weight: var(--font-weight-semibold);
+
+  --text-heading-sm-size: var(--font-size-lg);
+  --text-heading-sm-height: 1.4;
+  --text-heading-sm-weight: var(--font-weight-medium);
+
+  /* ==========================================================================
+     Type Scale - Body
+     ========================================================================== */
+  --text-body-lg-size: var(--font-size-lg);
+  --text-body-lg-height: var(--line-height-relaxed);
+  --text-body-lg-weight: var(--font-weight-normal);
+
+  --text-body-md-size: var(--font-size-base);
+  --text-body-md-height: var(--line-height-normal);
+  --text-body-md-weight: var(--font-weight-normal);
+
+  --text-body-sm-size: var(--font-size-sm);
+  --text-body-sm-height: var(--line-height-normal);
+  --text-body-sm-weight: var(--font-weight-normal);
+
+  /* ==========================================================================
+     Type Scale - Labels & Captions
+     ========================================================================== */
+  --text-label-size: var(--font-size-xs);
+  --text-label-height: 1.4;
+  --text-label-weight: var(--font-weight-medium);
+  --text-label-spacing: var(--letter-spacing-wider);
+  --text-label-transform: uppercase;
+
+  --text-caption-size: var(--font-size-xs);
+  --text-caption-height: 1.4;
+  --text-caption-weight: var(--font-weight-normal);
+
+  /* ==========================================================================
+     Type Scale - Code
+     ========================================================================== */
+  --text-code-size: 0.875em;
+  --text-code-height: var(--line-height-normal);
+  --text-code-weight: var(--font-weight-normal);
+}
+
+/* ==========================================================================
+   Typography Utility Classes
+   ========================================================================== */
+
+/* Display Text */
+.text-display-lg {
+  font-family: var(--font-family-header);
+  font-size: var(--text-display-lg-size);
+  line-height: var(--text-display-lg-height);
+  font-weight: var(--text-display-lg-weight);
+  letter-spacing: var(--text-display-lg-spacing);
+}
+
+.text-display-md {
+  font-family: var(--font-family-header);
+  font-size: var(--text-display-md-size);
+  line-height: var(--text-display-md-height);
+  font-weight: var(--text-display-md-weight);
+  letter-spacing: var(--text-display-md-spacing);
+}
+
+.text-display-sm {
+  font-family: var(--font-family-header);
+  font-size: var(--text-display-sm-size);
+  line-height: var(--text-display-sm-height);
+  font-weight: var(--text-display-sm-weight);
+}
+
+/* Headings */
+.text-heading-lg {
+  font-family: var(--font-family-header);
+  font-size: var(--text-heading-lg-size);
+  line-height: var(--text-heading-lg-height);
+  font-weight: var(--text-heading-lg-weight);
+}
+
+.text-heading-md {
+  font-family: var(--font-family-header);
+  font-size: var(--text-heading-md-size);
+  line-height: var(--text-heading-md-height);
+  font-weight: var(--text-heading-md-weight);
+}
+
+.text-heading-sm {
+  font-family: var(--font-family-header);
+  font-size: var(--text-heading-sm-size);
+  line-height: var(--text-heading-sm-height);
+  font-weight: var(--text-heading-sm-weight);
+}
+
+/* Body Text */
+.text-body-lg {
+  font-family: var(--font-family-body);
+  font-size: var(--text-body-lg-size);
+  line-height: var(--text-body-lg-height);
+  font-weight: var(--text-body-lg-weight);
+}
+
+.text-body-md {
+  font-family: var(--font-family-body);
+  font-size: var(--text-body-md-size);
+  line-height: var(--text-body-md-height);
+  font-weight: var(--text-body-md-weight);
+}
+
+.text-body-sm {
+  font-family: var(--font-family-body);
+  font-size: var(--text-body-sm-size);
+  line-height: var(--text-body-sm-height);
+  font-weight: var(--text-body-sm-weight);
+}
+
+/* Labels & Captions */
+.text-label {
+  font-family: var(--font-family-body);
+  font-size: var(--text-label-size);
+  line-height: var(--text-label-height);
+  font-weight: var(--text-label-weight);
+  letter-spacing: var(--text-label-spacing);
+  text-transform: var(--text-label-transform);
+}
+
+.text-caption {
+  font-family: var(--font-family-body);
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-height);
+  font-weight: var(--text-caption-weight);
+}
+
+/* Code */
+.text-code {
+  font-family: var(--font-family-mono);
+  font-size: var(--text-code-size);
+  line-height: var(--text-code-height);
+  font-weight: var(--text-code-weight);
+}
+
+/* ==========================================================================
+   Semantic Text Colors (using color tokens)
+   ========================================================================== */
+
+.text-primary {
+  color: var(--color-text-primary);
+}
+
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-tertiary {
+  color: var(--color-text-tertiary);
+}
+
+.text-disabled {
+  color: var(--color-text-disabled);
+}
+
+.text-inverse {
+  color: var(--color-text-inverse);
+}
+
+.text-brand {
+  color: var(--color-text-brand);
+}
+
+.text-success {
+  color: var(--color-success-600);
+}
+
+.text-warning {
+  color: var(--color-warning-600);
+}
+
+.text-error {
+  color: var(--color-error-600);
+}
+
+.text-info {
+  color: var(--color-info-600);
+}
+
+/* ==========================================================================
+   Text Utilities
+   ========================================================================== */
+
+/* Text truncation */
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Line clamp */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* Text balance for headings */
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Text pretty for body */
+.text-pretty {
+  text-wrap: pretty;
+}
+
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
