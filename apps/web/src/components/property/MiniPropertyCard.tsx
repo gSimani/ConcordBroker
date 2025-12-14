@@ -871,7 +871,7 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
                 <DollarSign className="w-3 h-3" style={{color: '#95a5a6'}} />
                 <span className="text-xs" style={{color: '#95a5a6'}}>Appraised</span>
               </div>
-              <span className="font-semibold text-sm" style={{color: '#d4af37'}}>{formatCurrency(getAppraisedValue(data))}</span>
+              <span className="font-semibold text-sm" style={{color: '#0ABAB5'}}>{formatCurrency(getAppraisedValue(data))}</span>
             </div>
 
             {/* Assessed/SOH Value if different from appraised */}
@@ -1008,8 +1008,8 @@ export const MiniPropertyCard = React.memo(function MiniPropertyCard({
               <Button
                 size="sm"
                 variant="ghost"
-                className={`hover-lift h-6 px-2 ${hasMatches ? 'bg-green-50 text-green-700 border border-green-200' : ''}`}
-                style={{color: hasMatches ? '#059669' : '#2c3e50'}}
+                className={`hover-lift h-6 px-2 ${hasMatches ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-[#E6F7F7] text-[#0ABAB5] border border-[#0ABAB5]/20 hover:bg-[#0ABAB5] hover:text-white'}`}
+                style={{color: hasMatches ? '#059669' : undefined}}
                 onClick={handleSunbizClick}
                 title={
                   hasMatches && bestMatch

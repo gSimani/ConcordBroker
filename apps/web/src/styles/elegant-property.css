@@ -1,15 +1,47 @@
-/* Elegant Property Profile Styles - Executive Design Restored */
+/* Elegant Property Profile Styles - Executive Design with Tiffany Accent */
+/* Updated: 2024 Design System Integration */
 
 :root {
+  /* Primary Brand Colors */
+  --tiffany: #0ABAB5;
+  --tiffany-dark: #099A96;
+  --tiffany-light: #E6F7F7;
+  --gold: #D4AF37;
+  --gold-dark: #B4941F;
+  --gold-light: #F4E5C2;
+
+  /* Neutral Colors */
   --navy: #2c3e50;
   --navy-dark: #1a252f;
-  --gold: #d4af37;
-  --gold-light: #f4e5c2;
   --gray-elegant: #7f8c8d;
   --gray-light: #ecf0f1;
+  --gray-100: #F7FAFC;
+  --gray-200: #EDF2F7;
+  --gray-300: #E2E8F0;
   --white: #ffffff;
-  --shadow-elegant: 0 10px 30px rgba(44, 62, 80, 0.1);
-  --shadow-hover: 0 15px 40px rgba(44, 62, 80, 0.15);
+
+  /* Semantic Colors */
+  --success: #10B981;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --info: #3B82F6;
+
+  /* Shadows - Enhanced */
+  --shadow-sm: 0 1px 2px rgba(44, 62, 80, 0.05);
+  --shadow-elegant: 0 4px 12px rgba(44, 62, 80, 0.08);
+  --shadow-hover: 0 8px 24px rgba(44, 62, 80, 0.12);
+  --shadow-focus: 0 0 0 3px rgba(10, 186, 181, 0.2);
+
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Elegant Typography */
@@ -616,4 +648,363 @@ div.relative.z-10.clear-both {
 .hover-lift:active {
   transform: scale(0.98) !important;
   transition: transform 0.1s ease;
+}
+
+/* ==========================================================================
+   ENHANCED PROPERTY CARD STYLES - 2024 Design System
+   ========================================================================== */
+
+/* Property Card - Modern Redesign */
+.elegant-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-elegant);
+  border: 1px solid var(--gray-200);
+  border-left: 4px solid var(--tiffany);
+  transition: all var(--transition-slow);
+  position: relative;
+  overflow: hidden;
+}
+
+.elegant-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--tiffany) 0%, var(--gold) 100%);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.elegant-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-4px);
+  border-color: var(--tiffany-light);
+}
+
+.elegant-card:hover::before {
+  opacity: 1;
+}
+
+/* Premium Card Variant - Gold Border */
+.elegant-card.premium {
+  border-left-color: var(--gold);
+}
+
+.elegant-card.premium::before {
+  background: linear-gradient(90deg, var(--gold) 0%, var(--gold-dark) 100%);
+}
+
+/* Tiffany Button Styles */
+.btn-tiffany {
+  background: var(--tiffany);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-tiffany:hover {
+  background: var(--tiffany-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(10, 186, 181, 0.25);
+}
+
+.btn-tiffany:active {
+  transform: translateY(0);
+}
+
+.btn-tiffany:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+/* Gold Button Styles */
+.btn-gold {
+  background: var(--gold);
+  color: var(--navy);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-gold:hover {
+  background: var(--gold-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.35);
+}
+
+/* Property Value Highlight */
+.value-tiffany {
+  color: var(--tiffany);
+  font-weight: 600;
+}
+
+.value-gold {
+  color: var(--gold);
+  font-weight: 700;
+}
+
+/* Property Badge - Tiffany Variant */
+.badge-tiffany {
+  background: var(--tiffany-light);
+  color: var(--tiffany-dark);
+  border: 1px solid var(--tiffany);
+  border-radius: 9999px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Section Header with Tiffany Accent */
+.section-header-tiffany {
+  position: relative;
+  padding-left: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-header-tiffany::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--tiffany);
+  border-radius: 2px;
+}
+
+.section-header-tiffany h2,
+.section-header-tiffany h3 {
+  color: var(--navy);
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Metric Card Styles */
+.metric-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  border: 1px solid var(--gray-200);
+  transition: all var(--transition-normal);
+}
+
+.metric-card:hover {
+  border-color: var(--tiffany-light);
+  box-shadow: var(--shadow-elegant);
+}
+
+.metric-card .metric-value {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1;
+}
+
+.metric-card .metric-value.gold {
+  color: var(--gold);
+}
+
+.metric-card .metric-value.tiffany {
+  color: var(--tiffany);
+}
+
+.metric-card .metric-label {
+  font-size: 0.875rem;
+  color: var(--gray-elegant);
+  margin-top: 0.5rem;
+}
+
+.metric-card .metric-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--tiffany-light);
+  color: var(--tiffany);
+}
+
+.metric-card.gold .metric-icon {
+  background: var(--gold-light);
+  color: var(--gold);
+}
+
+/* Search & Filter Bar Enhancement */
+.search-bar {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all var(--transition-fast);
+}
+
+.search-bar:focus-within {
+  border-color: var(--tiffany);
+  box-shadow: var(--shadow-focus);
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 0.9375rem;
+  color: var(--navy);
+}
+
+.search-bar input::placeholder {
+  color: var(--gray-elegant);
+}
+
+/* Filter Tags */
+.filter-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  color: var(--navy);
+  transition: all var(--transition-fast);
+}
+
+.filter-tag:hover {
+  background: var(--tiffany-light);
+  border-color: var(--tiffany);
+  color: var(--tiffany-dark);
+}
+
+.filter-tag.active {
+  background: var(--tiffany);
+  border-color: var(--tiffany);
+  color: var(--white);
+}
+
+/* Empty State Styles */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.empty-state .empty-icon {
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto 1.5rem;
+  color: var(--gray-300);
+}
+
+.empty-state h3 {
+  color: var(--navy);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+  color: var(--gray-elegant);
+  max-width: 24rem;
+  margin: 0 auto;
+}
+
+/* Loading Skeleton */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--gray-200) 25%,
+    var(--gray-100) 50%,
+    var(--gray-200) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Property Grid Layout */
+.property-grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .property-grid-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Animate-in effect for cards */
+.animate-in {
+  animation: fadeSlideIn 0.4s ease-out;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Focus Ring Utility */
+.focus-ring:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+/* Tiffany Text Colors */
+.text-tiffany {
+  color: var(--tiffany) !important;
+}
+
+.text-tiffany-dark {
+  color: var(--tiffany-dark) !important;
+}
+
+/* Background Colors */
+.bg-tiffany {
+  background-color: var(--tiffany) !important;
+}
+
+.bg-tiffany-light {
+  background-color: var(--tiffany-light) !important;
+}
+
+/* Border Colors */
+.border-tiffany {
+  border-color: var(--tiffany) !important;
 }

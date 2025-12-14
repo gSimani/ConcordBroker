@@ -1239,7 +1239,7 @@ export function PropertySearch({}: PropertySearchProps) {
               </div>
               
               <div className="flex space-x-3">
-                <button 
+                <button
                   type="button"
                   onClick={(e) => {
                     e.preventDefault();
@@ -1247,22 +1247,23 @@ export function PropertySearch({}: PropertySearchProps) {
                     setShowAISearch(prev => !prev);
                   }}
                   style={{
-                    backgroundColor: showAISearch ? 'white' : 'transparent',
-                    color: showAISearch ? '#2c3e50' : 'white',
-                    border: '1px solid white',
+                    backgroundColor: showAISearch ? '#0ABAB5' : 'transparent',
+                    color: showAISearch ? 'white' : 'white',
+                    border: showAISearch ? '1px solid #0ABAB5' : '1px solid white',
                     padding: '8px 16px',
-                    borderRadius: '4px',
+                    borderRadius: '8px',
                     cursor: 'pointer',
                     fontSize: '14px',
-                    fontWeight: '300',
-                    letterSpacing: '1px',
+                    fontWeight: '500',
+                    letterSpacing: '0.5px',
                     textTransform: 'uppercase',
                     transition: 'all 0.3s ease',
                     display: 'flex',
                     alignItems: 'center',
                     pointerEvents: 'auto',
                     zIndex: 9999,
-                    outline: 'none'
+                    outline: 'none',
+                    boxShadow: showAISearch ? '0 4px 12px rgba(10, 186, 181, 0.35)' : 'none'
                   }}
                 >
                   <Brain className="w-4 h-4 inline mr-2" style={{pointerEvents: 'none'}} />
@@ -1270,7 +1271,7 @@ export function PropertySearch({}: PropertySearchProps) {
                     {showAISearch ? 'Standard Search' : 'AI Search'}
                   </span>
                 </button>
-                <button 
+                <button
                   type="button"
                   onClick={(e) => {
                     e.preventDefault();
@@ -1280,30 +1281,31 @@ export function PropertySearch({}: PropertySearchProps) {
                   onMouseEnter={() => setMapButtonHovered(true)}
                   onMouseLeave={() => setMapButtonHovered(false)}
                   style={{
-                    backgroundColor: mapButtonHovered ? 'white' : 'transparent',
-                    color: mapButtonHovered ? '#2c3e50' : 'white',
-                    border: '1px solid white',
+                    backgroundColor: showMapView ? '#D4AF37' : (mapButtonHovered ? 'white' : 'transparent'),
+                    color: showMapView ? 'white' : (mapButtonHovered ? '#2c3e50' : 'white'),
+                    border: showMapView ? '1px solid #D4AF37' : '1px solid white',
                     padding: '8px 16px',
-                    borderRadius: '4px',
+                    borderRadius: '8px',
                     cursor: 'pointer',
                     fontSize: '14px',
-                    fontWeight: '300',
-                    letterSpacing: '1px',
+                    fontWeight: '500',
+                    letterSpacing: '0.5px',
                     textTransform: 'uppercase',
                     transition: 'all 0.3s ease',
                     display: 'flex',
                     alignItems: 'center',
                     pointerEvents: 'auto',
                     zIndex: 9999,
-                    outline: 'none'
+                    outline: 'none',
+                    boxShadow: showMapView ? '0 4px 12px rgba(212, 175, 55, 0.35)' : 'none'
                   }}
                 >
                   <MapIcon className="w-4 h-4 inline mr-2" style={{pointerEvents: 'none'}} />
                   <span style={{pointerEvents: 'none'}}>
-                    {showMapView 
-                      ? 'List View' 
-                      : selectedProperties.size > 0 
-                        ? `Map View (${selectedProperties.size} Selected)` 
+                    {showMapView
+                      ? 'List View'
+                      : selectedProperties.size > 0
+                        ? `Map View (${selectedProperties.size} Selected)`
                         : 'Map View'
                     }
                   </span>
@@ -1341,9 +1343,9 @@ export function PropertySearch({}: PropertySearchProps) {
             }}
             className="inline-flex items-center rounded-full border px-3 py-1.5 text-sm font-medium transition-all hover:scale-105 cursor-pointer"
             style={{
-              backgroundColor: filters.propertyType === '' ? '#d4af37' : 'white',
+              backgroundColor: filters.propertyType === '' ? '#0ABAB5' : 'white',
               color: filters.propertyType === '' ? 'white' : '#7f8c8d',
-              borderColor: filters.propertyType === '' ? '#d4af37' : '#ecf0f1'
+              borderColor: filters.propertyType === '' ? '#0ABAB5' : '#ecf0f1'
             }}
           >
             All Properties
