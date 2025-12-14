@@ -165,11 +165,51 @@ export const ChartColors: StoryObj = {
 export const AllColors: StoryObj = {
   render: () => (
     <div className="space-y-12">
-      <BrandTiffany.render?.({} as any, {} as any) />
-      <BrandGold.render?.({} as any, {} as any) />
-      <NeutralScale.render?.({} as any, {} as any) />
-      <SemanticColors.render?.({} as any, {} as any) />
-      <ChartColors.render?.({} as any, {} as any) />
+      <ColorScale
+        name="Brand - Tiffany"
+        colors={[
+          { name: '50', value: '#E6F7F6' },
+          { name: '100', value: '#B3EBE9' },
+          { name: '200', value: '#80DFDC' },
+          { name: '300', value: '#4DD3CF' },
+          { name: '400', value: '#26C9C4' },
+          { name: '500', value: '#0ABAB5' },
+          { name: '600', value: '#099A96' },
+          { name: '700', value: '#077A77' },
+          { name: '800', value: '#055A58' },
+          { name: '900', value: '#033A39' },
+        ]}
+      />
+      <ColorScale
+        name="Brand - Gold"
+        colors={[
+          { name: '50', value: '#FBF6E9' },
+          { name: '100', value: '#F4E7C3' },
+          { name: '200', value: '#EDD89D' },
+          { name: '300', value: '#E6C977' },
+          { name: '400', value: '#DFBA51' },
+          { name: '500', value: '#D4AF37' },
+          { name: '600', value: '#B8962F' },
+          { name: '700', value: '#9C7D27' },
+          { name: '800', value: '#80641F' },
+          { name: '900', value: '#644B17' },
+        ]}
+      />
+      <ColorScale
+        name="Neutral"
+        colors={[
+          { name: '50', value: '#FAFAFA' },
+          { name: '100', value: '#F5F5F5' },
+          { name: '200', value: '#E5E5E5' },
+          { name: '300', value: '#D4D4D4' },
+          { name: '400', value: '#A3A3A3' },
+          { name: '500', value: '#737373' },
+          { name: '600', value: '#525252' },
+          { name: '700', value: '#404040' },
+          { name: '800', value: '#262626' },
+          { name: '900', value: '#171717' },
+        ]}
+      />
     </div>
   ),
 };
