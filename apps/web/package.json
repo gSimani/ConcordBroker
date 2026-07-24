@@ -44,7 +44,7 @@
     "@tremor/react": "3.18.7",
     "@types/lodash": "4.17.20",
     "@types/react-window": "1.8.8",
-    "axios": "^1.6.5",
+    "axios": "^1.18.0",
     "chart.js": "4.5.0",
     "chartjs-adapter-date-fns": "3.0.0",
     "class-variance-authority": "^0.7.0",
